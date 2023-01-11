@@ -11,6 +11,8 @@
 
 @import url("syntax.css");
 
+@import url("custom.css");
+
 /* Responsive */
 @media (min-width: 768px) {
   .container {
@@ -79,9 +81,11 @@
 body {
   font-family: "Open Sans", sans-serif;
   /*    font-size: 15px;*/
-  color: #4b505a;
+  color: #222;
   background-color: #f5f5f5;
   line-height: 24px;
+  text-align: justify;
+  word-break: break-word;
   -webkit-font-smoothing:antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -122,7 +126,33 @@ a.more{
   margin-top: 30px;
 }
 
+dl, ol, ul {
+  margin: 0rem;
+}
+
+/* Table */
+
+
+table {
+  overflow: auto;
+  display: block;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+ table tr th, table tr td {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #4b505a;
+}
+
 /* Syntax Highlighting */
+
+pre code{
+  white-space: pre-wrap;
+  word-break: break-all;
+}
 
 pre {
   background: #f8f7fa;
@@ -194,9 +224,8 @@ h2:after {
   display: block;
   content: " ";
   margin-top: 10px;
-  width: 40px;
+  width: 60px;
   border-bottom: 3px solid rgba(235,35,68,1);
-  /*border-bottom: 3px solid rgba(0,0,0,0.2);*/
 }
 
 h3 { 
@@ -210,7 +239,7 @@ h3:after {
   display: block;
   content: " ";
   margin-top: 10px;
-  width: 40px;
+  width: 60px;
   border-bottom: 3px solid rgba(235,35,68,1);
 }
 
@@ -226,7 +255,7 @@ h4:after {
   display: block;
   content: " ";
   margin-top: 10px;
-  width: 40px;
+  width: 60px;
   border-bottom: 3px solid rgba(0,0,0,0.2);    
 }
 
@@ -472,7 +501,10 @@ h4:after {
 
 blockquote{
   font-size: 15px;
-  opacity: 0.65;
+  margin: 1em 0;
+  padding: 15px;
+  border-left: 5px solid #ea082e;
+  background: #f8f8f8;
 }
 /* Author Card */
 .container .author-card {
@@ -594,4 +626,33 @@ blockquote{
 }
 .content figure figcaption a {
   position: static;
+}
+
+
+/* 回到顶部 */
+.scroll-top {
+  cursor: pointer;
+  opacity: 0;
+  position: fixed;
+  box-sizing: border-box;
+  right: 2em;
+  bottom: 45px;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  background-color: rgba(255, 0, 0, 0.624);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 3px 0 rgb(0 0 0 / 12%), 0 3px 3px 0 rgb(0 0 0 / 24%);
+
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.scroll-top .arrow-icon {
+  background-image: url(/images/top.png);
+  width: 30px;
+  height: 30px;
+  display: block;
+  background-size: contain;
 }

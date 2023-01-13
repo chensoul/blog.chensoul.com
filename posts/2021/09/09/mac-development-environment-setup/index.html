@@ -1,0 +1,238 @@
+<!doctype html><html lang=zh itemscope itemtype=http://schema.org/WebPage><head><meta name=generator content="Hugo 0.109.0"><meta charset=utf-8><title>Mac开发环境配置 · ChenSoul</title><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=description content="这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是Mac开发环境，所以，这篇文章主要是基于Mac操作系"><meta name=keywords content="devops,programming"><meta name=google-site-verification content="D8XBzUhT4irNUQLKut79HFni0v3Xow4FY-oxUcsUlVk"><link rel=canonical href=https://blog.chensoul.com/posts/2021/09/09/mac-development-environment-setup/><link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css integrity=sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.2.0/css/all.min.css integrity="sha512-6c4nX2tn5KbzeBJo9Ywpa0Gkt+mzCzJBrE1RB6fmpcsoN+b/w/euwIMuQKNyUoU/nToKN3a8SgNOtPrbW12fug==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://blog.chensoul.com/css/den.css><link rel=stylesheet href=https://blog.chensoul.com/css/custom.css><meta property="og:title" content="Mac开发环境配置"><meta property="og:description" content="这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是Mac开发环境，所以，这篇文章主要是基于Mac操作系"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.chensoul.com/posts/2021/09/09/mac-development-environment-setup/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-09-09T18:14:34+08:00"><meta property="article:modified_time" content="2021-09-09T18:14:34+08:00"><meta itemprop=name content="Mac开发环境配置"><meta itemprop=description content="这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是Mac开发环境，所以，这篇文章主要是基于Mac操作系"><meta itemprop=datePublished content="2021-09-09T18:14:34+08:00"><meta itemprop=dateModified content="2021-09-09T18:14:34+08:00"><meta itemprop=wordCount content="2906"><meta itemprop=keywords content="macos,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Mac开发环境配置"><meta name=twitter:description content="这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是Mac开发环境，所以，这篇文章主要是基于Mac操作系"></head><body><div class=header-container style=background:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2)),url(https://blog.chensoul.com/images/background.webp);background-position:50%;background-size:cover><div class=container><nav class="header-nav navbar navbar-expand-md navbar-dark light-dark"><div class="header-logo navbar-brand"><a class=float-left href=https://blog.chensoul.com/><img class="mr20 header-logo-image" src=https://blog.chensoul.com/images/fly.png alt=logo>
+ChenSoul</a></div><button class=navbar-toggler type=button data-toggle=collapse data-target=#navbarNav aria-controls=navbarNav aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="nav-menu collapse navbar-collapse" id=navbarNav><ul class=navbar-nav><li class=nav-item><a class=nav-link href=https://blog.chensoul.com/categories/idea/>思考</a></li><li class=nav-item><a class=nav-link href=https://blog.chensoul.com/links/>友链</a></li><li class=nav-item><a class=nav-link href=https://blog.chensoul.com/about/>关于</a></li></ul></div></nav></div><div class="container header-wrapper"><div class=row><div class=col-lg-12><div class=header-content><h1 class=header-title>Mac开发环境配置</h1><p class=header-date>作者:
+ChenShu
+| <span>2906 字, 6 分钟</span>
+| 2021-09-09
+| 分类:
+<a href=https://blog.chensoul.com/categories/tool/>tool</a></p><div class=header-underline></div><div class=clearfix></div><p class="float-right header-tags"><i class="fas fa-tags" aria-hidden=true></i>
+<a href=https://blog.chensoul.com/tags/macos/>macos</a></p></div></div></div></div></div><main><div class="container content"><article><p>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是Mac开发环境，所以，这篇文章主要是基于Mac操作系统，记录开发环境搭建过程。</p><h2 id=偏好设置>偏好设置</h2><ul><li>系统所有偏好设置<ul><li>通用：关闭文稿时要求保存更改</li><li>Siri：关闭</li><li>辅助功能 - 指针控制（或鼠标与触控板） - 触控板选项：启动拖移(三指拖移)</li><li>触控板 > 光标与点击，轻拍来点按，辅助点按</li><li>Dock<ul><li>置于屏幕上的位置：右边</li><li>设置 Dock 图标更小（大小随个人喜好）</li></ul></li></ul></li><li>Finder<ul><li>显示各种栏</li><li>显示所有文件扩展名</li><li>标题栏显示完整路径：defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES;killall Finder</li></ul></li><li>禁用大部分 iCloud 同步</li><li>键盘 -> 快捷键<ul><li>command + 空格：spotlight  </li><li>control + 空格：切换输入法</li></ul></li></ul><h2 id=xcode>XCode</h2><p>从 App store 或苹果开发者网站安装 <a href=https://developer.apple.com/xcode/>Xcode</a> ，然后安装 Xcode command line tools：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>xcode-select --install
+</span></span></code></pre></div><p>安装完成后，你将可以直接在 terminal 中使用主要的命令，比如：<code>make, GCC, clang, perl, svn, git, size, strip, strings, libtool, cpp</code>等等。</p><p>如果你想了解 Xcode command line tools 包含多少可用的命令，可以通过下面命令查看：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ls /Library/Developer/CommandLineTools/usr/bin/
+</span></span></code></pre></div><h2 id=homebrew>Homebrew</h2><p><a href=http://brew.sh/>Brew</a> 是 Mac 下面的包管理工具，通过 Github 托管适合 Mac 的编译配置以及 Patch，可以方便的安装开发工具。</p><p>Linux也支持Homebrew了，请参考 <a href=https://docs.brew.sh/Homebrew-on-Linux>https://docs.brew.sh/Homebrew-on-Linux</a>。</p><h3 id=安装>安装</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>/usr/bin/ruby -e <span class=s2>&#34;</span><span class=k>$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install<span class=k>)</span><span class=s2>&#34;</span>
+</span></span></code></pre></div><p>替换brew.git</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git -C <span class=s2>&#34;</span><span class=k>$(</span>brew --repo<span class=k>)</span><span class=s2>&#34;</span> remote set-url origin https://mirrors.cloud.tencent.com/homebrew/brew.git 
+</span></span><span class=line><span class=cl>git -C <span class=s2>&#34;</span><span class=k>$(</span>brew --repo homebrew/core<span class=k>)</span><span class=s2>&#34;</span> remote set-url origin https://mirrors.cloud.tencent.com//homebrew/homebrew-core.git brew update
+</span></span></code></pre></div><p>设置环境变量：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s1>&#39;PATH=&#34;/usr/local/bin:$PATH&#34;&#39;</span> &gt;&gt; ~/.bash_profile
+</span></span></code></pre></div><p>如果安装了zsh，则是：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s1>&#39;PATH=&#34;/usr/local/bin:$PATH&#34;&#39;</span> &gt;&gt; ~/.zshrc
+</span></span></code></pre></div><h3 id=cask>Cask</h3><p><a href=https://github.com/phinze/homebrew-cask>Brew cask</a> 是类似 Brew 的管理工具， 直接提供 dmg 级别的二进制包，（Brew 是不带源码，只有对应项目所在的 URL）。我们可以通过 Homebrew Cask 优雅、简单、快速的安装和管理 OS X 图形界面程序，比如 Google Chrome 和 Dropbox。</p><p>Brew cask 安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew tap phinze/homebrew-cask
+</span></span></code></pre></div><p>可以通过 Brew cask 安装的软件有：</p><ul><li>QQ</li><li>qqmusic</li><li>google-chrome</li><li>virtualbox</li><li>vagrant</li><li>iterm2</li><li>the-unarchiver</li><li>switchhosts</li><li>aerial</li><li>fliqlo</li></ul><h2 id=iterm2>iTerm2</h2><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install --cask iterm2
+</span></span></code></pre></div><p>设置：</p><ul><li>Preferences &ndash;> Profiles&ndash;> Default &ndash;> Terminal：设置 cursor 颜色为黄色</li><li>Preferences &ndash;> Profiles &ndash;> Window &ndash;> Transparency：设置透明度 10%~20% 即可，太高会和桌面背景冲突。如果需要临时禁用透明度可以使用快捷键 ⌘+u。</li></ul><h3 id=zsh>Zsh</h3><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install zsh
+</span></span></code></pre></div><p><strong>安装Oh My Zsh：</strong></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sh -c <span class=s2>&#34;</span><span class=k>$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class=k>)</span><span class=s2>&#34;</span>
+</span></span></code></pre></div><p>设置zsh为默认：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo sh -c <span class=s2>&#34;echo </span><span class=k>$(</span>which zsh<span class=k>)</span><span class=s2> &gt;&gt; /etc/shells&#34;</span>  
+</span></span><span class=line><span class=cl>chsh -s <span class=k>$(</span>which zsh<span class=k>)</span>
+</span></span></code></pre></div><p>bash切换到zsh</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>chsh -s /bin/zsh
+</span></span></code></pre></div><p>使设置生效：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>source</span> ~/.zshrc
+</span></span></code></pre></div><p><strong>安装<a href=https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins>Oh My Zsh 插件</a></strong>，修改 .zshrc ：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nv>plugins</span><span class=o>=(</span>git mvn colorize encode64 urltools wd last-working-dir sublime vagrant Z zsh-syntax-highlighting brew osx<span class=o>)</span>
+</span></span></code></pre></div><p>安装 zsh-syntax-highlighting：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git clone https://github.com/zsh-users/zsh-syntax-highlighting.git <span class=si>${</span><span class=nv>ZSH_CUSTOM</span><span class=k>:-</span><span class=p>~/.oh-my-zsh/custom</span><span class=si>}</span>/plugins/zsh-syntax-highlighting
+</span></span></code></pre></div><p>安装 zsh-autosuggestions：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git clone https://github.com/zsh-users/zsh-autosuggestions <span class=nv>$ZSH_CUSTOM</span>/plugins/zsh-autosuggestions
+</span></span></code></pre></div><p>安装git-open</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git clone https://github.com/paulirish/git-open.git <span class=nv>$ZSH_CUSTOM</span>/plugins/git-open
+</span></span></code></pre></div><p>修改主题，更多主题参考 <a href=https://github.com/robbyrussell/oh-my-zsh/wiki/themes>Oh My Zsh Wiki</a>：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nv>ZSH_THEME</span><span class=o>=</span>pygmalion
+</span></span></code></pre></div><h3 id=tree>tree</h3><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install tree
+</span></span></code></pre></div><h3 id=fzf>fzf</h3><p>安装 fzf：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install fzf
+</span></span></code></pre></div><p>fzf用法：</p><ul><li>1、切换到指定目录</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># fd - cd to selected directory</span>
+</span></span><span class=line><span class=cl>fd<span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=nb>local</span> dir
+</span></span><span class=line><span class=cl>  <span class=nv>dir</span><span class=o>=</span><span class=k>$(</span>find <span class=si>${</span><span class=nv>1</span><span class=k>:-</span><span class=p>.</span><span class=si>}</span> -path <span class=s1>&#39;*/\.*&#39;</span> -prune <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>                  -o -type d -print 2&gt; /dev/null <span class=p>|</span> fzf +m<span class=k>)</span> <span class=o>&amp;&amp;</span>
+</span></span><span class=line><span class=cl>  <span class=nb>cd</span> <span class=s2>&#34;</span><span class=nv>$dir</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></div><ul><li>2、查看历史命令，并且执行选中的命令</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># fh - search in your command history and execute selected command</span>
+</span></span><span class=line><span class=cl>fh<span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=nb>eval</span> <span class=k>$(</span> <span class=o>([</span> -n <span class=s2>&#34;</span><span class=nv>$ZSH_NAME</span><span class=s2>&#34;</span> <span class=o>]</span> <span class=o>&amp;&amp;</span> <span class=nb>fc</span> -l <span class=m>1</span> <span class=o>||</span> <span class=nb>history</span><span class=k>)</span> <span class=p>|</span> fzf +s --tac <span class=p>|</span> sed <span class=s1>&#39;s/ *[0-9]* *//&#39;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></div><ul><li>3、查看Chrome历史</li></ul><blockquote><p>提示：查看 <a href=https://junegunn.kr/2015/04/browsing-chrome-history-with-fzf/>blog post</a>。</p></blockquote><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># ch - browse chrome history</span>
+</span></span><span class=line><span class=cl>ch<span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=nb>local</span> cols sep
+</span></span><span class=line><span class=cl>  <span class=nv>cols</span><span class=o>=</span><span class=k>$((</span> COLUMNS <span class=o>/</span> <span class=m>3</span> <span class=k>))</span>
+</span></span><span class=line><span class=cl>  <span class=nv>sep</span><span class=o>=</span><span class=s1>&#39;{::}&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  cp -f ~/Library/Application<span class=se>\ </span>Support/Google/Chrome/Default/History /tmp/h
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  sqlite3 -separator <span class=nv>$sep</span> /tmp/h <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=s2>&#34;select substr(title, 1, </span><span class=nv>$cols</span><span class=s2>), url
+</span></span></span><span class=line><span class=cl><span class=s2>     from urls order by last_visit_time desc&#34;</span> <span class=p>|</span>
+</span></span><span class=line><span class=cl>  awk -F <span class=nv>$sep</span> <span class=s1>&#39;{printf &#34;%-&#39;</span><span class=nv>$cols</span><span class=s1>&#39;s  \x1b[36m%s\x1b[m\n&#34;, $1, $2}&#39;</span> <span class=p>|</span>
+</span></span><span class=line><span class=cl>  fzf --ansi --multi <span class=p>|</span> sed <span class=s1>&#39;s#.*\(https*://\)#\1#&#39;</span> <span class=p>|</span> xargs open
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></div><p>注意：</p><ul><li>请确认Chrome的历史记录的地址是正确的。</li><li>更多说明，参考 <a href=https://stackoverflow.com/a/16742333/1564365>StackOverflow</a>。</li></ul><p>fzf更多用法，参考 <strong><a href=https://github.com/junegunn/fzf#fuzzy-completion-for-bash-and-zsh>official repo</a></strong>。</p><h3 id=ack>ack</h3><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install ack
+</span></span></code></pre></div><p>搜索 js 文件：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ack --js pancakes
+</span></span></code></pre></div><p>搜索不包含 brew 的文件：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ack -L brew
+</span></span></code></pre></div><p>排序：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>--sort-files
+</span></span></code></pre></div><p>结果高亮显示：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>--sort-files
+</span></span></code></pre></div><p>自定义类型：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>--type-set<span class=o>=</span><span class=nv>markdown</span><span class=o>=</span>.md,.mkd,.markdown
+</span></span></code></pre></div><p>查看ack配置：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ack --dump
+</span></span></code></pre></div><h2 id=git>Git</h2><h3 id=安装和配置>安装和配置</h3><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install git
+</span></span></code></pre></div><p>查看git命令位置：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>which git
+</span></span></code></pre></div><p>配置用户名和邮箱：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git config --global user.name <span class=s2>&#34;Your Name Here&#34;</span>
+</span></span><span class=line><span class=cl>git config --global user.email <span class=s2>&#34;your_email@youremail.com&#34;</span>
+</span></span></code></pre></div><ul><li>这些配置会加到 ~/.gitconfig</li></ul><p>为了将代码推送到 GitHub 仓库，建议使用HTTPS方法。如果你不想每次都输入用户名和密码的话，可以按照此 <a href=https://help.github.com/articles/set-up-git>描述</a> 说的那样，运行：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git config --global credential.helper osxkeychain
+</span></span></code></pre></div><p>设置默认分支名称为main：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git config --global init.defaultBranch main
+</span></span></code></pre></div><p>配置ssh秘钥：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh-keygen -t rsa -C <span class=s2>&#34;your_email@example.com&#34;</span>
+</span></span></code></pre></div><p>添加 SSH 公钥到 ssh-agent ：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>eval</span> <span class=s2>&#34;</span><span class=k>$(</span>ssh-agent -s<span class=k>)</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>ssh-add -K ~/.ssh/id_rsa
+</span></span></code></pre></div><p>添加SSH 公钥到 GitHub 账户：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pbcopy &lt; ~/.ssh/id_rsa.pub
+</span></span></code></pre></div><p>打开 <a href=https://github.com/settings/ssh/new>https://github.com/settings/ssh/new</a>，然后添加。</p><h2 id=bash-completion>Bash Completion</h2><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install bash-completion
+</span></span></code></pre></div><p>查看更多 completion ：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ brew search completion
+</span></span></code></pre></div><p>然后，安装，例如：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install docker-completion
+</span></span></code></pre></div><h2 id=vim>Vim</h2><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install vim
+</span></span></code></pre></div><h3 id=vimrc>vimrc</h3><p>下载 <a href=https://github.com/amix/vimrc>The Ultimate vimrc</a>：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git clone https://github.com/amix/vimrc.git ~/.vim_runtime
+</span></span></code></pre></div><p>安装 complete 版本：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sh ~/.vim_runtime/install_awesome_vimrc.sh
+</span></span></code></pre></div><p>安装 bash 版本：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sh ~/.vim_runtime/install_basic_vimrc.sh
+</span></span></code></pre></div><p>更新 vimrc ：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>cd</span> ~/.vim_runtime <span class=o>&amp;&amp;</span> git pull --rebase <span class=o>&amp;&amp;</span> <span class=nb>cd</span> -
+</span></span></code></pre></div><h3 id=maximum-awesome>Maximum Awesome</h3><p>安装<a href=https://github.com/square/maximum-awesome>Maximum Awesome</a>：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git clone https://github.com/square/maximum-awesome.git
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>cd</span> maximum-awesome
+</span></span><span class=line><span class=cl>rake
+</span></span></code></pre></div><h2 id=visual-studio-code>Visual Studio Code</h2><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install --cask visual-studio-code
+</span></span></code></pre></div><p>从命令行启动vscode：</p><ul><li>启动vscode，输入 <strong>Command Palette</strong> (Cmd+Shift+P)，查找 <strong>Shell Command: Install &lsquo;code&rsquo; command in PATH</strong></li><li>重启 vscode 使环境变量生效</li><li>在命令行输入 <code>code .</code>，在当前目录启动 vscode，也可以这样打开文件 <code>code myfile.txt</code></li></ul><p>安装扩展：</p><ul><li>JavaScript<ul><li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">ESLint</a></li><li><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">Prettier</a></li></ul></li><li>SQL<ul><li><a href="https://marketplace.visualstudio.com/items?itemName=bradymholt.pgformatter">PostgreSQL formatter</a></li></ul></li><li>Markdown<ul><li><a href="https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced">Markdown Preview</a></li></ul></li><li>GitLens<ul><li><a href="https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens">GitLens</a></li></ul></li><li>Docker<ul><li><a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker">Docker</a></li></ul></li><li>JSON<ul><li><a href="https://marketplace.visualstudio.com/items?itemName=quicktype.quicktype">Paste JSON as Code</a></li></ul></li><li>Live Server<ul><li><a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer">Live Server</a></li></ul></li><li>VS Code Icons<ul><li><a href="https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons">vscode-icons</a></li></ul></li></ul><h2 id=jetbrains-ides>JetBrains IDEs</h2><p>下载地址：https://www.jetbrains.com/products.html?fromMenu#type=ide</p><p>破解插件：https://github.com/osvax/ide-eval-resetter</p><h2 id=vagrant>Vagrant</h2><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install --cask virtualbox
+</span></span><span class=line><span class=cl>brew install --cask vagrant
+</span></span><span class=line><span class=cl>brew install --cask vagrant-manager
+</span></span></code></pre></div><p>使用：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>vagrant box add precise64 https://vagrantcloud.com/hashicorp/boxes/precise64/versions/1.1.0/providers/virtualbox.box
+</span></span><span class=line><span class=cl>vagrant init precise64
+</span></span><span class=line><span class=cl>vagrant up
+</span></span><span class=line><span class=cl>vagrant ssh
+</span></span><span class=line><span class=cl>vagrant halt
+</span></span></code></pre></div><h2 id=mysql>MySQL</h2><p>安装mysql：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install mysql
+</span></span></code></pre></div><p>如果想安装mysql5.7：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install mysql@5.7
+</span></span></code></pre></div><p>使用：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>#设置开机启动</span>
+</span></span><span class=line><span class=cl>brew services start mysql
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#启动</span>
+</span></span><span class=line><span class=cl>mysql.server start
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#停止</span>
+</span></span><span class=line><span class=cl>mysql.server stop
+</span></span></code></pre></div><p>使用：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>#登录mysql</span>
+</span></span><span class=line><span class=cl>mysql -hlocalhost -p3306 -uroot -p123456
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#添加远程登录用户</span>
+</span></span><span class=line><span class=cl>CREATE USER <span class=s1>&#39;test&#39;</span>@<span class=s1>&#39;%&#39;</span> IDENTIFIED WITH mysql_native_password BY <span class=s1>&#39;123456&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>GRANT ALL PRIVILEGES ON *.* TO <span class=s1>&#39;test&#39;</span>@<span class=s1>&#39;%&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#查看编码</span>
+</span></span><span class=line><span class=cl>showvariables like <span class=s2>&#34;%char%&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>flush privileges<span class=p>;</span>
+</span></span></code></pre></div><p>安装 sequel-pro：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install --cask sequel-pro
+</span></span></code></pre></div><h2 id=postgresql>PostgreSQL</h2><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install postgres
+</span></span></code></pre></div><p>查看版本：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>postgres -V
+</span></span></code></pre></div><p>使用：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>#启动</span>
+</span></span><span class=line><span class=cl>pg_ctl -D /usr/local/var/postgres start
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#开启启动</span>
+</span></span><span class=line><span class=cl>brew services start postgresql
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#停止</span>
+</span></span><span class=line><span class=cl>pg_ctl -D /usr/local/var/postgres stop
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#重启</span>
+</span></span><span class=line><span class=cl>pg_ctl -D /usr/local/var/postgres restart
+</span></span><span class=line><span class=cl>brew services restart postgresql
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#启动 PostgreSQL console</span>
+</span></span><span class=line><span class=cl>psql
+</span></span></code></pre></div><p>安装客户端：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install psequel
+</span></span></code></pre></div><h2 id=java>Java</h2><p>下载 Oracle JDK：</p><ul><li><a href=http://support.apple.com/downloads/DL1572/en_US/JavaForOSX2013-05.dmg>jdk6</a></li><li><a href=http://download.oracle.com/otn-pub/java/jdk/7u60-b19/jdk-7u60-macosx-x64.dmg>jdk7</a></li></ul><p>设置 java_home 为 1.8:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s1>&#39;export JAVA_HOME=$(/usr/libexec/java_home -v 1.8) &#39;</span> &gt;&gt; ~/.zshrc
+</span></span></code></pre></div><p>安装OpenJDK：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install openjdk
+</span></span></code></pre></div><h3 id=sdkman>SDKMAN</h3><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl> curl -s <span class=s2>&#34;https://get.sdkman.io&#34;</span> <span class=p>|</span> bash
+</span></span></code></pre></div><p>安装complete：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>source</span> <span class=s2>&#34;</span><span class=nv>$HOME</span><span class=s2>/.sdkman/bin/sdkman-init.sh&#34;</span>
+</span></span></code></pre></div><p>查看版本：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sdk version
+</span></span></code></pre></div><p>使用：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>#安装jdk</span>
+</span></span><span class=line><span class=cl>sdk install java
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#安装scala</span>
+</span></span><span class=line><span class=cl>sdk install scala 2.12.1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#卸载</span>
+</span></span><span class=line><span class=cl>sdk uninstall scala 2.11.6
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#查看</span>
+</span></span><span class=line><span class=cl>sdk list
+</span></span></code></pre></div><h2 id=maven>Maven</h2><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install maven
+</span></span></code></pre></div><h2 id=nodejs>Node.js</h2><p>安装node：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install node
+</span></span></code></pre></div><h3 id=nvm>nvm</h3><p>安装nvm：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install nvm
+</span></span></code></pre></div><p>使用：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>source</span> ~/.bashrc        <span class=c1># source your bashrc/zshrc to add nvm to PATH</span>
+</span></span><span class=line><span class=cl><span class=nb>command</span> -v nvm          <span class=c1># check the nvm use message</span>
+</span></span><span class=line><span class=cl>nvm install node        <span class=c1># install most recent Node stable version</span>
+</span></span><span class=line><span class=cl>nvm ls                  <span class=c1># list installed Node version</span>
+</span></span><span class=line><span class=cl>nvm use node            <span class=c1># use stable as current version</span>
+</span></span><span class=line><span class=cl>nvm ls-remote           <span class=c1># list all the Node versions you can install</span>
+</span></span><span class=line><span class=cl>nvm <span class=nb>alias</span> default node  <span class=c1># set the installed stable version as the default Node</span>
+</span></span></code></pre></div><h3 id=nvs>nvs</h3><p>Linux / macOS 环境通过 Git Clone 对应的项目即可。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ <span class=nb>export</span> <span class=nv>NVS_HOME</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$HOME</span><span class=s2>/.nvs&#34;</span>
+</span></span><span class=line><span class=cl>$ git clone https://github.com/jasongin/nvs --depth<span class=o>=</span><span class=m>1</span> <span class=s2>&#34;</span><span class=nv>$NVS_HOME</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>$ . <span class=s2>&#34;</span><span class=nv>$NVS_HOME</span><span class=s2>/nvs.sh&#34;</span> install
+</span></span></code></pre></div><p>在国内由于大家都懂的原因，需要把对应的镜像地址修改下：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ nvs remote node https://npm.taobao.org/mirrors/node/
+</span></span><span class=line><span class=cl>$ nvs remote
+</span></span></code></pre></div><p>通过以下命令，即可非常简单的安装 Node.js 最新的 LTS 版本。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 安装最新的 LTS 版本</span>
+</span></span><span class=line><span class=cl>$ nvs add lts
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 配置为默认版本</span>
+</span></span><span class=line><span class=cl>$ nvs link lts
+</span></span></code></pre></div><p>安装其他版本：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 安装其他版本尝尝鲜</span>
+</span></span><span class=line><span class=cl>$ nvs add <span class=m>12</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 查看已安装的版本</span>
+</span></span><span class=line><span class=cl>$ nvs ls
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 在当前 Shell 切换版本</span>
+</span></span><span class=line><span class=cl>$ nvs use <span class=m>12</span>
+</span></span></code></pre></div><p>更多指令参见 <code>nvs --help</code> 。</p><h2 id=go>Go</h2><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install go
+</span></span></code></pre></div><p>设置环境变量：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;export GOPATH=/something-else&#34;</span> &gt;&gt; ~/.zshrc
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;export PATH=</span><span class=nv>$PATH</span><span class=s2>:</span><span class=k>$(</span>go env GOPATH<span class=k>)</span><span class=s2>/bin&#34;</span> &gt;&gt; ~/.zshrc
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>source</span> ~/.zshrc
+</span></span></code></pre></div><h2 id=python>Python</h2><p>安装python3：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install python
+</span></span></code></pre></div><p>安装python2.7：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install python@2
+</span></span></code></pre></div><p>升级 setuptools：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pip install --upgrade setuptools
+</span></span><span class=line><span class=cl>pip install --upgrade pip
+</span></span></code></pre></div><h3 id=pyenv>pyenv</h3><p>安装<a href=https://github.com/yyuu/pyenv><code>pyenv</code></a>：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install pyenv
+</span></span></code></pre></div><p>设置环境变量：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s1>&#39;eval &#34;$(pyenv init -)&#34;&#39;</span> &gt;&gt; ~/.zshrc
+</span></span><span class=line><span class=cl><span class=nb>exec</span> <span class=nv>$SHELL</span>
+</span></span></code></pre></div><p>查看python版本：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pyenv install --list
+</span></span></code></pre></div><p>安装指定版本：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pyenv install 2.7.12
+</span></span><span class=line><span class=cl>pyenv install 3.5.2
+</span></span></code></pre></div><p>设置全局版本，例如，设置2.7.12 优先级高于3.5.2 ：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pyenv global 2.7.12 3.5.2
+</span></span><span class=line><span class=cl>pyenv rehash
+</span></span></code></pre></div><p>查看版本优先级：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pyenv versions
+</span></span></code></pre></div><h3 id=pip>pip</h3><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>curl https://bootstrap.pypa.io/get-pip.py &gt; get-pip.py
+</span></span><span class=line><span class=cl>sudo python get-pip.py
+</span></span></code></pre></div><h3 id=virtualenv>virtualenv</h3><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pip install virtualenv
+</span></span></code></pre></div><p>使用：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>cd</span> my-project/
+</span></span><span class=line><span class=cl>virtualenv venv
+</span></span></code></pre></div><p>如果想virtualenv继承全局安装的包，可以执行：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-BASH data-lang=BASH><span class=line><span class=cl>virtualenv venv --system-site-packages
+</span></span></code></pre></div><p>上面命令会创建一个 venv/ 目录，激活配置：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>source</span> venv/bin/activate
+</span></span></code></pre></div><p>离开虚拟环境：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>deactivate
+</span></span></code></pre></div><p>安装Virtualenvwrapper：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pip install virtualenvwrapper
+</span></span></code></pre></div><h3 id=numpy-scipy>Numpy-Scipy</h3><p>安装<a href=https://sourabhbajaj.com/mac-setup/Python/numpy.html>Numpy-Scipy</a>：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+</span></span></code></pre></div><p>使用 MacPort 安装python3.5：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo port install py35-numpy py35-scipy py35-matplotlib py35-ipython +notebook py35-pandas py35-sympy py35-nose
+</span></span></code></pre></div><h3 id=ipython>IPython</h3><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pip install ipython
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>pip install <span class=s1>&#39;ipython[zmq,qtconsole,notebook,test]&#39;</span>
+</span></span></code></pre></div><h2 id=heroku>Heroku</h2><p>安装：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install heroku/brew/heroku
+</span></span></code></pre></div><p>配置：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>heroku login
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>mkdir ~/.ssh
+</span></span><span class=line><span class=cl>ssh-keygen -t rsa
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>heroku keys:add
+</span></span></code></pre></div><p>使用：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ <span class=nb>cd</span> myapp/
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Create the app on Heroku</span>
+</span></span><span class=line><span class=cl>$ heroku create myapp
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Deploy it</span>
+</span></span><span class=line><span class=cl>$ git push heroku master
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Check its status</span>
+</span></span><span class=line><span class=cl>$ heroku ps
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Check the logs</span>
+</span></span><span class=line><span class=cl>$ heroku logs -t
+</span></span></code></pre></div><h2 id=其他应用>其他应用</h2><h3 id=开发工具>开发工具</h3><ul><li><a href=https://www.google.com/intl/en/chrome/browser/>Google Chrome</a></li><li><a href=https://agilebits.com/onepassword>1Password</a>：密码</li><li><a href=http://wakaba.c3.cx/s/apps/unarchiver.html>Unarchiver</a>：解压缩软件</li><li>百度云网盘</li><li>搜狗输入法</li><li>Typora</li><li>飞书</li><li>xmind</li><li>PostMan</li><li>语雀</li><li>TablePlus</li><li>V2rayU</li><li>Staruml</li><li>PicGo</li><li>Sublime Text</li></ul><h2 id=参考文章>参考文章</h2><ul><li><a href=https://sourabhbajaj.com/mac-setup/>https://sourabhbajaj.com/mac-setup/</a></li></ul></article><h2>相关文章</h2><dl class=row></dl><div class=author-card><div class=underline></div><div class=author-box><div class=author-image><a href=https://blog.chensoul.com><img src=/images/author.webp alt=ChenShu></a></div><div class=author-content><p class=author-title>作者</p><p class=author-name>ChenShu</p><p class=author-desc>Java 开发工程师。喜欢探索新技术。 在 <a href=https://github.com/chensoul>GitHub</a> 关注我。在我的 <a href=https://t.me/chenshu_eth>Telegram 频道</a>了解更多。</p></div></div></div><div align=center><div class=comment-underline></div></div><br></div></main><div class="footer gradient-2"><div class="container footer-container"><div class=row><div class="col-xs-4 col-sm-3 col-md-3 col-lg-3"><div class=footer-title>网站地图</div><ul class=list-unstyled><li><a href=https://blog.chensoul.com/tags/>标签</a></li><li><a href=https://blog.chensoul.com/categories/>分类</a></li><li><a rel=alternate type=application/rss+xml href=https://blog.chensoul.com/index.xml></i>RSS</a></li></ul></div><div class="col-xs-4 col-sm-3 col-md-3 col-lg-3"><div class=footer-title>社交</div><ul class=list-unstyled><li><a href=https://t.me/chenshu_eth rel=noopener target=_blank>Telegram</a></li><li><a href=https://twitter.com/chenshu_eth rel=noopener target=_blank>Twitter</a></li><li><a href=https://space.bilibili.com/699805065/ rel=noopener target=_blank>BiliBili</a></li></ul></div><div class="col-xs-4 col-sm-3 col-md-3 col-lg-3"><div class=footer-title>关于</div><ul class=list-unstyled><li><a href=https://github.com/chensoul rel=noopener target=_blank>GitHub</a></li><li><a href=https://uptime.chensoul.com/status/services rel=noopener target=_blank>Services</a></li><li><a href=https://data.chensoul.com/share/8YKX7FUa/pseudoyu-blog rel=noopener target=_blank>Analytics</a></li></ul></div><div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"><p class="pull-right text-right"><small><em>Powered by <a href=https://gohugo.io/ rel=noopener target=_blank>Hugo</a></em></small><br><small><em>Theme - <a href=https://github.com/shaform/hugo-theme-den rel=noopener target=_blank>Den</a></em></small><br><small>&copy;
+chenshu
+2020 -
+2023</small></p></div><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" id=scroll-top class=scroll-top accesskey=g><span class=arrow-icon></span></a>
+<script>var mybutton=document.getElementById("scroll-top");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script></div></div></div><script src=https://code.jquery.com/jquery-3.3.1.slim.min.js integrity=sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo crossorigin=anonymous></script>
+<script src=https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js integrity=sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy crossorigin=anonymous></script>
+<script async src=https://cdn.splitbee.io/sb.js></script></body></html>

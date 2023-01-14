@@ -1919,7 +1919,6 @@ kernel.shmmax (共享内存段的最大值)
 <h3 id="1安装-ntp-服务">1、安装 NTP 服务</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum install -y ntp
 </span></span></code></pre></div><p>接下来可以使用 ntpdate 命令来更新时间，比如，在联网环境下，可以通过网络上的校时服务器来同步时间。</p>
-<blockquote>
 <p>常见的校时服务器：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 国家授时中心</span>
 </span></span><span class="line"><span class="cl">210.72.145.44
@@ -1943,8 +1942,7 @@ kernel.shmmax (共享内存段的最大值)
 </span></span><span class="line"><span class="cl">s2k.time.edu.cn <span class="c1">#CERNET桂林主节点</span>
 </span></span><span class="line"><span class="cl">s2m.time.edu.cn <span class="c1">#北京大学</span>
 </span></span><span class="line"><span class="cl">ntp.sjtu.edu.cn <span class="c1">#上海交通大学</span>
-</span></span></code></pre></div></blockquote>
-<p>下面是采用微软的校时服务器调整系统时间</p>
+</span></span></code></pre></div><p>下面是采用微软的校时服务器调整系统时间</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ntpdate time.windows.com 
 </span></span></code></pre></div><h3 id="2内网搭建时钟服务器">2、内网搭建时钟服务器</h3>
 <p>如果是在内网不能连接外网，则可以在内网选择一台服务器作为时钟服务器，其他服务器都作为客户端同步这台时钟服务器的时间。</p>

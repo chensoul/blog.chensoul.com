@@ -836,18 +836,25 @@ kernel.shmmax (共享内存段的最大值)
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">db</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pgsql</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:12-alpine</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">5432</span><span class="p">:</span><span class="m">5432</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_USER=chenzj</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_PASSWORD=chenzj@vps2021</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">test@db</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/postgres:/var/lib/postgresql/data</span><span class="w">
 </span></span></span></code></pre></div><p>运行容器：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f postgresql.yaml up -d
+</span></span></code></pre></div><p>进入容器并创建数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql_1 bash
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">CREATE USER cusdis WITH PASSWORD <span class="s1">&#39;cusdis_pg!&#39;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">CREATE DATABASE cusdis <span class="nv">owner</span><span class="o">=</span>cusdis<span class="p">;</span> 
+</span></span><span class="line"><span class="cl">GRANT ALL privileges ON DATABASE cusdis TO cusdis<span class="p">;</span>
 </span></span></code></pre></div>]]></content:encoded></item><item><title>MySql安装和部署</title><link>https://blog.chensoul.com/posts/2022/08/19/mysql-install-deploy/</link><pubDate>Fri, 19 Aug 2022 17:03:40 +0800</pubDate><guid>https://blog.chensoul.com/posts/2022/08/19/mysql-install-deploy/</guid><description>yum安装 1、安装 wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm yum localinstall mysql80-community-release-el7-1.noarch.rpm 查看仓库中 mysql 版本： yum repolist all | grep mysql yum repolist enabled | grep mysql 禁用 mysql8 仓库，启用 mysql5 仓库： yum install yum-utils -y yum-config-manager --disable mysql80-community yum-config-manager --enable mysql57-community 安装 mysql 数据库和客户端： yum install</description><content:encoded><![CDATA[<h2 id="yum安装">yum安装</h2>
 <h3 id="1安装">1、安装</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm

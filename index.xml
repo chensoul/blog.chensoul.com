@@ -837,24 +837,24 @@ kernel.shmmax (共享内存段的最大值)
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pgsql</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:12-alpine</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13-alpine</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">pgsql</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">5432</span><span class="p">:</span><span class="m">5432</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">test@db</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c">#- POSTGRES_DB: postgres</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_USER=postgres</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_PASSWORD=admin@pg!</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c">#- ./sql/schema.postgresql.sql:/docker-entrypoint-initdb.d/schema.postgresql.sql:ro</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/postgres:/var/lib/postgresql/data</span><span class="w">
 </span></span></span></code></pre></div><p>运行容器：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f postgresql.yaml up -d
-</span></span></code></pre></div><p>进入容器并创建数据库：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql_1 bash
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">CREATE USER cusdis WITH PASSWORD <span class="s1">&#39;cusdis_pg!&#39;</span><span class="p">;</span> 
-</span></span><span class="line"><span class="cl">CREATE DATABASE cusdis <span class="nv">owner</span><span class="o">=</span>cusdis<span class="p">;</span> 
-</span></span><span class="line"><span class="cl">GRANT ALL privileges ON DATABASE cusdis TO cusdis<span class="p">;</span>
+</span></span></code></pre></div><p>进入容器并创建数据库和用户，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE USER cusdis WITH PASSWORD &#39;123456&#39;;&#34;</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE DATABASE cusdis owner=cusdis;&#34;</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;GRANT ALL privileges ON DATABASE cusdis TO cusdis;&#34;</span>
 </span></span></code></pre></div>]]></content:encoded></item><item><title>MySql安装和部署</title><link>https://blog.chensoul.com/posts/2022/08/19/mysql-install-deploy/</link><pubDate>Fri, 19 Aug 2022 17:03:40 +0800</pubDate><guid>https://blog.chensoul.com/posts/2022/08/19/mysql-install-deploy/</guid><description>yum安装 1、安装 wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm yum localinstall mysql80-community-release-el7-1.noarch.rpm 查看仓库中 mysql 版本： yum repolist all | grep mysql yum repolist enabled | grep mysql 禁用 mysql8 仓库，启用 mysql5 仓库： yum install yum-utils -y yum-config-manager --disable mysql80-community yum-config-manager --enable mysql57-community 安装 mysql 数据库和客户端： yum install</description><content:encoded><![CDATA[<h2 id="yum安装">yum安装</h2>
 <h3 id="1安装">1、安装</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm
@@ -1008,7 +1008,7 @@ kernel.shmmax (共享内存段的最大值)
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/docker/mysql/logs:/var/log/mysql </span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/docker/mysql/data:/var/lib/mysql</span><span class="w">
 </span></span></span></code></pre></div>]]></content:encoded></item><item><title>博客中如何使用图床服务</title><link>https://blog.chensoul.com/posts/2022/08/19/using-images-in-blog/</link><pubDate>Fri, 19 Aug 2022 12:15:54 +0800</pubDate><guid>https://blog.chensoul.com/posts/2022/08/19/using-images-in-blog/</guid><description>最近编写文档或者写博客，喜欢用 Typora 编辑器通过 Markdown 语法完成编写所有内容。为此，还付费购买了许可证。 喜欢 Typora 的理由： 所见即所得的编辑，Markdown</description><content:encoded><![CDATA[<p>最近编写文档或者写博客，喜欢用 Typora 编辑器通过 Markdown 语法完成编写所有内容。为此，还付费购买了许可证。</p>
-<p><img src="/images/my-typora-license.png" alt="my-typora-license"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-typora-license.png" alt="my-typora-license"></p>
 <p>喜欢 Typora 的理由：</p>
 <ul>
 <li>
@@ -1019,7 +1019,7 @@ kernel.shmmax (共享内存段的最大值)
 </li>
 <li>
 <p>上传图片，支持图床服务。可以将图片上传到指定的图床，前提是需要先安装一个客户端，这里我使用的是 PicGo。然后，PicGo支持常见的一些图床服务。</p>
-<p><img src="/images/picgo-setting-image-server.png" alt="picgo-setting-image-server"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/picgo-setting-image-server.png" alt="picgo-setting-image-server"></p>
 </li>
 <li>
 <p>支持导出</p>
@@ -1027,7 +1027,7 @@ kernel.shmmax (共享内存段的最大值)
 </ul>
 <h2 id="typora-图片复制到本地">Typora 图片复制到本地</h2>
 <p>接下来，聊聊 Typora 的图片上传设置：</p>
-<p><img src="/images/typora-setting-image.png" alt="typora-setting-image"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/typora-setting-image.png" alt="typora-setting-image"></p>
 <p>当你插入图片时，你可以分情况对图片进行设置。比如：</p>
 <p>1、对本地位置的图片，可以设置一个上传规则：复制到指定路径或者是当前路径下的一个文件夹、上传图片。</p>
 <ul>
@@ -1109,7 +1109,7 @@ kernel.shmmax (共享内存段的最大值)
 <li>192.168.1.109：部署了 FE、BE</li>
 </ul>
 <p>在操作集群之前，有必要了解 doris 的架构：</p>
-<p><img src="/images/doris-overview.png" alt="doris架构"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/doris-overview.png" alt="doris架构"></p>
 <p>Doris 有两种进程：</p>
 <ul>
 <li>FE：主要负责用户请求的接入、查询解析规划、元数据的管理、节点管理相关工作。FE 节点个数至少为为1，最好必须为奇数，因为多个 FE 需要进行选举。根据选举出来的结果，分为两种角色：
@@ -1126,11 +1126,11 @@ kernel.shmmax (共享内存段的最大值)
 </span></span></code></pre></div><p>查询 BE 状态：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SHOW</span><span class="w"> </span><span class="n">PROC</span><span class="w"> </span><span class="s1">&#39;/backends&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>结果如下：</p>
-<p><img src="/images/doris-be-status.png.png" alt="doris-be-status"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/doris-be-status.png.png" alt="doris-be-status"></p>
 <p>查询 FE 状态：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SHOW</span><span class="w"> </span><span class="n">PROC</span><span class="w"> </span><span class="s1">&#39;/frontends&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>结果如下：</p>
-<p><img src="/images/doris-fe-status.png" alt="doris-fe-status"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/doris-fe-status.png" alt="doris-fe-status"></p>
 <p>从上面可以看到：</p>
 <ul>
 <li>IP</li>
@@ -1186,7 +1186,7 @@ kernel.shmmax (共享内存段的最大值)
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">mysql</span><span class="w"> </span><span class="o">-</span><span class="n">h</span><span class="w"> </span><span class="mi">192</span><span class="p">.</span><span class="mi">168</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="mi">107</span><span class="w"> </span><span class="o">-</span><span class="n">P</span><span class="w"> </span><span class="mi">9030</span><span class="w"> </span><span class="o">-</span><span class="n">uroot</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">ALTER</span><span class="w"> </span><span class="k">SYSTEM</span><span class="w"> </span><span class="k">drop</span><span class="w"> </span><span class="n">FOLLOWER</span><span class="w"> </span><span class="s2">&#34;192.168.1.109:9010&#34;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>查看 FE 状态，可以看到还有两个 FE，192.168.1.107 还是为 Master。</p>
-<p><img src="/images/doris-fe-status-01.png" alt="doris-fe-status-01"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/doris-fe-status-01.png" alt="doris-fe-status-01"></p>
 <p>根据上面的 <strong>FE 缩容注意事项</strong>，如果删除 FE 节点，需要保证最终剩余的 FE 的总数为奇数。在删除一个节点之后，FE 个数为 2，FE 状态均为正常。</p>
 <p>这时候，如果 Master 宕机了，剩下一个 FE 会成为 Master 吗？我们来停止 192.168.1.107 的 FE。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">fe/bin/stop_fe.sh
@@ -1200,13 +1200,13 @@ kernel.shmmax (共享内存段的最大值)
 </span></span></code></pre></div><p>再通过客户端连接 FE，查看 FE 状态：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mysql -h 192.168.1.108 -P <span class="m">9030</span> -uroot
 </span></span></code></pre></div><p>可以看到 变成了 Master：</p>
-<p><img src="/images/doris-fe-status-02.png" alt="doris-fe-status-02"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/doris-fe-status-02.png" alt="doris-fe-status-02"></p>
 <p>这说明，<strong>剩余偶数个 FE 时，还是能选举出 Master？</strong></p>
 <p>这时候，如果把不是 Master 的 FE 停止，会出现什么情况呢？</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mysql -h 192.168.1.108 -P <span class="m">9030</span> -uroot
 </span></span><span class="line"><span class="cl">mysql&gt; SHOW PROC <span class="s1">&#39;/frontends&#39;</span><span class="p">;</span>
 </span></span></code></pre></div><p>可以看到如下结果：</p>
-<p><img src="/images/doris-fe-status-03.png" alt="doris-fe-status-03"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/doris-fe-status-03.png" alt="doris-fe-status-03"></p>
 <p>说明：非 Master 节点宕机，不影响 Master FE 节点的运行，宕机的 FE 的 Alive 状态为 false，异常信息不为空，这里为：<code>socket is closed by peer.</code></p>
 <p>稍等一会，会提示无法连接到服务：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">RROR <span class="m">2013</span> <span class="o">(</span>HY000<span class="o">)</span>: Lost connection to MySQL server during query
@@ -1769,7 +1769,7 @@ kernel.shmmax (共享内存段的最大值)
 </span></span></code></pre></div><p>查看 FE 节点情况：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">mysql&gt; SHOW PROC <span class="s1">&#39;/frontends&#39;</span><span class="p">;</span>
 </span></span></code></pre></div><p>也可以通过 http://192.168.1.107:8030/System?path=//frontends 查看</p>
-<p><img src="/images/doris-fe-web.jpg" alt="img"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/doris-fe-web.jpg" alt="img"></p>
 <p>在 192.168.1.108 和  192.168.1.109 节点上启动 FE ：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">fe/bin/start_fe.sh --helper 192.168.1.107:9010 --daemon
 </span></span></code></pre></div><blockquote>
@@ -2627,10 +2627,10 @@ kernel.shmmax (共享内存段的最大值)
 <h2 id="服务器">服务器</h2>
 <p>注册了域名之后，需要一台服务器运行程序。服务器可以是一台物理机，比如你可以使用自己的电脑作为服务器；也可以是一台虚拟的云服务器，比如在云服务提供商购买一台独立的服务器；也可以使用第三方提供的服务器空间，比如Github上可以部署静态程序。不管哪种方式，服务器都需要有一个公网IP，这样才能在因特网上访问你服务器上部署的程序。有了服务器之后，就可以给服务器公网IP设置域名解析。</p>
 <p>我的服务器是在<a href="https://bandwagonhost.com/aff.php?aff=58710">搬瓦工</a>购买的，一年49.99美元。</p>
-<p><img src="/images/bwg-plan.png" alt="bwg-plan"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/bwg-plan.png" alt="bwg-plan"></p>
 <h2 id="程序">程序</h2>
 <h3 id="安装hugo">安装Hugo</h3>
-<p><img src="/images/hugo-logo.svg" alt="使用 Hugo 搭建博客"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/hugo-logo.svg" alt="使用 Hugo 搭建博客"></p>
 <p>在 Mac 下安装 Hugo：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install hugo
 </span></span></code></pre></div><h3 id="新建站点">新建站点</h3>
@@ -2865,10 +2865,10 @@ kernel.shmmax (共享内存段的最大值)
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git push origin gh-pages
 </span></span></code></pre></div><p><strong>7、设置自定义域名</strong></p>
 <p>参考<a href="https://docs.github.com/cn/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain">管理 GitHub Pages 站点的自定义域</a>，添加一个自定义域名：blog.chensoul.com：</p>
-<p><img src="/images/github-page-settings.png" alt="github-page-settings"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/github-page-settings.png" alt="github-page-settings"></p>
 <p>或者，在仓库的 static 目录创建一个CNAME文件，内容为：blog.chensoul.com，然后，保存提交，Github Actions会将该文件推送到main分支。</p>
 <p>然后，在亚马逊网站添加 <a href="https://console.aws.amazon.com/route53/v2/hostedzones#">CNAME记录</a>：</p>
-<p><img src="/images/amazon-dns-settings.png" alt="amazon-dns-settings"></p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/amazon-dns-settings.png" alt="amazon-dns-settings"></p>
 <p>8、部署到 CloudFlare Pages</p>
 <p>参考 <a href="https://hee.ink/p/%E4%BB%8E-github-pages-%E8%BF%81%E7%A7%BB%E5%88%B0-cloudflare-pages-%E7%9A%84%E4%BD%93%E9%AA%8C%E4%B8%8E%E8%B8%A9%E5%9D%91%E5%B0%8F%E8%AE%B0/">从 GitHub Pages 迁移到 CloudFlare Pages 的体验与踩坑小记</a></p>
 ]]></content:encoded></item></channel></rss>

@@ -1,4 +1,94 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ChenSoul</title><link>https://blog.chensoul.com/</link><description>Recent content on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Wed, 25 Jan 2023 10:38:34 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml"/><item><title>我的VPS服务部署记录</title><link>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</link><pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid><description>Docker 安装和配置 Docker 安装 具体过程可以参考网上文章。 自定义网络 参考 Best Practice: Use a Docker network ，创建一个自定义的网络： docker network create custom 查看 docker 网络： [root@vps ~]# docker network ls NETWORK ID NAME DRIVER SCOPE 68f4aeaa57bd bridge bridge</description><content:encoded><![CDATA[<h2 id="docker-安装和配置">Docker 安装和配置</h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ChenSoul</title><link>https://blog.chensoul.com/</link><description>Recent content on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Mon, 30 Jan 2023 09:47:03 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml"/><item><title>周报 #4｜过年、向上管理、工作周总结</title><link>https://blog.chensoul.com/posts/2023/01/30/weekly_review_4/</link><pubDate>Mon, 30 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/30/weekly_review_4/</guid><description>前言 本篇是对 2023-01-23 到 2023-01-29 这周生活的记录与思考。 过年 这周处于过年吃喝拜年模式，除了腊月二十九和正月初一，其他时间都是和老婆在路上。因为是结婚第一个新</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-23</code> 到 <code>2023-01-29</code> 这周生活的记录与思考。</p>
+<h2 id="过年">过年</h2>
+<p>这周处于过年吃喝拜年模式，除了腊月二十九和正月初一，其他时间都是和老婆在路上。因为是结婚第一个新年，需要带着老婆去各个亲戚家拜年。因为是第一次在新房过年，就把老爸从农村接过来一起过年。因为年前没有来得及买车，去哪里都不方便，都要需要滴滴打车。为此，打车花了不少钱，当然，给红包也给了不少钱。趁初一不用拜年的缝隙时间，带老婆和老爸去看了两场电影《无名》和《交换人生》。老爸很少去看电影院看电影，听到要去看电影，像个小孩似的，饭还吃完，就跑去电梯门口等电梯。这两场电影，看的我瞌睡来了，倒是初二晚上看《满江红》睡意全无。</p>
+<p>总结下来，这个年过的不轻松，身体忙碌，心里幸福🥰。</p>
+<h2 id="向上管理">向上管理</h2>
+<p>年前，部门领导找我谈 2022 年绩效结果时候，提到我可以“向上管理”他。最近从 <a href="https://www.duyidong.com/">杜屹东</a> 的博客 <a href="https://www.duyidong.com/2020/01/01/2019-learn-from-alibaba/">这一年我在阿里学到的</a> 也看到了他在阿里工作一年后悟到对向上管理的理解。</p>
+<ul>
+<li>及时和老板表达想法</li>
+<li>让老板知道你在忙什么</li>
+<li>主动帮老板做一些脏活累活</li>
+</ul>
+<p>前两条是老板知道你的想法，后面一条是帮老板解决问题。此外，还可以帮老板规避风险。</p>
+<h2 id="本周工作">本周工作</h2>
+<p>这是年后的第一周，主要是处理年前没有完成的项目迭代。</p>
+<h3 id="feign-集成-micometer">Feign 集成 Micometer</h3>
+<p>OpenFeign 官方提供了 feign-micrometer 来支持 feign 集成 micrometer。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">GitHub</span> <span class="n">github</span> <span class="o">=</span> <span class="n">Feign</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">addCapability</span><span class="o">(</span><span class="k">new</span> <span class="n">MicrometerCapability</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">target</span><span class="o">(</span><span class="n">GitHub</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;https://api.github.com&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>其本质是对 feign 拦截器、client、encoder、decoder 进行封装，测试过程中在没有获取到指标。故，改为使用z自定义拦截器和 ErrorCoder 来记录请求次数和失败次数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">GitHub</span> <span class="nf">gihhub</span><span class="o">(</span><span class="n">MetricsInterceptor</span> <span class="n">metricsInterceptor</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">GitHub</span> <span class="n">github</span> <span class="o">=</span> <span class="n">Feign</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">requestInterceptor</span><span class="o">(</span><span class="n">metricsInterceptor</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">errorDecoder</span><span class="o">(</span><span class="k">new</span> <span class="n">MetricsErrorDecoder</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">target</span><span class="o">(</span><span class="n">GitHub</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;https://api.github.com&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>MetricsInterceptor 代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MetricsInterceptor</span> <span class="kd">implements</span> <span class="n">RequestInterceptor</span><span class="o">,</span> <span class="n">MeterBinder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MeterRegistry</span> <span class="n">meterRegistry</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">FEIGN_REQUEST</span> <span class="o">=</span> <span class="s">&#34;feign.requests&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">FEIGN_REQUEST_ERROR</span> <span class="o">=</span> <span class="s">&#34;feign.requests.error&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MetricsInterceptor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">apply</span><span class="o">(</span><span class="n">RequestTemplate</span> <span class="n">template</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Micrometers</span><span class="o">.</span><span class="na">async</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">String</span> <span class="n">methodKey</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="na">methodMetadata</span><span class="o">().</span><span class="na">configKey</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Counter</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="s">&#34;feign.requests&#34;</span><span class="o">).</span><span class="na">tags</span><span class="o">(</span><span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">&#34;method&#34;</span><span class="o">,</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">substringBefore</span><span class="o">(</span><span class="n">methodKey</span><span class="o">,</span> <span class="s">&#34;(&#34;</span><span class="o">)}).</span><span class="na">register</span><span class="o">(</span><span class="n">meterRegistry</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">counter</span><span class="o">.</span><span class="na">increment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">bindTo</span><span class="o">(</span><span class="n">MeterRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">meterRegistry</span> <span class="o">=</span> <span class="n">registry</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>MetricsErrorDecoder 代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MetricsErrorDecoder</span> <span class="kd">implements</span> <span class="n">ErrorDecoder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">MetricsErrorDecoder</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MeterRegistry</span> <span class="n">registry</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleMeterRegistry</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MetricsErrorDecoder</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">metrics</span><span class="o">(</span><span class="n">String</span> <span class="n">methodKey</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Micrometers</span><span class="o">.</span><span class="na">async</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Metrics</span><span class="o">.</span><span class="na">counter</span><span class="o">(</span><span class="s">&#34;feign.requests.error&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">&#34;method&#34;</span><span class="o">,</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">substringBefore</span><span class="o">(</span><span class="n">methodKey</span><span class="o">,</span> <span class="s">&#34;(&#34;</span><span class="o">)}).</span><span class="na">increment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Exception</span> <span class="nf">decode</span><span class="o">(</span><span class="n">String</span> <span class="n">methodKey</span><span class="o">,</span> <span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">metrics</span><span class="o">(</span><span class="n">methodKey</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">FeignException</span> <span class="n">exception</span> <span class="o">=</span> <span class="n">FeignException</span><span class="o">.</span><span class="na">errorStatus</span><span class="o">(</span><span class="n">methodKey</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">exception</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Counter</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="s">&#34;feign.requests.error&#34;</span><span class="o">).</span><span class="na">register</span><span class="o">(</span><span class="n">registry</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="sentry-集成飞书通知">Sentry 集成飞书通知</h3>
+<p>参考 <a href="https://www.ytjia.xyz/blog/2022/05/20/sentry-webhook.html">通过Webhook实现Sentry错误自动化飞书机器人报警</a> 这篇文章，使用 fastapi 部署一个 http 服务将 sentry 的回调转发到飞书群的机器人。由于，fastapi 需要在服务器上安装 python3， 为了不污染我的 vps，我创建一个 docker 镜像 <a href="https://github.com/chensoul/dockerfiles/tree/master/sentry-feishu-hook">sentry-feishu-hook</a>，修改了 python 脚本中的编译错误，并在 vps 上通过 docker 启动该服务。</p>
+<p>先编译镜像，再运行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker build -t sentry-feishu-hook .
+</span></span><span class="line"><span class="cl">docker run -d --name sentry-feishu-hook -p 3080:3080 sentry-feishu-hook
+</span></span></code></pre></div><p>接下来在 sentry 项目的 WebHooks 里添加 http://ip:3080/hook</p>
+<p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/sentry-feishu-webhooks-test.png" alt="sentry-feishu-webhooks-test"></p>
+<p>点击 Test Plugin ，飞书群组可以收到消息：</p>
+<img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/sentry-feishu-webhooks-test-message.png" alt="sentry-feishu-webhooks-test-message" style="width: 50%"/>
+<h2 id="好物分享">好物分享</h2>
+<ul>
+<li><a href="https://www.warp.dev/">https://www.warp.dev/</a>：一个 Rust 编写，使用 GPU 渲染的终端应用。目标是提升开发者的效率。</li>
+<li><a href="https://strrl.dev/post/before-2022/restful-api-mock-%E5%B7%A5%E5%85%B7-jsonplaceholder/">Restful API Mock 工具: JSONPlaceholder</a></li>
+<li><a href="https://netnewswire.com/">NetNewsWire</a>。Inoreader 最近总是抽风，就改为使用 NetNewsWire 了。使用起来，还是比较顺滑，遗憾的是没有安卓 App。</li>
+<li><a href="https://cubox.pro/">Cubox</a>。最近看到这个收藏工具，下载了使用起来。</li>
+</ul>
+<img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/cubox-screen.png" alt="cubox-screen" style="width: 50%"/>
+]]></content:encoded></item><item><title>我的VPS服务部署记录</title><link>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</link><pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid><description>Docker 安装和配置 Docker 安装 具体过程可以参考网上文章。 自定义网络 参考 Best Practice: Use a Docker network ，创建一个自定义的网络： docker network create custom 查看 docker 网络： [root@vps ~]# docker network ls NETWORK ID NAME DRIVER SCOPE 68f4aeaa57bd bridge bridge</description><content:encoded><![CDATA[<h2 id="docker-安装和配置">Docker 安装和配置</h2>
 <h3 id="docker-安装">Docker 安装</h3>
 <p>具体过程可以参考网上文章。</p>
 <h3 id="自定义网络">自定义网络</h3>
@@ -218,7 +308,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">custom</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">    
-</span></span></span></code></pre></div><p>3、启动</p>
+</span></span></span></code></pre></div><p>以下配置为 EMAIL 配置可选，下面是使用 <a href="https://cusdis.com/doc#/features/notification?id=gmail">Gmail</a> 进行配置，需要首先开启两阶段验证并创建一个应用密码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">SMTP_HOST</span><span class="o">=</span><span class="s">smtp.gmail.com</span>
+</span></span><span class="line"><span class="cl"><span class="na">SMTP_PORT</span><span class="o">=</span><span class="s">465</span>
+</span></span><span class="line"><span class="cl"><span class="na">SMTP_SECURE</span><span class="o">=</span><span class="s">true</span>
+</span></span><span class="line"><span class="cl"><span class="na">SMTP_USER</span><span class="o">=</span><span class="s">your gmail email</span>
+</span></span><span class="line"><span class="cl"><span class="na">SMTP_PASSWORD</span><span class="o">=</span><span class="s">&lt;app password&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="na">SMTP_SENDER</span><span class="o">=</span><span class="s">your gmail email</span>
+</span></span></code></pre></div><p>3、启动</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f cusdis.yaml up -d
 </span></span></code></pre></div><p>4、配置 nginx</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
@@ -342,7 +439,7 @@
 <p>这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制，也在我的 VPS 上通过 Docker 部署了一些服务。</p>
 <h2 id="定制博客">定制博客</h2>
 <p>基于 <a href="https://www.pseudoyu.com/">pseudoyu</a> 的博客和主题定制博客，发现并修复了bug，还做了一些改进，并在他的 github 提交 <a href="https://github.com/pseudoyu/pseudoyu/issues/2">issue</a> 和 merge request。</p>
-<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/github-issue-build-aboutme-py.png" alt="github-issue-build-aboutme-py"></p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/github-issue-build-aboutme-py.png" alt="github-issue-build-aboutme-py" style="width: 70%"/>
 <p>接着在他博客主页留言，几个来回下来，收获不少。一是解决了我提出的问题，二是给我分享了一个搬瓦工的 the plan 优惠码。这时候去看了下我原来的 vps 刚好还有一天要到期，就立即花了92 美元（原价是 99 美元）购买了一台 2G 内存托管在香港的服务器。</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-main-controlls.png" alt="vps-main-controlls"></p>
 <p>缘分就是这么奇妙，如果我不主动和这个博主联系，就不会知道搬瓦工还有这个优惠，就不会帮助我解决了博客定制过程中遇到的疑惑。</p>
@@ -351,7 +448,7 @@
 </blockquote>
 <h2 id="博客个人介绍">博客个人介绍</h2>
 <p>我的博客源文件托管在 <a href="https://github.com/chensoul/chensoul.github.io">gihub</a>，在这个仓库可以看到我的一些个人介绍，当然，我的博客也有个人介绍（在<a href="https://blog.chensoul.com/about/">关于</a>页面），如果你仔细观察，可以发现他们基本上是一样的，这个是怎么实现的呢？</p>
-<p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/chensoul-github-io-readme.png" alt="chensoul-github-io-readme"></p>
+<img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/chensoul-github-io-readme.png" alt="chensoul-github-io-readme" style="width: 70%"/>
 <p>首先，github 里面可以创建一个以 github 账号为名称的仓库，然后编辑好 README.md 文件，README.md 文件内容就会渲染成 html 显示到个人 github 主页。例如，我的 github 主页是 <a href="https://github.com/chensoul">https://github.com/chensoul</a>，我的个人仓库地址为 <a href="https://github.com/chensoul/chensoul">https://github.com/chensoul/chensoul</a>，这个仓库是通过 github actions 来构建 README.md，构建文件查看仓库的 workflows 文件，主要有两个文件：</p>
 <ul>
 <li>build.yml：周期性的调用 <a href="https://github.com/chensoul/chensoul/blob/main/build_readme.py">build_readme.py</a> 来生成 README.md 文件（包括：获取最近 5 篇博客文章、或者 豆瓣上最近 5 个电影书籍动态、获取 github 上发布的项目、显示 wakatime 报表）</li>

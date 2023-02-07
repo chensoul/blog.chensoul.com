@@ -1,5 +1,60 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ChenSoul</title><link>https://blog.chensoul.com/</link><description>Recent content on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Mon, 30 Jan 2023 09:47:03 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml"/><item><title>周报 #4｜过年、向上管理、工作周总结</title><link>https://blog.chensoul.com/posts/2023/01/30/weekly_review_4/</link><pubDate>Mon, 30 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/30/weekly_review_4/</guid><description>前言 本篇是对 2023-01-23 到 2023-01-29 这周生活的记录与思考。 过年 这周处于过年吃喝拜年模式，除了腊月二十九和正月初一，其他时间都是和老婆在路上。因为是结婚第一个新</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
-<p>本篇是对 <code>2023-01-23</code> 到 <code>2023-01-29</code> 这周生活的记录与思考。</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ChenSoul</title><link>https://blog.chensoul.com/</link><description>Recent content on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Tue, 07 Feb 2023 00:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml"/><item><title>周报 #5｜项目事故、牙疼、Damus</title><link>https://blog.chensoul.com/posts/2023/02/07/weekly_review_5/</link><pubDate>Tue, 07 Feb 2023 00:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/02/07/weekly_review_5/</guid><description>前言 本篇是对 2023-01-30 到 2023-02-05 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周是过年后的第一个工作周，被国家安排了连上七天</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-30</code> 到 <code>2023-02-05</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周是过年后的第一个工作周，被国家安排了连上七天班，算是体会了一次“过年七天乐，上班七天累”的过山车。七天的工作主要是测试并发布项目，每天忙的焦头乱额，生怕项目出了问题。有句话说，怕什么来什么。没想到周六还是报出了一个故障，还在睡觉中的我被一个电话吵醒，接着忙着找问题和解决方法，一天的时间就都花在这上面。万幸的是事故影响不大，发布了一个小版本进行修复。事故原因，还是值得警惕。</p>
+<h2 id="工作总结">工作总结</h2>
+<h3 id="项目事故">项目事故</h3>
+<p>这周主要是自定义拦截器和 ErrorCoder 来记录 feign 请求的调用次数，包括调用成功的和失败的。另外，如果调用失败，设置了重试两次。这里重试的前提是 http 请求出现 4xx 或者 5xx 状态码错误，如果是状态码为 200 但返回了自定义业务异常，是不会触发重试机制的。这一点没有注意到，而发布前，我想当然的把一个接口的手动重试代码删掉了，导致调用该接口出现业务异常之后没有进行重试，影响了业务方的使用。</p>
+<p>出现该问题的原因，一是没想出重试的前提条件，没有写代码注释；二是没有写单元测试；三是没有交叉代码审核。此外，还有一点，越是项目发布关键时期，越要注意休息，保持大脑足够清晰和敏捷。</p>
+<h3 id="aop-日志记录">AOP 日志记录</h3>
+<p>参考 【<a href="https://b23.tv/2HCODuM">每天进步一点点(二)-哔哩哔哩</a>】 在项目里添加代码对 controller 方法请求参数、返回结果、执行时间的记录。视频中讲的很清楚，这里就不贴代码了。</p>
+<p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/spring-aop-customizable-trace-interceptor.png" alt="spring-aop-customizable-trace-interceptor"></p>
+<ul>
+<li>
+<p>该方法，可以对 controller 的所有方法（不管是 get 还是 post 或其他方法），都记录日志。如果想排除 get 方法（一个项目里查询比修改请求大很多），需要添加代码进行过滤。</p>
+</li>
+<li>
+<p>另外，打印请求参数时，实际是记录的请求参数的 toString 方法，如果请求参数里有些对象没有定义toString 方法，则记录的是对象的引用地址。再者，如果对象里有些敏感字段不想输出到日志里，则需要重写toString 方法。一个可选的方法是，改为打印请求参数的 json 序列化值，这样做又会带来序列化开销。</p>
+</li>
+<li>
+<p>如果 controller 层代码被代理了多次，则请求参数和返回结果会打印多次。</p>
+</li>
+</ul>
+<h2 id="生活">生活</h2>
+<h3 id="牙疼">牙疼</h3>
+<p>一个月黑风高的晚上，加班回来的程序员偷偷喝了三杯牛奶，结果第二天牙齿开始疼了，特别是吃到冷热酸甜的东西，都会短暂的巨疼。去牙科诊所看了，医生说要做根管治疗，费用 800，可以报销 420，做完以后，牙套价格另算，有一千到几千的价格不等。刚不久还刷到视频说，有两个省要规范治疗牙齿费用。</p>
+<p>忍着疼痛上了一周班，结果不仅牙痛，吃饭没胃口，还影响了上班，真是得不偿失。</p>
+<p>周六晚上，在牙齿疼痛的地方，插了一点老爸给我的药水。睡觉时，先是畏冷，再就是牙疼的地方发炎，肚子发烧，烧到了不知道多少度，反正我是没有拿温度计去测量。烧的我大脑都是糊的，一晚上没睡好，中途还醒了几次。好在第二天，就好了一些，吃东西也没那么疼了。看来，专家顺发烧是体内细菌在和病毒做斗争，应该是对的啰。</p>
+<p>经历了这一晚上，感觉像是体验了一次阳的过程。之前新冠阳了，我是轻症状，没有发烧。这次牙疼发烧，算是把之前新冠没有吃过的苦找补回来，人生也算是多了一种体验。</p>
+<h3 id="娱乐">娱乐</h3>
+<ul>
+<li>
+<p>《狂飙》。最近很火，也刚好完结了。我没有去看，没有时间去追，就看了前面几集。</p>
+</li>
+<li>
+<p>《粉红理论》。老婆在追的一部泰剧，她是在微博看些别人剪辑的几分钟的片段。叫我也去微博看看，我说我不用微博，我翻墙去找网站观看。老婆眼睛一亮，说那不是可以看到无删减版本，那个兴奋劲哟！很快，我找到了<a href="https://www.dandanzan.com/dianshiju/112399.html">网站</a>，发现已经上线了 11 集，而且每集都有 60 多分钟长（老婆看的都是阉割版～😯）。</p>
+</li>
+</ul>
+<h2 id="学习">学习</h2>
+<p>最近 Damus 很火，我也去注册了一个账号，为此还重新下载了狐狸🦊钱包。随即，干脆也注册了 Mastodon 账号和 Crossbell 账号。</p>
+<p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/damus-profile.png" alt="damus-profile"></p>
+<ul>
+<li>
+<p>我的 Damus 账号 npub1dav96pmjv58n60eqz7ctmhvsd7t2yljvzevf6uckmchz6zamx2wq0k7dm5</p>
+</li>
+<li>
+<p>我的 Mastodon 账号 @chensoul@mas.to</p>
+</li>
+<li>
+<p>我的 crossbell 账号 chensoul@crossbell</p>
+</li>
+</ul>
+<p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/xsync-profile.png" alt="xsync-profile"></p>
+<h2 id="好物分享">好物分享</h2>
+<ul>
+<li><strong><a href="https://ssnhd.com/2022/01/01/mac-inputdel/">Mac 删除原生英文 ABC</a></strong></li>
+</ul>
+]]></content:encoded></item><item><title>周报 #4｜过年、向上管理、工作周总结</title><link>https://blog.chensoul.com/posts/2023/01/30/weekly_review_4/</link><pubDate>Mon, 30 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/30/weekly_review_4/</guid><description>前言 本篇是对 2023-01-23 到 2023-01-29 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 过年 这周处于过年吃喝拜年模式，除了腊月二十九和正</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-23</code> 到 <code>2023-01-29</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <h2 id="过年">过年</h2>
 <p>这周处于过年吃喝拜年模式，除了腊月二十九和正月初一，其他时间都是和老婆在路上。因为是结婚第一个新年，需要带着老婆去各个亲戚家拜年。因为是第一次在新房过年，就把老爸从农村接过来一起过年。因为年前没有来得及买车，去哪里都不方便，都要需要滴滴打车。为此，打车花了不少钱，当然，给红包也给了不少钱。趁初一不用拜年的缝隙时间，带老婆和老爸去看了两场电影《无名》和《交换人生》。老爸很少去看电影院看电影，听到要去看电影，像个小孩似的，饭还吃完，就跑去电梯门口等电梯。这两场电影，看的我瞌睡来了，倒是初二晚上看《满江红》睡意全无。</p>
 <p>总结下来，这个年过的不轻松，身体忙碌，心里幸福🥰。</p>
@@ -434,8 +489,8 @@
 <p>5、添加 workflow</p>
 <p>参考这篇文章 <a href="http://stiles.cc/archives/237/">http://stiles.cc/archives/237/</a> ，目前我配置了以下 workflows，实现了 github、douban、rss、memos 同步到 Telegram。</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-n8n-workflows.png" alt="my-n8n-workflows"></p>
-]]></content:encoded></item><item><title>周报 #3｜博客定制、VPS部署服务</title><link>https://blog.chensoul.com/posts/2023/01/25/weekly_review_3/</link><pubDate>Wed, 25 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/25/weekly_review_3/</guid><description>前言 本篇是对 2023-01-16 到 2023-01-22 这周生活的记录与思考。 这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
-<p>本篇是对 <code>2023-01-16</code> 到 <code>2023-01-22</code> 这周生活的记录与思考。</p>
+]]></content:encoded></item><item><title>周报 #3｜博客定制、VPS部署服务</title><link>https://blog.chensoul.com/posts/2023/01/25/weekly_review_3/</link><pubDate>Wed, 25 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/25/weekly_review_3/</guid><description>前言 本篇是对 2023-01-16 到 2023-01-22 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是过年前的最后一周，上了三天班，请了两天假回去</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-16</code> 到 <code>2023-01-22</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制，也在我的 VPS 上通过 Docker 部署了一些服务。</p>
 <h2 id="定制博客">定制博客</h2>
 <p>基于 <a href="https://www.pseudoyu.com/">pseudoyu</a> 的博客和主题定制博客，发现并修复了bug，还做了一些改进，并在他的 github 提交 <a href="https://github.com/pseudoyu/pseudoyu/issues/2">issue</a> 和 merge request。</p>
@@ -469,8 +524,8 @@
 </ul>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-docker-service.png" alt="vps-docker-service"></p>
 <p>通过 Docker 部署这些服务非常简单，主要是需要注意的一点是：将这些服务部署到同一个网路，这样各个服务之间可以互相通信。比如：很多服务都需要依赖数据库 postgresql，可以使用 docker-compose 来编排服务。安装部署过程参考：<a href="/posts/2023/01/25/notes-about-deploy-services-in-vps/">我的VPS服务部署记录</a></p>
-]]></content:encoded></item><item><title>周报 #2｜博客重构</title><link>https://blog.chensoul.com/posts/2023/01/15/weekly_review_2/</link><pubDate>Sun, 15 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/15/weekly_review_2/</guid><description>前言 本篇是对 2023-01-09 到 2023-01-15 这周生活的记录与思考。 这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
-<p>本篇是对 <code>2023-01-09</code> 到 <code>2023-01-15</code> 这周生活的记录与思考。</p>
+]]></content:encoded></item><item><title>周报 #2｜博客重构</title><link>https://blog.chensoul.com/posts/2023/01/15/weekly_review_2/</link><pubDate>Sun, 15 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/15/weekly_review_2/</guid><description>前言 本篇是对 2023-01-09 到 2023-01-15 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是年前倒数第二个工作周，工作上主要是完成项目一</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-09</code> 到 <code>2023-01-15</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔记和个人的生活记录与思考，所以不会涉及具体的工作内容。</p>
 <p>周三晚上是部门年会，领导提出了 2023 年收入 6.2 亿的目标，比 2022 年收入增长 140%。从公司领导层这乐观的年度规划，看得出来公司的发展属于上升趋势，同时意味着 2023 年又是忙碌和压力巨大的一年。</p>
 <p>工作闲暇之余，看到了一些独立开发者的博客，并受他们博客文章的影响，立即决定重新捣鼓博客。于是，在一腔热情之下，花了三天时间重构了博客，也对博客以后的方向做了一些规划。</p>
@@ -512,8 +567,8 @@
 </ul>
 <p>以下是使用 kuma 监控我的 VPS 上的服务。</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/chensoul-uptime.png" alt="chensoul-uptime"></p>
-]]></content:encoded></item><item><title>周报 #1｜开始写周报、冥想</title><link>https://blog.chensoul.com/posts/2023/01/08/weekly_review_1/</link><pubDate>Sun, 08 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/08/weekly_review_1/</guid><description>前言 本篇是对 2023-01-02 到 2023-01-08 这周生活的记录与思考。 这是 2023 年的第一周，元旦放了三天假之后，就用投入了工作之中。元旦已过，过年就没多远了，很多公司也开始准</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
-<p>本篇是对 <code>2023-01-02</code> 到 <code>2023-01-08</code> 这周生活的记录与思考。</p>
+]]></content:encoded></item><item><title>周报 #1｜开始写周报、冥想</title><link>https://blog.chensoul.com/posts/2023/01/08/weekly_review_1/</link><pubDate>Sun, 08 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/08/weekly_review_1/</guid><description>前言 本篇是对 2023-01-02 到 2023-01-08 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是 2023 年的第一周，元旦放了三天假之后，就用投入了</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-02</code> 到 <code>2023-01-08</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这是 2023 年的第一周，元旦放了三天假之后，就用投入了工作之中。元旦已过，过年就没多远了，很多公司也开始准备年会了。因为疫情，这个年注定不好过。现在疫情放开，不知道有多少公司能够熬过这个年，进入百废待兴的节奏。</p>
 <p>最近把 rss 阅读器又用起来，每天阅读订阅的未读文章，关注到好几个独立开发者。他们每周都在坚持写博客、分享技术文章。从他们的分享里面，可以看到他们有在做自己的 side projects，也有在开源项目提交代码。看着他们的 github 主页每天都有提交代码，再看看我的 github 主页很久没有提交过代码，顿感惭愧。目前，公司使用的是自建的 gitlab 仓库托管代码，很多代码不方便公开分享，自己夜很少花时间写一些小项目公开分享到 github。干脆就清理一些 github 长期没有维护的仓库，取关了一些好友，更新了 github 主页，最后看了一下粉丝还有 574 人，相对而言也是少的可怜🥺。</p>
 <h2 id="开始写周报">开始写周报</h2>

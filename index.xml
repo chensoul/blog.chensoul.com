@@ -1,4 +1,112 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ChenSoul</title><link>https://blog.chensoul.com/</link><description>Recent content on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Tue, 21 Feb 2023 00:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml"/><item><title>周报-7｜练车、博客优化、注册ChatGPT账号</title><link>https://blog.chensoul.com/posts/2023/02/21/weekly_review_7/</link><pubDate>Tue, 21 Feb 2023 00:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/02/21/weekly_review_7/</guid><description>前言 本篇是对 2023-02-13 到 2023-02-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 练车 这周末开始练车，周六是第一次开自己的车，简单</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ChenSoul</title><link>https://blog.chensoul.com/</link><description>Recent content on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Mon, 27 Feb 2023 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml"/><item><title>周报-8｜内存泄漏、公司裁员、练车</title><link>https://blog.chensoul.com/posts/2023/02/27/weekly_review_8/</link><pubDate>Mon, 27 Feb 2023 08:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/02/27/weekly_review_8/</guid><description>前言 本篇是对 2023-02-20 到 2023-02-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这篇周报又是在地铁上完成编写的。回顾这一周的工作</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-02-20</code> 到 <code>2023-02-26</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这篇周报又是在地铁上完成编写的。回顾这一周的工作，还是项目测试、修复 bug 和准备上线发布。平静的工作节奏因为突如其来的裁员消息而变得内卷起来，大家下班的时间都纷纷往后移到了20 点左右。周末的时候，还是练车，从汉口开车到新洲。刚开始有点不敢，后来还是鼓起勇气，平安的到达。</p>
+<h2 id="工作">工作</h2>
+<h3 id="内存泄漏">内存泄漏</h3>
+<p>这周线上环境，出现了告警，提示 jvm 出现了 full gc。于是赶紧 dump 内存进行分析查找原因。顺便整理了内存相关的知识。</p>
+<p><strong>什么是内存泄漏？</strong></p>
+<p>这个问题直接问 chatgpt：</p>
+<p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-01.png" alt="weekly-review-01"></p>
+<p>在 Java 中，内存泄漏指的是应用程序使用的内存中的一些对象，由于某些原因无法被垃圾回收器正确回收，从而导致内存使用率持续增加，直到达到了最大的可用内存，导致应用程序出现内存溢出的情况。</p>
+<p>内存泄漏通常是由于程序设计或编码错误导致的，比如：</p>
+<ul>
+<li>
+<p>对象被错误地缓存：如果将对象缓存到一个集合中并不正确地从集合中删除它们，这些对象就不会被垃圾回收器正确回收，从而导致内存泄漏。</p>
+</li>
+<li>
+<p>静态变量未被正确地清除：静态变量的生命周期通常是和应用程序的生命周期相同的，如果没有正确地清除静态变量，它们就会一直存在于内存中，导致内存泄漏。</p>
+</li>
+<li>
+<p>不正确的对象引用：如果对象之间的引用关系不正确，或者没有正确地释放对象的引用，就会导致内存泄漏。</p>
+</li>
+<li>
+<p>大量的对象创建：如果在应用程序的生命周期内创建了大量的对象，而这些对象没有正确地被垃圾回收器回收，就会导致内存泄漏。</p>
+</li>
+<li>
+<p>内存泄漏会导致应用程序的性能下降，甚至可能导致应用程序崩溃。因此，在开发 Java 应用程序时，应该避免内存泄漏的发生，可以使用工具和技术来监控和排查内存泄漏问题，从而提高应用程序的可靠性和性能。</p>
+</li>
+</ul>
+<p><strong>如何排查内存泄漏？</strong></p>
+<ul>
+<li>
+<p>内存分析工具：内存分析工具可以帮助您找到哪些对象占用了大量的内存。一些常用的内存分析工具包括：Eclipse MAT、VisualVM 和 YourKit。这些工具可以帮助您分析内存快照、查找内存泄漏并确定导致内存泄漏的代码位置。</p>
+</li>
+<li>
+<p>堆转储文件：堆转储文件是一个包含了 JVM 堆中所有对象的快照。您可以使用以下命令生成一个堆转储文件：jmap -dump:format=b,file=heap.bin <PID>，其中<PID>是您的 Java 应用程序的进程 ID。然后，您可以使用内存分析工具来分析该文件。</p>
+</li>
+<li>
+<p>代码审查：在编写代码时，您可以使用一些技巧来避免内存泄漏。例如，您应该确保正确地关闭流和数据库连接，避免在循环中创建对象，以及使用软引用或弱引用来存储缓存数据等。通过仔细审查代码并识别可能导致内存泄漏的部分，可以避免这些问题在运行时发生。</p>
+</li>
+<li>
+<p>监视工具：JVM 提供了一些监视工具，例如 jstat 和 jconsole，可以用于监视 JVM 的内存使用情况。通过监视这些指标，您可以识别是否存在内存泄漏的迹象。</p>
+</li>
+<li>
+<p>代码注入：在您的应用程序中，您可以注入一些代码，例如使用 JMX、AOP 等，以便您可以实时监视内存使用情况，并记录任何内存泄漏迹象。</p>
+</li>
+</ul>
+<p>参考文章</p>
+<ul>
+<li>
+<p><a href="https://www.cnblogs.com/rude3knife/p/13570423.html">一次完整的JVM堆外内存泄漏故障排查记录</a></p>
+</li>
+<li>
+<p><a href="https://droidyue.com/blog/2015/11/28/article-java-8-lambdas-a-peek-under-the-hood">深入探索Java 8 Lambda表达式</a></p>
+</li>
+<li>
+<p><a href="https://blog.csdn.net/weixin_34722015/article/details/114815917">java lambda表达式内存泄露_浅谈Java内存泄露</a></p>
+</li>
+</ul>
+<h3 id="裁员">裁员</h3>
+<p>去年公司就在裁员，陆陆续续裁了几次，每次都是裁两三个，动作都不大，但是很高效。因为部门人数就在五十左右，所以谁没来上班，都能很快察觉。</p>
+<p>公司要在六月份上市，上市之前要使财报好看，就要开源节流、降本增效。节约成本的一个方式就是裁员，据说这次裁员动作比以前都大都迅速，今天提出裁员人数，明天就要给出名单，月底就要走人。</p>
+<p>现在还只是二月份，离六月还有三个月。谁也不知道，后面还会有什么更大的裁员动作。说不定哪天就空出一个工位，说不定哪天领导就换了人，说不定哪天部门就被拆散了。</p>
+<p>互联网公司最大的变化就是变化。之前在阿里工作，公司的价值观里有一条就是拥抱变化。</p>
+<p>拥抱变化的最好方式就是积极面对，主动加班，提高工作效率，增加工作产出。</p>
+<h2 id="生活">生活</h2>
+<h3 id="练车">练车</h3>
+<p>这是买车之后的第二周，还是没有开车去上班。一是因为开车不过熟练，胆子小，不敢开得太快；二是公司楼下的停车位还没有办好。</p>
+<p>周六本想叫朋友过来给我当陪练，后来因为要回新洲，就算了，还是自己开车，带着老婆回新洲。</p>
+<p>老婆科目一考过了，后面因为工作原因就没去练车和考试。她坐副驾驶，一边剥豆子一边提醒我注意交通规则。</p>
+<p>在老婆的坐镇之下，顺利的从汉口开车六十公里到达新洲，路上没有违反交通规则。</p>
+<p>周六下午去看了一下潘塘花朝节，有点失望，没有想象中的热闹。可能因为这不是正宗的花朝节，正宗的应该是在旧街。</p>
+<p>逛了一圈，买了两百菜刀、一个砧板、两颗果树、一盆墨兰花。</p>
+<p>周六从新洲开回阳逻，周日又从阳逻开回老家去看父亲。买车后第一次回家，放了鞭炮🧨。</p>
+<p>中午包饺子，吃完饭就去菜园收割青菜。农村对于城市里上班族来说，一大好处是，每次回家，都可以装满青菜带回城市。</p>
+<p>下午，从老家驱车回阳逻再到汉口。在开车的过程中，发现和总结了一些问题。</p>
+<p>之前开车，总是盯着仪表盘，看车速达到了多少。车速一到 70 多就下意识地松油门和踩刹车。现在开始把眼睛注意力放到前方，不去可以在意车速，只是当导航提示我超速的时候，我白降低一点速度。</p>
+<p>在红绿灯之前，如果不转弯，不要提前换道或者超车，保持中间道路行驶即可。</p>
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li>
+<p><a href="https://blog.baoshuo.ren/post/actions-ssl-cert/">使用 GitHub Actions 自动申请与部署 SSL 证书</a></p>
+</li>
+<li>
+<p><a href="https://phind.com/">The AI search engine for developers</a></p>
+</li>
+<li>
+<p><a href="https://magickpen.com/">用 AI 写文章</a></p>
+</li>
+<li>
+<p><a href="https://blog.csdn.net/weixin_34722015/article/details/114815917">java lambda表达式内存泄露_浅谈Java内存泄露</a></p>
+</li>
+<li>
+<p><a href="https://kenengba.com/post/3769.html">在家躺着拿工资，是挺过意不去的</a></p>
+</li>
+<li>
+<p><a href="https://blog.mikeoperfect.com/posts/11517/">车辆违章和交通事故处理流程</a></p>
+</li>
+<li>
+<p><a href="https://blog.alswl.com/2020/03/before-code-review/">浅谈 Code Review 之事前准备</a></p>
+</li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<h4 id="1raycasthttpswwwraycastcom">1、<a href="https://www.raycast.com/">Raycast</a></h4>
+<p>Raycast是一款想要取代 Spotlight 的快捷启动器，通过 Mac 上面的一些组合键来为让你完成在 Mac 上面的快捷启动，提高你日常当中在 Mac 上面的操作效率，如果以 macOS 系统版本风格来比喻的话，Alfred 的 UI 风格应该能匹配几年前的 macOS 吧，而 Raycast 却是能够驾驭 macOS Big Sur 全新的视觉风格。</p>
+<p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-02.png" alt="weekly-review-02"></p>
+<p>以上。</p>
+]]></content:encoded></item><item><title>周报-7｜练车、博客优化、注册ChatGPT账号</title><link>https://blog.chensoul.com/posts/2023/02/21/weekly_review_7/</link><pubDate>Tue, 21 Feb 2023 00:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/02/21/weekly_review_7/</guid><description>前言 本篇是对 2023-02-13 到 2023-02-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 练车 这周末开始练车，周六是第一次开自己的车，简单</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-02-13</code> 到 <code>2023-02-19</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <h2 id="练车">练车</h2>
 <p>这周末开始练车，周六是第一次开自己的车，简单试驾了一样；周日则开了一百多公里，具体行程是从阳逻到新洲，从新洲单汉口，从汉口到光谷，从光谷回汉口。</p>
@@ -150,7 +258,8 @@
 <h4 id="3沉浸式双语网页翻译扩展--immersive-translatehttpsimmersive-translateowenyoungcom">3、<a href="https://immersive-translate.owenyoung.com/">沉浸式双语网页翻译扩展 – immersive-translate</a></h4>
 <p>强烈推荐这个网页翻译插件，和其他插件翻译整个页面相比，这个插件的优势是可以同时显示双语，中英文对照非常棒，是一个 <a href="https://github.com/immersive-translate/immersive-translate">开源</a> 的项目，完全免费使用。也支持 PDF，配合任何 <a href="https://epub-reader.online/">epub 在线阅读网站</a>对照翻译阅读书也非常方便。也支持了Deepl，腾讯翻译等等的翻译服务。开发者 <a href="https://twitter.com/OwenYoungZh">@OwenYoungZh</a></p>
 <h4 id="4input-source-prohttpsinputsourceprozh-cn">4、<a href="https://inputsource.pro/zh-CN">Input Source Pro</a></h4>
-<p>Input Source Pro 可以根据应用或是网站自动切换输入法，并且在切换窗口的时候还会贴心的提示当前的输入法是什么，比如设置 VSCode、iTerm、Xcode 默认为英文输入法，而笔记软件和企业微信默认为中文输入法，切换软件时再也不需要按 shift 键了！（这款软件安利给同事们之后纷纷点赞，简直程序员刚需）</p>
+<p>Input Source Pro 可以根据应用或是网站自动切换输入法，并且在切换窗口的时候还会贴心的提示当前的输入法是什么，比如设置 VSCode、iTerm、Xcode 默认为英文输入法，而笔记软件和企业微信默认为中文输入法，切换软件时再也不需要按 shift 键了！</p>
+<p>以上。</p>
 ]]></content:encoded></item><item><title>周报-6｜买车和选号、粉色理论</title><link>https://blog.chensoul.com/posts/2023/02/13/weekly_review_6/</link><pubDate>Mon, 13 Feb 2023 00:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/02/13/weekly_review_6/</guid><description>前言 本篇是对 2023-02-06 到 2023-02-12 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这篇周报又是在坐地铁的时候完成编写的，一边坐地铁</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-02-06</code> 到 <code>2023-02-12</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这篇周报又是在坐地铁的时候完成编写的，一边坐地铁，一边回顾上一周发生的事情，一边复盘和总结。坐地铁大概有一个半小时，从家到公司的一段通勤路程。现在还没有买车，所以都是坐地铁上下班。</p>
@@ -184,8 +293,15 @@
 </ul>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/fenhonglilun.jpeg" alt="fenhonglilun"></p>
 <h2 id="分享">分享</h2>
+<ul>
+<li>
 <p><a href="https://pdai.tech/md/spring/springboot/springboot-x-task-hashwheeltimer-timer.html">HashedWheelTimer</a>：是来自于 Netty 的工具类，在 netty-common 包中。它用于实现延时任务。</p>
+</li>
+<li>
 <p><a href="https://github.com/killbill/killbill-commons">Killbill common queue</a>： 一个基于DB实现的分布式的队列，它上层还包装了EventBus事件总线机制。</p>
+</li>
+</ul>
+<p>以上。</p>
 ]]></content:encoded></item><item><title>周报-5｜项目事故、牙疼、Damus</title><link>https://blog.chensoul.com/posts/2023/02/07/weekly_review_5/</link><pubDate>Tue, 07 Feb 2023 00:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/02/07/weekly_review_5/</guid><description>前言 本篇是对 2023-01-30 到 2023-02-05 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周是过年后的第一个工作周，被国家安排了连上七天</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-30</code> 到 <code>2023-02-05</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这周是过年后的第一个工作周，被国家安排了连上七天班，算是体会了一次“过年七天乐，上班七天累”的过山车。七天的工作主要是测试并发布项目，每天忙的焦头乱额，生怕项目出了问题。有句话说，怕什么来什么。没想到周六还是报出了一个故障，还在睡觉中的我被一个电话吵醒，接着忙着找问题和解决方法，一天的时间就都花在这上面。万幸的是事故影响不大，发布了一个小版本进行修复。事故原因，还是值得警惕。</p>
@@ -241,6 +357,7 @@
 <ul>
 <li><strong><a href="https://ssnhd.com/2022/01/01/mac-inputdel/">Mac 删除原生英文 ABC</a></strong></li>
 </ul>
+<p>以上。</p>
 ]]></content:encoded></item><item><title>周报-4｜过年、向上管理、工作周总结</title><link>https://blog.chensoul.com/posts/2023/01/30/weekly_review_4/</link><pubDate>Mon, 30 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/30/weekly_review_4/</guid><description>前言 本篇是对 2023-01-23 到 2023-01-29 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 过年 这周处于过年吃喝拜年模式，除了腊月二十九和正</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-23</code> 到 <code>2023-01-29</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <h2 id="过年">过年</h2>
@@ -331,11 +448,13 @@
 <li><a href="https://cubox.pro/">Cubox</a>。最近看到这个收藏工具，下载了使用起来。</li>
 </ul>
 <img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/cubox-screen.png" alt="cubox-screen" style="width: 60%"/>
+<p>以上。</p>
 ]]></content:encoded></item><item><title>我的VPS服务部署记录</title><link>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</link><pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid><description>Docker 安装和配置 Docker 安装 具体过程可以参考网上文章。 自定义网络 参考 Best Practice: Use a Docker network ，创建一个自定义的网络： docker network create custom 查看 docker 网络： [root@vps ~]# docker network ls NETWORK ID NAME DRIVER SCOPE 68f4aeaa57bd bridge bridge</description><content:encoded><![CDATA[<h2 id="docker-安装和配置">Docker 安装和配置</h2>
 <h3 id="docker-安装">Docker 安装</h3>
 <p>具体过程可以参考网上文章。</p>
 <h3 id="自定义网络">自定义网络</h3>
-<p>参考 <a href="https://nginxproxymanager.com/advanced-config/#best-practice-use-a-docker-network">Best Practice: Use a Docker network </a> ，创建一个自定义的网络：</p>
+<p>参考 <a href="https://nginxproxymanager.com/advanced-config/#best-practice-use-a-docker-network">Best Practice: Use a Docker network </a>
+，创建一个自定义的网络：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker network create custom
 </span></span></code></pre></div><p>查看 docker 网络：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@vps ~<span class="o">]</span><span class="c1"># docker network ls</span>
@@ -438,7 +557,8 @@
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h3 id="postgresql">Postgresql</h3>
-<p>1、参考 <a href="/posts/2022/08/19/postgresql-install-deploy/">PostgreSql安装和部署</a> ，通过 docker-compose 安装，创建 postgresql.yaml：</p>
+<p>1、参考 <a href="/posts/2022/08/19/postgresql-install-deploy/">PostgreSql安装和部署</a> ，通过 docker-compose 安装，创建
+postgresql.yaml：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
@@ -462,7 +582,8 @@
 </span></span></span></code></pre></div><p>2、启动</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f postgresql.yaml up 
 </span></span></code></pre></div><h3 id="umami">Umami</h3>
-<p>参考 <a href="https://github.com/umami-software/umami/blob/master/docker-compose.yml">umami docker-compose.yml</a> ，使用 docker 镜像 umami:postgresql-latest 来安装 umami。</p>
+<p>参考 <a href="https://github.com/umami-software/umami/blob/master/docker-compose.yml">umami docker-compose.yml</a> ，使用 docker 镜像
+umami:postgresql-latest 来安装 umami。</p>
 <p>1、在 pqsql 容器创建 umami 数据库和用户：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE USER umami WITH PASSWORD &#39;umami@pg&#39;;&#34;</span>
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE DATABASE umami owner=umami;&#34;</span>
@@ -551,7 +672,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">custom</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">    
-</span></span></span></code></pre></div><p>以下配置为 EMAIL 配置可选，下面是使用 <a href="https://cusdis.com/doc#/features/notification?id=gmail">Gmail</a> 进行配置，需要首先开启两阶段验证并创建一个应用密码：</p>
+</span></span></span></code></pre></div><p>以下配置为 EMAIL 配置可选，下面是使用 <a href="https://cusdis.com/doc#/features/notification?id=gmail">Gmail</a>
+进行配置，需要首先开启两阶段验证并创建一个应用密码：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">SMTP_HOST</span><span class="o">=</span><span class="s">smtp.gmail.com</span>
 </span></span><span class="line"><span class="cl"><span class="na">SMTP_PORT</span><span class="o">=</span><span class="s">465</span>
 </span></span><span class="line"><span class="cl"><span class="na">SMTP_SECURE</span><span class="o">=</span><span class="s">true</span>
@@ -595,7 +717,49 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    	<span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="memos">memos</h3>
+</span></span></code></pre></div><h3 id="artalk">Artalk</h3>
+<p>通过 docker-compose 安装，创建 artalk.yaml：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.5&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">artalk</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">artalk</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">artalk/artalk-go</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">23366</span><span class="p">:</span><span class="m">23366</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">~/.artalk:/data</span><span class="w">
+</span></span></span></code></pre></div><p>启动</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f artalk.yaml up -d
+</span></span></code></pre></div><p>配置 nginx</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="s">[::]:80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span> <span class="s">artalk.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span>          <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span>     <span class="s">artalk.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate</span>      <span class="s">/usr/local/nginx/ssl/fullchain.cer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate_key</span>  <span class="s">/usr/local/nginx/ssl/chensoul.com.key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_cache</span>    <span class="s">shared:SSL:1m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_timeout</span>  <span class="mi">5m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_ciphers</span>  <span class="s">HIGH:!aNULL:!MD5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_prefer_server_ciphers</span>  <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:23366</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在SSH客户端中输入下面的命令，设置输入信息设置管理员账号</p>
+<pre tabindex="0"><code class="language-build" data-lang="build">docker exec -it artalk artalk admin
+</code></pre><h3 id="memos">memos</h3>
 <p>通过 docker-compose 安装，创建 memos.yaml：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.0&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
@@ -723,6 +887,7 @@
 </ul>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-docker-service.png" alt="vps-docker-service"></p>
 <p>通过 Docker 部署这些服务非常简单，主要是需要注意的一点是：将这些服务部署到同一个网路，这样各个服务之间可以互相通信。比如：很多服务都需要依赖数据库 postgresql，可以使用 docker-compose 来编排服务。安装部署过程参考：<a href="/posts/2023/01/25/notes-about-deploy-services-in-vps/">我的VPS服务部署记录</a></p>
+<p>以上。</p>
 ]]></content:encoded></item><item><title>周报-2｜博客重构</title><link>https://blog.chensoul.com/posts/2023/01/15/weekly_review_2/</link><pubDate>Sun, 15 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/15/weekly_review_2/</guid><description>前言 本篇是对 2023-01-09 到 2023-01-15 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是年前倒数第二个工作周，工作上主要是完成项目一</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-09</code> 到 <code>2023-01-15</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔记和个人的生活记录与思考，所以不会涉及具体的工作内容。</p>
@@ -766,6 +931,7 @@
 </ul>
 <p>以下是使用 kuma 监控我的 VPS 上的服务。</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/chensoul-uptime.png" alt="chensoul-uptime"></p>
+<p>以上。</p>
 ]]></content:encoded></item><item><title>周报-1｜开始写周报、冥想</title><link>https://blog.chensoul.com/posts/2023/01/08/weekly_review_1/</link><pubDate>Sun, 08 Jan 2023 09:47:03 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/08/weekly_review_1/</guid><description>前言 本篇是对 2023-01-02 到 2023-01-08 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是 2023 年的第一周，元旦放了三天假之后，就用投入了</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-02</code> 到 <code>2023-01-08</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这是 2023 年的第一周，元旦放了三天假之后，就用投入了工作之中。元旦已过，过年就没多远了，很多公司也开始准备年会了。因为疫情，这个年注定不好过。现在疫情放开，不知道有多少公司能够熬过这个年，进入百废待兴的节奏。</p>
@@ -832,7 +998,7 @@
 <p>Snipaste 截图</p>
 </li>
 </ul>
-<p>EOF</p>
+<p>以上。</p>
 ]]></content:encoded></item><item><title>Greenplum CC Web安装和部署</title><link>https://blog.chensoul.com/posts/2022/08/19/greenplum-cc-web-install-deploy/</link><pubDate>Fri, 19 Aug 2022 17:16:56 +0800</pubDate><guid>https://blog.chensoul.com/posts/2022/08/19/greenplum-cc-web-install-deploy/</guid><description>安装 1、下载安装文件 从 https://network.pivotal.io/products/pivotal-gpdb 下载，当前最新版本为 6.3.0。 2、解压安装文件 unzip greenplum-cc-web-6.3.0-gp6-rhel7-x86_64.zip 3、进入安装目录 cd greenplum-cc-web-6.3.0-gp6-rhel7-x86_64 4、创建配置文件 install.conf，用</description><content:encoded><![CDATA[<h2 id="安装">安装</h2>
 <p>1、下载安装文件</p>
 <p>从 <a href="https://network.pivotal.io/products/pivotal-gpdb">https://network.pivotal.io/products/pivotal-gpdb</a> 下载，当前最新版本为 6.3.0。</p>

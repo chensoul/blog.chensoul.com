@@ -30,10 +30,6 @@ table tr th, table tr td {
     border: 1px solid #E60000;
 }
 
-a, a:visited {
-    color: #E60000;
-}
-
 h2:after {
     width: 60px;
 }
@@ -80,30 +76,26 @@ pre code {
 }
 
 /* 回到顶部 */
-.scroll-top {
-    cursor: pointer;
+.top-link {
+    visibility: hidden;
     position: fixed;
-    box-sizing: border-box;
-    right: 2em;
-    bottom: 45px;
-    width: 40px;
-    height: 40px;
-    padding: 5px;
-    background-color: rgba(255, 0, 0, 0.624);
-    border-radius: 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 3px 0 rgb(0 0 0 / 12%), 0 3px 3px 0 rgb(0 0 0 / 24%);
-
-    opacity: 1;
-    transform: translate(0, 0);
+    bottom: 60px;
+    right: 30px;
+    z-index: 99;
+    background: rgb(214, 214, 214);
+    width: 42px;
+    height: 42px;
+    padding: 6px 9px;
+    border-radius: 64px;
+    transition: visibility .5s,opacity .8s linear
 }
 
-.scroll-top .arrow-icon {
-    background-image: url(/images/top.png);
-    width: 30px;
-    height: 30px;
-    display: block;
-    background-size: contain;
+.top-link,.top-link svg {
+    filter: drop-shadow(0 0 0 rgb(255, 255, 255))
+}
+
+.top-link:focus,#theme-toggle:focus {
+    outline: 0
 }
 
 /*友链页面*/

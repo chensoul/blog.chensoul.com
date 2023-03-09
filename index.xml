@@ -581,7 +581,19 @@
 </ul>
 <img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/cubox-screen.png" alt="cubox-screen" style="width: 60%"/>
 <p>以上。</p>
-]]></content:encoded></item><item><title>我的VPS服务部署记录</title><link>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</link><pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid><description>Docker 安装和配置 Docker 安装 具体过程可以参考网上文章。 自定义网络 参考 Best Practice: Use a Docker network ，创建一个自定义的网络： docker network create custom 查看 docker 网络： [root@vps ~]# docker network ls NETWORK ID NAME DRIVER SCOPE 68f4aeaa57bd bridge bridge</description><content:encoded><![CDATA[<h2 id="docker-安装和配置">Docker 安装和配置</h2>
+]]></content:encoded></item><item><title>我的VPS服务部署记录</title><link>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</link><pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid><description>服务器设置 [可选] 设置系统 Swap 交换分区 因为 vps 服务器的运行内存很小，所以这里先设置下 Swap # 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap</description><content:encoded><![CDATA[<h2 id="服务器设置">服务器设置</h2>
+<p><strong>[可选] 设置系统 Swap 交换分区</strong></p>
+<p>因为 vps 服务器的运行内存很小，所以这里先设置下 Swap</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1GB RAM with 2GB Swap</span>
+</span></span><span class="line"><span class="cl">sudo fallocate -l 2G /swapfile <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/swapfile <span class="nv">bs</span><span class="o">=</span><span class="m">1024</span> <span class="nv">count</span><span class="o">=</span><span class="m">2097152</span> <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo chmod <span class="m">600</span> /swapfile <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo mkswap /swapfile <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo swapon /swapfile <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="nb">echo</span> <span class="s2">&#34;/swapfile swap swap defaults 0 0&#34;</span> <span class="p">|</span> sudo tee -a /etc/fstab <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo swapon --show <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo free -h
+</span></span></code></pre></div><h2 id="docker-安装和配置">Docker 安装和配置</h2>
 <h3 id="docker-安装">Docker 安装</h3>
 <p>具体过程可以参考网上文章。</p>
 <h3 id="自定义网络">自定义网络</h3>
@@ -790,6 +802,9 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></code></pre></div><p>5、添加网站</p>
 <p>访问 <a href="https://umami.chensoul.com/">https://umami.chensoul.com/</a>，默认用户名和密码为 admin/umami。登陆之后，修改密码，并添加网站。</p>
 <h3 id="cusdis">Cusdis</h3>
+<blockquote>
+<p>VPS IP 可能被墙，所以可以使用三方云服务部署，具体参考<a href="https://www.pseudoyu.com/zh/2022/05/24/free_and_lightweight_blog_comment_system_using_cusdis_and_railway/">轻量级开源免费博客评论系统解决方案 （Cusdis + Railway）</a></p>
+</blockquote>
 <p>1、在 pqsql 容器创建 cusdis 数据库和用户：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE USER cusdis WITH PASSWORD &#39;cusdis@pg&#39;;&#34;</span>
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE DATABASE cusdis owner=cusdis;&#34;</span>
@@ -3219,138 +3234,174 @@ kernel.shmmax (共享内存段的最大值)
 </ul>
 </li>
 </ul>
-<h2 id="xcode">XCode</h2>
+<h2 id="安装xcode">安装XCode</h2>
 <p>从 App store 或苹果开发者网站安装 <a href="https://developer.apple.com/xcode/">Xcode</a> ，然后安装 Xcode command line tools：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xcode-select --install
 </span></span></code></pre></div><p>安装完成后，你将可以直接在 terminal 中使用主要的命令，比如：<code>make, GCC, clang, perl, svn, git, size, strip, strings, libtool, cpp</code>等等。</p>
 <p>如果你想了解 Xcode command line tools 包含多少可用的命令，可以通过下面命令查看：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ls /Library/Developer/CommandLineTools/usr/bin/
-</span></span></code></pre></div><h2 id="homebrew">Homebrew</h2>
+</span></span></code></pre></div><h2 id="安装homebrew">安装Homebrew</h2>
 <p><a href="http://brew.sh/">Brew</a> 是 Mac 下面的包管理工具，通过 Github 托管适合 Mac 的编译配置以及 Patch，可以方便的安装开发工具。</p>
-<p>Linux也支持Homebrew了，请参考 <a href="https://docs.brew.sh/Homebrew-on-Linux">https://docs.brew.sh/Homebrew-on-Linux</a>。</p>
-<h3 id="安装">安装</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/usr/bin/ruby -e <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install<span class="k">)</span><span class="s2">&#34;</span>
-</span></span></code></pre></div><p>替换brew.git</p>
+<p>打开终端模拟器，开始安装</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/bin/bash -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><h5 id="替换-brewgit-源">替换 brew.git 源</h5>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git -C <span class="s2">&#34;</span><span class="k">$(</span>brew --repo<span class="k">)</span><span class="s2">&#34;</span> remote set-url origin https://mirrors.cloud.tencent.com/homebrew/brew.git 
 </span></span><span class="line"><span class="cl">git -C <span class="s2">&#34;</span><span class="k">$(</span>brew --repo homebrew/core<span class="k">)</span><span class="s2">&#34;</span> remote set-url origin https://mirrors.cloud.tencent.com//homebrew/homebrew-core.git brew update
 </span></span></code></pre></div><p>设置环境变量：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;PATH=&#34;/usr/local/bin:$PATH&#34;&#39;</span> &gt;&gt; ~/.bash_profile
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;eval &#34;$(/opt/homebrew/bin/brew shellenv)&#34;&#39;</span> &gt;&gt; ~/.bash_profile
 </span></span></code></pre></div><p>如果安装了zsh，则是：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;PATH=&#34;/usr/local/bin:$PATH&#34;&#39;</span> &gt;&gt; ~/.zshrc
-</span></span></code></pre></div><h3 id="cask">Cask</h3>
-<p><a href="https://github.com/phinze/homebrew-cask">Brew cask</a> 是类似 Brew 的管理工具， 直接提供 dmg 级别的二进制包，（Brew 是不带源码，只有对应项目所在的 URL）。我们可以通过 Homebrew Cask 优雅、简单、快速的安装和管理 OS X 图形界面程序，比如 Google Chrome 和 Dropbox。</p>
-<p>Brew cask 安装：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew tap phinze/homebrew-cask
-</span></span></code></pre></div><p>可以通过 Brew cask 安装的软件有：</p>
-<ul>
-<li>QQ</li>
-<li>qqmusic</li>
-<li>google-chrome</li>
-<li>virtualbox</li>
-<li>vagrant</li>
-<li>iterm2</li>
-<li>the-unarchiver</li>
-<li>switchhosts</li>
-<li>aerial</li>
-<li>fliqlo</li>
-</ul>
-<h2 id="iterm2">iTerm2</h2>
-<p>安装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;eval &#34;$(/opt/homebrew/bin/brew shellenv)&#34;&#39;</span> &gt;&gt; ~/.zshrc
+</span></span></code></pre></div><h2 id="安装软件包">安装软件包</h2>
+<h3 id="基本软件包">基本软件包</h3>
+<p>这些是基本软件包，建议安装</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install zsh <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   wget <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   curl <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   git <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   openssh <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   gnupg <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   cmake <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   vim <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   tree <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   nvm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   aria2 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   ffmpeg <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   htop <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   neofetch <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   go
+</span></span></code></pre></div><h3 id="常用软件">常用软件</h3>
+<p>常用软件，可以选择安装</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install --cask clash-for-windows <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    iterm2 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    telegram-desktop <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    typora <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    google-chrome <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    visual-studio-code <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    coteeditor <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    golang <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    mos <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    pycharm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    obsidian <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    notion <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    lark <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    keka <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    shottr
+</span></span></code></pre></div><h2 id="打造个性化终端">打造个性化终端</h2>
+<h3 id="iterm2">iTerm2</h3>
+<p>iTerm2 是 macOS 系统终端的开源替代品，它是高度可定制化的，并且功能十分强大，应该是 macOS 最好用的终端模拟器之一。</p>
+<h4 id="安装">安装</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install --cask iterm2
 </span></span></code></pre></div><p>设置：</p>
 <ul>
 <li>Preferences &ndash;&gt; Profiles&ndash;&gt; Default &ndash;&gt; Terminal：设置 cursor 颜色为黄色</li>
 <li>Preferences &ndash;&gt; Profiles &ndash;&gt; Window &ndash;&gt; Transparency：设置透明度 10%~20% 即可，太高会和桌面背景冲突。如果需要临时禁用透明度可以使用快捷键 ⌘+u。</li>
 </ul>
+<h4 id="字体">字体</h4>
+<p>在 iTerm2 中，终端的字体可以对正常字体和非 ASCII 字体进行单独的设置，<a href="https://github.com/ryanoasis/nerd-fonts">Nerd-Fonts</a> 是一个使用大量字形（图标）修补开发人员目标字体的项目</p>
+<p>分别安装  <a href="https://github.com/ryanoasis/nerd-fonts">font-fantasque-sans-mono-nerd-font</a> + <a href="https://github.com/lxgw/LxgwWenKai">霞鹜文楷</a>  这两种字体</p>
+<pre tabindex="0"><code># brew 添加字体库
+brew tap homebrew/cask-fonts
+# 搜索可用 Nerd Font 字体
+brew search nerd-font
+# 以 font-fantasque-sans-mono-nerd-font 为例（我比较喜欢这个字体🥰）
+# 安装喜欢的 nerd-font 字体
+brew install font-fantasque-sans-mono-nerd-font
+# 安装「霞鹜文楷」字体
+brew install font-lxgw-wenkai
+</code></pre><p>重新启动 iTerm2，按 <code>⌘</code> + <code>,</code> 打开 iTerm2 的偏好设置，修改字体</p>
+<h4 id="安装主题"><strong>安装主题</strong></h4>
+<p><a href="https://draculatheme.com/iterm">Dracula</a> 主题很好看，下面给 iTerm2 装上</p>
+<pre tabindex="0"><code>git clone https://github.com/dracula/iterm.git
+</code></pre><p>点击 <code>import</code> 导入 <code>Dracula.itermcolors</code> 文件，然后选择 <code>Dracula</code> 主题即可</p>
 <h3 id="zsh">Zsh</h3>
-<p>安装：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install zsh
-</span></span></code></pre></div><p><strong>安装Oh My Zsh：</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
-</span></span></code></pre></div><p>设置zsh为默认：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo sh -c <span class="s2">&#34;echo </span><span class="k">$(</span>which zsh<span class="k">)</span><span class="s2"> &gt;&gt; /etc/shells&#34;</span>  
+<p>macOS 现在默认 Shell 是 Zsh 了（以前是 Bash），下面我们可以一边验证一边修改</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># macOS 预设的 Shell</span>
+</span></span><span class="line"><span class="cl">cat /etc/shells
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># List of acceptable shells for chpass(1).</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Ftpd will not allow users to connect who are not using</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># one of these shells.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/bin/bash
+</span></span><span class="line"><span class="cl">/bin/csh
+</span></span><span class="line"><span class="cl">/bin/dash
+</span></span><span class="line"><span class="cl">/bin/ksh
+</span></span><span class="line"><span class="cl">/bin/sh
+</span></span><span class="line"><span class="cl">/bin/tcsh
+</span></span><span class="line"><span class="cl">/bin/zsh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看当前正在使用的 Shell</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$SHELL</span>
+</span></span><span class="line"><span class="cl">/bin/zsh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看 zsh 版本</span>
+</span></span><span class="line"><span class="cl">zsh --version
+</span></span><span class="line"><span class="cl">zsh 5.9 <span class="o">(</span>arm-apple-darwin21.3.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 将 brew 安装的 zsh 路径添加到 /etc/shells</span>
+</span></span><span class="line"><span class="cl">sudo sh -c <span class="s2">&#34;echo </span><span class="k">$(</span>which zsh<span class="k">)</span><span class="s2"> &gt;&gt; /etc/shells&#34;</span> 
+</span></span><span class="line"><span class="cl"><span class="c1"># 更改当前使用的 Shell</span>
 </span></span><span class="line"><span class="cl">chsh -s <span class="k">$(</span>which zsh<span class="k">)</span>
-</span></span></code></pre></div><p>bash切换到zsh</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chsh -s /bin/zsh
-</span></span></code></pre></div><p>使设置生效：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> ~/.zshrc
-</span></span></code></pre></div><p><strong>安装<a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins">Oh My Zsh 插件</a></strong>，修改 .zshrc ：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>git mvn colorize encode64 urltools wd last-working-dir sublime vagrant Z zsh-syntax-highlighting brew osx<span class="o">)</span>
-</span></span></code></pre></div><p>安装 zsh-syntax-highlighting：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="si">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="si">}</span>/plugins/zsh-syntax-highlighting
-</span></span></code></pre></div><p>安装 zsh-autosuggestions：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/zsh-users/zsh-autosuggestions <span class="nv">$ZSH_CUSTOM</span>/plugins/zsh-autosuggestions
-</span></span></code></pre></div><p>安装git-open</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/paulirish/git-open.git <span class="nv">$ZSH_CUSTOM</span>/plugins/git-open
-</span></span></code></pre></div><p>修改主题，更多主题参考 <a href="https://github.com/robbyrussell/oh-my-zsh/wiki/themes">Oh My Zsh Wiki</a>：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span>pygmalion
-</span></span></code></pre></div><h3 id="tree">tree</h3>
-<p>安装：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install tree
-</span></span></code></pre></div><h3 id="fzf">fzf</h3>
-<p>安装 fzf：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install fzf
-</span></span></code></pre></div><p>fzf用法：</p>
-<ul>
-<li>1、切换到指定目录</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># fd - cd to selected directory</span>
-</span></span><span class="line"><span class="cl">fd<span class="o">()</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nb">local</span> dir
-</span></span><span class="line"><span class="cl">  <span class="nv">dir</span><span class="o">=</span><span class="k">$(</span>find <span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="p">.</span><span class="si">}</span> -path <span class="s1">&#39;*/\.*&#39;</span> -prune <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>                  -o -type d -print 2&gt; /dev/null <span class="p">|</span> fzf +m<span class="k">)</span> <span class="o">&amp;&amp;</span>
-</span></span><span class="line"><span class="cl">  <span class="nb">cd</span> <span class="s2">&#34;</span><span class="nv">$dir</span><span class="s2">&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><ul>
-<li>2、查看历史命令，并且执行选中的命令</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># fh - search in your command history and execute selected command</span>
-</span></span><span class="line"><span class="cl">fh<span class="o">()</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nb">eval</span> <span class="k">$(</span> <span class="o">([</span> -n <span class="s2">&#34;</span><span class="nv">$ZSH_NAME</span><span class="s2">&#34;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">fc</span> -l <span class="m">1</span> <span class="o">||</span> <span class="nb">history</span><span class="k">)</span> <span class="p">|</span> fzf +s --tac <span class="p">|</span> sed <span class="s1">&#39;s/ *[0-9]* *//&#39;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><ul>
-<li>3、查看Chrome历史</li>
-</ul>
-<blockquote>
-<p>提示：查看 <a href="https://junegunn.kr/2015/04/browsing-chrome-history-with-fzf/">blog post</a>。</p>
+</span></span><span class="line"><span class="cl">Changing shell <span class="k">for</span> dejavu.
+</span></span><span class="line"><span class="cl">Password <span class="k">for</span> dejavu: <span class="c1"># 输入密码即可</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 验证当前使用的 Shell</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$SHELL</span>
+</span></span><span class="line"><span class="cl">/opt/homebrew/bin/zsh
+</span></span></code></pre></div><p>如果你的 macOS 系统语言是中文，终端里会使用系统语言作为 <code>locale</code> 设置，我想要终端里的 Shell 显示语言为英语，可以编辑 zsh 配置文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 编辑 zsh 配置用户</span>
+</span></span><span class="line"><span class="cl">vim ~/.zshrc
+</span></span><span class="line"><span class="cl"><span class="c1"># 在开头加入以下配置</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># You may need to manually set your language environment</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
+</span></span></code></pre></div><h3 id="oh-my-zsh">oh-my-zsh</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 通过 cURL 安装</span>
+</span></span><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 或是通过 Wget 安装</span>
+</span></span><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -<span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><p>oh-my-zsh 的默认主题是 <code>robbyrussell</code>，修改为 &ldquo;pygmalion&rdquo;</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 编辑配置文件</span>
+</span></span><span class="line"><span class="cl">vim ~/.zshrc
+</span></span><span class="line"><span class="cl"><span class="c1"># 找到 ZSH_THEME 字段</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">&#34;robbyrussell&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 将 robbyrussell 改为 ys 即可</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">&#34;pygmalion&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 使配置文件生效</span>
+</span></span><span class="line"><span class="cl"><span class="nb">source</span> ~/.zshrc
+</span></span></code></pre></div><p>接下来安装几个 Zshell + oh-my-zsh 的增强插件</p>
+<h4 id="zsh-z">zsh-z</h4>
+<p><a href="https://github.com/agkozak/zsh-z#known-bugs">zsh-z</a> 快速跳转到经常访问的目录，是 <a href="https://github.com/rupa/z">rupa/z</a> 的原生 Zshell 端口，具有附加功能</p>
+<pre tabindex="0"><code># 源码安装
+git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-z
+# 编辑配置文件
+vim ~/.zshrc
+# 找到 plugins 字段，加入 zsh-autosuggestions
+plugins=(git zsh-z)
+# 配置文件生效
+source ~/.zshrc
+</code></pre><h4 id="zsh-autosuggestions">zsh-autosuggestions</h4>
+<p><a href="https://github.com/zsh-users/zsh-autosuggestions">zsh-autosuggestions</a> 可以根据历史记录对输入进行提示和建议</p>
+<pre tabindex="0"><code># 源码安装
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+# 编辑配置文件
+vim ~/.zshrc
+# 找到 plugins 字段，加入 zsh-autosuggestions
+plugins=(git zsh-z zsh-autosuggestions)
+# 配置文件生效
+source ~/.zshrc
+</code></pre><h4 id="zsh-syntax-highlighting">zsh-syntax-highlighting</h4>
+<p><a href="https://github.com/zsh-users/zsh-syntax-highlighting">zsh-syntax-highlighting</a> 可以对 Shell 中的命令进行高亮显示</p>
+<pre tabindex="0"><code>git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+echo &#34;source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh&#34; &gt;&gt; ${ZDOTDIR:-$HOME}/.zshrc
+
+source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+</code></pre><blockquote>
+<p>可以 👉 <a href="https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins">在这里查看</a> 可用的 Zshell 插件</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># ch - browse chrome history</span>
-</span></span><span class="line"><span class="cl">ch<span class="o">()</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nb">local</span> cols sep
-</span></span><span class="line"><span class="cl">  <span class="nv">cols</span><span class="o">=</span><span class="k">$((</span> COLUMNS <span class="o">/</span> <span class="m">3</span> <span class="k">))</span>
-</span></span><span class="line"><span class="cl">  <span class="nv">sep</span><span class="o">=</span><span class="s1">&#39;{::}&#39;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  cp -f ~/Library/Application<span class="se">\ </span>Support/Google/Chrome/Default/History /tmp/h
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  sqlite3 -separator <span class="nv">$sep</span> /tmp/h <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="s2">&#34;select substr(title, 1, </span><span class="nv">$cols</span><span class="s2">), url
-</span></span></span><span class="line"><span class="cl"><span class="s2">     from urls order by last_visit_time desc&#34;</span> <span class="p">|</span>
-</span></span><span class="line"><span class="cl">  awk -F <span class="nv">$sep</span> <span class="s1">&#39;{printf &#34;%-&#39;</span><span class="nv">$cols</span><span class="s1">&#39;s  \x1b[36m%s\x1b[m\n&#34;, $1, $2}&#39;</span> <span class="p">|</span>
-</span></span><span class="line"><span class="cl">  fzf --ansi --multi <span class="p">|</span> sed <span class="s1">&#39;s#.*\(https*://\)#\1#&#39;</span> <span class="p">|</span> xargs open
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>注意：</p>
-<ul>
-<li>请确认Chrome的历史记录的地址是正确的。</li>
-<li>更多说明，参考 <a href="https://stackoverflow.com/a/16742333/1564365">StackOverflow</a>。</li>
-</ul>
-<p>fzf更多用法，参考  <strong><a href="https://github.com/junegunn/fzf#fuzzy-completion-for-bash-and-zsh">official repo</a></strong>。</p>
-<h3 id="ack">ack</h3>
-<p>安装：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install ack
-</span></span></code></pre></div><p>搜索 js 文件：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ack --js pancakes
-</span></span></code></pre></div><p>搜索不包含 brew 的文件：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ack -L brew
-</span></span></code></pre></div><p>排序：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--sort-files
-</span></span></code></pre></div><p>结果高亮显示：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--sort-files
-</span></span></code></pre></div><p>自定义类型：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--type-set<span class="o">=</span><span class="nv">markdown</span><span class="o">=</span>.md,.mkd,.markdown
-</span></span></code></pre></div><p>查看ack配置：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ack --dump
+<p>修改 .zshrc ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>git mvn zsh-z zsh-autosuggestions zsh-syntax-highlighting<span class="o">)</span>
 </span></span></code></pre></div><h2 id="git">Git</h2>
-<h3 id="安装和配置">安装和配置</h3>
 <p>安装：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install git
 </span></span></code></pre></div><p>查看git命令位置：</p>
@@ -3373,98 +3424,10 @@ kernel.shmmax (共享内存段的最大值)
 </span></span></code></pre></div><p>添加SSH 公钥到 GitHub 账户：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pbcopy &lt; ~/.ssh/id_rsa.pub
 </span></span></code></pre></div><p>打开 <a href="https://github.com/settings/ssh/new">https://github.com/settings/ssh/new</a>，然后添加。</p>
-<h2 id="bash-completion">Bash Completion</h2>
-<p>安装：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install bash-completion
-</span></span></code></pre></div><p>查看更多 completion ：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ brew search completion
-</span></span></code></pre></div><p>然后，安装，例如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install docker-completion
-</span></span></code></pre></div><h2 id="vim">Vim</h2>
-<p>安装：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install vim
-</span></span></code></pre></div><h3 id="vimrc">vimrc</h3>
-<p>下载 <a href="https://github.com/amix/vimrc">The Ultimate vimrc</a>：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/amix/vimrc.git ~/.vim_runtime
-</span></span></code></pre></div><p>安装 complete 版本：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh ~/.vim_runtime/install_awesome_vimrc.sh
-</span></span></code></pre></div><p>安装 bash 版本：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh ~/.vim_runtime/install_basic_vimrc.sh
-</span></span></code></pre></div><p>更新 vimrc ：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> ~/.vim_runtime <span class="o">&amp;&amp;</span> git pull --rebase <span class="o">&amp;&amp;</span> <span class="nb">cd</span> -
-</span></span></code></pre></div><h3 id="maximum-awesome">Maximum Awesome</h3>
-<p>安装<a href="https://github.com/square/maximum-awesome">Maximum Awesome</a>：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/square/maximum-awesome.git
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> maximum-awesome
-</span></span><span class="line"><span class="cl">rake
-</span></span></code></pre></div><h2 id="visual-studio-code">Visual Studio Code</h2>
-<p>安装：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install --cask visual-studio-code
-</span></span></code></pre></div><p>从命令行启动vscode：</p>
-<ul>
-<li>启动vscode，输入 <strong>Command Palette</strong> (Cmd+Shift+P)，查找 <strong>Shell Command: Install &lsquo;code&rsquo; command in PATH</strong></li>
-<li>重启 vscode 使环境变量生效</li>
-<li>在命令行输入 <code>code .</code>，在当前目录启动 vscode，也可以这样打开文件 <code>code myfile.txt</code></li>
-</ul>
-<p>安装扩展：</p>
-<ul>
-<li>JavaScript
-<ul>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">ESLint</a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">Prettier</a></li>
-</ul>
-</li>
-<li>SQL
-<ul>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=bradymholt.pgformatter">PostgreSQL formatter</a></li>
-</ul>
-</li>
-<li>Markdown
-<ul>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced">Markdown Preview</a></li>
-</ul>
-</li>
-<li>GitLens
-<ul>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens">GitLens</a></li>
-</ul>
-</li>
-<li>Docker
-<ul>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker">Docker</a></li>
-</ul>
-</li>
-<li>JSON
-<ul>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=quicktype.quicktype">Paste JSON as Code</a></li>
-</ul>
-</li>
-<li>Live Server
-<ul>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer">Live Server</a></li>
-</ul>
-</li>
-<li>VS Code Icons
-<ul>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons">vscode-icons</a></li>
-</ul>
-</li>
-</ul>
-<h2 id="jetbrains-ides">JetBrains IDEs</h2>
-<p>下载地址：https://www.jetbrains.com/products.html?fromMenu#type=ide</p>
-<p>破解插件：https://github.com/osvax/ide-eval-resetter</p>
-<h2 id="vagrant">Vagrant</h2>
-<p>安装：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install --cask virtualbox
-</span></span><span class="line"><span class="cl">brew install --cask vagrant
-</span></span><span class="line"><span class="cl">brew install --cask vagrant-manager
-</span></span></code></pre></div><p>使用：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vagrant box add precise64 https://vagrantcloud.com/hashicorp/boxes/precise64/versions/1.1.0/providers/virtualbox.box
-</span></span><span class="line"><span class="cl">vagrant init precise64
-</span></span><span class="line"><span class="cl">vagrant up
-</span></span><span class="line"><span class="cl">vagrant ssh
-</span></span><span class="line"><span class="cl">vagrant halt
+<p>macOS 的 Finder 会在目录下生成一些隐藏文件（如 <code>.DS_Store</code>），我们可以使用 GitHub 维护的 macOS <code>.gitignore</code> 模板，并让它对当前用户所有的 Git 存储库都生效</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl https://raw.githubusercontent.com/github/gitignore/master/Global/macOS.gitignore -o ~/.gitignore
+</span></span><span class="line"><span class="cl"><span class="c1"># 附加到全局 .gitignore 文件</span>
+</span></span><span class="line"><span class="cl">git config --global core.excludesfile ~/.gitignore
 </span></span></code></pre></div><h2 id="mysql">MySQL</h2>
 <p>安装mysql：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install mysql
@@ -3648,50 +3611,7 @@ kernel.shmmax (共享内存段的最大值)
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pip install ipython
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">pip install <span class="s1">&#39;ipython[zmq,qtconsole,notebook,test]&#39;</span>
-</span></span></code></pre></div><h2 id="heroku">Heroku</h2>
-<p>安装：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install heroku/brew/heroku
-</span></span></code></pre></div><p>配置：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">heroku login
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">mkdir ~/.ssh
-</span></span><span class="line"><span class="cl">ssh-keygen -t rsa
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">heroku keys:add
-</span></span></code></pre></div><p>使用：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">cd</span> myapp/
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Create the app on Heroku</span>
-</span></span><span class="line"><span class="cl">$ heroku create myapp
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Deploy it</span>
-</span></span><span class="line"><span class="cl">$ git push heroku master
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Check its status</span>
-</span></span><span class="line"><span class="cl">$ heroku ps
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Check the logs</span>
-</span></span><span class="line"><span class="cl">$ heroku logs -t
-</span></span></code></pre></div><h2 id="其他应用">其他应用</h2>
-<h3 id="开发工具">开发工具</h3>
-<ul>
-<li><a href="https://www.google.com/intl/en/chrome/browser/">Google Chrome</a></li>
-<li><a href="https://agilebits.com/onepassword">1Password</a>：密码</li>
-<li><a href="http://wakaba.c3.cx/s/apps/unarchiver.html">Unarchiver</a>：解压缩软件</li>
-<li>百度云网盘</li>
-<li>搜狗输入法</li>
-<li>Typora</li>
-<li>飞书</li>
-<li>xmind</li>
-<li>PostMan</li>
-<li>语雀</li>
-<li>TablePlus</li>
-<li>V2rayU</li>
-<li>Staruml</li>
-<li>PicGo</li>
-<li>Sublime Text</li>
-</ul>
-<h2 id="参考文章">参考文章</h2>
+</span></span></code></pre></div><h2 id="参考文章">参考文章</h2>
 <ul>
 <li><a href="https://sourabhbajaj.com/mac-setup/">https://sourabhbajaj.com/mac-setup/</a></li>
 </ul>

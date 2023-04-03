@@ -1,4 +1,1039 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ChenSoul</title><link>https://blog.chensoul.com/</link><description>Recent content on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Tue, 28 Mar 2023 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml"/><item><title>周报-12｜车辆被堵、开车总结、Effective Java3笔记</title><link>https://blog.chensoul.com/posts/2023/03/28/weekly_review_12/</link><pubDate>Tue, 28 Mar 2023 09:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/03/28/weekly_review_12/</guid><description>前言 本篇是对 2023-03-20 到 2023-03-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 上周去同济医院检查鼾症，检查结果是轻度症状，医生</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ChenSoul</title><link>https://blog.chensoul.com/</link><description>Recent content on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Mon, 03 Apr 2023 16:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml"/><item><title>《Effective Java 3》笔记：使用构造器代替构造函数</title><link>https://blog.chensoul.com/posts/2023/04/03/builder-instead-of-constructors/</link><pubDate>Mon, 03 Apr 2023 16:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/04/03/builder-instead-of-constructors/</guid><description>介绍 当一个类需要多个构造函数参数时，可以考虑使用构建器模式来创建对象。构建器模式是一种创建对象的设计模式，它可以通过链式调用方法的方式来设置</description><content:encoded><![CDATA[<h2 id="介绍">介绍</h2>
+<p>当一个类需要多个构造函数参数时，可以考虑使用<strong>构建器模式</strong>来创建对象。构建器模式是一种创建对象的设计模式，它可以通过链式调用方法的方式来设置对象的构造参数，并最终返回一个构造完整的对象。</p>
+<h2 id="优点">优点</h2>
+<p>使用构建器模式的原因有以下几点：</p>
+<ol>
+<li>避免构造函数参数过多的问题：当一个类需要多个构造函数参数时，构造函数的参数列表可能会变得很长，这会导致代码难以理解和维护。使用构建器模式可以将构造函数参数拆分成多个方法，从而使代码更加清晰易懂。</li>
+<li>提高代码的可读性和可维护性：使用构建器模式可以使代码更加易懂和易维护，因为可以通过方法名来清晰地表达每个参数的含义。</li>
+<li>提供更多的灵活性和可定制性：构建器模式可以提供更多的灵活性和可定制性，因为可以在构造对象时进行更多的逻辑处理和判断。例如，可以在构建器中添加验证逻辑，以确保参数的有效性。</li>
+<li>支持多线程环境：构建器模式可以支持多线程环境，因为每个构建器都是独立的，不会受到其他线程的影响。</li>
+</ol>
+<p>以下是一个例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NutritionFacts</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">servingSize</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">servings</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">calories</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">fat</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">sodium</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">carbohydrate</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">NutritionFacts</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">servingSize</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">servingSize</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">servings</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">servings</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">calories</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">calories</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">fat</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">fat</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">sodium</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">sodium</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">carbohydrate</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">carbohydrate</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getServingSize</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">servingSize</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getServings</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">servings</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getCalories</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">calories</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getFat</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">fat</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getSodium</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">sodium</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getCarbohydrate</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">carbohydrate</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Required parameters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">servingSize</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">servings</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// Optional parameters - initialized to default values
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kd">private</span> <span class="kt">int</span> <span class="n">calories</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="kt">int</span> <span class="n">fat</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="kt">int</span> <span class="n">sodium</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="kt">int</span> <span class="n">carbohydrate</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="nf">Builder</span><span class="o">(</span><span class="kt">int</span> <span class="n">servingSize</span><span class="o">,</span> <span class="kt">int</span> <span class="n">servings</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">servingSize</span> <span class="o">=</span> <span class="n">servingSize</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">servings</span> <span class="o">=</span> <span class="n">servings</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">calories</span><span class="o">(</span><span class="kt">int</span> <span class="n">calories</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">calories</span> <span class="o">=</span> <span class="n">calories</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">fat</span><span class="o">(</span><span class="kt">int</span> <span class="n">fat</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">fat</span> <span class="o">=</span> <span class="n">fat</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">sodium</span><span class="o">(</span><span class="kt">int</span> <span class="n">sodium</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">sodium</span> <span class="o">=</span> <span class="n">sodium</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">carbohydrate</span><span class="o">(</span><span class="kt">int</span> <span class="n">carbohydrate</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">carbohydrate</span> <span class="o">=</span> <span class="n">carbohydrate</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">NutritionFacts</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">new</span> <span class="n">NutritionFacts</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上述示例中，我们定义了一个名为 NutritionFacts 的类，它包含了一些营养成分的信息，例如每份的大小、总份数、卡路里、脂肪、钠和碳水化合物等成员变量。我们还定义了一个名为 Builder 的静态内部类，用于构建 NutritionFacts 对象。</p>
+<p>在 Builder 类中，我们定义了一个带有两个参数的构造方法，并在其中初始化了必需的成员变量 servingSize 和 servings。我们还定义了一些可选的方法，用于设置 NutritionFacts 对象的卡路里、脂肪、钠和碳水化合物等成员变量。这些方法都支持链式调用，并返回 Builder 对象本身，以便进行多次方法调用。</p>
+<p>在 Builder 类中，我们最终定义了一个 build() 方法，用于创建 NutritionFacts 对象并返回。在 build() 方法中，我们调用 NutritionFacts 的私有构造器并将 Builder 对象作为参数传递进去，从而创建 NutritionFacts 对象并初始化其成员变量。</p>
+<p>现在，我们可以使用 NutritionFacts.Builder 类来创建 NutritionFacts 对象，并使用链式调用来设置 NutritionFacts 对象的成员变量。例如，我们可以使用以下代码来创建一个每份大小为 240ml、总共有 8 份、卡路里为 100、脂肪为 2、钠为 35、碳水化合物为 27 的 NutritionFacts 对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">NutritionFacts</span> <span class="n">cocaCola</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NutritionFacts</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="mi">240</span><span class="o">,</span> <span class="mi">8</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">calories</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">fat</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">sodium</span><span class="o">(</span><span class="mi">35</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">carbohydrate</span><span class="o">(</span><span class="mi">27</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div><p>在上述代码中，我们首先创建了一个 NutritionFacts.Builder 对象，并在构造函数中传递了每份大小和总份数等参数。然后，我们使用链式调用来设置卡路里、脂肪、钠和碳水化合物等成员变量，并最终调用 build() 方法来创建 NutritionFacts 对象。</p>
+<p>可以使用 lombok 注解来简化代码，但是，<strong>无法在构造器的构造方法里设置必要参数。</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">lombok.Builder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Builder</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NutritionFacts</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">servingSize</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">servings</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">calories</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">fat</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">sodium</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">carbohydrate</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="缺点">缺点</h2>
+<p>虽然构建器模式可以提高代码的可读性、可维护性以及提供更多的灵活性和可定制性，但它也有一些缺点，包括：</p>
+<ol>
+<li>增加代码复杂度：使用构建器模式会增加代码的复杂度，因为需要创建一个独立的构建器类，并且需要在构建器类中定义多个方法来设置对象的属性。这会增加代码量并且需要更多的时间来编写和维护代码。</li>
+<li>增加内存开销：使用构建器模式需要创建一个独立的构建器对象，并且需要在构建器对象中保存对象的属性。这会增加内存开销，并且在创建对象时需要更多的时间和资源。</li>
+<li>对于简单对象不适用：构建器模式更适用于构造复杂对象，对于简单对象来说，使用构建器模式可能会增加代码的复杂度和开销。</li>
+<li>需要额外的代码：使用构建器模式需要编写额外的代码来创建构建器类和定义方法。如果只需要构造一个简单的对象，使用构建器模式可能会浪费时间和资源。</li>
+</ol>
+<h2 id="层次构建器">层次构建器</h2>
+<p>层次构建器（Hierarchical Builder）是一种构建器模式的扩展，它允许创建层次结构的对象，并支持在父对象中嵌套子对象。它通常由一个抽象的构建器接口，多个具体的构建器实现和一个指导者（Director）组成。</p>
+<p>在层次构建器中，每个构建器都负责创建特定类型的对象，并且可以在其构建方法中调用其他构建器的构建方法来创建嵌套的子对象。指导者负责协调构建器的顺序和调用构建器的方法来构建对象层次结构。</p>
+<p>层次构建器模式的优点包括：</p>
+<ol>
+<li>支持创建复杂的对象层次结构，能够构建包含多个层次和嵌套子对象的对象。</li>
+<li>提供了更好的可读性和可维护性，因为每个构建器都只需要关注一个特定类型的对象，而且可以通过方法名来清晰地表达每个参数的含义。</li>
+<li>提供了更多的灵活性和可定制性，因为可以在构建器中添加验证逻辑，以确保参数的有效性，并且可以动态地组合构建器来创建不同类型的对象。</li>
+</ol>
+<p>层次构建器模式的缺点包括：</p>
+<ol>
+<li>
+<p>代码量：由于层次构建器模式需要定义多个构建器类，因此代码量会比较大，尤其是在构建复杂对象时。</p>
+</li>
+<li>
+<p>嵌套层次：层次构建器模式中的对象层次结构是通过嵌套多个构建器实现的，这会导致代码的嵌套层次较深，可能会影响代码的可读性和可维护性。</p>
+</li>
+<li>
+<p>可能会增加内存开销：因为每个构建器都需要创建一个独立的对象，并且需要在构建器对象中保存对象的属性。对于大型对象和多级嵌套结构，开销可能会很大。</p>
+</li>
+<li>
+<p>不适合简单对象的构建：层次构建器模式适用于构建复杂对象层次结构，但对于简单的对象构建，使用层次构建器模式可能会显得过于繁琐和不必要。</p>
+</li>
+</ol>
+<h3 id="使用">使用</h3>
+<h4 id="举例-1">举例 1</h4>
+<p>1、定义抽象的构建器接口，用于创建不同类型的对象和添加子对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ComputerBuilder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">buildCPU</span><span class="o">(</span><span class="n">String</span> <span class="n">model</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">buildGPU</span><span class="o">(</span><span class="n">String</span> <span class="n">model</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">buildMemory</span><span class="o">(</span><span class="kt">int</span> <span class="n">size</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">addStorage</span><span class="o">(</span><span class="n">String</span> <span class="n">type</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">addPeripheral</span><span class="o">(</span><span class="n">String</span> <span class="n">type</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Computer</span> <span class="nf">getResult</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>2、创建具体的构建器实现，用于构建不同类型的对象和添加子对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DesktopBuilder</span> <span class="kd">implements</span> <span class="n">ComputerBuilder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Desktop</span> <span class="n">computer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Desktop</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildCPU</span><span class="o">(</span><span class="n">String</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">computer</span><span class="o">.</span><span class="na">setCPU</span><span class="o">(</span><span class="k">new</span> <span class="n">CPU</span><span class="o">(</span><span class="n">model</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildGPU</span><span class="o">(</span><span class="n">String</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">computer</span><span class="o">.</span><span class="na">setGPU</span><span class="o">(</span><span class="k">new</span> <span class="n">GPU</span><span class="o">(</span><span class="n">model</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildMemory</span><span class="o">(</span><span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">computer</span><span class="o">.</span><span class="na">setMemory</span><span class="o">(</span><span class="k">new</span> <span class="n">Memory</span><span class="o">(</span><span class="n">size</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addStorage</span><span class="o">(</span><span class="n">String</span> <span class="n">type</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">computer</span><span class="o">.</span><span class="na">addStorage</span><span class="o">(</span><span class="k">new</span> <span class="n">Storage</span><span class="o">(</span><span class="n">type</span><span class="o">,</span> <span class="n">size</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addPeripheral</span><span class="o">(</span><span class="n">String</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">computer</span><span class="o">.</span><span class="na">addPeripheral</span><span class="o">(</span><span class="k">new</span> <span class="n">Peripheral</span><span class="o">(</span><span class="n">type</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Computer</span> <span class="nf">getResult</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">computer</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LaptopBuilder</span> <span class="kd">implements</span> <span class="n">ComputerBuilder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Laptop</span> <span class="n">computer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Laptop</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildCPU</span><span class="o">(</span><span class="n">String</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">computer</span><span class="o">.</span><span class="na">setCPU</span><span class="o">(</span><span class="k">new</span> <span class="n">CPU</span><span class="o">(</span><span class="n">model</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildGPU</span><span class="o">(</span><span class="n">String</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">computer</span><span class="o">.</span><span class="na">setGPU</span><span class="o">(</span><span class="k">new</span> <span class="n">GPU</span><span class="o">(</span><span class="n">model</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildMemory</span><span class="o">(</span><span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">computer</span><span class="o">.</span><span class="na">setMemory</span><span class="o">(</span><span class="k">new</span> <span class="n">Memory</span><span class="o">(</span><span class="n">size</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addStorage</span><span class="o">(</span><span class="n">String</span> <span class="n">type</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">computer</span><span class="o">.</span><span class="na">addStorage</span><span class="o">(</span><span class="k">new</span> <span class="n">Storage</span><span class="o">(</span><span class="n">type</span><span class="o">,</span> <span class="n">size</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addPeripheral</span><span class="o">(</span><span class="n">String</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">computer</span><span class="o">.</span><span class="na">addPeripheral</span><span class="o">(</span><span class="k">new</span> <span class="n">Peripheral</span><span class="o">(</span><span class="n">type</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Computer</span> <span class="nf">getResult</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">computer</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>3、创建指导者类，用于协调构建器的顺序和调用构建器的方法来构建对象层次结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ComputerDirector</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">ComputerBuilder</span> <span class="n">builder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">ComputerDirector</span><span class="o">(</span><span class="n">ComputerBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">builder</span> <span class="o">=</span> <span class="n">builder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">construct</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">buildCPU</span><span class="o">(</span><span class="s">&#34;Intel Core i7&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">buildGPU</span><span class="o">(</span><span class="s">&#34;Nvidia GeForce RTX 3080&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">buildMemory</span><span class="o">(</span><span class="mi">16</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">addStorage</span><span class="o">(</span><span class="s">&#34;SSD&#34;</span><span class="o">,</span> <span class="mi">512</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">addPeripheral</span><span class="o">(</span><span class="s">&#34;Keyboard&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">addPeripheral</span><span class="o">(</span><span class="s">&#34;Mouse&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>4、使用层次构建器模式创建计算机系统对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ComputerBuilder</span> <span class="n">desktopBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DesktopBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">ComputerBuilder</span> <span class="n">laptopBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LaptopBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ComputerDirector</span> <span class="n">director</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ComputerDirector</span><span class="o">(</span><span class="n">desktopBuilder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">director</span><span class="o">.</span><span class="na">construct</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Computer</span> <span class="n">desktop</span> <span class="o">=</span> <span class="n">desktopBuilder</span><span class="o">.</span><span class="na">getResult</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">director</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ComputerDirector</span><span class="o">(</span><span class="n">laptopBuilder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">director</span><span class="o">.</span><span class="na">construct</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Computer</span> <span class="n">laptop</span> <span class="o">=</span> <span class="n">laptopBuilder</span><span class="o">.</span><span class="na">getResult</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 将两个计算机系统对象组合成一个更大的计算机系统对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ComputerSystem</span> <span class="n">system</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ComputerSystem</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">system</span><span class="o">.</span><span class="na">addComputer</span><span class="o">(</span><span class="n">desktop</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">system</span><span class="o">.</span><span class="na">addComputer</span><span class="o">(</span><span class="n">laptop</span><span class="o">);</span>
+</span></span></code></pre></div><p>在上面的示例中，DesktopBuilder和LaptopBuilder分别是具体的构建器实现，用于创建桌面计算机和笔记本电脑对象。ComputerDirector是指导者类，用于协调构建器的顺序和调用构建器的方法来构建对象层次结构。使用ComputerDirector构建计算机系统对象时，可以先使用DesktopBuilder构建桌面计算机对象，再使用LaptopBuilder构建笔记本电脑对象，最后将两个计算机系统对象组合成一个更大的计算机系统对象。</p>
+<p>下面是另一个使用层次构建器模式创建层次结构对象的例子，假设需要创建一个组织结构的层次结构对象，其中包含多个部门和嵌套子部门：</p>
+<p>1、定义抽象的构建器接口，用于创建不同类型的对象和添加子对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DepartmentBuilder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">buildName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">buildManager</span><span class="o">(</span><span class="n">String</span> <span class="n">manager</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">addSubDepartment</span><span class="o">(</span><span class="n">Department</span> <span class="n">subDepartment</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Department</span> <span class="nf">getResult</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">DepartmentImpl</span> <span class="kd">implements</span> <span class="n">Department</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="n">String</span> <span class="n">manager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Department</span><span class="o">&gt;</span> <span class="n">subDepartments</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setManager</span><span class="o">(</span><span class="n">String</span> <span class="n">manager</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">manager</span> <span class="o">=</span> <span class="n">manager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addSubDepartment</span><span class="o">(</span><span class="n">Department</span> <span class="n">subDepartment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">subDepartments</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">subDepartment</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">removeSubDepartment</span><span class="o">(</span><span class="n">Department</span> <span class="n">subDepartment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">subDepartments</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">subDepartment</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Department</span><span class="o">&gt;</span> <span class="nf">getSubDepartments</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">subDepartments</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getManager</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">manager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DevelopmentDepartment</span> <span class="kd">extends</span> <span class="n">DepartmentImpl</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 添加特定于开发部门的属性和方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SalesDepartment</span> <span class="kd">extends</span> <span class="n">DepartmentImpl</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 添加特定于销售部门的属性和方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>2、创建具体的构建器实现，用于构建不同类型的对象和添加子对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SalesDepartmentBuilder</span> <span class="kd">implements</span> <span class="n">DepartmentBuilder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">SalesDepartment</span> <span class="n">department</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SalesDepartment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">department</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildManager</span><span class="o">(</span><span class="n">String</span> <span class="n">manager</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">department</span><span class="o">.</span><span class="na">setManager</span><span class="o">(</span><span class="n">manager</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addSubDepartment</span><span class="o">(</span><span class="n">Department</span> <span class="n">subDepartment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">department</span><span class="o">.</span><span class="na">addSubDepartment</span><span class="o">(</span><span class="n">subDepartment</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Department</span> <span class="nf">getResult</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">department</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DevelopmentDepartmentBuilder</span> <span class="kd">implements</span> <span class="n">DepartmentBuilder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">DevelopmentDepartment</span> <span class="n">department</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DevelopmentDepartment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">department</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildManager</span><span class="o">(</span><span class="n">String</span> <span class="n">manager</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">department</span><span class="o">.</span><span class="na">setManager</span><span class="o">(</span><span class="n">manager</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addSubDepartment</span><span class="o">(</span><span class="n">Department</span> <span class="n">subDepartment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">department</span><span class="o">.</span><span class="na">addSubDepartment</span><span class="o">(</span><span class="n">subDepartment</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Department</span> <span class="nf">getResult</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">department</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>3、创建指导者类，用于协调构建器的顺序和调用构建器的方法来构建对象层次结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrganizationDirector</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">DepartmentBuilder</span> <span class="n">builder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">OrganizationDirector</span><span class="o">(</span><span class="n">DepartmentBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">builder</span> <span class="o">=</span> <span class="n">builder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">construct</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">buildName</span><span class="o">(</span><span class="s">&#34;Organization&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">buildManager</span><span class="o">(</span><span class="s">&#34;CEO&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">Department</span> <span class="n">salesDept</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SalesDepartment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">salesDept</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Sales Department&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">salesDept</span><span class="o">.</span><span class="na">setManager</span><span class="o">(</span><span class="s">&#34;Sales Manager&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">addSubDepartment</span><span class="o">(</span><span class="n">salesDept</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">Department</span> <span class="n">devDept</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DevelopmentDepartment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">devDept</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Development Department&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">devDept</span><span class="o">.</span><span class="na">setManager</span><span class="o">(</span><span class="s">&#34;Development Manager&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">Department</span> <span class="n">frontendDevDept</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DevelopmentDepartment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">frontendDevDept</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Front-end Development Department&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">frontendDevDept</span><span class="o">.</span><span class="na">setManager</span><span class="o">(</span><span class="s">&#34;Front-end Development Manager&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">devDept</span><span class="o">.</span><span class="na">addSubDepartment</span><span class="o">(</span><span class="n">frontendDevDept</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">Department</span> <span class="n">backendDevDept</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DevelopmentDepartment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">backendDevDept</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Back-end Development Department&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">backendDevDept</span><span class="o">.</span><span class="na">setManager</span><span class="o">(</span><span class="s">&#34;Back-end Development Manager&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">devDept</span><span class="o">.</span><span class="na">addSubDepartment</span><span class="o">(</span><span class="n">backendDevDept</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">addSubDepartment</span><span class="o">(</span><span class="n">devDept</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>4、使用层次构建器模式创建组织结构对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DepartmentBuilder</span> <span class="n">salesDeptBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SalesDepartmentBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">DepartmentBuilder</span> <span class="n">devDeptBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DevelopmentDepartmentBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">OrganizationDirector</span> <span class="n">director</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OrganizationDirector</span><span class="o">(</span><span class="n">salesDeptBuilder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">director</span><span class="o">.</span><span class="na">construct</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Department</span> <span class="n">salesDept</span> <span class="o">=</span> <span class="n">salesDeptBuilder</span><span class="o">.</span><span class="na">getResult</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">director</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OrganizationDirector</span><span class="o">(</span><span class="n">devDeptBuilder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">director</span><span class="o">.</span><span class="na">construct</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Department</span> <span class="n">devDept</span> <span class="o">=</span> <span class="n">devDeptBuilder</span><span class="o">.</span><span class="na">getResult</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 将两个部门对象组合成一个更大的组织结构对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Organization</span> <span class="n">organization</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Organization</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">organization</span><span class="o">.</span><span class="na">addDepartment</span><span class="o">(</span><span class="n">salesDept</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">organization</span><span class="o">.</span><span class="na">addDepartment</span><span class="o">(</span><span class="n">devDept</span><span class="o">);</span>
+</span></span></code></pre></div><p>在上面的示例中，SalesDepartmentBuilder和DevelopmentDepartmentBuilder分别是具体的构建器实现，用于创建销售部门和开发部门对象。OrganizationDirector是指导者类，用于协调构建器的顺序和调用构建器的方法来构建对象层次结构。使用OrganizationDirector构建组织结构对象时，可以先使用SalesDepartmentBuilder构建销售部门对象，再使用DevelopmentDepartmentBuilder构建开发部门对象，最后将两个部门对象组合成一个更大的组织结构对象。</p>
+<h4 id="举例-2">举例 2</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">ComputerComponent</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">manufacturer</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">model</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="nf">ComputerComponent</span><span class="o">(</span><span class="n">Builder</span><span class="o">&lt;?&gt;</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">manufacturer</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">manufacturer</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">model</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">model</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getManufacturer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">manufacturer</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getModel</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">model</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Builder</span><span class="o">&lt;</span><span class="n">T</span> <span class="kd">extends</span> <span class="n">Builder</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">String</span> <span class="n">manufacturer</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">String</span> <span class="n">model</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">T</span> <span class="nf">setManufacturer</span><span class="o">(</span><span class="n">String</span> <span class="n">manufacturer</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">manufacturer</span> <span class="o">=</span> <span class="n">manufacturer</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">self</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">T</span> <span class="nf">setModel</span><span class="o">(</span><span class="n">String</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">self</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">protected</span> <span class="kd">abstract</span> <span class="n">T</span> <span class="nf">self</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">ComputerComponent</span> <span class="nf">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Motherboard</span> <span class="kd">extends</span> <span class="n">ComputerComponent</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">socketType</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="nf">Motherboard</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">(</span><span class="n">builder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">socketType</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">socketType</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getSocketType</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">socketType</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="kd">extends</span> <span class="n">ComputerComponent</span><span class="o">.</span><span class="na">Builder</span><span class="o">&lt;</span><span class="n">Builder</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">String</span> <span class="n">socketType</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setSocketType</span><span class="o">(</span><span class="n">String</span> <span class="n">socketType</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">socketType</span> <span class="o">=</span> <span class="n">socketType</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">protected</span> <span class="n">Builder</span> <span class="nf">self</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Motherboard</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">new</span> <span class="n">Motherboard</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CPU</span> <span class="kd">extends</span> <span class="n">ComputerComponent</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">coreCount</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="nf">CPU</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">(</span><span class="n">builder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">coreCount</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">coreCount</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getCoreCount</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">coreCount</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="kd">extends</span> <span class="n">ComputerComponent</span><span class="o">.</span><span class="na">Builder</span><span class="o">&lt;</span><span class="n">Builder</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="kt">int</span> <span class="n">coreCount</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setCoreCount</span><span class="o">(</span><span class="kt">int</span> <span class="n">coreCount</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">coreCount</span> <span class="o">=</span> <span class="n">coreCount</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">protected</span> <span class="n">Builder</span> <span class="nf">self</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">CPU</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">new</span> <span class="n">CPU</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Computer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Motherboard</span> <span class="n">motherboard</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">CPU</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="nf">Computer</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">motherboard</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">motherboard</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cpu</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Motherboard</span> <span class="nf">getMotherboard</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">motherboard</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">CPU</span> <span class="nf">getCpu</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">Motherboard</span> <span class="n">motherboard</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">CPU</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setMotherboard</span><span class="o">(</span><span class="n">Motherboard</span> <span class="n">motherboard</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">motherboard</span> <span class="o">=</span> <span class="n">motherboard</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setCpu</span><span class="o">(</span><span class="n">CPU</span> <span class="n">cpu</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">cpu</span> <span class="o">=</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Computer</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">new</span> <span class="n">Computer</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>使用示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Motherboard</span><span class="o">.</span><span class="na">Builder</span> <span class="n">motherboardBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Motherboard</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">setManufacturer</span><span class="o">(</span><span class="s">&#34;ASUS&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">setModel</span><span class="o">(</span><span class="s">&#34;ROG Strix Z590-E Gaming&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">setSocketType</span><span class="o">(</span><span class="s">&#34;LGA 1200&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">CPU</span><span class="o">.</span><span class="na">Builder</span> <span class="n">cpuBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CPU</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">setManufacturer</span><span class="o">(</span><span class="s">&#34;Intel&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">setModel</span><span class="o">(</span><span class="s">&#34;Core i9-11900K&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">setCoreCount</span><span class="o">(</span><span class="mi">8</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">Computer</span><span class="o">.</span><span class="na">Builder</span> <span class="n">computerBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Computer</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">setMotherboard</span><span class="o">(</span><span class="n">motherboardBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">setCpu</span><span class="o">(</span><span class="n">cpuBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">Computer</span> <span class="n">computer</span> <span class="o">=</span> <span class="n">computerBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div><p>在这个示例中，<code>ComputerComponent</code> 类是一个抽象基类，定义了计算机组件的基本属性和方法。它还定义了一个抽象的构建器类，用于构建它的子类的实例。</p>
+<p>每个 <code>ComputerComponent</code> 的具体子类都有自己的具体构建器类，该类扩展了抽象构建器类。具体构建器提供了设置相应组件属性的方法，例如主板的制造商、型号和插座类型，处理器的时钟速度和内存的容量。</p>
+<p><code>Computer</code> 类代表一个完整的计算机系统，并具有用于构建 <code>Computer</code> 类的实例的构建器类。<code>Computer.Builder</code> 类提供了设置每个组件属性的方法，使用 <code>Consumer</code> 函数接口来接受配置相应构建器的 lambda 表达式。</p>
+<h2 id="使用-1">使用</h2>
+<p>以下是几个常见开源框架中使用建造者模式的例子：</p>
+<h3 id="retrofit">Retrofit</h3>
+<p>Retrofit是一个Android和Java平台上的RESTful API库，它使用建造者模式来创建RestAdapter对象。RestAdapter.Builder类是一个建造者类，它包含了一系列的方法，用于设置Retrofit的配置选项，如设置API的base URL、设置HTTP Client、设置Converter等。</p>
+<p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">RestAdapter</span> <span class="n">restAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RestAdapter</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setEndpoint</span><span class="o">(</span><span class="s">&#34;https://api.github.com&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setClient</span><span class="o">(</span><span class="k">new</span> <span class="n">OkClient</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setLogLevel</span><span class="o">(</span><span class="n">RestAdapter</span><span class="o">.</span><span class="na">LogLevel</span><span class="o">.</span><span class="na">FULL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div><h3 id="gson">Gson</h3>
+<p>Gson是一个用于在Java对象和JSON数据之间进行序列化和反序列化的库。它使用建造者模式来创建Gson对象。GsonBuilder类是一个建造者类，它包含了一系列的方法，用于配置Gson的行为，如设置日期格式、设置字段的命名策略等。</p>
+<p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GsonBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setDateFormat</span><span class="o">(</span><span class="s">&#34;yyyy-MM-dd&#39;T&#39;HH:mm:ssZ&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setFieldNamingPolicy</span><span class="o">(</span><span class="n">FieldNamingPolicy</span><span class="o">.</span><span class="na">LOWER_CASE_WITH_UNDERSCORES</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">create</span><span class="o">();</span>
+</span></span></code></pre></div><h3 id="apache-httpclient">Apache HttpClient</h3>
+<p>Apache HttpClient是一个用于创建HTTP客户端的库，它使用建造者模式来创建HttpClient对象。HttpClientBuilder类是一个建造者类，它包含了一系列的方法，用于配置HttpClient的行为，如设置连接池、设置代理、设置Cookie管理器等。</p>
+<p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HttpClient</span> <span class="n">httpClient</span> <span class="o">=</span> <span class="n">HttpClientBuilder</span><span class="o">.</span><span class="na">create</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setMaxConnTotal</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setMaxConnPerRoute</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setProxy</span><span class="o">(</span><span class="k">new</span> <span class="n">HttpHost</span><span class="o">(</span><span class="s">&#34;localhost&#34;</span><span class="o">,</span> <span class="mi">8080</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setDefaultCookieStore</span><span class="o">(</span><span class="k">new</span> <span class="n">BasicCookieStore</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div><h3 id="apache-kafka">Apache Kafka</h3>
+<p>Apache Kafka是一个分布式消息队列系统，它使用建造者模式来创建Producer和Consumer对象。ProducerConfig和ConsumerConfig类是建造者类，它们包含了一系列的方法，用于配置Producer和Consumer的行为，如设置broker地址、设置序列化器等。</p>
+<p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Properties</span> <span class="n">producerProps</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">producerProps</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ProducerConfig</span><span class="o">.</span><span class="na">BOOTSTRAP_SERVERS_CONFIG</span><span class="o">,</span> <span class="s">&#34;localhost:9092&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">producerProps</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ProducerConfig</span><span class="o">.</span><span class="na">KEY_SERIALIZER_CLASS_CONFIG</span><span class="o">,</span> <span class="n">StringSerializer</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">producerProps</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ProducerConfig</span><span class="o">.</span><span class="na">VALUE_SERIALIZER_CLASS_CONFIG</span><span class="o">,</span> <span class="n">StringSerializer</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Producer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">producer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">KafkaProducer</span><span class="o">&lt;&gt;(</span><span class="n">producerProps</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Properties</span> <span class="n">consumerProps</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">consumerProps</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ConsumerConfig</span><span class="o">.</span><span class="na">BOOTSTRAP_SERVERS_CONFIG</span><span class="o">,</span> <span class="s">&#34;localhost:9092&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">consumerProps</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ConsumerConfig</span><span class="o">.</span><span class="na">KEY_DESERIALIZER_CLASS_CONFIG</span><span class="o">,</span> <span class="n">StringDeserializer</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">consumerProps</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ConsumerConfig</span><span class="o">.</span><span class="na">VALUE_DESERIALIZER_CLASS_CONFIG</span><span class="o">,</span> <span class="n">StringDeserializer</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">consumerProps</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ConsumerConfig</span><span class="o">.</span><span class="na">GROUP_ID_CONFIG</span><span class="o">,</span> <span class="s">&#34;my-group&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Consumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">consumer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">KafkaConsumer</span><span class="o">&lt;&gt;(</span><span class="n">consumerProps</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="apache-commons-configuration">Apache Commons Configuration</h3>
+<p>Apache Commons Configuration是一个用于读取和写入各种配置文件的库，它使用建造者模式来创建Configuration对象。ConfigurationBuilder类是一个建造者类，它包含了一系列的方法，用于配置Configuration的行为，如设置配置文件类型、设置属性的分隔符等。</p>
+<p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Configuration</span> <span class="n">config</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConfigurationBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setDelimiterParsingDisabled</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setFile</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&#34;config.properties&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setListDelimiterHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">DefaultListDelimiterHandler</span><span class="o">(</span><span class="sc">&#39;,&#39;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div><h3 id="guava">Guava</h3>
+<p>Guava是一个Google开发的Java库，它包含了许多实用的工具类和数据结构，其中包括使用建造者模式来创建的ImmutableList、ImmutableMap和ImmutableSet等不可变集合类。</p>
+<p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ImmutableList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">ImmutableList</span><span class="o">.&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="n">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;foo&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;bar&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;baz&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="n">ImmutableMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">ImmutableMap</span><span class="o">.&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span><span class="n">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;foo&#34;</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;bar&#34;</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;baz&#34;</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ImmutableSet</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">set</span> <span class="o">=</span> <span class="n">ImmutableSet</span><span class="o">.&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="n">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;foo&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;bar&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;baz&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div><h3 id="jpa">JPA</h3>
+<p>Java Persistence API（JPA）是Java EE平台的一个ORM框架，它使用建造者模式来创建EntityManagerFactory对象。EntityManagerFactoryBuilder类是一个建造者类，它包含了一系列的方法，用于配置EntityManagerFactory的行为，如设置数据源、设置JPA的属性等。</p>
+<p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">EntityManagerFactory</span> <span class="n">entityManagerFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">EntityManagerFactoryBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">dataSource</span><span class="o">(</span><span class="n">myDataSource</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">persistenceUnit</span><span class="o">(</span><span class="s">&#34;myPersistenceUnit&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">properties</span><span class="o">(</span><span class="n">myProperties</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div><h3 id="spring-framework">Spring Framework</h3>
+<p>Spring Framework是一个Java平台上的开源应用程序框架，它使用建造者模式来创建RestTemplate和HttpHeaders对象。RestTemplateBuilder和HttpHeadersBuilder类是建造者类，它们包含了一系列的方法，用于配置RestTemplate和HttpHeaders的行为，如设置连接超时、设置请求头等。</p>
+<p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">RestTemplate</span> <span class="n">restTemplate</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RestTemplateBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setConnectTimeout</span><span class="o">(</span><span class="n">Duration</span><span class="o">.</span><span class="na">ofSeconds</span><span class="o">(</span><span class="mi">10</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setReadTimeout</span><span class="o">(</span><span class="n">Duration</span><span class="o">.</span><span class="na">ofSeconds</span><span class="o">(</span><span class="mi">10</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">HttpHeaders</span> <span class="n">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpHeadersBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="n">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div><h2 id="优化">优化</h2>
+<p>建造者模式的优化主要包括以下几个方面：</p>
+<h3 id="使用静态内部类优化建造者模式">使用静态内部类优化建造者模式</h3>
+<p>建造者模式通常使用一个Builder类来构建复杂对象，为了避免Builder类变得过于臃肿，可以将其设计为静态内部类，这样可以使代码更加清晰，同时也能够保证线程安全。</p>
+<h3 id="使用流式接口优化建造者模式">使用流式接口优化建造者模式</h3>
+<p>流式接口是一种链式调用的方式，它可以将多个方法调用连接起来，形成一个链式结构，使得代码更加简洁易读。在建造者模式中，可以使用流式接口来优化Builder类，使得客户端可以通过链式调用的方式来创建复杂对象，从而简化代码。</p>
+<h3 id="使用默认值优化建造者模式">使用默认值优化建造者模式</h3>
+<p>在建造者模式中，有些属性是必须的，而有些属性是可选的，可以使用默认值来为可选属性设置默认值，从而避免客户端必须为每个可选属性都提供值的情况，同时也能够简化客户端代码。</p>
+<h3 id="使用java-8中的optional类优化建造者模式">使用Java 8中的Optional类优化建造者模式</h3>
+<p>Java 8中引入了Optional类，该类可以用于处理可能为null的值，可以进一步优化建造者模式中的代码。</p>
+<p>在建造者模式中，我们通常需要设置多个属性，其中有些属性可能是可选的，如果直接使用null来表示可选属性的值，可能会导致代码出现空指针异常，而使用Optional类可以避免这个问题。</p>
+<p>下面是一个使用Optional类优化建造者模式的示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Computer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">memory</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">hardDisk</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">graphicsCard</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">Computer</span><span class="o">(</span><span class="n">ComputerBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">cpu</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">memory</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">hardDisk</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">hardDisk</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">graphicsCard</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">graphicsCard</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 省略getter方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ComputerBuilder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">String</span> <span class="n">memory</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">String</span> <span class="n">hardDisk</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">graphicsCard</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">ComputerBuilder</span> <span class="nf">setCpu</span><span class="o">(</span><span class="n">String</span> <span class="n">cpu</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">cpu</span> <span class="o">=</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">ComputerBuilder</span> <span class="nf">setMemory</span><span class="o">(</span><span class="n">String</span> <span class="n">memory</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="n">memory</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">ComputerBuilder</span> <span class="nf">setHardDisk</span><span class="o">(</span><span class="n">String</span> <span class="n">hardDisk</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">hardDisk</span> <span class="o">=</span> <span class="n">hardDisk</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">ComputerBuilder</span> <span class="nf">setGraphicsCard</span><span class="o">(</span><span class="n">String</span> <span class="n">graphicsCard</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">graphicsCard</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="n">graphicsCard</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Computer</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">new</span> <span class="n">Computer</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例代码中，我们使用 <code>Optional</code> 类来表示可选属性的值，将graphicsCard属性的类型改为<code>Optional&lt;String&gt;</code>。在 ComputerBuilder 类中，我们使用 <code>Optional.ofNullable </code>方法来将可选属性的值转换为 Optional 对象，并在调用 build 方法时，将 Optional 对象转换为普通的字符串类型。</p>
+<h3 id="使用-lambda表达式优化建造者模式">使用 Lambda表达式优化建造者模式</h3>
+<p>Lambda表达式是Java 8中引入的一种新的语言特性，可以进一步优化建造者模式中的代码，使得代码更加简洁易读。</p>
+<p>在建造者模式中，我们通常需要定义多个属性，并在构造方法中进行初始化。使用Lambda表达式可以避免定义多个属性的问题，将属性的赋值操作通过Lambda表达式传递给构造方法。</p>
+<p>下面是一个使用Lambda表达式优化建造者模式的示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.function.Consumer</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Computer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">memory</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">hardDisk</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">graphicsCard</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">Computer</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;</span><span class="n">ComputerBuilder</span><span class="o">&gt;</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ComputerBuilder</span> <span class="n">computerBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ComputerBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">computerBuilder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">cpu</span> <span class="o">=</span> <span class="n">computerBuilder</span><span class="o">.</span><span class="na">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="n">computerBuilder</span><span class="o">.</span><span class="na">memory</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">hardDisk</span> <span class="o">=</span> <span class="n">computerBuilder</span><span class="o">.</span><span class="na">hardDisk</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">graphicsCard</span> <span class="o">=</span> <span class="n">computerBuilder</span><span class="o">.</span><span class="na">graphicsCard</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 省略getter方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ComputerBuilder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">String</span> <span class="n">memory</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">String</span> <span class="n">hardDisk</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">graphicsCard</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">ComputerBuilder</span> <span class="nf">setCpu</span><span class="o">(</span><span class="n">String</span> <span class="n">cpu</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">cpu</span> <span class="o">=</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">ComputerBuilder</span> <span class="nf">setMemory</span><span class="o">(</span><span class="n">String</span> <span class="n">memory</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="n">memory</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">ComputerBuilder</span> <span class="nf">setHardDisk</span><span class="o">(</span><span class="n">String</span> <span class="n">hardDisk</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">hardDisk</span> <span class="o">=</span> <span class="n">hardDisk</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">ComputerBuilder</span> <span class="nf">setGraphicsCard</span><span class="o">(</span><span class="n">String</span> <span class="n">graphicsCard</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">graphicsCard</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="n">graphicsCard</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Computer</span> <span class="n">computer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Computer</span><span class="o">(</span><span class="n">builder</span> <span class="o">-&gt;</span> <span class="n">builder</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">setCpu</span><span class="o">(</span><span class="s">&#34;Intel i7&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">setMemory</span><span class="o">(</span><span class="s">&#34;16GB&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">setHardDisk</span><span class="o">(</span><span class="s">&#34;512GB SSD&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">setGraphicsCard</span><span class="o">(</span><span class="s">&#34;NVIDIA GTX 1660&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例代码中，我们将 Computer 类的构造方法改为接收一个 <code>Consumer&lt;ComputerBuilder&gt; </code>类型的参数，这个参数表示一个包含属性赋值操作的 Lambda 表达式。在构造方法中，我们先创建一个ComputerBuilder 对象，然后通过 Lambda 表达式调用 ComputerBuilder 对象的方法来设置属性值，并最终通过 ComputerBuilder 对象创建 Computer 对象。</p>
+<h3 id="使用泛型和反射优化">使用泛型和反射优化</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">EntityCreator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">classInstance</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">T</span> <span class="n">entityObj</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">EntityCreator</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">classInstance</span><span class="o">,</span> <span class="n">Object</span><span class="o">...</span> <span class="n">initParams</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">classInstance</span> <span class="o">=</span> <span class="n">classInstance</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">paramTypes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Class</span><span class="o">&lt;?&gt;[</span><span class="n">initParams</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">initParams</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">length</span><span class="o">;</span> <span class="n">index</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">String</span> <span class="n">checkStr</span> <span class="o">=</span> <span class="n">initParams</span><span class="o">[</span><span class="n">index</span><span class="o">].</span><span class="na">getClass</span><span class="o">().</span><span class="na">getSimpleName</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">checkStr</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">&#34;Integer&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">paramTypes</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="kt">int</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">checkStr</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">&#34;Double&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">paramTypes</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="kt">double</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">checkStr</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">&#34;Boolean&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">paramTypes</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="kt">boolean</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">checkStr</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">&#34;String&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">paramTypes</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="n">initParams</span><span class="o">[</span><span class="n">index</span><span class="o">].</span><span class="na">getClass</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Constructor</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">constructor</span> <span class="o">=</span> <span class="n">classInstance</span><span class="o">.</span><span class="na">getDeclaredConstructor</span><span class="o">(</span><span class="n">paramTypes</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">constructor</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">entityObj</span> <span class="o">=</span> <span class="n">constructor</span><span class="o">.</span><span class="na">newInstance</span><span class="o">(</span><span class="n">initParams</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">EntityCreator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">setValue</span><span class="o">(</span><span class="n">String</span> <span class="n">paramName</span><span class="o">,</span> <span class="n">Object</span> <span class="n">paramValue</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Field</span> <span class="n">field</span> <span class="o">=</span> <span class="n">classInstance</span><span class="o">.</span><span class="na">getDeclaredField</span><span class="o">(</span><span class="n">paramName</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">field</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">field</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">entityObj</span><span class="o">,</span> <span class="n">paramValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">T</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">entityObj</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>​		如此，可移除整个内部 Builder 类，NutritionFacts 类私有构造的参数仅包括两个必填的 servingSize、servings 字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NutritionFacts</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Required parameters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">servingSize</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">servings</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Optional parameters - initialized to default values
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">calories</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">fat</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">sodium</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">carbohydrate</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">NutritionFacts</span><span class="o">(</span><span class="kt">int</span> <span class="n">servingSize</span><span class="o">,</span> <span class="kt">int</span> <span class="n">servings</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">servingSize</span> <span class="o">=</span> <span class="n">servingSize</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">servings</span> <span class="o">=</span> <span class="n">servings</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>该案例的客户端代码改为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">NutritionFacts</span> <span class="n">cocaCola</span> <span class="o">=</span> <span class="k">new</span> <span class="n">EntityCreator</span><span class="o">&lt;&gt;(</span><span class="n">NutritionFacts</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="mi">240</span><span class="o">,</span> <span class="mi">8</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="s">&#34;calories&#34;</span><span class="o">,</span> <span class="mi">100</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="s">&#34;sodium&#34;</span><span class="o">,</span> <span class="mi">35</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="s">&#34;carbohydrate&#34;</span><span class="o">,</span> <span class="mi">27</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div>]]></content:encoded></item><item><title>《Effective Java 3》笔记：静态工厂方法代替构造函数</title><link>https://blog.chensoul.com/posts/2023/04/03/static-factory-methods-instead-of-constructors/</link><pubDate>Mon, 03 Apr 2023 12:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/04/03/static-factory-methods-instead-of-constructors/</guid><description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 静态工厂方法是指在类中定义一个静态方法，用</description><content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。</p>
+<h2 id="介绍">介绍</h2>
+<p>静态工厂方法是指在类中定义一个静态方法，用于创建该类的实例。示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Boolean</span> <span class="nf">valueOf</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">b</span> <span class="o">?</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">TRUE</span> <span class="o">:</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">FALSE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>与构造函数不同的是，静态工厂方法可以有自己的名称，并且可以根据参数的不同返回不同的对象实例。</p>
+<h2 id="优点">优点</h2>
+<p>这本书中提到了一些静态工厂方法的优点，包括：</p>
+<ol>
+<li>
+<p>静态工厂方法可以有意义的名称：与构造函数不同，静态工厂方法可以有自己的名称，这使得代码更具有可读性和可维护性。</p>
+<blockquote>
+<p>例如，BigInteger 类提供了一个返回素数的静态工厂方法 <code>BigInteger.probablePrime</code> 。</p>
+</blockquote>
+</li>
+<li>
+<p>静态工厂方法可以隐藏实现细节：静态工厂方法可以隐藏对象的创建和初始化过程，使客户端代码更加简洁和易于维护。</p>
+<blockquote>
+<p>这是服务提供者框架的基础。</p>
+<p>服务提供者框架中有三个基本组件：服务接口，代表要实现的服务；提供者注册 API，提供者使用它来注册实现，以及服务访问 API，客户端使用它来获取服务的实例。服务访问 API 允许客户端指定选择实现的标准。在没有这些条件的情况下，API 返回一个默认实现的实例，或者允许客户端循环使用所有可用的实现。服务访问 API 是灵活的静态工厂，它构成了服务提供者框架的基础。</p>
+<p>服务提供者框架的第四个可选组件是服务提供者接口，它描述了产生服务接口实例的工厂对象。在没有服务提供者接口的情况下，必须以反射的方式实例化实现。</p>
+<p>在 JDBC 中，<code>Connection</code> 扮演服务接口的角色。<code>DriverManager.registerDriver</code> 是提供者注册的 API，<code>DriverManager.getConnection</code> 是服务访问 API，<code>Driver</code> 是服务提供者接口。</p>
+<p>服务提供者框架模式有许多变体。例如，服务访问 API 可以向客户端返回比提供者提供的更丰富的服务接口，这是桥接模式。依赖注入框架可以看作是强大的服务提供者。由于是 Java 6，该平台包括一个通用服务提供者框架 <code>Java.util.ServiceLoader</code>，所以你不需要，通常也不应该自己写。JDBC 不使用 ServiceLoader，因为前者比后者要早。</p>
+</blockquote>
+</li>
+<li>
+<p>静态工厂方法可以返回缓存的对象：静态工厂方法可以返回缓存的对象，这避免了创建新对象的开销，提高了性能。</p>
+<blockquote>
+<p>这种技术类似于享元模式。如果经常请求相同的对象，特别是在创建对象的代价很高时，它可以极大地提高性能。</p>
+</blockquote>
+<p><strong>举例 1：使用 ConcurrentHashMap</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ThreadSafeCache</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">ThreadSafeCache</span><span class="o">&gt;</span> <span class="n">instances</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">ThreadSafeCache</span><span class="o">()</span> <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">ThreadSafeCache</span> <span class="nf">getInstance</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">instances</span><span class="o">.</span><span class="na">computeIfAbsent</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">k</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">ThreadSafeCache</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上面的示例中，<code>computeIfAbsent</code> 方法用于计算缓存对象。如果 <code>key</code> 在 <code>instances</code> 中不存在，则使用 lambda 表达式 <code>k -&gt; new ThreadSafeCache()</code> 创建一个新的 <code>ThreadSafeCache</code> 对象，并将该对象与 <code>key</code> 关联。如果 <code>key</code> 已经存在，则直接返回与之关联的 <code>ThreadSafeCache</code> 对象。</p>
+<p>使用 <code>computeIfAbsent</code> 方法可以更简洁地实现线程安全的缓存类，并且可以确保在多线程环境下的线程安全性。</p>
+<p><strong>举例 2：使用 synchronized 关键字</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ThreadSafeCache</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">ThreadSafeCache</span><span class="o">&gt;</span> <span class="n">instances</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">ThreadSafeCache</span><span class="o">()</span> <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">synchronized</span> <span class="n">ThreadSafeCache</span> <span class="nf">getInstance</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(!</span><span class="n">instances</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">key</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">instances</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="k">new</span> <span class="n">ThreadSafeCache</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">instances</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p>静态工厂方法可以返回子类对象：静态工厂方法可以返回实现了某个接口或继承了某个类的子类对象，这提高了代码的灵活性和可扩展性。</p>
+<blockquote>
+<p>例如，Java 的 Collections 框架有 45 个接口实用工具实现，提供了不可修改的集合、同步集合等。几乎所有这些实现都是通过一个非实例化类（<code>java.util.Collections</code>）中的静态工厂方法导出的。返回对象的类都是私有的子类。</p>
+</blockquote>
+<p><strong>举例：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Shape</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">draw</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Circle</span> <span class="kd">implements</span> <span class="n">Shape</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Drawing Circle&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Square</span> <span class="kd">implements</span> <span class="n">Shape</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Drawing Square&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ShapeFactory</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Shape</span> <span class="nf">getShape</span><span class="o">(</span><span class="n">String</span> <span class="n">shapeType</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">shapeType</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">shapeType</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&#34;CIRCLE&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">new</span> <span class="n">Circle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">shapeType</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&#34;SQUARE&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">new</span> <span class="n">Square</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上面的示例中，<code>ShapeFactory</code> 类使用静态工厂方法 <code>getShape</code> 来创建 <code>Shape</code> 对象。如果 <code>shapeType</code> 参数为 <code>CIRCLE</code>，则创建 <code>Circle</code> 对象并返回，如果参数为 <code>SQUARE</code>，则创建 <code>Square</code> 对象并返回。</p>
+</li>
+<li>
+<p>静态工厂方法可以返回不可变对象：静态工厂方法可以返回不可变对象，这确保了对象的安全性和线程安全性。</p>
+<p><strong>举例</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">ThreadSafeImmutableClass</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">ThreadSafeImmutableClass</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">ThreadSafeImmutableClass</span> <span class="nf">getInstance</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">ThreadSafeImmutableClass</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上面的示例中，<code>ThreadSafeImmutableClass</code> 类使用静态工厂方法 <code>getInstance</code> 来创建不可变对象。由于该类的属性都是 <code>final</code> 的，因此该对象是不可变的。由于没有任何状态可以修改，因此该对象是线程安全的。</p>
+</li>
+</ol>
+<h2 id="缺点">缺点</h2>
+<p>使用静态工厂方法也有一些缺点，例如：</p>
+<ol>
+<li>静态工厂方法可能会导致代码的可测试性变差，因为它们往往是静态的，难以进行模拟和替换。</li>
+<li>静态工厂方法可能会使代码的扩展性变差，因为它们通常是静态的，难以扩展和修改。</li>
+<li>静态工厂方法可能会使代码的可读性变差，因为它们往往是自定义的，难以理解和维护。</li>
+</ol>
+<p>仅提供静态工厂方法也存在一些局限：</p>
+<ol>
+<li>不可继承：静态工厂方法是通过类名直接调用的，因此无法通过继承来创建对象的变体或子类对象。</li>
+<li>可能难以扩展：如果在实现静态工厂方法时没有考虑到所有可能的用例，那么在需要添加新功能或对象类型时可能会很难扩展。</li>
+<li>可能难以测试：如果静态工厂方法中包含复杂的逻辑或依赖外部资源，那么在测试时可能会很难模拟或替换这些依赖项。</li>
+<li>可能会引起混淆：如果在同一个类中定义多个静态工厂方法，它们可能具有相似的名称或参数类型，从而可能会导致混淆或误用。</li>
+<li>对象创建可能较慢：如果创建对象需要进行复杂的计算或依赖大量的外部资源，那么静态工厂方法可能会导致对象创建的性能问题。</li>
+</ol>
+<p>所以，在选择不同的静态工厂方法时，需要考虑以下几个因素：</p>
+<ol>
+<li>目的：考虑每个工厂方法的目的，以及它是否符合您的需求。不同的工厂方法可能有不同的目的，例如创建新对象、返回共享实例或从一种类型转换为另一种类型。</li>
+<li>灵活性：考虑每个工厂方法的灵活性。某些工厂方法可能比其他工厂方法更灵活，允许更多的自定义或配置选项。</li>
+<li>可读性：考虑工厂方法的可读性。好的工厂方法应该易于阅读和理解，具有清晰的名称和明确的参数。</li>
+<li>性能：考虑每个工厂方法的性能影响。根据具体的用例，某些工厂方法可能比其他工厂方法更高效或更快。</li>
+<li>兼容性：考虑工厂方法是否与您现有的代码库和第三方库兼容。根据具体的技术和框架，某些工厂方法可能比其他工厂方法更兼容。</li>
+<li>维护：考虑每个工厂方法的维护影响。根据实现的复杂性以及文档和支持的可用性，某些工厂方法可能比其他工厂方法更易于维护。</li>
+</ol>
+<h2 id="使用">使用</h2>
+<p>以下是一些常见静态工厂方法的名称：</p>
+<ul>
+<li>
+<p><code>from</code>，用于从其他类型的对象或数据源中创建一个对象，例如 <code>Date.from</code> 和 <code>Duration.from</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Date</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Date</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">instant</span><span class="o">);</span>
+</span></span></code></pre></div></li>
+<li>
+<p><code>of</code>，一个聚合方法，它接受多个参数并返回一个包含这些参数的实例，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Rank</span><span class="o">&gt;</span> <span class="n">faceCards</span> <span class="o">=</span> <span class="n">EnumSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">JACK</span><span class="o">,</span> <span class="n">QUEEN</span><span class="o">,</span> <span class="n">KING</span><span class="o">);</span>
+</span></span></code></pre></div></li>
+<li>
+<p><code>valueOf</code>，一种替代 <code>from</code> 和 <code>of</code> 但更冗长的方法，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">BigInteger</span> <span class="n">prime</span> <span class="o">=</span> <span class="n">BigInteger</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">);</span>
+</span></span></code></pre></div></li>
+<li>
+<p><code>instance</code> 或 <code>getInstance</code>，返回一个实例，该实例由其参数（如果有的话）描述，但不具有相同的值，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">StackWalker</span> <span class="n">luke</span> <span class="o">=</span> <span class="n">StackWalker</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="n">options</span><span class="o">);</span>
+</span></span></code></pre></div></li>
+<li>
+<p><code>create</code> 或 <code>newInstance</code>，与 <code>instance</code> 或 <code>getInstance</code> 类似，只是该方法保证每个调用都返回一个新实例，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Object</span> <span class="n">newArray</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="na">newInstance</span><span class="o">(</span><span class="n">classObject</span><span class="o">,</span> <span class="n">arrayLen</span><span class="o">);</span>
+</span></span></code></pre></div></li>
+<li>
+<p><code>getType</code>，类似于 <code>getInstance</code>，但如果工厂方法位于不同的类中，则使用此方法。其类型是工厂方法返回的对象类型，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">FileStore</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">Files</span><span class="o">.</span><span class="na">getFileStore</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Runtime</span> <span class="n">runtime</span> <span class="o">=</span> <span class="n">Runtime</span><span class="o">.</span><span class="na">getRuntime</span><span class="o">();</span>
+</span></span></code></pre></div></li>
+<li>
+<p><code>newType</code>，与 <code>newInstance</code> 类似，但是如果工厂方法在不同的类中使用。类型是工厂方法返回的对象类型，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="n">Files</span><span class="o">.</span><span class="na">newBufferedReader</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
+</span></span></code></pre></div></li>
+<li>
+<p><code>type</code>，一个用来替代 <code>getType</code> 和 <code>newType</code> 的比较简单的方式，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Complaint</span><span class="o">&gt;</span> <span class="n">litany</span> <span class="o">=</span> <span class="n">Collections</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">legacyLitany</span><span class="o">);</span>
+</span></span></code></pre></div></li>
+<li>
+<p><code>parse</code>：用于从字符串或其他格式中解析出一个对象，例如 <code>LocalDate.parse</code> 和 <code>NumberFormat.parse</code>。</p>
+</li>
+<li>
+<p><code>build</code>：用于构建一个对象，例如 <code>RequestBuilder.build</code> 和 <code>ResponseBuilder.build</code>。</p>
+</li>
+</ul>
+<p>还有一些常用的静态工厂方法名称：</p>
+<ol>
+<li><code>asXxx</code>：用于将该类的对象转换为其他类型的对象，例如 <code>ByteBuffer.asCharBuffer</code> 和 <code>FileChannel.asIntBuffer</code>。</li>
+<li><code>toXxx</code>：用于将该类的对象转换为其他类型的对象，例如 <code>BigInteger.toByteArray</code> 和 <code>String.toCharArray</code>。</li>
+<li><code>getXXX</code>：用于获取某个对象，例如 <code>TimeZone.getDefault</code>。</li>
+<li><code>newXxx</code>：用于创建一个新的对象，例如 <code>File.newFile</code> 和 <code>Thread.newThread</code>。</li>
+<li><code>withXxx</code>：用于创建一个修改了指定属性的对象的副本，例如 <code>LocalDate.withYear</code> 和 <code>HttpHeaders.withAccept</code>。</li>
+<li><code>forXxx</code>：用于创建一个与指定参数相关的对象，例如 <code>Charset.forName</code> 和 <code>ThreadLocalRandom.forWeb</code>。</li>
+</ol>
+]]></content:encoded></item><item><title>周报-12｜车辆被堵、开车总结、Effective Java3笔记</title><link>https://blog.chensoul.com/posts/2023/03/28/weekly_review_12/</link><pubDate>Tue, 28 Mar 2023 09:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/03/28/weekly_review_12/</guid><description>前言 本篇是对 2023-03-20 到 2023-03-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 上周去同济医院检查鼾症，检查结果是轻度症状，医生</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-12-01.jpeg" alt="weekly-review-12-01"></p>
 <p>本篇是对 <code>2023-03-20</code> 到 <code>2023-03-26</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>上周去同济医院检查鼾症，检查结果是轻度症状，医生建议多运动减肥。这周每天走路 1 万步的目标已达成。</p>
@@ -9,84 +1044,7 @@
 <img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-12-03.jpeg" alt="weekly-review-12-03" style="width:50%;" />
 <h2 id="工作">工作</h2>
 <h3 id="effective-java-3-笔记">Effective Java 3 笔记</h3>
-<h4 id="1考虑以静态工厂方法代替构造函数">1、考虑以静态工厂方法代替构造函数</h4>
-<p>使用公共静态工厂方法返回一个类的实例。例如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Boolean</span> <span class="nf">valueOf</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">b</span> <span class="o">?</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">TRUE</span> <span class="o">:</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">FALSE</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p><strong>静态工厂方法与构造函数相比，有以下优点：</strong></p>
-<ul>
-<li>
-<p><strong>静态工厂方法有确切名称</strong>。例如，BigInteger 类提供了一个返回素数的静态工厂方法 <code>BigInteger.probablePrime</code> 。</p>
-</li>
-<li>
-<p><strong>静态工厂方法不需要在每次调用时创建新对象</strong>。这种技术类似于享元模式。如果经常请求相同的对象，特别是在创建对象的代价很高时，它可以极大地提高性能。</p>
-</li>
-<li>
-<p><strong>可以通过静态工厂方法获取返回类型的任何子类的对象</strong>。例如，Java 的 Collections 框架有 45 个接口实用工具实现，提供了不可修改的集合、同步集合等。几乎所有这些实现都是通过一个非实例化类（<code>java.util.Collections</code>）中的静态工厂方法导出的。返回对象的类都是私有的子类。</p>
-</li>
-<li>
-<p><strong>静态工厂方法返回的对象的可以随传入参数的不同而变化。</strong> 例如：EnumSet 类没有公共构造函数，只有静态工厂方法。它的 noneOf 方法返回的对象取决于底层 enum 类型的长度。如果长度小于 64，则发回一个  long 类型的 RegularEnumSet；否则返回一个 <code>long[]</code> 类型的 JumboEnumSet。</p>
-</li>
-<li>
-<p><strong>静态工厂方法返回对象的类可以不存在。</strong> 这是服务提供者框架的基础。</p>
-<blockquote>
-<p>服务提供者框架中有三个基本组件：服务接口，代表要实现的服务；提供者注册 API，提供者使用它来注册实现，以及服务访问 API，客户端使用它来获取服务的实例。服务访问 API 允许客户端指定选择实现的标准。在没有这些条件的情况下，API 返回一个默认实现的实例，或者允许客户端循环使用所有可用的实现。服务访问 API 是灵活的静态工厂，它构成了服务提供者框架的基础。</p>
-<p>服务提供者框架的第四个可选组件是服务提供者接口，它描述了产生服务接口实例的工厂对象。在没有服务提供者接口的情况下，必须以反射的方式实例化实现。</p>
-<p>在 JDBC 中，<code>Connection</code> 扮演服务接口的角色。<code>DriverManager.registerDriver</code> 是提供者注册的 API，<code>DriverManager.getConnection</code> 是服务访问 API，<code>Driver</code> 是服务提供者接口。</p>
-<p>服务提供者框架模式有许多变体。例如，服务访问 API 可以向客户端返回比提供者提供的更丰富的服务接口，这是桥接模式。依赖注入框架可以看作是强大的服务提供者。由于是 Java 6，该平台包括一个通用服务提供者框架 <code>Java.util.ServiceLoader</code>，所以你不需要，通常也不应该自己写。JDBC 不使用 ServiceLoader，因为前者比后者要早。</p>
-</blockquote>
-</li>
-</ul>
-<p><strong>仅提供静态工厂方法的主要局限</strong>：</p>
-<ul>
-<li>
-<p><strong>没有公共或受保护构造函数的类不能被子类化。</strong> 例如，不可能在集合框架中子类化任何方便的实现类。</p>
-<blockquote>
-<p>它鼓励程序员使用组合而不是继承，并且对于不可变的类型是必需的。</p>
-</blockquote>
-</li>
-<li>
-<p><strong>程序员很难找到它们</strong>。</p>
-</li>
-</ul>
-<p>一些静态工厂方法的常用名称：</p>
-<ul>
-<li>
-<p>from，一种型转换方法，该方法接受单个参数并返回该类型的相应实例，例如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Date</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Date</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">instant</span><span class="o">);</span>
-</span></span></code></pre></div></li>
-<li>
-<p>of，一个聚合方法，它接受多个参数并返回一个包含这些参数的实例，例如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Rank</span><span class="o">&gt;</span> <span class="n">faceCards</span> <span class="o">=</span> <span class="n">EnumSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">JACK</span><span class="o">,</span> <span class="n">QUEEN</span><span class="o">,</span> <span class="n">KING</span><span class="o">);</span>
-</span></span></code></pre></div></li>
-<li>
-<p>valueOf，一种替代 from 和 of 但更冗长的方法，例如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">BigInteger</span> <span class="n">prime</span> <span class="o">=</span> <span class="n">BigInteger</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">);</span>
-</span></span></code></pre></div></li>
-<li>
-<p>instance 或 getInstance，返回一个实例，该实例由其参数（如果有的话）描述，但不具有相同的值，例如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">StackWalker</span> <span class="n">luke</span> <span class="o">=</span> <span class="n">StackWalker</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="n">options</span><span class="o">);</span>
-</span></span></code></pre></div></li>
-<li>
-<p>create 或 newInstance，与 instance 或 getInstance 类似，只是该方法保证每个调用都返回一个新实例，例如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Object</span> <span class="n">newArray</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="na">newInstance</span><span class="o">(</span><span class="n">classObject</span><span class="o">,</span> <span class="n">arrayLen</span><span class="o">);</span>
-</span></span></code></pre></div></li>
-<li>
-<p>getType，类似于 getInstance，但如果工厂方法位于不同的类中，则使用此方法。其类型是工厂方法返回的对象类型，例如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">FileStore</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">Files</span><span class="o">.</span><span class="na">getFileStore</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">Runtime</span> <span class="n">runtime</span> <span class="o">=</span> <span class="n">Runtime</span><span class="o">.</span><span class="na">getRuntime</span><span class="o">();</span>
-</span></span></code></pre></div></li>
-<li>
-<p>newType，与 newInstance 类似，但是如果工厂方法在不同的类中使用。类型是工厂方法返回的对象类型，例如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="n">Files</span><span class="o">.</span><span class="na">newBufferedReader</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
-</span></span></code></pre></div></li>
-<li>
-<p>type，一个用来替代 getType 和 newType 的比较简单的方式，例如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Complaint</span><span class="o">&gt;</span> <span class="n">litany</span> <span class="o">=</span> <span class="n">Collections</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">legacyLitany</span><span class="o">);</span>
-</span></span></code></pre></div></li>
-</ul>
+<p>请参考 <a href="https://blog.chensoul.com/posts/2023/04/03/static-factory-methods-instead-of-constructors/">考虑以静态工厂方法代替构造函数</a> 。</p>
 <h3 id="machine-learning-with-go">Machine-Learning-With-Go</h3>
 <p>B站视频：<a href="https://www.bilibili.com/video/BV1iW411w7ev">「课程」使用Go做机器学习</a></p>
 <p>源代码：<a href="https://github.com/PacktPublishing/Machine-Learning-With-Go">Machine-Learning-With-Go</a></p>

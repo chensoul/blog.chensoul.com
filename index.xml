@@ -2309,6 +2309,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">PASSWORD=cusdis</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">JWT_SECRET=vps@2023</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">NEXTAUTH_URL=https://cusdis.chensoul.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">HOST=https://cusdis.chensoul.com</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_TYPE=pgsql</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_URL=postgresql://cusdis:cusdis@pg@pgsql:5432/cusdis</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
@@ -2363,7 +2364,8 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    	<span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="memos">memos</h3>
+</span></span></code></pre></div><p>5、部署一个 Telegram 机器人，参考 <a href="https://cusdis.chensoul.com/doc#/advanced/webhook?id=official-telegram-bot">Official Telegram bot</a>。</p>
+<h3 id="memos">memos</h3>
 <p>通过 docker-compose 安装，创建 memos.yaml：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.0&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">

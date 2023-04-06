@@ -24,10 +24,10 @@
 <h2 id="更新-ssl-证书">更新 SSL 证书</h2>
 <p>安装 acme.sh</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl https://get.acme.sh <span class="p">|</span> sh -s <span class="nv">email</span><span class="o">=</span>chensoul.eth@gmail.com
-</span></span></code></pre></div><p><strong>我的域名托管在cloudflare</strong>，故需要获取 <a href="https://dash.cloudflare.com/profile/api-tokens">cloudflare API key</a> ，在 <code>API 令牌</code> 页面，点击查看 <code>Global API Key</code>。</p>
+</span></span></code></pre></div><p><strong>我的域名托管在cloudflare</strong>，故需要获取 <a href="https://dash.cloudflare.com/profile/api-tokens">cloudflare API key</a>，在 <code>API 令牌</code> 页面，点击查看 <code>Global API Key</code>。</p>
 <p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-13-06.png" alt="weekly-review-13-06"></p>
 <p>保存 <code>CF_Key</code> 和 <code>CF_Email</code>：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">CF_Key</span><span class="o">=</span><span class="s2">&#34;cloudflare 中查看你的 key&#34;</span> 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">CF_Key</span><span class="o">=</span><span class="s2">&#34;cloudflare 中查看你的 key&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">CF_Email</span><span class="o">=</span><span class="s2">&#34;chensoul.eth@gmail.com&#34;</span>
 </span></span></code></pre></div><p>生成证书，并重启 nginx：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">acme.sh --issue -d <span class="s2">&#34;chensoul.com&#34;</span> -d <span class="s2">&#34;*.chensoul.com&#34;</span> --dns dns_cf <span class="se">\
@@ -70,7 +70,7 @@
 <h3 id="一些工具">一些工具</h3>
 <ul>
 <li>
-<p>数据统计分析： <a href="https://usefathom.com/">https://usefathom.com</a></p>
+<p>数据统计分析：<a href="https://usefathom.com/">https://usefathom.com</a></p>
 </li>
 <li>
 <p>Cloudflare 图床：<a href="https://www.cloudflare.com/zh-cn/products/cloudflare-images/">Cloudflare Images</a></p>
@@ -79,10 +79,10 @@
 <p>Java 单元测试插件：<a href="https://squaretest.com/">Squaretest for IntelliJ IDEA</a></p>
 </li>
 <li>
-<p>基于标记的科学排版系统：<a href="https://typst.app/">Typst</a> 。可以协同工作，且界面更友好。旨在成为 LaTeX、Word 和 Google Docs 等的替代品。</p>
+<p>基于标记的科学排版系统：<a href="https://typst.app/">Typst</a>。可以协同工作，且界面更友好。旨在成为 LaTeX、Word 和 Google Docs 等的替代品。</p>
 </li>
 <li>
-<p>数据可视化资源库：<a href="https://vis.zone/lib/">https://vis.zone/lib/</a> 。网站提供非常全面的可视化图表类型供参考，还收集了很多实现可视化的代码、工具、课程、书籍。</p>
+<p>数据可视化资源库：<a href="https://vis.zone/lib/">https://vis.zone/lib/</a>。网站提供非常全面的可视化图表类型供参考，还收集了很多实现可视化的代码、工具、课程、书籍。</p>
 </li>
 <li>
 <p>一个免费的 chatgpt 在线 web：https://chatbot.theb.ai/#/chat/1002</p>
@@ -90,14 +90,8 @@
 </ul>
 <h3 id="一些视频">一些视频</h3>
 <p>以下是最近在看的电视、动画片</p>
-<ul>
-<li>
-<p>《飚速宅男》第五季。一群高中生骑自行车的热血故事。</p>
-</li>
-<li>
-<p>《潘多拉 伪造的乐园》。此剧讲述了一名拥有令人称羡生活的女子在恢复过往的记忆后，为保护自己和家人对随意操纵自己命运的人展开报复的故事</p>
-</li>
-</ul>
+<p>-《飚速宅男》第五季。一群高中生骑自行车的热血故事。</p>
+<p>-《潘多拉伪造的乐园》。此剧讲述了一名拥有令人称羡生活的女子在恢复过往的记忆后，为保护自己和家人对随意操纵自己命运的人展开报复的故事</p>
 <p>以上。</p>
 ]]></content:encoded></item><item><title>《Effective Java 3》笔记：使用构造器代替构造函数</title><link>https://blog.chensoul.com/posts/2023/04/03/builder-instead-of-constructors/</link><pubDate>Mon, 03 Apr 2023 16:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/04/03/builder-instead-of-constructors/</guid><description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 当一个类需要多个构造函数参数时，可以考虑使</description><content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。</p>
 <h2 id="介绍">介绍</h2>
@@ -1124,7 +1118,7 @@
 <img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-12-03.jpeg" alt="weekly-review-12-03" style="width:50%;" />
 <h2 id="工作">工作</h2>
 <h3 id="effective-java-3-笔记">Effective Java 3 笔记</h3>
-<p>请参考 <a href="/posts/2023/04/03/static-factory-methods-instead-of-constructors/">《Effective Java 3》笔记：静态工厂方法代替构造函数</a> 。</p>
+<p>请参考 <a href="/posts/2023/04/03/static-factory-methods-instead-of-constructors/">《Effective Java 3》笔记：静态工厂方法代替构造函数</a>。</p>
 <h3 id="machine-learning-with-go">Machine-Learning-With-Go</h3>
 <p>B站视频：<a href="https://www.bilibili.com/video/BV1iW411w7ev">「课程」使用Go做机器学习</a></p>
 <p>源代码：<a href="https://github.com/PacktPublishing/Machine-Learning-With-Go">Machine-Learning-With-Go</a></p>
@@ -1198,10 +1192,10 @@
 <li>魔女</li>
 </ul>
 <p>以上。</p>
-]]></content:encoded></item><item><title>周报-11｜从语雀迁移到Obsidian</title><link>https://blog.chensoul.com/posts/2023/03/20/weekly_review_11/</link><pubDate>Mon, 20 Mar 2023 11:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/03/20/weekly_review_11/</guid><description>前言 ​ 图片：涨渡湖湿地水上森林公园 本篇是对 2023-03-13 到 2023-03-19 这周生活的记录与思考。首发在我的个人 博客 ，你可以移步了解更多或者给我留言。 这周的工作主要是重</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
+]]></content:encoded></item><item><title>周报-11｜从语雀迁移到Obsidian</title><link>https://blog.chensoul.com/posts/2023/03/20/weekly_review_11/</link><pubDate>Mon, 20 Mar 2023 11:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/03/20/weekly_review_11/</guid><description>前言 ​ 图片：涨渡湖湿地水上森林公园 本篇是对 2023-03-13 到 2023-03-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周的工作主要是重</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-04.jpeg" alt="weekly-review-11-04"></p>
 <p>​														              					图片：<em>涨渡湖湿地水上森林公园</em></p>
-<p>本篇是对 <code>2023-03-13</code> 到 <code>2023-03-19</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a> ，你可以移步了解更多或者给我留言。</p>
+<p>本篇是对 <code>2023-03-13</code> 到 <code>2023-03-19</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这周的工作主要是重构、优化系统，工作节奏比之前轻缓了很多。这周也开始了开车上下班，除去周五去医院做检查，一共开了 4 天车。从汉口到光谷，一共 29 公里，如果早上 6:30 出发，就只需要 50 分钟；如果 6:45 出发，竟然需要两个小时，真是无语了。无奈之下，只能每天早点出门早点到公司，然后，打完卡之后，在公司楼下走路。</p>
 <p>这周开始心里默默定了一个 flag，就是每天走路 10000 步。看了一下微信运动，基本上达成了，除了周五晚上因为加班，而少走了 64 步。</p>
 <img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-03.png" alt="weekly-review-11-03" style="width:67%;" />
@@ -1337,7 +1331,7 @@
 ]]></content:encoded></item><item><title>周报-10｜通过Cloudflare Tunnel访问服务、Vercel部署Cusdis和Umami</title><link>https://blog.chensoul.com/posts/2023/03/13/weekly_review_10/</link><pubDate>Mon, 13 Mar 2023 11:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/03/13/weekly_review_10/</guid><description>前言 本篇是对 2023-03-06 到 2023-03-12 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周发现 VPS 上 某些使用 docker 部署的服务（cusdis、</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-00.jpeg" alt="weekly-review-10-00"></p>
 <p>本篇是对 <code>2023-03-06</code> 到 <code>2023-03-12</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
-<p>这周发现 VPS 上 <a href="https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/">某些使用 docker 部署的服务</a>（cusdis、umami、uptime、n8n、rsshub、memos）国内用户无法访问了，于是就折腾了一下使用 Cloudflare Tunnel 来代理这些服务。配置成功之后，又发现本地如果开启 VPN， Cloudflare Tunnel 代理的域名还是无法访问，于是放弃了使用 Cloudflare Tunnel ，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。</p>
+<p>这周发现 VPS 上 <a href="https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/">某些使用 docker 部署的服务</a>（cusdis、umami、uptime、n8n、rsshub、memos）国内用户无法访问了，于是就折腾了一下使用 Cloudflare Tunnel 来代理这些服务。配置成功之后，又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。</p>
 <p>这周工作忙完之后，就开始着手通知系统的重构改造服务，想着 chatgpt 这么火，于是就试试让它来写代码。在不断地修改需求的情况下，chatgpt 写出来的代码稍加调整逐渐可以使用了。</p>
 <p>周六从汉口开车去白沙洲湖北财税职业学院，全程 20 公里，回来的时候不小心把路边的面包车擦碰了一下。于是一脸懵的经历了一次保险定损维修。</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-07.jpeg" alt="weekly-review-10-07"></p>
@@ -1373,7 +1367,7 @@
 <p>可以看到安装命令：</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-03.png" alt="weekly-review-10-03"></p>
 <p>复制左边命令粘贴到 SSH 会话里安装 Cloudflared（注意保护 Refresh Token 不要泄漏）</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install cloudflare/cloudflare/cloudflared <span class="o">&amp;&amp;</span> 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install cloudflare/cloudflare/cloudflared <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">sudo cloudflared service install eyJhIjoiMmUxOTgwYTBlZjQzZjU3YjkyMGVhMjhjZGY5ZDM4ZDEiLCJ0IjoiYzU1ZTU3MmUtMTEyMS00OWJkLTgzMTgtNjc3NDIyYWMwMjU0IiwicyI6Ik1qZGtZakkyTldFdE5XVTRNUzAwTXpWaExXRXlNRFl0T0RobE5EbGpObVZpWmpJMSJ9
 </span></span></code></pre></div><h3 id="2删除-cloudflare-dns-的-a-记录解析">2、删除 Cloudflare DNS 的 A 记录解析</h3>
@@ -1407,14 +1401,14 @@
 <h3 id="4在-vps-上启用防火墙停止-nginx-服务">4、在 vps 上启用防火墙，停止 nginx 服务</h3>
 <p>将 vps 上 nginx 配置的反向代理删除，并可以禁用这些服务暴露的端口。</p>
 <h3 id="5测试">5、测试</h3>
-<p>经过测试，<del>又发现本地如果开启 VPN， Cloudflare Tunnel 代理的域名还是无法访问</del>，于是放弃了使用 Cloudflare Tunnel ，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。</p>
+<p>经过测试，<del>又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问</del>，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。</p>
 <h2 id="vercel-部署-cusdisumami">Vercel 部署 Cusdis、umami</h2>
-<p>参考 <a href="https://www.pseudoyu.com/zh/2022/05/24/free_and_lightweight_blog_comment_system_using_cusdis_and_railway/">轻量级开源免费博客评论系统解决方案 （Cusdis + Railway） </a> 在 Railway 上部署 cusdis ，数据库还是可以使用 vps 上部署的 postgresql，只需要配置一个 jdbc 链接即可：</p>
+<p>参考 <a href="https://www.pseudoyu.com/zh/2022/05/24/free_and_lightweight_blog_comment_system_using_cusdis_and_railway/">轻量级开源免费博客评论系统解决方案（Cusdis + Railway）</a> 在 Railway 上部署 cusdis，数据库还是可以使用 vps 上部署的 postgresql，只需要配置一个 jdbc 链接即可：</p>
 <ul>
 <li>postgresql://cusdis:xxxxxx@postgres.chensoul.com:5432/cusdis</li>
 </ul>
 <p>部署完之后，发现存在跨域问题，故全部改为使用 Vercel 来部署。</p>
-<p>参考 <a href="https://cusdis.com/doc#/self-host/vercel">Cusdis 官方文档</a> 来部署 Cusdis，对于 Cusdis 存在跨域问题，参考 <a href="https://github.com/djyde/cusdis/issues/135">Sometimes form shows on page, sometimes not - CORS issue #135</a> ，修改你的 github 的 cusdis 仓库中的 next.config.js 文件：</p>
+<p>参考 <a href="https://cusdis.com/doc#/self-host/vercel">Cusdis 官方文档</a> 来部署 Cusdis，对于 Cusdis 存在跨域问题，参考 <a href="https://github.com/djyde/cusdis/issues/135">Sometimes form shows on page, sometimes not - CORS issue #135</a>，修改你的 github 的 cusdis 仓库中的 next.config.js 文件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">async</span> <span class="nx">headers</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span>
 </span></span><span class="line"><span class="cl">      <span class="p">{</span>
@@ -1472,7 +1466,7 @@
 </span></span></code></pre></div><h3 id="一些影视">一些影视</h3>
 <ul>
 <li>
-<p><a href="https://movie.douban.com/subject/6538807/">冰海陷落</a>，推荐指数：☆☆☆☆。疯狂的芭堤雅将军杜罗夫（米哈伊尔·戈尔沃伊 Mikhail Gorevoy 饰）预谋发动第三次世界大战，他制造了一场巨大的水域爆炸，致使附近的美军潜艇队遇袭。美国海军派出了海底经验丰富但名声寥寥的乔·格拉斯潜水艇船长（杰拉德·巴特勒 Gerard Butler 饰）率领潜艇队前去调查。</p>
+<p><a href="https://movie.douban.com/subject/6538807/">冰海陷落</a>，推荐指数：☆☆☆☆。疯狂的芭堤雅将军杜罗夫（米哈伊尔・戈尔沃伊 Mikhail Gorevoy 饰）预谋发动第三次世界大战，他制造了一场巨大的水域爆炸，致使附近的美军潜艇队遇袭。美国海军派出了海底经验丰富但名声寥寥的乔・格拉斯潜水艇船长（杰拉德・巴特勒 Gerard Butler 饰）率领潜艇队前去调查。</p>
 </li>
 <li>
 <p><a href="https://movie.douban.com/subject/36193784/">黑暗荣耀第二季</a>，推荐指数：☆☆☆☆。</p>
@@ -1485,7 +1479,7 @@
 <p>这周的主要工作是版本测试和项目上线，在大家的共同努力下，最后是成功上线。</p>
 <p>由于公司最近在裁员，留下来的都开始卷起来，每天晚上 8 点之后下班，这样平均一天的工作时间才有 11 小时。据说，旁边组的同事平均每天都是 12 个小时工作时间。裁了三位同事之后，我们软件组还有 8 人，算法组有 7 人，产品组有 6 人，终端组有 4 人。距集团公司六月上市还有两个月，裁员估计还会继续，同志们还需努力加班，争取被裁的不是自己。</p>
 <p>这周还是没有开车，每天坐地铁上下班，刷刷 rss 看看 b 站视频，了解一些行业最新动态，同时也看看同样在写博客的那些独立开发者每周都在做什么，也学习一些新技术或者新技能。</p>
-<p>这周接触了 web3 空投，花了几个小时使用自动加手动的方式刷了 120 多个账号。自动的方式，就是用 nodejs 代码在 bsc 网络批量创建账号并保存为 csv 文件；其次，通过 onekey web 上的批量转账功能，给每个账户转了 0.00125 bnb。手动操作的部分就是，一个个的将账号私钥导入狐狸钱包，然后，用 lifeform cartoon 连接钱包账户，mint 成功之后，分享链接，再继续连接狐狸的下一个账号，重复上面操作。</p>
+<p>这周接触了 web3 空投，花了几个小时使用自动加手动的方式刷了 120 多个账号。自动的方式，就是用 nodejs 代码在 bsc 网络批量创建账号并保存为 csv 文件；其次，通过 onekey web 上的批量转账功能，给每个账户转了 0.00125bnb。手动操作的部分就是，一个个的将账号私钥导入狐狸钱包，然后，用 lifeform cartoon 连接钱包账户，mint 成功之后，分享链接，再继续连接狐狸的下一个账号，重复上面操作。</p>
 <p>因为太耗时间，所以只刷了 120 个账号。趁工作不忙的时候，用 chatgpt 搜索一下如何将上面的操作全部自动化。</p>
 <p>周末两天，继续练车，从汉口到阳逻，再到新洲，最后去新洲的将军山爬山、去道观河看风景。算下来，最近这三个周末六天时间，我一共开了 800 多公里了。目前，暂时没有收到违规通知，但还是存在很多不足的地方。</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-08.png" alt="weekly-review-09-08"></p>
@@ -1514,7 +1508,7 @@
 </li>
 </ul>
 <h2 id="博客该写什么">博客该写什么</h2>
-<p>看到一篇博客 <a href="https://simonwillison.net/2022/Nov/6/what-to-blog-about/">What to blog about</a> ，里面聊到了博客该写什么。一时兴起，想翻译成中文。于是，分别使用了 chrome 沉浸式翻译插件 和 chatgpt 来翻译这篇文章，得到结果如下：</p>
+<p>看到一篇博客 <a href="https://simonwillison.net/2022/Nov/6/what-to-blog-about/">What to blog about</a>，里面聊到了博客该写什么。一时兴起，想翻译成中文。于是，分别使用了 chrome 沉浸式翻译插件和 chatgpt 来翻译这篇文章，得到结果如下：</p>
 <p>1、<strong>使用 <a href="https://chrome.google.com/webstore/detail/immersive-translate/bpoadfkcbjbfhfodiogcnhhhpibjhbnh">chrome 沉浸式翻译插件</a> 翻译这篇文章：</strong></p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-01.png" alt="weekly-review-01"></p>
 <p>总结来说，博客可以写两部分内容：</p>
@@ -1557,15 +1551,15 @@
 <li>批量创建账号</li>
 <li>批量从一个账号转币到多个账号</li>
 <li>批量导入账号到狐狸钱包</li>
-<li>访问 Lifeform Cartoon 的邀请链接地址，比如：  <a href="https://cartoon.lifeform.cc?referral=0x068b021B7d44e4795c6ec07234D66c144644dC37">https://cartoon.lifeform.cc?referral=0x068b021B7d44e4795c6ec07234D66c144644dC37</a> ，然后，连接狐狸钱包里的账号，mint 之后，分享链接再使用新的链接重复上面动作</li>
+<li>访问 Lifeform Cartoon 的邀请链接地址，比如：https://cartoon.lifeform.cc?referral=0x068b021B7d44e4795c6ec07234D66c144644dC37，然后，连接狐狸钱包里的账号，mint 之后，分享链接再使用新的链接重复上面动作</li>
 </ul>
 <p>上面的步骤，如果是几百个账号手动执行，则需要花费很长时间。作为一个程序员，有没有办法让程序自动实现呢？</p>
-<p>在网上查找了一些资料，同时使用 chatgpt （备注：https://poe.com/chatgpt）找到了使用  nodejs 实现的相关代码。</p>
+<p>在网上查找了一些资料，同时使用 chatgpt（备注：https://poe.com/chatgpt）找到了使用  nodejs 实现的相关代码。</p>
 <h3 id="1批量创建账号">1、批量创建账号</h3>
 <p>在BSC网络上使用Node.js编程语言批量创建账户并保存为CSV文件的完整代码，不使用csv-writer库</p>
 <p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-03.png" alt="weekly-review-03"></p>
 <h3 id="2批量转账">2、批量转账</h3>
-<p>在BSC网络上使用Node.js编程语言从一个账号批量转 0.0125 bnb 到前面创建的多个账号，输出完整的可以运行的代码</p>
+<p>在BSC网络上使用Node.js编程语言从一个账号批量转 0.0125bnb 到前面创建的多个账号，输出完整的可以运行的代码</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-05.png" alt="weekly-review-05"></p>
 <h3 id="3批量导入账号到-metamask-钱包">3、批量导入账号到 metamask 钱包</h3>
 <p>通过编程实现在 BSC 网络 批量导入账号到浏览器的 metamask 钱包</p>
@@ -1828,7 +1822,7 @@
 <li>『专业前端开发老师』：在今后的对话里，你是一个专业的前端开发者老师，会回答我所有关于前端语言开发相关的问题，尤其是 TypeScript、React、Vuejs、CSS、Html 和 Nextjs，每次都会给出代码示例，不需要我再额外提醒。</li>
 <li>『个人搜索引擎』：在今后的会话里，请你扮演我的专业搜索引擎，为我搜索查阅相关问题的答案和信息，每个问题尽量给出链接和出处，不需要我额外再说明。</li>
 </ul>
-<p>点击 <a href="https://platform.openai.com/account/api-keys">链接</a>，可以创建应用。给飞书用户准备的 ChatGPT 机器人，参看 <a href="https://github.com/bestony/ChatGPT-Feishu">ChatGPT-Feishu</a> 。</p>
+<p>点击 <a href="https://platform.openai.com/account/api-keys">链接</a>，可以创建应用。给飞书用户准备的 ChatGPT 机器人，参看 <a href="https://github.com/bestony/ChatGPT-Feishu">ChatGPT-Feishu</a>。</p>
 <h1 id="-好物分享">💻 好物分享</h1>
 <h3 id="一些文章">一些文章</h3>
 <ul>
@@ -1890,8 +1884,8 @@
 <p>为了上下班通勤更方便，才计划买车的，也不知道开车能够缩短多少通勤时间，也希望这节约下来的时间，可以用在读书和健身上。另外一方面，买车了之后，回家看望父母会更方便。这就是买车的原因。</p>
 <img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-first-car.jpeg" style="width:60%"/>
 <p>考虑到刚拿驾照、以后还要买房，这次就只买了一个二手车。原计划只买个三万左右的车，最后还是超出了预算。</p>
-<p>去二手市场买车的时候，是在周六，周末过不了户，所以这周一又过来办理过户和选车牌号。过户的过程还是很快的，全部交给二手市场的人代办。至于，选车牌号，之前了解了一下，车牌号尽量选尾号都是数字的，这样好记；不要带数字 4，不吉利；选号有时间限制，超过了时间未选，会默认选第一个。点击“选号开始”按钮之前，心里还有点紧张。当看到第一屏的号码时候，很快地扫描了一遍，发现了一个尾号为 8688 的号码。于是，就跟一同过来买车的姐夫说，这个号码怎么样。姐夫激动地说这个号码好，就选这个。真的没有想到今天运气这么好，选到了这么好的一个号码。激动得想跟朋友圈里的好友分享。之前买车的时候，付完预付款，就有分享买车的喜悦的冲动。这时候，老婆在旁边跟我说，要低调，不要和身边的亲戚说。所以，就一直没有告诉亲人和身边的朋友。没想到，这次选了一个幸运的车牌号，还是没忍住发了一个部分好友不可见的朋友圈。</p>
-<p>这说明自己定力还是不够，分享欲太强，不够谦虚和低调。满招损，谦受益。只是买了一个车和选到一个幸运的车牌号而已，不能高兴太早，后面还要花时间练车上路、开车还要慢和稳，不能出交通事故，铭记“新手上路，多多指教”。</p>
+<p>去二手市场买车的时候，是在周六，周末过不了户，所以这周一又过来办理过户和选车牌号。过户的过程还是很快的，全部交给二手市场的人代办。至于，选车牌号，之前了解了一下，车牌号尽量选尾号都是数字的，这样好记；不要带数字 4，不吉利；选号有时间限制，超过了时间未选，会默认选第一个。点击 “选号开始” 按钮之前，心里还有点紧张。当看到第一屏的号码时候，很快地扫描了一遍，发现了一个尾号为 8688 的号码。于是，就跟一同过来买车的姐夫说，这个号码怎么样。姐夫激动地说这个号码好，就选这个。真的没有想到今天运气这么好，选到了这么好的一个号码。激动得想跟朋友圈里的好友分享。之前买车的时候，付完预付款，就有分享买车的喜悦的冲动。这时候，老婆在旁边跟我说，要低调，不要和身边的亲戚说。所以，就一直没有告诉亲人和身边的朋友。没想到，这次选了一个幸运的车牌号，还是没忍住发了一个部分好友不可见的朋友圈。</p>
+<p>这说明自己定力还是不够，分享欲太强，不够谦虚和低调。满招损，谦受益。只是买了一个车和选到一个幸运的车牌号而已，不能高兴太早，后面还要花时间练车上路、开车还要慢和稳，不能出交通事故，铭记 “新手上路，多多指教”。</p>
 <p>学英语，最重要的是练习。开车，最重要的是慢。</p>
 <h2 id="学习">学习</h2>
 <h3 id="内观冥想">内观冥想</h3>
@@ -1901,9 +1895,7 @@
 <h3 id="python">Python</h3>
 <p>最近有个机器学习的项目，用到了 Python，所以需要学习 Python 并掌握相关的业务知识。这一个机会，同时也是一个挑战。</p>
 <h2 id="娱乐">娱乐</h2>
-<ul>
-<li>《粉色理论》。这部泰国双女主的同性电视剧，豆瓣上评分 9.2，在这周完结了。</li>
-</ul>
+<p>-《粉色理论》。这部泰国双女主的同性电视剧，豆瓣上评分 9.2，在这周完结了。</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/fenhonglilun.jpeg" alt="fenhonglilun"></p>
 <h2 id="分享">分享</h2>
 <ul>
@@ -1911,19 +1903,19 @@
 <p><a href="https://pdai.tech/md/spring/springboot/springboot-x-task-hashwheeltimer-timer.html">HashedWheelTimer</a>：是来自于 Netty 的工具类，在 netty-common 包中。它用于实现延时任务。</p>
 </li>
 <li>
-<p><a href="https://github.com/killbill/killbill-commons">Killbill common queue</a>： 一个基于DB实现的分布式的队列，它上层还包装了EventBus事件总线机制。</p>
+<p><a href="https://github.com/killbill/killbill-commons">Killbill common queue</a>：一个基于DB实现的分布式的队列，它上层还包装了EventBus事件总线机制。</p>
 </li>
 </ul>
 <p>以上。</p>
 ]]></content:encoded></item><item><title>周报-5｜项目事故、牙疼、Damus</title><link>https://blog.chensoul.com/posts/2023/02/07/weekly_review_5/</link><pubDate>Tue, 07 Feb 2023 00:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/02/07/weekly_review_5/</guid><description>前言 本篇是对 2023-01-30 到 2023-02-05 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周是过年后的第一个工作周，被国家安排了连上七天</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-30</code> 到 <code>2023-02-05</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
-<p>这周是过年后的第一个工作周，被国家安排了连上七天班，算是体会了一次“过年七天乐，上班七天累”的过山车。七天的工作主要是测试并发布项目，每天忙的焦头乱额，生怕项目出了问题。有句话说，怕什么来什么。没想到周六还是报出了一个故障，还在睡觉中的我被一个电话吵醒，接着忙着找问题和解决方法，一天的时间就都花在这上面。万幸的是事故影响不大，发布了一个小版本进行修复。事故原因，还是值得警惕。</p>
+<p>这周是过年后的第一个工作周，被国家安排了连上七天班，算是体会了一次 “过年七天乐，上班七天累” 的过山车。七天的工作主要是测试并发布项目，每天忙的焦头乱额，生怕项目出了问题。有句话说，怕什么来什么。没想到周六还是报出了一个故障，还在睡觉中的我被一个电话吵醒，接着忙着找问题和解决方法，一天的时间就都花在这上面。万幸的是事故影响不大，发布了一个小版本进行修复。事故原因，还是值得警惕。</p>
 <h2 id="工作总结">工作总结</h2>
 <h3 id="项目事故">项目事故</h3>
 <p>这周主要是自定义拦截器和 ErrorCoder 来记录 feign 请求的调用次数，包括调用成功的和失败的。另外，如果调用失败，设置了重试两次。这里重试的前提是 http 请求出现 4xx 或者 5xx 状态码错误，如果是状态码为 200 但返回了自定义业务异常，是不会触发重试机制的。这一点没有注意到，而发布前，我想当然的把一个接口的手动重试代码删掉了，导致调用该接口出现业务异常之后没有进行重试，影响了业务方的使用。</p>
 <p>出现该问题的原因，一是没想出重试的前提条件，没有写代码注释；二是没有写单元测试；三是没有交叉代码审核。此外，还有一点，越是项目发布关键时期，越要注意休息，保持大脑足够清晰和敏捷。</p>
 <h3 id="aop-日志记录">AOP 日志记录</h3>
-<p>参考 【<a href="https://b23.tv/2HCODuM">每天进步一点点(二)-哔哩哔哩</a>】 在项目里添加代码对 controller 方法请求参数、返回结果、执行时间的记录。视频中讲的很清楚，这里就不贴代码了。</p>
+<p>参考 【<a href="https://b23.tv/2HCODuM">每天进步一点点（二）-哔哩哔哩</a>】 在项目里添加代码对 controller 方法请求参数、返回结果、执行时间的记录。视频中讲的很清楚，这里就不贴代码了。</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/spring-aop-customizable-trace-interceptor.png" alt="spring-aop-customizable-trace-interceptor"></p>
 <ul>
 <li>
@@ -1943,14 +1935,8 @@
 <p>周六晚上，在牙齿疼痛的地方，插了一点老爸给我的药水。睡觉时，先是畏冷，再就是牙疼的地方发炎，肚子发烧，烧到了不知道多少度，反正我是没有拿温度计去测量。烧的我大脑都是糊的，一晚上没睡好，中途还醒了几次。好在第二天，就好了一些，吃东西也没那么疼了。看来，专家顺发烧是体内细菌在和病毒做斗争，应该是对的啰。</p>
 <p>经历了这一晚上，感觉像是体验了一次阳的过程。之前新冠阳了，我是轻症状，没有发烧。这次牙疼发烧，算是把之前新冠没有吃过的苦找补回来，人生也算是多了一种体验。</p>
 <h3 id="娱乐">娱乐</h3>
-<ul>
-<li>
-<p>《狂飙》。最近很火，也刚好完结了。我没有去看，没有时间去追，就看了前面几集。</p>
-</li>
-<li>
-<p>《粉红理论》。老婆在追的一部泰剧，她是在微博看些别人剪辑的几分钟的片段。叫我也去微博看看，我说我不用微博，我翻墙去找网站观看。老婆眼睛一亮，说那不是可以看到无删减版本，那个兴奋劲哟！很快，我找到了<a href="https://www.dandanzan.com/dianshiju/112399.html">网站</a>，发现已经上线了 11 集，而且每集都有 60 多分钟长（老婆看的都是阉割版～😯）。</p>
-</li>
-</ul>
+<p>-《狂飙》。最近很火，也刚好完结了。我没有去看，没有时间去追，就看了前面几集。</p>
+<p>-《粉红理论》。老婆在追的一部泰剧，她是在微博看些别人剪辑的几分钟的片段。叫我也去微博看看，我说我不用微博，我翻墙去找网站观看。老婆眼睛一亮，说那不是可以看到无删减版本，那个兴奋劲哟！很快，我找到了<a href="https://www.dandanzan.com/dianshiju/112399.html">网站</a>，发现已经上线了 11 集，而且每集都有 60 多分钟长（老婆看的都是阉割版～😯）。</p>
 <h2 id="学习">学习</h2>
 <p>最近 Damus 很火，我也去注册了一个账号，为此还重新下载了狐狸🦊钱包。随即，干脆也注册了 Mastodon 账号和 Crossbell 账号。</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/damus-profile.png" alt="damus-profile"></p>
@@ -1977,7 +1963,7 @@
 <p>这周处于过年吃喝拜年模式，除了腊月二十九和正月初一，其他时间都是和老婆在路上。因为是结婚第一个新年，需要带着老婆去各个亲戚家拜年。因为是第一次在新房过年，就把老爸从农村接过来一起过年。因为年前没有来得及买车，去哪里都不方便，都要需要滴滴打车。为此，打车花了不少钱，当然，给红包也给了不少钱。趁初一不用拜年的缝隙时间，带老婆和老爸去看了两场电影《无名》和《交换人生》。老爸很少去看电影院看电影，听到要去看电影，像个小孩似的，饭还吃完，就跑去电梯门口等电梯。这两场电影，看的我瞌睡来了，倒是初二晚上看《满江红》睡意全无。</p>
 <p>总结下来，这个年过的不轻松，身体忙碌，心里幸福🥰。</p>
 <h2 id="向上管理">向上管理</h2>
-<p>年前，部门领导找我谈 2022 年绩效结果时候，提到我可以“向上管理”他。最近从 <a href="https://www.duyidong.com/">杜屹东</a> 的博客 <a href="https://www.duyidong.com/2020/01/01/2019-learn-from-alibaba/">这一年我在阿里学到的</a> 也看到了他在阿里工作一年后悟到对向上管理的理解。</p>
+<p>年前，部门领导找我谈 2022 年绩效结果时候，提到我可以 “向上管理” 他。最近从 <a href="https://www.duyidong.com/">杜屹东</a> 的博客 <a href="https://www.duyidong.com/2020/01/01/2019-learn-from-alibaba/">这一年我在阿里学到的</a> 也看到了他在阿里工作一年后悟到对向上管理的理解。</p>
 <ul>
 <li>及时和老板表达想法</li>
 <li>让老板知道你在忙什么</li>
@@ -2045,18 +2031,18 @@
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><h3 id="sentry-集成飞书通知">Sentry 集成飞书通知</h3>
-<p>参考 <a href="https://www.ytjia.xyz/blog/2022/05/20/sentry-webhook.html">通过Webhook实现Sentry错误自动化飞书机器人报警</a> 这篇文章，使用 fastapi 部署一个 http 服务将 sentry 的回调转发到飞书群的机器人。由于，fastapi 需要在服务器上安装 python3， 为了不污染我的 vps，我创建一个 docker 镜像 <a href="https://github.com/chensoul/dockerfiles/tree/master/sentry-feishu-hook">sentry-feishu-hook</a>，修改了 python 脚本中的编译错误，并在 vps 上通过 docker 启动该服务。</p>
+<p>参考 <a href="https://www.ytjia.xyz/blog/2022/05/20/sentry-webhook.html">通过Webhook实现Sentry错误自动化飞书机器人报警</a> 这篇文章，使用 fastapi 部署一个 http 服务将 sentry 的回调转发到飞书群的机器人。由于，fastapi 需要在服务器上安装 python3，为了不污染我的 vps，我创建一个 docker 镜像 <a href="https://github.com/chensoul/dockerfiles/tree/master/sentry-feishu-hook">sentry-feishu-hook</a>，修改了 python 脚本中的编译错误，并在 vps 上通过 docker 启动该服务。</p>
 <p>先编译镜像，再运行：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker build -t sentry-feishu-hook .
 </span></span><span class="line"><span class="cl">docker run -d --name sentry-feishu-hook -p 3080:3080 sentry-feishu-hook
 </span></span></code></pre></div><p>接下来在 sentry 项目的 WebHooks 里添加 http://ip:3080/hook</p>
 <p><img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/sentry-feishu-webhooks-test.png" alt="sentry-feishu-webhooks-test"></p>
-<p>点击 Test Plugin ，飞书群组可以收到消息：</p>
+<p>点击 Test Plugin，飞书群组可以收到消息：</p>
 <img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/sentry-feishu-webhooks-test-message.png" alt="sentry-feishu-webhooks-test-message" style="width: 60%"/>
 <h2 id="好物分享">好物分享</h2>
 <ul>
 <li><a href="https://www.warp.dev/">https://www.warp.dev/</a>：一个 Rust 编写，使用 GPU 渲染的终端应用。目标是提升开发者的效率。</li>
-<li><a href="https://strrl.dev/post/before-2022/restful-api-mock-%E5%B7%A5%E5%85%B7-jsonplaceholder/">Restful API Mock 工具: JSONPlaceholder</a></li>
+<li><a href="https://strrl.dev/post/before-2022/restful-api-mock-%E5%B7%A5%E5%85%B7-jsonplaceholder/">Restful API Mock 工具：JSONPlaceholder</a></li>
 <li><a href="https://netnewswire.com/">NetNewsWire</a>。Inoreader 最近总是抽风，就改为使用 NetNewsWire 了。使用起来，还是比较顺滑，遗憾的是没有安卓 App。</li>
 <li><a href="https://cubox.pro/">Cubox</a>。最近看到这个收藏工具，下载了使用起来。</li>
 </ul>
@@ -2569,7 +2555,7 @@ umami:postgresql-latest 来安装 umami。</p>
 <blockquote>
 <p>今日内观冥想主题是目标</p>
 <p>静静地放空自己，回想自己关注目标的记忆。好像自己曾经设立过很多目标，又好像什么都没有。目标是什么，好像描述不出来，又琢磨不透。</p>
-<p>曾经立下的那些目标算是目标吗？他们可以实现吗？他们实现了吗？为什么没有实现呢？无志之人常立志，有志之人立常志。远的不说，先看看 2022 年实现了哪些目标。读书，是彻底放下了；健身，元旦前减到 130 斤的目标在“阳康后不要剧烈运动”的说辞下耽误了；定投，也是终止了；买车，车是消耗品；结婚，实现了。</p>
+<p>曾经立下的那些目标算是目标吗？他们可以实现吗？他们实现了吗？为什么没有实现呢？无志之人常立志，有志之人立常志。远的不说，先看看 2022 年实现了哪些目标。读书，是彻底放下了；健身，元旦前减到 130 斤的目标在 “阳康后不要剧烈运动” 的说辞下耽误了；定投，也是终止了；买车，车是消耗品；结婚，实现了。</p>
 <p>算了下，实现了的目标也就是结婚了。少的可怜。为什么会这样呢？大抵是自己不够自律，没有持续的坚持，也没有及时的反思和调整。也就是自我察觉不够吧！或者说没有养成自我察觉的方法和习惯。这也就是为什么要参加 21 天内观训练营的原因吧。</p>
 <p>一个人很难认清自身的局限性，很难扩大自己的认知，多与身边的人交流和学习，通过观他人，再来思自己，应该可以提升自己的察觉意识。</p>
 </blockquote>

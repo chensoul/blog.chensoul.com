@@ -1,4 +1,76 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ChenSoul</title><link>https://blog.chensoul.com/</link><description>Recent content on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Mon, 17 Apr 2023 17:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml"/><item><title>《Effective Java 3》笔记：使用私有构造函数或枚举类型创建单例</title><link>https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</link><pubDate>Mon, 17 Apr 2023 17:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</guid><description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 依赖注入是软件工程中使用的一种设计模式，用</description><content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ChenSoul</title><link>https://blog.chensoul.com/</link><description>Recent content on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Tue, 18 Apr 2023 17:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml"/><item><title>周报-15｜Umami升级到2.0、汉街蜡像馆、使用Strava跑步</title><link>https://blog.chensoul.com/posts/2023/04/18/weekly_review_15/</link><pubDate>Tue, 18 Apr 2023 17:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/04/18/weekly_review_15/</guid><description>前言 ​ 题图：楚河汉街蜡像馆 本篇是对 2023-04-10 到 2023-04-16 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周的工作不算忙碌，继续学</description><content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-01.png" alt="weekly-review-15-01"></p>
+<p>​														<em>题图：楚河汉街蜡像馆</em></p>
+<p>本篇是对 <code>2023-04-10</code> 到 <code>2023-04-16</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周的工作不算忙碌，继续学习《Effective Java 3》这本书，并花了一些时间学习 Rust、Python 的基础语法。</p>
+<p>这个月已经过了一半，减肥也进行了两周，体重从72公斤减到了现在的68.4公斤。在之前每天走路1万步的基础上，打算开始每天跑步，比记录跑步数据。</p>
+<p>这周总计支出916元，明细如下：</p>
+<ul>
+<li>4月12日：329元，开通ETC预存300元</li>
+<li>4月15日：116元，周末买菜做饭</li>
+<li>4月16日：471元，老婆过生，吃饭和看电影</li>
+</ul>
+<p>四月累计支出我诶2025元，其中餐饮和购物占了一半。</p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-05.jpeg" alt="weekly-review-15-05" style="width:50%;" />
+<h2 id="健身">健身</h2>
+<p>这周每天走路步数如下，其中有一天因为加班而没有完成一万步的目标。</p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-06.png" alt="weekly-review-15-06" style="width:50%;" />
+<p>受 <a href="https://conge.livingwithfcs.org/">@Conge</a> 博客影响，开始记录每天的跑步数据。首先是注册了 strava 账号，然后参考 <a href="https://github.com/yihong0618/running_page">running_page</a> 部署了一个我的跑步主页 <a href="https://run.chensoul.com/">run.chensoul.com</a>。</p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-02.png" alt="weekly-review-15-02"></p>
+<p>因为我之前是使用悦跑圈 APP 记录跑步，所以又参考<a href="https://github.com/yihong0618/running_page/blob/master/README-CN.md#joyrun%E6%82%A6%E8%B7%91%E5%9C%88">这篇文章</a>导出 gpx 数据，然后<a href="https://github.com/yihong0618/running_page/blob/master/README-CN.md#gpx_to_strava">同步</a>到 Strava。最后，可以把悦跑圈 APP 卸载了。</p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-03.png" alt="weekly-review-15-03"></p>
+<p>上周跑步数据如下，总计28.64公里，比上周的19.05公里多了9.6公里。</p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-04.png" alt="weekly-review-15-04"></p>
+<p>上面搞定了之后，就可以使用 Strava 来跑步了。为了增加社交乐趣性，我在 n8n 里面创建了一个 workflow，将 Strava 活动发送到我的『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，效果如下。</p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-07.png" alt="weekly-review-15-07" style="width:50%;" />
+<h2 id="umami升级到20">Umami升级到2.0</h2>
+<p>1、首先备份数据库</p>
+<p>2、升级数据库</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/umami-software/migrate-v1-v2.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> migrate-v1-v2
+</span></span><span class="line"><span class="cl">yarn install
+</span></span><span class="line"><span class="cl">yarn build
+</span></span></code></pre></div><p>创建 .env 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">DATABASE_URL</span><span class="o">=</span><span class="s">postgresql://umami:xxxxx@postgres.chensoul.com:5432/umami</span>
+</span></span></code></pre></div><p>运行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yarn start
+</span></span></code></pre></div><p>3、重新部署静态页面</p>
+<p>日志提示报错：</p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-16.png" alt="weekly-review-15-16"></p>
+<p>解决办法是修改 scripts/check-db.js：</p>
+<p><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-17.png" alt="weekly-review-15-17"></p>
+<p>4、修改跟踪脚本，把站点中所有追踪脚本名字<code>umami.js</code>改为<code>script.js</code>。</p>
+<p>5、最后查看实时仪表盘。我的 umami 实时 <a href="https://umami.chensoul.com/realtime/f110cfa0-b737-4690-a032-2b9073a57fc3">访问地址</a></p>
+<h2 id="工作">工作</h2>
+<h3 id="effective-java-3-笔记">Effective Java 3 笔记</h3>
+<p>请参考《<a href="/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources">Effective Java 3 笔记：依赖注入优于硬编码资源</a>》。</p>
+<h2 id="汉街蜡像馆">汉街蜡像馆</h2>
+<p>周末趁武汉旅游大年卡还没过期，跑到楚河汉街蜡像馆去溜达了一圈。因为有年卡，省去了150元的门票。</p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-08.png" alt="weekly-review-15-08" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-09.png" alt="weekly-review-15-09" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-10.png" alt="weekly-review-15-10" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-11.png" alt="weekly-review-15-11" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-12.png" alt="weekly-review-15-12" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-13.png" alt="weekly-review-15-13" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-14.png" alt="weekly-review-15-14" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-15.png" alt="weekly-review-15-15" style="width:67%;" />
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<p>1、<a href="https://www3.ntu.edu.sg/home/ehchua/programming/index.html">Java 编程教程</a></p>
+<p><img src="https://cdn.beekka.com/blogimg/asset/202301/bg2023011504.webp" alt="img"></p>
+<p>这个网站是新加坡南洋理工大学的一位老师的教案（英文），主要内容为新生的 Java 编程</p>
+<p>2、<a href="https://offsec.tools/">offsec.tools</a></p>
+<p><img src="https://cdn.beekka.com/blogimg/asset/202301/bg2023012101.webp" alt="img"></p>
+<p>这个网站收集各种安全相关的软件工具，目前共有600多个。</p>
+<p>3、<a href="https://juemuren4449.com/archives/habit-formation-plan">我的习惯养成计划：五分钟规则+打卡</a></p>
+<p>4、<a href="https://www.jitao.tech/posts/my-guiding-principles-after-20-years-of-programming/">我编程 20 年的指导原则</a></p>
+<p>5、<a href="https://lenciel.com/2022/10/renaming-with-zmv/">用 zmv 批量重命名文件</a></p>
+<h3 id="一些工具">一些工具</h3>
+<ul>
+<li><a href="https://webperformancereport.com/">WebPerformance Report</a> 这个网站可以用邮箱订阅你的网站性能的个性化报告。它会监控指定网站的性能，每周会发送一封报告邮件给你。</li>
+</ul>
+]]></content:encoded></item><item><title>《Effective Java 3》笔记：使用私有构造函数或枚举类型创建单例</title><link>https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</link><pubDate>Mon, 17 Apr 2023 17:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</guid><description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 依赖注入是软件工程中使用的一种设计模式，用</description><content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。</p>
 <h2 id="介绍">介绍</h2>
 <p>依赖注入是软件工程中使用的一种设计模式，用于将组件和依赖项相互解耦。而不是在组件内部创建和管理依赖项，我们从外部传递它们。这种方法可以帮助创建更模块化和灵活的代码。</p>
 <p>相比之下，硬编码资源涉及在组件内部直接创建和管理依赖项。这种方法可能会使代码不太灵活，难以维护。</p>

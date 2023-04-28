@@ -1,1 +1,30 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>spring on ChenSoul</title><link>https://blog.chensoul.com/tags/spring/</link><description>Recent content in spring on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Mon, 17 Apr 2023 17:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/spring/index.xml" rel="self" type="application/rss+xml"/><item><title>《Effective Java 3》笔记：依赖注入优于硬编码资源</title><link>https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</link><pubDate>Mon, 17 Apr 2023 17:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</guid><description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 依赖注入是软件工程中使用的一种设计模式，用</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>spring on ChenSoul</title>
+    <link>https://blog.chensoul.com/tags/spring/</link>
+    <description>Recent content in spring on ChenSoul</description>
+    <image>
+      <title>ChenSoul</title>
+      <url>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 17 Apr 2023 17:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>《Effective Java 3》笔记：依赖注入优于硬编码资源</title>
+      <link>https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</link>
+      <pubDate>Mon, 17 Apr 2023 17:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</guid>
+      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。
+介绍 依赖注入是软件工程中使用的一种设计模式，用于将组件和依赖项相互解耦。而不是在组件内部创建和管理依赖项，我们从外部传递它们。这种方法可以帮助创建更模块化和灵活的代码。
+相比之下，硬编码资源涉及在组件内部直接创建和管理依赖项。这种方法可能会使代码不太灵活，难以维护。
+举例 许多类依赖于一个或多个底层资源。例如，拼写检查程序依赖于字典。常见做法是，将这种类实现为静态实用工具类：
+// Inappropriate use of static utility - inflexible &amp;amp; untestable! public class SpellChecker { private static final Lexicon dictionary = ...; private SpellChecker() {} // Noninstantiable public static boolean isValid(String word) { ... } public static List&amp;lt;String&amp;gt; suggestions(String typo) { ... } } 类似地，我们也经常看到它们的单例实现：
+// Inappropriate use of singleton - inflexible &amp;amp; untestable! public class SpellChecker { public static INSTANCE = new SpellChecker(.</description>
+    </item>
+    
+  </channel>
+</rss>

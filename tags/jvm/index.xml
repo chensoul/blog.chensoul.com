@@ -1,1 +1,49 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>jvm on ChenSoul</title><link>https://blog.chensoul.com/tags/jvm/</link><description>Recent content in jvm on ChenSoul</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Mon, 27 Feb 2023 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/jvm/index.xml" rel="self" type="application/rss+xml"/><item><title>周报-8｜内存泄漏、公司裁员、练车</title><link>https://blog.chensoul.com/posts/2023/02/27/weekly_review_8/</link><pubDate>Mon, 27 Feb 2023 08:00:00 +0800</pubDate><guid>https://blog.chensoul.com/posts/2023/02/27/weekly_review_8/</guid><description>前言 本篇是对 2023-02-20 到 2023-02-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这篇周报又是在地铁上完成编写的。回顾这一周的工作</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>jvm on ChenSoul</title>
+    <link>https://blog.chensoul.com/tags/jvm/</link>
+    <description>Recent content in jvm on ChenSoul</description>
+    <image>
+      <title>ChenSoul</title>
+      <url>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 27 Feb 2023 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>周报-8｜内存泄漏、公司裁员、练车</title>
+      <link>https://blog.chensoul.com/posts/2023/02/27/weekly_review_8/</link>
+      <pubDate>Mon, 27 Feb 2023 08:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/02/27/weekly_review_8/</guid>
+      <description>前言 本篇是对 2023-02-20 到 2023-02-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+这篇周报又是在地铁上完成编写的。回顾这一周的工作，还是项目测试、修复 bug 和准备上线发布。平静的工作节奏因为突如其来的裁员消息而变得内卷起来，大家下班的时间都纷纷往后移到了20 点左右。周末的时候，还是练车，从汉口开车到新洲。刚开始有点不敢，后来还是鼓起勇气，平安的到达。
+工作 内存泄漏 这周线上环境，出现了告警，提示 jvm 出现了 full gc。于是赶紧 dump 内存进行分析查找原因。顺便整理了内存相关的知识。
+什么是内存泄漏？
+这个问题直接问 chatgpt：
+内存泄漏（Memory Leak）是指在程序中动态分配的内存由于某些原因程序未能释放或无法释放，导致系统内存的实际可用空间不断减少的现象。内存泄漏的发生会导致程序占用的内存越来越多，最终导致程序崩溃或系统变慢。
+在Java中，程序员通常使用new运算符在堆上分配内存，这些内存不再使用时必须释放，否则就会出现内存泄漏。下面是一些常见的Java内存泄漏的情况：
+对象持有过多的引用 当一个对象持有其他对象的引用时，这些对象就不能被垃圾收集器回收，导致内存泄漏。比如，一个静态集合（如Map、List）持有了大量对象的引用，但是这些对象已经不再需要了，却因为集合中仍然持有这些对象的引用，导致这些对象无法被回收，造成内存泄漏。
+长时间持有对象锁 在Java中，如果一个线程获取了一个对象的锁，但是在释放锁之前发生了异常，那么这个锁就不会被释放，从而导致内存泄漏。这种情况特别容易发生在synchronized块中。
+不正确的缓存使用 如果程序员不正确地使用缓存，就会导致内存泄漏。比如，如果使用一个静态Map来缓存对象，但是不从Map中删除对象，那么这些对象就会一直存在于内存中，造成内存泄漏。
+大量创建临时对象 如果程序频繁地创建临时对象，而这些对象又没有被及时清除，就会导致内存泄漏。比如，在循环中创建大量的字符串对象，但是没有及时清除，就会导致内存泄漏。
+为了避免内存泄漏，Java程序员可以使用一些技术来优化程序，比如使用缓存池、避免使用不必要的静态变量、使用finalize()方法释放资源等等。
+如何排查内存泄漏？
+内存分析工具：内存分析工具可以帮助您找到哪些对象占用了大量的内存。一些常用的内存分析工具包括：Eclipse MAT、VisualVM 和 YourKit。这些工具可以帮助您分析内存快照、查找内存泄漏并确定导致内存泄漏的代码位置。
+堆转储文件：堆转储文件是一个包含了 JVM 堆中所有对象的快照。您可以使用以下命令生成一个堆转储文件：jmap -dump:format=b,file=heap.bin ，其中是您的 Java 应用程序的进程 ID。然后，您可以使用内存分析工具来分析该文件。
+代码审查：在编写代码时，您可以使用一些技巧来避免内存泄漏。例如，您应该确保正确地关闭流和数据库连接，避免在循环中创建对象，以及使用软引用或弱引用来存储缓存数据等。通过仔细审查代码并识别可能导致内存泄漏的部分，可以避免这些问题在运行时发生。
+监视工具：JVM 提供了一些监视工具，例如 jstat 和 jconsole，可以用于监视 JVM 的内存使用情况。通过监视这些指标，您可以识别是否存在内存泄漏的迹象。
+代码注入：在您的应用程序中，您可以注入一些代码，例如使用 JMX、AOP 等，以便您可以实时监视内存使用情况，并记录任何内存泄漏迹象。
+参考文章
+一次完整的JVM堆外内存泄漏故障排查记录
+深入探索Java 8 Lambda表达式
+java lambda表达式内存泄露_浅谈Java内存泄露
+裁员 去年公司就在裁员，陆陆续续裁了几次，每次都是裁两三个，动作都不大，但是很高效。因为部门人数就在五十左右，所以谁没来上班，都能很快察觉。
+公司要在六月份上市，上市之前要使财报好看，就要开源节流、降本增效。节约成本的一个方式就是裁员，据说这次裁员动作比以前都大都迅速，今天提出裁员人数，明天就要给出名单，月底就要走人。
+现在还只是二月份，离六月还有三个月。谁也不知道，后面还会有什么更大的裁员动作。说不定哪天就空出一个工位，说不定哪天领导就换了人，说不定哪天部门就被拆散了。</description>
+    </item>
+    
+  </channel>
+</rss>

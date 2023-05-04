@@ -4,11 +4,6 @@
     <title>yuque on ChenSoul</title>
     <link>https://blog.chensoul.com/tags/yuque/</link>
     <description>Recent content in yuque on ChenSoul</description>
-    <image>
-      <title>ChenSoul</title>
-      <url>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
-    </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 20 Mar 2023 11:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/yuque/index.xml" rel="self" type="application/rss+xml" />
@@ -35,6 +30,144 @@
 1、先下载代码：
 git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需要导出的语雀知识库地址为自己的仓库地址：
 // Determining if an ESM module is main then run the code if (import.</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-04.jpeg" alt="weekly-review-11-04"  />
+</p>
+<p>​														              					图片：<em>涨渡湖湿地水上森林公园</em></p>
+<p>本篇是对 <code>2023-03-13</code> 到 <code>2023-03-19</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周的工作主要是重构、优化系统，工作节奏比之前轻缓了很多。这周也开始了开车上下班，除去周五去医院做检查，一共开了 4 天车。从汉口到光谷，一共 29 公里，如果早上 6:30 出发，就只需要 50 分钟；如果 6:45 出发，竟然需要两个小时，真是无语了。无奈之下，只能每天早点出门早点到公司，然后，打完卡之后，在公司楼下走路。</p>
+<p>这周开始心里默默定了一个 flag，就是每天走路 10000 步。看了一下微信运动，基本上达成了，除了周五晚上因为加班，而少走了 64 步。</p>
+<!-- raw HTML omitted -->
+<h2 id="从语雀迁移到obsidian">从语雀迁移到Obsidian</h2>
+<p>上周提到开始使用格志 APP 来写日志，使用了一段时间之后，发现了一些缺点：</p>
+<ul>
+<li>部分功能收费</li>
+<li>导出的 markdown 不支持图片显示</li>
+<li>不支持本地存储</li>
+</ul>
+<p>于是，放弃了使用格志 APP，继而在使用了一段时间 Obsidian 之后，改为使用 Obsidian 来写日志和周报。</p>
+<!-- raw HTML omitted -->
+<p>为了不给自己太大压力，日报每天复盘内容包括以下几方面：</p>
+<ul>
+<li>
+<p>今日待办</p>
+</li>
+<li>
+<p>学习</p>
+</li>
+<li>
+<p>工作</p>
+</li>
+<li>
+<p>生活</p>
+</li>
+<li>
+<p>健身</p>
+</li>
+</ul>
+<h3 id="导出语雀文档为-markdown">导出语雀文档为 markdown</h3>
+<p>参考 <a href="https://github.com/yuque/yuque-exporter">yuque/yuque-exporter</a> 文档，下载 yuque-exporter  之后进行导出操作，发现以下问题：</p>
+<ul>
+<li>该项目需要使用的 nodejs 版本为 18.0.4</li>
+<li>nodejs 使用正确的版本还是导出失败</li>
+</ul>
+<p>于是，改为使用源码编译和运行导出。</p>
+<p>1、先下载代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/yuque/yuque-exporter.git
+</span></span></code></pre></div><p>2、修改 main.ts 中需要导出的语雀知识库地址为自己的仓库地址：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="c1">// Determining if an ESM module is main then run the code
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="kr">import</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">&#39;file:&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="kr">module</span><span class="nx">Path</span> <span class="o">=</span> <span class="nx">fileURLToPath</span><span class="p">(</span><span class="kr">import</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="kr">module</span><span class="nx">Path</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">urlPaths</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;chensoul/rose&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;chensoul/growup&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;chensoul/tech&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="nx">start</span><span class="p">({</span> <span class="nx">urlPaths</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>3、参考 <a href="https://www.yuque.com/yuque/developer/api#785a3731">文档</a> 申请语雀 TOKEN。</p>
+<p>4、下载项目依赖：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm i
+</span></span></code></pre></div><p>5、运行项目，开始导出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">YUQUE_TOKEN</span><span class="o">=</span>XXXXXX npm start
+</span></span></code></pre></div><blockquote>
+<p>导出的文件在 storage 目录，接下来可以拷贝到 Obsidian 目录里。</p>
+</blockquote>
+<p>6、另外，可以对 yuque-exporter 源码做一些修改：</p>
+<ul>
+<li>导出的 markdown 文件不要有 frontmatter，修改 doc.ts 中 buildDoc 方法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">async</span> <span class="kd">function</span> <span class="nx">buildDoc</span><span class="p">(</span><span class="nx">doc</span>: <span class="kt">TreeNode</span><span class="p">,</span> <span class="nx">mapping</span>: <span class="kt">Record</span><span class="p">&lt;</span><span class="nt">string</span><span class="err">,</span> <span class="na">TreeNode</span><span class="p">&gt;)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">docDetail</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">readJSON</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">metaDir</span><span class="p">,</span> <span class="nx">doc</span><span class="p">.</span><span class="kr">namespace</span><span class="p">,</span> <span class="s1">&#39;docs&#39;</span><span class="p">,</span> <span class="sb">`</span><span class="si">${</span><span class="nx">doc</span><span class="p">.</span><span class="nx">url</span><span class="si">}</span><span class="sb">.json`</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">content</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">remark</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;settings&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">bullet</span><span class="o">:</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="nx">listItemIndent</span><span class="o">:</span> <span class="s1">&#39;one&#39;</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">use</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">      <span class="p">[</span> <span class="nx">replaceHTML</span> <span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="p">[</span> <span class="nx">relativeLink</span><span class="p">,</span> <span class="p">{</span> <span class="nx">doc</span><span class="p">,</span> <span class="nx">mapping</span> <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">      <span class="p">[</span> <span class="nx">downloadAsset</span><span class="p">,</span> <span class="p">{</span> <span class="nx">doc</span><span class="p">,</span> <span class="nx">mapping</span> <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="nx">docDetail</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">//  doc.content = frontmatter(doc) + content.toString();
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">doc</span><span class="p">.</span><span class="nx">content</span> <span class="o">=</span> <span class="nx">content</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// FIXME: remark will transform `*` to `\*`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">doc</span><span class="p">.</span><span class="nx">content</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">content</span><span class="p">.</span><span class="nx">replaceAll</span><span class="p">(</span><span class="s1">&#39;\\*&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">doc</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>导出的段落之间增加换行，修改 doc.ts 中 replaceHTML 方法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">replaceHTML() {</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">tree</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">htmlNodes</span> <span class="o">=</span> <span class="nx">selectAll</span><span class="p">(</span><span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="nx">tree</span><span class="p">)</span> <span class="kr">as</span> <span class="nx">Text</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">node</span> <span class="k">of</span> <span class="nx">htmlNodes</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">value</span> <span class="o">===</span> <span class="s1">&#39;&lt;br /&gt;&#39;</span> <span class="o">||</span> <span class="nx">node</span><span class="p">.</span><span class="nx">value</span> <span class="o">===</span> <span class="s1">&#39;&lt;br/&gt;&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">node</span><span class="p">.</span><span class="kr">type</span> <span class="o">=</span> <span class="s1">&#39;text&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">node</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s1">&#39;\n\n\n&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>7、删除导出的 markdown 文件当中的锚点标签（例如：<code>&lt;a name=&quot;xx&quot;&gt;&lt;/a&gt;</code>）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> storage
+</span></span><span class="line"><span class="cl"><span class="c1"># macos 上执行</span>
+</span></span><span class="line"><span class="cl">find . -type f -name <span class="s1">&#39;*.md&#39;</span> -exec sed -i <span class="s1">&#39;&#39;</span> <span class="s1">&#39;s/&lt;a name=\&#34;[^\&#34;]*\&#34;&gt;&lt;\/a&gt;//g&#39;</span> <span class="o">{}</span> +
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<p>在上面的示例代码中，我们使用了 sed 命令来删除 Markdown 文件中所有的类似 <code>&lt;a name=&quot;xx&quot;&gt;&lt;/a&gt;</code> 的锚点标签。其中：</p>
+<ul>
+<li><code>-i ''</code> 参数表示直接修改源文件，而不是输出到标准输出流。<code>''</code> 表示在 macOS 系统上备份修改前的文件，如果在 Linux 系统上使用该命令，可以省略该参数。</li>
+<li><code>s/&lt;a name=\&quot;[^\&quot;]*\&quot;&gt;&lt;\/a&gt;//g</code> 表示用空字符串替换所有符合正则表达式 <code>&lt;a name=\&quot;[^\&quot;]*\&quot;&gt;&lt;\/a&gt;</code> 的字符串。该正则表达式匹配所有以 <code>&lt;a name=</code> 开头，以 <code>&quot;&gt;&lt;/a&gt;</code> 结尾的标签，且中间的文本不包含双引号。</li>
+</ul>
+<p>8、将导出的 markdown 文件中的本地图片批量上传到图床，操作方法：使用 typora 打开 storage 目录，然后依次点击 格式、图像、上传所有本地图片</p>
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li>
+<p><a href="https://moelove.info/2023/03/21/GitHub-Actions-%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96%E8%AE%A9%E4%BD%A0%E7%9A%84%E5%9B%A2%E9%98%9F%E6%9B%B4%E5%85%B7%E7%AB%9E%E4%BA%89%E5%8A%9B/">GitHub Actions 成本优化：让你的团队更具竞争力</a></p>
+</li>
+<li>
+<p><a href="https://juemuren4449.com/archives/open-gzip-on-nginx">Nginx 开启 gzip 压缩</a></p>
+</li>
+<li>
+<p><a href="https://www.superheaoz.top/2022/06/57091/">Obsidan日记、记账与自动同步</a></p>
+</li>
+<li>
+<p><a href="https://elmagnifico.tech/2023/03/16/Doprax-V2ray/">Doprax搭建免费V2ray节点</a></p>
+</li>
+<li>
+<p><a href="https://elizen.me/posts/2023/03/hi-icloud/">Hi，土区 iCloud</a></p>
+</li>
+<li>
+<p><a href="https://btsogiwudc.feishu.cn/docx/CgoJdHyWKopl3UxV12GcG3psnjf">国区使用土耳其iCloud服务，手把手保姆级上车教程</a></p>
+</li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
   </channel>

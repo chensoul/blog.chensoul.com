@@ -4,11 +4,6 @@
     <title>chatgpt on ChenSoul</title>
     <link>https://blog.chensoul.com/tags/chatgpt/</link>
     <description>Recent content in chatgpt on ChenSoul</description>
-    <image>
-      <title>ChenSoul</title>
-      <url>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
-    </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 13 Mar 2023 11:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/chatgpt/index.xml" rel="self" type="application/rss+xml" />
@@ -31,6 +26,159 @@
 不要连续变道，变道时既要看后视镜，又要看窗边
 红灯路口右转时，要看地面或者路边是否有禁止右转标识
 通过 Cloudflare Tunnel 访问服务 以下内容参考 初探 Cloudflare 零信任 - 通过 Cloudflare Tunnel 访问服务。</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-00.jpeg" alt="weekly-review-10-00"  />
+</p>
+<p>本篇是对 <code>2023-03-06</code> 到 <code>2023-03-12</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周发现 VPS 上 <a href="https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/">某些使用 docker 部署的服务</a>（cusdis、umami、uptime、n8n、rsshub、memos）国内用户无法访问了，于是就折腾了一下使用 Cloudflare Tunnel 来代理这些服务。配置成功之后，又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。</p>
+<p>这周工作忙完之后，就开始着手通知系统的重构改造服务，想着 chatgpt 这么火，于是就试试让它来写代码。在不断地修改需求的情况下，chatgpt 写出来的代码稍加调整逐渐可以使用了。</p>
+<p>周六从汉口开车去白沙洲湖北财税职业学院，全程 20 公里，回来的时候不小心把路边的面包车擦碰了一下。于是一脸懵的经历了一次保险定损维修。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-07.jpeg" alt="weekly-review-10-07"  />
+</p>
+<p>周六开始使用 格志 APP 写日志，选择它来记录日志的原因是它支持批量导出 mardkown、pdf、图片等。唯一有个小遗憾的是，这个应用没有图床，导出的 markdown 文件里面图片的链接不是 http 协议。</p>
+<!-- raw HTML omitted -->
+<p>周日去新荣龙湖天耀天街售房部看了一下房子。107 平三室两厅两卫，单价 2 万 5 带精装修，公积金贷款 90 万，商业贷款 30 年，每个月房贷 6000。目前来说，买不起这里的房子，但是，作为一个买房目标还是可以的，加油！</p>
+<h2 id="开车总结">开车总结</h2>
+<p>最近刷视频，总结的一些开车经验如下：</p>
+<ul>
+<li>
+<p>提前预判，前面车子刹车，不管是正前方，还是左右前方，这时候也要刹车</p>
+</li>
+<li>
+<p>前面有大货车，不要从右边超车</p>
+</li>
+<li>
+<p>会车时，看路宽</p>
+</li>
+<li>
+<p>不要连续变道，变道时既要看后视镜，又要看窗边</p>
+</li>
+<li>
+<p>红灯路口右转时，要看地面或者路边是否有禁止右转标识</p>
+</li>
+</ul>
+<h2 id="通过-cloudflare-tunnel-访问服务">通过 Cloudflare Tunnel 访问服务</h2>
+<p>以下内容参考 <a href="https://dejavu.moe/posts/cloudflare-tunnel-access-uptime/">初探 Cloudflare 零信任 - 通过 Cloudflare Tunnel 访问服务</a>。</p>
+<h3 id="1创建-cloudflare-tunnel">1、创建 Cloudflare Tunnel</h3>
+<p>登录 <a href="https://one.dash.cloudflare.com/">Cloudflare Zero Trust</a> 控制台，选择左侧导航栏的 Access 菜单，进入 Tunnels 配置，点击 Create a tunnel 创建一个 Tunnel，输入 Tunnel 隧道名称</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-01.png" alt="weekly-review-10-01"  />
+</p>
+<p>选择服务器的操作系统和平台架构：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-02.webp" alt="weekly-review-10-02"  />
+</p>
+<p>可以看到安装命令：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-03.png" alt="weekly-review-10-03"  />
+</p>
+<p>复制左边命令粘贴到 SSH 会话里安装 Cloudflared（注意保护 Refresh Token 不要泄漏）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install cloudflare/cloudflare/cloudflared <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo cloudflared service install eyJhIjoiMmUxOTgwYTBlZjQzZjU3YjkyMGVhMjhjZGY5ZDM4ZDEiLCJ0IjoiYzU1ZTU3MmUtMTEyMS00OWJkLTgzMTgtNjc3NDIyYWMwMjU0IiwicyI6Ik1qZGtZakkyTldFdE5XVTRNUzAwTXpWaExXRXlNRFl0T0RobE5EbGpObVZpWmpJMSJ9
+</span></span></code></pre></div><h3 id="2删除-cloudflare-dns-的-a-记录解析">2、删除 Cloudflare DNS 的 A 记录解析</h3>
+<p>我的域名托管在 Cloudflare 上，所以需要将原来的域名解析记录删除，主要涉及以下两个需要被国内用户访问的域名（其余域名是我个人使用，所以只需要我开启 VPN 访问即可。）：</p>
+<ul>
+<li>cusdis.chensoul.com</li>
+<li>umami.chensoul.com</li>
+</ul>
+<h3 id="3在--cloudflare-tunnel-添加-hostname">3、在  Cloudflare Tunnel 添加 hostname</h3>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-04.png" alt="weekly-review-10-04"  />
+</p>
+<p>如果需要对 ssh 服务开启代理，请参考：<a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/use_cases/ssh/">Connect with SSH through Cloudflare Tunnel</a>。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-05.png" alt="weekly-review-10-05"  />
+</p>
+<p>关键步骤是：</p>
+<ul>
+<li>
+<p>为 ssh 通道创建 Hostname</p>
+</li>
+<li>
+<p>在本地安装 <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/"><code>cloudflared</code></a></p>
+</li>
+<li>
+<p>配置 ~/.ssh/config，添加下面配置（注意：我使用 Homebrew 安装的 cloudflared）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host ssh.chensoul.com
+</span></span><span class="line"><span class="cl">ProxyCommand /opt/homebrew/bin/cloudflared access ssh --hostname %h
+</span></span></code></pre></div></li>
+<li>
+<p>通过 ssh 访问 ssh.chensoul.com：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh root@ssh.chensoul.com
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="4在-vps-上启用防火墙停止-nginx-服务">4、在 vps 上启用防火墙，停止 nginx 服务</h3>
+<p>将 vps 上 nginx 配置的反向代理删除，并可以禁用这些服务暴露的端口。</p>
+<h3 id="5测试">5、测试</h3>
+<p>经过测试，<del>又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问</del>，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。</p>
+<h2 id="vercel-部署-cusdisumami">Vercel 部署 Cusdis、umami</h2>
+<p>参考 <a href="https://www.pseudoyu.com/zh/2022/05/24/free_and_lightweight_blog_comment_system_using_cusdis_and_railway/">轻量级开源免费博客评论系统解决方案（Cusdis + Railway）</a> 在 Railway 上部署 cusdis，数据库还是可以使用 vps 上部署的 postgresql，只需要配置一个 jdbc 链接即可：</p>
+<ul>
+<li>postgresql://cusdis:xxxxxx@postgres.chensoul.com:5432/cusdis</li>
+</ul>
+<p>部署完之后，发现存在跨域问题，故全部改为使用 Vercel 来部署。</p>
+<p>参考 <a href="https://cusdis.com/doc#/self-host/vercel">Cusdis 官方文档</a> 来部署 Cusdis，对于 Cusdis 存在跨域问题，参考 <a href="https://github.com/djyde/cusdis/issues/135">Sometimes form shows on page, sometimes not - CORS issue #135</a>，修改你的 github 的 cusdis 仓库中的 next.config.js 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">async</span> <span class="nx">headers</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">source</span><span class="o">:</span> <span class="s2">&#34;/:path*&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">headers</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">          <span class="p">{</span> <span class="nx">key</span><span class="o">:</span> <span class="s2">&#34;Access-Control-Allow-Origin&#34;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="s2">&#34;*&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span></code></pre></div><p>参考 <a href="https://umami.is/docs/running-on-vercel">Umami 官方文档</a> 来部署 Umami，umami 的 postgresql jdbc 链接还是使用 vps 上面部署的 postgresql</p>
+<ul>
+<li>postgresql://umami:xxxxxxpostgres.chensoul.com:5432/umami</li>
+</ul>
+<h2 id="chatgpt-写代码">Chatgpt 写代码</h2>
+<p>在 <a href="https://poe.com/chatgpt">https://poe.com/chatgpt</a> 里面输入下面文字：</p>
+<blockquote>
+<p>请用 java 实现一个通知系统，给出完整的代码，需求如下：</p>
+<p>1、通知事件，指业务平台触发的事件，通知事件有名称，描述，编码。通知事件可以定义多个属性。属性有名称、描述、编码，类型。类型有整形、字符串、日期、时间、浮点数、列表几种。</p>
+<p>2、通知规则。通知规则有名称、生效时间（一直生效，或者指定时间段生效），通知事件（从创建好的事件选择一个）、描述。通知规则可以创建多个规则项。每个规则项要选择事件下面的某一个属性，并且可以对该事件属性选择一个操作符（大于、小于、等于、在两个指之间）和设置对应的值。如果是大于、小于、等于，则只用选择一个值。如果是在两个指之间，则需要选择两个值。多个执行条件在规则执行时，是按与执行。规则可以指定多个通知用户（姓名、手机号）。</p>
+<p>3、通知策略。一个规则可以定义多个通知策略。通知策略有通知模版、通知渠道。每个通知模版有标题、描述以及模版内容（模板内容支持变量替换）。</p>
+<p>4、通知渠道有类型、配置属性，可以发送消息，支持的通知渠道有飞书、邮件。</p>
+<p>5、通知规则测试。给定一个事件码和事实数据，系统查询出该事件码关联的多个规则。每个规则通过 easy-rule 4.1.0 框架去执行。每个规则项执行前，需要校验事实数据里的值的类型和事件属性定义的类型是否一致。多个规则项的执行结果求交集。当最后结果为 true 时，将通知策略中的模板内容进行变量替换，然后通过渠道发送消息给这些人。</p>
+<p>注意：相同的消息内容，在一分钟内，只通过一个渠道给某一个用户发送一次，不要重复发送。</p>
+</blockquote>
+<p>chatgpt 回答如下：</p>
+<!-- raw HTML omitted -->
+<p><strong>总结：</strong></p>
+<p>让 chatgpt 写代码相对来说，还是很方便的，可以提供一些编程示例或者开阔编程思路，但是也有一些缺陷：</p>
+<ul>
+<li>chatgpt 写的代码不一定准确，或者说没有考虑一些异常情况。需要不断地和 chatgpt 聊天，描述清楚需求，让 chatgpt 来修正代码，这样交互式聊天，相对来说会有点耗时。</li>
+<li>提供的 url 链接可能 404。</li>
+</ul>
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li>
+<p><a href="https://www.infoq.cn/article/txS9hHTfxasv2uHBATgL">Java 近期新闻：Gradle 8.0、Maven、Payara 平台、Piranha、Spring Framework、MyFaces 和 Piranha</a></p>
+</li>
+<li>
+<p><a href="https://blognas.hwb0307.com/ad">RackNerd VPS 推荐</a></p>
+</li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<h4 id="zedhttpszeddev"><a href="https://zed.dev/">Zed</a></h4>
+<p>Atom 作者新开发的编辑器 Zed 速度确实非常快，基本的功能也都支持，现在还在内测阶段，暂时不支持安装 extension。</p>
+<h4 id="图片转-webphttpsdevelopersgooglecomspeedwebpdocscwebphlzh-cn"><a href="https://developers.google.com/speed/webp/docs/cwebp?hl=zh-cn">图片转 webp</a></h4>
+<p>mac 上安装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install webp
+</span></span></code></pre></div><p>使用示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cwebp -q <span class="m">50</span> -lossless picture.png -o picture_lossless.webp
+</span></span><span class="line"><span class="cl">cwebp -q <span class="m">70</span> picture_with_alpha.png -o picture_with_alpha.webp
+</span></span><span class="line"><span class="cl">cwebp -sns <span class="m">70</span> -f <span class="m">50</span> -size <span class="m">60000</span> picture.png -o picture.webp
+</span></span></code></pre></div><h3 id="一些影视">一些影视</h3>
+<ul>
+<li>
+<p><a href="https://movie.douban.com/subject/6538807/">冰海陷落</a>，推荐指数：☆☆☆☆。疯狂的芭堤雅将军杜罗夫（米哈伊尔・戈尔沃伊 Mikhail Gorevoy 饰）预谋发动第三次世界大战，他制造了一场巨大的水域爆炸，致使附近的美军潜艇队遇袭。美国海军派出了海底经验丰富但名声寥寥的乔・格拉斯潜水艇船长（杰拉德・巴特勒 Gerard Butler 饰）率领潜艇队前去调查。</p>
+</li>
+<li>
+<p><a href="https://movie.douban.com/subject/36193784/">黑暗荣耀第二季</a>，推荐指数：☆☆☆☆。</p>
+</li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -53,6 +201,149 @@
 3、路口远道的原则，跟小车不跟大车。如果跟着大车，留一个车位空间，让大车先走，确认绿灯再走。
 4、红绿灯路口，提前减速，提醒后面车减速，不要急刹车，防止后面车追尾。特别是在绿灯闪的时候，不要没有减速，突然停车。否则后面车会以为你要加速冲过去，他也加速，这样，他就会追尾你。
 博客该写什么 看到一篇博客 What to blog about，里面聊到了博客该写什么。一时兴起，想翻译成中文。于是，分别使用了 chrome 沉浸式翻译插件和 chatgpt 来翻译这篇文章，得到结果如下：</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-07.png" alt="将军山"  />
+</p>
+<p>本篇是对 <code>2023-02-27</code> 到 <code>2023-03-05</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周的主要工作是版本测试和项目上线，在大家的共同努力下，最后是成功上线。</p>
+<p>由于公司最近在裁员，留下来的都开始卷起来，每天晚上 8 点之后下班，这样平均一天的工作时间才有 11 小时。据说，旁边组的同事平均每天都是 12 个小时工作时间。裁了三位同事之后，我们软件组还有 8 人，算法组有 7 人，产品组有 6 人，终端组有 4 人。距集团公司六月上市还有两个月，裁员估计还会继续，同志们还需努力加班，争取被裁的不是自己。</p>
+<p>这周还是没有开车，每天坐地铁上下班，刷刷 rss 看看 b 站视频，了解一些行业最新动态，同时也看看同样在写博客的那些独立开发者每周都在做什么，也学习一些新技术或者新技能。</p>
+<p>这周接触了 web3 空投，花了几个小时使用自动加手动的方式刷了 120 多个账号。自动的方式，就是用 nodejs 代码在 bsc 网络批量创建账号并保存为 csv 文件；其次，通过 onekey web 上的批量转账功能，给每个账户转了 0.00125bnb。手动操作的部分就是，一个个的将账号私钥导入狐狸钱包，然后，用 lifeform cartoon 连接钱包账户，mint 成功之后，分享链接，再继续连接狐狸的下一个账号，重复上面操作。</p>
+<p>因为太耗时间，所以只刷了 120 个账号。趁工作不忙的时候，用 chatgpt 搜索一下如何将上面的操作全部自动化。</p>
+<p>周末两天，继续练车，从汉口到阳逻，再到新洲，最后去新洲的将军山爬山、去道观河看风景。算下来，最近这三个周末六天时间，我一共开了 800 多公里了。目前，暂时没有收到违规通知，但还是存在很多不足的地方。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-08.png" alt="weekly-review-09-08"  />
+</p>
+<h2 id="开车总结">开车总结</h2>
+<p>这周开车，发现存在以下问题：</p>
+<ul>
+<li>1、停车还是会忘记熄火拔钥匙。</li>
+<li>2、红绿灯口，停在大货车后面，并靠得近，前方视线受阻。经过红绿灯时，感觉像是闯了红灯。</li>
+<li>3、超车时候，没有加速。</li>
+<li>4、在山路行驶，入弯和出弯都会减速。</li>
+<li>5、判断车距的经验不足。表现在行驶过程中、侧方停车、倒车入库。</li>
+</ul>
+<p>针对以上问题，晚上刷了一些视频，做了一些笔记，希望能够帮助自己改正上面这些问题。</p>
+<ul>
+<li>
+<p>1、目光看远。入弯提前收油，脚备刹车。如果弯道过急，就带点刹车，如果车速你可以控制，直接收油过弯；出弯加油，眼睛看出弯口。身体跟随方向盘靠。这样，车速不降，可以控制车速。如果以 80 码速度过弯，且这个车还在车道内，这个车的速度你就控制住了。但凡有点越线，说明车速过快，你就要降低速度。</p>
+</li>
+<li>
+<p>2、靠右行驶。会车时，主动靠右。转弯时，发现对面有来车，鸣笛示意。</p>
+</li>
+<li>
+<p>3、路口远道的原则，跟小车不跟大车。如果跟着大车，留一个车位空间，让大车先走，确认绿灯再走。</p>
+</li>
+<li>
+<p>4、红绿灯路口，提前减速，提醒后面车减速，不要急刹车，防止后面车追尾。特别是在绿灯闪的时候，不要没有减速，突然停车。否则后面车会以为你要加速冲过去，他也加速，这样，他就会追尾你。</p>
+</li>
+</ul>
+<h2 id="博客该写什么">博客该写什么</h2>
+<p>看到一篇博客 <a href="https://simonwillison.net/2022/Nov/6/what-to-blog-about/">What to blog about</a>，里面聊到了博客该写什么。一时兴起，想翻译成中文。于是，分别使用了 chrome 沉浸式翻译插件和 chatgpt 来翻译这篇文章，得到结果如下：</p>
+<p>1、<strong>使用 <a href="https://chrome.google.com/webstore/detail/immersive-translate/bpoadfkcbjbfhfodiogcnhhhpibjhbnh">chrome 沉浸式翻译插件</a> 翻译这篇文章：</strong></p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-01.png" alt="weekly-review-01"  />
+</p>
+<p>总结来说，博客可以写两部分内容：</p>
+<ul>
+<li>今天学到的东西</li>
+<li>正在做的项目</li>
+</ul>
+<p>2、<strong>使用 chatgpt 翻译这篇文章：</strong></p>
+<p>请 chatgpt 翻译这篇文章 <a href="https://simonwillison.net/2022/Nov/6/what-to-blog-about/">https://simonwillison.net/2022/Nov/6/what-to-blog-about/</a> 为中文，得到的结果如下：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-02.png" alt="weekly-review-02"  />
+</p>
+<p>标题：该写什么博客？</p>
+<p>随着我写了一篇新的博客文章，我想分享一下我最近学到的关于写博客的一些事情。</p>
+<p>一旦你开始写博客，你就必须保持一定的频率和持续的内容更新。这不仅是为了吸引和保持读者，也是为了让自己不断成长和发展。对于我来说，博客是我最有价值的自我表达形式之一，因为它迫使我去思考和组织我的想法，而这些想法可能会被淹没在日常生活的喧嚣中。</p>
+<p>但是，选择博客内容可以很困难，特别是当你有多个感兴趣的话题和项目。以下是一些我最近学到的有关选择博客主题的技巧：</p>
+<ul>
+<li>每周至少写一篇文章</li>
+</ul>
+<p>尽管这可能听起来像一个艰巨的任务，但保持每周至少写一篇文章的频率可以帮助你保持写作的习惯和进展。这也有助于避免长时间的空白期，这可能会使你失去写作的动力和读者的兴趣。</p>
+<ul>
+<li>写下你的目标和想法清单</li>
+</ul>
+<p>在开始写博客之前，先写下你感兴趣的话题和你想写的内容。这可以帮助你保持焦点并避免浪费时间在想要的内容上。</p>
+<ul>
+<li>关注你的读者</li>
+</ul>
+<p>虽然你的博客可能是一个人的项目，但是考虑到你的读者的兴趣和需求是至关重要的。试着想一下你的读者会对哪些话题感兴趣，并尝试写出他们会发现有趣或有用的内容。</p>
+<ul>
+<li>保持开放和灵活</li>
+</ul>
+<p>不要把自己局限在一个主题或领域中。保持开放和灵活，尝试不同的话题和领域。这不仅可以让你发现新的兴趣和机会，还可以让你在写作方面更有创意和灵感。</p>
+<ul>
+<li>尝试不同的博客格式</li>
+</ul>
+<p>不仅可以通过写作来表达自己，还可以通过不同的博客格式来实现这一点。尝试写一篇教程、一篇演示、一篇评论或一篇问题解答文章。这可以让你更好地探索和展示你的技能和知识。</p>
+<p>总之，写博客可以是一种令人满意的表达方式，可以帮助你探索和发现新的想法和机会。关键是要保持频率和灵活性，并尝试不同的博客格式。</p>
+<h2 id="web3-批量空投">Web3 批量空投</h2>
+<p>最近，参与了 <a href="https://cartoon.lifeform.cc/login">Lifeform Cartoon</a> 的空投，这是我第一次参与 web3。下面是记录一下操作步骤：</p>
+<ul>
+<li>下载狐狸钱包</li>
+<li>批量创建账号</li>
+<li>批量从一个账号转币到多个账号</li>
+<li>批量导入账号到狐狸钱包</li>
+<li>访问 Lifeform Cartoon 的邀请链接地址，比如：https://cartoon.lifeform.cc?referral=0x068b021B7d44e4795c6ec07234D66c144644dC37，然后，连接狐狸钱包里的账号，mint 之后，分享链接再使用新的链接重复上面动作</li>
+</ul>
+<p>上面的步骤，如果是几百个账号手动执行，则需要花费很长时间。作为一个程序员，有没有办法让程序自动实现呢？</p>
+<p>在网上查找了一些资料，同时使用 chatgpt（备注：https://poe.com/chatgpt）找到了使用  nodejs 实现的相关代码。</p>
+<h3 id="1批量创建账号">1、批量创建账号</h3>
+<p>在BSC网络上使用Node.js编程语言批量创建账户并保存为CSV文件的完整代码，不使用csv-writer库</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-03.png" alt="weekly-review-03"  />
+</p>
+<h3 id="2批量转账">2、批量转账</h3>
+<p>在BSC网络上使用Node.js编程语言从一个账号批量转 0.0125bnb 到前面创建的多个账号，输出完整的可以运行的代码</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-05.png" alt="weekly-review-05"  />
+</p>
+<h3 id="3批量导入账号到-metamask-钱包">3、批量导入账号到 metamask 钱包</h3>
+<p>通过编程实现在 BSC 网络 批量导入账号到浏览器的 metamask 钱包</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-04.png" alt="weekly-review-04"  />
+</p>
+<p>下一步，就是测试上面代码，实现全流程代码托管。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-06.png" alt="weekly-review-09-06"  />
+</p>
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li><a href="https://feeds.feedblitz.com/~/729974291/0/baeldung~Service-Profiles-in-Docker">Service Profiles in Docker | Baeldung</a></li>
+<li><a href="https://geekr.dev/posts/chatgpt-ultimate-guide">ChatGPT 终极指南</a></li>
+<li><a href="https://reorx.com/makers-daily/004-prompts-and-parameters-transparancy/">谈谈我对 ChatGPT 应用的 prompt 的看法</a></li>
+<li><a href="https://anotherdayu.com/2023/4866/">支持 OpenAI ChatGPT API 的优秀软件</a></li>
+<li><a href="https://geekr.dev/posts/chatgpt-start">编程新手如何通过ChatGPT一天完成一个MVP产品</a></li>
+<li><a href="https://github.com/Zhengqbbb/cz-git">让 OpenAI 生成 git commit message</a></li>
+<li><a href="https://insights.thoughtworks.cn/good-code-five-qualities-cupid/">好代码的五个特质 - Thoughtworks洞见</a></li>
+<li><a href="https://www.joshwcomeau.com/blog/how-i-built-my-blog/">我如何搭建自己的博客</a>（英文）</li>
+<li><a href="https://zedex.cn/8399.html">从Mac开箱开始 设置一个开发环境 - ZedeX</a></li>
+<li><a href="https://mp.weixin.qq.com/s/eil_zYS4ISK-4ojezzP-pg">创始人CEO为什么要写作（原创5000字长文尝试说透）</a></li>
+<li><a href="https://mp.weixin.qq.com/s/xfphy67PTbtjeggo7LpjSA">从抄书到开源之巅：章亦春的程序人生</a></li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<h4 id="1poecomhttpspoecom">1、<a href="https://poe.com/"><strong>poe.com</strong></a></h4>
+<p>美国问答网站Quora开发的ChatBot产品，整合不同聊天机器，包括ChatGPT。响应速度非常快，比chat.openai.com的免费账户快非常多。有ios版，手机也能用了。ios版有社区，可以分享聊天记录。</p>
+<h4 id="2founderbeatshttpsfounderbeatscom">2、<a href="https://founderbeats.com/"><strong>FounderBeats</strong></a></h4>
+<p>Founder Beats是一家面向初创企业和创业者的音乐制作工作室，专门为他们提供高质量的背景音乐和音效。Founder Beats的音乐库包含了各种类型的音乐，如流行、摇滚、电子、嘻哈、民谣等，以及各种音效和配乐，可以满足不同用户的需求。Founder Beats的音乐都是由专业音乐人和制作人制作的，具有高品质和原创性。</p>
+<p>除了音乐制作，Founder Beats还提供了其他服务，如音频制作、混音和母带处理等，可以帮助客户制作高质量的音频内容。Founder Beats的团队拥有丰富的音乐制作和音频处理经验，可以为客户提供专业的建议和支持。</p>
+<p>Founder Beats的客户包括初创企业、广告代理商、视频制作公司、游戏开发商等，他们可以使用Founder Beats的音乐和音效来增强他们的品牌形象、视频内容、游戏体验等。Founder Beats的定价模式灵活，客户可以根据自己的需求选择适合自己的价格和许可证。</p>
+<h4 id="3manticore-searchhttpsgithubcommanticoresoftwaremanticoresearch">3、<a href="https://github.com/manticoresoftware/manticoresearch">Manticore Search</a></h4>
+<p>Manticore Search是一款开源的全文搜索引擎，支持高性能的搜索和分析。它是Sphinx Search的后继者，使用了类似的架构和API，并且在功能和性能方面有很多改进。Manticore Search使用C++编写，具有高效的索引和查询引擎，可以处理大量的数据和高并发访问。它支持多种数据源和数据格式，包括MySQL、PostgreSQL、XML、JSON、CSV等。</p>
+<p>Manticore Search提供了丰富的查询语言和API，包括SQL、SPHINQL和HTTP API等，可以满足不同用户的需求。它支持全文搜索、模糊搜索、短语搜索、近义词搜索、地理位置搜索等多种搜索方式，并且支持高级过滤、排序、分组、聚合等功能。Manticore Search还具有高可用性和可扩展性，支持主从复制、分片、集群等部署方式，可以满足不同规模和负载的应用场景。</p>
+<p>Manticore Search是一款使用广泛的全文搜索引擎，它被广泛应用于电子商务、社交网络、新闻媒体、在线教育等领域，帮助用户快速检索和发现所需信息。Manticore Search在GitHub上开源，拥有活跃的社区和开发者，用户可以通过GitHub社区获得支持和贡献代码。</p>
+<h4 id="4unsilencehttpsgithubcomlagmoellertimunsilence">4、<a href="https://github.com/lagmoellertim/unsilence">Unsilence</a></h4>
+<p>unsilence是一个基于Python的命令行工具，用于检测和修复音频文件中的静音区域。它可以帮助用户自动检测和删除音频文件中的静音部分，从而提高音频的质量和可听性。unsilence支持多种音频格式，如MP3、WAV、OGG等，可以在不损失音频质量的情况下删除静音。</p>
+<p>使用unsilence非常简单，用户只需在命令行中输入unsilence命令和音频文件名，unsilence就会自动检测和修复音频文件中的静音部分。用户也可以通过设置参数来调整unsilence的处理方式，如设置最小静音长度、最小音量阈值等。</p>
+<h4 id="5css-bedhttpswwwcssbedcom">5、<a href="https://www.cssbed.com/">CSS Bed</a></h4>
+<p>这个网页收集并展示各种无类的极简化 CSS 框架。如果你想选一个简单的 CSS 框架，可以看看它</p>
+<h4 id="6lightrunhttpslightruncom">6、<a href="https://lightrun.com/">lightrun</a></h4>
+<p>lightrun.com是一款基于云的实时Java和Kotlin应用程序调试和观察工具。它提供了一种无需修改代码即可实时调试Java和Kotlin应用程序的方式，减少了开发人员的调试时间，提高了应用程序的稳定性和可靠性。lightrun.com还提供了实时日志查看和分析，可以帮助开发人员快速定位问题和解决问题，提高了应用程序的可维护性。</p>
+<p>lightrun.com可以与常见的Java开发工具集成，如Eclipse、IntelliJ IDEA和VS Code。它还支持多种操作系统和云平台，如Windows、Linux、Docker、AWS和Azure等。开发人员可以使用lightrun.com来调试和监视本地应用程序，也可以在云端快速诊断生产环境中的问题。</p>
+<p>lightrun.com采用了安全的云架构，并且使用了端到端加密来保护用户数据的安全性。它还提供了灵活的计费模式，用户可以根据自己的需求选择适合自己的计费方式。</p>
+<h4 id="7httpsgithubcomappscr-gpt">7、https://github.com/apps/cr-gpt</h4>
+<p>基于 ChatGPT 的 Github Code Review 机器人</p>
+<h4 id="8妙记多-mojidoc-httpsmojidoccom">8、<a href="https://mojidoc.com/">妙记多 Mojidoc </a></h4>
+<p>新一代生产协同工具</p>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -86,6 +377,117 @@ java lambda表达式内存泄露_浅谈Java内存泄露
 裁员 去年公司就在裁员，陆陆续续裁了几次，每次都是裁两三个，动作都不大，但是很高效。因为部门人数就在五十左右，所以谁没来上班，都能很快察觉。
 公司要在六月份上市，上市之前要使财报好看，就要开源节流、降本增效。节约成本的一个方式就是裁员，据说这次裁员动作比以前都大都迅速，今天提出裁员人数，明天就要给出名单，月底就要走人。
 现在还只是二月份，离六月还有三个月。谁也不知道，后面还会有什么更大的裁员动作。说不定哪天就空出一个工位，说不定哪天领导就换了人，说不定哪天部门就被拆散了。</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-02-20</code> 到 <code>2023-02-26</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这篇周报又是在地铁上完成编写的。回顾这一周的工作，还是项目测试、修复 bug 和准备上线发布。平静的工作节奏因为突如其来的裁员消息而变得内卷起来，大家下班的时间都纷纷往后移到了20 点左右。周末的时候，还是练车，从汉口开车到新洲。刚开始有点不敢，后来还是鼓起勇气，平安的到达。</p>
+<h2 id="工作">工作</h2>
+<h3 id="内存泄漏">内存泄漏</h3>
+<p>这周线上环境，出现了告警，提示 jvm 出现了 full gc。于是赶紧 dump 内存进行分析查找原因。顺便整理了内存相关的知识。</p>
+<p><strong>什么是内存泄漏？</strong></p>
+<p>这个问题直接问 chatgpt：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-08-01.png" alt="weekly-review-08-01"  />
+</p>
+<p>内存泄漏（Memory Leak）是指在程序中动态分配的内存由于某些原因程序未能释放或无法释放，导致系统内存的实际可用空间不断减少的现象。内存泄漏的发生会导致程序占用的内存越来越多，最终导致程序崩溃或系统变慢。</p>
+<p>在Java中，程序员通常使用new运算符在堆上分配内存，这些内存不再使用时必须释放，否则就会出现内存泄漏。下面是一些常见的Java内存泄漏的情况：</p>
+<ol>
+<li>对象持有过多的引用</li>
+</ol>
+<p>当一个对象持有其他对象的引用时，这些对象就不能被垃圾收集器回收，导致内存泄漏。比如，一个静态集合（如Map、List）持有了大量对象的引用，但是这些对象已经不再需要了，却因为集合中仍然持有这些对象的引用，导致这些对象无法被回收，造成内存泄漏。</p>
+<ol start="2">
+<li>长时间持有对象锁</li>
+</ol>
+<p>在Java中，如果一个线程获取了一个对象的锁，但是在释放锁之前发生了异常，那么这个锁就不会被释放，从而导致内存泄漏。这种情况特别容易发生在synchronized块中。</p>
+<ol start="3">
+<li>不正确的缓存使用</li>
+</ol>
+<p>如果程序员不正确地使用缓存，就会导致内存泄漏。比如，如果使用一个静态Map来缓存对象，但是不从Map中删除对象，那么这些对象就会一直存在于内存中，造成内存泄漏。</p>
+<ol start="4">
+<li>大量创建临时对象</li>
+</ol>
+<p>如果程序频繁地创建临时对象，而这些对象又没有被及时清除，就会导致内存泄漏。比如，在循环中创建大量的字符串对象，但是没有及时清除，就会导致内存泄漏。</p>
+<p>为了避免内存泄漏，Java程序员可以使用一些技术来优化程序，比如使用缓存池、避免使用不必要的静态变量、使用finalize()方法释放资源等等。</p>
+<p><strong>如何排查内存泄漏？</strong></p>
+<ul>
+<li>
+<p>内存分析工具：内存分析工具可以帮助您找到哪些对象占用了大量的内存。一些常用的内存分析工具包括：Eclipse MAT、VisualVM 和 YourKit。这些工具可以帮助您分析内存快照、查找内存泄漏并确定导致内存泄漏的代码位置。</p>
+</li>
+<li>
+<p>堆转储文件：堆转储文件是一个包含了 JVM 堆中所有对象的快照。您可以使用以下命令生成一个堆转储文件：jmap -dump:format=b,file=heap.bin <!-- raw HTML omitted -->，其中<!-- raw HTML omitted -->是您的 Java 应用程序的进程 ID。然后，您可以使用内存分析工具来分析该文件。</p>
+</li>
+<li>
+<p>代码审查：在编写代码时，您可以使用一些技巧来避免内存泄漏。例如，您应该确保正确地关闭流和数据库连接，避免在循环中创建对象，以及使用软引用或弱引用来存储缓存数据等。通过仔细审查代码并识别可能导致内存泄漏的部分，可以避免这些问题在运行时发生。</p>
+</li>
+<li>
+<p>监视工具：JVM 提供了一些监视工具，例如 jstat 和 jconsole，可以用于监视 JVM 的内存使用情况。通过监视这些指标，您可以识别是否存在内存泄漏的迹象。</p>
+</li>
+<li>
+<p>代码注入：在您的应用程序中，您可以注入一些代码，例如使用 JMX、AOP 等，以便您可以实时监视内存使用情况，并记录任何内存泄漏迹象。</p>
+</li>
+</ul>
+<p>参考文章</p>
+<ul>
+<li>
+<p><a href="https://www.cnblogs.com/rude3knife/p/13570423.html">一次完整的JVM堆外内存泄漏故障排查记录</a></p>
+</li>
+<li>
+<p><a href="https://droidyue.com/blog/2015/11/28/article-java-8-lambdas-a-peek-under-the-hood">深入探索Java 8 Lambda表达式</a></p>
+</li>
+<li>
+<p><a href="https://blog.csdn.net/weixin_34722015/article/details/114815917">java lambda表达式内存泄露_浅谈Java内存泄露</a></p>
+</li>
+</ul>
+<h3 id="裁员">裁员</h3>
+<p>去年公司就在裁员，陆陆续续裁了几次，每次都是裁两三个，动作都不大，但是很高效。因为部门人数就在五十左右，所以谁没来上班，都能很快察觉。</p>
+<p>公司要在六月份上市，上市之前要使财报好看，就要开源节流、降本增效。节约成本的一个方式就是裁员，据说这次裁员动作比以前都大都迅速，今天提出裁员人数，明天就要给出名单，月底就要走人。</p>
+<p>现在还只是二月份，离六月还有三个月。谁也不知道，后面还会有什么更大的裁员动作。说不定哪天就空出一个工位，说不定哪天领导就换了人，说不定哪天部门就被拆散了。</p>
+<p>互联网公司最大的变化就是变化。之前在阿里工作，公司的价值观里有一条就是拥抱变化。</p>
+<p>拥抱变化的最好方式就是积极面对，主动加班，提高工作效率，增加工作产出。</p>
+<h2 id="生活">生活</h2>
+<h3 id="练车">练车</h3>
+<p>这是买车之后的第二周，还是没有开车去上班。一是因为开车不过熟练，胆子小，不敢开得太快；二是公司楼下的停车位还没有办好。</p>
+<p>周六本想叫朋友过来给我当陪练，后来因为要回新洲，就算了，还是自己开车，带着老婆回新洲。</p>
+<p>老婆科目一考过了，后面因为工作原因就没去练车和考试。她坐副驾驶，一边剥豆子一边提醒我注意交通规则。</p>
+<p>在老婆的坐镇之下，顺利的从汉口开车六十公里到达新洲，路上没有违反交通规则。</p>
+<p>周六下午去看了一下潘塘花朝节，有点失望，没有想象中的热闹。可能因为这不是正宗的花朝节，正宗的应该是在旧街。</p>
+<p>逛了一圈，买了两百菜刀、一个砧板、两颗果树、一盆墨兰花。</p>
+<p>周六从新洲开回阳逻，周日又从阳逻开回老家去看父亲。买车后第一次回家，放了鞭炮🧨。</p>
+<p>中午包饺子，吃完饭就去菜园收割青菜。农村对于城市里上班族来说，一大好处是，每次回家，都可以装满青菜带回城市。</p>
+<p>下午，从老家驱车回阳逻再到汉口。在开车的过程中，发现和总结了一些问题。</p>
+<p>之前开车，总是盯着仪表盘，看车速达到了多少。车速一到 70 多就下意识地松油门和踩刹车。现在开始把眼睛注意力放到前方，不去可以在意车速，只是当导航提示我超速的时候，我白降低一点速度。</p>
+<p>在红绿灯之前，如果不转弯，不要提前换道或者超车，保持中间道路行驶即可。</p>
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li>
+<p><a href="https://blog.baoshuo.ren/post/actions-ssl-cert/">使用 GitHub Actions 自动申请与部署 SSL 证书</a></p>
+</li>
+<li>
+<p><a href="https://phind.com/">The AI search engine for developers</a></p>
+</li>
+<li>
+<p><a href="https://magickpen.com/">用 AI 写文章</a></p>
+</li>
+<li>
+<p><a href="https://blog.csdn.net/weixin_34722015/article/details/114815917">java lambda表达式内存泄露_浅谈Java内存泄露</a></p>
+</li>
+<li>
+<p><a href="https://kenengba.com/post/3769.html">在家躺着拿工资，是挺过意不去的</a></p>
+</li>
+<li>
+<p><a href="https://blog.mikeoperfect.com/posts/11517/">车辆违章和交通事故处理流程</a></p>
+</li>
+<li>
+<p><a href="https://blog.alswl.com/2020/03/before-code-review/">浅谈 Code Review 之事前准备</a></p>
+</li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<h4 id="1raycasthttpswwwraycastcom">1、<a href="https://www.raycast.com/">Raycast</a></h4>
+<p>Raycast是一款想要取代 Spotlight 的快捷启动器，通过 Mac 上面的一些组合键来为让你完成在 Mac 上面的快捷启动，提高你日常当中在 Mac 上面的操作效率，如果以 macOS 系统版本风格来比喻的话，Alfred 的 UI 风格应该能匹配几年前的 macOS 吧，而 Raycast 却是能够驾驭 macOS Big Sur 全新的视觉风格。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-08-02.png" alt="weekly-review-08-02"  />
+</p>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -113,6 +515,162 @@ java lambda表达式内存泄露_浅谈Java内存泄露
 1、优化页面加载速度 每次打开博客首页，感觉页面加载有点慢，故想加快博客打开速度，第一个想到的是减少博客加载资源的次数，也就是去掉一些飞必须的 css 和 javascript 引用；其次，是对 css 进行压缩。
 去掉对 font-awesome css 的引用。这个对博客来说可有可无，所以直接去掉。 去掉对 jquery、bootstrap js 的引用。同样也不是必须的，自定义的 javascript 直接使用原生的操作就行。 移除未使用的 css。想参考这篇文章 CleanCSS - 移除未使用的 CSS 代码，对 css 进行瘦身，无奈文章中的服务器出现故障，无法访问服务。故，暂时搁浅。 2、修改网站字体 参考这篇文章 字体漫谈-网站字体最佳实践 引入 open-sans 字体：
 &amp;lt;link rel=&amp;#34;preload&amp;#34; as=&amp;#34;font&amp;#34; type=&amp;#34;font/woff2&amp;#34; href=&amp;#34;/css/font/open-sans.css&amp;#34; &amp;gt; &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; type=&amp;#34;text/css&amp;#34; href=&amp;#34;/css/font/open-sans.css&amp;#34; media=&amp;#34;print&amp;#34; onload=&amp;#34;this.</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-02-13</code> 到 <code>2023-02-19</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<h2 id="练车">练车</h2>
+<p>这周末开始练车，周六是第一次开自己的车，简单试驾了一样；周日则开了一百多公里，具体行程是从阳逻到新洲，从新洲单汉口，从汉口到光谷，从光谷回汉口。</p>
+<p>这途中走了江北快速公路、二环、二七长江大桥、东湖隧道，从白天开到晚上夜行，经历过堵车，路上看到车祸后的事故现场。</p>
+<p>一天下来，总共开车有五个多小时，感觉开车好累。作为新手，开车的过程中要全神贯注，铭记开车最重要的是慢这一原则，速度不敢过快。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-06.webp" alt="weekly-review-06"  />
+</p>
+<p>回顾这一天的练车过程，发现自己存在以下问题：</p>
+<ul>
+<li>
+<p>对汽车不熟悉，不清楚车内每个按钮有什么作用。</p>
+</li>
+<li>
+<p>不敢开的太快，油门踩到六十公里之后，就下意识地松油门。整个行驶过程中，平均车速大概在二十多公里每小时。</p>
+</li>
+<li>
+<p>对交规不熟悉，第一次用高德地图，不知道什么时候改该变道、什么时候该走中间道路。要变道时候，不够果敢，打了灯光之后，没有快速变道，甚至还降速，等后面车子，而后面车子也在等我。</p>
+</li>
+<li>
+<p>对车距不敏感。行驶过程中，和左右车辆相隔距离多近，没有一个直观的感受。观察后视镜，后面车距多远，有时候也判断不准，导致自己变道犹豫不决，险些擦碰。</p>
+</li>
+<li>
+<p>变道、转弯，有时候忘记打灯。转弯时候，方向盘动得太早，没有等车过斑马线再打方向盘。左转弯时候，没有转大弯，导致车子有一次擦到了左边的石墩子，幸好不是很严重。</p>
+</li>
+<li>
+<p>倒车和侧方停车不够熟练。</p>
+</li>
+<li>
+<p>对上班路线不熟悉，不知道怎么进入公司楼下停车场。</p>
+</li>
+</ul>
+<p>基于以上表现，接下来一周还是坐地铁上班。目前来说还是更喜欢坐地铁上班，可以看视频听音频，可以查看 RSS   订阅文章，可以写周报，可以闭目养神。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-07.png" alt="weekly-review-07"  />
+</p>
+<p>老婆给我买的实习期贴牌到了，后面司机看到这么可爱的牌子，估计以为是个妹子在开车吧，应该会喇叭下留情了吧😄。</p>
+<p>接下来的周末，还要继续练车，和车子培养感情，从内到外熟悉车子，熟悉上班路线和交通规则，提高行驶速度。加油💪🏻！</p>
+<h2 id="博客优化">博客优化</h2>
+<p>这周重新对博客进行了优化，主要包括以下几个方面：</p>
+<h3 id="1优化页面加载速度">1、优化页面加载速度</h3>
+<p>每次打开博客首页，感觉页面加载有点慢，故想加快博客打开速度，第一个想到的是减少博客加载资源的次数，也就是去掉一些飞必须的 css 和 javascript 引用；其次，是对 css 进行压缩。</p>
+<ul>
+<li>去掉对 font-awesome css 的引用。这个对博客来说可有可无，所以直接去掉。</li>
+<li>去掉对 jquery、bootstrap js 的引用。同样也不是必须的，自定义的 javascript 直接使用原生的操作就行。</li>
+<li>移除未使用的 css。想参考这篇文章 <a href="https://dujun.io/cleancss-remove-unused-css.html">CleanCSS - 移除未使用的 CSS 代码</a>，对 css 进行瘦身，无奈文章中的服务器出现故障，无法访问服务。故，暂时搁浅。</li>
+</ul>
+<h3 id="2修改网站字体">2、修改网站字体</h3>
+<p>参考这篇文章 <a href="https://www.albertaz.com/blog/web-font-best-practice">字体漫谈-网站字体最佳实践</a> 引入 open-sans 字体：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;preload&#34;</span> <span class="na">as</span><span class="o">=</span><span class="s">&#34;font&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;font/woff2&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/css/font/open-sans.css&#34;</span> <span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span>  <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/css&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/css/font/open-sans.css&#34;</span>  <span class="na">media</span><span class="o">=</span><span class="s">&#34;print&#34;</span> <span class="na">onload</span><span class="o">=</span><span class="s">&#34;this.media=&#39;all&#39;&#34;</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><p>并修改网站 font-family 如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">font-family</span><span class="p">:</span> <span class="n">Open</span> <span class="n">Sans</span><span class="p">,</span><span class="n">system-ui</span><span class="p">,</span><span class="o">-</span><span class="n">apple-system</span><span class="p">,</span><span class="n">Arial</span><span class="p">,</span><span class="kc">sans-serif</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">word-break</span><span class="p">:</span> <span class="kc">break-word</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="3修改关于页面内容">3、修改关于页面内容</h3>
+<p>参考这篇文章 <a href="https://rahuldkjain.github.io/gh-profile-readme-generator/">GitHub Profile README Generator</a>，对 GitHub <a href="https://github.com/chensoul/chensoul">首页</a> 进行改造，并通过 GitHub Action 同步到博客的 <a href="https://blog.chensoul.com/about/">关于</a> 页面。</p>
+<h3 id="4dns-解析迁移到-cloudflare">4、dns 解析迁移到 cloudflare</h3>
+<p>将 dns 解析从 AWS 迁移到 cloudflare，并开启 CDN 缓存。</p>
+<h3 id="5博客测速">5、博客测速</h3>
+<p>以上优化完成之后，在 <a href="https://pagespeed.web.dev/">PageSpeed Insights</a> 网站上对博客首页加载速度进行了测速。移动端测试结果为 93 分，如下图：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-01.png" alt="weekly-review-07-01"  />
+</p>
+<p>影响评分的原因在于：</p>
+<ul>
+<li>First Contentful Paint (3G)</li>
+<li>加载的 <a href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">bootstrap.min.css</a> 文件过大，包括了一些未使用的 CSS</li>
+</ul>
+<p>桌面端测试结果评分为 99 分：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-02.png" alt="weekly-review-07-02"  />
+</p>
+<p>另外，试了一下使用 chatgpt 来给出网站优化建议，回答如下：</p>
+<h2 id="n8n-调整">n8n 调整</h2>
+<p>新增了 3 个 workflow：</p>
+<ul>
+<li>
+<p>定时获取 <a href="https://www.bitstamp.net/api/v2/ticker/btcusd">BTC 价格</a>，并发送到 <a href="https://t.me/chensoul_share">我的电报群组</a></p>
+</li>
+<li>
+<p>定时获取 spotify 喜欢列表，并发送到电报和 memos</p>
+</li>
+<li>
+<p>每天早上 7 点，发送天气预报给微信</p>
+</li>
+</ul>
+<p>修改了以下 workflow：</p>
+<ul>
+<li>将豆瓣最近动态同步到电报群组以及 <a href="https://memos.chensoul.com/">memos</a></li>
+<li>将 GitHub 最近动态同步到电报群组以及  <a href="https://memos.chensoul.com/">memos</a></li>
+<li>将 <a href="https://blog.chensoul.com/index.xml">博客 RSS</a> 同步到电报群组以及  <a href="https://memos.chensoul.com/">memos</a></li>
+</ul>
+<p>此外，在苹果手机上添加了两个捷径：</p>
+<ul>
+<li><a href="https://sharecuts.cn/shortcut/12640">捷径一</a>：调用 memos API 创建 memos</li>
+<li><a href="https://www.icloud.com/shortcuts/d990253f43e148469af5e85c296961cf">捷径二</a>：对网站通过 RSSBud 获取 RSS 订阅地址并发送到电报的 flowerrss 机器人进行订阅</li>
+</ul>
+<h2 id="chatgpt-注册账号">ChatGPT 注册账号</h2>
+<p>参考 <a href="https://sms-activate.org/cn/info/ChatGPT">注册ChatGPT详细指南</a> 注册账号，我在 sms-activate 网站是购买的巴西的手机号来接验证码。</p>
+<p>解决地区受限问题：在浏览器地址栏里输入 <code>javascript:</code>，然后粘贴下面代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="nx">i</span><span class="p">=&gt;</span><span class="nx">i</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">&#39;@@auth0spajs&#39;</span><span class="p">)))</span>
+</span></span></code></pre></div><blockquote>
+<p>如果还是无效，则清理浏览器 cookie 和 session，再刷新页面。</p>
+</blockquote>
+<p>账号创建成功之后，创建了几个 chat：</p>
+<ul>
+<li>『文案小助手』：在今后的会话里，你都将扮演我的文案纠错润色助理，并综合给出优化后的版本。</li>
+<li>『专业后端开发老师』：在今后的对话里，你是一个专业的后端语言开发者老师，会回答我所有关于后端开发相关的问题，尤其是 Java、Pyhon、Go 语言，同时也包括 Shell 脚本、Makefile、Docker、K8S 等运维部署相关的疑问，每次都会给出代码示例，不需要我再额外提醒。</li>
+<li>『专业前端开发老师』：在今后的对话里，你是一个专业的前端开发者老师，会回答我所有关于前端语言开发相关的问题，尤其是 TypeScript、React、Vuejs、CSS、Html 和 Nextjs，每次都会给出代码示例，不需要我再额外提醒。</li>
+<li>『个人搜索引擎』：在今后的会话里，请你扮演我的专业搜索引擎，为我搜索查阅相关问题的答案和信息，每个问题尽量给出链接和出处，不需要我额外再说明。</li>
+</ul>
+<p>点击 <a href="https://platform.openai.com/account/api-keys">链接</a>，可以创建应用。给飞书用户准备的 ChatGPT 机器人，参看 <a href="https://github.com/bestony/ChatGPT-Feishu">ChatGPT-Feishu</a>。</p>
+<h1 id="-好物分享">💻 好物分享</h1>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li>
+<p>技术类：</p>
+<ul>
+<li>
+<p><a href="https://writings.stephenwolfram.com/2019/02/seeking-the-productive-life-some-details-of-my-personal-infrastructure/">我的个人 IT 基础设施（英文）</a></p>
+</li>
+<li>
+<p><a href="https://arun.is/blog/desk-setup/">打造我的家庭办公环境（英文）</a></p>
+</li>
+<li>
+<p><a href="https://www.ruanyifeng.com/blog/2022/01/weekly-issue-191.html">科技爱好者周刊（第 191 期）：一个程序员的财务独立之路</a></p>
+</li>
+<li>
+<p><a href="https://www.zlovezl.cn/articles/programming-is-still-hard-after-14-years/">入行 14 年，我还是觉得编程很难</a></p>
+</li>
+<li>
+<p><a href="https://www.piglei.com/articles/how-to-design-config-file-for-software/">设计服务端软件配置的 4 条建议</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>非技术类：</p>
+<ul>
+<li>
+<p><a href="https://tingtalk.me/health/">除了健康，都是小事</a></p>
+</li>
+<li>
+<p><a href="https://tingtalk.me/driving-test/">驾考指南</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<h4 id="1亲戚关系计算器httpspasser-bycomrelationshipvue">1、<a href="https://passer-by.com/relationship/vue/#/">亲戚关系计算器</a></h4>
+<h4 id="2imageoptimhttpsimageoptimcommac">2、<a href="https://imageoptim.com/mac">ImageOptim</a></h4>
+<p>开源图片压缩软件：一款 Mac 小工具，可以方便的进行图片压缩，支持多格式、批量处理。值得注意的是，它压缩之后的图片会覆盖之前的图片。使用了这个工具之后，我就把  TinyPNG4Mac 卸载了。</p>
+<h4 id="3沉浸式双语网页翻译扩展--immersive-translatehttpsimmersive-translateowenyoungcom">3、<a href="https://immersive-translate.owenyoung.com/">沉浸式双语网页翻译扩展 – immersive-translate</a></h4>
+<p>强烈推荐这个网页翻译插件，和其他插件翻译整个页面相比，这个插件的优势是可以同时显示双语，中英文对照非常棒，是一个 <a href="https://github.com/immersive-translate/immersive-translate">开源</a> 的项目，完全免费使用。也支持 PDF，配合任何 <a href="https://epub-reader.online/">epub 在线阅读网站</a>对照翻译阅读书也非常方便。也支持了Deepl，腾讯翻译等等的翻译服务。开发者 <a href="https://twitter.com/OwenYoungZh">@OwenYoungZh</a></p>
+<h4 id="4input-source-prohttpsinputsourceprozh-cn">4、<a href="https://inputsource.pro/zh-CN">Input Source Pro</a></h4>
+<p>Input Source Pro 可以根据应用或是网站自动切换输入法，并且在切换窗口的时候还会贴心的提示当前的输入法是什么，比如设置 VSCode、iTerm、Xcode 默认为英文输入法，而笔记软件和企业微信默认为中文输入法，切换软件时再也不需要按 shift 键了！</p>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
   </channel>

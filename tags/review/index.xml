@@ -4,11 +4,6 @@
     <title>review on ChenSoul</title>
     <link>https://blog.chensoul.com/tags/review/</link>
     <description>Recent content in review on ChenSoul</description>
-    <image>
-      <title>ChenSoul</title>
-      <url>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
-    </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 18 Apr 2023 17:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/review/index.xml" rel="self" type="application/rss+xml" />
@@ -34,6 +29,88 @@ Umami升级到2.0 1、首先备份数据库
 git clone https://github.com/umami-software/migrate-v1-v2.git cd migrate-v1-v2 yarn install yarn build 创建 .env 文件：
 #修改为你的数据库地址 DATABASE_URL=postgresql://umami:xxxxx@postgres.chensoul.com:5432/umami 运行：
 yarn start 3、重新部署静态页面</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-01.png" alt="weekly-review-15-01"  />
+</p>
+<p>​														<em>题图：楚河汉街蜡像馆</em></p>
+<p>本篇是对 <code>2023-04-10</code> 到 <code>2023-04-16</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周的工作不算忙碌，继续学习《Effective Java 3》这本书，并花了一些时间学习 Rust、Python 的基础语法。</p>
+<p>这个月已经过了一半，减肥也进行了两周，体重从72公斤减到了现在的68.4公斤。在之前每天走路1万步的基础上，打算开始每天跑步，比记录跑步数据。</p>
+<p>这周总计支出916元，明细如下：</p>
+<ul>
+<li>4月12日：329元，开通ETC预存300元</li>
+<li>4月15日：116元，周末买菜做饭</li>
+<li>4月16日：471元，老婆过生，吃饭和看电影</li>
+</ul>
+<p>四月累计支出共 2025 元，其中餐饮和购物占了一半。</p>
+<!-- raw HTML omitted -->
+<h2 id="健身">健身</h2>
+<p>这周每天走路步数如下，其中有一天因为加班而没有完成一万步的目标。</p>
+<!-- raw HTML omitted -->
+<p>受 <a href="https://conge.livingwithfcs.org/">@Conge</a> 博客影响，开始记录每天的跑步数据。首先是注册了 strava 账号，然后参考 <a href="https://github.com/yihong0618/running_page">running_page</a> 部署了一个我的跑步主页 <a href="https://run.chensoul.com/">run.chensoul.com</a>。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-02.png" alt="weekly-review-15-02"  />
+</p>
+<p>因为我之前是使用悦跑圈 APP 记录跑步，所以又参考<a href="https://github.com/yihong0618/running_page/blob/master/README-CN.md#joyrun%E6%82%A6%E8%B7%91%E5%9C%88">这篇文章</a>导出 gpx 数据，然后<a href="https://github.com/yihong0618/running_page/blob/master/README-CN.md#gpx_to_strava">同步</a>到 Strava。最后，可以把悦跑圈 APP 卸载了。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-03.png" alt="weekly-review-15-03"  />
+</p>
+<p>上周跑步数据如下，总计28.64公里，比上周的19.05公里多了9.6公里。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-04.png" alt="weekly-review-15-04"  />
+</p>
+<p>上面搞定了之后，就可以使用 Strava 来跑步了。为了增加社交乐趣性，我在 n8n 里面创建了一个 workflow，将 Strava 活动发送到我的『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，效果如下。</p>
+<!-- raw HTML omitted -->
+<h2 id="umami升级到20">Umami升级到2.0</h2>
+<p>1、首先备份数据库</p>
+<p>2、升级数据库</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/umami-software/migrate-v1-v2.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> migrate-v1-v2
+</span></span><span class="line"><span class="cl">yarn install
+</span></span><span class="line"><span class="cl">yarn build
+</span></span></code></pre></div><p>创建 .env 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="c1">#修改为你的数据库地址</span>
+</span></span><span class="line"><span class="cl"><span class="na">DATABASE_URL</span><span class="o">=</span><span class="s">postgresql://umami:xxxxx@postgres.chensoul.com:5432/umami</span>
+</span></span></code></pre></div><p>运行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yarn start
+</span></span></code></pre></div><p>3、重新部署静态页面</p>
+<p>日志提示报错：</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-16.png" alt="weekly-review-15-16"  />
+</p>
+<p>解决办法是修改 scripts/check-db.js：</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-17.png" alt="weekly-review-15-17"  />
+</p>
+<p>4、修改跟踪脚本，把站点中所有追踪脚本名字<code>umami.js</code>改为<code>script.js</code>。</p>
+<p>5、最后查看实时仪表盘。我的 umami 实时 <a href="https://umami.chensoul.com/realtime/f110cfa0-b737-4690-a032-2b9073a57fc3">访问地址</a></p>
+<h2 id="工作">工作</h2>
+<h3 id="effective-java-3-笔记">Effective Java 3 笔记</h3>
+<p>请参考《<a href="/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources">Effective Java 3 笔记：依赖注入优于硬编码资源</a>》。</p>
+<h2 id="汉街蜡像馆">汉街蜡像馆</h2>
+<p>周末趁武汉旅游大年卡还没过期，跑到楚河汉街蜡像馆去溜达了一圈。因为有年卡，省去了150元的门票。</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<p>1、<a href="https://www3.ntu.edu.sg/home/ehchua/programming/index.html">Java 编程教程</a></p>
+<p><img loading="lazy" src="https://cdn.beekka.com/blogimg/asset/202301/bg2023011504.webp" alt="img"  />
+</p>
+<p>这个网站是新加坡南洋理工大学的一位老师的教案（英文），主要内容为新生的 Java 编程</p>
+<p>2、<a href="https://offsec.tools/">offsec.tools</a></p>
+<p><img loading="lazy" src="https://cdn.beekka.com/blogimg/asset/202301/bg2023012101.webp" alt="img"  />
+</p>
+<p>这个网站收集各种安全相关的软件工具，目前共有600多个。</p>
+<p>3、<a href="https://juemuren4449.com/archives/habit-formation-plan">我的习惯养成计划：五分钟规则+打卡</a></p>
+<p>4、<a href="https://www.jitao.tech/posts/my-guiding-principles-after-20-years-of-programming/">我编程 20 年的指导原则</a></p>
+<p>5、<a href="https://lenciel.com/2022/10/renaming-with-zmv/">用 zmv 批量重命名文件</a></p>
+<h3 id="一些工具">一些工具</h3>
+<ul>
+<li><a href="https://webperformancereport.com/">WebPerformance Report</a> 这个网站可以用邮箱订阅你的网站性能的个性化报告。它会监控指定网站的性能，每周会发送一封报告邮件给你。</li>
+</ul>
+]]></content:encoded>
     </item>
     
     <item>
@@ -61,6 +138,140 @@ Hello World
 注释 格式化输出 变量和常量
 数据类型
 基本类型 运算 类型转换 复杂类型 表达式和语句</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekl-review-14-01.jpg" alt="weekl-review-14-01"  />
+</p>
+<p>本篇是对 <code>2023-04-03</code> 到 <code>2023-04-09</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周还是和以前一样每天运动，并开始施行断食。因为是刚开始断食，有时候忍不住饥饿感而吃了一些东西。</p>
+<p>本周工作主要是发布了一个版本，其余时间用来学习 Rust 和 Python，初学这两种语言，他们语法上有很多相似之处。如何学习一门编程语言？整理了一些步骤。尝试了一下用多种语言编写猜数游戏，这些语言包括 Rust、Ptyhon、Go、NodeJs、JavaScript、Kotlin、Bash，除了 Java。这是一个很有意思的事情，如果能够把这些语言都熟练掌握，那就更好了。</p>
+<h2 id="关于健身">关于健身</h2>
+<p>完成了每天一万步的计划，并且共跑步 5 次，一共 18.6 公里，平均配速 7 分钟4 9 秒，每天跳绳 500+。</p>
+<!-- raw HTML omitted -->
+<h2 id="关于记账">关于记账</h2>
+<p>本周继续使用微信记账本记录每天支出。累计消费835元，明细如下：</p>
+<ul>
+<li>
+<p>4月3日，周一：支出 59 元，餐饮</p>
+</li>
+<li>
+<p>4月4日，周二：支出 0 元，</p>
+</li>
+<li>
+<p>4月5日，周三：支出 228 元，超市购物</p>
+</li>
+<li>
+<p>4月6日，周四：支出 15 元，停车费</p>
+</li>
+<li>
+<p>4月7日，周五：支出 12 元</p>
+</li>
+<li>
+<p>4月8日，周六：支出 415 元，加油+餐饮</p>
+</li>
+<li>
+<p>4月8日，周日：支出 106 元，餐饮</p>
+</li>
+</ul>
+<h2 id="如何学习一门编程语言">如何学习一门编程语言</h2>
+<p>学习一门编程语言的基础语法对于初学者来说非常重要，以下是一些详细的步骤：</p>
+<ol>
+<li>了解编程语言的基础概念：在学习编程语言之前，了解编程的基础概念是非常重要的。例如，变量、数据类型、条件语句、循环、函数等等。</li>
+<li>寻找学习资源：学习编程语言的基础语法可以通过各种学习资源来实现，如书籍、教程、在线视频和交互式学习平台等。选择适合自己的学习资源是非常重要的。</li>
+<li>学习变量和数据类型：在学习编程语言之前，学习变量和数据类型是必须的。了解如何定义变量、赋值和使用不同的数据类型，例如字符串、整数、浮点数、布尔值等等。</li>
+<li>学习条件语句：条件语句是编程语言中的重要概念之一。例如，学习如何使用if语句和else语句，使程序在特定条件下执行不同的代码块。</li>
+<li>学习循环：循环是编程语言中的另一个重要概念。例如，学习如何使用while循环和for循环，使程序在特定条件下重复执行代码块。</li>
+<li>学习函数：函数是编程语言中的重要概念之一。学习如何定义和使用函数，以将代码结构化并重用。</li>
+<li>练习编写代码：练习编写代码是学习编程语言基础语法的重要方式。编写小程序或项目，例如打印&quot;Hello World&quot;、计算器或猜数字游戏等。</li>
+<li>学习调试和错误处理：学习如何调试代码和处理常见错误，例如语法错误、逻辑错误和运行时错误等。</li>
+</ol>
+<p>总结一下，学习一门编程语言的步骤：</p>
+<ul>
+<li>
+<p>安装</p>
+</li>
+<li>
+<p>Hello World</p>
+<ul>
+<li>注释</li>
+<li>格式化输出</li>
+</ul>
+</li>
+<li>
+<p>变量和常量</p>
+</li>
+<li>
+<p>数据类型</p>
+<ul>
+<li>基本类型
+<ul>
+<li>运算</li>
+<li>类型转换</li>
+</ul>
+</li>
+<li>复杂类型</li>
+</ul>
+</li>
+<li>
+<p>表达式和语句</p>
+<ul>
+<li>条件</li>
+<li>循环</li>
+<li>断言</li>
+</ul>
+</li>
+<li>
+<p>函数</p>
+</li>
+<li>
+<p>类和对象</p>
+</li>
+<li>
+<p>包和模块</p>
+</li>
+<li>
+<p>异常处理</p>
+</li>
+<li>
+<p>标准库</p>
+<ul>
+<li>IO</li>
+<li>网络</li>
+<li>多线程</li>
+</ul>
+</li>
+<li>
+<p>单元测试</p>
+</li>
+</ul>
+<p>接下来，打算按照上面的步骤来学习 Rust、Python、Go，也许还会有 NodeJs 和 Kotlin，并整理相关笔记。</p>
+<h2 id="工作">工作</h2>
+<h3 id="effective-java-3-笔记">Effective Java 3 笔记</h3>
+<p>请参考 <a href="/posts/2023/04/11/enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type/">《Effective Java 3》笔记：使用私有构造函数或枚举类型创建单例</a></p>
+<h3 id="rust">Rust</h3>
+<p>因为对 <a href="https://tauri.app/">Tauri</a> 这个 GUI 框架挺感兴趣，所以我开始学习 Rust 了，目前在参考 <a href="https://rustwiki.org/">https://rustwiki.org/</a> 上的 <a href="https://rustwiki.org/zh-CN/rust-by-example/">通过例子学 Rust</a> 和 《Rust权威指南》 学习 Rust。</p>
+<!-- raw HTML omitted -->
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li><a href="http://ebookconverter.blogspot.com/2013/11/where-to-find-epub-file-in-ibooks-for.html">Where to find the EPUB file in iBooks for Mac under OS X 10.9 Mavericks</a></li>
+<li><a href="https://roy.wang/umami-js-quicken/">使用 CDN 加速 Umami 静态资源</a></li>
+<li><a href="https://blog.alswl.com/2023/04/web-api-guidelines/">实用 Web API 规范</a></li>
+<li><a href="https://utgd.net/article/9367">一次本地免费过滤 RSS 的尝试：NetNewsWire</a></li>
+<li><a href="https://catcoding.me/p/redis-antriez/">不想当作家的程序员写不出 Redis</a></li>
+<li><a href="https://www.lijiaocn.com/%E7%BC%96%E7%A8%8B/2023/03/30/kotlin-syntax.html">Kotlin 语法一站式手册</a></li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<ul>
+<li><a href="https://listmonk.app/">Listmonk</a> 一款自主托管的电子邮件列表管理工具。它允许您将邮件列表导入到自己的服务器中，并使用它来管理您的邮件列表和发送电子邮件。Listmonk具有良好的可扩展性和自定义性，可通过REST API进行操作，并支持高级功能，例如自定义字段、模板和自动化工作流程，从而使其成为一个非常有用和灵活的电子邮件列表管理工具。与其他在线邮件列表服务相比，Listmonk的优势之一是您完全掌控自己的数据和服务器，因此您不必担心第三方公司的数据隐私问题。</li>
+<li><a href="https://ricks-apps.com/osx/sitesucker/index.html">SiteSucker</a> SiteSucker是一款MacOS平台上的免费工具，它可以帮助用户将整个网站下载到本地电脑中。使用SiteSucker，用户只需要输入目标网站的URL，它就会自动下载该网站的所有页面、图像、视频和其他资源，并将它们保存在本地硬盘上，以便用户离线浏览或备份。SiteSucker支持多线程下载和断点续传，可以在不中断下载的情况下暂停和恢复下载任务。此外，它还可以过滤URL，以便用户只下载特定类型的文件，例如HTML、图像或视频文件。总之，SiteSucker是一款非常实用的工具，适用于需要离线浏览网站、备份网站或进行网站抓取的用户。</li>
+<li><a href="https://montaigne.io/">Montaigne</a> 用苹果笔记来创建网站、博客或作品集</li>
+<li><a href="https://github.com/BlueMatthew/WechatExporter">WechatExporter</a> 聊天记录导出</li>
+<li><a href="https://paw.cloud/">RapidAPI</a> 一款MacOS平台上的API开发工具，它旨在帮助开发人员更轻松地设计、测试和调试API。Paw提供了一个直观的用户界面，可以让用户轻松地构建和调试API请求，并查看服务器响应。Paw支持多种API协议和格式，例如REST、SOAP、GraphQL、JSON和XML等，可以与多种服务器端点和身份验证方式进行集成。此外，Paw还具有强大的自动化和脚本化功能，允许用户使用JavaScript或Python编写自定义脚本，以自动化API测试和集成工作流程。</li>
+<li><a href="https://gist.github.com/VincentSit/a682f4162b998c7f24d08ab34bf233da">卸载MacOS微信键盘</a></li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -81,6 +292,104 @@ Hello World
 根据一般的减肥经验，每消耗 3500 卡路里的热量就可以减少一斤体重。假设每次跑步消耗 300 卡路里的热量，那么每天跑步 5 公里约消耗 300 ~ 400 卡路里的热量。如果每天坚持跑步，并且保持每天消耗 300 ~ 400 卡路里的热量，那么大约需要 10 周时间才能减少 10 斤体重。
 关于记账 上周开始，在寻找一个记账的 APP，想开始记录每天的收入与支出。当然，更多的应该是支出了。现在，大环境不行，公司裁员不停，必须要开源节流，手上储备足够的现金。
 找来找去，发现微信里没有有个『微信记账本』小程序就可以在微信里自动记账，也支持手动记账。于是，这周试了一下这个小程序，并有意的控制自己每天的输出。因为每天都有带饭，这样中饭就不用花钱了；早餐呢，是泡之前买的黑芝麻糊喝，省去了早餐费用。结果是，这周的支出只有 4.</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-13-01.jpeg" alt="weekly-review-13-01"  />
+</p>
+<p>本篇是对 <code>2023-03-27</code> 到 <code>2023-04-02</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>本周是三月的最后一周，想到这，就想对随便对三月份做个总结。总结的方面，大概包括工作、生活、学习、健身、财务、娱乐几个方面。万事开头难，不知道能者多少，但是，相信不管写多少，都是有意义的。</p>
+<p>先来说说最近一周做了什么。查看一下 gitlab 上标签提交记录，这周发布了一个版本，其余时间是进行测试，为下周发布做准备。在工作之余，开始学习《Effective Java 3》，并用 chatgpt 作为辅助工作，加深对技术的理解。另外，有了想学习 React、Rust、Go、Pyhon 的想法。想学的东西有点多，只能一步步来。争取每天利用下班之后的一个小时进行碎片化的学习，并且做好相关笔记，如有可能发布在这个博客上面。加油！</p>
+<p>这周完成了每天一万步的计划，其中周末走了 3 万多步，并且还开始了跑步。</p>
+<h2 id="关于健身">关于健身</h2>
+<p>完成了每天一万步的计划，并且共跑步 8 次，一共 26 公里，最高平均配速 7 分钟，还跳绳一次（550 下）。</p>
+<!-- raw HTML omitted -->
+<p>跑步的目的不是快，而是乐此不疲。每天跑步 5 公里，每次消耗 300 卡路里的热量，大概需要 10 周才能瘦 10 斤。</p>
+<!-- raw HTML omitted -->
+<p>光靠走路和跑步，想在 4 月完成瘦 10 斤的目标，应该是不可能的，打算辅助间歇性断食，看下效果。</p>
+<blockquote>
+<p>跑步是一种有氧运动，可以促进身体代谢，消耗体内的脂肪和热量，达到减肥的效果。但是减肥的效果受到很多因素的影响，如个人的体重、身高、年龄、性别、饮食习惯、跑步强度、频率和时长等。</p>
+<p>通常来说，减肥的基本原理是消耗更多的热量，从而达到体重减轻的效果。每天跑步 5 公里的运动量相对较小，一般在一个小时左右可以完成。如果每天坚持跑步，同时注意饮食控制，增加其他有氧运动和合理的休息，可能会在几个月内看到一定的减肥效果。</p>
+<p>根据一般的减肥经验，每消耗 3500 卡路里的热量就可以减少一斤体重。假设每次跑步消耗 300 卡路里的热量，那么每天跑步 5 公里约消耗 300 ~ 400 卡路里的热量。如果每天坚持跑步，并且保持每天消耗 300 ~ 400 卡路里的热量，那么大约需要 10 周时间才能减少 10 斤体重。</p>
+</blockquote>
+<h2 id="关于记账">关于记账</h2>
+<p>上周开始，在寻找一个记账的 APP，想开始记录每天的收入与支出。当然，更多的应该是支出了。现在，大环境不行，公司裁员不停，必须要开源节流，手上储备足够的现金。</p>
+<p>找来找去，发现微信里没有有个『微信记账本』小程序就可以在微信里自动记账，也支持手动记账。于是，这周试了一下这个小程序，并有意的控制自己每天的输出。因为每天都有带饭，这样中饭就不用花钱了；早餐呢，是泡之前买的黑芝麻糊喝，省去了早餐费用。结果是，这周的支出只有 4.5 元。一次是早上买了一本豆浆，一次是早上跑步怕迟到就骑了一次动感单车。</p>
+<!-- raw HTML omitted -->
+<p>正好三月结束了，查看了一下三月的支出报表。总的来说，三月支出的有点多，超乎了我的想象。如果每个月都是支出这么多，那以后的零花钱就不够用了。还是要勒紧裤腰带过日子啊。</p>
+<!-- raw HTML omitted -->
+<h2 id="更新-ssl-证书">更新 SSL 证书</h2>
+<p>安装 acme.sh</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl https://get.acme.sh <span class="p">|</span> sh -s <span class="nv">email</span><span class="o">=</span>chensoul.eth@gmail.com
+</span></span></code></pre></div><p><strong>我的域名托管在cloudflare</strong>，故需要获取 <a href="https://dash.cloudflare.com/profile/api-tokens">cloudflare API key</a>，在 <code>API 令牌</code> 页面，点击查看 <code>Global API Key</code>。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-13-06.png" alt="weekly-review-13-06"  />
+</p>
+<p>保存 <code>CF_Key</code> 和 <code>CF_Email</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">CF_Key</span><span class="o">=</span><span class="s2">&#34;cloudflare 中查看你的 key&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">CF_Email</span><span class="o">=</span><span class="s2">&#34;chensoul.eth@gmail.com&#34;</span>
+</span></span></code></pre></div><p>生成证书，并重启 nginx：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">acme.sh --issue -d <span class="s2">&#34;chensoul.com&#34;</span> -d <span class="s2">&#34;*.chensoul.com&#34;</span> --dns dns_cf <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--cert-file      /usr/local/nginx/ssl/chensoul.com.cer  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--key-file       /usr/local/nginx/ssl/chensoul.com.key  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--fullchain-file /usr/local/nginx/ssl/fullchain.cer <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--reloadcmd <span class="s2">&#34;nginx -s reload&#34;</span>
+</span></span></code></pre></div><p>移除域名证书自动更新</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">acme.sh --remove -d chensoul.com -d <span class="s2">&#34;*.chensoul.com&#34;</span>
+</span></span></code></pre></div><h2 id="百度站点收录">百度站点收录</h2>
+<p>参考 <a href="https://ifttl.com/push-urls-to-baidu/">向百度主动推送网站链接</a> 使用脚本定时推送网站链接到百度站点。对 <code>push_to_baidu.sh</code> 脚本的  parse 方法做了如下修改，以解决 <code>xmllint 解析带有命名空间的 xml 文件报错</code> 的问题。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="k">function</span> parse <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">local</span> <span class="nv">file</span><span class="o">=</span><span class="nv">$1</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="nv">$file</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$XMLLINT</span> --format --xpath <span class="s2">&#34;//*[local-name()=&#39;loc&#39; and namespace-uri()=&#39;http://www.sitemaps.org/schemas/sitemap/0.9&#39;]/text()&#34;</span> <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">&#34;</span> <span class="p">|</span> sed -e <span class="s1">&#39;s/https/\nhttps/g&#39;</span> &gt; <span class="s2">&#34;</span><span class="nv">$URL_TEMP</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="nv">$URL_TEMP</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="工作">工作</h2>
+<h3 id="effective-java-3-笔记">Effective Java 3 笔记</h3>
+<p>请参考 <a href="/posts/2023/04/03/builder-instead-of-constructors/">《Effective Java 3》笔记：使用构造器代替构造函数</a></p>
+<h3 id="rust">Rust</h3>
+<p>因为对 <a href="https://tauri.app/">Tauri</a> 这个 GUI 框架挺感兴趣，所以我开始学习 Rust 了，目前在参考 <a href="https://rustwiki.org/">https://rustwiki.org/</a> 上的 <a href="https://rustwiki.org/zh-CN/rust-by-example/">通过例子学 Rust</a> 和 <a href="https://rustwiki.org/zh-CN/book/">Rust 程序设计语言</a> 学习 Rust。</p>
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li>
+<p><a href="https://www.lijiaocn.com/%E7%BC%96%E7%A8%8B/2023/03/28/go-wasm-usage.html">Go wasm 使用：Go 代码编译成 WebAssembly 及调用</a></p>
+</li>
+<li>
+<p><a href="https://ourai.ws/posts/what-i-have-done-in-2023-q1/">失业三个月，我都干了啥？</a></p>
+</li>
+<li>
+<p><a href="https://www.bboy.app/2023/04/04/%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8Bgitea%E7%9A%84action/">介绍一下gitea的action</a></p>
+</li>
+<li>
+<p><a href="https://blog.p2hp.com/archives/10711">作为绝对初学者学习 Web 开发</a></p>
+</li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<ul>
+<li>
+<p>数据统计分析：<a href="https://usefathom.com/">https://usefathom.com</a></p>
+</li>
+<li>
+<p>Cloudflare 图床：<a href="https://www.cloudflare.com/zh-cn/products/cloudflare-images/">Cloudflare Images</a></p>
+</li>
+<li>
+<p>Java 单元测试插件：<a href="https://squaretest.com/">Squaretest for IntelliJ IDEA</a></p>
+</li>
+<li>
+<p>基于标记的科学排版系统：<a href="https://typst.app/">Typst</a>。可以协同工作，且界面更友好。旨在成为 LaTeX、Word 和 Google Docs 等的替代品。</p>
+</li>
+<li>
+<p>数据可视化资源库：<a href="https://vis.zone/lib/">https://vis.zone/lib/</a>。网站提供非常全面的可视化图表类型供参考，还收集了很多实现可视化的代码、工具、课程、书籍。</p>
+</li>
+<li>
+<p>一个免费的 chatgpt 在线 web：https://chatbot.theb.ai/#/chat/1002</p>
+</li>
+</ul>
+<h3 id="一些视频">一些视频</h3>
+<p>以下是最近在看的电视、动画片</p>
+<p>-《飚速宅男》第五季。一群高中生骑自行车的热血故事。</p>
+<p>-《潘多拉伪造的乐园》。此剧讲述了一名拥有令人称羡生活的女子在恢复过往的记忆后，为保护自己和家人对随意操纵自己命运的人展开报复的故事</p>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -112,6 +421,94 @@ v2ray + warp-go 非全局使用Cloudflare WARP解锁New Bing等服务
 如何高效地协作开发：一些 Google 的实践
 Java高性能缓存库Caffeine
 一些工具 优设导航官网：设计导航2013年上线至今，是优设网旗下最专业好用的设计师导航网站！设计导航为设计师提供UI设计、设计教程、素材下载、高清图库、配色方案、App设计、网页设计等设计网站导航指引。设计导航每周更新，设计风向标就看优设网！</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-12-01.jpeg" alt="weekly-review-12-01"  />
+</p>
+<p>本篇是对 <code>2023-03-20</code> 到 <code>2023-03-26</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>上周去同济医院检查鼾症，检查结果是轻度症状，医生建议多运动减肥。这周每天走路 1 万步的目标已达成。</p>
+<!-- raw HTML omitted -->
+<p>工作上发布了一个版本，另外两个迭代正在进行中，预计这周再发布一个版本。从飞书通讯录看到又有三个非技术类同事被裁，这周周会，部门领导说最近又有一个做商务的同事被优化了。</p>
+<p>上周有一天早上，车子停在小区里面，被两个车子挡住了前后道路，联系不上车主，只好坐地铁上班。话说，自从开车上班之后，使用手机的频率明显降低了很多。</p>
+<p>上周末阳光正好，于是回家去给已故的亲人扫墓。周六回老家，周日回老婆家。逝者已逝，活着的人要善待自己，好好吃饭，好好睡觉，好好工作，好好运动。</p>
+<!-- raw HTML omitted -->
+<h2 id="工作">工作</h2>
+<h3 id="effective-java-3-笔记">Effective Java 3 笔记</h3>
+<p>请参考 <a href="/posts/2023/04/03/static-factory-methods-instead-of-constructors/">《Effective Java 3》笔记：静态工厂方法代替构造函数</a>。</p>
+<h3 id="machine-learning-with-go">Machine-Learning-With-Go</h3>
+<p>B站视频：<a href="https://www.bilibili.com/video/BV1iW411w7ev">「课程」使用Go做机器学习</a></p>
+<p>源代码：<a href="https://github.com/PacktPublishing/Machine-Learning-With-Go">Machine-Learning-With-Go</a></p>
+<h2 id="生活">生活</h2>
+<h3 id="车辆被堵">车辆被堵</h3>
+<p>早上准备开车上班，发现车子前后道路都被车辆占道了。前面车辆占道，昨天晚上下班回来就发现了，也确认了这个车辆没有留挪车电话。当时就隐隐担忧今天早上会被挡住前后道路。没有想到，真的被挡了。后面的车辆留了挪车电话。六点半开始，我就给后面车的车主打电话发短信，对方一直没接电话，估计手机调静音还在睡觉吧。没有想到的是，截止到现在时间八点，他还没有给我回电话，这哥们睡得那是真香啊。</p>
+<p>在道路被占用之后，我做了什么？除了给留了号码的那个车主打电话之外，我还想到交管 12123 APP 上面有一个一键挪车功能。于是，试了一下这个功能。原以为这个功能可以电话通知到对方挪车。实际情况却只是提交了一个工单而已，真是一个鸡肋的功能。用户使用这个功能，是希望及时联系到车主过来挪车，而不是提交一个工单之后，傻傻的等待。另外，这个功能也不能叫一键挪车，因为点击了这个功能之后，还要输入车牌号、上传照片。更好的体验应该是只用上传占用道路的车辆照片，由系统识别出车牌号，然后后台找到车主的手机号，生成一个临时号码并调用手机的拨号功能。</p>
+<!-- raw HTML omitted -->
+<p>在道路被占用之后，我的心态是怎样的？刚开始想生气愤怒，后来想了想，事已至此，没有必要生气，生气只能影响自己一天的心情和好运。并尝试把这种对自己不利的一面转化为对自己有利的一面。原想六点半开车上班，道路被占之后，就可以体验一下七点多甚至八点多开车上班需要多长时间以及是否堵车。</p>
+<p>如果是我把道路占用了，我该怎么做呢？首先，是车上留一个手机号码；其次，是第二天早上保证手机不关机并且没有静音。</p>
+<p>如何避免再次出现这样的情况呢？一是通过电话或者便条的形式提醒车主要在车上留一个挪车电话并保证电话畅通，二是反馈给物业让物业来提醒小区里的车主不要随意占用车道。</p>
+<h3 id="开车总结">开车总结</h3>
+<p>学到了新知识：</p>
+<ul>
+<li>学会了如何调节前灯的高度。数字越大，灯光照射的越近。</li>
+</ul>
+<p>开车需要改进的地方：</p>
+<ul>
+<li>1、今天在菜场点火的时候，错把油门当刹车</li>
+<li>2、准备加速超过左边货车的时候，货车打了右前灯，下意识地把方向盘向右打了一点</li>
+<li>3、遇到红绿灯变黄灯时，刹车太急。想冲过去，但犹豫了。这样做太危险，不能存在侥幸心理。下次遇到这种情况，宁可提前刹车，等红灯过了，再向前行驶。</li>
+</ul>
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li>
+<p><a href="https://lutaonan.com/blog/things-i-learnt-after-6-years-as-software-engineer/">做了 6 年程序员，我学到的 10 条经验</a></p>
+</li>
+<li>
+<p><a href="https://mritd.com/2021/06/06/jetbrains-plugins/">JetBrains 常用插件</a></p>
+</li>
+<li>
+<p><a href="https://blog.skyju.cc/post/v2ray-warp-go-unlock-new-bing/">v2ray + warp-go 非全局使用Cloudflare WARP解锁New Bing等服务</a></p>
+</li>
+<li>
+<p><a href="https://blog.17lai.site/posts/8f152670/">如何创建属于自己的私人资料库与私人搜索引擎 _</a></p>
+</li>
+<li>
+<p><a href="https://1byte.io/google-large-scale-dev/">如何高效地协作开发：一些 Google 的实践</a></p>
+</li>
+<li>
+<p><a href="https://jasonkayzk.github.io/2023/03/28/Java%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%93%E5%AD%98%E5%BA%93Caffeine/">Java高性能缓存库Caffeine</a></p>
+</li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<ul>
+<li>
+<p><a href="https://hao.uisdc.com/">优设导航官网</a>：设计导航2013年上线至今，是优设网旗下最专业好用的设计师导航网站！设计导航为设计师提供UI设计、设计教程、素材下载、高清图库、配色方案、App设计、网页设计等设计网站导航指引。设计导航每周更新，设计风向标就看优设网！</p>
+</li>
+<li>
+<p><a href="https://dusays.com/567/">Zeabur 属于国人的免费托管平台</a></p>
+</li>
+<li>
+<p><a href="https://luyuhuang.tech/2023/03/21/nvim.html">Neovim 使用体验</a></p>
+</li>
+<li>
+<p><a href="https://www.domon.cn/github-copilotmian-fei-ping-ti-codeium/">Github Copilot免费平替 - Codeium</a></p>
+</li>
+<li>
+<p><a href="https://chatdoc.com/">Chat with documents</a></p>
+</li>
+<li>
+<p><a href="https://codeium.com/">Codeium</a>：一款免费的类 Github Copilot 的 AI 代码辅助产品，可以便捷的和 AI 进行结对编程。初步使用下来和主流的 IDE 的集成很好，感兴趣的朋友可以先到<a href="https://codeium.com/playground">浏览器里在线尝试一番</a>。</p>
+</li>
+</ul>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-12-05.jpeg" alt="codeium"  />
+</p>
+<h3 id="一些视频">一些视频</h3>
+<ul>
+<li>飚速宅男第五季</li>
+<li>魔女</li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -137,6 +534,144 @@ Java高性能缓存库Caffeine
 1、先下载代码：
 git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需要导出的语雀知识库地址为自己的仓库地址：
 // Determining if an ESM module is main then run the code if (import.</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-04.jpeg" alt="weekly-review-11-04"  />
+</p>
+<p>​														              					图片：<em>涨渡湖湿地水上森林公园</em></p>
+<p>本篇是对 <code>2023-03-13</code> 到 <code>2023-03-19</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周的工作主要是重构、优化系统，工作节奏比之前轻缓了很多。这周也开始了开车上下班，除去周五去医院做检查，一共开了 4 天车。从汉口到光谷，一共 29 公里，如果早上 6:30 出发，就只需要 50 分钟；如果 6:45 出发，竟然需要两个小时，真是无语了。无奈之下，只能每天早点出门早点到公司，然后，打完卡之后，在公司楼下走路。</p>
+<p>这周开始心里默默定了一个 flag，就是每天走路 10000 步。看了一下微信运动，基本上达成了，除了周五晚上因为加班，而少走了 64 步。</p>
+<!-- raw HTML omitted -->
+<h2 id="从语雀迁移到obsidian">从语雀迁移到Obsidian</h2>
+<p>上周提到开始使用格志 APP 来写日志，使用了一段时间之后，发现了一些缺点：</p>
+<ul>
+<li>部分功能收费</li>
+<li>导出的 markdown 不支持图片显示</li>
+<li>不支持本地存储</li>
+</ul>
+<p>于是，放弃了使用格志 APP，继而在使用了一段时间 Obsidian 之后，改为使用 Obsidian 来写日志和周报。</p>
+<!-- raw HTML omitted -->
+<p>为了不给自己太大压力，日报每天复盘内容包括以下几方面：</p>
+<ul>
+<li>
+<p>今日待办</p>
+</li>
+<li>
+<p>学习</p>
+</li>
+<li>
+<p>工作</p>
+</li>
+<li>
+<p>生活</p>
+</li>
+<li>
+<p>健身</p>
+</li>
+</ul>
+<h3 id="导出语雀文档为-markdown">导出语雀文档为 markdown</h3>
+<p>参考 <a href="https://github.com/yuque/yuque-exporter">yuque/yuque-exporter</a> 文档，下载 yuque-exporter  之后进行导出操作，发现以下问题：</p>
+<ul>
+<li>该项目需要使用的 nodejs 版本为 18.0.4</li>
+<li>nodejs 使用正确的版本还是导出失败</li>
+</ul>
+<p>于是，改为使用源码编译和运行导出。</p>
+<p>1、先下载代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/yuque/yuque-exporter.git
+</span></span></code></pre></div><p>2、修改 main.ts 中需要导出的语雀知识库地址为自己的仓库地址：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="c1">// Determining if an ESM module is main then run the code
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="kr">import</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">&#39;file:&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="kr">module</span><span class="nx">Path</span> <span class="o">=</span> <span class="nx">fileURLToPath</span><span class="p">(</span><span class="kr">import</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="kr">module</span><span class="nx">Path</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">urlPaths</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;chensoul/rose&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;chensoul/growup&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;chensoul/tech&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="nx">start</span><span class="p">({</span> <span class="nx">urlPaths</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>3、参考 <a href="https://www.yuque.com/yuque/developer/api#785a3731">文档</a> 申请语雀 TOKEN。</p>
+<p>4、下载项目依赖：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm i
+</span></span></code></pre></div><p>5、运行项目，开始导出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">YUQUE_TOKEN</span><span class="o">=</span>XXXXXX npm start
+</span></span></code></pre></div><blockquote>
+<p>导出的文件在 storage 目录，接下来可以拷贝到 Obsidian 目录里。</p>
+</blockquote>
+<p>6、另外，可以对 yuque-exporter 源码做一些修改：</p>
+<ul>
+<li>导出的 markdown 文件不要有 frontmatter，修改 doc.ts 中 buildDoc 方法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">async</span> <span class="kd">function</span> <span class="nx">buildDoc</span><span class="p">(</span><span class="nx">doc</span>: <span class="kt">TreeNode</span><span class="p">,</span> <span class="nx">mapping</span>: <span class="kt">Record</span><span class="p">&lt;</span><span class="nt">string</span><span class="err">,</span> <span class="na">TreeNode</span><span class="p">&gt;)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">docDetail</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">readJSON</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">metaDir</span><span class="p">,</span> <span class="nx">doc</span><span class="p">.</span><span class="kr">namespace</span><span class="p">,</span> <span class="s1">&#39;docs&#39;</span><span class="p">,</span> <span class="sb">`</span><span class="si">${</span><span class="nx">doc</span><span class="p">.</span><span class="nx">url</span><span class="si">}</span><span class="sb">.json`</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">content</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">remark</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;settings&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">bullet</span><span class="o">:</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="nx">listItemIndent</span><span class="o">:</span> <span class="s1">&#39;one&#39;</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">use</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">      <span class="p">[</span> <span class="nx">replaceHTML</span> <span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="p">[</span> <span class="nx">relativeLink</span><span class="p">,</span> <span class="p">{</span> <span class="nx">doc</span><span class="p">,</span> <span class="nx">mapping</span> <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">      <span class="p">[</span> <span class="nx">downloadAsset</span><span class="p">,</span> <span class="p">{</span> <span class="nx">doc</span><span class="p">,</span> <span class="nx">mapping</span> <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">process</span><span class="p">(</span><span class="nx">docDetail</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">//  doc.content = frontmatter(doc) + content.toString();
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">doc</span><span class="p">.</span><span class="nx">content</span> <span class="o">=</span> <span class="nx">content</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// FIXME: remark will transform `*` to `\*`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">doc</span><span class="p">.</span><span class="nx">content</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">content</span><span class="p">.</span><span class="nx">replaceAll</span><span class="p">(</span><span class="s1">&#39;\\*&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">doc</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>导出的段落之间增加换行，修改 doc.ts 中 replaceHTML 方法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">replaceHTML() {</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">tree</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">htmlNodes</span> <span class="o">=</span> <span class="nx">selectAll</span><span class="p">(</span><span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="nx">tree</span><span class="p">)</span> <span class="kr">as</span> <span class="nx">Text</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">node</span> <span class="k">of</span> <span class="nx">htmlNodes</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">value</span> <span class="o">===</span> <span class="s1">&#39;&lt;br /&gt;&#39;</span> <span class="o">||</span> <span class="nx">node</span><span class="p">.</span><span class="nx">value</span> <span class="o">===</span> <span class="s1">&#39;&lt;br/&gt;&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">node</span><span class="p">.</span><span class="kr">type</span> <span class="o">=</span> <span class="s1">&#39;text&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">node</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s1">&#39;\n\n\n&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>7、删除导出的 markdown 文件当中的锚点标签（例如：<code>&lt;a name=&quot;xx&quot;&gt;&lt;/a&gt;</code>）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> storage
+</span></span><span class="line"><span class="cl"><span class="c1"># macos 上执行</span>
+</span></span><span class="line"><span class="cl">find . -type f -name <span class="s1">&#39;*.md&#39;</span> -exec sed -i <span class="s1">&#39;&#39;</span> <span class="s1">&#39;s/&lt;a name=\&#34;[^\&#34;]*\&#34;&gt;&lt;\/a&gt;//g&#39;</span> <span class="o">{}</span> +
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<p>在上面的示例代码中，我们使用了 sed 命令来删除 Markdown 文件中所有的类似 <code>&lt;a name=&quot;xx&quot;&gt;&lt;/a&gt;</code> 的锚点标签。其中：</p>
+<ul>
+<li><code>-i ''</code> 参数表示直接修改源文件，而不是输出到标准输出流。<code>''</code> 表示在 macOS 系统上备份修改前的文件，如果在 Linux 系统上使用该命令，可以省略该参数。</li>
+<li><code>s/&lt;a name=\&quot;[^\&quot;]*\&quot;&gt;&lt;\/a&gt;//g</code> 表示用空字符串替换所有符合正则表达式 <code>&lt;a name=\&quot;[^\&quot;]*\&quot;&gt;&lt;\/a&gt;</code> 的字符串。该正则表达式匹配所有以 <code>&lt;a name=</code> 开头，以 <code>&quot;&gt;&lt;/a&gt;</code> 结尾的标签，且中间的文本不包含双引号。</li>
+</ul>
+<p>8、将导出的 markdown 文件中的本地图片批量上传到图床，操作方法：使用 typora 打开 storage 目录，然后依次点击 格式、图像、上传所有本地图片</p>
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li>
+<p><a href="https://moelove.info/2023/03/21/GitHub-Actions-%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96%E8%AE%A9%E4%BD%A0%E7%9A%84%E5%9B%A2%E9%98%9F%E6%9B%B4%E5%85%B7%E7%AB%9E%E4%BA%89%E5%8A%9B/">GitHub Actions 成本优化：让你的团队更具竞争力</a></p>
+</li>
+<li>
+<p><a href="https://juemuren4449.com/archives/open-gzip-on-nginx">Nginx 开启 gzip 压缩</a></p>
+</li>
+<li>
+<p><a href="https://www.superheaoz.top/2022/06/57091/">Obsidan日记、记账与自动同步</a></p>
+</li>
+<li>
+<p><a href="https://elmagnifico.tech/2023/03/16/Doprax-V2ray/">Doprax搭建免费V2ray节点</a></p>
+</li>
+<li>
+<p><a href="https://elizen.me/posts/2023/03/hi-icloud/">Hi，土区 iCloud</a></p>
+</li>
+<li>
+<p><a href="https://btsogiwudc.feishu.cn/docx/CgoJdHyWKopl3UxV12GcG3psnjf">国区使用土耳其iCloud服务，手把手保姆级上车教程</a></p>
+</li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -158,6 +693,159 @@ git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需�
 不要连续变道，变道时既要看后视镜，又要看窗边
 红灯路口右转时，要看地面或者路边是否有禁止右转标识
 通过 Cloudflare Tunnel 访问服务 以下内容参考 初探 Cloudflare 零信任 - 通过 Cloudflare Tunnel 访问服务。</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-00.jpeg" alt="weekly-review-10-00"  />
+</p>
+<p>本篇是对 <code>2023-03-06</code> 到 <code>2023-03-12</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周发现 VPS 上 <a href="https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/">某些使用 docker 部署的服务</a>（cusdis、umami、uptime、n8n、rsshub、memos）国内用户无法访问了，于是就折腾了一下使用 Cloudflare Tunnel 来代理这些服务。配置成功之后，又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。</p>
+<p>这周工作忙完之后，就开始着手通知系统的重构改造服务，想着 chatgpt 这么火，于是就试试让它来写代码。在不断地修改需求的情况下，chatgpt 写出来的代码稍加调整逐渐可以使用了。</p>
+<p>周六从汉口开车去白沙洲湖北财税职业学院，全程 20 公里，回来的时候不小心把路边的面包车擦碰了一下。于是一脸懵的经历了一次保险定损维修。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-07.jpeg" alt="weekly-review-10-07"  />
+</p>
+<p>周六开始使用 格志 APP 写日志，选择它来记录日志的原因是它支持批量导出 mardkown、pdf、图片等。唯一有个小遗憾的是，这个应用没有图床，导出的 markdown 文件里面图片的链接不是 http 协议。</p>
+<!-- raw HTML omitted -->
+<p>周日去新荣龙湖天耀天街售房部看了一下房子。107 平三室两厅两卫，单价 2 万 5 带精装修，公积金贷款 90 万，商业贷款 30 年，每个月房贷 6000。目前来说，买不起这里的房子，但是，作为一个买房目标还是可以的，加油！</p>
+<h2 id="开车总结">开车总结</h2>
+<p>最近刷视频，总结的一些开车经验如下：</p>
+<ul>
+<li>
+<p>提前预判，前面车子刹车，不管是正前方，还是左右前方，这时候也要刹车</p>
+</li>
+<li>
+<p>前面有大货车，不要从右边超车</p>
+</li>
+<li>
+<p>会车时，看路宽</p>
+</li>
+<li>
+<p>不要连续变道，变道时既要看后视镜，又要看窗边</p>
+</li>
+<li>
+<p>红灯路口右转时，要看地面或者路边是否有禁止右转标识</p>
+</li>
+</ul>
+<h2 id="通过-cloudflare-tunnel-访问服务">通过 Cloudflare Tunnel 访问服务</h2>
+<p>以下内容参考 <a href="https://dejavu.moe/posts/cloudflare-tunnel-access-uptime/">初探 Cloudflare 零信任 - 通过 Cloudflare Tunnel 访问服务</a>。</p>
+<h3 id="1创建-cloudflare-tunnel">1、创建 Cloudflare Tunnel</h3>
+<p>登录 <a href="https://one.dash.cloudflare.com/">Cloudflare Zero Trust</a> 控制台，选择左侧导航栏的 Access 菜单，进入 Tunnels 配置，点击 Create a tunnel 创建一个 Tunnel，输入 Tunnel 隧道名称</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-01.png" alt="weekly-review-10-01"  />
+</p>
+<p>选择服务器的操作系统和平台架构：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-02.webp" alt="weekly-review-10-02"  />
+</p>
+<p>可以看到安装命令：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-03.png" alt="weekly-review-10-03"  />
+</p>
+<p>复制左边命令粘贴到 SSH 会话里安装 Cloudflared（注意保护 Refresh Token 不要泄漏）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install cloudflare/cloudflare/cloudflared <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo cloudflared service install eyJhIjoiMmUxOTgwYTBlZjQzZjU3YjkyMGVhMjhjZGY5ZDM4ZDEiLCJ0IjoiYzU1ZTU3MmUtMTEyMS00OWJkLTgzMTgtNjc3NDIyYWMwMjU0IiwicyI6Ik1qZGtZakkyTldFdE5XVTRNUzAwTXpWaExXRXlNRFl0T0RobE5EbGpObVZpWmpJMSJ9
+</span></span></code></pre></div><h3 id="2删除-cloudflare-dns-的-a-记录解析">2、删除 Cloudflare DNS 的 A 记录解析</h3>
+<p>我的域名托管在 Cloudflare 上，所以需要将原来的域名解析记录删除，主要涉及以下两个需要被国内用户访问的域名（其余域名是我个人使用，所以只需要我开启 VPN 访问即可。）：</p>
+<ul>
+<li>cusdis.chensoul.com</li>
+<li>umami.chensoul.com</li>
+</ul>
+<h3 id="3在--cloudflare-tunnel-添加-hostname">3、在  Cloudflare Tunnel 添加 hostname</h3>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-04.png" alt="weekly-review-10-04"  />
+</p>
+<p>如果需要对 ssh 服务开启代理，请参考：<a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/use_cases/ssh/">Connect with SSH through Cloudflare Tunnel</a>。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-05.png" alt="weekly-review-10-05"  />
+</p>
+<p>关键步骤是：</p>
+<ul>
+<li>
+<p>为 ssh 通道创建 Hostname</p>
+</li>
+<li>
+<p>在本地安装 <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/"><code>cloudflared</code></a></p>
+</li>
+<li>
+<p>配置 ~/.ssh/config，添加下面配置（注意：我使用 Homebrew 安装的 cloudflared）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host ssh.chensoul.com
+</span></span><span class="line"><span class="cl">ProxyCommand /opt/homebrew/bin/cloudflared access ssh --hostname %h
+</span></span></code></pre></div></li>
+<li>
+<p>通过 ssh 访问 ssh.chensoul.com：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh root@ssh.chensoul.com
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="4在-vps-上启用防火墙停止-nginx-服务">4、在 vps 上启用防火墙，停止 nginx 服务</h3>
+<p>将 vps 上 nginx 配置的反向代理删除，并可以禁用这些服务暴露的端口。</p>
+<h3 id="5测试">5、测试</h3>
+<p>经过测试，<del>又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问</del>，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。</p>
+<h2 id="vercel-部署-cusdisumami">Vercel 部署 Cusdis、umami</h2>
+<p>参考 <a href="https://www.pseudoyu.com/zh/2022/05/24/free_and_lightweight_blog_comment_system_using_cusdis_and_railway/">轻量级开源免费博客评论系统解决方案（Cusdis + Railway）</a> 在 Railway 上部署 cusdis，数据库还是可以使用 vps 上部署的 postgresql，只需要配置一个 jdbc 链接即可：</p>
+<ul>
+<li>postgresql://cusdis:xxxxxx@postgres.chensoul.com:5432/cusdis</li>
+</ul>
+<p>部署完之后，发现存在跨域问题，故全部改为使用 Vercel 来部署。</p>
+<p>参考 <a href="https://cusdis.com/doc#/self-host/vercel">Cusdis 官方文档</a> 来部署 Cusdis，对于 Cusdis 存在跨域问题，参考 <a href="https://github.com/djyde/cusdis/issues/135">Sometimes form shows on page, sometimes not - CORS issue #135</a>，修改你的 github 的 cusdis 仓库中的 next.config.js 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">async</span> <span class="nx">headers</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">source</span><span class="o">:</span> <span class="s2">&#34;/:path*&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">headers</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">          <span class="p">{</span> <span class="nx">key</span><span class="o">:</span> <span class="s2">&#34;Access-Control-Allow-Origin&#34;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="s2">&#34;*&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span></code></pre></div><p>参考 <a href="https://umami.is/docs/running-on-vercel">Umami 官方文档</a> 来部署 Umami，umami 的 postgresql jdbc 链接还是使用 vps 上面部署的 postgresql</p>
+<ul>
+<li>postgresql://umami:xxxxxxpostgres.chensoul.com:5432/umami</li>
+</ul>
+<h2 id="chatgpt-写代码">Chatgpt 写代码</h2>
+<p>在 <a href="https://poe.com/chatgpt">https://poe.com/chatgpt</a> 里面输入下面文字：</p>
+<blockquote>
+<p>请用 java 实现一个通知系统，给出完整的代码，需求如下：</p>
+<p>1、通知事件，指业务平台触发的事件，通知事件有名称，描述，编码。通知事件可以定义多个属性。属性有名称、描述、编码，类型。类型有整形、字符串、日期、时间、浮点数、列表几种。</p>
+<p>2、通知规则。通知规则有名称、生效时间（一直生效，或者指定时间段生效），通知事件（从创建好的事件选择一个）、描述。通知规则可以创建多个规则项。每个规则项要选择事件下面的某一个属性，并且可以对该事件属性选择一个操作符（大于、小于、等于、在两个指之间）和设置对应的值。如果是大于、小于、等于，则只用选择一个值。如果是在两个指之间，则需要选择两个值。多个执行条件在规则执行时，是按与执行。规则可以指定多个通知用户（姓名、手机号）。</p>
+<p>3、通知策略。一个规则可以定义多个通知策略。通知策略有通知模版、通知渠道。每个通知模版有标题、描述以及模版内容（模板内容支持变量替换）。</p>
+<p>4、通知渠道有类型、配置属性，可以发送消息，支持的通知渠道有飞书、邮件。</p>
+<p>5、通知规则测试。给定一个事件码和事实数据，系统查询出该事件码关联的多个规则。每个规则通过 easy-rule 4.1.0 框架去执行。每个规则项执行前，需要校验事实数据里的值的类型和事件属性定义的类型是否一致。多个规则项的执行结果求交集。当最后结果为 true 时，将通知策略中的模板内容进行变量替换，然后通过渠道发送消息给这些人。</p>
+<p>注意：相同的消息内容，在一分钟内，只通过一个渠道给某一个用户发送一次，不要重复发送。</p>
+</blockquote>
+<p>chatgpt 回答如下：</p>
+<!-- raw HTML omitted -->
+<p><strong>总结：</strong></p>
+<p>让 chatgpt 写代码相对来说，还是很方便的，可以提供一些编程示例或者开阔编程思路，但是也有一些缺陷：</p>
+<ul>
+<li>chatgpt 写的代码不一定准确，或者说没有考虑一些异常情况。需要不断地和 chatgpt 聊天，描述清楚需求，让 chatgpt 来修正代码，这样交互式聊天，相对来说会有点耗时。</li>
+<li>提供的 url 链接可能 404。</li>
+</ul>
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li>
+<p><a href="https://www.infoq.cn/article/txS9hHTfxasv2uHBATgL">Java 近期新闻：Gradle 8.0、Maven、Payara 平台、Piranha、Spring Framework、MyFaces 和 Piranha</a></p>
+</li>
+<li>
+<p><a href="https://blognas.hwb0307.com/ad">RackNerd VPS 推荐</a></p>
+</li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<h4 id="zedhttpszeddev"><a href="https://zed.dev/">Zed</a></h4>
+<p>Atom 作者新开发的编辑器 Zed 速度确实非常快，基本的功能也都支持，现在还在内测阶段，暂时不支持安装 extension。</p>
+<h4 id="图片转-webphttpsdevelopersgooglecomspeedwebpdocscwebphlzh-cn"><a href="https://developers.google.com/speed/webp/docs/cwebp?hl=zh-cn">图片转 webp</a></h4>
+<p>mac 上安装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install webp
+</span></span></code></pre></div><p>使用示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cwebp -q <span class="m">50</span> -lossless picture.png -o picture_lossless.webp
+</span></span><span class="line"><span class="cl">cwebp -q <span class="m">70</span> picture_with_alpha.png -o picture_with_alpha.webp
+</span></span><span class="line"><span class="cl">cwebp -sns <span class="m">70</span> -f <span class="m">50</span> -size <span class="m">60000</span> picture.png -o picture.webp
+</span></span></code></pre></div><h3 id="一些影视">一些影视</h3>
+<ul>
+<li>
+<p><a href="https://movie.douban.com/subject/6538807/">冰海陷落</a>，推荐指数：☆☆☆☆。疯狂的芭堤雅将军杜罗夫（米哈伊尔・戈尔沃伊 Mikhail Gorevoy 饰）预谋发动第三次世界大战，他制造了一场巨大的水域爆炸，致使附近的美军潜艇队遇袭。美国海军派出了海底经验丰富但名声寥寥的乔・格拉斯潜水艇船长（杰拉德・巴特勒 Gerard Butler 饰）率领潜艇队前去调查。</p>
+</li>
+<li>
+<p><a href="https://movie.douban.com/subject/36193784/">黑暗荣耀第二季</a>，推荐指数：☆☆☆☆。</p>
+</li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -180,6 +868,149 @@ git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需�
 3、路口远道的原则，跟小车不跟大车。如果跟着大车，留一个车位空间，让大车先走，确认绿灯再走。
 4、红绿灯路口，提前减速，提醒后面车减速，不要急刹车，防止后面车追尾。特别是在绿灯闪的时候，不要没有减速，突然停车。否则后面车会以为你要加速冲过去，他也加速，这样，他就会追尾你。
 博客该写什么 看到一篇博客 What to blog about，里面聊到了博客该写什么。一时兴起，想翻译成中文。于是，分别使用了 chrome 沉浸式翻译插件和 chatgpt 来翻译这篇文章，得到结果如下：</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-07.png" alt="将军山"  />
+</p>
+<p>本篇是对 <code>2023-02-27</code> 到 <code>2023-03-05</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周的主要工作是版本测试和项目上线，在大家的共同努力下，最后是成功上线。</p>
+<p>由于公司最近在裁员，留下来的都开始卷起来，每天晚上 8 点之后下班，这样平均一天的工作时间才有 11 小时。据说，旁边组的同事平均每天都是 12 个小时工作时间。裁了三位同事之后，我们软件组还有 8 人，算法组有 7 人，产品组有 6 人，终端组有 4 人。距集团公司六月上市还有两个月，裁员估计还会继续，同志们还需努力加班，争取被裁的不是自己。</p>
+<p>这周还是没有开车，每天坐地铁上下班，刷刷 rss 看看 b 站视频，了解一些行业最新动态，同时也看看同样在写博客的那些独立开发者每周都在做什么，也学习一些新技术或者新技能。</p>
+<p>这周接触了 web3 空投，花了几个小时使用自动加手动的方式刷了 120 多个账号。自动的方式，就是用 nodejs 代码在 bsc 网络批量创建账号并保存为 csv 文件；其次，通过 onekey web 上的批量转账功能，给每个账户转了 0.00125bnb。手动操作的部分就是，一个个的将账号私钥导入狐狸钱包，然后，用 lifeform cartoon 连接钱包账户，mint 成功之后，分享链接，再继续连接狐狸的下一个账号，重复上面操作。</p>
+<p>因为太耗时间，所以只刷了 120 个账号。趁工作不忙的时候，用 chatgpt 搜索一下如何将上面的操作全部自动化。</p>
+<p>周末两天，继续练车，从汉口到阳逻，再到新洲，最后去新洲的将军山爬山、去道观河看风景。算下来，最近这三个周末六天时间，我一共开了 800 多公里了。目前，暂时没有收到违规通知，但还是存在很多不足的地方。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-08.png" alt="weekly-review-09-08"  />
+</p>
+<h2 id="开车总结">开车总结</h2>
+<p>这周开车，发现存在以下问题：</p>
+<ul>
+<li>1、停车还是会忘记熄火拔钥匙。</li>
+<li>2、红绿灯口，停在大货车后面，并靠得近，前方视线受阻。经过红绿灯时，感觉像是闯了红灯。</li>
+<li>3、超车时候，没有加速。</li>
+<li>4、在山路行驶，入弯和出弯都会减速。</li>
+<li>5、判断车距的经验不足。表现在行驶过程中、侧方停车、倒车入库。</li>
+</ul>
+<p>针对以上问题，晚上刷了一些视频，做了一些笔记，希望能够帮助自己改正上面这些问题。</p>
+<ul>
+<li>
+<p>1、目光看远。入弯提前收油，脚备刹车。如果弯道过急，就带点刹车，如果车速你可以控制，直接收油过弯；出弯加油，眼睛看出弯口。身体跟随方向盘靠。这样，车速不降，可以控制车速。如果以 80 码速度过弯，且这个车还在车道内，这个车的速度你就控制住了。但凡有点越线，说明车速过快，你就要降低速度。</p>
+</li>
+<li>
+<p>2、靠右行驶。会车时，主动靠右。转弯时，发现对面有来车，鸣笛示意。</p>
+</li>
+<li>
+<p>3、路口远道的原则，跟小车不跟大车。如果跟着大车，留一个车位空间，让大车先走，确认绿灯再走。</p>
+</li>
+<li>
+<p>4、红绿灯路口，提前减速，提醒后面车减速，不要急刹车，防止后面车追尾。特别是在绿灯闪的时候，不要没有减速，突然停车。否则后面车会以为你要加速冲过去，他也加速，这样，他就会追尾你。</p>
+</li>
+</ul>
+<h2 id="博客该写什么">博客该写什么</h2>
+<p>看到一篇博客 <a href="https://simonwillison.net/2022/Nov/6/what-to-blog-about/">What to blog about</a>，里面聊到了博客该写什么。一时兴起，想翻译成中文。于是，分别使用了 chrome 沉浸式翻译插件和 chatgpt 来翻译这篇文章，得到结果如下：</p>
+<p>1、<strong>使用 <a href="https://chrome.google.com/webstore/detail/immersive-translate/bpoadfkcbjbfhfodiogcnhhhpibjhbnh">chrome 沉浸式翻译插件</a> 翻译这篇文章：</strong></p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-01.png" alt="weekly-review-01"  />
+</p>
+<p>总结来说，博客可以写两部分内容：</p>
+<ul>
+<li>今天学到的东西</li>
+<li>正在做的项目</li>
+</ul>
+<p>2、<strong>使用 chatgpt 翻译这篇文章：</strong></p>
+<p>请 chatgpt 翻译这篇文章 <a href="https://simonwillison.net/2022/Nov/6/what-to-blog-about/">https://simonwillison.net/2022/Nov/6/what-to-blog-about/</a> 为中文，得到的结果如下：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-02.png" alt="weekly-review-02"  />
+</p>
+<p>标题：该写什么博客？</p>
+<p>随着我写了一篇新的博客文章，我想分享一下我最近学到的关于写博客的一些事情。</p>
+<p>一旦你开始写博客，你就必须保持一定的频率和持续的内容更新。这不仅是为了吸引和保持读者，也是为了让自己不断成长和发展。对于我来说，博客是我最有价值的自我表达形式之一，因为它迫使我去思考和组织我的想法，而这些想法可能会被淹没在日常生活的喧嚣中。</p>
+<p>但是，选择博客内容可以很困难，特别是当你有多个感兴趣的话题和项目。以下是一些我最近学到的有关选择博客主题的技巧：</p>
+<ul>
+<li>每周至少写一篇文章</li>
+</ul>
+<p>尽管这可能听起来像一个艰巨的任务，但保持每周至少写一篇文章的频率可以帮助你保持写作的习惯和进展。这也有助于避免长时间的空白期，这可能会使你失去写作的动力和读者的兴趣。</p>
+<ul>
+<li>写下你的目标和想法清单</li>
+</ul>
+<p>在开始写博客之前，先写下你感兴趣的话题和你想写的内容。这可以帮助你保持焦点并避免浪费时间在想要的内容上。</p>
+<ul>
+<li>关注你的读者</li>
+</ul>
+<p>虽然你的博客可能是一个人的项目，但是考虑到你的读者的兴趣和需求是至关重要的。试着想一下你的读者会对哪些话题感兴趣，并尝试写出他们会发现有趣或有用的内容。</p>
+<ul>
+<li>保持开放和灵活</li>
+</ul>
+<p>不要把自己局限在一个主题或领域中。保持开放和灵活，尝试不同的话题和领域。这不仅可以让你发现新的兴趣和机会，还可以让你在写作方面更有创意和灵感。</p>
+<ul>
+<li>尝试不同的博客格式</li>
+</ul>
+<p>不仅可以通过写作来表达自己，还可以通过不同的博客格式来实现这一点。尝试写一篇教程、一篇演示、一篇评论或一篇问题解答文章。这可以让你更好地探索和展示你的技能和知识。</p>
+<p>总之，写博客可以是一种令人满意的表达方式，可以帮助你探索和发现新的想法和机会。关键是要保持频率和灵活性，并尝试不同的博客格式。</p>
+<h2 id="web3-批量空投">Web3 批量空投</h2>
+<p>最近，参与了 <a href="https://cartoon.lifeform.cc/login">Lifeform Cartoon</a> 的空投，这是我第一次参与 web3。下面是记录一下操作步骤：</p>
+<ul>
+<li>下载狐狸钱包</li>
+<li>批量创建账号</li>
+<li>批量从一个账号转币到多个账号</li>
+<li>批量导入账号到狐狸钱包</li>
+<li>访问 Lifeform Cartoon 的邀请链接地址，比如：https://cartoon.lifeform.cc?referral=0x068b021B7d44e4795c6ec07234D66c144644dC37，然后，连接狐狸钱包里的账号，mint 之后，分享链接再使用新的链接重复上面动作</li>
+</ul>
+<p>上面的步骤，如果是几百个账号手动执行，则需要花费很长时间。作为一个程序员，有没有办法让程序自动实现呢？</p>
+<p>在网上查找了一些资料，同时使用 chatgpt（备注：https://poe.com/chatgpt）找到了使用  nodejs 实现的相关代码。</p>
+<h3 id="1批量创建账号">1、批量创建账号</h3>
+<p>在BSC网络上使用Node.js编程语言批量创建账户并保存为CSV文件的完整代码，不使用csv-writer库</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-03.png" alt="weekly-review-03"  />
+</p>
+<h3 id="2批量转账">2、批量转账</h3>
+<p>在BSC网络上使用Node.js编程语言从一个账号批量转 0.0125bnb 到前面创建的多个账号，输出完整的可以运行的代码</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-05.png" alt="weekly-review-05"  />
+</p>
+<h3 id="3批量导入账号到-metamask-钱包">3、批量导入账号到 metamask 钱包</h3>
+<p>通过编程实现在 BSC 网络 批量导入账号到浏览器的 metamask 钱包</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-04.png" alt="weekly-review-04"  />
+</p>
+<p>下一步，就是测试上面代码，实现全流程代码托管。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-06.png" alt="weekly-review-09-06"  />
+</p>
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li><a href="https://feeds.feedblitz.com/~/729974291/0/baeldung~Service-Profiles-in-Docker">Service Profiles in Docker | Baeldung</a></li>
+<li><a href="https://geekr.dev/posts/chatgpt-ultimate-guide">ChatGPT 终极指南</a></li>
+<li><a href="https://reorx.com/makers-daily/004-prompts-and-parameters-transparancy/">谈谈我对 ChatGPT 应用的 prompt 的看法</a></li>
+<li><a href="https://anotherdayu.com/2023/4866/">支持 OpenAI ChatGPT API 的优秀软件</a></li>
+<li><a href="https://geekr.dev/posts/chatgpt-start">编程新手如何通过ChatGPT一天完成一个MVP产品</a></li>
+<li><a href="https://github.com/Zhengqbbb/cz-git">让 OpenAI 生成 git commit message</a></li>
+<li><a href="https://insights.thoughtworks.cn/good-code-five-qualities-cupid/">好代码的五个特质 - Thoughtworks洞见</a></li>
+<li><a href="https://www.joshwcomeau.com/blog/how-i-built-my-blog/">我如何搭建自己的博客</a>（英文）</li>
+<li><a href="https://zedex.cn/8399.html">从Mac开箱开始 设置一个开发环境 - ZedeX</a></li>
+<li><a href="https://mp.weixin.qq.com/s/eil_zYS4ISK-4ojezzP-pg">创始人CEO为什么要写作（原创5000字长文尝试说透）</a></li>
+<li><a href="https://mp.weixin.qq.com/s/xfphy67PTbtjeggo7LpjSA">从抄书到开源之巅：章亦春的程序人生</a></li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<h4 id="1poecomhttpspoecom">1、<a href="https://poe.com/"><strong>poe.com</strong></a></h4>
+<p>美国问答网站Quora开发的ChatBot产品，整合不同聊天机器，包括ChatGPT。响应速度非常快，比chat.openai.com的免费账户快非常多。有ios版，手机也能用了。ios版有社区，可以分享聊天记录。</p>
+<h4 id="2founderbeatshttpsfounderbeatscom">2、<a href="https://founderbeats.com/"><strong>FounderBeats</strong></a></h4>
+<p>Founder Beats是一家面向初创企业和创业者的音乐制作工作室，专门为他们提供高质量的背景音乐和音效。Founder Beats的音乐库包含了各种类型的音乐，如流行、摇滚、电子、嘻哈、民谣等，以及各种音效和配乐，可以满足不同用户的需求。Founder Beats的音乐都是由专业音乐人和制作人制作的，具有高品质和原创性。</p>
+<p>除了音乐制作，Founder Beats还提供了其他服务，如音频制作、混音和母带处理等，可以帮助客户制作高质量的音频内容。Founder Beats的团队拥有丰富的音乐制作和音频处理经验，可以为客户提供专业的建议和支持。</p>
+<p>Founder Beats的客户包括初创企业、广告代理商、视频制作公司、游戏开发商等，他们可以使用Founder Beats的音乐和音效来增强他们的品牌形象、视频内容、游戏体验等。Founder Beats的定价模式灵活，客户可以根据自己的需求选择适合自己的价格和许可证。</p>
+<h4 id="3manticore-searchhttpsgithubcommanticoresoftwaremanticoresearch">3、<a href="https://github.com/manticoresoftware/manticoresearch">Manticore Search</a></h4>
+<p>Manticore Search是一款开源的全文搜索引擎，支持高性能的搜索和分析。它是Sphinx Search的后继者，使用了类似的架构和API，并且在功能和性能方面有很多改进。Manticore Search使用C++编写，具有高效的索引和查询引擎，可以处理大量的数据和高并发访问。它支持多种数据源和数据格式，包括MySQL、PostgreSQL、XML、JSON、CSV等。</p>
+<p>Manticore Search提供了丰富的查询语言和API，包括SQL、SPHINQL和HTTP API等，可以满足不同用户的需求。它支持全文搜索、模糊搜索、短语搜索、近义词搜索、地理位置搜索等多种搜索方式，并且支持高级过滤、排序、分组、聚合等功能。Manticore Search还具有高可用性和可扩展性，支持主从复制、分片、集群等部署方式，可以满足不同规模和负载的应用场景。</p>
+<p>Manticore Search是一款使用广泛的全文搜索引擎，它被广泛应用于电子商务、社交网络、新闻媒体、在线教育等领域，帮助用户快速检索和发现所需信息。Manticore Search在GitHub上开源，拥有活跃的社区和开发者，用户可以通过GitHub社区获得支持和贡献代码。</p>
+<h4 id="4unsilencehttpsgithubcomlagmoellertimunsilence">4、<a href="https://github.com/lagmoellertim/unsilence">Unsilence</a></h4>
+<p>unsilence是一个基于Python的命令行工具，用于检测和修复音频文件中的静音区域。它可以帮助用户自动检测和删除音频文件中的静音部分，从而提高音频的质量和可听性。unsilence支持多种音频格式，如MP3、WAV、OGG等，可以在不损失音频质量的情况下删除静音。</p>
+<p>使用unsilence非常简单，用户只需在命令行中输入unsilence命令和音频文件名，unsilence就会自动检测和修复音频文件中的静音部分。用户也可以通过设置参数来调整unsilence的处理方式，如设置最小静音长度、最小音量阈值等。</p>
+<h4 id="5css-bedhttpswwwcssbedcom">5、<a href="https://www.cssbed.com/">CSS Bed</a></h4>
+<p>这个网页收集并展示各种无类的极简化 CSS 框架。如果你想选一个简单的 CSS 框架，可以看看它</p>
+<h4 id="6lightrunhttpslightruncom">6、<a href="https://lightrun.com/">lightrun</a></h4>
+<p>lightrun.com是一款基于云的实时Java和Kotlin应用程序调试和观察工具。它提供了一种无需修改代码即可实时调试Java和Kotlin应用程序的方式，减少了开发人员的调试时间，提高了应用程序的稳定性和可靠性。lightrun.com还提供了实时日志查看和分析，可以帮助开发人员快速定位问题和解决问题，提高了应用程序的可维护性。</p>
+<p>lightrun.com可以与常见的Java开发工具集成，如Eclipse、IntelliJ IDEA和VS Code。它还支持多种操作系统和云平台，如Windows、Linux、Docker、AWS和Azure等。开发人员可以使用lightrun.com来调试和监视本地应用程序，也可以在云端快速诊断生产环境中的问题。</p>
+<p>lightrun.com采用了安全的云架构，并且使用了端到端加密来保护用户数据的安全性。它还提供了灵活的计费模式，用户可以根据自己的需求选择适合自己的计费方式。</p>
+<h4 id="7httpsgithubcomappscr-gpt">7、https://github.com/apps/cr-gpt</h4>
+<p>基于 ChatGPT 的 Github Code Review 机器人</p>
+<h4 id="8妙记多-mojidoc-httpsmojidoccom">8、<a href="https://mojidoc.com/">妙记多 Mojidoc </a></h4>
+<p>新一代生产协同工具</p>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -213,6 +1044,117 @@ java lambda表达式内存泄露_浅谈Java内存泄露
 裁员 去年公司就在裁员，陆陆续续裁了几次，每次都是裁两三个，动作都不大，但是很高效。因为部门人数就在五十左右，所以谁没来上班，都能很快察觉。
 公司要在六月份上市，上市之前要使财报好看，就要开源节流、降本增效。节约成本的一个方式就是裁员，据说这次裁员动作比以前都大都迅速，今天提出裁员人数，明天就要给出名单，月底就要走人。
 现在还只是二月份，离六月还有三个月。谁也不知道，后面还会有什么更大的裁员动作。说不定哪天就空出一个工位，说不定哪天领导就换了人，说不定哪天部门就被拆散了。</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-02-20</code> 到 <code>2023-02-26</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这篇周报又是在地铁上完成编写的。回顾这一周的工作，还是项目测试、修复 bug 和准备上线发布。平静的工作节奏因为突如其来的裁员消息而变得内卷起来，大家下班的时间都纷纷往后移到了20 点左右。周末的时候，还是练车，从汉口开车到新洲。刚开始有点不敢，后来还是鼓起勇气，平安的到达。</p>
+<h2 id="工作">工作</h2>
+<h3 id="内存泄漏">内存泄漏</h3>
+<p>这周线上环境，出现了告警，提示 jvm 出现了 full gc。于是赶紧 dump 内存进行分析查找原因。顺便整理了内存相关的知识。</p>
+<p><strong>什么是内存泄漏？</strong></p>
+<p>这个问题直接问 chatgpt：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-08-01.png" alt="weekly-review-08-01"  />
+</p>
+<p>内存泄漏（Memory Leak）是指在程序中动态分配的内存由于某些原因程序未能释放或无法释放，导致系统内存的实际可用空间不断减少的现象。内存泄漏的发生会导致程序占用的内存越来越多，最终导致程序崩溃或系统变慢。</p>
+<p>在Java中，程序员通常使用new运算符在堆上分配内存，这些内存不再使用时必须释放，否则就会出现内存泄漏。下面是一些常见的Java内存泄漏的情况：</p>
+<ol>
+<li>对象持有过多的引用</li>
+</ol>
+<p>当一个对象持有其他对象的引用时，这些对象就不能被垃圾收集器回收，导致内存泄漏。比如，一个静态集合（如Map、List）持有了大量对象的引用，但是这些对象已经不再需要了，却因为集合中仍然持有这些对象的引用，导致这些对象无法被回收，造成内存泄漏。</p>
+<ol start="2">
+<li>长时间持有对象锁</li>
+</ol>
+<p>在Java中，如果一个线程获取了一个对象的锁，但是在释放锁之前发生了异常，那么这个锁就不会被释放，从而导致内存泄漏。这种情况特别容易发生在synchronized块中。</p>
+<ol start="3">
+<li>不正确的缓存使用</li>
+</ol>
+<p>如果程序员不正确地使用缓存，就会导致内存泄漏。比如，如果使用一个静态Map来缓存对象，但是不从Map中删除对象，那么这些对象就会一直存在于内存中，造成内存泄漏。</p>
+<ol start="4">
+<li>大量创建临时对象</li>
+</ol>
+<p>如果程序频繁地创建临时对象，而这些对象又没有被及时清除，就会导致内存泄漏。比如，在循环中创建大量的字符串对象，但是没有及时清除，就会导致内存泄漏。</p>
+<p>为了避免内存泄漏，Java程序员可以使用一些技术来优化程序，比如使用缓存池、避免使用不必要的静态变量、使用finalize()方法释放资源等等。</p>
+<p><strong>如何排查内存泄漏？</strong></p>
+<ul>
+<li>
+<p>内存分析工具：内存分析工具可以帮助您找到哪些对象占用了大量的内存。一些常用的内存分析工具包括：Eclipse MAT、VisualVM 和 YourKit。这些工具可以帮助您分析内存快照、查找内存泄漏并确定导致内存泄漏的代码位置。</p>
+</li>
+<li>
+<p>堆转储文件：堆转储文件是一个包含了 JVM 堆中所有对象的快照。您可以使用以下命令生成一个堆转储文件：jmap -dump:format=b,file=heap.bin <!-- raw HTML omitted -->，其中<!-- raw HTML omitted -->是您的 Java 应用程序的进程 ID。然后，您可以使用内存分析工具来分析该文件。</p>
+</li>
+<li>
+<p>代码审查：在编写代码时，您可以使用一些技巧来避免内存泄漏。例如，您应该确保正确地关闭流和数据库连接，避免在循环中创建对象，以及使用软引用或弱引用来存储缓存数据等。通过仔细审查代码并识别可能导致内存泄漏的部分，可以避免这些问题在运行时发生。</p>
+</li>
+<li>
+<p>监视工具：JVM 提供了一些监视工具，例如 jstat 和 jconsole，可以用于监视 JVM 的内存使用情况。通过监视这些指标，您可以识别是否存在内存泄漏的迹象。</p>
+</li>
+<li>
+<p>代码注入：在您的应用程序中，您可以注入一些代码，例如使用 JMX、AOP 等，以便您可以实时监视内存使用情况，并记录任何内存泄漏迹象。</p>
+</li>
+</ul>
+<p>参考文章</p>
+<ul>
+<li>
+<p><a href="https://www.cnblogs.com/rude3knife/p/13570423.html">一次完整的JVM堆外内存泄漏故障排查记录</a></p>
+</li>
+<li>
+<p><a href="https://droidyue.com/blog/2015/11/28/article-java-8-lambdas-a-peek-under-the-hood">深入探索Java 8 Lambda表达式</a></p>
+</li>
+<li>
+<p><a href="https://blog.csdn.net/weixin_34722015/article/details/114815917">java lambda表达式内存泄露_浅谈Java内存泄露</a></p>
+</li>
+</ul>
+<h3 id="裁员">裁员</h3>
+<p>去年公司就在裁员，陆陆续续裁了几次，每次都是裁两三个，动作都不大，但是很高效。因为部门人数就在五十左右，所以谁没来上班，都能很快察觉。</p>
+<p>公司要在六月份上市，上市之前要使财报好看，就要开源节流、降本增效。节约成本的一个方式就是裁员，据说这次裁员动作比以前都大都迅速，今天提出裁员人数，明天就要给出名单，月底就要走人。</p>
+<p>现在还只是二月份，离六月还有三个月。谁也不知道，后面还会有什么更大的裁员动作。说不定哪天就空出一个工位，说不定哪天领导就换了人，说不定哪天部门就被拆散了。</p>
+<p>互联网公司最大的变化就是变化。之前在阿里工作，公司的价值观里有一条就是拥抱变化。</p>
+<p>拥抱变化的最好方式就是积极面对，主动加班，提高工作效率，增加工作产出。</p>
+<h2 id="生活">生活</h2>
+<h3 id="练车">练车</h3>
+<p>这是买车之后的第二周，还是没有开车去上班。一是因为开车不过熟练，胆子小，不敢开得太快；二是公司楼下的停车位还没有办好。</p>
+<p>周六本想叫朋友过来给我当陪练，后来因为要回新洲，就算了，还是自己开车，带着老婆回新洲。</p>
+<p>老婆科目一考过了，后面因为工作原因就没去练车和考试。她坐副驾驶，一边剥豆子一边提醒我注意交通规则。</p>
+<p>在老婆的坐镇之下，顺利的从汉口开车六十公里到达新洲，路上没有违反交通规则。</p>
+<p>周六下午去看了一下潘塘花朝节，有点失望，没有想象中的热闹。可能因为这不是正宗的花朝节，正宗的应该是在旧街。</p>
+<p>逛了一圈，买了两百菜刀、一个砧板、两颗果树、一盆墨兰花。</p>
+<p>周六从新洲开回阳逻，周日又从阳逻开回老家去看父亲。买车后第一次回家，放了鞭炮🧨。</p>
+<p>中午包饺子，吃完饭就去菜园收割青菜。农村对于城市里上班族来说，一大好处是，每次回家，都可以装满青菜带回城市。</p>
+<p>下午，从老家驱车回阳逻再到汉口。在开车的过程中，发现和总结了一些问题。</p>
+<p>之前开车，总是盯着仪表盘，看车速达到了多少。车速一到 70 多就下意识地松油门和踩刹车。现在开始把眼睛注意力放到前方，不去可以在意车速，只是当导航提示我超速的时候，我白降低一点速度。</p>
+<p>在红绿灯之前，如果不转弯，不要提前换道或者超车，保持中间道路行驶即可。</p>
+<h2 id="好物分享">好物分享</h2>
+<p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li>
+<p><a href="https://blog.baoshuo.ren/post/actions-ssl-cert/">使用 GitHub Actions 自动申请与部署 SSL 证书</a></p>
+</li>
+<li>
+<p><a href="https://phind.com/">The AI search engine for developers</a></p>
+</li>
+<li>
+<p><a href="https://magickpen.com/">用 AI 写文章</a></p>
+</li>
+<li>
+<p><a href="https://blog.csdn.net/weixin_34722015/article/details/114815917">java lambda表达式内存泄露_浅谈Java内存泄露</a></p>
+</li>
+<li>
+<p><a href="https://kenengba.com/post/3769.html">在家躺着拿工资，是挺过意不去的</a></p>
+</li>
+<li>
+<p><a href="https://blog.mikeoperfect.com/posts/11517/">车辆违章和交通事故处理流程</a></p>
+</li>
+<li>
+<p><a href="https://blog.alswl.com/2020/03/before-code-review/">浅谈 Code Review 之事前准备</a></p>
+</li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<h4 id="1raycasthttpswwwraycastcom">1、<a href="https://www.raycast.com/">Raycast</a></h4>
+<p>Raycast是一款想要取代 Spotlight 的快捷启动器，通过 Mac 上面的一些组合键来为让你完成在 Mac 上面的快捷启动，提高你日常当中在 Mac 上面的操作效率，如果以 macOS 系统版本风格来比喻的话，Alfred 的 UI 风格应该能匹配几年前的 macOS 吧，而 Raycast 却是能够驾驭 macOS Big Sur 全新的视觉风格。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-08-02.png" alt="weekly-review-08-02"  />
+</p>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -240,6 +1182,162 @@ java lambda表达式内存泄露_浅谈Java内存泄露
 1、优化页面加载速度 每次打开博客首页，感觉页面加载有点慢，故想加快博客打开速度，第一个想到的是减少博客加载资源的次数，也就是去掉一些飞必须的 css 和 javascript 引用；其次，是对 css 进行压缩。
 去掉对 font-awesome css 的引用。这个对博客来说可有可无，所以直接去掉。 去掉对 jquery、bootstrap js 的引用。同样也不是必须的，自定义的 javascript 直接使用原生的操作就行。 移除未使用的 css。想参考这篇文章 CleanCSS - 移除未使用的 CSS 代码，对 css 进行瘦身，无奈文章中的服务器出现故障，无法访问服务。故，暂时搁浅。 2、修改网站字体 参考这篇文章 字体漫谈-网站字体最佳实践 引入 open-sans 字体：
 &amp;lt;link rel=&amp;#34;preload&amp;#34; as=&amp;#34;font&amp;#34; type=&amp;#34;font/woff2&amp;#34; href=&amp;#34;/css/font/open-sans.css&amp;#34; &amp;gt; &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; type=&amp;#34;text/css&amp;#34; href=&amp;#34;/css/font/open-sans.css&amp;#34; media=&amp;#34;print&amp;#34; onload=&amp;#34;this.</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-02-13</code> 到 <code>2023-02-19</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<h2 id="练车">练车</h2>
+<p>这周末开始练车，周六是第一次开自己的车，简单试驾了一样；周日则开了一百多公里，具体行程是从阳逻到新洲，从新洲单汉口，从汉口到光谷，从光谷回汉口。</p>
+<p>这途中走了江北快速公路、二环、二七长江大桥、东湖隧道，从白天开到晚上夜行，经历过堵车，路上看到车祸后的事故现场。</p>
+<p>一天下来，总共开车有五个多小时，感觉开车好累。作为新手，开车的过程中要全神贯注，铭记开车最重要的是慢这一原则，速度不敢过快。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-06.webp" alt="weekly-review-06"  />
+</p>
+<p>回顾这一天的练车过程，发现自己存在以下问题：</p>
+<ul>
+<li>
+<p>对汽车不熟悉，不清楚车内每个按钮有什么作用。</p>
+</li>
+<li>
+<p>不敢开的太快，油门踩到六十公里之后，就下意识地松油门。整个行驶过程中，平均车速大概在二十多公里每小时。</p>
+</li>
+<li>
+<p>对交规不熟悉，第一次用高德地图，不知道什么时候改该变道、什么时候该走中间道路。要变道时候，不够果敢，打了灯光之后，没有快速变道，甚至还降速，等后面车子，而后面车子也在等我。</p>
+</li>
+<li>
+<p>对车距不敏感。行驶过程中，和左右车辆相隔距离多近，没有一个直观的感受。观察后视镜，后面车距多远，有时候也判断不准，导致自己变道犹豫不决，险些擦碰。</p>
+</li>
+<li>
+<p>变道、转弯，有时候忘记打灯。转弯时候，方向盘动得太早，没有等车过斑马线再打方向盘。左转弯时候，没有转大弯，导致车子有一次擦到了左边的石墩子，幸好不是很严重。</p>
+</li>
+<li>
+<p>倒车和侧方停车不够熟练。</p>
+</li>
+<li>
+<p>对上班路线不熟悉，不知道怎么进入公司楼下停车场。</p>
+</li>
+</ul>
+<p>基于以上表现，接下来一周还是坐地铁上班。目前来说还是更喜欢坐地铁上班，可以看视频听音频，可以查看 RSS   订阅文章，可以写周报，可以闭目养神。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-07.png" alt="weekly-review-07"  />
+</p>
+<p>老婆给我买的实习期贴牌到了，后面司机看到这么可爱的牌子，估计以为是个妹子在开车吧，应该会喇叭下留情了吧😄。</p>
+<p>接下来的周末，还要继续练车，和车子培养感情，从内到外熟悉车子，熟悉上班路线和交通规则，提高行驶速度。加油💪🏻！</p>
+<h2 id="博客优化">博客优化</h2>
+<p>这周重新对博客进行了优化，主要包括以下几个方面：</p>
+<h3 id="1优化页面加载速度">1、优化页面加载速度</h3>
+<p>每次打开博客首页，感觉页面加载有点慢，故想加快博客打开速度，第一个想到的是减少博客加载资源的次数，也就是去掉一些飞必须的 css 和 javascript 引用；其次，是对 css 进行压缩。</p>
+<ul>
+<li>去掉对 font-awesome css 的引用。这个对博客来说可有可无，所以直接去掉。</li>
+<li>去掉对 jquery、bootstrap js 的引用。同样也不是必须的，自定义的 javascript 直接使用原生的操作就行。</li>
+<li>移除未使用的 css。想参考这篇文章 <a href="https://dujun.io/cleancss-remove-unused-css.html">CleanCSS - 移除未使用的 CSS 代码</a>，对 css 进行瘦身，无奈文章中的服务器出现故障，无法访问服务。故，暂时搁浅。</li>
+</ul>
+<h3 id="2修改网站字体">2、修改网站字体</h3>
+<p>参考这篇文章 <a href="https://www.albertaz.com/blog/web-font-best-practice">字体漫谈-网站字体最佳实践</a> 引入 open-sans 字体：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;preload&#34;</span> <span class="na">as</span><span class="o">=</span><span class="s">&#34;font&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;font/woff2&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/css/font/open-sans.css&#34;</span> <span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span>  <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/css&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/css/font/open-sans.css&#34;</span>  <span class="na">media</span><span class="o">=</span><span class="s">&#34;print&#34;</span> <span class="na">onload</span><span class="o">=</span><span class="s">&#34;this.media=&#39;all&#39;&#34;</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><p>并修改网站 font-family 如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">font-family</span><span class="p">:</span> <span class="n">Open</span> <span class="n">Sans</span><span class="p">,</span><span class="n">system-ui</span><span class="p">,</span><span class="o">-</span><span class="n">apple-system</span><span class="p">,</span><span class="n">Arial</span><span class="p">,</span><span class="kc">sans-serif</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">word-break</span><span class="p">:</span> <span class="kc">break-word</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="3修改关于页面内容">3、修改关于页面内容</h3>
+<p>参考这篇文章 <a href="https://rahuldkjain.github.io/gh-profile-readme-generator/">GitHub Profile README Generator</a>，对 GitHub <a href="https://github.com/chensoul/chensoul">首页</a> 进行改造，并通过 GitHub Action 同步到博客的 <a href="https://blog.chensoul.com/about/">关于</a> 页面。</p>
+<h3 id="4dns-解析迁移到-cloudflare">4、dns 解析迁移到 cloudflare</h3>
+<p>将 dns 解析从 AWS 迁移到 cloudflare，并开启 CDN 缓存。</p>
+<h3 id="5博客测速">5、博客测速</h3>
+<p>以上优化完成之后，在 <a href="https://pagespeed.web.dev/">PageSpeed Insights</a> 网站上对博客首页加载速度进行了测速。移动端测试结果为 93 分，如下图：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-01.png" alt="weekly-review-07-01"  />
+</p>
+<p>影响评分的原因在于：</p>
+<ul>
+<li>First Contentful Paint (3G)</li>
+<li>加载的 <a href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">bootstrap.min.css</a> 文件过大，包括了一些未使用的 CSS</li>
+</ul>
+<p>桌面端测试结果评分为 99 分：</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-02.png" alt="weekly-review-07-02"  />
+</p>
+<p>另外，试了一下使用 chatgpt 来给出网站优化建议，回答如下：</p>
+<h2 id="n8n-调整">n8n 调整</h2>
+<p>新增了 3 个 workflow：</p>
+<ul>
+<li>
+<p>定时获取 <a href="https://www.bitstamp.net/api/v2/ticker/btcusd">BTC 价格</a>，并发送到 <a href="https://t.me/chensoul_share">我的电报群组</a></p>
+</li>
+<li>
+<p>定时获取 spotify 喜欢列表，并发送到电报和 memos</p>
+</li>
+<li>
+<p>每天早上 7 点，发送天气预报给微信</p>
+</li>
+</ul>
+<p>修改了以下 workflow：</p>
+<ul>
+<li>将豆瓣最近动态同步到电报群组以及 <a href="https://memos.chensoul.com/">memos</a></li>
+<li>将 GitHub 最近动态同步到电报群组以及  <a href="https://memos.chensoul.com/">memos</a></li>
+<li>将 <a href="https://blog.chensoul.com/index.xml">博客 RSS</a> 同步到电报群组以及  <a href="https://memos.chensoul.com/">memos</a></li>
+</ul>
+<p>此外，在苹果手机上添加了两个捷径：</p>
+<ul>
+<li><a href="https://sharecuts.cn/shortcut/12640">捷径一</a>：调用 memos API 创建 memos</li>
+<li><a href="https://www.icloud.com/shortcuts/d990253f43e148469af5e85c296961cf">捷径二</a>：对网站通过 RSSBud 获取 RSS 订阅地址并发送到电报的 flowerrss 机器人进行订阅</li>
+</ul>
+<h2 id="chatgpt-注册账号">ChatGPT 注册账号</h2>
+<p>参考 <a href="https://sms-activate.org/cn/info/ChatGPT">注册ChatGPT详细指南</a> 注册账号，我在 sms-activate 网站是购买的巴西的手机号来接验证码。</p>
+<p>解决地区受限问题：在浏览器地址栏里输入 <code>javascript:</code>，然后粘贴下面代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="nx">i</span><span class="p">=&gt;</span><span class="nx">i</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">&#39;@@auth0spajs&#39;</span><span class="p">)))</span>
+</span></span></code></pre></div><blockquote>
+<p>如果还是无效，则清理浏览器 cookie 和 session，再刷新页面。</p>
+</blockquote>
+<p>账号创建成功之后，创建了几个 chat：</p>
+<ul>
+<li>『文案小助手』：在今后的会话里，你都将扮演我的文案纠错润色助理，并综合给出优化后的版本。</li>
+<li>『专业后端开发老师』：在今后的对话里，你是一个专业的后端语言开发者老师，会回答我所有关于后端开发相关的问题，尤其是 Java、Pyhon、Go 语言，同时也包括 Shell 脚本、Makefile、Docker、K8S 等运维部署相关的疑问，每次都会给出代码示例，不需要我再额外提醒。</li>
+<li>『专业前端开发老师』：在今后的对话里，你是一个专业的前端开发者老师，会回答我所有关于前端语言开发相关的问题，尤其是 TypeScript、React、Vuejs、CSS、Html 和 Nextjs，每次都会给出代码示例，不需要我再额外提醒。</li>
+<li>『个人搜索引擎』：在今后的会话里，请你扮演我的专业搜索引擎，为我搜索查阅相关问题的答案和信息，每个问题尽量给出链接和出处，不需要我额外再说明。</li>
+</ul>
+<p>点击 <a href="https://platform.openai.com/account/api-keys">链接</a>，可以创建应用。给飞书用户准备的 ChatGPT 机器人，参看 <a href="https://github.com/bestony/ChatGPT-Feishu">ChatGPT-Feishu</a>。</p>
+<h1 id="-好物分享">💻 好物分享</h1>
+<h3 id="一些文章">一些文章</h3>
+<ul>
+<li>
+<p>技术类：</p>
+<ul>
+<li>
+<p><a href="https://writings.stephenwolfram.com/2019/02/seeking-the-productive-life-some-details-of-my-personal-infrastructure/">我的个人 IT 基础设施（英文）</a></p>
+</li>
+<li>
+<p><a href="https://arun.is/blog/desk-setup/">打造我的家庭办公环境（英文）</a></p>
+</li>
+<li>
+<p><a href="https://www.ruanyifeng.com/blog/2022/01/weekly-issue-191.html">科技爱好者周刊（第 191 期）：一个程序员的财务独立之路</a></p>
+</li>
+<li>
+<p><a href="https://www.zlovezl.cn/articles/programming-is-still-hard-after-14-years/">入行 14 年，我还是觉得编程很难</a></p>
+</li>
+<li>
+<p><a href="https://www.piglei.com/articles/how-to-design-config-file-for-software/">设计服务端软件配置的 4 条建议</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>非技术类：</p>
+<ul>
+<li>
+<p><a href="https://tingtalk.me/health/">除了健康，都是小事</a></p>
+</li>
+<li>
+<p><a href="https://tingtalk.me/driving-test/">驾考指南</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="一些工具">一些工具</h3>
+<h4 id="1亲戚关系计算器httpspasser-bycomrelationshipvue">1、<a href="https://passer-by.com/relationship/vue/#/">亲戚关系计算器</a></h4>
+<h4 id="2imageoptimhttpsimageoptimcommac">2、<a href="https://imageoptim.com/mac">ImageOptim</a></h4>
+<p>开源图片压缩软件：一款 Mac 小工具，可以方便的进行图片压缩，支持多格式、批量处理。值得注意的是，它压缩之后的图片会覆盖之前的图片。使用了这个工具之后，我就把  TinyPNG4Mac 卸载了。</p>
+<h4 id="3沉浸式双语网页翻译扩展--immersive-translatehttpsimmersive-translateowenyoungcom">3、<a href="https://immersive-translate.owenyoung.com/">沉浸式双语网页翻译扩展 – immersive-translate</a></h4>
+<p>强烈推荐这个网页翻译插件，和其他插件翻译整个页面相比，这个插件的优势是可以同时显示双语，中英文对照非常棒，是一个 <a href="https://github.com/immersive-translate/immersive-translate">开源</a> 的项目，完全免费使用。也支持 PDF，配合任何 <a href="https://epub-reader.online/">epub 在线阅读网站</a>对照翻译阅读书也非常方便。也支持了Deepl，腾讯翻译等等的翻译服务。开发者 <a href="https://twitter.com/OwenYoungZh">@OwenYoungZh</a></p>
+<h4 id="4input-source-prohttpsinputsourceprozh-cn">4、<a href="https://inputsource.pro/zh-CN">Input Source Pro</a></h4>
+<p>Input Source Pro 可以根据应用或是网站自动切换输入法，并且在切换窗口的时候还会贴心的提示当前的输入法是什么，比如设置 VSCode、iTerm、Xcode 默认为英文输入法，而笔记软件和企业微信默认为中文输入法，切换软件时再也不需要按 shift 键了！</p>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -267,6 +1365,49 @@ java lambda表达式内存泄露_浅谈Java内存泄露
 Python 最近有个机器学习的项目，用到了 Python，所以需要学习 Python 并掌握相关的业务知识。这一个机会，同时也是一个挑战。
 娱乐 -《粉色理论》。这部泰国双女主的同性电视剧，豆瓣上评分 9.2，在这周完结了。
 分享 HashedWheelTimer：是来自于 Netty 的工具类，在 netty-common 包中。它用于实现延时任务。</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-02-06</code> 到 <code>2023-02-12</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这篇周报又是在坐地铁的时候完成编写的，一边坐地铁，一边回顾上一周发生的事情，一边复盘和总结。坐地铁大概有一个半小时，从家到公司的一段通勤路程。现在还没有买车，所以都是坐地铁上下班。</p>
+<p>说到车，周六去二手市场买了一辆 17 年出产的上汽宝来，今天周一去过了户并且选了一个幸运的车牌号，尾号是 8688，寓意着要发发发！</p>
+<p>上个月报名的内观训练营，这周也结业了，训练营运营人员还给我发了一个结业证书。</p>
+<p>这是写周报的第六周，观察了一下博客访问量，从开始统计起到这周不到一个月的时间，访问量突破了 1000。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/blog-pv-1000.png" alt="blog-pv-1000"  />
+</p>
+<h2 id="工作">工作</h2>
+<p>这周的工作主要内容是在项目里实现用户可以切换租户和租户数据拆分。</p>
+<p>第一个功能的需求是一个账号（有姓名、手机号、密码等属性）可以访问多个租户，在每个租户里有自己的数据权限和角色。第二个功能，主要是使用 SQL 进行数据加工。</p>
+<p>总体上来说，这周工作处于充实忙碌的情况。而且，上下班的通勤时间，也在 B 站上看视频。这周主要看的是小马哥的 Java 训练营的公开视频。小马哥的 B 站视频，是我最近刷的比较多的一个视频，另外一个是 coder1v5 的视频，他们分享的视频都是关于 Java 的，里面有非常多的干货，而且还提供了源代码。如果你也是一名 Java 开发工程师，推荐你也关注他们。</p>
+<h2 id="生活">生活</h2>
+<h3 id="买车和选号">买车和选号</h3>
+<p>去年 11 月 16 日，拿到了驾照，直到现在才买了一辆车。过年前，因为疫情加上工作忙，一直没有抽出时间去了解车子行情。可能是对于车子的需求感没有那么强的原因，才导致考驾照、买车不积极。结婚之前，住在公司旁边，走路五分钟上下班，根本就用不上车。结婚之后，从光谷搬到汉口，每天上下班在路上通勤时间都有三个小时了。每天早上七点就要起来做饭（带饭到公司，中午微波炉热着吃，每天可以省下一餐伙食费），然后去赶地铁。疫情放开之前，地铁上人不多，每次都有位置坐。疫情放开之后，地铁里都是人，不是每次都有位置坐，经常要站着。站着的时候，有时候就内观冥想，想想最近有没有做得不对的地方，想想工作下一步该怎么计划；有时候就看 B 站关于 Java 的视频。也算是充分利用了这段通勤时间。</p>
+<p>为了上下班通勤更方便，才计划买车的，也不知道开车能够缩短多少通勤时间，也希望这节约下来的时间，可以用在读书和健身上。另外一方面，买车了之后，回家看望父母会更方便。这就是买车的原因。</p>
+<!-- raw HTML omitted -->
+<p>考虑到刚拿驾照、以后还要买房，这次就只买了一个二手车。原计划只买个三万左右的车，最后还是超出了预算。</p>
+<p>去二手市场买车的时候，是在周六，周末过不了户，所以这周一又过来办理过户和选车牌号。过户的过程还是很快的，全部交给二手市场的人代办。至于，选车牌号，之前了解了一下，车牌号尽量选尾号都是数字的，这样好记；不要带数字 4，不吉利；选号有时间限制，超过了时间未选，会默认选第一个。点击 “选号开始” 按钮之前，心里还有点紧张。当看到第一屏的号码时候，很快地扫描了一遍，发现了一个尾号为 8688 的号码。于是，就跟一同过来买车的姐夫说，这个号码怎么样。姐夫激动地说这个号码好，就选这个。真的没有想到今天运气这么好，选到了这么好的一个号码。激动得想跟朋友圈里的好友分享。之前买车的时候，付完预付款，就有分享买车的喜悦的冲动。这时候，老婆在旁边跟我说，要低调，不要和身边的亲戚说。所以，就一直没有告诉亲人和身边的朋友。没想到，这次选了一个幸运的车牌号，还是没忍住发了一个部分好友不可见的朋友圈。</p>
+<p>这说明自己定力还是不够，分享欲太强，不够谦虚和低调。满招损，谦受益。只是买了一个车和选到一个幸运的车牌号而已，不能高兴太早，后面还要花时间练车上路、开车还要慢和稳，不能出交通事故，铭记 “新手上路，多多指教”。</p>
+<p>学英语，最重要的是练习。开车，最重要的是慢。</p>
+<h2 id="学习">学习</h2>
+<h3 id="内观冥想">内观冥想</h3>
+<p>一月份报名内观冥想训练营的初衷是想学习内观冥想的方法，后来因为每天早上要赶地铁以及觉得课程内容和自己期望的有些差距，就没有坚持听课和打卡。</p>
+<p>虽然，没有听完所有课程，但是从开始几节课程，初步体会和感受了一下什么是内观冥想，也认识了一些内观冥想的朋友。也没有想到，最后还收到了一个结业证书。</p>
+<!-- raw HTML omitted -->
+<h3 id="python">Python</h3>
+<p>最近有个机器学习的项目，用到了 Python，所以需要学习 Python 并掌握相关的业务知识。这一个机会，同时也是一个挑战。</p>
+<h2 id="娱乐">娱乐</h2>
+<p>-《粉色理论》。这部泰国双女主的同性电视剧，豆瓣上评分 9.2，在这周完结了。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/fenhonglilun.jpeg" alt="fenhonglilun"  />
+</p>
+<h2 id="分享">分享</h2>
+<ul>
+<li>
+<p><a href="https://pdai.tech/md/spring/springboot/springboot-x-task-hashwheeltimer-timer.html">HashedWheelTimer</a>：是来自于 Netty 的工具类，在 netty-common 包中。它用于实现延时任务。</p>
+</li>
+<li>
+<p><a href="https://github.com/killbill/killbill-commons">Killbill common queue</a>：一个基于DB实现的分布式的队列，它上层还包装了EventBus事件总线机制。</p>
+</li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -290,6 +1431,60 @@ AOP 日志记录 参考 【每天进步一点点（二）-哔哩哔哩】 在项
 娱乐 -《狂飙》。最近很火，也刚好完结了。我没有去看，没有时间去追，就看了前面几集。
 -《粉红理论》。老婆在追的一部泰剧，她是在微博看些别人剪辑的几分钟的片段。叫我也去微博看看，我说我不用微博，我翻墙去找网站观看。老婆眼睛一亮，说那不是可以看到无删减版本，那个兴奋劲哟！很快，我找到了网站，发现已经上线了 11 集，而且每集都有 60 多分钟长（老婆看的都是阉割版～😯）。
 学习 最近 Damus 很火，我也去注册了一个账号，为此还重新下载了狐狸🦊钱包。随即，干脆也注册了 Mastodon 账号和 Crossbell 账号。</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-30</code> 到 <code>2023-02-05</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周是过年后的第一个工作周，被国家安排了连上七天班，算是体会了一次 “过年七天乐，上班七天累” 的过山车。七天的工作主要是测试并发布项目，每天忙的焦头乱额，生怕项目出了问题。有句话说，怕什么来什么。没想到周六还是报出了一个故障，还在睡觉中的我被一个电话吵醒，接着忙着找问题和解决方法，一天的时间就都花在这上面。万幸的是事故影响不大，发布了一个小版本进行修复。事故原因，还是值得警惕。</p>
+<h2 id="工作总结">工作总结</h2>
+<h3 id="项目事故">项目事故</h3>
+<p>这周主要是自定义拦截器和 ErrorCoder 来记录 feign 请求的调用次数，包括调用成功的和失败的。另外，如果调用失败，设置了重试两次。这里重试的前提是 http 请求出现 4xx 或者 5xx 状态码错误，如果是状态码为 200 但返回了自定义业务异常，是不会触发重试机制的。这一点没有注意到，而发布前，我想当然的把一个接口的手动重试代码删掉了，导致调用该接口出现业务异常之后没有进行重试，影响了业务方的使用。</p>
+<p>出现该问题的原因，一是没想出重试的前提条件，没有写代码注释；二是没有写单元测试；三是没有交叉代码审核。此外，还有一点，越是项目发布关键时期，越要注意休息，保持大脑足够清晰和敏捷。</p>
+<h3 id="aop-日志记录">AOP 日志记录</h3>
+<p>参考 【<a href="https://b23.tv/2HCODuM">每天进步一点点（二）-哔哩哔哩</a>】 在项目里添加代码对 controller 方法请求参数、返回结果、执行时间的记录。视频中讲的很清楚，这里就不贴代码了。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/spring-aop-customizable-trace-interceptor.png" alt="spring-aop-customizable-trace-interceptor"  />
+</p>
+<ul>
+<li>
+<p>该方法，可以对 controller 的所有方法（不管是 get 还是 post 或其他方法），都记录日志。如果想排除 get 方法（一个项目里查询比修改请求大很多），需要添加代码进行过滤。</p>
+</li>
+<li>
+<p>另外，打印请求参数时，实际是记录的请求参数的 toString 方法，如果请求参数里有些对象没有定义toString 方法，则记录的是对象的引用地址。再者，如果对象里有些敏感字段不想输出到日志里，则需要重写toString 方法。一个可选的方法是，改为打印请求参数的 json 序列化值，这样做又会带来序列化开销。</p>
+</li>
+<li>
+<p>如果 controller 层代码被代理了多次，则请求参数和返回结果会打印多次。</p>
+</li>
+</ul>
+<h2 id="生活">生活</h2>
+<h3 id="牙疼">牙疼</h3>
+<p>一个月黑风高的晚上，加班回来的程序员偷偷喝了三杯牛奶，结果第二天牙齿开始疼了，特别是吃到冷热酸甜的东西，都会短暂的巨疼。去牙科诊所看了，医生说要做根管治疗，费用 800，可以报销 420，做完以后，牙套价格另算，有一千到几千的价格不等。刚不久还刷到视频说，有两个省要规范治疗牙齿费用。</p>
+<p>忍着疼痛上了一周班，结果不仅牙痛，吃饭没胃口，还影响了上班，真是得不偿失。</p>
+<p>周六晚上，在牙齿疼痛的地方，插了一点老爸给我的药水。睡觉时，先是畏冷，再就是牙疼的地方发炎，肚子发烧，烧到了不知道多少度，反正我是没有拿温度计去测量。烧的我大脑都是糊的，一晚上没睡好，中途还醒了几次。好在第二天，就好了一些，吃东西也没那么疼了。看来，专家顺发烧是体内细菌在和病毒做斗争，应该是对的啰。</p>
+<p>经历了这一晚上，感觉像是体验了一次阳的过程。之前新冠阳了，我是轻症状，没有发烧。这次牙疼发烧，算是把之前新冠没有吃过的苦找补回来，人生也算是多了一种体验。</p>
+<h3 id="娱乐">娱乐</h3>
+<p>-《狂飙》。最近很火，也刚好完结了。我没有去看，没有时间去追，就看了前面几集。</p>
+<p>-《粉红理论》。老婆在追的一部泰剧，她是在微博看些别人剪辑的几分钟的片段。叫我也去微博看看，我说我不用微博，我翻墙去找网站观看。老婆眼睛一亮，说那不是可以看到无删减版本，那个兴奋劲哟！很快，我找到了<a href="https://www.dandanzan.com/dianshiju/112399.html">网站</a>，发现已经上线了 11 集，而且每集都有 60 多分钟长（老婆看的都是阉割版～😯）。</p>
+<h2 id="学习">学习</h2>
+<p>最近 Damus 很火，我也去注册了一个账号，为此还重新下载了狐狸🦊钱包。随即，干脆也注册了 Mastodon 账号和 Crossbell 账号。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/damus-profile.png" alt="damus-profile"  />
+</p>
+<ul>
+<li>
+<p>我的 Damus 账号 npub1dav96pmjv58n60eqz7ctmhvsd7t2yljvzevf6uckmchz6zamx2wq0k7dm5</p>
+</li>
+<li>
+<p>我的 Mastodon 账号 @chensoul@mas.to</p>
+</li>
+<li>
+<p>我的 crossbell 账号 chensoul@crossbell</p>
+</li>
+</ul>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/xsync-profile.png" alt="xsync-profile"  />
+</p>
+<h2 id="好物分享">好物分享</h2>
+<ul>
+<li><strong><a href="https://ssnhd.com/2022/01/01/mac-inputdel/">Mac 删除原生英文 ABC</a></strong></li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -308,6 +1503,99 @@ Feign 集成 Micometer OpenFeign 官方提供了 feign-micrometer 来支持 feig
 GitHub github = Feign.builder() .addCapability(new MicrometerCapability()) .target(GitHub.class, &amp;#34;https://api.github.com&amp;#34;); 其本质是对 feign 拦截器、client、encoder、decoder 进行封装，测试过程中在没有获取到指标。故，改为使用z自定义拦截器和 ErrorCoder 来记录请求次数和失败次数。
 @Bean public GitHub gihhub(MetricsInterceptor metricsInterceptor){ GitHub github = Feign.builder() .requestInterceptor(metricsInterceptor) .errorDecoder(new MetricsErrorDecoder()) .target(GitHub.class, &amp;#34;https://api.github.com&amp;#34;); } MetricsInterceptor 代码如下：
 public class MetricsInterceptor implements RequestInterceptor, MeterBinder { private static MeterRegistry meterRegistry; public static final String FEIGN_REQUEST = &amp;#34;feign.</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-23</code> 到 <code>2023-01-29</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<h2 id="过年">过年</h2>
+<p>这周处于过年吃喝拜年模式，除了腊月二十九和正月初一，其他时间都是和老婆在路上。因为是结婚第一个新年，需要带着老婆去各个亲戚家拜年。因为是第一次在新房过年，就把老爸从农村接过来一起过年。因为年前没有来得及买车，去哪里都不方便，都要需要滴滴打车。为此，打车花了不少钱，当然，给红包也给了不少钱。趁初一不用拜年的缝隙时间，带老婆和老爸去看了两场电影《无名》和《交换人生》。老爸很少去看电影院看电影，听到要去看电影，像个小孩似的，饭还吃完，就跑去电梯门口等电梯。这两场电影，看的我瞌睡来了，倒是初二晚上看《满江红》睡意全无。</p>
+<p>总结下来，这个年过的不轻松，身体忙碌，心里幸福🥰。</p>
+<h2 id="向上管理">向上管理</h2>
+<p>年前，部门领导找我谈 2022 年绩效结果时候，提到我可以 “向上管理” 他。最近从 <a href="https://www.duyidong.com/">杜屹东</a> 的博客 <a href="https://www.duyidong.com/2020/01/01/2019-learn-from-alibaba/">这一年我在阿里学到的</a> 也看到了他在阿里工作一年后悟到对向上管理的理解。</p>
+<ul>
+<li>及时和老板表达想法</li>
+<li>让老板知道你在忙什么</li>
+<li>主动帮老板做一些脏活累活</li>
+</ul>
+<p>前两条是老板知道你的想法，后面一条是帮老板解决问题。此外，还可以帮老板规避风险。</p>
+<h2 id="本周工作">本周工作</h2>
+<p>这是年后的第一周，主要是处理年前没有完成的项目迭代。</p>
+<h3 id="feign-集成-micometer">Feign 集成 Micometer</h3>
+<p>OpenFeign 官方提供了 feign-micrometer 来支持 feign 集成 micrometer。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">GitHub</span> <span class="n">github</span> <span class="o">=</span> <span class="n">Feign</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">addCapability</span><span class="o">(</span><span class="k">new</span> <span class="n">MicrometerCapability</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">target</span><span class="o">(</span><span class="n">GitHub</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;https://api.github.com&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>其本质是对 feign 拦截器、client、encoder、decoder 进行封装，测试过程中在没有获取到指标。故，改为使用z自定义拦截器和 ErrorCoder 来记录请求次数和失败次数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">GitHub</span> <span class="nf">gihhub</span><span class="o">(</span><span class="n">MetricsInterceptor</span> <span class="n">metricsInterceptor</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">GitHub</span> <span class="n">github</span> <span class="o">=</span> <span class="n">Feign</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">requestInterceptor</span><span class="o">(</span><span class="n">metricsInterceptor</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">errorDecoder</span><span class="o">(</span><span class="k">new</span> <span class="n">MetricsErrorDecoder</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">target</span><span class="o">(</span><span class="n">GitHub</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;https://api.github.com&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>MetricsInterceptor 代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MetricsInterceptor</span> <span class="kd">implements</span> <span class="n">RequestInterceptor</span><span class="o">,</span> <span class="n">MeterBinder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MeterRegistry</span> <span class="n">meterRegistry</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">FEIGN_REQUEST</span> <span class="o">=</span> <span class="s">&#34;feign.requests&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">FEIGN_REQUEST_ERROR</span> <span class="o">=</span> <span class="s">&#34;feign.requests.error&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MetricsInterceptor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">apply</span><span class="o">(</span><span class="n">RequestTemplate</span> <span class="n">template</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Micrometers</span><span class="o">.</span><span class="na">async</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">String</span> <span class="n">methodKey</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="na">methodMetadata</span><span class="o">().</span><span class="na">configKey</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Counter</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="s">&#34;feign.requests&#34;</span><span class="o">).</span><span class="na">tags</span><span class="o">(</span><span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">&#34;method&#34;</span><span class="o">,</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">substringBefore</span><span class="o">(</span><span class="n">methodKey</span><span class="o">,</span> <span class="s">&#34;(&#34;</span><span class="o">)}).</span><span class="na">register</span><span class="o">(</span><span class="n">meterRegistry</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">counter</span><span class="o">.</span><span class="na">increment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">bindTo</span><span class="o">(</span><span class="n">MeterRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">meterRegistry</span> <span class="o">=</span> <span class="n">registry</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>MetricsErrorDecoder 代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MetricsErrorDecoder</span> <span class="kd">implements</span> <span class="n">ErrorDecoder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">MetricsErrorDecoder</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MeterRegistry</span> <span class="n">registry</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleMeterRegistry</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MetricsErrorDecoder</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">metrics</span><span class="o">(</span><span class="n">String</span> <span class="n">methodKey</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Micrometers</span><span class="o">.</span><span class="na">async</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Metrics</span><span class="o">.</span><span class="na">counter</span><span class="o">(</span><span class="s">&#34;feign.requests.error&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">&#34;method&#34;</span><span class="o">,</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">substringBefore</span><span class="o">(</span><span class="n">methodKey</span><span class="o">,</span> <span class="s">&#34;(&#34;</span><span class="o">)}).</span><span class="na">increment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Exception</span> <span class="nf">decode</span><span class="o">(</span><span class="n">String</span> <span class="n">methodKey</span><span class="o">,</span> <span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">metrics</span><span class="o">(</span><span class="n">methodKey</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">FeignException</span> <span class="n">exception</span> <span class="o">=</span> <span class="n">FeignException</span><span class="o">.</span><span class="na">errorStatus</span><span class="o">(</span><span class="n">methodKey</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">exception</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Counter</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="s">&#34;feign.requests.error&#34;</span><span class="o">).</span><span class="na">register</span><span class="o">(</span><span class="n">registry</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="sentry-集成飞书通知">Sentry 集成飞书通知</h3>
+<p>参考 <a href="https://www.ytjia.xyz/blog/2022/05/20/sentry-webhook.html">通过Webhook实现Sentry错误自动化飞书机器人报警</a> 这篇文章，使用 fastapi 部署一个 http 服务将 sentry 的回调转发到飞书群的机器人。由于，fastapi 需要在服务器上安装 python3，为了不污染我的 vps，我创建一个 docker 镜像 <a href="https://github.com/chensoul/dockerfiles/tree/master/sentry-feishu-hook">sentry-feishu-hook</a>，修改了 python 脚本中的编译错误，并在 vps 上通过 docker 启动该服务。</p>
+<p>先编译镜像，再运行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker build -t sentry-feishu-hook .
+</span></span><span class="line"><span class="cl">docker run -d --name sentry-feishu-hook -p 3080:3080 sentry-feishu-hook
+</span></span></code></pre></div><p>接下来在 sentry 项目的 WebHooks 里添加 http://ip:3080/hook</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/sentry-feishu-webhooks-test.png" alt="sentry-feishu-webhooks-test"  />
+</p>
+<p>点击 Test Plugin，飞书群组可以收到消息：</p>
+<!-- raw HTML omitted -->
+<h2 id="好物分享">好物分享</h2>
+<ul>
+<li><a href="https://www.warp.dev/">https://www.warp.dev/</a>：一个 Rust 编写，使用 GPU 渲染的终端应用。目标是提升开发者的效率。</li>
+<li><a href="https://strrl.dev/post/before-2022/restful-api-mock-%E5%B7%A5%E5%85%B7-jsonplaceholder/">Restful API Mock 工具：JSONPlaceholder</a></li>
+<li><a href="https://netnewswire.com/">NetNewsWire</a>。Inoreader 最近总是抽风，就改为使用 NetNewsWire 了。使用起来，还是比较顺滑，遗憾的是没有安卓 App。</li>
+<li><a href="https://cubox.pro/">Cubox</a>。最近看到这个收藏工具，下载了使用起来。</li>
+</ul>
+<!-- raw HTML omitted -->
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -325,6 +1613,45 @@ public class MetricsInterceptor implements RequestInterceptor, MeterBinder { pri
 博客个人介绍 我的博客源文件托管在 gihub，在这个仓库可以看到我的一些个人介绍，当然，我的博客也有个人介绍（在关于页面），如果你仔细观察，可以发现他们基本上是一样的，这个是怎么实现的呢？
 首先，github 里面可以创建一个以 github 账号为名称的仓库，然后编辑好 README.md 文件，README.md 文件内容就会渲染成 html 显示到个人 github 主页。例如，我的 github 主页是 https://github.com/chensoul，我的个人仓库地址为 https://github.com/chensoul/chensoul，这个仓库是通过 github actions 来构建 README.md，构建文件查看仓库的 workflows 文件，主要有两个文件：
 build.yml：周期性的调用 build_readme.py 来生成 README.md 文件（包括：获取最近 5 篇博客文章、或者 豆瓣上最近 5 个电影书籍动态、获取 github 上发布的项目、显示 wakatime 报表） waketime.</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-16</code> 到 <code>2023-01-22</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制，也在我的 VPS 上通过 Docker 部署了一些服务。</p>
+<h2 id="定制博客">定制博客</h2>
+<p>基于 <a href="https://www.pseudoyu.com/">pseudoyu</a> 的博客和主题定制博客，发现并修复了bug，还做了一些改进，并在他的 github 提交 <a href="https://github.com/pseudoyu/pseudoyu/issues/2">issue</a> 和 merge request。</p>
+<!-- raw HTML omitted -->
+<p>接着在他博客主页留言，几个来回下来，收获不少。一是解决了我提出的问题，二是给我分享了一个搬瓦工的 the plan 优惠码。这时候去看了下我原来的 vps 刚好还有一天要到期，就立即花了92 美元（原价是 99 美元）购买了一台 2G 内存托管在香港的服务器。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-main-controlls.png" alt="vps-main-controlls"  />
+</p>
+<p>缘分就是这么奇妙，如果我不主动和这个博主联系，就不会知道搬瓦工还有这个优惠，就不会帮助我解决了博客定制过程中遇到的疑惑。</p>
+<blockquote>
+<p>当你想要什的时候，先给出去，你就会收获更。有舍才有得。</p>
+</blockquote>
+<h2 id="博客个人介绍">博客个人介绍</h2>
+<p>我的博客源文件托管在 <a href="https://github.com/chensoul/chensoul.github.io">gihub</a>，在这个仓库可以看到我的一些个人介绍，当然，我的博客也有个人介绍（在<a href="https://blog.chensoul.com/about/">关于</a>页面），如果你仔细观察，可以发现他们基本上是一样的，这个是怎么实现的呢？</p>
+<!-- raw HTML omitted -->
+<p>首先，github 里面可以创建一个以 github 账号为名称的仓库，然后编辑好 README.md 文件，README.md 文件内容就会渲染成 html 显示到个人 github 主页。例如，我的 github 主页是 <a href="https://github.com/chensoul">https://github.com/chensoul</a>，我的个人仓库地址为 <a href="https://github.com/chensoul/chensoul">https://github.com/chensoul/chensoul</a>，这个仓库是通过 github actions 来构建 README.md，构建文件查看仓库的 workflows 文件，主要有两个文件：</p>
+<ul>
+<li>build.yml：周期性的调用 <a href="https://github.com/chensoul/chensoul/blob/main/build_readme.py">build_readme.py</a> 来生成 README.md 文件（包括：获取最近 5 篇博客文章、或者 豆瓣上最近 5 个电影书籍动态、获取 github 上发布的项目、显示 wakatime 报表）</li>
+<li>waketime.yml：生成 wakatime-charts</li>
+</ul>
+<p>当 README.md 生成之后，只需要将该文件内容同步到博客的 about.md 文件即可。怎么实现呢？参考博客源文件里的 <a href="https://github.com/chensoul/chensoul.github.io/blob/main/build_about.py">build_about.py</a>。这样就可以实现一个自我介绍同步到多个平台（除了博客，还可以通过 api 接口同步到语雀等其他平台）。</p>
+<h2 id="vps-上服务部署">vps 上服务部署</h2>
+<p>购买了新的 VPS 之后，就将原来的 VPS 导出镜像，然后导入到新的 VPS，最后再安装了以下服务：</p>
+<ul>
+<li><a href="https://github.com/indes/flowerss-bot">flowerss-bot</a>：一个支持应用内阅读的 Telegram RSS Bot。</li>
+<li><a href="https://n8n.io/">n8n</a>：一款开源的自动工作流服务，类似 IFTTT、Zapier，可以互联互通包括 GitHub、Dropbox、Google、NextCLoud、RSS、Slack、Telegram 在内的几十款在线服务。</li>
+<li>memos：一个开源且免费的自托管知识库</li>
+<li>cusdis：一个界面清爽、注重隐私的轻量级 (~5kb gzip) 评论系统，可以很方便地与 React、Vue 或其他博客系统结合，并且还提供了一个后台来管理所有的评论</li>
+<li>umami：一个简单易用、自托管的开源网站访问流量<em>统计</em>分析工具</li>
+<li>pgsql</li>
+<li>uptime-kuma：一个开源免费的监控工具</li>
+<li>rsshub：一个开源、简单易用、易于扩展的RSS 生成器，可以给任何奇奇怪怪的内容生成RSS 订阅源</li>
+</ul>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-docker-service.png" alt="vps-docker-service"  />
+</p>
+<p>通过 Docker 部署这些服务非常简单，主要是需要注意的一点是：将这些服务部署到同一个网路，这样各个服务之间可以互相通信。比如：很多服务都需要依赖数据库 postgresql，可以使用 docker-compose 来编排服务。安装部署过程参考：<a href="/posts/2023/01/25/notes-about-deploy-services-in-vps/">我的VPS服务部署记录</a></p>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -346,6 +1673,54 @@ build.yml：周期性的调用 build_readme.py 来生成 README.md 文件（包�
 博客部署 目前有三种方案部署方案：
 github pages。国内访问速度受影响。 cloudflare pages。可以使用 cdn 加速。 Self hosted。需要购买云主机和手动运维。 目前，是倾向于使用第二种方案。源码保存到 github 上，github actions 编译和部署静态文件到 cf-pages 分支，通过 cloudflare pages 链接 github 仓库、自动化部署静态文件并设置自定义域名 blog.chensoul.com。
 发布流程 本地编写 markdown 文件，图片保存到公有云，通过 git 提交到 github 仓库，使用 github actions 通过 n8n 自动发布到多平台，比如：公众号，语雀等。</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-09</code> 到 <code>2023-01-15</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔记和个人的生活记录与思考，所以不会涉及具体的工作内容。</p>
+<p>周三晚上是部门年会，领导提出了 2023 年收入 6.2 亿的目标，比 2022 年收入增长 140%。从公司领导层这乐观的年度规划，看得出来公司的发展属于上升趋势，同时意味着 2023 年又是忙碌和压力巨大的一年。</p>
+<p>工作闲暇之余，看到了一些独立开发者的博客，并受他们博客文章的影响，立即决定重新捣鼓博客。于是，在一腔热情之下，花了三天时间重构了博客，也对博客以后的方向做了一些规划。</p>
+<p>周末是过小年，小年伊始，年味渐浓。周六晚上，堂哥家吃年饭。周日中午，自己家吃年饭。这是新婚后第一次两边的家人一起吃年饭。虽然很早就确定了年饭时间大家都有时间的周末、预定了可以坐下 20 多人的大桌，但还是遗憾人没有到齐。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/new-year-dinner-20230115.png" alt="new-year-dinner-20230115"  />
+</p>
+<h2 id="博客重构">博客重构</h2>
+<h3 id="博客主题">博客主题</h3>
+<p>以前的博客主要是纯粹分享技术，很少有自己的思考，基本上就是代码比汉字要多不少。博客没有博主的思考，无法让读者认识、了解博主，并和博主产生深入的链接。这样的博客没有灵魂，就仅仅是一个纯分享的 wiki。</p>
+<p>这次重新开始写博客之后，规划的博客主题是分享技术、记录生活、启发思考。技术上的文章，要有深度；生活的点滴，要有复盘；思考的内容，要有共鸣。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/blog-homepage-den-theme.png" alt="blog-homepage-den-theme"  />
+</p>
+<h3 id="博客规划">博客规划</h3>
+<p>以前博客文章的分类有 java、database、devops、web，在删了一些文章之后，将博客的分类调整为想法（Ideas）、笔记（Notes）两类，后面再根据实际情况添加或者调整分类。</p>
+<blockquote>
+<p>健康，爱情和使命，按照这个顺序，其它的都不重要</p>
+</blockquote>
+<h3 id="文章链接">文章链接</h3>
+<p>以前的博客链接格式是 <code>posts/:slug</code>，现在调整为 <code>posts/:year/:month/:day/:slug</code>。因为现在博客只有几篇文章，所以暂时不打算做原有链接路径到新路径的重定向工作。</p>
+<h3 id="博客部署">博客部署</h3>
+<p>目前有三种方案部署方案：</p>
+<ul>
+<li>github pages。国内访问速度受影响。</li>
+<li>cloudflare pages。可以使用 cdn 加速。</li>
+<li>Self hosted。需要购买云主机和手动运维。</li>
+</ul>
+<p>目前，是倾向于使用第二种方案。源码保存到 github 上，github actions 编译和部署静态文件到 cf-pages 分支，通过 cloudflare pages 链接 github 仓库、自动化部署静态文件并设置自定义域名 <code>blog.chensoul.com</code>。</p>
+<h3 id="发布流程">发布流程</h3>
+<p>本地编写 markdown 文件，图片保存到公有云，通过 git 提交到 github 仓库，使用 github actions 通过 n8n 自动发布到多平台，比如：公众号，语雀等。</p>
+<h3 id="待办事项">待办事项</h3>
+<p>本周对博客重构，计划完成以下功能：</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 在不修改原主题的前提下，通过 git log 记录对主题的改动</li>
+<li><input checked="" disabled="" type="checkbox"> 添加 <a href="https://cusdis.com/">Cusdis </a>评论系统</li>
+<li><input checked="" disabled="" type="checkbox"> 添加 <a href="https://umami.is/">Umami</a> 统计分析</li>
+<li><input checked="" disabled="" type="checkbox"> 添加 <a href="https://uptime.kuma.pet/">Kuma</a> 服务监控</li>
+<li><input checked="" disabled="" type="checkbox"> 添加搜索、回到顶部功能</li>
+<li><input checked="" disabled="" type="checkbox"> 使用 <a href="https://oss.console.aliyun.com/overview">阿里云对象存储</a> 作为图床</li>
+<li><input disabled="" type="checkbox"> github actions 集成 <a href="https://n8n.io/">n8n</a></li>
+<li><input disabled="" type="checkbox"> 域名 dns 解析迁移到 cloudflare</li>
+</ul>
+<p>以下是使用 kuma 监控我的 VPS 上的服务。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/chensoul-uptime.png" alt="chensoul-uptime"  />
+</p>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -363,6 +1738,74 @@ github pages。国内访问速度受影响。 cloudflare pages。可以使用 cd
 这篇文章就是通过 metion 编写和提交的。图片是本地上传的，图片名称应该是一串随机数，待文章发布之后，需要将图片重命名为有意义的名称，这样方便在图床里查阅和管理。
 关于图片的宽度设置，特别是竖形图，建议将宽度设置为一半。设置方法是：在 md 文件里使用 img 标签引入图片，这样就可以添加一个 sytle=&amp;quot;width: 50%&amp;quot; 来设置宽度。例如，上面图片就是这样设置的。
 &amp;lt;img src=&amp;#34;http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/ios-app-metion.png&amp;#34; alt=&amp;#34;ios-app-metion&amp;#34; style=&amp;#34;width: 50%&amp;#34;&amp;gt; 内观冥想 这个月参加了一个内观冥想 21 天训练营，每天早上 7 点到 8 点是上课时间，正好也是我上班时间。在听了几天课程并打卡之后，就放弃了。</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-02</code> 到 <code>2023-01-08</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这是 2023 年的第一周，元旦放了三天假之后，就用投入了工作之中。元旦已过，过年就没多远了，很多公司也开始准备年会了。因为疫情，这个年注定不好过。现在疫情放开，不知道有多少公司能够熬过这个年，进入百废待兴的节奏。</p>
+<p>最近把 rss 阅读器又用起来，每天阅读订阅的未读文章，关注到好几个独立开发者。他们每周都在坚持写博客、分享技术文章。从他们的分享里面，可以看到他们有在做自己的 side projects，也有在开源项目提交代码。看着他们的 github 主页每天都有提交代码，再看看我的 github 主页很久没有提交过代码，顿感惭愧。目前，公司使用的是自建的 gitlab 仓库托管代码，很多代码不方便公开分享，自己夜很少花时间写一些小项目公开分享到 github。干脆就清理一些 github 长期没有维护的仓库，取关了一些好友，更新了 github 主页，最后看了一下粉丝还有 574 人，相对而言也是少的可怜🥺。</p>
+<h2 id="开始写周报">开始写周报</h2>
+<p>前段时间，开始尝试在 <a href="https://www.yuque.com/chensoul">语雀</a> 上每天写日记，写了几天之后，没有坚持下来。</p>
+<!-- raw HTML omitted -->
+<p>总结了一下，没有坚持下来的原因主要是在于每天没有积累足够的分享内容，也就是输入不够；另外，输出之后的反馈不够，这和观众流量有关。作为一个程序员，更喜欢自动化工作的快感和满足感。哟还是更倾向于将博客以 markdown 文件保存到本地或者 git 仓库，然后通过自动化脚本编译部署到多平台。在关注了一些独立开发者的博客之后，更是坚定了这种想法。于是有了这篇写周报的文章，以周为单位记录每一周的所看所思所感。</p>
+<p>关于写博客的流程，电脑上使用 typora 编辑器有着很好的用户体验。如果也能在手机上用 markdown 写文章并提交到 github 上就更完美了。刚开始我使用的是 mweb 这个 app，最近在 ios 上又发现了 metion 这个 app 就可以支持和 git 同步。</p>
+<!-- raw HTML omitted -->
+<p>这篇文章就是通过 metion 编写和提交的。图片是本地上传的，图片名称应该是一串随机数，待文章发布之后，需要将图片重命名为有意义的名称，这样方便在图床里查阅和管理。</p>
+<!-- raw HTML omitted -->
+<p>关于图片的宽度设置，特别是竖形图，建议将宽度设置为一半。设置方法是：在 md 文件里使用 <code>img</code> 标签引入图片，这样就可以添加一个 <code>sytle=&quot;width: 50%&quot;</code> 来设置宽度。例如，上面图片就是这样设置的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/ios-app-metion.png&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;ios-app-metion&#34;</span> <span class="na">style</span><span class="o">=</span><span class="s">&#34;width: 50%&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="内观冥想">内观冥想</h2>
+<p>这个月参加了一个内观冥想 21 天训练营，每天早上 7 点到 8 点是上课时间，正好也是我上班时间。在听了几天课程并打卡之后，就放弃了。</p>
+<p>21 天课程内容，每天的主题分别是：</p>
+<ul>
+<li>目标</li>
+<li>计划</li>
+<li>结果</li>
+<li>比较</li>
+<li>抱怨</li>
+<li>后悔</li>
+<li>他应该知道自己错了</li>
+<li>不可能</li>
+</ul>
+<h3 id="目标">目标</h3>
+<blockquote>
+<p>今日内观冥想主题是目标</p>
+<p>静静地放空自己，回想自己关注目标的记忆。好像自己曾经设立过很多目标，又好像什么都没有。目标是什么，好像描述不出来，又琢磨不透。</p>
+<p>曾经立下的那些目标算是目标吗？他们可以实现吗？他们实现了吗？为什么没有实现呢？无志之人常立志，有志之人立常志。远的不说，先看看 2022 年实现了哪些目标。读书，是彻底放下了；健身，元旦前减到 130 斤的目标在 “阳康后不要剧烈运动” 的说辞下耽误了；定投，也是终止了；买车，车是消耗品；结婚，实现了。</p>
+<p>算了下，实现了的目标也就是结婚了。少的可怜。为什么会这样呢？大抵是自己不够自律，没有持续的坚持，也没有及时的反思和调整。也就是自我察觉不够吧！或者说没有养成自我察觉的方法和习惯。这也就是为什么要参加 21 天内观训练营的原因吧。</p>
+<p>一个人很难认清自身的局限性，很难扩大自己的认知，多与身边的人交流和学习，通过观他人，再来思自己，应该可以提升自己的察觉意识。</p>
+</blockquote>
+<h3 id="计划">计划</h3>
+<blockquote>
+<p>今日内观冥想主题是计划。</p>
+<p>早上冥想是在地铁，冥想的时候放空自己，感受自己的思绪、情绪和身体的注意力。因为是站着，注意力一会儿在脚上，一会儿在手上，不能完全地放空自己。想必要是完全放松，估计就站不住了吧。</p>
+<p>冥想地过程中，重要的是感受和观察。感受当下的感受，观察自己的观察，任有他们流动和发展。所谓没有绝对的对与错，冥想的过程中，重要的是作为一个旁观者，不要有过多的主观意识。</p>
+</blockquote>
+<h3 id="结果">结果</h3>
+<blockquote>
+<p>今天的内观冥想主题是结果。</p>
+<p>把身体挂在钩子上，静静地观察和感受。一方面感受身体，一方面会思考自己对结果的理解。什么是结果？自己过去一年取得了什么样的结果？为什么没有取得？</p>
+</blockquote>
+<h3 id="比较">比较</h3>
+<blockquote>
+<p>今日内观冥想主题是比较。冥想时，观察自己的感受、情绪、想法，他们可能是任何样子的。不管是怎样的，他们都是正常的，都是他们本来的样子，也就是空性。</p>
+<p>把比较这个念头挂起来，静静地看比较这两个字。然后开始觉察比较这两个字。这个时候，大脑开始在思考比较这个念头是什么。思绪在变化的时候，对对比较这个念头的感受也在变化。无论如何变化，自己都不要干预。当自己有了比较这个念头，自己的感受是失望的。失望自己不如别人，不如过去。失望过后，又不服气，又暗下决心要好好努力。这个过程中，我是我的主人，是我在有着各种各样的感受。如果我能控制自己的情绪，就能控制自己的行为。</p>
+</blockquote>
+<h3 id="抱怨">抱怨</h3>
+<blockquote>
+<p>今日冥想主题是抱怨。</p>
+<p>生活中有什么抱怨的？抱怨又解决不了问题？问题又不是自己造成的，可能是别人造成的！别人的事情是别人的事情，自己的事情是自己造成。别人的事情，你管不了，你能管理的是你自己的。管好自己的心态情绪和行为，因为抱怨解决不了别人的问题，也解决不了自己的事情。甚至你的抱怨还会给别人带来负能量，给你们带来争吵，给自己带来蛮烦，给自己地能力和情绪带来消耗。与其消耗自己，还不如提升自己。有时候不要局限在自己的思维里，换个角度，提升格局，一切事情都不是事情了。这个世界哪有那么多所谓重要的事情。那些今天你看来很重要的事儿，在十年二十年之后，根本就不值得一提。所以很多时候，要用发展的眼光看问题。一切都会过去，一切都会好起来。当你这样想的时候，在你心里在你眼前，就没有什么烦恼了，也就不会抱怨了。</p>
+</blockquote>
+<h2 id="好物分享">好物分享</h2>
+<p>几个截图软件：</p>
+<ul>
+<li>
+<p><a href="https://immmmm.com/chrome-extensions-tinysnap/">TinySnap</a> Chrome 截图插件，支持设置背景</p>
+</li>
+<li>
+<p>Snipaste 截图</p>
+</li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
   </channel>

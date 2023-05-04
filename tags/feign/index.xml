@@ -4,11 +4,6 @@
     <title>feign on ChenSoul</title>
     <link>https://blog.chensoul.com/tags/feign/</link>
     <description>Recent content in feign on ChenSoul</description>
-    <image>
-      <title>ChenSoul</title>
-      <url>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
-    </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 07 Feb 2023 00:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/feign/index.xml" rel="self" type="application/rss+xml" />
@@ -33,6 +28,60 @@ AOP 日志记录 参考 【每天进步一点点（二）-哔哩哔哩】 在项
 娱乐 -《狂飙》。最近很火，也刚好完结了。我没有去看，没有时间去追，就看了前面几集。
 -《粉红理论》。老婆在追的一部泰剧，她是在微博看些别人剪辑的几分钟的片段。叫我也去微博看看，我说我不用微博，我翻墙去找网站观看。老婆眼睛一亮，说那不是可以看到无删减版本，那个兴奋劲哟！很快，我找到了网站，发现已经上线了 11 集，而且每集都有 60 多分钟长（老婆看的都是阉割版～😯）。
 学习 最近 Damus 很火，我也去注册了一个账号，为此还重新下载了狐狸🦊钱包。随即，干脆也注册了 Mastodon 账号和 Crossbell 账号。</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-30</code> 到 <code>2023-02-05</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这周是过年后的第一个工作周，被国家安排了连上七天班，算是体会了一次 “过年七天乐，上班七天累” 的过山车。七天的工作主要是测试并发布项目，每天忙的焦头乱额，生怕项目出了问题。有句话说，怕什么来什么。没想到周六还是报出了一个故障，还在睡觉中的我被一个电话吵醒，接着忙着找问题和解决方法，一天的时间就都花在这上面。万幸的是事故影响不大，发布了一个小版本进行修复。事故原因，还是值得警惕。</p>
+<h2 id="工作总结">工作总结</h2>
+<h3 id="项目事故">项目事故</h3>
+<p>这周主要是自定义拦截器和 ErrorCoder 来记录 feign 请求的调用次数，包括调用成功的和失败的。另外，如果调用失败，设置了重试两次。这里重试的前提是 http 请求出现 4xx 或者 5xx 状态码错误，如果是状态码为 200 但返回了自定义业务异常，是不会触发重试机制的。这一点没有注意到，而发布前，我想当然的把一个接口的手动重试代码删掉了，导致调用该接口出现业务异常之后没有进行重试，影响了业务方的使用。</p>
+<p>出现该问题的原因，一是没想出重试的前提条件，没有写代码注释；二是没有写单元测试；三是没有交叉代码审核。此外，还有一点，越是项目发布关键时期，越要注意休息，保持大脑足够清晰和敏捷。</p>
+<h3 id="aop-日志记录">AOP 日志记录</h3>
+<p>参考 【<a href="https://b23.tv/2HCODuM">每天进步一点点（二）-哔哩哔哩</a>】 在项目里添加代码对 controller 方法请求参数、返回结果、执行时间的记录。视频中讲的很清楚，这里就不贴代码了。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/spring-aop-customizable-trace-interceptor.png" alt="spring-aop-customizable-trace-interceptor"  />
+</p>
+<ul>
+<li>
+<p>该方法，可以对 controller 的所有方法（不管是 get 还是 post 或其他方法），都记录日志。如果想排除 get 方法（一个项目里查询比修改请求大很多），需要添加代码进行过滤。</p>
+</li>
+<li>
+<p>另外，打印请求参数时，实际是记录的请求参数的 toString 方法，如果请求参数里有些对象没有定义toString 方法，则记录的是对象的引用地址。再者，如果对象里有些敏感字段不想输出到日志里，则需要重写toString 方法。一个可选的方法是，改为打印请求参数的 json 序列化值，这样做又会带来序列化开销。</p>
+</li>
+<li>
+<p>如果 controller 层代码被代理了多次，则请求参数和返回结果会打印多次。</p>
+</li>
+</ul>
+<h2 id="生活">生活</h2>
+<h3 id="牙疼">牙疼</h3>
+<p>一个月黑风高的晚上，加班回来的程序员偷偷喝了三杯牛奶，结果第二天牙齿开始疼了，特别是吃到冷热酸甜的东西，都会短暂的巨疼。去牙科诊所看了，医生说要做根管治疗，费用 800，可以报销 420，做完以后，牙套价格另算，有一千到几千的价格不等。刚不久还刷到视频说，有两个省要规范治疗牙齿费用。</p>
+<p>忍着疼痛上了一周班，结果不仅牙痛，吃饭没胃口，还影响了上班，真是得不偿失。</p>
+<p>周六晚上，在牙齿疼痛的地方，插了一点老爸给我的药水。睡觉时，先是畏冷，再就是牙疼的地方发炎，肚子发烧，烧到了不知道多少度，反正我是没有拿温度计去测量。烧的我大脑都是糊的，一晚上没睡好，中途还醒了几次。好在第二天，就好了一些，吃东西也没那么疼了。看来，专家顺发烧是体内细菌在和病毒做斗争，应该是对的啰。</p>
+<p>经历了这一晚上，感觉像是体验了一次阳的过程。之前新冠阳了，我是轻症状，没有发烧。这次牙疼发烧，算是把之前新冠没有吃过的苦找补回来，人生也算是多了一种体验。</p>
+<h3 id="娱乐">娱乐</h3>
+<p>-《狂飙》。最近很火，也刚好完结了。我没有去看，没有时间去追，就看了前面几集。</p>
+<p>-《粉红理论》。老婆在追的一部泰剧，她是在微博看些别人剪辑的几分钟的片段。叫我也去微博看看，我说我不用微博，我翻墙去找网站观看。老婆眼睛一亮，说那不是可以看到无删减版本，那个兴奋劲哟！很快，我找到了<a href="https://www.dandanzan.com/dianshiju/112399.html">网站</a>，发现已经上线了 11 集，而且每集都有 60 多分钟长（老婆看的都是阉割版～😯）。</p>
+<h2 id="学习">学习</h2>
+<p>最近 Damus 很火，我也去注册了一个账号，为此还重新下载了狐狸🦊钱包。随即，干脆也注册了 Mastodon 账号和 Crossbell 账号。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/damus-profile.png" alt="damus-profile"  />
+</p>
+<ul>
+<li>
+<p>我的 Damus 账号 npub1dav96pmjv58n60eqz7ctmhvsd7t2yljvzevf6uckmchz6zamx2wq0k7dm5</p>
+</li>
+<li>
+<p>我的 Mastodon 账号 @chensoul@mas.to</p>
+</li>
+<li>
+<p>我的 crossbell 账号 chensoul@crossbell</p>
+</li>
+</ul>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/xsync-profile.png" alt="xsync-profile"  />
+</p>
+<h2 id="好物分享">好物分享</h2>
+<ul>
+<li><strong><a href="https://ssnhd.com/2022/01/01/mac-inputdel/">Mac 删除原生英文 ABC</a></strong></li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -51,6 +100,99 @@ Feign 集成 Micometer OpenFeign 官方提供了 feign-micrometer 来支持 feig
 GitHub github = Feign.builder() .addCapability(new MicrometerCapability()) .target(GitHub.class, &amp;#34;https://api.github.com&amp;#34;); 其本质是对 feign 拦截器、client、encoder、decoder 进行封装，测试过程中在没有获取到指标。故，改为使用z自定义拦截器和 ErrorCoder 来记录请求次数和失败次数。
 @Bean public GitHub gihhub(MetricsInterceptor metricsInterceptor){ GitHub github = Feign.builder() .requestInterceptor(metricsInterceptor) .errorDecoder(new MetricsErrorDecoder()) .target(GitHub.class, &amp;#34;https://api.github.com&amp;#34;); } MetricsInterceptor 代码如下：
 public class MetricsInterceptor implements RequestInterceptor, MeterBinder { private static MeterRegistry meterRegistry; public static final String FEIGN_REQUEST = &amp;#34;feign.</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-23</code> 到 <code>2023-01-29</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<h2 id="过年">过年</h2>
+<p>这周处于过年吃喝拜年模式，除了腊月二十九和正月初一，其他时间都是和老婆在路上。因为是结婚第一个新年，需要带着老婆去各个亲戚家拜年。因为是第一次在新房过年，就把老爸从农村接过来一起过年。因为年前没有来得及买车，去哪里都不方便，都要需要滴滴打车。为此，打车花了不少钱，当然，给红包也给了不少钱。趁初一不用拜年的缝隙时间，带老婆和老爸去看了两场电影《无名》和《交换人生》。老爸很少去看电影院看电影，听到要去看电影，像个小孩似的，饭还吃完，就跑去电梯门口等电梯。这两场电影，看的我瞌睡来了，倒是初二晚上看《满江红》睡意全无。</p>
+<p>总结下来，这个年过的不轻松，身体忙碌，心里幸福🥰。</p>
+<h2 id="向上管理">向上管理</h2>
+<p>年前，部门领导找我谈 2022 年绩效结果时候，提到我可以 “向上管理” 他。最近从 <a href="https://www.duyidong.com/">杜屹东</a> 的博客 <a href="https://www.duyidong.com/2020/01/01/2019-learn-from-alibaba/">这一年我在阿里学到的</a> 也看到了他在阿里工作一年后悟到对向上管理的理解。</p>
+<ul>
+<li>及时和老板表达想法</li>
+<li>让老板知道你在忙什么</li>
+<li>主动帮老板做一些脏活累活</li>
+</ul>
+<p>前两条是老板知道你的想法，后面一条是帮老板解决问题。此外，还可以帮老板规避风险。</p>
+<h2 id="本周工作">本周工作</h2>
+<p>这是年后的第一周，主要是处理年前没有完成的项目迭代。</p>
+<h3 id="feign-集成-micometer">Feign 集成 Micometer</h3>
+<p>OpenFeign 官方提供了 feign-micrometer 来支持 feign 集成 micrometer。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">GitHub</span> <span class="n">github</span> <span class="o">=</span> <span class="n">Feign</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">addCapability</span><span class="o">(</span><span class="k">new</span> <span class="n">MicrometerCapability</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">target</span><span class="o">(</span><span class="n">GitHub</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;https://api.github.com&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>其本质是对 feign 拦截器、client、encoder、decoder 进行封装，测试过程中在没有获取到指标。故，改为使用z自定义拦截器和 ErrorCoder 来记录请求次数和失败次数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">GitHub</span> <span class="nf">gihhub</span><span class="o">(</span><span class="n">MetricsInterceptor</span> <span class="n">metricsInterceptor</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">GitHub</span> <span class="n">github</span> <span class="o">=</span> <span class="n">Feign</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">requestInterceptor</span><span class="o">(</span><span class="n">metricsInterceptor</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">errorDecoder</span><span class="o">(</span><span class="k">new</span> <span class="n">MetricsErrorDecoder</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">target</span><span class="o">(</span><span class="n">GitHub</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;https://api.github.com&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>MetricsInterceptor 代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MetricsInterceptor</span> <span class="kd">implements</span> <span class="n">RequestInterceptor</span><span class="o">,</span> <span class="n">MeterBinder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MeterRegistry</span> <span class="n">meterRegistry</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">FEIGN_REQUEST</span> <span class="o">=</span> <span class="s">&#34;feign.requests&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">FEIGN_REQUEST_ERROR</span> <span class="o">=</span> <span class="s">&#34;feign.requests.error&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MetricsInterceptor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">apply</span><span class="o">(</span><span class="n">RequestTemplate</span> <span class="n">template</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Micrometers</span><span class="o">.</span><span class="na">async</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">String</span> <span class="n">methodKey</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="na">methodMetadata</span><span class="o">().</span><span class="na">configKey</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Counter</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="s">&#34;feign.requests&#34;</span><span class="o">).</span><span class="na">tags</span><span class="o">(</span><span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">&#34;method&#34;</span><span class="o">,</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">substringBefore</span><span class="o">(</span><span class="n">methodKey</span><span class="o">,</span> <span class="s">&#34;(&#34;</span><span class="o">)}).</span><span class="na">register</span><span class="o">(</span><span class="n">meterRegistry</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">counter</span><span class="o">.</span><span class="na">increment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">bindTo</span><span class="o">(</span><span class="n">MeterRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">meterRegistry</span> <span class="o">=</span> <span class="n">registry</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>MetricsErrorDecoder 代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MetricsErrorDecoder</span> <span class="kd">implements</span> <span class="n">ErrorDecoder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">MetricsErrorDecoder</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MeterRegistry</span> <span class="n">registry</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleMeterRegistry</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MetricsErrorDecoder</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">metrics</span><span class="o">(</span><span class="n">String</span> <span class="n">methodKey</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Micrometers</span><span class="o">.</span><span class="na">async</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Metrics</span><span class="o">.</span><span class="na">counter</span><span class="o">(</span><span class="s">&#34;feign.requests.error&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">&#34;method&#34;</span><span class="o">,</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">substringBefore</span><span class="o">(</span><span class="n">methodKey</span><span class="o">,</span> <span class="s">&#34;(&#34;</span><span class="o">)}).</span><span class="na">increment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Exception</span> <span class="nf">decode</span><span class="o">(</span><span class="n">String</span> <span class="n">methodKey</span><span class="o">,</span> <span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">metrics</span><span class="o">(</span><span class="n">methodKey</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">FeignException</span> <span class="n">exception</span> <span class="o">=</span> <span class="n">FeignException</span><span class="o">.</span><span class="na">errorStatus</span><span class="o">(</span><span class="n">methodKey</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">exception</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Counter</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="s">&#34;feign.requests.error&#34;</span><span class="o">).</span><span class="na">register</span><span class="o">(</span><span class="n">registry</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="sentry-集成飞书通知">Sentry 集成飞书通知</h3>
+<p>参考 <a href="https://www.ytjia.xyz/blog/2022/05/20/sentry-webhook.html">通过Webhook实现Sentry错误自动化飞书机器人报警</a> 这篇文章，使用 fastapi 部署一个 http 服务将 sentry 的回调转发到飞书群的机器人。由于，fastapi 需要在服务器上安装 python3，为了不污染我的 vps，我创建一个 docker 镜像 <a href="https://github.com/chensoul/dockerfiles/tree/master/sentry-feishu-hook">sentry-feishu-hook</a>，修改了 python 脚本中的编译错误，并在 vps 上通过 docker 启动该服务。</p>
+<p>先编译镜像，再运行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker build -t sentry-feishu-hook .
+</span></span><span class="line"><span class="cl">docker run -d --name sentry-feishu-hook -p 3080:3080 sentry-feishu-hook
+</span></span></code></pre></div><p>接下来在 sentry 项目的 WebHooks 里添加 http://ip:3080/hook</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/sentry-feishu-webhooks-test.png" alt="sentry-feishu-webhooks-test"  />
+</p>
+<p>点击 Test Plugin，飞书群组可以收到消息：</p>
+<!-- raw HTML omitted -->
+<h2 id="好物分享">好物分享</h2>
+<ul>
+<li><a href="https://www.warp.dev/">https://www.warp.dev/</a>：一个 Rust 编写，使用 GPU 渲染的终端应用。目标是提升开发者的效率。</li>
+<li><a href="https://strrl.dev/post/before-2022/restful-api-mock-%E5%B7%A5%E5%85%B7-jsonplaceholder/">Restful API Mock 工具：JSONPlaceholder</a></li>
+<li><a href="https://netnewswire.com/">NetNewsWire</a>。Inoreader 最近总是抽风，就改为使用 NetNewsWire 了。使用起来，还是比较顺滑，遗憾的是没有安卓 App。</li>
+<li><a href="https://cubox.pro/">Cubox</a>。最近看到这个收藏工具，下载了使用起来。</li>
+</ul>
+<!-- raw HTML omitted -->
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
   </channel>

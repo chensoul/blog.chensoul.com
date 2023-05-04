@@ -4,11 +4,6 @@
     <title>kuma on ChenSoul</title>
     <link>https://blog.chensoul.com/tags/kuma/</link>
     <description>Recent content in kuma on ChenSoul</description>
-    <image>
-      <title>ChenSoul</title>
-      <url>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://blog.chensoul.com/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
-    </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 25 Jan 2023 10:38:34 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/kuma/index.xml" rel="self" type="application/rss+xml" />
@@ -21,6 +16,404 @@
       <description>服务器设置 [可选] 设置系统 Swap 交换分区
 因为 vps 服务器的运行内存很小，所以这里先设置下 Swap
 # 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap /swapfile &amp;amp;&amp;amp; \ sudo swapon /swapfile &amp;amp;&amp;amp; \ echo &amp;#34;/swapfile swap swap defaults 0 0&amp;#34; | sudo tee -a /etc/fstab &amp;amp;&amp;amp; \ sudo swapon --show &amp;amp;&amp;amp; \ sudo free -h 安装并生成证书 curl https://get.</description>
+      <content:encoded><![CDATA[<h2 id="服务器设置">服务器设置</h2>
+<p><strong>[可选] 设置系统 Swap 交换分区</strong></p>
+<p>因为 vps 服务器的运行内存很小，所以这里先设置下 Swap</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1GB RAM with 2GB Swap</span>
+</span></span><span class="line"><span class="cl">sudo fallocate -l 2G /swapfile <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/swapfile <span class="nv">bs</span><span class="o">=</span><span class="m">1024</span> <span class="nv">count</span><span class="o">=</span><span class="m">2097152</span> <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo chmod <span class="m">600</span> /swapfile <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo mkswap /swapfile <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo swapon /swapfile <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="nb">echo</span> <span class="s2">&#34;/swapfile swap swap defaults 0 0&#34;</span> <span class="p">|</span> sudo tee -a /etc/fstab <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo swapon --show <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo free -h
+</span></span></code></pre></div><h2 id="安装并生成证书">安装并生成证书</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl https://get.acme.sh <span class="p">|</span> sh -s <span class="nv">email</span><span class="o">=</span>czj.june@gmail.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.acme.sh/acme.sh --issue --server letsencrypt --dns dns_aws -d chensoul.com -d <span class="s1">&#39;*.chensoul.com&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.acme.sh/acme.sh --installcert -d chensoul.com -d *.chensoul.com  --cert-file /usr/local/nginx/ssl/chensoul.com.cer --key-file /usr/local/nginx/ssl/chensoul.com.key --fullchain-file /usr/local/nginx/ssl/fullchain.cer --ca-file /usr/local/nginx/ssl/ca.cer   --reloadcmd <span class="s2">&#34;sudo nginx -s reload&#34;</span>
+</span></span></code></pre></div><h2 id="docker-安装和配置">Docker 安装和配置</h2>
+<h3 id="docker-安装">Docker 安装</h3>
+<p>具体过程可以参考网上文章。</p>
+<h3 id="自定义网络">自定义网络</h3>
+<p>参考 <a href="https://nginxproxymanager.com/advanced-config/#best-practice-use-a-docker-network">Best Practice: Use a Docker network </a>
+，创建一个自定义的网络：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker network create custom
+</span></span></code></pre></div><p>查看 docker 网络：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@vps ~<span class="o">]</span><span class="c1"># docker network ls</span>
+</span></span><span class="line"><span class="cl">NETWORK ID     NAME            DRIVER    SCOPE
+</span></span><span class="line"><span class="cl">68f4aeaa57bd   bridge          bridge    <span class="nb">local</span>
+</span></span><span class="line"><span class="cl">6a96b9d8617e   custom          bridge    <span class="nb">local</span>
+</span></span><span class="line"><span class="cl">4a8679e35f4d   host            host      <span class="nb">local</span>
+</span></span><span class="line"><span class="cl">ba21bef23b04   none            null      <span class="nb">local</span>
+</span></span></code></pre></div><blockquote>
+<p>注意：bridge、host、none 是内部预先创建的网络。</p>
+</blockquote>
+<p>然后，在其他服务的 docker-compose.yml 文件添加：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">default</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">custom</span><span class="w">
+</span></span></span></code></pre></div><p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pgsql</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">5433</span><span class="p">:</span><span class="m">5432</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_USER=chenzj</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_PASSWORD=chenzj@vps2021</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/postgres:/var/lib/postgresql/data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">default</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">custom</span><span class="w">
+</span></span></span></code></pre></div><h2 id="服务部署">服务部署</h2>
+<h3 id="rsshub">Rsshub</h3>
+<p>直接通过 Docker 安装运行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run -d --name rsshub -p 1200:1200 diygod/rsshub
+</span></span></code></pre></div><p>配置 nginx ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="s">[::]:80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span> <span class="s">rsshub.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span>          <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span>     <span class="s">rsshub.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate</span>      <span class="s">/usr/local/nginx/ssl/fullchain.cer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate_key</span>  <span class="s">/usr/local/nginx/ssl/chensoul.com.key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_cache</span>    <span class="s">shared:SSL:1m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_timeout</span>  <span class="mi">5m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_ciphers</span>  <span class="s">HIGH:!aNULL:!MD5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_prefer_server_ciphers</span>  <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:1200</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="kuma">Kuma</h3>
+<p>参考 <a href="https://uptime.kuma.pet/">kuma</a>，使用 docker compose 部署，创建 uptime.yaml：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.3&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">uptime-kuma</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">louislam/uptime-kuma:1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">uptime-kuma</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">~/.uptime-kuma:/app/data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">3001</span><span class="p">:</span><span class="m">3001</span><span class="w">  </span><span class="c"># &lt;Host Port&gt;:&lt;Container Port&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span></code></pre></div><p>启动：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f uptime.yaml up -d
+</span></span></code></pre></div><p>配置 nginx ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="s">[::]:80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span> <span class="s">uptime.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span>          <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span>     <span class="s">uptime.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate</span>      <span class="s">/usr/local/nginx/ssl/fullchain.cer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate_key</span>  <span class="s">/usr/local/nginx/ssl/chensoul.com.key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_cache</span>    <span class="s">shared:SSL:1m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_timeout</span>  <span class="mi">5m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_ciphers</span>  <span class="s">HIGH:!aNULL:!MD5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_prefer_server_ciphers</span>  <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:3001</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	    <span class="kn">proxy_set_header</span>   <span class="s">X-Real-IP</span> <span class="nv">$remote_addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span>   <span class="s">X-Forwarded-For</span> <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span>   <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span>   <span class="s">Upgrade</span> <span class="nv">$http_upgrade</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span>   <span class="s">Connection</span> <span class="s">&#34;upgrade&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="postgresql">Postgresql</h3>
+<p>1、参考 <a href="/posts/2022/08/19/postgresql-install-deploy/">PostgreSql安装和部署</a> ，通过 docker-compose 安装，创建
+postgresql.yaml：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pgsql</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13-alpine</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">pgsql</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">5432</span><span class="p">:</span><span class="m">5432</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_USER=postgres</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_PASSWORD=admin@pg!</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">custom</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/postgres:/var/lib/postgresql/data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">custom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></div><p>2、启动</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f postgresql.yaml up -d
+</span></span></code></pre></div><h3 id="umami">Umami</h3>
+<p>参考 <a href="https://github.com/umami-software/umami/blob/master/docker-compose.yml">umami docker-compose.yml</a> ，使用 docker 镜像
+umami:postgresql-latest 来安装 umami。</p>
+<p>1、在 pqsql 容器创建 umami 数据库和用户：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE USER umami WITH PASSWORD &#39;umami@pg&#39;;&#34;</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE DATABASE umami owner=umami;&#34;</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;GRANT ALL privileges ON DATABASE umami TO umami;&#34;</span>
+</span></span></code></pre></div><p>然后，初始化数 umami 数据。先进入容器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">docker exec -it pgsql bash
+</span></span></code></pre></div><p>进入 umami 数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">psql -U umami -d umami
+</span></span><span class="line"><span class="cl"><span class="nv">umami</span><span class="o">=</span>&gt;
+</span></span></code></pre></div><p>执行 <a href="https://github.com/umami-software/umami/blob/master/sql/schema.postgresql.sql"><strong>schema.postgresql.sql</strong></a> 文件内容。</p>
+<p>2、通过 docker-compose 安装，创建 umami.yaml：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">umami</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">ghcr.io/umami-software/umami:postgresql-latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">umami</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;3000:3000&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">DATABASE_URL</span><span class="p">:</span><span class="w"> </span><span class="l">postgresql://umami:umami@pg@pgsql:5432/umami</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">DATABASE_TYPE</span><span class="p">:</span><span class="w"> </span><span class="l">postgresql</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">HASH_SALT</span><span class="p">:</span><span class="w"> </span><span class="l">vps@2023</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">custom</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">custom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></div><p>启动：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f umami.yaml up -d
+</span></span></code></pre></div><p>3、设置自定义域名</p>
+<p>umami.chensoul.com</p>
+<p>4、配置 nginx</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="s">[::]:80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span> <span class="s">umami.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span>          <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span>     <span class="s">umami.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate</span>      <span class="s">/usr/local/nginx/ssl/fullchain.cer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate_key</span>  <span class="s">/usr/local/nginx/ssl/chensoul.com.key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_cache</span>    <span class="s">shared:SSL:1m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_timeout</span>  <span class="mi">5m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_ciphers</span>  <span class="s">HIGH:!aNULL:!MD5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_prefer_server_ciphers</span>  <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:3000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>5、添加网站</p>
+<p>访问 <a href="https://umami.chensoul.com/">https://umami.chensoul.com/</a>，默认用户名和密码为 admin/umami。登陆之后，修改密码，并添加网站。</p>
+<h3 id="cusdis">Cusdis</h3>
+<blockquote>
+<p>VPS IP 可能被墙，所以可以使用三方云服务部署，具体参考<a href="https://www.pseudoyu.com/zh/2022/05/24/free_and_lightweight_blog_comment_system_using_cusdis_and_railway/">轻量级开源免费博客评论系统解决方案 （Cusdis + Railway）</a></p>
+</blockquote>
+<p>1、在 pqsql 容器创建 cusdis 数据库和用户：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE USER cusdis WITH PASSWORD &#39;cusdis@pg&#39;;&#34;</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE DATABASE cusdis owner=cusdis;&#34;</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;GRANT ALL privileges ON DATABASE cusdis TO cusdis;&#34;</span>
+</span></span></code></pre></div><p>2、通过 docker-compose 安装，创建 cusdis.yaml：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cusdis</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">djyde/cusdis:latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">cusdis</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;3010:3000&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">USERNAME=admin</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">PASSWORD=cusdis</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">JWT_SECRET=vps@2023</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">NEXTAUTH_URL=https://cusdis.chensoul.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">HOST=https://cusdis.chensoul.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_TYPE=pgsql</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_URL=postgresql://cusdis:cusdis@pg@pgsql:5432/cusdis</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">custom</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">custom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></div><p>以下配置为 EMAIL 配置可选，下面是使用 <a href="https://cusdis.com/doc#/features/notification?id=gmail">Gmail</a>
+进行配置，需要首先开启两阶段验证并创建一个应用密码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">SMTP_HOST</span><span class="o">=</span><span class="s">smtp.gmail.com</span>
+</span></span><span class="line"><span class="cl"><span class="na">SMTP_PORT</span><span class="o">=</span><span class="s">465</span>
+</span></span><span class="line"><span class="cl"><span class="na">SMTP_SECURE</span><span class="o">=</span><span class="s">true</span>
+</span></span><span class="line"><span class="cl"><span class="na">SMTP_USER</span><span class="o">=</span><span class="s">your gmail email</span>
+</span></span><span class="line"><span class="cl"><span class="na">SMTP_PASSWORD</span><span class="o">=</span><span class="s">&lt;app password&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="na">SMTP_SENDER</span><span class="o">=</span><span class="s">your gmail email</span>
+</span></span></code></pre></div><p>3、启动</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f cusdis.yaml up -d
+</span></span></code></pre></div><p>4、配置 nginx</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="s">[::]:80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span> <span class="s">cusdis.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span>          <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span>     <span class="s">cusdis.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate</span>      <span class="s">/usr/local/nginx/ssl/fullchain.cer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate_key</span>  <span class="s">/usr/local/nginx/ssl/chensoul.com.key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_cache</span>    <span class="s">shared:SSL:1m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_timeout</span>  <span class="mi">5m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_ciphers</span>  <span class="s">HIGH:!aNULL:!MD5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_prefer_server_ciphers</span>  <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:3010</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kn">proxy_pass_header</span> <span class="s">Authorization</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kn">proxy_pass_header</span> <span class="s">WWW-Authenticate</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Real-IP</span> <span class="nv">$remote_addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-For</span> <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kn">if</span> <span class="s">(</span><span class="nv">$uri</span> <span class="p">=</span> <span class="s">&#39;/js/iframe.umd.js&#39;)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        	<span class="kn">add_header</span> <span class="s">&#39;Access-Control-Allow-Origin&#39;</span> <span class="s">&#39;*&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        	<span class="c1">#add_header &#39;Access-Control-Allow-Origin&#39; &#39;http://localhost:1313&#39;;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>5、部署一个 Telegram 机器人，参考 <a href="https://cusdis.chensoul.com/doc#/advanced/webhook?id=official-telegram-bot">Official Telegram bot</a>。</p>
+<h3 id="memos">memos</h3>
+<p>通过 docker-compose 安装，创建 memos.yaml：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.0&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">memos</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">neosmemo/memos:latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">memos</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">~/.memos/:/var/opt/memos</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">5230</span><span class="p">:</span><span class="m">5230</span><span class="w">
+</span></span></span></code></pre></div><p>启动</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f memos.yaml up -d
+</span></span></code></pre></div><p>配置 nginx</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="s">[::]:80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span> <span class="s">memos.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span>          <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span>     <span class="s">memos.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate</span>      <span class="s">/usr/local/nginx/ssl/fullchain.cer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate_key</span>  <span class="s">/usr/local/nginx/ssl/chensoul.com.key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_cache</span>    <span class="s">shared:SSL:1m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_timeout</span>  <span class="mi">5m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_ciphers</span>  <span class="s">HIGH:!aNULL:!MD5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_prefer_server_ciphers</span>  <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:5230</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="n8n">n8n</h3>
+<p>1、在 pqsql 容器创建 n8n 数据库和用户：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE USER n8n WITH PASSWORD &#39;n8n@pg&#39;;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE DATABASE n8n owner=n8n;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;GRANT ALL privileges ON DATABASE n8n TO n8n;&#34;</span> <span class="p">;</span>
+</span></span></code></pre></div><p>2、通过 docker-compose 安装，创建 n8n.yaml：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.8&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">n8n</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">n8nio/n8n</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">n8n</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_TYPE=postgresdb</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_POSTGRESDB_HOST=pgsql</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_POSTGRESDB_PORT=5432</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_POSTGRESDB_DATABASE=n8n</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_POSTGRESDB_USER=n8n</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_POSTGRESDB_PASSWORD=n8n@pg</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">N8N_BASIC_AUTH_ACTIVE=true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">N8N_BASIC_AUTH_USER=admin</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">N8N_BASIC_AUTH_PASSWORD=chenzj</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">TZ=&#34;Asia/Shanghai&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">WEBHOOK_URL=https://n8n.chensoul.com/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">5678</span><span class="p">:</span><span class="m">5678</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/n8n:/home/node/.n8n</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">/bin/sh -c &#34;n8n start --tunnel&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">custom</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">custom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></div><p>3、启动</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f n8n.yaml up -d
+</span></span></code></pre></div><p>4、设置 nginx 转发</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:5678/</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">proxy_set_header</span> <span class="s">Connection</span> <span class="s">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">chunked_transfer_encoding</span> <span class="no">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">proxy_buffering</span> <span class="no">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">proxy_cache</span> <span class="no">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">access_log</span> <span class="s">/var/log/nginx/forward.log</span> <span class="s">combined</span> <span class="s">buffer=128k</span> <span class="s">flush=5s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这里面的转发配置不对的话，会导致直接访问 5678 端口正常，但是访问 nginx 的话，workflow 会一直处于执行。</p>
+<p>5、添加 workflow</p>
+<p>参考这篇文章 <a href="http://stiles.cc/archives/237/">http://stiles.cc/archives/237/</a> ，目前我配置了以下 workflows，实现了 github、douban、rss、memos 同步到 Telegram。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-n8n-workflows.png" alt="my-n8n-workflows"  />
+</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -38,6 +431,45 @@
 博客个人介绍 我的博客源文件托管在 gihub，在这个仓库可以看到我的一些个人介绍，当然，我的博客也有个人介绍（在关于页面），如果你仔细观察，可以发现他们基本上是一样的，这个是怎么实现的呢？
 首先，github 里面可以创建一个以 github 账号为名称的仓库，然后编辑好 README.md 文件，README.md 文件内容就会渲染成 html 显示到个人 github 主页。例如，我的 github 主页是 https://github.com/chensoul，我的个人仓库地址为 https://github.com/chensoul/chensoul，这个仓库是通过 github actions 来构建 README.md，构建文件查看仓库的 workflows 文件，主要有两个文件：
 build.yml：周期性的调用 build_readme.py 来生成 README.md 文件（包括：获取最近 5 篇博客文章、或者 豆瓣上最近 5 个电影书籍动态、获取 github 上发布的项目、显示 wakatime 报表） waketime.</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-16</code> 到 <code>2023-01-22</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制，也在我的 VPS 上通过 Docker 部署了一些服务。</p>
+<h2 id="定制博客">定制博客</h2>
+<p>基于 <a href="https://www.pseudoyu.com/">pseudoyu</a> 的博客和主题定制博客，发现并修复了bug，还做了一些改进，并在他的 github 提交 <a href="https://github.com/pseudoyu/pseudoyu/issues/2">issue</a> 和 merge request。</p>
+<!-- raw HTML omitted -->
+<p>接着在他博客主页留言，几个来回下来，收获不少。一是解决了我提出的问题，二是给我分享了一个搬瓦工的 the plan 优惠码。这时候去看了下我原来的 vps 刚好还有一天要到期，就立即花了92 美元（原价是 99 美元）购买了一台 2G 内存托管在香港的服务器。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-main-controlls.png" alt="vps-main-controlls"  />
+</p>
+<p>缘分就是这么奇妙，如果我不主动和这个博主联系，就不会知道搬瓦工还有这个优惠，就不会帮助我解决了博客定制过程中遇到的疑惑。</p>
+<blockquote>
+<p>当你想要什的时候，先给出去，你就会收获更。有舍才有得。</p>
+</blockquote>
+<h2 id="博客个人介绍">博客个人介绍</h2>
+<p>我的博客源文件托管在 <a href="https://github.com/chensoul/chensoul.github.io">gihub</a>，在这个仓库可以看到我的一些个人介绍，当然，我的博客也有个人介绍（在<a href="https://blog.chensoul.com/about/">关于</a>页面），如果你仔细观察，可以发现他们基本上是一样的，这个是怎么实现的呢？</p>
+<!-- raw HTML omitted -->
+<p>首先，github 里面可以创建一个以 github 账号为名称的仓库，然后编辑好 README.md 文件，README.md 文件内容就会渲染成 html 显示到个人 github 主页。例如，我的 github 主页是 <a href="https://github.com/chensoul">https://github.com/chensoul</a>，我的个人仓库地址为 <a href="https://github.com/chensoul/chensoul">https://github.com/chensoul/chensoul</a>，这个仓库是通过 github actions 来构建 README.md，构建文件查看仓库的 workflows 文件，主要有两个文件：</p>
+<ul>
+<li>build.yml：周期性的调用 <a href="https://github.com/chensoul/chensoul/blob/main/build_readme.py">build_readme.py</a> 来生成 README.md 文件（包括：获取最近 5 篇博客文章、或者 豆瓣上最近 5 个电影书籍动态、获取 github 上发布的项目、显示 wakatime 报表）</li>
+<li>waketime.yml：生成 wakatime-charts</li>
+</ul>
+<p>当 README.md 生成之后，只需要将该文件内容同步到博客的 about.md 文件即可。怎么实现呢？参考博客源文件里的 <a href="https://github.com/chensoul/chensoul.github.io/blob/main/build_about.py">build_about.py</a>。这样就可以实现一个自我介绍同步到多个平台（除了博客，还可以通过 api 接口同步到语雀等其他平台）。</p>
+<h2 id="vps-上服务部署">vps 上服务部署</h2>
+<p>购买了新的 VPS 之后，就将原来的 VPS 导出镜像，然后导入到新的 VPS，最后再安装了以下服务：</p>
+<ul>
+<li><a href="https://github.com/indes/flowerss-bot">flowerss-bot</a>：一个支持应用内阅读的 Telegram RSS Bot。</li>
+<li><a href="https://n8n.io/">n8n</a>：一款开源的自动工作流服务，类似 IFTTT、Zapier，可以互联互通包括 GitHub、Dropbox、Google、NextCLoud、RSS、Slack、Telegram 在内的几十款在线服务。</li>
+<li>memos：一个开源且免费的自托管知识库</li>
+<li>cusdis：一个界面清爽、注重隐私的轻量级 (~5kb gzip) 评论系统，可以很方便地与 React、Vue 或其他博客系统结合，并且还提供了一个后台来管理所有的评论</li>
+<li>umami：一个简单易用、自托管的开源网站访问流量<em>统计</em>分析工具</li>
+<li>pgsql</li>
+<li>uptime-kuma：一个开源免费的监控工具</li>
+<li>rsshub：一个开源、简单易用、易于扩展的RSS 生成器，可以给任何奇奇怪怪的内容生成RSS 订阅源</li>
+</ul>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-docker-service.png" alt="vps-docker-service"  />
+</p>
+<p>通过 Docker 部署这些服务非常简单，主要是需要注意的一点是：将这些服务部署到同一个网路，这样各个服务之间可以互相通信。比如：很多服务都需要依赖数据库 postgresql，可以使用 docker-compose 来编排服务。安装部署过程参考：<a href="/posts/2023/01/25/notes-about-deploy-services-in-vps/">我的VPS服务部署记录</a></p>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -59,6 +491,54 @@ build.yml：周期性的调用 build_readme.py 来生成 README.md 文件（包�
 博客部署 目前有三种方案部署方案：
 github pages。国内访问速度受影响。 cloudflare pages。可以使用 cdn 加速。 Self hosted。需要购买云主机和手动运维。 目前，是倾向于使用第二种方案。源码保存到 github 上，github actions 编译和部署静态文件到 cf-pages 分支，通过 cloudflare pages 链接 github 仓库、自动化部署静态文件并设置自定义域名 blog.chensoul.com。
 发布流程 本地编写 markdown 文件，图片保存到公有云，通过 git 提交到 github 仓库，使用 github actions 通过 n8n 自动发布到多平台，比如：公众号，语雀等。</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-01-09</code> 到 <code>2023-01-15</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔记和个人的生活记录与思考，所以不会涉及具体的工作内容。</p>
+<p>周三晚上是部门年会，领导提出了 2023 年收入 6.2 亿的目标，比 2022 年收入增长 140%。从公司领导层这乐观的年度规划，看得出来公司的发展属于上升趋势，同时意味着 2023 年又是忙碌和压力巨大的一年。</p>
+<p>工作闲暇之余，看到了一些独立开发者的博客，并受他们博客文章的影响，立即决定重新捣鼓博客。于是，在一腔热情之下，花了三天时间重构了博客，也对博客以后的方向做了一些规划。</p>
+<p>周末是过小年，小年伊始，年味渐浓。周六晚上，堂哥家吃年饭。周日中午，自己家吃年饭。这是新婚后第一次两边的家人一起吃年饭。虽然很早就确定了年饭时间大家都有时间的周末、预定了可以坐下 20 多人的大桌，但还是遗憾人没有到齐。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/new-year-dinner-20230115.png" alt="new-year-dinner-20230115"  />
+</p>
+<h2 id="博客重构">博客重构</h2>
+<h3 id="博客主题">博客主题</h3>
+<p>以前的博客主要是纯粹分享技术，很少有自己的思考，基本上就是代码比汉字要多不少。博客没有博主的思考，无法让读者认识、了解博主，并和博主产生深入的链接。这样的博客没有灵魂，就仅仅是一个纯分享的 wiki。</p>
+<p>这次重新开始写博客之后，规划的博客主题是分享技术、记录生活、启发思考。技术上的文章，要有深度；生活的点滴，要有复盘；思考的内容，要有共鸣。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/blog-homepage-den-theme.png" alt="blog-homepage-den-theme"  />
+</p>
+<h3 id="博客规划">博客规划</h3>
+<p>以前博客文章的分类有 java、database、devops、web，在删了一些文章之后，将博客的分类调整为想法（Ideas）、笔记（Notes）两类，后面再根据实际情况添加或者调整分类。</p>
+<blockquote>
+<p>健康，爱情和使命，按照这个顺序，其它的都不重要</p>
+</blockquote>
+<h3 id="文章链接">文章链接</h3>
+<p>以前的博客链接格式是 <code>posts/:slug</code>，现在调整为 <code>posts/:year/:month/:day/:slug</code>。因为现在博客只有几篇文章，所以暂时不打算做原有链接路径到新路径的重定向工作。</p>
+<h3 id="博客部署">博客部署</h3>
+<p>目前有三种方案部署方案：</p>
+<ul>
+<li>github pages。国内访问速度受影响。</li>
+<li>cloudflare pages。可以使用 cdn 加速。</li>
+<li>Self hosted。需要购买云主机和手动运维。</li>
+</ul>
+<p>目前，是倾向于使用第二种方案。源码保存到 github 上，github actions 编译和部署静态文件到 cf-pages 分支，通过 cloudflare pages 链接 github 仓库、自动化部署静态文件并设置自定义域名 <code>blog.chensoul.com</code>。</p>
+<h3 id="发布流程">发布流程</h3>
+<p>本地编写 markdown 文件，图片保存到公有云，通过 git 提交到 github 仓库，使用 github actions 通过 n8n 自动发布到多平台，比如：公众号，语雀等。</p>
+<h3 id="待办事项">待办事项</h3>
+<p>本周对博客重构，计划完成以下功能：</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 在不修改原主题的前提下，通过 git log 记录对主题的改动</li>
+<li><input checked="" disabled="" type="checkbox"> 添加 <a href="https://cusdis.com/">Cusdis </a>评论系统</li>
+<li><input checked="" disabled="" type="checkbox"> 添加 <a href="https://umami.is/">Umami</a> 统计分析</li>
+<li><input checked="" disabled="" type="checkbox"> 添加 <a href="https://uptime.kuma.pet/">Kuma</a> 服务监控</li>
+<li><input checked="" disabled="" type="checkbox"> 添加搜索、回到顶部功能</li>
+<li><input checked="" disabled="" type="checkbox"> 使用 <a href="https://oss.console.aliyun.com/overview">阿里云对象存储</a> 作为图床</li>
+<li><input disabled="" type="checkbox"> github actions 集成 <a href="https://n8n.io/">n8n</a></li>
+<li><input disabled="" type="checkbox"> 域名 dns 解析迁移到 cloudflare</li>
+</ul>
+<p>以下是使用 kuma 监控我的 VPS 上的服务。</p>
+<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/chensoul-uptime.png" alt="chensoul-uptime"  />
+</p>
+<p>以上。</p>
+]]></content:encoded>
     </item>
     
   </channel>

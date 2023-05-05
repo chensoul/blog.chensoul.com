@@ -6,9 +6,462 @@
     <description>Recent content in java on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 24 Apr 2023 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 05 May 2023 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>《Effective Java 3》笔记：避免创建不必要的对象</title>
+      <title>《Effective Java 3》笔记7：排除过时的对象引用</title>
+      <link>https://blog.chensoul.com/posts/2023/05/05/eliminate-obsolete-object-references/</link>
+      <pubDate>Fri, 05 May 2023 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/05/05/eliminate-obsolete-object-references/</guid>
+      <description>本文是 《Effective Java 3》第二章的学习笔记：排除过时的对象引用。
+介绍 &amp;ldquo;Eliminate obsolete object references&amp;rdquo; 是一条Java编程最佳实践的原则，指的是在代码中及时清理不再使用的对象引用，以避免内存泄漏和性能问题。当一个对象不再需要时，应该尽快将其引用设置为null，这样JVM可以及时回收它所占用的内存。
+考虑以下简单的堆栈实现：
+import java.util.Arrays; import java.util.EmptyStackException; // Can you spot the &amp;#34;memory leak&amp;#34;? public class Stack { private Object[] elements; private int size = 0; private static final int DEFAULT_INITIAL_CAPACITY = 16; public Stack() { elements = new Object[DEFAULT_INITIAL_CAPACITY]; } public void push(Object e) { ensureCapacity(); elements[size++] = e; } public Object pop() { if (size == 0) throw new EmptyStackException(); return elements[--size]; } /** * Ensure space for at least one more element, roughly * doubling the capacity each time the array needs to grow.</description>
+      <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记：排除过时的对象引用。</p>
+<h2 id="介绍">介绍</h2>
+<p>&ldquo;Eliminate obsolete object references&rdquo; 是一条Java编程最佳实践的原则，指的是在代码中及时清理不再使用的对象引用，以避免内存泄漏和性能问题。当一个对象不再需要时，应该尽快将其引用设置为null，这样JVM可以及时回收它所占用的内存。</p>
+<p>考虑以下简单的堆栈实现：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.EmptyStackException</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Can you spot the &#34;memory leak&#34;?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Stack</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">elements</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">DEFAULT_INITIAL_CAPACITY</span> <span class="o">=</span> <span class="mi">16</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Stack</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">elements</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="n">DEFAULT_INITIAL_CAPACITY</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">push</span><span class="o">(</span><span class="n">Object</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ensureCapacity</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">elements</span><span class="o">[</span><span class="n">size</span><span class="o">++]</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">pop</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="n">EmptyStackException</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">elements</span><span class="o">[--</span><span class="n">size</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Ensure space for at least one more element, roughly
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * doubling the capacity each time the array needs to grow.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">ensureCapacity</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">elements</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">elements</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">elements</span><span class="o">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这个程序没有明显的错误。你可以对它进行详尽的测试，它会以优异的成绩通过所有的测试，但是有一个潜在的问题。简单地说，该程序有一个「内存泄漏」问题，由于垃圾收集器活动的增加或内存占用的增加，它可以悄无声息地表现为性能的降低。在极端情况下，这种内存泄漏可能导致磁盘分页，甚至出现 OutOfMemoryError 程序故障，但这种故障相对少见。</p>
+<p>那么内存泄漏在哪里呢？如果堆栈增长，然后收缩，那么从堆栈中弹出的对象将不会被垃圾收集，即使使用堆栈的程序不再引用它们。这是因为栈保留了这些对象的旧引用。一个过时的引用，是指永远不会被取消的引用。在本例中，元素数组的「活动部分」之外的任何引用都已过时。活动部分由索引小于大小的元素组成。</p>
+<p>垃圾收集语言中的内存泄漏（更确切地说是无意的对象保留）是暗藏的风险。如果无意中保留了对象引用，那么对象不仅被排除在垃圾收集之外，该对象引用的任何对象也被排除在外，依此类推。即使只是无意中保留了一些对象引用，许多许多的对象也可能被阻止被垃圾收集，从而对性能产生潜在的巨大影响。</p>
+<p>解决这类问题的方法很简单：一旦引用过时，就将置空。在我们的 Stack 类中，对某个项的引用一旦从堆栈中弹出就会过时。pop 方法的正确版本如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Object</span> <span class="nf">pop</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="n">EmptyStackException</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="n">elements</span><span class="o">[--</span><span class="n">size</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">elements</span><span class="o">[</span><span class="n">size</span><span class="o">]</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// Eliminate obsolete reference
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>用 null 处理过时引用的另一个好处是，如果它们随后被错误地关联引用，程序将立即失败，出现 NullPointerException，而不是悄悄地做错误的事情。尽可能快地检测编程错误总是有益的。</p>
+<p>那么，什么时候应该取消引用呢？Stack 类的哪些方面容易导致内存泄漏？简单地说，它管理自己的内存。存储池包含元素数组的元素（对象引用单元，而不是对象本身）数组的活动部分（如前面所定义的）中的元素被分配，而数组其余部分中的元素是空闲的。垃圾收集器没有办法知道这一点；对于垃圾收集器，元素数组中的所有对象引用都同样有效。只有程序员知道数组的非活动部分不重要。只要数组元素成为非活动部分的一部分，程序员就可以通过手动清空数组元素，有效地将这个事实传递给垃圾收集器。</p>
+<p>一般来说，一个类管理它自己的内存时，程序员应该警惕内存泄漏。当释放一个元素时，该元素中包含的任何对象引用都应该被置为 null。</p>
+<p><strong>另一个常见的内存泄漏源是缓存。</strong> 一旦将对象引用放入缓存中，就很容易忘记它就在那里，并且在它变得无关紧要之后很久仍将它留在缓存中。有几个解决这个问题的办法。如果你非常幸运地实现了一个缓存，只要缓存外有对其键的引用，那么就将缓存表示为 WeakHashMap；当条目过时后，条目将被自动删除。记住，WeakHashMap 只有在缓存条目的预期生存期由键的外部引用（而不是值）决定时才有用。</p>
+<p>更常见的情况是，缓存条目的有效生存期定义不太好，随着时间的推移，条目的价值会越来越低。在这种情况下，缓存偶尔应该清理那些已经停用的条目。这可以通过后台线程（可能是 <code>ScheduledThreadPoolExecutor</code>）或向缓存添加新条目时顺便完成。LinkedHashMap 类通过其 <code>removeEldestEntry</code> 方法简化了后一种方法。对于更复杂的缓存，你可能需要直接使用 <code>java.lang.ref</code>。</p>
+<p><strong>内存泄漏的第三个常见来源是侦听器和其他回调。</strong> 如果你实现了一个 API，其中客户端注册回调，但不显式取消它们，除非你采取一些行动，否则它们将累积。确保回调被及时地垃圾收集的一种方法是仅存储对它们的弱引用，例如，将它们作为键存储在 WeakHashMap 中。</p>
+<h3 id="如何排除过时对象引用">如何排除过时对象引用</h3>
+<p>以下是一些示例，展示了如何使用Java语言中的一些技术来排除过时的对象引用。</p>
+<ol>
+<li>在循环中使用局部变量</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">str</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// do something with str
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，我们使用局部变量<code>str</code>来引用列表中的元素，而不是重复地使用<code>list.get(i)</code>。这样，当循环结束时，<code>str</code>的引用将被自动清除，避免了过时的对象引用。</p>
+<ol start="2">
+<li>在使用完对象后及时清除引用</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SomeObject</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SomeObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// do something with obj
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">obj</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// clear the reference to obj
+</span></span></span></code></pre></div><p>在这个示例中，我们在使用完对象后立即将其引用设置为null，以便JVM可以及时回收它所占用的内存。如果不清除引用，对象将一直存在于内存中，直到JVM进行垃圾回收。</p>
+<ol start="3">
+<li>使用弱引用</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">WeakReference</span><span class="o">&lt;</span><span class="n">SomeObject</span><span class="o">&gt;</span> <span class="n">ref</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WeakReference</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="n">SomeObject</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">SomeObject</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// do something with obj
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">obj</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// clear the reference to obj
+</span></span></span></code></pre></div><p>在这个示例中，我们使用了一个弱引用来引用对象，以便在对象不再被强引用时可以被及时回收。当我们需要使用对象时，可以通过弱引用获取对象的引用，使用完后及时将其引用设置为null。</p>
+<ol start="4">
+<li>使用try-with-resources语句</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">try</span> <span class="o">(</span><span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="s">&#34;file.txt&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// do something with in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，我们使用了try-with-resources语句来打开一个文件流，并在使用完后自动关闭它。这样可以确保在不再需要文件流时，它的引用将被清除，避免了过时的对象引用。</p>
+<ol start="5">
+<li>使用软引用</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SoftReference</span><span class="o">&lt;</span><span class="n">SomeObject</span><span class="o">&gt;</span> <span class="n">ref</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SoftReference</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="n">SomeObject</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">SomeObject</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// do something with obj
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">obj</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// clear the reference to obj
+</span></span></span></code></pre></div><p>在这个示例中，我们使用了一个软引用来引用对象，以便在JVM需要回收内存时可以回收对象。软引用在内存不足时通常会被回收，但在内存充足时可以保留对象，避免了过时的对象引用。</p>
+<ol start="6">
+<li>使用虚引用</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ReferenceQueue</span><span class="o">&lt;</span><span class="n">SomeObject</span><span class="o">&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReferenceQueue</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="n">PhantomReference</span><span class="o">&lt;</span><span class="n">SomeObject</span><span class="o">&gt;</span> <span class="n">ref</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PhantomReference</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="n">SomeObject</span><span class="o">(),</span> <span class="n">queue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">ref</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span> <span class="c1">// clear the reference to obj
+</span></span></span></code></pre></div><p>在这个示例中，我们使用了一个虚引用来引用对象，以便在JVM回收对象之前可以进行一些必要的清理工作。虚引用在JVM回收对象时会被添加到一个引用队列中，因此我们可以在对象被回收之前执行必要的清理工作。</p>
+<ol start="7">
+<li>使用对象池</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">ObjectPool</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">objects</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="n">T</span> <span class="nf">getObject</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">T</span> <span class="n">obj</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">objects</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">obj</span> <span class="o">=</span> <span class="n">createObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">obj</span> <span class="o">=</span> <span class="n">objects</span><span class="o">.</span><span class="na">iterator</span><span class="o">().</span><span class="na">next</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">objects</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">obj</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">obj</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">returnObject</span><span class="o">(</span><span class="n">T</span> <span class="n">obj</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">objects</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">obj</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">T</span> <span class="nf">createObject</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// create a new object
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，我们使用了一个对象池来管理对象的生命周期。当需要一个对象时，我们从对象池中获取一个对象，而不是每次都创建一个新的对象。当不再需要对象时，我们将其返回到对象池中，以便其他对象可以重复使用。对象池可以避免过时的对象引用，并提高代码的性能和可伸缩性。</p>
+<ol start="8">
+<li>使用弱散列映射</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">SomeObject</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WeakHashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">SomeObject</span> <span class="n">key</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SomeObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Object</span> <span class="n">value</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">key</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// clear the reference to key
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// the entry in the map may be removed if key is not strongly referenced elsewhere
+</span></span></span></code></pre></div><p>在这个示例中，我们使用了一个弱散列映射来存储对象引用和相应的值。当对象不再被强引用时，它的引用可能被从映射中删除，从而避免了过时的对象引用。弱散列映射通常用于缓存和事件处理等场景。</p>
+<ol start="9">
+<li>使用缓存</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">SomeObjectCache</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">MAX_SIZE</span> <span class="o">=</span> <span class="mi">100</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">SomeObject</span><span class="o">&gt;</span> <span class="n">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">SomeObject</span><span class="o">&gt;(</span><span class="n">MAX_SIZE</span><span class="o">,</span> <span class="mf">0.75f</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">removeEldestEntry</span><span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">SomeObject</span><span class="o">&gt;</span> <span class="n">eldest</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">MAX_SIZE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kd">static</span> <span class="n">SomeObject</span> <span class="nf">get</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">SomeObject</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，我们使用了一个缓存来存储对象引用和相应的值。当缓存达到最大大小时，最旧的条目将被自动删除，从而避免了过时的对象引用。缓存通常用于频繁访问的数据和计算结果，可以提高代码的性能和可伸缩性。</p>
+<ol start="10">
+<li>使用对象池框架</li>
+</ol>
+<p>对象池框架是一种用于管理对象生命周期的通用框架，可以避免过时的对象引用和提高代码的性能和可伸缩性。一些流行的对象池框架包括Apache Commons Pool和Google Guava Cache。</p>
+<h2 id="扩展">扩展</h2>
+<h3 id="弱引用软引用和虚引用区别">弱引用、软引用和虚引用区别</h3>
+<p>弱引用、软引用和虚引用是Java中三种不同类型的引用，它们之间的区别如下：</p>
+<h4 id="弱引用weakreference">弱引用（WeakReference）</h4>
+<p>弱引用是一种较弱的引用类型，当一个对象只被弱引用所引用时，它在下一次垃圾回收时会被回收。</p>
+<p>弱引用通常用于需要缓存大量对象的应用场景，例如缓存和高速缓存等。在这些场景中，使用弱引用可以避免占用过多的内存，同时又可以快速访问缓存中的对象。</p>
+<p>应该使用弱引用的情况包括：</p>
+<ol>
+<li>
+<p>需要缓存大量对象：使用弱引用可以避免占用过多的内存空间，从而可以缓存更多的对象。</p>
+</li>
+<li>
+<p>不需要快速访问缓存中的对象：由于弱引用只有在下一次垃圾回收时才会被回收，因此可能会导致较长的访问延迟。如果应用程序可以容忍这种情况，可以考虑使用弱引用。</p>
+</li>
+<li>
+<p>需要频繁的垃圾回收：由于弱引用只有在下一次垃圾回收时才会被回收，因此可能会导致频繁的垃圾回收。如果应用程序可以容忍这种情况，可以考虑使用弱引用。</p>
+</li>
+</ol>
+<p>例如，我们可以使用弱引用来实现一个缓存，当内存不足时，JVM会自动回收弱引用所引用的对象，从而避免内存泄漏和OOM错误。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">WeakReference</span><span class="o">&lt;</span><span class="n">SomeObject</span><span class="o">&gt;&gt;</span> <span class="n">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">SomeObject</span> <span class="nf">getObject</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SomeObject</span> <span class="n">obj</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">WeakReference</span><span class="o">&lt;</span><span class="n">SomeObject</span><span class="o">&gt;</span> <span class="n">reference</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">reference</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">obj</span> <span class="o">=</span> <span class="n">reference</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">obj</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">obj</span> <span class="o">=</span> <span class="n">createObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">obj</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="k">new</span> <span class="n">WeakReference</span><span class="o">&lt;&gt;(</span><span class="n">obj</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">obj</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，我们使用弱引用来缓存对象，当内存不足时，JVM会自动回收弱引用所引用的对象。这样可以避免占用过多的内存，同时又可以快速访问缓存中的对象。</p>
+<h4 id="软引用softreference">软引用（SoftReference）</h4>
+<p>软引用是一种较强的引用类型，当一个对象只被软引用所引用时，只有在内存不足时才会被回收。</p>
+<p>软引用通常用于需要缓存大量对象的应用场景，例如图片缓存、数据缓存等。在这些场景中，使用软引用可以避免占用过多的内存，同时又可以快速访问缓存中的对象。</p>
+<p>应该使用软引用的情况包括：</p>
+<ol>
+<li>
+<p>需要缓存大量对象：使用软引用可以避免占用过多的内存空间，从而可以缓存更多的对象。</p>
+</li>
+<li>
+<p>需要快速访问缓存中的对象：使用软引用可以快速访问缓存中的对象，避免频繁地加载和计算。</p>
+</li>
+<li>
+<p>可以容忍偶尔的垃圾回收：由于软引用只有在内存不足时才会被回收，因此可能会导致偶尔的垃圾回收。如果应用程序可以容忍这种情况，可以考虑使用软引用。</p>
+</li>
+</ol>
+<p>例如，我们可以使用软引用来实现一个图片缓存，当内存不足时，JVM会自动回收软引用所引用的对象，从而避免内存泄漏和OOM错误。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">SoftReference</span><span class="o">&lt;</span><span class="n">Bitmap</span><span class="o">&gt;&gt;</span> <span class="n">imageCache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Bitmap</span> <span class="nf">loadImage</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">SoftReference</span><span class="o">&lt;</span><span class="n">Bitmap</span><span class="o">&gt;</span> <span class="n">reference</span> <span class="o">=</span> <span class="n">imageCache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">reference</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bitmap</span> <span class="o">=</span> <span class="n">reference</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">bitmap</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bitmap</span> <span class="o">=</span> <span class="n">downloadImage</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">bitmap</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">imageCache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="k">new</span> <span class="n">SoftReference</span><span class="o">&lt;&gt;(</span><span class="n">bitmap</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">bitmap</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，我们使用软引用来缓存图片，当内存不足时，JVM会自动回收软引用所引用的对象。这样可以避免占用过多的内存，同时又可以快速访问缓存中的图片。</p>
+<h4 id="虚引用phantomreference">虚引用（PhantomReference）</h4>
+<p>虚引用是Java中四种引用类型中最弱的一种，它主要用于跟踪对象被垃圾回收的状态。虚引用本身并不会对对象的生命周期产生影响，但可以在对象被垃圾回收时收到一个通知，从而进行一些清理或其他操作。</p>
+<p>虚引用的使用场景比较少，一般用于以下几个方面：</p>
+<ol>
+<li><strong>对象的finalize()方法：</strong> 虚引用可以用于实现对象的finalize()方法，当对象被垃圾回收时，虚引用会收到一个通知，从而触发对象的finalize()方法。</li>
+<li><strong>NIO DirectByteBuffer对象的释放：</strong> 在使用NIO编程时，可能会创建大量的DirectByteBuffer对象，这些对象可能会占用大量的内存空间。当这些对象不再使用时，需要手动调用System.gc()方法触发一次垃圾回收，才能释放这些对象的内存。使用虚引用可以避免手动调用System.gc()方法，当这些对象被垃圾回收时，虚引用会收到一个通知，从而释放这些对象的内存。</li>
+<li><strong>对象池的管理：</strong> 在一些需要频繁创建和销毁对象的应用场景中，可以使用对象池来提高性能。当对象不再使用时，可以将对象放入虚引用中，当对象被垃圾回收时，虚引用会收到一个通知，从而将对象从对象池中移除。</li>
+</ol>
+<p>需要注意的是，虚引用不适用于缓存或其他需要快速访问对象的应用场景，因为虚引用本身并不保证对象的可用性和可访问性。</p>
+<blockquote>
+<p>因此，软引用和弱引用的主要区别在于它们的强度和垃圾回收的时机。软引用比弱引用更强，只有在内存不足时才会被回收，而弱引用则更弱，只有在下一次垃圾回收时才会被回收。同时，使用软引用可能会导致更少的垃圾回收，但可能会占用更多的内存空间，而使用弱引用可能会导致更频繁的垃圾回收，但可以更快地释放内存空间。</p>
+</blockquote>
+<h3 id="弱引用是否会影响程序的性能">弱引用是否会影响程序的性能？</h3>
+<p><code>弱引用可能会影响程序的性能，因为它们可能会导致频繁的垃圾回收。</code>由于弱引用<code>只有在下一次垃圾回收时才会被回收</code>，因此当使用大量的弱引用时，可能会导致更频繁的垃圾回收，从而降低程序的性能。</p>
+<p>当一个对象只被弱引用所引用时，在下一次垃圾回收时它会被回收。如果应用程序中存在大量的弱引用对象，每次垃圾回收都需要扫描这些对象，从而增加了垃圾回收的时间和开销。</p>
+<p>因此，在使用弱引用时需要注意以下几点：</p>
+<ol>
+<li>不要过度使用弱引用：如果应用程序中存在大量的弱引用对象，可能会导致频繁的垃圾回收，从而影响程序的性能。因此，应该避免过度使用弱引用，尽可能减少弱引用对象的数量。</li>
+<li>注意垃圾回收的时机：弱引用只在下一次垃圾回收时才会被回收，因此可能会导致较长的访问延迟。在使用弱引用时需要注意垃圾回收的时机，如果应用程序需要快速访问缓存中的对象，可能需要使用其他类型的引用。</li>
+<li>检查弱引用是否被回收：当一个对象只被弱引用所引用时，它在下一次垃圾回收时会被回收。在使用弱引用时需要注意检查弱引用对象是否被回收，避免引用无效的对象。</li>
+</ol>
+<h3 id="如何检查弱引用对象是否被回收">如何检查弱引用对象是否被回收？</h3>
+<p>在Java中，可以通过获取弱引用对象的get()方法返回的对象来检查引用对象是否被回收。当一个弱引用所引用的对象被回收后，get()方法返回的对象将为null。</p>
+<p>例如，以下示例代码演示了如何使用弱引用检查对象是否被回收：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Object</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">WeakReference</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">weakRef</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WeakReference</span><span class="o">&lt;&gt;(</span><span class="n">obj</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 检查对象是否被回收
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="o">(</span><span class="n">weakRef</span><span class="o">.</span><span class="na">get</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 对象未被回收
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Object is alive&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 对象已被回收
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Object has been collected&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，我们创建了一个对象，并使用弱引用来引用它。然后，我们通过检查弱引用对象的get()方法返回的对象来判断对象是否被回收。</p>
+<p>当对象未被回收时，get()方法返回的对象不为null，表示对象仍然存活。当对象被回收时，get()方法返回的对象为null，表示对象已经被回收。</p>
+<p>需要注意的是，由于弱引用只在下一次垃圾回收时才会被回收，因此在使用弱引用检查对象是否被回收时，需要注意垃圾回收的时机。如果应用程序需要立即检查对象是否被回收，可以手动触发一次垃圾回收，例如通过<code>System.gc()</code>方法来触发。</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>《Effective Java 3》笔记4：用私有构造函数使类不可实例化</title>
+      <link>https://blog.chensoul.com/posts/2023/05/05/enforce-noninstantiability-with-a-private-constructor/</link>
+      <pubDate>Fri, 05 May 2023 08:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/05/05/enforce-noninstantiability-with-a-private-constructor/</guid>
+      <description>本文是 《Effective Java 3》第二章的学习笔记：用私有构造函数使类不可实例化。
+介绍 使用私有构造函数强制实现不可实例化的主要原因是防止类被意外地实例化，以使代码更加健壮和可靠。在某些情况下，我们只需要使用类中的静态方法和静态字段，而不需要创建该类的实例。如果类中没有显式地定义私有构造函数，Java编译器将会自动为该类生成一个默认的公共构造函数，这意味着该类可以在其他类中被实例化。如果这不是我们想要的，为了防止其他人意外地实例化我们的类，我们可以将构造函数设置为私有。
+此外，使用私有构造函数强制实现不可实例化还有以下优点：
+明确表明该类不可被实例化，提高了代码的可读性和可维护性。 防止类被子类化，从而避免了继承所带来的副作用和不必要的复杂性。 提高了代码的安全性，防止其他类在不合适的情况下实例化该类。 这是一个实现了私有构造函数强制实现不可实例化的类的示例：
+public class UtilityClass { // 禁止默认构造函数防止实例化 private UtilityClass() { throw new AssertionError(); } // 其他静态方法和字段 // ... } 这个类中的私有构造函数会在被调用时抛出AssertionError。这样做可以确保构造函数永远不会从类内部或外部调用。
+通过将构造函数设置为私有，这个类就不能从外部被实例化。这个习惯用法也防止了类被子类化。如果一个类的构造函数是私有的，那么它不能被子类调用，因为子类必须调用父类的构造函数来完成初始化。因此，如果一个类的构造函数是私有的，它就不能被子类化，因为子类不能调用父类的构造函数来完成初始化。
+以下是一个示例，展示了如何使用私有构造函数防止类被子类化：
+public final class FinalClass { private FinalClass() { // private constructor } public static void doSomething() { // do something } } 在这个示例中，FinalClass被声明为final，因此不能被子类化。此外，它的构造函数是私有的，因此不能从子类中被调用。由于该类不能被子类化，因此它的行为不会受到子类的影响，从而避免了继承所带来的副作用和不必要的复杂性。
+在某些情况下，将类设置为不能被实例化，但可以被子类化是有用的。这通常是因为我们希望子类化的类能够继承父类的行为和属性，同时又不希望外部能够实例化该类。以下是一个例子：
+public abstract class Animal { private String name; protected Animal(String name) { this.name = name; } public String getName() { return name; } public abstract void makeSound(); } public class Dog extends Animal { public Dog(String name) { super(name); } @Override public void makeSound() { System.</description>
+      <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记：用私有构造函数使类不可实例化。</p>
+<h2 id="介绍">介绍</h2>
+<p>使用私有构造函数强制实现不可实例化的主要原因是防止类被意外地实例化，以使代码更加健壮和可靠。在某些情况下，我们只需要使用类中的静态方法和静态字段，而不需要创建该类的实例。如果类中没有显式地定义私有构造函数，Java编译器将会自动为该类生成一个默认的公共构造函数，这意味着该类可以在其他类中被实例化。如果这不是我们想要的，为了防止其他人意外地实例化我们的类，我们可以将构造函数设置为私有。</p>
+<p>此外，使用私有构造函数强制实现不可实例化还有以下优点：</p>
+<ol>
+<li>明确表明该类不可被实例化，提高了代码的可读性和可维护性。</li>
+<li>防止类被子类化，从而避免了继承所带来的副作用和不必要的复杂性。</li>
+<li>提高了代码的安全性，防止其他类在不合适的情况下实例化该类。</li>
+</ol>
+<p>这是一个实现了私有构造函数强制实现不可实例化的类的示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UtilityClass</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 禁止默认构造函数防止实例化
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">private</span> <span class="nf">UtilityClass</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="n">AssertionError</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 其他静态方法和字段
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>这个类中的私有构造函数会在被调用时抛出<code>AssertionError</code>。这样做可以确保构造函数永远不会从类内部或外部调用。</p>
+<p>通过将构造函数设置为私有，这个类就不能从外部被实例化。这个习惯用法也防止了类被子类化。如果一个类的构造函数是私有的，那么它不能被子类调用，因为子类必须调用父类的构造函数来完成初始化。因此，如果一个类的构造函数是私有的，它就不能被子类化，因为子类不能调用父类的构造函数来完成初始化。</p>
+<p>以下是一个示例，展示了如何使用私有构造函数防止类被子类化：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">FinalClass</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">FinalClass</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// private constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，<code>FinalClass</code>被声明为<code>final</code>，因此不能被子类化。此外，它的构造函数是私有的，因此不能从子类中被调用。由于该类不能被子类化，因此它的行为不会受到子类的影响，从而避免了继承所带来的副作用和不必要的复杂性。</p>
+<p>在某些情况下，将类设置为不能被实例化，但可以被子类化是有用的。这通常是因为我们希望子类化的类能够继承父类的行为和属性，同时又不希望外部能够实例化该类。以下是一个例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Animal</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="nf">Animal</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">makeSound</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dog</span> <span class="kd">extends</span> <span class="n">Animal</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Dog</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">makeSound</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Woof!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个例子中，<code>Animal</code>类被设置为抽象类，它的构造函数被设置为<code>protected</code>，这意味着该类不能被实例化，但可以被子类化。<code>Dog</code>类继承了<code>Animal</code>类，并实现了<code>makeSound()</code>方法。由于<code>Animal</code>类的构造函数被设置为<code>protected</code>，所以<code>Dog</code>类可以调用父类的构造函数来进行初始化。</p>
+<p>在这个例子中，我们希望<code>Animal</code>类能够提供一些通用的行为和属性，同时又不希望外部能够实例化该类，因为<code>Animal</code>类本身并不是一种具体的动物。而<code>Dog</code>类作为<code>Animal</code>类的子类，可以继承<code>Animal</code>类的行为和属性，并实现自己的特定行为，以实现具体的功能。</p>
+<h2 id="用途">用途</h2>
+<p>私有构造函数还有其他一些用途，以下是一些常见的用途：</p>
+<ol>
+<li>
+<p>防止实例化：私有构造函数可以防止类被实例化，这对于只包含静态方法和静态字段的实用工具类非常有用。这些类可以通过将构造函数设置为私有来防止它们被实例化，从而避免不必要的对象创建和资源浪费。</p>
+</li>
+<li>
+<p>强制实现单例：单例模式是一种常见的设计模式，它要求一个类有且仅有一个实例，并提供一个全局访问点。私有构造函数可以强制实现单例模式，因为它可以防止类被实例化，除非类的内部定义了一个静态实例并提供了一个公共的静态访问方法。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Singleton</span> <span class="n">instance</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// private constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Singleton</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">instance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Singleton</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，<code>Singleton</code>类的构造函数是私有的，因此它不能被其他类实例化。<code>getInstance()</code>方法提供了一个全局访问点，并在需要时创建了一个静态实例。由于构造函数是私有的，因此只有<code>Singleton</code>类的内部才能创建实例，从而实现了单例模式。</p>
+</li>
+<li>
+<p>防止子类化：私有构造函数可以防止类被子类化，从而避免了继承所带来的副作用和不必要的复杂性。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">FinalClass</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">FinalClass</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// private constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，<code>FinalClass</code>类被声明为<code>final</code>，它的构造函数是私有的，因此它不能被子类化。该类提供了一些静态方法，可以在其他类中调用，但是不能被子类化。</p>
+</li>
+<li>
+<p>限制继承：如果一个类的构造函数是私有的，那么它不能被继承，这可以用来限制类的继承。</p>
+</li>
+<li>
+<p>实现工厂方法：工厂方法是一种常见的设计模式，它提供了一个创建对象的接口，但是将具体的对象创建过程留给了子类或具体的实现类。私有构造函数可以与工厂方法一起使用，以确保只有工厂方法能够创建对象，从而使对象创建过程更加可控和安全。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Shape</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">Shape</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// private constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Shape</span> <span class="nf">createRectangle</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Rectangle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Shape</span> <span class="nf">createCircle</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Circle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Rectangle</span> <span class="kd">extends</span> <span class="n">Shape</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Rectangle</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Circle</span> <span class="kd">extends</span> <span class="n">Shape</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Circle</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，<code>Shape</code>类的构造函数是私有的，因此它不能被实例化。<code>Shape</code>类提供了两个静态工厂方法，<code>createRectangle()</code>和<code>createCircle()</code>，用于创建不同的形状。<code>Rectangle</code>和<code>Circle</code>类继承自<code>Shape</code>类，并实现了自己的构造函数。</p>
+</li>
+</ol>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>《Effective Java 3》笔记6：避免创建不必要的对象</title>
       <link>https://blog.chensoul.com/posts/2023/04/24/avoid-creating-unnecessary-objects/</link>
       <pubDate>Mon, 24 Apr 2023 09:00:00 +0800</pubDate>
       
@@ -481,7 +934,7 @@ yarn start 3、重新部署静态页面</description>
     </item>
     
     <item>
-      <title>《Effective Java 3》笔记：依赖注入优于硬编码资源</title>
+      <title>《Effective Java 3》笔记5：依赖注入优于硬编码资源</title>
       <link>https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</link>
       <pubDate>Mon, 17 Apr 2023 17:00:00 +0800</pubDate>
       
@@ -903,7 +1356,7 @@ Hello World
     </item>
     
     <item>
-      <title>《Effective Java 3》笔记：使用私有构造函数或枚举类型创建单例</title>
+      <title>《Effective Java 3》笔记3：使用私有构造函数或枚举类型创建单例</title>
       <link>https://blog.chensoul.com/posts/2023/04/11/enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type/</link>
       <pubDate>Tue, 11 Apr 2023 08:00:00 +0800</pubDate>
       
@@ -1539,7 +1992,7 @@ Constructor&amp;lt;?&amp;gt;[] constructors = Elvis.class.getDeclaredConstructor
     </item>
     
     <item>
-      <title>《Effective Java 3》笔记：使用构造器代替构造方法</title>
+      <title>《Effective Java 3》笔记2：使用构造器代替构造方法</title>
       <link>https://blog.chensoul.com/posts/2023/04/03/builder-instead-of-constructors/</link>
       <pubDate>Mon, 03 Apr 2023 16:00:00 +0800</pubDate>
       
@@ -2367,7 +2820,7 @@ public class NutritionFacts { private final int servingSize; private final int s
     </item>
     
     <item>
-      <title>《Effective Java 3》笔记：静态工厂方法代替构造函数</title>
+      <title>《Effective Java 3》笔记1：静态工厂方法代替构造函数</title>
       <link>https://blog.chensoul.com/posts/2023/04/03/static-factory-methods-instead-of-constructors/</link>
       <pubDate>Mon, 03 Apr 2023 12:00:00 +0800</pubDate>
       

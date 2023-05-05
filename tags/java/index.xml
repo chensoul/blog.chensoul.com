@@ -13,10 +13,7 @@
       <pubDate>Fri, 05 May 2023 09:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/05/05/eliminate-obsolete-object-references/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记：排除过时的对象引用。
-介绍 &amp;ldquo;Eliminate obsolete object references&amp;rdquo; 是一条Java编程最佳实践的原则，指的是在代码中及时清理不再使用的对象引用，以避免内存泄漏和性能问题。当一个对象不再需要时，应该尽快将其引用设置为null，这样JVM可以及时回收它所占用的内存。
-考虑以下简单的堆栈实现：
-import java.util.Arrays; import java.util.EmptyStackException; // Can you spot the &amp;#34;memory leak&amp;#34;? public class Stack { private Object[] elements; private int size = 0; private static final int DEFAULT_INITIAL_CAPACITY = 16; public Stack() { elements = new Object[DEFAULT_INITIAL_CAPACITY]; } public void push(Object e) { ensureCapacity(); elements[size++] = e; } public Object pop() { if (size == 0) throw new EmptyStackException(); return elements[--size]; } /** * Ensure space for at least one more element, roughly * doubling the capacity each time the array needs to grow.</description>
+      <description>本文是 《Effective Java 3》第二章的学习笔记：排除过时的对象引用。 介绍 &amp;ldquo;Eliminate obsolete object references&amp;rdquo; 是一条Java编程最佳实践的原则，指的是在代码中及时清理不</description>
       <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记：排除过时的对象引用。</p>
 <h2 id="介绍">介绍</h2>
 <p>&ldquo;Eliminate obsolete object references&rdquo; 是一条Java编程最佳实践的原则，指的是在代码中及时清理不再使用的对象引用，以避免内存泄漏和性能问题。当一个对象不再需要时，应该尽快将其引用设置为null，这样JVM可以及时回收它所占用的内存。</p>
@@ -318,16 +315,7 @@ import java.util.Arrays; import java.util.EmptyStackException; // Can you spot t
       <pubDate>Fri, 05 May 2023 08:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/05/05/enforce-noninstantiability-with-a-private-constructor/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记：用私有构造函数使类不可实例化。
-介绍 使用私有构造函数强制实现不可实例化的主要原因是防止类被意外地实例化，以使代码更加健壮和可靠。在某些情况下，我们只需要使用类中的静态方法和静态字段，而不需要创建该类的实例。如果类中没有显式地定义私有构造函数，Java编译器将会自动为该类生成一个默认的公共构造函数，这意味着该类可以在其他类中被实例化。如果这不是我们想要的，为了防止其他人意外地实例化我们的类，我们可以将构造函数设置为私有。
-此外，使用私有构造函数强制实现不可实例化还有以下优点：
-明确表明该类不可被实例化，提高了代码的可读性和可维护性。 防止类被子类化，从而避免了继承所带来的副作用和不必要的复杂性。 提高了代码的安全性，防止其他类在不合适的情况下实例化该类。 这是一个实现了私有构造函数强制实现不可实例化的类的示例：
-public class UtilityClass { // 禁止默认构造函数防止实例化 private UtilityClass() { throw new AssertionError(); } // 其他静态方法和字段 // ... } 这个类中的私有构造函数会在被调用时抛出AssertionError。这样做可以确保构造函数永远不会从类内部或外部调用。
-通过将构造函数设置为私有，这个类就不能从外部被实例化。这个习惯用法也防止了类被子类化。如果一个类的构造函数是私有的，那么它不能被子类调用，因为子类必须调用父类的构造函数来完成初始化。因此，如果一个类的构造函数是私有的，它就不能被子类化，因为子类不能调用父类的构造函数来完成初始化。
-以下是一个示例，展示了如何使用私有构造函数防止类被子类化：
-public final class FinalClass { private FinalClass() { // private constructor } public static void doSomething() { // do something } } 在这个示例中，FinalClass被声明为final，因此不能被子类化。此外，它的构造函数是私有的，因此不能从子类中被调用。由于该类不能被子类化，因此它的行为不会受到子类的影响，从而避免了继承所带来的副作用和不必要的复杂性。
-在某些情况下，将类设置为不能被实例化，但可以被子类化是有用的。这通常是因为我们希望子类化的类能够继承父类的行为和属性，同时又不希望外部能够实例化该类。以下是一个例子：
-public abstract class Animal { private String name; protected Animal(String name) { this.name = name; } public String getName() { return name; } public abstract void makeSound(); } public class Dog extends Animal { public Dog(String name) { super(name); } @Override public void makeSound() { System.</description>
+      <description>本文是 《Effective Java 3》第二章的学习笔记：用私有构造函数使类不可实例化。 介绍 使用私有构造函数强制实现不可实例化的主要原因是防止类被意</description>
       <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记：用私有构造函数使类不可实例化。</p>
 <h2 id="介绍">介绍</h2>
 <p>使用私有构造函数强制实现不可实例化的主要原因是防止类被意外地实例化，以使代码更加健壮和可靠。在某些情况下，我们只需要使用类中的静态方法和静态字段，而不需要创建该类的实例。如果类中没有显式地定义私有构造函数，Java编译器将会自动为该类生成一个默认的公共构造函数，这意味着该类可以在其他类中被实例化。如果这不是我们想要的，为了防止其他人意外地实例化我们的类，我们可以将构造函数设置为私有。</p>
@@ -466,16 +454,7 @@ public abstract class Animal { private String name; protected Animal(String name
       <pubDate>Mon, 24 Apr 2023 09:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/04/24/avoid-creating-unnecessary-objects/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记：避免创建不必要的对象。
-介绍 创建对象时，经常会复用对象。如果对象是不可变的，那么它总是可以被复用的。
-下面一个例子：
-String s = new String(&amp;#34;bikini&amp;#34;); // DON&amp;#39;T DO THIS! 该语句每次执行时都会创建一个新的 String 实例，而这些对象创建都不是必需的。String 构造函数的参数 (&amp;quot;bikini&amp;quot;) 本身就是一个 String 实例，在功能上与构造函数创建的所有对象相同。如果这种用法发生在循环或频繁调用的方法中，创建大量 String 实例是不必要的。
-改进后的版本如下：
-String s = &amp;#34;bikini&amp;#34;; 这个版本使用单个 String 实例，而不是每次执行时都创建一个新的实例。此外，可以保证在同一虚拟机中运行的其他代码都可以复用该对象，只要恰好包含相同的字符串字面量。
-通常可以通过使用静态工厂方法来避免创建不必要的对象，而不是在提供这两种方法的不可变类上使用构造函数。例如，工厂方法 Boolean.valueOf(String) 比构造函数 Boolean(String) 更可取，后者在 Java 9 中被弃用了。构造函数每次调用时都必须创建一个新对象，而工厂方法从来不需要这样做，在实际应用中也不会这样做。除了复用不可变对象之外，如果知道可变对象不会被修改，也可以复用它们。
-有些对象的创建的代价相比而言要昂贵得多。如果你需要重复地使用这样一个「昂贵的对象」，那么最好将其缓存以供复用。
-下面是使用正则表达式最简单的方法：
-// Performance can be greatly improved! static boolean isRomanNumeral(String s) { return s.matches(&amp;#34;^(?=.)M*(C[MD]|D?C{0,3})&amp;#34; + &amp;#34;(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$&amp;#34;); } 这个实现的问题是它依赖于 String.matches 方法。虽然 String.matches 是检查字符串是否与正则表达式匹配的最简单方法，但它不适合在性能关键的情况下重复使用。 问题在于，它在内部为正则表达式创建了一个 Pattern 实例，并且只使用一次，之后就进行垃圾收集了。创建一个 Pattern 实例是很昂贵的，因为它需要将正则表达式编译成有限的状态机。</description>
+      <description>本文是 《Effective Java 3》第二章的学习笔记：避免创建不必要的对象。 介绍 创建对象时，经常会复用对象。如果对象是不可变的，那么它总是可以被</description>
       <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记：避免创建不必要的对象。</p>
 <h2 id="介绍">介绍</h2>
 <p>创建对象时，经常会复用对象。如果对象是不可变的，那么它总是可以被复用的。</p>
@@ -833,22 +812,7 @@ String s = &amp;#34;bikini&amp;#34;; 这个版本使用单个 String 实例，�
       <pubDate>Tue, 18 Apr 2023 17:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/04/18/weekly_review_15/</guid>
-      <description>前言 ​	题图：楚河汉街蜡像馆
-本篇是对 2023-04-10 到 2023-04-16 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-这周的工作不算忙碌，继续学习《Effective Java 3》这本书，并花了一些时间学习 Rust、Python 的基础语法。
-这个月已经过了一半，减肥也进行了两周，体重从72公斤减到了现在的68.4公斤。在之前每天走路1万步的基础上，打算开始每天跑步，比记录跑步数据。
-这周总计支出916元，明细如下：
-4月12日：329元，开通ETC预存300元 4月15日：116元，周末买菜做饭 4月16日：471元，老婆过生，吃饭和看电影 四月累计支出共 2025 元，其中餐饮和购物占了一半。
-健身 这周每天走路步数如下，其中有一天因为加班而没有完成一万步的目标。
-受 @Conge 博客影响，开始记录每天的跑步数据。首先是注册了 strava 账号，然后参考 running_page 部署了一个我的跑步主页 run.chensoul.com。
-因为我之前是使用悦跑圈 APP 记录跑步，所以又参考这篇文章导出 gpx 数据，然后同步到 Strava。最后，可以把悦跑圈 APP 卸载了。
-上周跑步数据如下，总计28.64公里，比上周的19.05公里多了9.6公里。
-上面搞定了之后，就可以使用 Strava 来跑步了。为了增加社交乐趣性，我在 n8n 里面创建了一个 workflow，将 Strava 活动发送到我的『ChenSoul Share』Telegram 频道，效果如下。
-Umami升级到2.0 1、首先备份数据库
-2、升级数据库
-git clone https://github.com/umami-software/migrate-v1-v2.git cd migrate-v1-v2 yarn install yarn build 创建 .env 文件：
-#修改为你的数据库地址 DATABASE_URL=postgresql://umami:xxxxx@postgres.chensoul.com:5432/umami 运行：
-yarn start 3、重新部署静态页面</description>
+      <description>前言 ​ 题图：楚河汉街蜡像馆 本篇是对 2023-04-10 到 2023-04-16 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周的工作不算忙碌，继续学</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-01.png" alt="weekly-review-15-01"  />
 </p>
@@ -863,10 +827,10 @@ yarn start 3、重新部署静态页面</description>
 <li>4月16日：471元，老婆过生，吃饭和看电影</li>
 </ul>
 <p>四月累计支出共 2025 元，其中餐饮和购物占了一半。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-05.jpeg" alt="weekly-review-15-05" style="width:50%;" />
 <h2 id="健身">健身</h2>
 <p>这周每天走路步数如下，其中有一天因为加班而没有完成一万步的目标。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-06.png" alt="weekly-review-15-06" style="width:50%;" />
 <p>受 <a href="https://conge.livingwithfcs.org/">@Conge</a> 博客影响，开始记录每天的跑步数据。首先是注册了 strava 账号，然后参考 <a href="https://github.com/yihong0618/running_page">running_page</a> 部署了一个我的跑步主页 <a href="https://run.chensoul.com/">run.chensoul.com</a>。</p>
 <p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-02.png" alt="weekly-review-15-02"  />
 </p>
@@ -877,7 +841,7 @@ yarn start 3、重新部署静态页面</description>
 <p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-04.png" alt="weekly-review-15-04"  />
 </p>
 <p>上面搞定了之后，就可以使用 Strava 来跑步了。为了增加社交乐趣性，我在 n8n 里面创建了一个 workflow，将 Strava 活动发送到我的『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，效果如下。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-07.png" alt="weekly-review-15-07" style="width:50%;" />
 <h2 id="umami升级到20">Umami升级到2.0</h2>
 <p>1、首先备份数据库</p>
 <p>2、升级数据库</p>
@@ -904,14 +868,14 @@ yarn start 3、重新部署静态页面</description>
 <p>请参考《<a href="/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources">Effective Java 3 笔记：依赖注入优于硬编码资源</a>》。</p>
 <h2 id="汉街蜡像馆">汉街蜡像馆</h2>
 <p>周末趁武汉旅游大年卡还没过期，跑到楚河汉街蜡像馆去溜达了一圈。因为有年卡，省去了150元的门票。</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-08.png" alt="weekly-review-15-08" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-09.png" alt="weekly-review-15-09" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-10.png" alt="weekly-review-15-10" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-11.png" alt="weekly-review-15-11" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-12.png" alt="weekly-review-15-12" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-13.png" alt="weekly-review-15-13" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-14.png" alt="weekly-review-15-14" style="width:67%;" />
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-15.png" alt="weekly-review-15-15" style="width:67%;" />
 <h2 id="好物分享">好物分享</h2>
 <p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
 <h3 id="一些文章">一些文章</h3>
@@ -939,12 +903,7 @@ yarn start 3、重新部署静态页面</description>
       <pubDate>Mon, 17 Apr 2023 17:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。
-介绍 依赖注入是软件工程中使用的一种设计模式，用于将组件和依赖项相互解耦。而不是在组件内部创建和管理依赖项，我们从外部传递它们。这种方法可以帮助创建更模块化和灵活的代码。
-相比之下，硬编码资源涉及在组件内部直接创建和管理依赖项。这种方法可能会使代码不太灵活，难以维护。
-举例 许多类依赖于一个或多个底层资源。例如，拼写检查程序依赖于字典。常见做法是，将这种类实现为静态实用工具类：
-// Inappropriate use of static utility - inflexible &amp;amp; untestable! public class SpellChecker { private static final Lexicon dictionary = ...; private SpellChecker() {} // Noninstantiable public static boolean isValid(String word) { ... } public static List&amp;lt;String&amp;gt; suggestions(String typo) { ... } } 类似地，我们也经常看到它们的单例实现：
-// Inappropriate use of singleton - inflexible &amp;amp; untestable! public class SpellChecker { public static INSTANCE = new SpellChecker(.</description>
+      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 依赖注入是软件工程中使用的一种设计模式，用</description>
       <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。</p>
 <h2 id="介绍">介绍</h2>
 <p>依赖注入是软件工程中使用的一种设计模式，用于将组件和依赖项相互解耦。而不是在组件内部创建和管理依赖项，我们从外部传递它们。这种方法可以帮助创建更模块化和灵活的代码。</p>
@@ -1200,25 +1159,7 @@ yarn start 3、重新部署静态页面</description>
       <pubDate>Thu, 13 Apr 2023 09:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/04/13/weekly_review_14/</guid>
-      <description>前言 本篇是对 2023-04-03 到 2023-04-09 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-这周还是和以前一样每天运动，并开始施行断食。因为是刚开始断食，有时候忍不住饥饿感而吃了一些东西。
-本周工作主要是发布了一个版本，其余时间用来学习 Rust 和 Python，初学这两种语言，他们语法上有很多相似之处。如何学习一门编程语言？整理了一些步骤。尝试了一下用多种语言编写猜数游戏，这些语言包括 Rust、Ptyhon、Go、NodeJs、JavaScript、Kotlin、Bash，除了 Java。这是一个很有意思的事情，如果能够把这些语言都熟练掌握，那就更好了。
-关于健身 完成了每天一万步的计划，并且共跑步 5 次，一共 18.6 公里，平均配速 7 分钟4 9 秒，每天跳绳 500+。
-关于记账 本周继续使用微信记账本记录每天支出。累计消费835元，明细如下：
-4月3日，周一：支出 59 元，餐饮
-4月4日，周二：支出 0 元，
-4月5日，周三：支出 228 元，超市购物
-4月6日，周四：支出 15 元，停车费
-4月7日，周五：支出 12 元
-4月8日，周六：支出 415 元，加油+餐饮
-4月8日，周日：支出 106 元，餐饮
-如何学习一门编程语言 学习一门编程语言的基础语法对于初学者来说非常重要，以下是一些详细的步骤：
-了解编程语言的基础概念：在学习编程语言之前，了解编程的基础概念是非常重要的。例如，变量、数据类型、条件语句、循环、函数等等。 寻找学习资源：学习编程语言的基础语法可以通过各种学习资源来实现，如书籍、教程、在线视频和交互式学习平台等。选择适合自己的学习资源是非常重要的。 学习变量和数据类型：在学习编程语言之前，学习变量和数据类型是必须的。了解如何定义变量、赋值和使用不同的数据类型，例如字符串、整数、浮点数、布尔值等等。 学习条件语句：条件语句是编程语言中的重要概念之一。例如，学习如何使用if语句和else语句，使程序在特定条件下执行不同的代码块。 学习循环：循环是编程语言中的另一个重要概念。例如，学习如何使用while循环和for循环，使程序在特定条件下重复执行代码块。 学习函数：函数是编程语言中的重要概念之一。学习如何定义和使用函数，以将代码结构化并重用。 练习编写代码：练习编写代码是学习编程语言基础语法的重要方式。编写小程序或项目，例如打印&amp;quot;Hello World&amp;quot;、计算器或猜数字游戏等。 学习调试和错误处理：学习如何调试代码和处理常见错误，例如语法错误、逻辑错误和运行时错误等。 总结一下，学习一门编程语言的步骤：
-安装
-Hello World
-注释 格式化输出 变量和常量
-数据类型
-基本类型 运算 类型转换 复杂类型 表达式和语句</description>
+      <description>前言 本篇是对 2023-04-03 到 2023-04-09 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周还是和以前一样每天运动，并开始施行断食。因为</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekl-review-14-01.jpg" alt="weekl-review-14-01"  />
 </p>
@@ -1227,7 +1168,7 @@ Hello World
 <p>本周工作主要是发布了一个版本，其余时间用来学习 Rust 和 Python，初学这两种语言，他们语法上有很多相似之处。如何学习一门编程语言？整理了一些步骤。尝试了一下用多种语言编写猜数游戏，这些语言包括 Rust、Ptyhon、Go、NodeJs、JavaScript、Kotlin、Bash，除了 Java。这是一个很有意思的事情，如果能够把这些语言都熟练掌握，那就更好了。</p>
 <h2 id="关于健身">关于健身</h2>
 <p>完成了每天一万步的计划，并且共跑步 5 次，一共 18.6 公里，平均配速 7 分钟4 9 秒，每天跳绳 500+。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekl-review-14-03.jpg" alt="weekl-review-14-03" style="width:67%;" />
 <h2 id="关于记账">关于记账</h2>
 <p>本周继续使用微信记账本记录每天支出。累计消费835元，明细如下：</p>
 <ul>
@@ -1330,7 +1271,7 @@ Hello World
 <p>请参考 <a href="/posts/2023/04/11/enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type/">《Effective Java 3》笔记：使用私有构造函数或枚举类型创建单例</a></p>
 <h3 id="rust">Rust</h3>
 <p>因为对 <a href="https://tauri.app/">Tauri</a> 这个 GUI 框架挺感兴趣，所以我开始学习 Rust 了，目前在参考 <a href="https://rustwiki.org/">https://rustwiki.org/</a> 上的 <a href="https://rustwiki.org/zh-CN/rust-by-example/">通过例子学 Rust</a> 和 《Rust权威指南》 学习 Rust。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekl-review-14-02.jpg" alt="weekl-review-14-02" style="width:50%;" />
 <h2 id="好物分享">好物分享</h2>
 <p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
 <h3 id="一些文章">一些文章</h3>
@@ -1361,12 +1302,7 @@ Hello World
       <pubDate>Tue, 11 Apr 2023 08:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/04/11/enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。
-介绍 单例是一个只实例化一次的类。单例通常表示无状态对象，比如函数或系统组件，它们在本质上是唯一的。将一个类设计为单例会使它的客户端测试时变得困难， 除非它实现了作为其类型的接口，否则无法用模拟实现来代替单例。
-实现 实现单例有两种常见的方法。两者都基于保持构造函数私有和导出公共静态成员以提供对唯一实例的访问。
-在第一种方法中，成员是一个 final 字段：
-// Singleton with public final field public class Elvis { public static final Elvis INSTANCE = new Elvis(); private Elvis() { ... } public void leaveTheBuilding() { ... } } 私有构造函数只调用一次，用于初始化 public static final 修饰的 Elvis 类型字段 INSTANCE。不使用 public 或 protected 的构造函数保证了「独一无二」的空间：一旦初始化了 Elvis 类，就只会存在一个 Elvis 实例，不多也不少。客户端所做的任何事情都不能改变这一点，但有一点需要注意：拥有特殊权限的客户端可以借助 AccessibleObject.setAccessible 方法利用反射调用私有构造函数。
-Constructor&amp;lt;?&amp;gt;[] constructors = Elvis.class.getDeclaredConstructors(); AccessibleObject.setAccessible(constructors, true); Arrays.stream(constructors).forEach(name -&amp;gt; { if (name.</description>
+      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 单例是一个只实例化一次的类。单例通常表示无</description>
       <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。</p>
 <h2 id="介绍">介绍</h2>
 <p>单例是一个只实例化一次的类。单例通常表示无状态对象，比如函数或系统组件，它们在本质上是唯一的。<strong>将一个类设计为单例会使它的客户端测试时变得困难，</strong> 除非它实现了作为其类型的接口，否则无法用模拟实现来代替单例。</p>
@@ -1879,18 +1815,7 @@ Constructor&amp;lt;?&amp;gt;[] constructors = Elvis.class.getDeclaredConstructor
       <pubDate>Tue, 04 Apr 2023 15:40:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/04/04/weekly_review_13/</guid>
-      <description>前言 本篇是对 2023-03-27 到 2023-04-02 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-本周是三月的最后一周，想到这，就想对随便对三月份做个总结。总结的方面，大概包括工作、生活、学习、健身、财务、娱乐几个方面。万事开头难，不知道能者多少，但是，相信不管写多少，都是有意义的。
-先来说说最近一周做了什么。查看一下 gitlab 上标签提交记录，这周发布了一个版本，其余时间是进行测试，为下周发布做准备。在工作之余，开始学习《Effective Java 3》，并用 chatgpt 作为辅助工作，加深对技术的理解。另外，有了想学习 React、Rust、Go、Pyhon 的想法。想学的东西有点多，只能一步步来。争取每天利用下班之后的一个小时进行碎片化的学习，并且做好相关笔记，如有可能发布在这个博客上面。加油！
-这周完成了每天一万步的计划，其中周末走了 3 万多步，并且还开始了跑步。
-关于健身 完成了每天一万步的计划，并且共跑步 8 次，一共 26 公里，最高平均配速 7 分钟，还跳绳一次（550 下）。
-跑步的目的不是快，而是乐此不疲。每天跑步 5 公里，每次消耗 300 卡路里的热量，大概需要 10 周才能瘦 10 斤。
-光靠走路和跑步，想在 4 月完成瘦 10 斤的目标，应该是不可能的，打算辅助间歇性断食，看下效果。
-跑步是一种有氧运动，可以促进身体代谢，消耗体内的脂肪和热量，达到减肥的效果。但是减肥的效果受到很多因素的影响，如个人的体重、身高、年龄、性别、饮食习惯、跑步强度、频率和时长等。
-通常来说，减肥的基本原理是消耗更多的热量，从而达到体重减轻的效果。每天跑步 5 公里的运动量相对较小，一般在一个小时左右可以完成。如果每天坚持跑步，同时注意饮食控制，增加其他有氧运动和合理的休息，可能会在几个月内看到一定的减肥效果。
-根据一般的减肥经验，每消耗 3500 卡路里的热量就可以减少一斤体重。假设每次跑步消耗 300 卡路里的热量，那么每天跑步 5 公里约消耗 300 ~ 400 卡路里的热量。如果每天坚持跑步，并且保持每天消耗 300 ~ 400 卡路里的热量，那么大约需要 10 周时间才能减少 10 斤体重。
-关于记账 上周开始，在寻找一个记账的 APP，想开始记录每天的收入与支出。当然，更多的应该是支出了。现在，大环境不行，公司裁员不停，必须要开源节流，手上储备足够的现金。
-找来找去，发现微信里没有有个『微信记账本』小程序就可以在微信里自动记账，也支持手动记账。于是，这周试了一下这个小程序，并有意的控制自己每天的输出。因为每天都有带饭，这样中饭就不用花钱了；早餐呢，是泡之前买的黑芝麻糊喝，省去了早餐费用。结果是，这周的支出只有 4.</description>
+      <description>前言 本篇是对 2023-03-27 到 2023-04-02 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 本周是三月的最后一周，想到这，就想对随便对三月份</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-13-01.jpeg" alt="weekly-review-13-01"  />
 </p>
@@ -1900,9 +1825,9 @@ Constructor&amp;lt;?&amp;gt;[] constructors = Elvis.class.getDeclaredConstructor
 <p>这周完成了每天一万步的计划，其中周末走了 3 万多步，并且还开始了跑步。</p>
 <h2 id="关于健身">关于健身</h2>
 <p>完成了每天一万步的计划，并且共跑步 8 次，一共 26 公里，最高平均配速 7 分钟，还跳绳一次（550 下）。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-13-03.jpeg" alt="weekly-review-13-03" style="width:50%;" />
 <p>跑步的目的不是快，而是乐此不疲。每天跑步 5 公里，每次消耗 300 卡路里的热量，大概需要 10 周才能瘦 10 斤。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-13-02.jpeg" alt="weekly-review-13-02" style="width:50%;" />
 <p>光靠走路和跑步，想在 4 月完成瘦 10 斤的目标，应该是不可能的，打算辅助间歇性断食，看下效果。</p>
 <blockquote>
 <p>跑步是一种有氧运动，可以促进身体代谢，消耗体内的脂肪和热量，达到减肥的效果。但是减肥的效果受到很多因素的影响，如个人的体重、身高、年龄、性别、饮食习惯、跑步强度、频率和时长等。</p>
@@ -1912,9 +1837,9 @@ Constructor&amp;lt;?&amp;gt;[] constructors = Elvis.class.getDeclaredConstructor
 <h2 id="关于记账">关于记账</h2>
 <p>上周开始，在寻找一个记账的 APP，想开始记录每天的收入与支出。当然，更多的应该是支出了。现在，大环境不行，公司裁员不停，必须要开源节流，手上储备足够的现金。</p>
 <p>找来找去，发现微信里没有有个『微信记账本』小程序就可以在微信里自动记账，也支持手动记账。于是，这周试了一下这个小程序，并有意的控制自己每天的输出。因为每天都有带饭，这样中饭就不用花钱了；早餐呢，是泡之前买的黑芝麻糊喝，省去了早餐费用。结果是，这周的支出只有 4.5 元。一次是早上买了一本豆浆，一次是早上跑步怕迟到就骑了一次动感单车。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-13-05.jpeg" alt="weekly-review-13-05" style="width:50%;" />
 <p>正好三月结束了，查看了一下三月的支出报表。总的来说，三月支出的有点多，超乎了我的想象。如果每个月都是支出这么多，那以后的零花钱就不够用了。还是要勒紧裤腰带过日子啊。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-13-04.jpeg" alt="weekly-review-13-04" style="width:50%;" />
 <h2 id="更新-ssl-证书">更新 SSL 证书</h2>
 <p>安装 acme.sh</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl https://get.acme.sh <span class="p">|</span> sh -s <span class="nv">email</span><span class="o">=</span>chensoul.eth@gmail.com
@@ -1997,11 +1922,7 @@ Constructor&amp;lt;?&amp;gt;[] constructors = Elvis.class.getDeclaredConstructor
       <pubDate>Mon, 03 Apr 2023 16:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/04/03/builder-instead-of-constructors/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。
-介绍 当一个类需要多个构造函数参数时，可以考虑使用构建器模式来创建对象。构建器模式是一种创建对象的设计模式，它可以通过链式调用方法的方式来设置对象的构造参数，并最终返回一个构造完整的对象。
-优点 使用构建器模式的原因有以下几点：
-避免构造函数参数过多的问题：当一个类需要多个构造函数参数时，构造函数的参数列表可能会变得很长，这会导致代码难以理解和维护。使用构建器模式可以将构造函数参数拆分成多个方法，从而使代码更加清晰易懂。 提高代码的可读性和可维护性：使用构建器模式可以使代码更加易懂和易维护，因为可以通过方法名来清晰地表达每个参数的含义。 提供更多的灵活性和可定制性：构建器模式可以提供更多的灵活性和可定制性，因为可以在构造对象时进行更多的逻辑处理和判断。例如，可以在构建器中添加验证逻辑，以确保参数的有效性。 支持多线程环境：构建器模式可以支持多线程环境，因为每个构建器都是独立的，不会受到其他线程的影响。 以下是一个例子：
-public class NutritionFacts { private final int servingSize; private final int servings; private final int calories; private final int fat; private final int sodium; private final int carbohydrate; private NutritionFacts(Builder builder) { this.servingSize = builder.servingSize; this.servings = builder.servings; this.calories = builder.calories; this.fat = builder.fat; this.sodium = builder.sodium; this.carbohydrate = builder.carbohydrate; } //省略 get set public static class Builder { // Required parameters private final int servingSize; private final int servings; // Optional parameters - initialized to default values private int calories = 0; private int fat = 0; private int sodium = 0; private int carbohydrate = 0; public Builder(int servingSize, int servings) { this.</description>
+      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 当一个类需要多个构造函数参数时，可以考虑使</description>
       <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。</p>
 <h2 id="介绍">介绍</h2>
 <p>当一个类需要多个构造函数参数时，可以考虑使用<strong>构建器模式</strong>来创建对象。构建器模式是一种创建对象的设计模式，它可以通过链式调用方法的方式来设置对象的构造参数，并最终返回一个构造完整的对象。</p>
@@ -2825,22 +2746,7 @@ public class NutritionFacts { private final int servingSize; private final int s
       <pubDate>Mon, 03 Apr 2023 12:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/04/03/static-factory-methods-instead-of-constructors/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。
-介绍 静态工厂方法是指在类中定义一个静态方法，用于创建该类的实例。示例：
-public static Boolean valueOf(boolean b) { return b ? Boolean.TRUE : Boolean.FALSE; } 与构造函数不同的是，静态工厂方法可以有自己的名称，并且可以根据参数的不同返回不同的对象实例。
-优点 这本书中提到了一些静态工厂方法的优点，包括：
-静态工厂方法可以有意义的名称：与构造函数不同，静态工厂方法可以有自己的名称，这使得代码更具有可读性和可维护性。
-例如，BigInteger 类提供了一个返回素数的静态工厂方法 BigInteger.probablePrime 。
-静态工厂方法可以隐藏实现细节：静态工厂方法可以隐藏对象的创建和初始化过程，使客户端代码更加简洁和易于维护。
-这是服务提供者框架的基础。
-服务提供者框架中有三个基本组件：服务接口，代表要实现的服务；提供者注册 API，提供者使用它来注册实现，以及服务访问 API，客户端使用它来获取服务的实例。服务访问 API 允许客户端指定选择实现的标准。在没有这些条件的情况下，API 返回一个默认实现的实例，或者允许客户端循环使用所有可用的实现。服务访问 API 是灵活的静态工厂，它构成了服务提供者框架的基础。
-服务提供者框架的第四个可选组件是服务提供者接口，它描述了产生服务接口实例的工厂对象。在没有服务提供者接口的情况下，必须以反射的方式实例化实现。
-在 JDBC 中，Connection 扮演服务接口的角色。DriverManager.registerDriver 是提供者注册的 API，DriverManager.getConnection 是服务访问 API，Driver 是服务提供者接口。
-服务提供者框架模式有许多变体。例如，服务访问 API 可以向客户端返回比提供者提供的更丰富的服务接口，这是桥接模式。依赖注入框架可以看作是强大的服务提供者。由于是 Java 6，该平台包括一个通用服务提供者框架 Java.util.ServiceLoader，所以你不需要，通常也不应该自己写。JDBC 不使用 ServiceLoader，因为前者比后者要早。
-静态工厂方法可以返回缓存的对象：静态工厂方法可以返回缓存的对象，这避免了创建新对象的开销，提高了性能。
-这种技术类似于享元模式。如果经常请求相同的对象，特别是在创建对象的代价很高时，它可以极大地提高性能。
-举例 1：使用 ConcurrentHashMap
-public class ThreadSafeCache { private static final Map&amp;lt;String, ThreadSafeCache&amp;gt; instances = new ConcurrentHashMap&amp;lt;&amp;gt;(); private ThreadSafeCache() {} public static ThreadSafeCache getInstance(String key) { return instances.</description>
+      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 静态工厂方法是指在类中定义一个静态方法，用</description>
       <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。</p>
 <h2 id="介绍">介绍</h2>
 <p>静态工厂方法是指在类中定义一个静态方法，用于创建该类的实例。示例：</p>
@@ -3063,39 +2969,17 @@ ServiceLoader，因为前者比后者要早。</p>
       <pubDate>Tue, 28 Mar 2023 09:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/03/28/weekly_review_12/</guid>
-      <description>前言 本篇是对 2023-03-20 到 2023-03-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-上周去同济医院检查鼾症，检查结果是轻度症状，医生建议多运动减肥。这周每天走路 1 万步的目标已达成。
-工作上发布了一个版本，另外两个迭代正在进行中，预计这周再发布一个版本。从飞书通讯录看到又有三个非技术类同事被裁，这周周会，部门领导说最近又有一个做商务的同事被优化了。
-上周有一天早上，车子停在小区里面，被两个车子挡住了前后道路，联系不上车主，只好坐地铁上班。话说，自从开车上班之后，使用手机的频率明显降低了很多。
-上周末阳光正好，于是回家去给已故的亲人扫墓。周六回老家，周日回老婆家。逝者已逝，活着的人要善待自己，好好吃饭，好好睡觉，好好工作，好好运动。
-工作 Effective Java 3 笔记 请参考 《Effective Java 3》笔记：静态工厂方法代替构造函数。
-Machine-Learning-With-Go B站视频：「课程」使用Go做机器学习
-源代码：Machine-Learning-With-Go
-生活 车辆被堵 早上准备开车上班，发现车子前后道路都被车辆占道了。前面车辆占道，昨天晚上下班回来就发现了，也确认了这个车辆没有留挪车电话。当时就隐隐担忧今天早上会被挡住前后道路。没有想到，真的被挡了。后面的车辆留了挪车电话。六点半开始，我就给后面车的车主打电话发短信，对方一直没接电话，估计手机调静音还在睡觉吧。没有想到的是，截止到现在时间八点，他还没有给我回电话，这哥们睡得那是真香啊。
-在道路被占用之后，我做了什么？除了给留了号码的那个车主打电话之外，我还想到交管 12123 APP 上面有一个一键挪车功能。于是，试了一下这个功能。原以为这个功能可以电话通知到对方挪车。实际情况却只是提交了一个工单而已，真是一个鸡肋的功能。用户使用这个功能，是希望及时联系到车主过来挪车，而不是提交一个工单之后，傻傻的等待。另外，这个功能也不能叫一键挪车，因为点击了这个功能之后，还要输入车牌号、上传照片。更好的体验应该是只用上传占用道路的车辆照片，由系统识别出车牌号，然后后台找到车主的手机号，生成一个临时号码并调用手机的拨号功能。
-在道路被占用之后，我的心态是怎样的？刚开始想生气愤怒，后来想了想，事已至此，没有必要生气，生气只能影响自己一天的心情和好运。并尝试把这种对自己不利的一面转化为对自己有利的一面。原想六点半开车上班，道路被占之后，就可以体验一下七点多甚至八点多开车上班需要多长时间以及是否堵车。
-如果是我把道路占用了，我该怎么做呢？首先，是车上留一个手机号码；其次，是第二天早上保证手机不关机并且没有静音。
-如何避免再次出现这样的情况呢？一是通过电话或者便条的形式提醒车主要在车上留一个挪车电话并保证电话畅通，二是反馈给物业让物业来提醒小区里的车主不要随意占用车道。
-开车总结 学到了新知识：
-学会了如何调节前灯的高度。数字越大，灯光照射的越近。 开车需要改进的地方：
-1、今天在菜场点火的时候，错把油门当刹车 2、准备加速超过左边货车的时候，货车打了右前灯，下意识地把方向盘向右打了一点 3、遇到红绿灯变黄灯时，刹车太急。想冲过去，但犹豫了。这样做太危险，不能存在侥幸心理。下次遇到这种情况，宁可提前刹车，等红灯过了，再向前行驶。 好物分享 虽然大部分有意思的内容会分享在 『ChenSoul Share』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。
-一些文章 做了 6 年程序员，我学到的 10 条经验
-JetBrains 常用插件
-v2ray + warp-go 非全局使用Cloudflare WARP解锁New Bing等服务
-如何创建属于自己的私人资料库与私人搜索引擎 _
-如何高效地协作开发：一些 Google 的实践
-Java高性能缓存库Caffeine
-一些工具 优设导航官网：设计导航2013年上线至今，是优设网旗下最专业好用的设计师导航网站！设计导航为设计师提供UI设计、设计教程、素材下载、高清图库、配色方案、App设计、网页设计等设计网站导航指引。设计导航每周更新，设计风向标就看优设网！</description>
+      <description>前言 本篇是对 2023-03-20 到 2023-03-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 上周去同济医院检查鼾症，检查结果是轻度症状，医生</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-12-01.jpeg" alt="weekly-review-12-01"  />
 </p>
 <p>本篇是对 <code>2023-03-20</code> 到 <code>2023-03-26</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>上周去同济医院检查鼾症，检查结果是轻度症状，医生建议多运动减肥。这周每天走路 1 万步的目标已达成。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-12-02.png" alt="weekly-review-12-02" style="width:50%;" />
 <p>工作上发布了一个版本，另外两个迭代正在进行中，预计这周再发布一个版本。从飞书通讯录看到又有三个非技术类同事被裁，这周周会，部门领导说最近又有一个做商务的同事被优化了。</p>
 <p>上周有一天早上，车子停在小区里面，被两个车子挡住了前后道路，联系不上车主，只好坐地铁上班。话说，自从开车上班之后，使用手机的频率明显降低了很多。</p>
 <p>上周末阳光正好，于是回家去给已故的亲人扫墓。周六回老家，周日回老婆家。逝者已逝，活着的人要善待自己，好好吃饭，好好睡觉，好好工作，好好运动。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-12-03.jpeg" alt="weekly-review-12-03" style="width:50%;" />
 <h2 id="工作">工作</h2>
 <h3 id="effective-java-3-笔记">Effective Java 3 笔记</h3>
 <p>请参考 <a href="/posts/2023/04/03/static-factory-methods-instead-of-constructors/">《Effective Java 3》笔记：静态工厂方法代替构造函数</a>。</p>
@@ -3106,7 +2990,7 @@ Java高性能缓存库Caffeine
 <h3 id="车辆被堵">车辆被堵</h3>
 <p>早上准备开车上班，发现车子前后道路都被车辆占道了。前面车辆占道，昨天晚上下班回来就发现了，也确认了这个车辆没有留挪车电话。当时就隐隐担忧今天早上会被挡住前后道路。没有想到，真的被挡了。后面的车辆留了挪车电话。六点半开始，我就给后面车的车主打电话发短信，对方一直没接电话，估计手机调静音还在睡觉吧。没有想到的是，截止到现在时间八点，他还没有给我回电话，这哥们睡得那是真香啊。</p>
 <p>在道路被占用之后，我做了什么？除了给留了号码的那个车主打电话之外，我还想到交管 12123 APP 上面有一个一键挪车功能。于是，试了一下这个功能。原以为这个功能可以电话通知到对方挪车。实际情况却只是提交了一个工单而已，真是一个鸡肋的功能。用户使用这个功能，是希望及时联系到车主过来挪车，而不是提交一个工单之后，傻傻的等待。另外，这个功能也不能叫一键挪车，因为点击了这个功能之后，还要输入车牌号、上传照片。更好的体验应该是只用上传占用道路的车辆照片，由系统识别出车牌号，然后后台找到车主的手机号，生成一个临时号码并调用手机的拨号功能。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-12-04.jpeg" alt="weekly-review-12-04" style="width:50%;" />
 <p>在道路被占用之后，我的心态是怎样的？刚开始想生气愤怒，后来想了想，事已至此，没有必要生气，生气只能影响自己一天的心情和好运。并尝试把这种对自己不利的一面转化为对自己有利的一面。原想六点半开车上班，道路被占之后，就可以体验一下七点多甚至八点多开车上班需要多长时间以及是否堵车。</p>
 <p>如果是我把道路占用了，我该怎么做呢？首先，是车上留一个手机号码；其次，是第二天早上保证手机不关机并且没有静音。</p>
 <p>如何避免再次出现这样的情况呢？一是通过电话或者便条的形式提醒车主要在车上留一个挪车电话并保证电话畅通，二是反馈给物业让物业来提醒小区里的车主不要随意占用车道。</p>
@@ -3182,31 +3066,7 @@ Java高性能缓存库Caffeine
       <pubDate>Mon, 27 Feb 2023 08:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/02/27/weekly_review_8/</guid>
-      <description>前言 本篇是对 2023-02-20 到 2023-02-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-这篇周报又是在地铁上完成编写的。回顾这一周的工作，还是项目测试、修复 bug 和准备上线发布。平静的工作节奏因为突如其来的裁员消息而变得内卷起来，大家下班的时间都纷纷往后移到了20 点左右。周末的时候，还是练车，从汉口开车到新洲。刚开始有点不敢，后来还是鼓起勇气，平安的到达。
-工作 内存泄漏 这周线上环境，出现了告警，提示 jvm 出现了 full gc。于是赶紧 dump 内存进行分析查找原因。顺便整理了内存相关的知识。
-什么是内存泄漏？
-这个问题直接问 chatgpt：
-内存泄漏（Memory Leak）是指在程序中动态分配的内存由于某些原因程序未能释放或无法释放，导致系统内存的实际可用空间不断减少的现象。内存泄漏的发生会导致程序占用的内存越来越多，最终导致程序崩溃或系统变慢。
-在Java中，程序员通常使用new运算符在堆上分配内存，这些内存不再使用时必须释放，否则就会出现内存泄漏。下面是一些常见的Java内存泄漏的情况：
-对象持有过多的引用 当一个对象持有其他对象的引用时，这些对象就不能被垃圾收集器回收，导致内存泄漏。比如，一个静态集合（如Map、List）持有了大量对象的引用，但是这些对象已经不再需要了，却因为集合中仍然持有这些对象的引用，导致这些对象无法被回收，造成内存泄漏。
-长时间持有对象锁 在Java中，如果一个线程获取了一个对象的锁，但是在释放锁之前发生了异常，那么这个锁就不会被释放，从而导致内存泄漏。这种情况特别容易发生在synchronized块中。
-不正确的缓存使用 如果程序员不正确地使用缓存，就会导致内存泄漏。比如，如果使用一个静态Map来缓存对象，但是不从Map中删除对象，那么这些对象就会一直存在于内存中，造成内存泄漏。
-大量创建临时对象 如果程序频繁地创建临时对象，而这些对象又没有被及时清除，就会导致内存泄漏。比如，在循环中创建大量的字符串对象，但是没有及时清除，就会导致内存泄漏。
-为了避免内存泄漏，Java程序员可以使用一些技术来优化程序，比如使用缓存池、避免使用不必要的静态变量、使用finalize()方法释放资源等等。
-如何排查内存泄漏？
-内存分析工具：内存分析工具可以帮助您找到哪些对象占用了大量的内存。一些常用的内存分析工具包括：Eclipse MAT、VisualVM 和 YourKit。这些工具可以帮助您分析内存快照、查找内存泄漏并确定导致内存泄漏的代码位置。
-堆转储文件：堆转储文件是一个包含了 JVM 堆中所有对象的快照。您可以使用以下命令生成一个堆转储文件：jmap -dump:format=b,file=heap.bin ，其中是您的 Java 应用程序的进程 ID。然后，您可以使用内存分析工具来分析该文件。
-代码审查：在编写代码时，您可以使用一些技巧来避免内存泄漏。例如，您应该确保正确地关闭流和数据库连接，避免在循环中创建对象，以及使用软引用或弱引用来存储缓存数据等。通过仔细审查代码并识别可能导致内存泄漏的部分，可以避免这些问题在运行时发生。
-监视工具：JVM 提供了一些监视工具，例如 jstat 和 jconsole，可以用于监视 JVM 的内存使用情况。通过监视这些指标，您可以识别是否存在内存泄漏的迹象。
-代码注入：在您的应用程序中，您可以注入一些代码，例如使用 JMX、AOP 等，以便您可以实时监视内存使用情况，并记录任何内存泄漏迹象。
-参考文章
-一次完整的JVM堆外内存泄漏故障排查记录
-深入探索Java 8 Lambda表达式
-java lambda表达式内存泄露_浅谈Java内存泄露
-裁员 去年公司就在裁员，陆陆续续裁了几次，每次都是裁两三个，动作都不大，但是很高效。因为部门人数就在五十左右，所以谁没来上班，都能很快察觉。
-公司要在六月份上市，上市之前要使财报好看，就要开源节流、降本增效。节约成本的一个方式就是裁员，据说这次裁员动作比以前都大都迅速，今天提出裁员人数，明天就要给出名单，月底就要走人。
-现在还只是二月份，离六月还有三个月。谁也不知道，后面还会有什么更大的裁员动作。说不定哪天就空出一个工位，说不定哪天领导就换了人，说不定哪天部门就被拆散了。</description>
+      <description>前言 本篇是对 2023-02-20 到 2023-02-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这篇周报又是在地铁上完成编写的。回顾这一周的工作</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-02-20</code> 到 <code>2023-02-26</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这篇周报又是在地铁上完成编写的。回顾这一周的工作，还是项目测试、修复 bug 和准备上线发布。平静的工作节奏因为突如其来的裁员消息而变得内卷起来，大家下班的时间都纷纷往后移到了20 点左右。周末的时候，还是练车，从汉口开车到新洲。刚开始有点不敢，后来还是鼓起勇气，平安的到达。</p>
@@ -3242,7 +3102,7 @@ java lambda表达式内存泄露_浅谈Java内存泄露
 <p>内存分析工具：内存分析工具可以帮助您找到哪些对象占用了大量的内存。一些常用的内存分析工具包括：Eclipse MAT、VisualVM 和 YourKit。这些工具可以帮助您分析内存快照、查找内存泄漏并确定导致内存泄漏的代码位置。</p>
 </li>
 <li>
-<p>堆转储文件：堆转储文件是一个包含了 JVM 堆中所有对象的快照。您可以使用以下命令生成一个堆转储文件：jmap -dump:format=b,file=heap.bin <!-- raw HTML omitted -->，其中<!-- raw HTML omitted -->是您的 Java 应用程序的进程 ID。然后，您可以使用内存分析工具来分析该文件。</p>
+<p>堆转储文件：堆转储文件是一个包含了 JVM 堆中所有对象的快照。您可以使用以下命令生成一个堆转储文件：jmap -dump:format=b,file=heap.bin <PID>，其中<PID>是您的 Java 应用程序的进程 ID。然后，您可以使用内存分析工具来分析该文件。</p>
 </li>
 <li>
 <p>代码审查：在编写代码时，您可以使用一些技巧来避免内存泄漏。例如，您应该确保正确地关闭流和数据库连接，避免在循环中创建对象，以及使用软引用或弱引用来存储缓存数据等。通过仔细审查代码并识别可能导致内存泄漏的部分，可以避免这些问题在运行时发生。</p>
@@ -3326,25 +3186,7 @@ java lambda表达式内存泄露_浅谈Java内存泄露
       <pubDate>Mon, 13 Feb 2023 00:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/02/13/weekly_review_6/</guid>
-      <description>前言 本篇是对 2023-02-06 到 2023-02-12 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-这篇周报又是在坐地铁的时候完成编写的，一边坐地铁，一边回顾上一周发生的事情，一边复盘和总结。坐地铁大概有一个半小时，从家到公司的一段通勤路程。现在还没有买车，所以都是坐地铁上下班。
-说到车，周六去二手市场买了一辆 17 年出产的上汽宝来，今天周一去过了户并且选了一个幸运的车牌号，尾号是 8688，寓意着要发发发！
-上个月报名的内观训练营，这周也结业了，训练营运营人员还给我发了一个结业证书。
-这是写周报的第六周，观察了一下博客访问量，从开始统计起到这周不到一个月的时间，访问量突破了 1000。
-工作 这周的工作主要内容是在项目里实现用户可以切换租户和租户数据拆分。
-第一个功能的需求是一个账号（有姓名、手机号、密码等属性）可以访问多个租户，在每个租户里有自己的数据权限和角色。第二个功能，主要是使用 SQL 进行数据加工。
-总体上来说，这周工作处于充实忙碌的情况。而且，上下班的通勤时间，也在 B 站上看视频。这周主要看的是小马哥的 Java 训练营的公开视频。小马哥的 B 站视频，是我最近刷的比较多的一个视频，另外一个是 coder1v5 的视频，他们分享的视频都是关于 Java 的，里面有非常多的干货，而且还提供了源代码。如果你也是一名 Java 开发工程师，推荐你也关注他们。
-生活 买车和选号 去年 11 月 16 日，拿到了驾照，直到现在才买了一辆车。过年前，因为疫情加上工作忙，一直没有抽出时间去了解车子行情。可能是对于车子的需求感没有那么强的原因，才导致考驾照、买车不积极。结婚之前，住在公司旁边，走路五分钟上下班，根本就用不上车。结婚之后，从光谷搬到汉口，每天上下班在路上通勤时间都有三个小时了。每天早上七点就要起来做饭（带饭到公司，中午微波炉热着吃，每天可以省下一餐伙食费），然后去赶地铁。疫情放开之前，地铁上人不多，每次都有位置坐。疫情放开之后，地铁里都是人，不是每次都有位置坐，经常要站着。站着的时候，有时候就内观冥想，想想最近有没有做得不对的地方，想想工作下一步该怎么计划；有时候就看 B 站关于 Java 的视频。也算是充分利用了这段通勤时间。
-为了上下班通勤更方便，才计划买车的，也不知道开车能够缩短多少通勤时间，也希望这节约下来的时间，可以用在读书和健身上。另外一方面，买车了之后，回家看望父母会更方便。这就是买车的原因。
-考虑到刚拿驾照、以后还要买房，这次就只买了一个二手车。原计划只买个三万左右的车，最后还是超出了预算。
-去二手市场买车的时候，是在周六，周末过不了户，所以这周一又过来办理过户和选车牌号。过户的过程还是很快的，全部交给二手市场的人代办。至于，选车牌号，之前了解了一下，车牌号尽量选尾号都是数字的，这样好记；不要带数字 4，不吉利；选号有时间限制，超过了时间未选，会默认选第一个。点击 “选号开始” 按钮之前，心里还有点紧张。当看到第一屏的号码时候，很快地扫描了一遍，发现了一个尾号为 8688 的号码。于是，就跟一同过来买车的姐夫说，这个号码怎么样。姐夫激动地说这个号码好，就选这个。真的没有想到今天运气这么好，选到了这么好的一个号码。激动得想跟朋友圈里的好友分享。之前买车的时候，付完预付款，就有分享买车的喜悦的冲动。这时候，老婆在旁边跟我说，要低调，不要和身边的亲戚说。所以，就一直没有告诉亲人和身边的朋友。没想到，这次选了一个幸运的车牌号，还是没忍住发了一个部分好友不可见的朋友圈。
-这说明自己定力还是不够，分享欲太强，不够谦虚和低调。满招损，谦受益。只是买了一个车和选到一个幸运的车牌号而已，不能高兴太早，后面还要花时间练车上路、开车还要慢和稳，不能出交通事故，铭记 “新手上路，多多指教”。
-学英语，最重要的是练习。开车，最重要的是慢。
-学习 内观冥想 一月份报名内观冥想训练营的初衷是想学习内观冥想的方法，后来因为每天早上要赶地铁以及觉得课程内容和自己期望的有些差距，就没有坚持听课和打卡。
-虽然，没有听完所有课程，但是从开始几节课程，初步体会和感受了一下什么是内观冥想，也认识了一些内观冥想的朋友。也没有想到，最后还收到了一个结业证书。
-Python 最近有个机器学习的项目，用到了 Python，所以需要学习 Python 并掌握相关的业务知识。这一个机会，同时也是一个挑战。
-娱乐 -《粉色理论》。这部泰国双女主的同性电视剧，豆瓣上评分 9.2，在这周完结了。
-分享 HashedWheelTimer：是来自于 Netty 的工具类，在 netty-common 包中。它用于实现延时任务。</description>
+      <description>前言 本篇是对 2023-02-06 到 2023-02-12 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这篇周报又是在坐地铁的时候完成编写的，一边坐地铁</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-02-06</code> 到 <code>2023-02-12</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这篇周报又是在坐地铁的时候完成编写的，一边坐地铁，一边回顾上一周发生的事情，一边复盘和总结。坐地铁大概有一个半小时，从家到公司的一段通勤路程。现在还没有买车，所以都是坐地铁上下班。</p>
@@ -3361,7 +3203,7 @@ Python 最近有个机器学习的项目，用到了 Python，所以需要学习
 <h3 id="买车和选号">买车和选号</h3>
 <p>去年 11 月 16 日，拿到了驾照，直到现在才买了一辆车。过年前，因为疫情加上工作忙，一直没有抽出时间去了解车子行情。可能是对于车子的需求感没有那么强的原因，才导致考驾照、买车不积极。结婚之前，住在公司旁边，走路五分钟上下班，根本就用不上车。结婚之后，从光谷搬到汉口，每天上下班在路上通勤时间都有三个小时了。每天早上七点就要起来做饭（带饭到公司，中午微波炉热着吃，每天可以省下一餐伙食费），然后去赶地铁。疫情放开之前，地铁上人不多，每次都有位置坐。疫情放开之后，地铁里都是人，不是每次都有位置坐，经常要站着。站着的时候，有时候就内观冥想，想想最近有没有做得不对的地方，想想工作下一步该怎么计划；有时候就看 B 站关于 Java 的视频。也算是充分利用了这段通勤时间。</p>
 <p>为了上下班通勤更方便，才计划买车的，也不知道开车能够缩短多少通勤时间，也希望这节约下来的时间，可以用在读书和健身上。另外一方面，买车了之后，回家看望父母会更方便。这就是买车的原因。</p>
-<!-- raw HTML omitted -->
+<img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-first-car.jpeg" style="width:60%"/>
 <p>考虑到刚拿驾照、以后还要买房，这次就只买了一个二手车。原计划只买个三万左右的车，最后还是超出了预算。</p>
 <p>去二手市场买车的时候，是在周六，周末过不了户，所以这周一又过来办理过户和选车牌号。过户的过程还是很快的，全部交给二手市场的人代办。至于，选车牌号，之前了解了一下，车牌号尽量选尾号都是数字的，这样好记；不要带数字 4，不吉利；选号有时间限制，超过了时间未选，会默认选第一个。点击 “选号开始” 按钮之前，心里还有点紧张。当看到第一屏的号码时候，很快地扫描了一遍，发现了一个尾号为 8688 的号码。于是，就跟一同过来买车的姐夫说，这个号码怎么样。姐夫激动地说这个号码好，就选这个。真的没有想到今天运气这么好，选到了这么好的一个号码。激动得想跟朋友圈里的好友分享。之前买车的时候，付完预付款，就有分享买车的喜悦的冲动。这时候，老婆在旁边跟我说，要低调，不要和身边的亲戚说。所以，就一直没有告诉亲人和身边的朋友。没想到，这次选了一个幸运的车牌号，还是没忍住发了一个部分好友不可见的朋友圈。</p>
 <p>这说明自己定力还是不够，分享欲太强，不够谦虚和低调。满招损，谦受益。只是买了一个车和选到一个幸运的车牌号而已，不能高兴太早，后面还要花时间练车上路、开车还要慢和稳，不能出交通事故，铭记 “新手上路，多多指教”。</p>
@@ -3370,7 +3212,7 @@ Python 最近有个机器学习的项目，用到了 Python，所以需要学习
 <h3 id="内观冥想">内观冥想</h3>
 <p>一月份报名内观冥想训练营的初衷是想学习内观冥想的方法，后来因为每天早上要赶地铁以及觉得课程内容和自己期望的有些差距，就没有坚持听课和打卡。</p>
 <p>虽然，没有听完所有课程，但是从开始几节课程，初步体会和感受了一下什么是内观冥想，也认识了一些内观冥想的朋友。也没有想到，最后还收到了一个结业证书。</p>
-<!-- raw HTML omitted -->
+<img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vipassana-study-certificate.jpeg" style="width:60%"/>
 <h3 id="python">Python</h3>
 <p>最近有个机器学习的项目，用到了 Python，所以需要学习 Python 并掌握相关的业务知识。这一个机会，同时也是一个挑战。</p>
 <h2 id="娱乐">娱乐</h2>

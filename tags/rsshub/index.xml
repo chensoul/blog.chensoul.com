@@ -13,9 +13,7 @@
       <pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid>
-      <description>服务器设置 [可选] 设置系统 Swap 交换分区
-因为 vps 服务器的运行内存很小，所以这里先设置下 Swap
-# 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap /swapfile &amp;amp;&amp;amp; \ sudo swapon /swapfile &amp;amp;&amp;amp; \ echo &amp;#34;/swapfile swap swap defaults 0 0&amp;#34; | sudo tee -a /etc/fstab &amp;amp;&amp;amp; \ sudo swapon --show &amp;amp;&amp;amp; \ sudo free -h 安装并生成证书 curl https://get.</description>
+      <description>服务器设置 [可选] 设置系统 Swap 交换分区 因为 vps 服务器的运行内存很小，所以这里先设置下 Swap # 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap</description>
       <content:encoded><![CDATA[<h2 id="服务器设置">服务器设置</h2>
 <p><strong>[可选] 设置系统 Swap 交换分区</strong></p>
 <p>因为 vps 服务器的运行内存很小，所以这里先设置下 Swap</p>

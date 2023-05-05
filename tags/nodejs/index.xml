@@ -13,23 +13,7 @@
       <pubDate>Mon, 20 Mar 2023 11:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/03/20/weekly_review_11/</guid>
-      <description>前言 ​	图片：涨渡湖湿地水上森林公园
-本篇是对 2023-03-13 到 2023-03-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-这周的工作主要是重构、优化系统，工作节奏比之前轻缓了很多。这周也开始了开车上下班，除去周五去医院做检查，一共开了 4 天车。从汉口到光谷，一共 29 公里，如果早上 6:30 出发，就只需要 50 分钟；如果 6:45 出发，竟然需要两个小时，真是无语了。无奈之下，只能每天早点出门早点到公司，然后，打完卡之后，在公司楼下走路。
-这周开始心里默默定了一个 flag，就是每天走路 10000 步。看了一下微信运动，基本上达成了，除了周五晚上因为加班，而少走了 64 步。
-从语雀迁移到Obsidian 上周提到开始使用格志 APP 来写日志，使用了一段时间之后，发现了一些缺点：
-部分功能收费 导出的 markdown 不支持图片显示 不支持本地存储 于是，放弃了使用格志 APP，继而在使用了一段时间 Obsidian 之后，改为使用 Obsidian 来写日志和周报。
-为了不给自己太大压力，日报每天复盘内容包括以下几方面：
-今日待办
-学习
-工作
-生活
-健身
-导出语雀文档为 markdown 参考 yuque/yuque-exporter 文档，下载 yuque-exporter 之后进行导出操作，发现以下问题：
-该项目需要使用的 nodejs 版本为 18.0.4 nodejs 使用正确的版本还是导出失败 于是，改为使用源码编译和运行导出。
-1、先下载代码：
-git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需要导出的语雀知识库地址为自己的仓库地址：
-// Determining if an ESM module is main then run the code if (import.</description>
+      <description>前言 ​ 图片：涨渡湖湿地水上森林公园 本篇是对 2023-03-13 到 2023-03-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周的工作主要是重</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-04.jpeg" alt="weekly-review-11-04"  />
 </p>
@@ -37,7 +21,7 @@ git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需�
 <p>本篇是对 <code>2023-03-13</code> 到 <code>2023-03-19</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这周的工作主要是重构、优化系统，工作节奏比之前轻缓了很多。这周也开始了开车上下班，除去周五去医院做检查，一共开了 4 天车。从汉口到光谷，一共 29 公里，如果早上 6:30 出发，就只需要 50 分钟；如果 6:45 出发，竟然需要两个小时，真是无语了。无奈之下，只能每天早点出门早点到公司，然后，打完卡之后，在公司楼下走路。</p>
 <p>这周开始心里默默定了一个 flag，就是每天走路 10000 步。看了一下微信运动，基本上达成了，除了周五晚上因为加班，而少走了 64 步。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-03.png" alt="weekly-review-11-03" style="width:67%;" />
 <h2 id="从语雀迁移到obsidian">从语雀迁移到Obsidian</h2>
 <p>上周提到开始使用格志 APP 来写日志，使用了一段时间之后，发现了一些缺点：</p>
 <ul>
@@ -46,7 +30,7 @@ git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需�
 <li>不支持本地存储</li>
 </ul>
 <p>于是，放弃了使用格志 APP，继而在使用了一段时间 Obsidian 之后，改为使用 Obsidian 来写日志和周报。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-02.png" alt="weekly-review-11-02" style="width:67%;" />
 <p>为了不给自己太大压力，日报每天复盘内容包括以下几方面：</p>
 <ul>
 <li>
@@ -136,7 +120,7 @@ git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需�
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> storage
 </span></span><span class="line"><span class="cl"><span class="c1"># macos 上执行</span>
 </span></span><span class="line"><span class="cl">find . -type f -name <span class="s1">&#39;*.md&#39;</span> -exec sed -i <span class="s1">&#39;&#39;</span> <span class="s1">&#39;s/&lt;a name=\&#34;[^\&#34;]*\&#34;&gt;&lt;\/a&gt;//g&#39;</span> <span class="o">{}</span> +
-</span></span></code></pre></div><!-- raw HTML omitted -->
+</span></span></code></pre></div><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-01.png" alt="weekly-review-11-01" style="width:67%;" />
 <p>在上面的示例代码中，我们使用了 sed 命令来删除 Markdown 文件中所有的类似 <code>&lt;a name=&quot;xx&quot;&gt;&lt;/a&gt;</code> 的锚点标签。其中：</p>
 <ul>
 <li><code>-i ''</code> 参数表示直接修改源文件，而不是输出到标准输出流。<code>''</code> 表示在 macOS 系统上备份修改前的文件，如果在 Linux 系统上使用该命令，可以省略该参数。</li>
@@ -176,20 +160,7 @@ git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需�
       <pubDate>Tue, 07 Mar 2023 11:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/03/07/weekly_review_9/</guid>
-      <description>前言 本篇是对 2023-02-27 到 2023-03-05 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-这周的主要工作是版本测试和项目上线，在大家的共同努力下，最后是成功上线。
-由于公司最近在裁员，留下来的都开始卷起来，每天晚上 8 点之后下班，这样平均一天的工作时间才有 11 小时。据说，旁边组的同事平均每天都是 12 个小时工作时间。裁了三位同事之后，我们软件组还有 8 人，算法组有 7 人，产品组有 6 人，终端组有 4 人。距集团公司六月上市还有两个月，裁员估计还会继续，同志们还需努力加班，争取被裁的不是自己。
-这周还是没有开车，每天坐地铁上下班，刷刷 rss 看看 b 站视频，了解一些行业最新动态，同时也看看同样在写博客的那些独立开发者每周都在做什么，也学习一些新技术或者新技能。
-这周接触了 web3 空投，花了几个小时使用自动加手动的方式刷了 120 多个账号。自动的方式，就是用 nodejs 代码在 bsc 网络批量创建账号并保存为 csv 文件；其次，通过 onekey web 上的批量转账功能，给每个账户转了 0.00125bnb。手动操作的部分就是，一个个的将账号私钥导入狐狸钱包，然后，用 lifeform cartoon 连接钱包账户，mint 成功之后，分享链接，再继续连接狐狸的下一个账号，重复上面操作。
-因为太耗时间，所以只刷了 120 个账号。趁工作不忙的时候，用 chatgpt 搜索一下如何将上面的操作全部自动化。
-周末两天，继续练车，从汉口到阳逻，再到新洲，最后去新洲的将军山爬山、去道观河看风景。算下来，最近这三个周末六天时间，我一共开了 800 多公里了。目前，暂时没有收到违规通知，但还是存在很多不足的地方。
-开车总结 这周开车，发现存在以下问题：
-1、停车还是会忘记熄火拔钥匙。 2、红绿灯口，停在大货车后面，并靠得近，前方视线受阻。经过红绿灯时，感觉像是闯了红灯。 3、超车时候，没有加速。 4、在山路行驶，入弯和出弯都会减速。 5、判断车距的经验不足。表现在行驶过程中、侧方停车、倒车入库。 针对以上问题，晚上刷了一些视频，做了一些笔记，希望能够帮助自己改正上面这些问题。
-1、目光看远。入弯提前收油，脚备刹车。如果弯道过急，就带点刹车，如果车速你可以控制，直接收油过弯；出弯加油，眼睛看出弯口。身体跟随方向盘靠。这样，车速不降，可以控制车速。如果以 80 码速度过弯，且这个车还在车道内，这个车的速度你就控制住了。但凡有点越线，说明车速过快，你就要降低速度。
-2、靠右行驶。会车时，主动靠右。转弯时，发现对面有来车，鸣笛示意。
-3、路口远道的原则，跟小车不跟大车。如果跟着大车，留一个车位空间，让大车先走，确认绿灯再走。
-4、红绿灯路口，提前减速，提醒后面车减速，不要急刹车，防止后面车追尾。特别是在绿灯闪的时候，不要没有减速，突然停车。否则后面车会以为你要加速冲过去，他也加速，这样，他就会追尾你。
-博客该写什么 看到一篇博客 What to blog about，里面聊到了博客该写什么。一时兴起，想翻译成中文。于是，分别使用了 chrome 沉浸式翻译插件和 chatgpt 来翻译这篇文章，得到结果如下：</description>
+      <description>前言 本篇是对 2023-02-27 到 2023-03-05 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周的主要工作是版本测试和项目上线，在大家的共同</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-07.png" alt="将军山"  />
 </p>

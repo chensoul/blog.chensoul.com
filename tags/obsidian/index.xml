@@ -13,23 +13,7 @@
       <pubDate>Mon, 20 Mar 2023 11:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/03/20/weekly_review_11/</guid>
-      <description>前言 ​	图片：涨渡湖湿地水上森林公园
-本篇是对 2023-03-13 到 2023-03-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-这周的工作主要是重构、优化系统，工作节奏比之前轻缓了很多。这周也开始了开车上下班，除去周五去医院做检查，一共开了 4 天车。从汉口到光谷，一共 29 公里，如果早上 6:30 出发，就只需要 50 分钟；如果 6:45 出发，竟然需要两个小时，真是无语了。无奈之下，只能每天早点出门早点到公司，然后，打完卡之后，在公司楼下走路。
-这周开始心里默默定了一个 flag，就是每天走路 10000 步。看了一下微信运动，基本上达成了，除了周五晚上因为加班，而少走了 64 步。
-从语雀迁移到Obsidian 上周提到开始使用格志 APP 来写日志，使用了一段时间之后，发现了一些缺点：
-部分功能收费 导出的 markdown 不支持图片显示 不支持本地存储 于是，放弃了使用格志 APP，继而在使用了一段时间 Obsidian 之后，改为使用 Obsidian 来写日志和周报。
-为了不给自己太大压力，日报每天复盘内容包括以下几方面：
-今日待办
-学习
-工作
-生活
-健身
-导出语雀文档为 markdown 参考 yuque/yuque-exporter 文档，下载 yuque-exporter 之后进行导出操作，发现以下问题：
-该项目需要使用的 nodejs 版本为 18.0.4 nodejs 使用正确的版本还是导出失败 于是，改为使用源码编译和运行导出。
-1、先下载代码：
-git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需要导出的语雀知识库地址为自己的仓库地址：
-// Determining if an ESM module is main then run the code if (import.</description>
+      <description>前言 ​ 图片：涨渡湖湿地水上森林公园 本篇是对 2023-03-13 到 2023-03-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周的工作主要是重</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-04.jpeg" alt="weekly-review-11-04"  />
 </p>
@@ -37,7 +21,7 @@ git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需�
 <p>本篇是对 <code>2023-03-13</code> 到 <code>2023-03-19</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这周的工作主要是重构、优化系统，工作节奏比之前轻缓了很多。这周也开始了开车上下班，除去周五去医院做检查，一共开了 4 天车。从汉口到光谷，一共 29 公里，如果早上 6:30 出发，就只需要 50 分钟；如果 6:45 出发，竟然需要两个小时，真是无语了。无奈之下，只能每天早点出门早点到公司，然后，打完卡之后，在公司楼下走路。</p>
 <p>这周开始心里默默定了一个 flag，就是每天走路 10000 步。看了一下微信运动，基本上达成了，除了周五晚上因为加班，而少走了 64 步。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-03.png" alt="weekly-review-11-03" style="width:67%;" />
 <h2 id="从语雀迁移到obsidian">从语雀迁移到Obsidian</h2>
 <p>上周提到开始使用格志 APP 来写日志，使用了一段时间之后，发现了一些缺点：</p>
 <ul>
@@ -46,7 +30,7 @@ git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需�
 <li>不支持本地存储</li>
 </ul>
 <p>于是，放弃了使用格志 APP，继而在使用了一段时间 Obsidian 之后，改为使用 Obsidian 来写日志和周报。</p>
-<!-- raw HTML omitted -->
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-02.png" alt="weekly-review-11-02" style="width:67%;" />
 <p>为了不给自己太大压力，日报每天复盘内容包括以下几方面：</p>
 <ul>
 <li>
@@ -136,7 +120,7 @@ git clone https://github.com/yuque/yuque-exporter.git 2、修改 main.ts 中需�
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> storage
 </span></span><span class="line"><span class="cl"><span class="c1"># macos 上执行</span>
 </span></span><span class="line"><span class="cl">find . -type f -name <span class="s1">&#39;*.md&#39;</span> -exec sed -i <span class="s1">&#39;&#39;</span> <span class="s1">&#39;s/&lt;a name=\&#34;[^\&#34;]*\&#34;&gt;&lt;\/a&gt;//g&#39;</span> <span class="o">{}</span> +
-</span></span></code></pre></div><!-- raw HTML omitted -->
+</span></span></code></pre></div><img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-01.png" alt="weekly-review-11-01" style="width:67%;" />
 <p>在上面的示例代码中，我们使用了 sed 命令来删除 Markdown 文件中所有的类似 <code>&lt;a name=&quot;xx&quot;&gt;&lt;/a&gt;</code> 的锚点标签。其中：</p>
 <ul>
 <li><code>-i ''</code> 参数表示直接修改源文件，而不是输出到标准输出流。<code>''</code> 表示在 macOS 系统上备份修改前的文件，如果在 Linux 系统上使用该命令，可以省略该参数。</li>

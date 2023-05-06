@@ -6,7 +6,288 @@
     <description>Recent content on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 05 May 2023 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 May 2023 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>周报-17｜导出苹果健康数据、自动化收集个人数据、FlexyPool动态连接池</title>
+      <link>https://blog.chensoul.com/posts/2023/05/06/weekly_review_17/</link>
+      <pubDate>Sat, 06 May 2023 10:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/05/06/weekly_review_17/</guid>
+      <description>前言 本篇是对 2023-04-24 到 2023-04-30 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 本周二早上跑步右小腿抽筋，跑步暂停了两天，所以有</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p>本篇是对 <code>2023-04-24</code> 到 <code>2023-04-30</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>本周二早上跑步右小腿抽筋，跑步暂停了两天，所以有两天走路没有到一万步。在小腿恢复之后，继续跑步，查看 strava 上的统计，这周总共跑了27公里，比上周41公里少了14公里。</p>
+<p>这周空闲时间就在想，能不能每天自动收集个人的一些数据，比如，目前我能想到的数据包括跑步、走路、体重、编码、早起等等。</p>
+<p>目前是使用 strava app 记录跑步数据，通过 <a href="https://github.com/chensoul/running_page">running_page</a> 可以实时收集我的每天 <a href="https://github.com/chensoul/running_page/blob/master/assets/running.csv">跑步数据</a>。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-17-01.png" alt="weekly-review-17-01"  />
+</p>
+<p>走路、体重数据可以从苹果健康数据获取：</p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-17-06.png" alt="weekly-review-17-06" style="width:50%;" />
+<p>编码数据可以从 wakatime 获取：</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-17-02.png" alt="weekly-review-17-02"  />
+</p>
+<p>早起的数据，我目前是通过 ios workflow 自动化来实现的。当早起闹钟响起时，往 memos 写入一条记录。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-17-08.png" alt="weekly-review-17-08"  />
+</p>
+<p>如果可以获取到苹果屏幕使用时间数据，则可以从苹果手机获取每日第一次拿起手机的时间作为早起时间（待研究）。</p>
+<h2 id="导出苹果健康数据">导出苹果健康数据</h2>
+<p>如何导出苹果健康数据？可以参考这篇文章 <a href="https://sspai.com/post/42135">想要分析或备份 iPhone 「健康」应用数据？教你 3 种方法将其导出</a> 。这篇文章提到的 Health Export  工具和 python 脚本我都试过，QS Access 在手机上没有找到。</p>
+<h3 id="1-health-export-在线解析">1. Health Export 在线解析</h3>
+<p><a href="https://sspai.com/link?target=http%3A%2F%2Fericwolter.com%2Fprojects%2Fhealth-export.html">Health Export</a> 是国外一名独立开发者写的在线解析工具，它专门用于将健康应用导出的 XML 文件转换为 CSV 文件。</p>
+<p>Health Export 提供了一个 <a href="https://www.ericwolter.com/projects/apple-health-export/">web 网站</a> 可以解析传苹果手机导出的健康数据。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-17-03.png" alt="weekly-review-17-03"  />
+</p>
+<p>如何从 IPhone 手机导出苹果健康数据呢？您可以通过以下步骤导出这些数据：</p>
+<ol>
+<li>打开“健康”应用程序。</li>
+<li>点击屏幕右上角的“个人资料”图标。</li>
+<li>滚动到页面底部，找到“导出健康数据”选项，并点击它。</li>
+<li>在弹出窗口中选择要导出的数据类型，例如步数、心率等。</li>
+<li>点击“下一步”按钮。</li>
+<li>在下一个页面中，您可以选择要导出的时间范围。您可以选择“全部数据”或指定日期范围。</li>
+<li>点击“请求导出”按钮。</li>
+<li>您将被要求输入一个密码以保护您的数据。输入密码后，点击“下一步”按钮。</li>
+<li>在弹出窗口中，您可以选择将数据发送到您的电子邮件地址或其他应用程序。</li>
+<li>点击“导出”按钮。</li>
+</ol>
+<p>完成这些步骤后，您的健康数据将被导出为一个可下载的 zip 文件。您可以将其保存到您的设备上或发送到其他应用程序或云存储服务。</p>
+<p>将导出的文件 export.xml 上传到  <a href="https://www.ericwolter.com/projects/apple-health-export/">web 网站</a> ，稍等片刻可以导出结果。导出的健康数据是一个指标一个 csv 文件，如果想合并数据，需要做进一步处理。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-17-04.png" alt="weekly-review-17-04"  />
+</p>
+<p>另外，Health Export 也提供了IOS APP，功能好用，支持选择指定指标数据按日期聚合导出为一个 csv，还有定时导出的功能，遗憾的是需要收费。</p>
+<h3 id="2使用-python-脚本">2、使用 python 脚本</h3>
+<p>这里使用了 <a href="https://sspai.com/link?target=https%3A%2F%2Fgithub.com%2Ftdda%2Fapplehealthdata">@Radcliffe</a> 提供的开源代码。目前，Github 可以在国内自由访问，所以直接通过<a href="https://sspai.com/link?target=https%3A%2F%2Fgithub.com%2Ftdda%2Fapplehealthdata%2Fraw%2Fmaster%2Fapplehealthdata.py">此链接</a>下载名称为 <code>applehealthdata.py</code> 的脚本文件。</p>
+<p>然后，将之前下载好的 <code>导出.xml</code> 与该脚本文件放置在<strong>同一目录</strong>下方。为了防止报错，这里需要将 <code>导出.xml</code> 更名为 <code>export.xml</code>。</p>
+<p>接下来，在该文件夹下打开终端（macOS &amp; Linux）或者命令行工具（Windows），使用 Python 2 执行该脚本：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python applehealthdata.py export.xml
+</span></span></code></pre></div><p>稍等片刻，XML 文件就会被解析为数个 CSV 文件了。</p>
+<p>这里，我对 applehealthdata.py 这个文件做了一点修改，只导出指定的指标的指定列的数据，修改后的脚本在 <a href="https://github.com/chensoul/chensoul/blob/main/applehealthdata.py">applehealthdata.py</a>。目前，我只关注以下6个指标：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">RECORDS</span><span class="o">=</span><span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;BodyFatPercentage&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;BodyMass&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;BodyMassIndex&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;DistanceWalkingRunning&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;LeanBodyMass&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;StepCount&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><p>这 6 个指标中文含义分别是：</p>
+<ul>
+<li>BodyFatPercentage：脂肪率</li>
+<li>BodyMass：体重</li>
+<li>BodyMassIndex：BMI 指数</li>
+<li>LeanBodyMass：净体重</li>
+<li>DistanceWalkingRunning：走路跑步距离</li>
+<li>StepCount：周路步数</li>
+</ul>
+<p>导出的列只需要 type、startDate、value 这 3 个：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">RECORD_FIELDS</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">((</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># (&#39;sourceName&#39;, &#39;s&#39;),</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># (&#39;sourceVersion&#39;, &#39;s&#39;),</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># (&#39;device&#39;, &#39;s&#39;),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># (&#39;unit&#39;, &#39;s&#39;),</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># (&#39;creationDate&#39;, &#39;d&#39;),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s1">&#39;startDate&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># (&#39;endDate&#39;, &#39;d&#39;),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">))</span>
+</span></span></code></pre></div><p>这样导出了这 6 个 csv 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">BodyMass.csv               
+</span></span><span class="line"><span class="cl">DistanceWalkingRunning.csv 
+</span></span><span class="line"><span class="cl">StepCount.csv
+</span></span><span class="line"><span class="cl">BodyFatPercentage.csv      
+</span></span><span class="line"><span class="cl">BodyMassIndex.csv          
+</span></span><span class="line"><span class="cl">LeanBodyMass.csv
+</span></span></code></pre></div><p>接下来，把这6个文件导入数据库，并进行合并处理。数据看我选择的是 postgres，以上 6 个文件对于 6 个建表语句：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">SEQUENCE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">health_id_seq</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;BodyFatPercentage&#34;</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;id&#34;</span><span class="w"> </span><span class="n">int4</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">nextval</span><span class="p">(</span><span class="s1">&#39;health_id_seq&#39;</span><span class="p">::</span><span class="n">regclass</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;type&#34;</span><span class="w"> </span><span class="nb">varchar</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;start_date&#34;</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;value&#34;</span><span class="w"> </span><span class="n">float8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;BodyMass&#34;</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;id&#34;</span><span class="w"> </span><span class="n">int4</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">nextval</span><span class="p">(</span><span class="s1">&#39;health_id_seq&#39;</span><span class="p">::</span><span class="n">regclass</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;type&#34;</span><span class="w"> </span><span class="nb">varchar</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;start_date&#34;</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;value&#34;</span><span class="w"> </span><span class="n">float8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;BodyMassIndex&#34;</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;id&#34;</span><span class="w"> </span><span class="n">int4</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">nextval</span><span class="p">(</span><span class="s1">&#39;health_id_seq&#39;</span><span class="p">::</span><span class="n">regclass</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;type&#34;</span><span class="w"> </span><span class="nb">varchar</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;start_date&#34;</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;value&#34;</span><span class="w"> </span><span class="n">float8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;DistanceWalkingRunning&#34;</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;id&#34;</span><span class="w"> </span><span class="n">int4</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">nextval</span><span class="p">(</span><span class="s1">&#39;health_id_seq&#39;</span><span class="p">::</span><span class="n">regclass</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;type&#34;</span><span class="w"> </span><span class="nb">varchar</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;start_date&#34;</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;value&#34;</span><span class="w"> </span><span class="n">float8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;LeanBodyMass&#34;</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;id&#34;</span><span class="w"> </span><span class="n">int4</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">nextval</span><span class="p">(</span><span class="s1">&#39;health_id_seq&#39;</span><span class="p">::</span><span class="n">regclass</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;type&#34;</span><span class="w"> </span><span class="nb">varchar</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;start_date&#34;</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;value&#34;</span><span class="w"> </span><span class="n">float8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;StepCount&#34;</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;id&#34;</span><span class="w"> </span><span class="n">int4</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">nextval</span><span class="p">(</span><span class="s1">&#39;health_id_seq&#39;</span><span class="p">::</span><span class="n">regclass</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;type&#34;</span><span class="w"> </span><span class="nb">varchar</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;start_date&#34;</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;value&#34;</span><span class="w"> </span><span class="n">float8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>我想把这6个文件按照日期合并到一个表中，于是创建 health 表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;health&#34;</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;day&#34;</span><span class="w"> </span><span class="nb">text</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;fat_pct&#34;</span><span class="w"> </span><span class="n">float8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;bmi&#34;</span><span class="w"> </span><span class="n">float8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;lean_weight&#34;</span><span class="w"> </span><span class="n">float8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;step_count&#34;</span><span class="w"> </span><span class="n">float8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;step_distance&#34;</span><span class="w"> </span><span class="nb">numeric</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;weight&#34;</span><span class="w"> </span><span class="n">float8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;day&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>接下来，通过sql 合并数据插入大哦 heath 表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">health</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">select</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="k">day</span><span class="p">,</span><span class="n">t</span><span class="p">.</span><span class="n">fat_pct</span><span class="p">,</span><span class="n">t</span><span class="p">.</span><span class="n">bmi</span><span class="p">,</span><span class="n">t</span><span class="p">.</span><span class="n">lean_weight</span><span class="p">,</span><span class="n">f</span><span class="p">.</span><span class="n">step_count</span><span class="p">,</span><span class="k">g</span><span class="p">.</span><span class="n">step_distance</span><span class="p">,</span><span class="n">t</span><span class="p">.</span><span class="n">weight</span><span class="w"> </span><span class="k">from</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">select</span><span class="w"> </span><span class="n">to_char</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">day</span><span class="p">,</span><span class="k">sum</span><span class="p">(</span><span class="s2">&#34;value&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">step_count</span><span class="w">  </span><span class="k">from</span><span class="w"> </span><span class="s2">&#34;StepCount&#34;</span><span class="w"> </span><span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">to_char</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">f</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">left</span><span class="w"> </span><span class="k">outer</span><span class="w"> </span><span class="k">join</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">select</span><span class="w"> </span><span class="n">to_char</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">day</span><span class="p">,</span><span class="n">round</span><span class="p">(</span><span class="k">cast</span><span class="p">(</span><span class="k">sum</span><span class="p">(</span><span class="s2">&#34;value&#34;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nb">numeric</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">step_distance</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="s2">&#34;DistanceWalkingRunning&#34;</span><span class="w"> </span><span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">to_char</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="k">g</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="k">day</span><span class="o">=</span><span class="k">g</span><span class="p">.</span><span class="k">day</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">left</span><span class="w"> </span><span class="k">outer</span><span class="w"> </span><span class="k">join</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">select</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="k">day</span><span class="p">,</span><span class="n">a</span><span class="p">.</span><span class="n">weight</span><span class="p">,</span><span class="n">e</span><span class="p">.</span><span class="s2">&#34;value&#34;</span><span class="w"> </span><span class="s2">&#34;lean_weight&#34;</span><span class="p">,</span><span class="k">cast</span><span class="p">(</span><span class="k">c</span><span class="p">.</span><span class="s2">&#34;value&#34;</span><span class="o">*</span><span class="mi">100</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nb">numeric</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s2">&#34;fat_pct&#34;</span><span class="p">,</span><span class="n">d</span><span class="p">.</span><span class="s2">&#34;value&#34;</span><span class="w"> </span><span class="s2">&#34;bmi&#34;</span><span class="w"> </span><span class="k">from</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="k">select</span><span class="w"> </span><span class="n">to_char</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">day</span><span class="p">,</span><span class="k">min</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">min_start_date</span><span class="p">,</span><span class="k">min</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">weight</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="s2">&#34;BodyMass&#34;</span><span class="w"> </span><span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="k">day</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">left</span><span class="w"> </span><span class="k">outer</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="s2">&#34;BodyFatPercentage&#34;</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">min_start_date</span><span class="o">=</span><span class="k">c</span><span class="p">.</span><span class="n">start_date</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">left</span><span class="w"> </span><span class="k">outer</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="s2">&#34;BodyMassIndex&#34;</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">min_start_date</span><span class="o">=</span><span class="n">d</span><span class="p">.</span><span class="n">start_date</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">left</span><span class="w"> </span><span class="k">outer</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="s2">&#34;LeanBodyMass&#34;</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">min_start_date</span><span class="o">=</span><span class="n">e</span><span class="p">.</span><span class="n">start_date</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="k">day</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="k">day</span><span class="o">=</span><span class="n">f</span><span class="p">.</span><span class="k">day</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="k">day</span><span class="w"> </span><span class="k">asc</span><span class="w">
+</span></span></span></code></pre></div><p>最后的数据如下：</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-17-05.png" alt="weekly-review-17-05"  />
+</p>
+<p>完整的 csv 文件保存在 <a href="https://github.com/chensoul/chensoul/blob/main/data/health.csv">health.csv</a> 。有些记录中体重相关的数据为空，这是因为体重相关数据是通过其他和电子秤关联的app写进去的。<code>要想每天都有体重相关的数据，则需要每天使用电子称测量体重。</code></p>
+<p>得到这份数据之后，就可以进行统计了，比如统计体重的变化、每天走路的步数等等。</p>
+<h2 id="理财">理财</h2>
+<p>这周总计支出 732 元，明细如下：</p>
+<ul>
+<li>4月25日：117元，100元加油</li>
+<li>4月26日：59元，买药</li>
+<li>4月28日：419元，加油360元</li>
+<li>4月29日：21元</li>
+<li>4月30日：116元</li>
+</ul>
+<p>4 月累计支出共 3048 元，比 3 月支出 3520 元少了 472 元。主要支出来自这几个：</p>
+<ul>
+<li>交通：1177元，其中300元是缴纳 ETC 押金</li>
+<li>餐饮：827元</li>
+<li>购物：751元</li>
+<li>娱乐：216元，看电影</li>
+</ul>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-17-07.png" alt="weekly-review-17-07" style="width:50%;" />
+<h2 id="健身">健身</h2>
+<p>四月跑步记录如下，总计跑了16小时、125公里。更详细数据，可以参考我的 <a href="https://run.chensoul.com/">跑步主页</a>。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-17-09.png" alt="weekly-review-17-09"  />
+</p>
+<h2 id="工作">工作</h2>
+<h3 id="effective-java-3-笔记">Effective Java 3 笔记</h3>
+<p>请参考 <a href="/posts/2023/05/05/enforce-noninstantiability-with-a-private-constructor/">《Effective Java 3》笔记4：用私有构造函数使类不可实例化</a> 和 《Effective Java 3》笔记7：<a href="/posts/2023/05/05/eliminate-obsolete-object-references/">排除过时的对象引用</a>。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-17-10.png" alt="weekly-review-17-10"  />
+</p>
+<h3 id="flexypool">FlexyPool</h3>
+<p>FlexyPool 是一个用于监控数据库连接池的开源工具。它支持监控和报告连接池的使用情况、性能和瓶颈，以及自动调整连接池的大小和行为。FlexyPool 支持多种流行的 Java 数据库连接池，例如 HikariCP、Tomcat JDBC Pool、C3P0、BoneCP 等等。</p>
+<p>FlexyPool 主要提供以下功能：</p>
+<ol>
+<li>监控连接池的使用情况，包括连接数、请求数、等待时间、执行时间等等。</li>
+<li>报告连接池的性能和瓶颈，例如最慢的查询、最频繁的错误、最短的连接时间等等。</li>
+<li>自动调整连接池的大小和行为，以提高性能和减少资源消耗。</li>
+<li>集成到常见的监控工具中，例如 Prometheus、Grafana、InfluxDB 等等。</li>
+</ol>
+<p>FlexyPool 的使用相对简单，只需要将其添加到应用程序的依赖中，然后配置连接池和 FlexyPool 的参数即可。例如，如果你正在使用 HikariCP 连接池，可以按照以下步骤配置 FlexyPool：</p>
+<p>1、添加 FlexyPool 的依赖到应用程序的 pom.xml 文件中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>com.vladmihalcea.flexypool<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>flexy-pool-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;version&gt;</span>2.0.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>2、在应用程序的配置文件中，配置连接池和 FlexyPool 的参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="c1"># HikariCP 数据库连接池配置</span>
+</span></span><span class="line"><span class="cl"><span class="na">hikari.dataSourceClassName</span><span class="o">=</span><span class="s">com.mysql.jdbc.jdbc2.optional.MysqlDataSource</span>
+</span></span><span class="line"><span class="cl"><span class="na">hikari.dataSource.url</span><span class="o">=</span><span class="s">jdbc:mysql://localhost:3306/mydb</span>
+</span></span><span class="line"><span class="cl"><span class="na">hikari.dataSource.user</span><span class="o">=</span><span class="s">root</span>
+</span></span><span class="line"><span class="cl"><span class="na">hikari.dataSource.password</span><span class="o">=</span><span class="s">secret</span>
+</span></span><span class="line"><span class="cl"><span class="na">hikari.minimumIdle</span><span class="o">=</span><span class="s">10</span>
+</span></span><span class="line"><span class="cl"><span class="na">hikari.maximumPoolSize</span><span class="o">=</span><span class="s">20</span>
+</span></span><span class="line"><span class="cl"><span class="na">hikari.idleTimeout</span><span class="o">=</span><span class="s">30000</span>
+</span></span><span class="line"><span class="cl"><span class="na">hikari.poolName</span><span class="o">=</span><span class="s">hikariPool</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># FlexyPool 配置</span>
+</span></span><span class="line"><span class="cl"><span class="na">flexyPool.metricsFactory</span><span class="o">=</span><span class="s">histogram</span>
+</span></span><span class="line"><span class="cl"><span class="na">flexyPool.metric.log.enabled</span><span class="o">=</span><span class="s">true</span>
+</span></span><span class="line"><span class="cl"><span class="na">flexyPool.metric.log.level</span><span class="o">=</span><span class="s">info</span>
+</span></span><span class="line"><span class="cl"><span class="na">flexyPool.metric.log.interval</span><span class="o">=</span><span class="s">10</span>
+</span></span><span class="line"><span class="cl"><span class="na">flexyPool.metric.prometheus.enabled</span><span class="o">=</span><span class="s">true</span>
+</span></span><span class="line"><span class="cl"><span class="na">flexyPool.metric.prometheus.port</span><span class="o">=</span><span class="s">9090</span>
+</span></span></code></pre></div><p>在这个配置中，我们首先配置了 HikariCP 连接池的参数，然后配置了 FlexyPool 的参数。这些参数包括度量工厂、日志和度量记录的级别、度量记录的间隔、是否启用 Prometheus 集成等等。</p>
+<p>3、在应用程序启动时，将 FlexyPool 的代理对象添加到连接池中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DataSource</span> <span class="n">dataSource</span> <span class="o">=</span> <span class="o">...;</span> <span class="c1">// 获取连接池对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">FlexyPoolDataSource</span> <span class="n">flexyPoolDataSource</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FlexyPoolDataSource</span><span class="o">&lt;&gt;(</span><span class="n">dataSource</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这个代码中，我们首先获取 HikariCP 连接池对象，然后将其包装成 FlexyPool 的代理对象。这样，所有的数据库操作都将通过 FlexyPool 进行代理和监控。</p>
+<p>Baeldung 网站上有一篇介绍 Spring Boot 中如何使用 FlexyPool 连接池监控工具的教程，名为 <a href="https://www.baeldung.com/spring-flexypool-guide">A Guide to FlexyPool in Spring Boot</a>。</p>
+<p>这篇文章首先介绍了 FlexyPool 工具的作用，以及如何将其集成到 Spring Boot 应用程序中。FlexyPool 可以监控和报告连接池的使用情况、性能和瓶颈，以及自动调整连接池的大小和行为，以提高性能和减少资源消耗。</p>
+<p>然后，文章介绍了如何在 Spring Boot 应用程序中使用 FlexyPool。具体步骤包括：</p>
+<ol>
+<li>添加 FlexyPool 的依赖到应用程序的 pom.xml 文件中。</li>
+<li>配置连接池和 FlexyPool 的参数，例如 HikariCP 连接池的参数、FlexyPool 的度量工厂、日志和度量记录的级别、度量记录的间隔、是否启用 Prometheus 集成等等。</li>
+<li>创建 FlexyPoolDataSource 对象，作为连接池的代理对象。该对象将自动创建和管理连接池，并使用 FlexyPool 工具进行监控和调整。</li>
+<li>在应用程序中使用连接池，例如获取连接、执行 SQL 语句、关闭连接等等。</li>
+</ol>
+<p>最后，文章总结了一些连接池监控和优化的最佳实践，例如：</p>
+<ol>
+<li>使用 FlexyPool 工具监控连接池的使用情况和性能瓶颈，以及调整连接池的大小和行为，以提高性能和减少资源消耗。</li>
+<li>配置连接池和 FlexyPool 的参数，以适应应用程序的负载和性能要求。</li>
+<li>避免连接池泄漏和死锁等问题，例如及时关闭连接、设置合理的超时时间等等。</li>
+</ol>
+<h2 id="本周分享">本周分享</h2>
+<p>大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道或者我的 <a href="https://memos.chensoul.com/">memos</a> 中。我写了一个 python 脚本从 memos读取最近一周的 memos 记录。</p>
+<ul>
+<li><strong>2023-04-28 09:01:43</strong> 4个文生图AI工具 <a href="https://xugaoxiang.com/2023/04/27/4-text-to-image-ai-tools/">查看链接</a>  <code>#memos</code></li>
+<li><strong>2023-04-27 13:29:50</strong> 这是 Jony Ive 的 LoveFrom 团队出品的一本关于乔布斯的书，书中几乎全部引用乔布斯自己的话，没有解读，更加「原汁原味」，同时也收录了一些珍贵的照片。 <a href="https://stevejobsarchive.com/book">查看链接</a>  <a href="https://limboy.me/books/make-something-wonderful/">查看链接</a>  <code>#memos</code></li>
+<li><strong>2023-04-27 09:52:58</strong> Alpine, Tailwind, Deno, SQLite 我的本地服务四件套 <a href="https://limboy.me/posts/local-services-tools/">查看链接</a>  Update: 用 Remix 替代了 Alpine 和 Deno，确实方便。  <code>#web</code> <code>#memos</code></li>
+<li><strong>2023-04-27 08:32:37</strong> FlexyPool 是一个用于监控数据库连接池的开源工具。它支持监控和报告连接池的使用情况、性能和瓶颈，以及自动调整连接池的大小和行为。FlexyPool 支持多种流行的 Java 数据库连接池，例如 HikariCP、Tomcat JDBC Pool、C3P0、BoneCP 等等。  FlexyPool 主要提供以下功能：  监控连接池的使用情况，包括连接数、请求数、等待时间、执行时间等等。  报告连接池的性能和瓶颈，例如最慢的查询、最频繁的错误、最短的连接时间等等。  自动调整连接池的大小和行为，以提高性能和减少资源消耗。  集成到常见的监控工具中，例如 Prometheus、Grafana、InfluxDB 等等。  <a href="https://www.baeldung.com/spring-flexypool-guide">查看链接</a>  <code>#java</code> <code>#memos</code></li>
+<li><strong>2023-04-27 07:24:03</strong> 人一生中最重要的两天就是出生那天和发现人生目标的那天。   &mdash;&mdash;马克吐温  <code>#摘录</code></li>
+<li><strong>2023-04-25 20:07:58</strong> 受 <a href="https://github.com/yihong0618/2023/blob/main/get_up.py">查看链接</a> 启发，在 iPhone上，创建了一个自动化捷径。当早起闹铃响起时，往memos发送一条早起记录，内容如下：  早起时间：2023年4月25日 20:02  今日语录： 有些事情本身我们无法控制，只好控制自己。  起床啦，喝杯咖啡，去跑步，每天进步一点点。  <code>#memos</code></li>
+<li><strong>2023-04-25 08:57:03</strong> 【怎样种时间的种子？】  时间不够用，如何种时间的种子？ 1.走电梯时耐心等候自动关门，让更多的人进来，节约了他们的时间。（这还是一颗空间、房子的种子） 2.帮父母完成她的心愿或者事务性工作。 3.教会家里的小孩子如何节约父母的时间，这个就非常高级了。 4.路上随手捡走垃圾、不乱扔垃圾，让清洁工人有更多的时间。 5.帮助老师或者有更多能量的平台做事情。 6.经常性的做义工。 7.打电话长话短说，简洁明了节约对方的时间。 8.微信尽可能用打字，让对方快速简单地知道事情。 9.开会提前到，至少准时到，千万不能迟到，会议迟到，那种下的都是巨大的种子。 10.开车让人，腾出时间给别人。 11.开心收拾家务，让家人更加容易找到东西。 12.主动收拾公共办公区域，让同事快速有效工作。 13.不闲聊八卦浪费别人时间（这颗闲聊八卦的坏种子，还会让你在工作中没有人听从你的好意见，缺乏领导力） 14.参加任何会议提前准备，积极回应。 15.与别人分享时间的管理工具，分享获得富裕时间的好种子，这可也是法布施的好种子。 16.提醒、帮助或者关注拖延症的朋友。 17.不爽约父母安排的聚餐吃饭，不回家吃饭提前说。（恩田的大种子） 18.鼓励别人的梦想，真诚由心地赞美别人。  <code>#金刚智慧</code></li>
+<li><strong>2023-04-24 19:21:02</strong> 有一个想法，可以写一段脚本从 telegram 或者 memos 读取上周的分享记录，然后，转换为 markdown 格式发布在周报中。这样，周报就可以变成半自动化了。 于是，写了一个 python 脚本实现了从 memos 读取记录。😁  <code>#skill</code></li>
+<li><strong>2023-04-24 17:26:52</strong> 晚唐李商隐的《锦瑟》  锦瑟无端五十弦，一弦一柱思华年。 庄生晓梦迷蝴蝶，望帝春心托杜鹃。 沧海月明珠有泪，蓝田日暖玉生烟。 此情可待成追忆，只是当时已惘然。  <code>#诗词</code></li>
+<li><strong>2023-04-24 14:07:04</strong> 使用一行代码为网站的输入框增加上 AI 能力。 <a href="https://www.enhanceai.dev/">查看链接</a>  <code>#skill</code></li>
+<li><strong>2023-04-24 14:04:23</strong> 平常是糊里糊涂的，现在变得出人意外的小心谨慎，这正是由于报复的欲望，而这种欲望多么能够锻炼人！  —— 大仲马   <code>#摘录</code></li>
+<li><strong>2023-04-24 14:03:59</strong> 使人疲乏的不是远方的深谷，而是鞋子里的一粒沙子。  —— 伏尔泰 <code>#摘录</code></li>
+<li><strong>2023-04-24 11:00:30</strong> 📝 《Effective Java 3》笔记：避免创建不必要的对象 <code>#blog</code>   <a href="https://blog.chensoul.com/posts/2023/04/24/avoid-creating-unnecessary-objects/">查看链接</a></li>
+<li><strong>2023-04-24 08:20:31</strong> 使用 Python 实现 RSS 转 Newsletter.   <a href="https://www.skyue.com/23042217.html">查看链接</a>  <code>#python</code></li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>《Effective Java 3》笔记7：排除过时的对象引用</title>
       <link>https://blog.chensoul.com/posts/2023/05/05/eliminate-obsolete-object-references/</link>

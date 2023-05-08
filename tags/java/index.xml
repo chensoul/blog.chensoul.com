@@ -6,7 +6,300 @@
     <description>Recent content in java on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 06 May 2023 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 May 2023 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>《Effective Java 3》笔记9：使用 try-with-resources 优于 try-finally</title>
+      <link>https://blog.chensoul.com/posts/2023/05/08/prefer-try-with-resources-to-try-finally/</link>
+      <pubDate>Mon, 08 May 2023 10:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/05/08/prefer-try-with-resources-to-try-finally/</guid>
+      <description>本文是 《Effective Java 3》第二章的学习笔记：使用 try-with-resources 优于 try-finally。 介绍 Java 库包含许多必须通过调用 close 方法手动关闭的资源。常见的</description>
+      <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记：使用 try-with-resources 优于 try-finally。</p>
+<h2 id="介绍">介绍</h2>
+<p>Java 库包含许多必须通过调用 close 方法手动关闭的资源。常见的有 InputStream、OutputStream 和 java.sql.Connection。关闭资源常常会被客户端忽略，这会导致可怕的性能后果。虽然这些资源中的许多都使用终结器作为安全网，但终结器并不能很好地工作。</p>
+<p>从历史上看，try-finally 语句是确保正确关闭资源的最佳方法，即使在出现异常或返回时也是如此：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// try-finally - No longer the best way to close resources!
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">static</span> <span class="n">String</span> <span class="nf">firstLineOfFile</span><span class="o">(</span><span class="n">String</span> <span class="n">path</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">path</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">br</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这可能看起来不坏，但添加第二个资源时，情况会变得更糟：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// try-finally is ugly when used with more than one resource!
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">static</span> <span class="kt">void</span> <span class="nf">copy</span><span class="o">(</span><span class="n">String</span> <span class="n">src</span><span class="o">,</span> <span class="n">String</span> <span class="n">dst</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">src</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">dst</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">byte</span><span class="o">[]</span> <span class="n">buf</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">BUFFER_SIZE</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">n</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">while</span> <span class="o">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buf</span><span class="o">))</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">buf</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">n</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">finally</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>使用 try-finally 语句关闭资源的正确代码（如前两个代码示例所示）也有一个细微的缺陷。try 块和 finally 块中的代码都能够抛出异常。例如，在 firstLineOfFile 方法中，由于底层物理设备发生故障，对 readLine 的调用可能会抛出异常，而关闭的调用也可能出于同样的原因而失败。<code>在这种情况下，第二个异常将完全覆盖第一个异常</code>。异常堆栈跟踪中没有第一个异常的记录，这可能会使实际系统中的调试变得非常复杂（而这可能是希望出现的第一个异常，以便诊断问题）。虽然可以通过编写代码来抑制第二个异常而支持第一个异常，但实际上没有人这样做，因为它太过冗长。</p>
+<p>当 Java 7 引入 try-with-resources 语句时，所有这些问题都一次性解决了。要使用这个结构，资源必须实现 AutoCloseable 接口，它由一个单独的 void-return close 方法组成。Java 库和第三方库中的许多类和接口现在都实现或扩展了 AutoCloseable。如果你编写的类存在必须关闭的资源，那么也应该实现 AutoCloseable。</p>
+<p>下面是使用 try-with-resources 的第一个示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// try-with-resources - the the best way to close resources!
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">static</span> <span class="n">String</span> <span class="nf">firstLineOfFile</span><span class="o">(</span><span class="n">String</span> <span class="n">path</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">(</span><span class="n">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">path</span><span class="o">)))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>下面是使用 try-with-resources 的第二个示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// try-with-resources on multiple resources - short and sweet
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">static</span> <span class="kt">void</span> <span class="nf">copy</span><span class="o">(</span><span class="n">String</span> <span class="n">src</span><span class="o">,</span> <span class="n">String</span> <span class="n">dst</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">(</span><span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">src</span><span class="o">);</span><span class="n">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">dst</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">byte</span><span class="o">[]</span> <span class="n">buf</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">BUFFER_SIZE</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">n</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="o">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buf</span><span class="o">))</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">buf</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">n</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>和使用 try-finally 的原版代码相比，try-with-resources 为开发者提供了更好的诊断方式。考虑 firstLineOfFile 方法。如果异常是由 readLine 调用和不可见的 close 抛出的，则后一个异常将被抑制，以支持前一个异常。实际上，还可能会抑制多个异常，以保留实际希望看到的异常。这些被抑制的异常不会仅仅被抛弃；它们会被打印在堆栈跟踪中，并标记它们被抑制。可以通过编程方式使用 getSuppressed 方法访问到它们，该方法是在 Java 7 中添加到 Throwable 中的。</p>
+<p>可以在带有资源的 try-with-resources 语句中放置 catch 子句，就像在常规的 try-finally 语句上一样。这允许处理异常时不必用另一层嵌套来影响代码。作为一个特指的示例，下面是我们的 firstLineOfFile 方法的一个版本，它不抛出异常，但如果无法打开文件或从中读取文件，则返回一个默认值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// try-with-resources with a catch clause
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">static</span> <span class="n">String</span> <span class="nf">firstLineOfFile</span><span class="o">(</span><span class="n">String</span> <span class="n">path</span><span class="o">,</span> <span class="n">String</span> <span class="n">defaultVal</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">(</span><span class="n">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">path</span><span class="o">)))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">defaultVal</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="扩展">扩展</h2>
+<p><code>try-with-resources</code> 语句是 Java 7 中引入的一种新语法，主要目的是为了简化资源管理的代码，并确保资源被正确地关闭，避免了资源泄漏和异常处理的问题。</p>
+<p>在 Java 中，当使用一些需要手动释放资源的类时，例如 I/O 流、数据库连接等，我们需要在代码中显式地调用 <code>close()</code> 方法来释放资源。这种方式可能会出现一些问题，例如：</p>
+<ol>
+<li>忘记关闭资源：如果开发人员忘记关闭资源，可能会导致资源泄漏，占用系统资源，降低系统性能。</li>
+<li>异常处理问题：如果在关闭资源之前发生异常，可能会导致资源未能正确关闭，进一步导致资源泄漏和其他问题。</li>
+</ol>
+<p>为了解决这些问题，Java 7 引入了 <code>try-with-resources</code> 语句。它提供了一种更简洁、更安全、更易读的方式来管理资源的关闭，避免了开发人员手动释放资源的问题，并且可以确保资源被正确地关闭。</p>
+<p>使用 <code>try-with-resources</code> 语句，我们可以将资源的创建和初始化放在 <code>try</code> 语句的括号内，它们在 <code>try</code> 块执行结束后，会自动关闭资源。如果在关闭资源时发生异常，<code>try-with-resources</code> 语句会自动处理异常，确保所有资源都被正确地关闭。</p>
+<p><code>try-with-resources</code> 语句使用以下语法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">try</span> <span class="o">(</span><span class="n">Resource1</span> <span class="n">r1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Resource1</span><span class="o">();</span> <span class="n">Resource2</span> <span class="n">r2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Resource2</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// use r1 and r2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// handle the exception
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>在这个例子中，<code>Resource1</code> 和 <code>Resource2</code> 是需要在使用后关闭的资源，它们将在 <code>try</code> 块结束后自动关闭。如果发生异常，<code>catch</code> 块将处理它。</p>
+<p><code>Resource1</code> 和 <code>Resource2</code> 必须实现 <code>AutoCloseable</code> 接口，该接口定义了 <code>close()</code> 方法，用于关闭资源。当 <code>try</code> 块结束时，<code>close()</code> 方法将自动被调用，以便关闭资源。</p>
+<p>需要注意的是，<code>try-with-resources</code> 语句可以同时管理多个资源，资源的创建和初始化应该在 <code>try</code> 语句的括号内完成。</p>
+<p><code>try-with-resources</code> 语句有以下优点：</p>
+<ol>
+<li>简洁性：<code>try-with-resources</code> 语句可以让代码更简洁，不需要显式地调用 <code>close()</code> 方法。</li>
+<li>安全性：<code>try-with-resources</code> 语句可以确保资源被正确地关闭，避免了资源泄漏和异常处理的问题。</li>
+<li>可读性：<code>try-with-resources</code> 语句可以让代码更易读，更容易理解资源的使用和管理。</li>
+</ol>
+<p>需要注意的是，<code>try-with-resources</code> 语句只能用于管理实现了 <code>AutoCloseable</code> 接口的资源，并且只有在 Java 7 及以上版本才支持该语法。</p>
+<p>除了 I/O 流和数据库连接之外，还有一些类需要手动释放资源，例如：</p>
+<ol>
+<li>图形界面组件：在使用图形界面组件时，例如窗口、对话框、面板等，需要手动释放资源，例如关闭窗口、释放图形资源等。</li>
+<li>线程：在使用线程时，需要手动停止线程，释放线程占用的系统资源。</li>
+<li>Socket 和 ServerSocket：在使用 Socket 和 ServerSocket 时，需要手动关闭它们，以便释放网络资源。</li>
+<li>文件句柄：在使用文件系统时，需要手动关闭文件句柄，以便释放系统资源。</li>
+<li>JDBC Statement 和 ResultSet：在使用 JDBC 时，需要手动关闭 Statement 和 ResultSet 对象，以便释放数据库资源。</li>
+<li>JNI 资源：在使用 JNI 调用本地方法时，需要手动释放 JNI 资源，例如 C/C++ 中的内存和文件句柄等。</li>
+</ol>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>《Effective Java 3》笔记8：避免使用终结器和清除器</title>
+      <link>https://blog.chensoul.com/posts/2023/05/08/avoid-finalizers-and-cleaners/</link>
+      <pubDate>Mon, 08 May 2023 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/05/08/avoid-finalizers-and-cleaners/</guid>
+      <description>本文是 《Effective Java 3》第二章的学习笔记：避免使用终结器和清除器。 介绍 终结器是不可预测的、常常是危险的，通常也是不必要的。 它们的使用</description>
+      <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第二章的学习笔记：避免使用终结器和清除器。</p>
+<h2 id="介绍">介绍</h2>
+<p><strong>终结器是不可预测的、常常是危险的，通常也是不必要的。</strong> 它们的使用可能导致不稳定的行为、低效率和可移植性问题。终结器有一些有效的用途，我们稍后会介绍，但通常情况下应该避免使用它们。从 Java 9 开始，终结器已经被弃用，但它们仍然被 Java 库使用。Java 9 中终结器的替代品是清除器。 <strong>清除器的危险比终结器小，但仍然不可预测、缓慢，而且通常是不必要的。</strong></p>
+<blockquote>
+<p>终结器是通过在对象上实现 <code>finalize()</code> 方法来实现的，而清除器是通过使用 <code>Cleaner</code> 类来实现的。它们的工作方式有所不同：</p>
+<ul>
+<li>
+<p>终结器是由垃圾回收器自动执行的，无法预测何时执行，也无法保证一定会执行。当垃圾回收器决定将对象回收时，它会调用对象的 <code>finalize()</code> 方法，以便对象在被销毁之前执行一些清理操作。</p>
+</li>
+<li>
+<p>清除器是由 Java 9 虚拟机通过引用队列和 <code>Cleaner</code> 对象执行的，可以在对象被回收之前或之后执行。在对象被垃圾回收之前，Java 虚拟机会将该对象的引用添加到一个引用队列中，然后在某些时刻，Java 虚拟机会创建一个 <code>Cleaner</code> 对象，并将该引用队列与 <code>Cleaner</code> 对象关联起来。当该对象被垃圾回收时，它的引用将被添加到与 <code>Cleaner</code> 对象关联的引用队列中，<code>Cleaner</code> 对象会在某些时刻自动执行，以便对象在被销毁之前或之后执行一些清理操作。</p>
+</li>
+<li>
+<p>在 Java 9 中，引入了 <code>java.lang.ref.Cleaner</code> 类，作为终结器的替代品，用于执行对象清理操作。相比终结器，Cleaner 具有以下优点：</p>
+<ol>
+<li>显式管理：Cleaner 使用明确的代码路径来管理清理操作，而不是使用隐式的终结器机制。</li>
+<li>可控性：Cleaner 允许开发人员控制何时执行清理操作，而不是完全依赖于垃圾回收器的行为。</li>
+<li>安全性：Cleaner 执行清理操作时，会确保类加载器已准备好，因此可以安全地执行本地清理操作。</li>
+</ol>
+<p>Cleaner 通过注册一个任务来执行清理操作。该任务可以是 Runnable 或者继承自 PhantomReference 类的子类对象。当对象被垃圾回收器回收时，Cleaner 将自动执行注册的任务。</p>
+</li>
+</ul>
+</blockquote>
+<p>终结器和清除器的使用场景非常有限，因为它们的执行时间不可预测，可能会导致一些问题，例如性能问题、不稳定的行为、低效率和可移植性问题。</p>
+<p>终结器和清除器的主要问题是：</p>
+<ul>
+<li>
+<p>它们无法可靠地及时执行，甚至可能根本不会执行。当对象变得不可访问，终结器或清除器对它进行操作的时间是不确定的。这意味着永远不应该在终结器或清除器中执行任何对时间要求很严格的操作。例如，依赖终结器或清除器关闭文件就是一个严重错误，因为打开的文件描述符是有限的资源。如果由于系统在运行终结器或清除器的延迟导致许多文件处于打开状态，程序可能会运行失败，因为它不能再打开其他文件。</p>
+<p>终结器的另一个问题是，在终结期间抛出的未捕获异常被忽略，该对象的终结终止。未捕获的异常可能会使其他对象处于损坏状态。如果另一个线程试图使用这样一个损坏的对象，可能会导致任意的不确定性行为。正常情况下，未捕获的异常将终止线程并打印堆栈跟踪，但如果在终结器中出现，则不会打印警告。清除器没有这个问题，因为使用清除器的库可以控制它的线程。</p>
+</li>
+<li>
+<p>它们可能会导致性能问题。终结器由垃圾回收器执行，这可能会导致垃圾回收过程中的延迟。另一方面，清除器使用单独的线程执行，这可能会导致额外的开销和同步问题。</p>
+</li>
+</ul>
+<p>《Effective Java》第三版建议使用显式终止方法，例如 <code>close()</code>，释放系统资源。当应用程序完成对资源的使用时，可以显式调用这些方法，而不依赖于垃圾回收器来执行它们。</p>
+<p>如果必须使用终结器或清除器， 《Effective Java》第三版建议使用防御性编程实现它们，即使用 try-finally 块确保执行关键的清理操作，并避免引用其他可能已被垃圾回收的对象或资源。</p>
+<h2 id="扩展">扩展</h2>
+<h3 id="systemgc">System.gc()</h3>
+<p><code>System.gc()</code> 方法是 Java 中的一种垃圾回收机制，它可以在请求垃圾回收器运行时强制进行一次垃圾回收。</p>
+<p><code>System.gc()</code> 方法不是强制垃圾回收的方法，因为 Java 虚拟机可以忽略它。Java 编程语言规范要求 <code>System.gc()</code> 方法只是一个建议，不能保证它一定会导致垃圾回收器运行。因此，它不应该被频繁地调用，因为这可能会导致性能问题。</p>
+<p><code>System.gc()</code> 方法的使用场景非常有限。通常情况下，应该让垃圾回收器自行管理内存，而不是使用 <code>System.gc()</code> 方法来强制进行垃圾回收。如果需要确保某些对象在垃圾回收之前被释放，可以使用弱引用或软引用来管理这些对象，或使用显式终止方法来释放系统资源。</p>
+<p>需要注意的是，<code>System.gc()</code> 方法可能会耗费较长时间，因为它可能会强制回收所有未使用的对象。因此，在实际使用中，应该谨慎使用 <code>System.gc()</code> 方法，并仅在必要时使用它。</p>
+<h3 id="systemrunfinalization">System.runFinalization()</h3>
+<p><code>System.runFinalization()</code> 方法是在 Java 1.2 版本中引入的。在 Java 1.2 中，引入了垃圾回收器的改进，包括使用引用类型、终结器和垃圾回收器性能的提升。<code>System.runFinalization()</code> 方法作为终结器机制的一部分，用于确保所有对象的<code>finalize()</code> 方法被执行。在垃圾回收器将对象从内存中释放之前，如果该对象具有终结器，则垃圾回收器会调用对象的 <code>finalize()</code> 方法，以便在对象被销毁之前执行一些清理操作。<code>System.runFinalization()</code> 方法可以确保所有对象的 <code>finalize()</code> 方法被执行。</p>
+<p><code>System.runFinalization()</code> 方法不是强制终结器执行的方法，因为 Java 虚拟机可以忽略它。Java 编程语言规范要求 <code>System.runFinalization()</code> 方法只是一个建议，不能保证它一定会导致终结器执行。因此，它不应该被频繁地调用，因为这可能会导致性能问题。</p>
+<p><code>System.runFinalization()</code> 方法的使用场景非常有限。通常情况下，应该避免使用终结器来执行清理操作，因为终结器的执行时间不可预测，可能会导致一些问题，例如性能问题、不稳定的行为、低效率和可移植性问题。相反，应该使用显式终止方法来释放系统资源。</p>
+<p>需要注意的是，<code>System.runFinalization()</code> 方法可能会耗费较长时间，因为它可能会执行所有对象的终结器。因此，在实际使用中，应该谨慎使用 <code>System.runFinalization()</code> 方法，并仅在必要时使用它</p>
+<h3 id="清除器和终结器使用场景">清除器和终结器使用场景</h3>
+<p>使用清除器和终结器的例子并不常见，因为它们的使用场景非常有限。以下是一些可能需要使用清除器和终结器的场景：</p>
+<ul>
+<li>在 Java 8 及之前的版本中，<code>java.sql.Connection</code> 类中的 <code>finalize()</code> 方法被用于关闭数据库连接。在 Java 9 中，这个方法被弃用，因为终结器的使用不可靠和危险。相反，<code>Connection</code> 接口中添加了一个 <code>close()</code> 方法，应该使用这个方法来释放数据库连接。</li>
+<li>在 Java 9 中，<code>java.lang.ref.Cleaner</code> 类被引入作为终结器的替代品，可以用于执行对象清理操作。例如，如果需要在对象被垃圾回收之前执行一些清理操作（例如释放本地内存或关闭文件句柄），可以使用 <code>Cleaner</code> 类来实现。以下是一个使用 <code>Cleaner</code> 类的简单示例：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Resource</span> <span class="kd">implements</span> <span class="n">AutoCloseable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Cleaner</span> <span class="n">cleaner</span> <span class="o">=</span> <span class="n">Cleaner</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">File</span> <span class="n">file</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Resource</span><span class="o">(</span><span class="n">File</span> <span class="n">file</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">file</span> <span class="o">=</span> <span class="n">file</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">cleaner</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="k">new</span> <span class="n">CleanupTask</span><span class="o">(</span><span class="n">file</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// release any resources held by this object
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">CleanupTask</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="kd">final</span> <span class="n">File</span> <span class="n">file</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="nf">CleanupTask</span><span class="o">(</span><span class="n">File</span> <span class="n">file</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">file</span> <span class="o">=</span> <span class="n">file</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// clean up the resource associated with the given file
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个例子中，<code>Resource</code> 类持有一个 <code>File</code> 对象，并在创建对象时使用 <code>Cleaner</code> 类注册了一个 <code>CleanupTask</code> 对象。当 <code>Resource</code> 对象被垃圾回收时，<code>Cleaner</code> 对象将自动调用 <code>CleanupTask</code> 对象的 <code>run()</code> 方法，以便执行 <code>File</code> 对象的清理操作（例如关闭文件句柄）。</p>
+<p>需要注意的是，这仅是一个简单的示例，实际使用中需要谨慎使用和考虑清除器和终结器的局限性。通常情况下，我们应该避免使用它们，使用显式终止方法来释放系统资源。</p>
+<p>以下是一些使用显式终止方法的例子：</p>
+<ol>
+<li>Java I/O 类。Java I/O 类通常需要使用显式终止方法来释放系统资源，例如关闭文件句柄或网络连接。例如，<code>java.io.FileInputStream</code> 类中的 <code>close()</code> 方法用于关闭打开的文件。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">try</span> <span class="o">(</span><span class="n">FileInputStream</span> <span class="n">fis</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="s">&#34;example.txt&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// read from the file
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// handle the exception
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>在这个例子中，使用 <code>try-with-resources</code> 语句来创建 <code>FileInputStream</code> 对象，这将自动调用 <code>close()</code> 方法，以便释放文件句柄。</p>
+<ol start="2">
+<li>数据库连接。数据库连接通常需要使用显式终止方法来释放连接。例如，<code>java.sql.Connection</code> 接口中的 <code>close()</code> 方法用于关闭数据库连接。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">try</span> <span class="o">(</span><span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">user</span><span class="o">,</span> <span class="n">password</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// use the database connection
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// handle the exception
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>在这个例子中，使用 <code>try-with-resources</code> 语句来创建 <code>Connection</code> 对象，这将自动调用 <code>close()</code> 方法，以便释放数据库连接。</p>
+<ol start="3">
+<li>线程池。线程池通常需要使用显式终止方法来关闭线程池，以便释放线程资源。例如，<code>java.util.concurrent.ExecutorService</code> 接口中的 <code>shutdown()</code> 方法用于关闭线程池。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// submit tasks to the executor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">executor</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个例子中，使用 <code>finally</code> 块来确保在执行完任务后关闭线程池，以便释放线程资源。</p>
+<h3 id="如何避免资源泄漏">如何避免资源泄漏？</h3>
+<p>资源泄漏是指在使用资源（如文件句柄、网络连接、数据库连接、线程等）时，没有正确地释放或关闭它们，导致资源长时间占用，最终可能导致程序崩溃或系统性能下降。</p>
+<p>以下是一些避免资源泄漏的方法：</p>
+<ol>
+<li>使用 <code>try-with-resources</code> 语句。<code>try-with-resources</code> 语句是一种自动关闭资源的机制，可以确保在使用完资源后自动关闭它们。例如：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">try</span> <span class="o">(</span><span class="n">FileInputStream</span> <span class="n">fis</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="s">&#34;example.txt&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// read from the file
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// handle the exception
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>在这个例子中，<code>FileInputStream</code> 对象将在 <code>try</code> 块结束后自动关闭。</p>
+<ol start="2">
+<li>
+<p>显式关闭资源。如果不能使用 <code>try-with-resources</code> 语句，应该使用显式关闭资源的方法来释放资源。例如，在使用完数据库连接后，应该调用 <code>Connection</code> 接口中的 <code>close()</code> 方法来释放连接。</p>
+</li>
+<li>
+<p>使用防御性编程。在使用资源时，应该使用防御性编程，确保在任何情况下都能正确地释放资源。例如，在使用文件句柄时，应该确保在读取或写入文件时，使用 <code>try-finally</code> 块来确保在发生异常时关闭文件句柄。</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">FileInputStream fis = null;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">try {
+</span></span><span class="line"><span class="cl">    fis = new FileInputStream(&#34;example.txt&#34;);
+</span></span><span class="line"><span class="cl">    // read from the file
+</span></span><span class="line"><span class="cl">} catch (IOException e) {
+</span></span><span class="line"><span class="cl">    // handle the exception
+</span></span><span class="line"><span class="cl">} finally {
+</span></span><span class="line"><span class="cl">    if (fis != null) {
+</span></span><span class="line"><span class="cl">        try {
+</span></span><span class="line"><span class="cl">            fis.close();
+</span></span><span class="line"><span class="cl">        } catch (IOException e) {
+</span></span><span class="line"><span class="cl">            // handle the exception
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>在这个例子中，使用 <code>try-finally</code> 块来确保在发生异常时关闭文件句柄。</p>
+<ol start="4">
+<li>使用资源管理框架。一些资源管理框架，例如 Apache Commons IO 和 Google Guava，提供了一些实用工具类和方法，可以帮助避免资源泄漏。</li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>终结器和清除器都是 Java 中用于对象清理的机制，它们各有优缺点。</p>
+<p>终结器的优点：</p>
+<ol>
+<li>无需显式调用：终结器是一种自动的机制，无需显式调用，可以在对象被垃圾回收时自动执行。</li>
+<li>灵活性：终结器允许开发人员编写任意的清理代码，无需考虑清理操作的执行时间或顺序。</li>
+</ol>
+<p>终结器的缺点：</p>
+<ol>
+<li>不可控性：终结器的执行时间和顺序是不可预测的，可能会导致一些问题，例如性能问题、不稳定的行为、低效率和可移植性问题。</li>
+<li>安全性问题：终结器可能会引起一些安全性问题，例如在 <code>finalize()</code> 方法中重新启动线程或打开文件等。</li>
+</ol>
+<p>清除器的优点：</p>
+<ol>
+<li>明确的代码路径：清除器使用明确的代码路径来执行清理操作，相比终结器，它更加可控和安全。</li>
+<li>可控性：清除器允许开发人员控制何时执行清理操作，而不是完全依赖于垃圾回收器的行为。</li>
+<li>安全性：清除器执行清理操作时，会确保类加载器已准备好，因此可以安全地执行本地清理操作。</li>
+</ol>
+<p>清除器的缺点：</p>
+<ol>
+<li>显式调用：清除器需要显式调用，开发人员需要为每个需要清理的对象注册一个清理器，这可能会增加代码的复杂性。</li>
+<li>限制性：清除器只能用于执行一些清理操作，不能用于执行其他类型的操作。</li>
+</ol>
+<p>综上所述，终结器和清除器各有优缺点，应该根据实际需求和场景选择适当的机制来管理对象清理。<code>一般来说，应该优先使用显式终止方法来释放系统资源，只有在必要时才考虑使用终结器或清除器。</code></p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>周报-17｜导出苹果健康数据、自动化收集个人数据、FlexyPool动态连接池</title>
       <link>https://blog.chensoul.com/posts/2023/05/06/weekly_review_17/</link>

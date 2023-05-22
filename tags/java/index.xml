@@ -6,7 +6,711 @@
     <description>Recent content in java on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 18 May 2023 18:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 22 May 2023 14:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java设计模式：Abstract Document</title>
+      <link>https://blog.chensoul.com/posts/2023/05/22/java-design-patterns-abstract-document/</link>
+      <pubDate>Mon, 22 May 2023 14:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/05/22/java-design-patterns-abstract-document/</guid>
+      <description>本文主要介绍 Abstract Document 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计</description>
+      <content:encoded><![CDATA[<p>本文主要介绍  Abstract Document 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+<blockquote>
+<p><a href="https://java-design-patterns.com/">Java Design Patterns</a> 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。</p>
+<p>Java Design Patterns 网站提供了多种设计模式分类方式，包括创建型模式（Creational Patterns）、结构型模式（Structural Patterns）和行为型模式（Behavioral Patterns），以及其他一些常见的模式。</p>
+<p>对于每个设计模式，该网站提供了详细的介绍、示例代码和用例说明，并且提供了一些常见的使用场景和注意事项。开发人员可以根据自己的需求选择适合自己的设计模式，并且可以参考示例代码和用例说明来理解和应用该模式。</p>
+<p>此外，Java Design Patterns 网站还提供了一些其他资源，如设计模式的 UML 图、设计模式的优缺点、设计模式的比较等。这些资源可以帮助开发人员更好地理解和应用设计模式。</p>
+<p>中文网站：<a href="https://java-design-patterns.com/zh/">https://java-design-patterns.com/zh/</a></p>
+<p>Github 上源码仓库（非官方）：<a href="https://github.com/iluwatar/java-design-patterns">https://github.com/iluwatar/java-design-patterns</a></p>
+</blockquote>
+<h2 id="目的">目的</h2>
+<p>使用动态属性，并在保持类型安全的同时实现非类型化语言的灵活性。</p>
+<blockquote>
+<p>抽象文档模式中的属性对象可以动态添加和删除属性，并且属性类型是在运行时确定的，这使得抽象文档模式具有一定的灵活性和可扩展性。</p>
+<p>在抽象文档模式中，属性对象通常使用 Map 或者 List 等数据结构来实现。动态属性的添加和删除可以通过 Map 的 put 和 remove 方法实现，而属性的类型可以通过泛型来确定。</p>
+</blockquote>
+<h2 id="解释">解释</h2>
+<p>抽象文档模式使您能够处理其他非静态属性。 此模式使用特征的概念来实现类型安全，并将不同类的属性分离为一组接口。</p>
+<p>真实世界例子</p>
+<blockquote>
+<p>考虑由多个部分组成的汽车。 但是，我们不知道特定汽车是否真的拥有所有零件，或者仅仅是零件中的一部分。 我们的汽车是动态而且非常灵活的。</p>
+</blockquote>
+<p>通俗的说</p>
+<blockquote>
+<p>抽象文档模式允许在对象不知道的情况下将属性附加到对象。</p>
+</blockquote>
+<p>维基百科说</p>
+<blockquote>
+<p>面向对象的结构设计模式，用于组织松散类型的键值存储中的对象并使用类型化的视图公开数据。 该模式的目的是在强类型语言中实现组件之间的高度灵活性，在这种语言中，可以在不丢失类型安全支持的情况下，将新属性动态地添加到对象树中。 该模式利用特征将类的不同属性分成不同的接口。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>让我们首先定义基类<code>Document</code>和<code>AbstractDocument</code>。 它们基本上使对象拥有属性映射和任意数量的子对象。</p>
+<blockquote>
+<p>以下代码在 java 8 中编译正常。</p>
+</blockquote>
+<p>Document 接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">Void</span> <span class="nf">put</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">Object</span> <span class="nf">get</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Stream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">children</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;,</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">constructor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><blockquote>
+<p>以下接口不使用 Java 8的Stream API：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Object</span> <span class="nf">get</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="nf">children</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div></blockquote>
+<p>AbstractDocument 抽象类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractDocument</span> <span class="kd">implements</span> <span class="n">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">properties</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">protected</span> <span class="nf">AbstractDocument</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">properties</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">properties</span><span class="o">,</span> <span class="s">&#34;properties map is required&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">this</span><span class="o">.</span><span class="na">properties</span> <span class="o">=</span> <span class="n">properties</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">Void</span> <span class="nf">put</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">properties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">Object</span> <span class="nf">get</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">properties</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Stream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">children</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;,</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">constructor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// java 9
+</span></span></span><span class="line"><span class="cl"><span class="c1">//		return Stream.ofNullable(get(key))
+</span></span></span><span class="line"><span class="cl"><span class="c1">//			.filter(Objects::nonNull)
+</span></span></span><span class="line"><span class="cl"><span class="c1">//			.map(el -&gt; (List&lt;Map&lt;String, Object&gt;&gt;) el)
+</span></span></span><span class="line"><span class="cl"><span class="c1">//			.findAny()
+</span></span></span><span class="line"><span class="cl"><span class="c1">//			.stream()
+</span></span></span><span class="line"><span class="cl"><span class="c1">//			.flatMap(Collection::stream)
+</span></span></span><span class="line"><span class="cl"><span class="c1">//			.map(constructor);
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// java 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="n">key</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">el</span> <span class="o">-&gt;</span> <span class="n">el</span> <span class="k">instanceof</span> <span class="n">List</span><span class="o">&lt;?&gt;)</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">el</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;&gt;)</span> <span class="n">el</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">List</span><span class="o">::</span><span class="n">stream</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">orElseGet</span><span class="o">(</span><span class="n">Stream</span><span class="o">::</span><span class="n">empty</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">constructor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">properties</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们定义一个枚举“属性”和一组类型，价格，模型和零件的接口。 这使我们能够为Car类创建静态外观的界面。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">enum</span> <span class="n">Property</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">PARTS</span><span class="o">,</span> <span class="n">TYPE</span><span class="o">,</span> <span class="n">PRICE</span><span class="o">,</span> <span class="n">MODEL</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HasType</span> <span class="kd">extends</span> <span class="n">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">default</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getType</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">((</span><span class="n">String</span><span class="o">)</span> <span class="n">get</span><span class="o">(</span><span class="n">Property</span><span class="o">.</span><span class="na">TYPE</span><span class="o">.</span><span class="na">toString</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HasPrice</span> <span class="kd">extends</span> <span class="n">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">default</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Number</span><span class="o">&gt;</span> <span class="nf">getPrice</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">((</span><span class="n">Number</span><span class="o">)</span> <span class="n">get</span><span class="o">(</span><span class="n">Property</span><span class="o">.</span><span class="na">PRICE</span><span class="o">.</span><span class="na">toString</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HasModel</span> <span class="kd">extends</span> <span class="n">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">default</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getModel</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">((</span><span class="n">String</span><span class="o">)</span> <span class="n">get</span><span class="o">(</span><span class="n">Property</span><span class="o">.</span><span class="na">MODEL</span><span class="o">.</span><span class="na">toString</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HasParts</span> <span class="kd">extends</span> <span class="n">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">default</span> <span class="n">Stream</span><span class="o">&lt;</span><span class="n">Part</span><span class="o">&gt;</span> <span class="nf">getParts</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">children</span><span class="o">(</span><span class="n">Property</span><span class="o">.</span><span class="na">PARTS</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="n">Part</span><span class="o">::</span><span class="k">new</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Part</span> <span class="kd">extends</span> <span class="n">AbstractDocument</span> <span class="kd">implements</span> <span class="n">HasType</span><span class="o">,</span> <span class="n">HasModel</span><span class="o">,</span> <span class="n">HasPrice</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">Part</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">properties</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">(</span><span class="n">properties</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在我们准备介绍 <code>Car</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="kd">extends</span> <span class="n">AbstractDocument</span> <span class="kd">implements</span> <span class="n">HasModel</span><span class="o">,</span> <span class="n">HasPrice</span><span class="o">,</span> <span class="n">HasParts</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">Car</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">properties</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">(</span><span class="n">properties</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后是完整示例中的<code>Car</code>构造和使用方式。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Slf4j</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">App</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 * Program entry point.
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 *
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 * @param args command line args
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Constructing parts and car&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">wheelProperties</span> <span class="o">=</span> <span class="n">ImmutableMap</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Property</span><span class="o">.</span><span class="na">TYPE</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="s">&#34;wheel&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Property</span><span class="o">.</span><span class="na">MODEL</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="s">&#34;15C&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Property</span><span class="o">.</span><span class="na">PRICE</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="mi">100L</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">doorProperties</span> <span class="o">=</span> <span class="n">ImmutableMap</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Property</span><span class="o">.</span><span class="na">TYPE</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="s">&#34;door&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Property</span><span class="o">.</span><span class="na">MODEL</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="s">&#34;Lambo&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Property</span><span class="o">.</span><span class="na">PRICE</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="mi">300L</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">carProperties</span> <span class="o">=</span> <span class="n">ImmutableMap</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Property</span><span class="o">.</span><span class="na">MODEL</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="s">&#34;300SL&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Property</span><span class="o">.</span><span class="na">PRICE</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="mi">10000L</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Property</span><span class="o">.</span><span class="na">PARTS</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="n">ImmutableList</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">wheelProperties</span><span class="o">,</span> <span class="n">doorProperties</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Car</span><span class="o">(</span><span class="n">carProperties</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Here is our car:&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;-&gt; model: {}&#34;</span><span class="o">,</span> <span class="n">car</span><span class="o">.</span><span class="na">getModel</span><span class="o">().</span><span class="na">orElse</span><span class="o">(</span><span class="kc">null</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">		<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;-&gt; price: {}&#34;</span><span class="o">,</span> <span class="n">car</span><span class="o">.</span><span class="na">getPrice</span><span class="o">().</span><span class="na">orElse</span><span class="o">(</span><span class="kc">null</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">		<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;-&gt; parts: &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">car</span><span class="o">.</span><span class="na">getParts</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">p</span> <span class="o">-&gt;</span> <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;\t{}/{}/{}&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">p</span><span class="o">.</span><span class="na">getType</span><span class="o">().</span><span class="na">orElse</span><span class="o">(</span><span class="kc">null</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">			<span class="n">p</span><span class="o">.</span><span class="na">getModel</span><span class="o">().</span><span class="na">orElse</span><span class="o">(</span><span class="kc">null</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">			<span class="n">p</span><span class="o">.</span><span class="na">getPrice</span><span class="o">().</span><span class="na">orElse</span><span class="o">(</span><span class="kc">null</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">		<span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>再来一个示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="kd">extends</span> <span class="n">AbstractDocument</span><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">Person</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="s">&#34;John Doe&#34;</span><span class="o">,</span>  
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;age&#34;</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;hobbies&#34;</span><span class="o">,</span> <span class="n">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;Sports&#34;</span><span class="o">,</span> <span class="s">&#34;Music&#34;</span><span class="o">));</span>     
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">          
+</span></span><span class="line"><span class="cl">          
+</span></span><span class="line"><span class="cl"><span class="nd">@Slf4j</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersonApp</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Person</span> <span class="n">person</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Person</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">		<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;name: {}&#34;</span><span class="o">,</span> <span class="n">person</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">		<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;age: {}&#34;</span><span class="o">,</span> <span class="n">person</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;age&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">		<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;hobbies: {}&#34;</span><span class="o">,</span> <span class="n">person</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;hobbies&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="类图">类图</h2>
+<p><img loading="lazy" src="https://java-design-patterns.com/assets/abstract-document-9f6a2e8d.png" alt="alt text"  />
+</p>
+<h2 id="适用性">适用性</h2>
+<p>使用抽象文档模式，当</p>
+<ul>
+<li>需要即时添加新属性</li>
+<li>你想要一种灵活的方式来以树状结构组织域</li>
+<li>你想要更宽松的耦合系统</li>
+</ul>
+<p>下面是抽象文档模式的一些实际应用：</p>
+<h3 id="1xml-和-json-解析">1、XML 和 JSON 解析</h3>
+<p>抽象文档模式可以用于解析 XML 和 JSON 数据。由于 XML 和 JSON 数据通常包含动态属性，因此抽象文档模式可以提供一种灵活的方式来处理这些数据。通过将 XML 或 JSON 数据映射到文档和属性对象，可以轻松地访问和修改这些数据。</p>
+<h4 id="xml解析">XML解析</h4>
+<p>假设我们有一个简单的XML文件，内容如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;bookstore&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;book</span> <span class="na">category=</span><span class="s">&#34;cooking&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;title</span> <span class="na">lang=</span><span class="s">&#34;en&#34;</span><span class="nt">&gt;</span>Everyday Italian<span class="nt">&lt;/title&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;author&gt;</span>Giada De Laurentiis<span class="nt">&lt;/author&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;year&gt;</span>2005<span class="nt">&lt;/year&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;price&gt;</span>30.00<span class="nt">&lt;/price&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/book&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;book</span> <span class="na">category=</span><span class="s">&#34;children&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;title</span> <span class="na">lang=</span><span class="s">&#34;en&#34;</span><span class="nt">&gt;</span>Harry Potter<span class="nt">&lt;/title&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;author&gt;</span>J.K. Rowling<span class="nt">&lt;/author&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;year&gt;</span>2003<span class="nt">&lt;/year&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;price&gt;</span>29.99<span class="nt">&lt;/price&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/book&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/bookstore&gt;</span>
+</span></span></code></pre></div><p>我们可以使用抽象文档模式来解析这个XML文件，首先定义一个<code>Document</code>接口，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Object</span> <span class="nf">get</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="nf">children</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后定义一个具体的XML文档类，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">XmlDocument</span> <span class="kd">implements</span> <span class="n">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Element</span> <span class="n">element</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">XmlDocument</span><span class="o">(</span><span class="n">Element</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">element</span> <span class="o">=</span> <span class="n">element</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">get</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">element</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">element</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="nf">children</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NodeList</span> <span class="n">nodes</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">getElementsByTagName</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="n">children</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nodes</span><span class="o">.</span><span class="na">getLength</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">children</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">XmlDocument</span><span class="o">((</span><span class="n">Element</span><span class="o">)</span> <span class="n">nodes</span><span class="o">.</span><span class="na">item</span><span class="o">(</span><span class="n">i</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">children</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个具体的XML文档类中，我们实现了<code>Document</code>接口的三个方法，其中<code>children</code>方法使用了DOM API来获取子元素列表，并将每个子元素包装成一个新的<code>XmlDocument</code>对象。</p>
+<p>现在，我们可以使用这个具体的XML文档类来解析XML文件，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DocumentBuilderFactory</span> <span class="n">dbFactory</span> <span class="o">=</span> <span class="n">DocumentBuilderFactory</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">DocumentBuilder</span> <span class="n">dBuilder</span> <span class="o">=</span> <span class="n">dbFactory</span><span class="o">.</span><span class="na">newDocumentBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Document</span> <span class="n">doc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">XmlDocument</span><span class="o">(</span><span class="n">dBuilder</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&#34;books.xml&#34;</span><span class="o">)).</span><span class="na">getDocumentElement</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 获取根元素的属性值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">String</span> <span class="n">bookstoreCategory</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">doc</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;category&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 获取所有书的信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="n">books</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="na">children</span><span class="o">(</span><span class="s">&#34;book&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="n">Document</span> <span class="n">book</span> <span class="o">:</span> <span class="n">books</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="n">category</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">doc</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;category&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="n">title</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">book</span><span class="o">.</span><span class="na">children</span><span class="o">(</span><span class="s">&#34;title&#34;</span><span class="o">).</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="n">author</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">book</span><span class="o">.</span><span class="na">children</span><span class="o">(</span><span class="s">&#34;author&#34;</span><span class="o">).</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">year</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">book</span><span class="o">.</span><span class="na">children</span><span class="o">(</span><span class="s">&#34;year&#34;</span><span class="o">).</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">double</span> <span class="n">price</span> <span class="o">=</span> <span class="o">(</span><span class="kt">double</span><span class="o">)</span> <span class="n">book</span><span class="o">.</span><span class="na">children</span><span class="o">(</span><span class="s">&#34;price&#34;</span><span class="o">).</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Category: &#34;</span> <span class="o">+</span> <span class="n">category</span> <span class="o">+</span> <span class="s">&#34;, Title: &#34;</span> <span class="o">+</span> <span class="n">title</span> <span class="o">+</span> <span class="s">&#34;, Author: &#34;</span> <span class="o">+</span> <span class="n">author</span> <span class="o">+</span> <span class="s">&#34;, Year: &#34;</span> <span class="o">+</span> <span class="n">year</span> <span class="o">+</span> <span class="s">&#34;, Price: &#34;</span> <span class="o">+</span> <span class="n">price</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h4 id="json解析">JSON解析</h4>
+<p>假设我们有一个简单的JSON文件，以下是<code>example.json</code>文件的内容：：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;John Smith&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;age&#34;</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;address&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;street&#34;</span><span class="p">:</span> <span class="s2">&#34;123 Main St&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;city&#34;</span><span class="p">:</span> <span class="s2">&#34;Anytown&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;state&#34;</span><span class="p">:</span> <span class="s2">&#34;CA&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;zip&#34;</span><span class="p">:</span> <span class="s2">&#34;12345&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;phone&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;home&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;number&#34;</span><span class="p">:</span> <span class="s2">&#34;555-1234&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;work&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;number&#34;</span><span class="p">:</span> <span class="s2">&#34;555-5678&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>我们可以使用抽象文档模式来解析这个JSON文件，首先定义一个<code>Document</code>接口，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Object</span> <span class="nf">get</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="nf">children</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后定义一个具体的JSON文档类，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.google.gson.*</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JsonDocument</span> <span class="kd">implements</span> <span class="n">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">JsonObject</span> <span class="n">object</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">JsonDocument</span><span class="o">(</span><span class="n">JsonObject</span> <span class="n">object</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">object</span> <span class="o">=</span> <span class="n">object</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">get</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">JsonElement</span> <span class="n">element</span> <span class="o">=</span> <span class="n">object</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">element</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">element</span><span class="o">.</span><span class="na">isJsonPrimitive</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">JsonPrimitive</span> <span class="n">primitive</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">getAsJsonPrimitive</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">primitive</span><span class="o">.</span><span class="na">isNumber</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">primitive</span><span class="o">.</span><span class="na">getAsNumber</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">primitive</span><span class="o">.</span><span class="na">isBoolean</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">primitive</span><span class="o">.</span><span class="na">getAsBoolean</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">primitive</span><span class="o">.</span><span class="na">getAsString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">element</span><span class="o">.</span><span class="na">isJsonObject</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">new</span> <span class="n">JsonDocument</span><span class="o">(</span><span class="n">element</span><span class="o">.</span><span class="na">getAsJsonObject</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">element</span><span class="o">.</span><span class="na">isJsonArray</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">JsonArray</span> <span class="n">array</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">getAsJsonArray</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="n">children</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="o">(</span><span class="n">JsonElement</span> <span class="n">child</span> <span class="o">:</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">children</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">JsonDocument</span><span class="o">(</span><span class="n">child</span><span class="o">.</span><span class="na">getAsJsonObject</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">children</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="k">instanceof</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">object</span><span class="o">.</span><span class="na">addProperty</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="k">instanceof</span> <span class="n">Number</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">object</span><span class="o">.</span><span class="na">addProperty</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="o">(</span><span class="n">Number</span><span class="o">)</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="k">instanceof</span> <span class="n">Boolean</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">object</span><span class="o">.</span><span class="na">addProperty</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="o">(</span><span class="n">Boolean</span><span class="o">)</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="k">instanceof</span> <span class="n">Document</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">JsonDocument</span> <span class="n">jsonDocument</span> <span class="o">=</span> <span class="o">(</span><span class="n">JsonDocument</span><span class="o">)</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">object</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">jsonDocument</span><span class="o">.</span><span class="na">object</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="k">instanceof</span> <span class="n">List</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="n">children</span> <span class="o">=</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;)</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">JsonArray</span> <span class="n">array</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JsonArray</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="o">(</span><span class="n">Document</span> <span class="n">child</span> <span class="o">:</span> <span class="n">children</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">JsonDocument</span> <span class="n">jsonChild</span> <span class="o">=</span> <span class="o">(</span><span class="n">JsonDocument</span><span class="o">)</span> <span class="n">child</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">array</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">jsonChild</span><span class="o">.</span><span class="na">object</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">object</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">array</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="nf">children</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">JsonElement</span> <span class="n">element</span> <span class="o">=</span> <span class="n">object</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="n">children</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">element</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">element</span><span class="o">.</span><span class="na">isJsonArray</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">JsonArray</span> <span class="n">array</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">getAsJsonArray</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="o">(</span><span class="n">JsonElement</span> <span class="n">child</span> <span class="o">:</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">children</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">JsonDocument</span><span class="o">(</span><span class="n">child</span><span class="o">.</span><span class="na">getAsJsonObject</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">children</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，我们可以使用这个具体的JSON文档类来解析JSON文件，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JsonParsingExample</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 读取JSON文件并解析
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">JsonElement</span> <span class="n">jsonElement</span> <span class="o">=</span> <span class="n">gson</span><span class="o">.</span><span class="na">fromJson</span><span class="o">(</span><span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="s">&#34;example.json&#34;</span><span class="o">),</span> <span class="n">JsonElement</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">JsonDocument</span> <span class="n">doc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JsonDocument</span><span class="o">(</span><span class="n">jsonElement</span><span class="o">.</span><span class="na">getAsJsonObject</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// 获取根元素的属性值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">doc</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">age</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">doc</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;age&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// 获取地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">JsonDocument</span> <span class="n">address</span> <span class="o">=</span> <span class="o">(</span><span class="n">JsonDocument</span><span class="o">)</span> <span class="n">doc</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;address&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">String</span> <span class="n">street</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">address</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;street&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">String</span> <span class="n">city</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">address</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;city&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">String</span> <span class="n">state</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">address</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;state&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">String</span> <span class="n">zip</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">address</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;zip&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// 获取电话号码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="n">phoneList</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="na">children</span><span class="o">(</span><span class="s">&#34;phone&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="o">(</span><span class="n">Document</span> <span class="n">phone</span> <span class="o">:</span> <span class="n">phoneList</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">phone</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;type&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">number</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">phone</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;number&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">type</span> <span class="o">+</span> <span class="s">&#34;: &#34;</span> <span class="o">+</span> <span class="n">number</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="2动态配置">2、动态配置</h3>
+<p>抽象文档模式可以用于动态配置。通过将配置数据映射到文档和属性对象，可以轻松地访问和修改配置数据。此外，由于抽象文档模式支持动态属性，因此可以在运行时添加或删除属性，从而使配置更加灵活。</p>
+<p>假设有一个学生信息管理系统，需要存储和检索学生信息。学生信息包括学生姓名、学生年龄、学生性别、学生家庭地址等属性。由于学生属性可能会随时变化，因此需要使用一种灵活的方式来处理这些属性，并且需要轻松地访问和修改这些属性。</p>
+<p>为了实现这个功能，可以使用抽象文档模式。定义一个学生文档类（StudentDocument），该类包含学生属性的访问器和修改器方法，并且支持动态属性。然后，定义一个学生属性类（Property），该类包含属性名称、属性类型和属性值等属性，并且支持动态属性。最后，使用一个构建器（Builder）类来创建具体的学生文档对象，并将学生属性添加到文档中。</p>
+<p>示例代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Property</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Object</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Property</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getValue</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setValue</span><span class="o">(</span><span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Property</span><span class="o">&gt;</span> <span class="n">properties</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getProperty</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Property</span> <span class="n">property</span> <span class="o">:</span> <span class="n">properties</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">property</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">property</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setProperty</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Property</span> <span class="n">property</span> <span class="o">:</span> <span class="n">properties</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">property</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">property</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">properties</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Property</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">value</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">StudentDocument</span> <span class="kd">extends</span> <span class="n">Document</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">getProperty</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">setProperty</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getAge</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">getProperty</span><span class="o">(</span><span class="s">&#34;age&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAge</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">setProperty</span><span class="o">(</span><span class="s">&#34;age&#34;</span><span class="o">,</span> <span class="n">age</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getGender</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">getProperty</span><span class="o">(</span><span class="s">&#34;gender&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setGender</span><span class="o">(</span><span class="n">String</span> <span class="n">gender</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">setProperty</span><span class="o">(</span><span class="s">&#34;gender&#34;</span><span class="o">,</span> <span class="n">gender</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAddress</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">getProperty</span><span class="o">(</span><span class="s">&#34;address&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAddress</span><span class="o">(</span><span class="n">Stringaddress</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">setProperty</span><span class="o">(</span><span class="s">&#34;address&#34;</span><span class="o">,</span> <span class="n">address</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">StudentBuilder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">StudentDocument</span> <span class="n">student</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StudentDocument</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">student</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAge</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">student</span><span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="n">age</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setGender</span><span class="o">(</span><span class="n">String</span> <span class="n">gender</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">student</span><span class="o">.</span><span class="na">setGender</span><span class="o">(</span><span class="n">gender</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAddress</span><span class="o">(</span><span class="n">String</span> <span class="n">address</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">student</span><span class="o">.</span><span class="na">setAddress</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">StudentDocument</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">student</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>使用抽象文档模式，可以轻松地访问和修改学生属性，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">StudentBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StudentBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">builder</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Tom&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">builder</span><span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="mi">18</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">builder</span><span class="o">.</span><span class="na">setGender</span><span class="o">(</span><span class="s">&#34;Male&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">builder</span><span class="o">.</span><span class="na">setAddress</span><span class="o">(</span><span class="s">&#34;Beijing&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">StudentDocument</span> <span class="n">student</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">student</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span> <span class="c1">// 输出：Tom
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">student</span><span class="o">.</span><span class="na">setAddress</span><span class="o">(</span><span class="s">&#34;Shanghai&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">student</span><span class="o">.</span><span class="na">getAddress</span><span class="o">());</span> <span class="c1">// 输出：Shanghai
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">student</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">&#34;phoneNumber&#34;</span><span class="o">,</span> <span class="s">&#34;1234567890&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">student</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;phoneNumber&#34;</span><span class="o">));</span> <span class="c1">// 输出：1234567890
+</span></span></span></code></pre></div><h3 id="3业务规则引擎">3、业务规则引擎</h3>
+<p>抽象文档模式可以用于实现业务规则引擎。通过将规则数据映射到文档和属性对象，可以轻松地访问和修改规则数据。此外，由于抽象文档模式支持动态属性，因此可以在运行时添加或删除规则，从而使规则引擎更加灵活。</p>
+<p>假设我们有一个简单的业务规则，用于确定用户是否有资格获得某项奖励。这个规则可能涉及到多个条件，例如用户的年龄、所在地区以及购物金额等。</p>
+<p>我们可以将这个规则表示为一个文档，例如一个JSON文档，其中每个属性对应一个规则条件。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;age&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;operator&#34;</span><span class="p">:</span> <span class="s2">&#34;&gt;=&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="mi">18</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;region&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;operator&#34;</span><span class="p">:</span> <span class="s2">&#34;in&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;east&#34;</span><span class="p">,</span> <span class="s2">&#34;south&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;amount&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;operator&#34;</span><span class="p">:</span> <span class="s2">&#34;&gt;=&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="mi">1000</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>然后，我们可以使用抽象文档模式来解析这个文档，并将其转换为一个规则对象。例如，我们可以创建一个名为<code>Rule</code>的类，它包含三个属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Rule</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">key</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">operator</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Object</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Object</span> <span class="n">secondValue</span><span class="o">;</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Rule</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">String</span> <span class="n">operator</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">operator</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Rule</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">String</span> <span class="n">operator</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">,</span> <span class="n">Object</span> <span class="n">secondValue</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">operator</span> <span class="o">=</span> <span class="n">operator</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">secondValue</span> <span class="o">=</span> <span class="n">secondValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">evaluate</span><span class="o">(</span><span class="n">Document</span> <span class="n">document</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Object</span> <span class="n">documentValue</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">documentValue</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">switch</span> <span class="o">(</span><span class="n">operator</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="s">&#34;&gt;=&#34;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="s">&#34;&lt;=&#34;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="s">&#34;&gt;&#34;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="s">&#34;&lt;&#34;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="s">&#34;==&#34;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span><span class="n">value</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="s">&#34;!=&#34;</span><span class="o">:</span> 
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">;</span>  
+</span></span><span class="line"><span class="cl">          	<span class="k">case</span> <span class="s">&#34;in&#34;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="k">instanceof</span> <span class="n">List</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">List</span><span class="o">&lt;?&gt;</span> <span class="n">listValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;?&gt;)</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">for</span> <span class="o">(</span><span class="n">Object</span> <span class="n">item</span> <span class="o">:</span> <span class="n">listValue</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">if</span> <span class="o">(</span><span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span> <span class="n">item</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="s">&#34;not in&#34;</span><span class="o">:</span> 
+</span></span><span class="line"><span class="cl">            		<span class="kt">boolean</span> <span class="n">found</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="k">instanceof</span> <span class="n">List</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">List</span><span class="o">&lt;?&gt;</span> <span class="n">listValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;?&gt;)</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">for</span> <span class="o">(</span><span class="n">Object</span> <span class="n">item</span> <span class="o">:</span> <span class="n">listValue</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">if</span> <span class="o">(</span><span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span> <span class="n">item</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">found</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                          	<span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="o">!</span><span class="n">found</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">          	<span class="k">case</span> <span class="s">&#34;between&#34;</span><span class="o">:</span> 
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">secondValue</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">int</span> <span class="n">cmp1</span> <span class="o">=</span> <span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">int</span> <span class="n">cmp2</span> <span class="o">=</span> <span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span> <span class="n">secondValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">cmp1</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">cmp2</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="s">&#34;not between&#34;</span><span class="o">:</span> 
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">secondValue</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">int</span> <span class="n">cmp1</span> <span class="o">=</span> <span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">int</span> <span class="n">cmp2</span> <span class="o">=</span> <span class="n">compare</span><span class="o">(</span><span class="n">documentValue</span><span class="o">,</span> <span class="n">secondValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">cmp1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">cmp2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">          	<span class="k">case</span> <span class="s">&#34;regex&#34;</span><span class="o">:</span> 
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">documentValue</span> <span class="k">instanceof</span> <span class="n">String</span> <span class="o">&amp;&amp;</span> <span class="n">value</span> <span class="k">instanceof</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">String</span> <span class="n">strValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">String</span> <span class="n">strDocumentValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">documentValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="n">strDocumentValue</span><span class="o">.</span><span class="na">matches</span><span class="o">(</span><span class="n">strValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="s">&#34;startswith&#34;</span><span class="o">:</span> 
+</span></span><span class="line"><span class="cl">                <span class="k">if</span><span class="o">(</span><span class="n">documentValue</span> <span class="k">instanceof</span> <span class="n">String</span> <span class="o">&amp;&amp;</span> <span class="n">value</span> <span class="k">instanceof</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">String</span> <span class="n">strValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">String</span> <span class="n">strDocumentValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">documentValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="n">strDocumentValue</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">strValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="s">&#34;endswith&#34;</span><span class="o">:</span> 
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">documentValue</span> <span class="k">instanceof</span> <span class="n">String</span> <span class="o">&amp;&amp;</span> <span class="n">value</span> <span class="k">instanceof</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">String</span> <span class="n">strValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">String</span> <span class="n">strDocumentValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">documentValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="n">strDocumentValue</span><span class="o">.</span><span class="na">endsWith</span><span class="o">(</span><span class="n">strValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="s">&#34;like&#34;</span><span class="o">:</span> 
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">documentValue</span> <span class="k">instanceof</span> <span class="n">String</span> <span class="o">&amp;&amp;</span> <span class="n">value</span> <span class="k">instanceof</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">String</span> <span class="n">strValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">String</span> <span class="n">strDocumentValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">documentValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="n">strDocumentValue</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">strValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">          	<span class="k">case</span> <span class="s">&#34;not like&#34;</span><span class="o">:</span> 
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">documentValue</span> <span class="k">instanceof</span> <span class="n">String</span> <span class="o">&amp;&amp;</span> <span class="n">value</span> <span class="k">instanceof</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">String</span> <span class="n">strValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">String</span> <span class="n">strDocumentValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">documentValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="o">!</span><span class="n">strDocumentValue</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">strValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">           	<span class="k">default</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="n">Object</span> <span class="n">a</span><span class="o">,</span> <span class="n">Object</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="k">instanceof</span> <span class="n">Number</span> <span class="o">&amp;&amp;</span> <span class="n">b</span> <span class="k">instanceof</span> <span class="n">Number</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">Double</span><span class="o">.</span><span class="na">compare</span><span class="o">(((</span><span class="n">Number</span><span class="o">)</span> <span class="n">a</span><span class="o">).</span><span class="na">doubleValue</span><span class="o">(),</span> <span class="o">((</span><span class="n">Number</span><span class="o">)</span> <span class="n">b</span><span class="o">).</span><span class="na">doubleValue</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="k">instanceof</span> <span class="n">String</span> <span class="o">&amp;&amp;</span> <span class="n">b</span> <span class="k">instanceof</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="o">((</span><span class="n">String</span><span class="o">)</span> <span class="n">a</span><span class="o">).</span><span class="na">compareTo</span><span class="o">((</span><span class="n">String</span><span class="o">)</span> <span class="n">b</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">b</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><code>Rule</code>类有一个<code>evaluate</code>方法，它接受一个<code>Document</code>对象，并根据规则条件对文档进行评估。例如，对于上面的规则文档，我们可以创建三个<code>Rule</code>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Rule</span> <span class="n">ageRule</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rule</span><span class="o">(</span><span class="s">&#34;age&#34;</span><span class="o">,</span> <span class="s">&#34;between&#34;</span><span class="o">,</span> <span class="mi">18</span><span class="o">,</span> <span class="mi">30</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Rule</span> <span class="n">regionRule</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rule</span><span class="o">(</span><span class="s">&#34;region&#34;</span><span class="o">,</span> <span class="s">&#34;in&#34;</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;east&#34;</span><span class="o">,</span> <span class="s">&#34;south&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">Rule</span> <span class="n">amountRule</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rule</span><span class="o">(</span><span class="s">&#34;amount&#34;</span><span class="o">,</span> <span class="s">&#34;&gt;=&#34;</span><span class="o">,</span> <span class="mi">1000</span><span class="o">);</span>
+</span></span></code></pre></div><p>然后，我们可以将这些规则应用于用户数据，例如一个存储在数据库中的用户记录。我们可以将用户数据表示为一个文档，例如一个XML文档：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;user&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;name&gt;</span>John Doe<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;age&gt;</span>25<span class="nt">&lt;/age&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;region&gt;</span>east<span class="nt">&lt;/region&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;amount&gt;</span>1200<span class="nt">&lt;/amount&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/user&gt;</span>
+</span></span></code></pre></div><p>我们可以使用抽象文档模式解析该文档并将其转换为<code>Document</code>对象。然后，我们可以使用<code>Rule</code>对象和<code>Document</code>对象来评估用户是否有资格获得奖励。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Document</span> <span class="n">userDocument</span> <span class="o">=</span> <span class="o">...</span> <span class="c1">// 解析用户数据为一个Document对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">boolean</span> <span class="n">isEligible</span> <span class="o">=</span> <span class="n">ageRule</span><span class="o">.</span><span class="na">evaluate</span><span class="o">(</span><span class="n">userDocument</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">regionRule</span><span class="o">.</span><span class="na">evaluate</span><span class="o">(</span><span class="n">userDocument</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">amountRule</span><span class="o">.</span><span class="na">evaluate</span><span class="o">(</span><span class="n">userDocument</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="4数据库映射">4、数据库映射</h3>
+<p>抽象文档模式可以用于将数据库数据映射到文档和属性对象上。通过将数据库表映射到文档对象，将表的列映射到属性对象，可以轻松地访问和修改数据库数据。</p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>周报-19｜武功山看日出、Python初学建议</title>
       <link>https://blog.chensoul.com/posts/2023/05/18/weekly_review_19/</link>

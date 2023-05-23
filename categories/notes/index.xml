@@ -6,7 +6,449 @@
     <description>Recent content in Notes on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 22 May 2023 15:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/categories/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 May 2023 18:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/categories/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python学习1：注释、变量和常量</title>
+      <link>https://blog.chensoul.com/posts/2023/05/23/python-comment-and-variable/</link>
+      <pubDate>Tue, 23 May 2023 18:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/05/23/python-comment-and-variable/</guid>
+      <description>Python 注释、变量和常量是编写 Python 代码时非常重要的概念，下面分别介绍它们的基本用法和语法。 Hello World 创建一个 00_helloworld.py 文件，打印 hello world： print(&amp;#34</description>
+      <content:encoded><![CDATA[<p>Python 注释、变量和常量是编写 Python 代码时非常重要的概念，下面分别介绍它们的基本用法和语法。</p>
+<h2 id="hello-world">Hello World</h2>
+<p>创建一个 00_helloworld.py 文件，打印 hello world：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Hello，World!&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>执行该文件，会输出结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ python 00_helloworld.py
+</span></span><span class="line"><span class="cl">Hello，World!
+</span></span></code></pre></div><p>一般在python文件的开头第一行，我们都会看到下面的代码行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># python2</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#!/usr/bin/env python</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 或者</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#!/usr/bin/python</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># python3</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#!/usr/bin/env python3</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 或者</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#!/usr/bin/python3</span>
+</span></span></code></pre></div><p>这行代码用来指定本脚本用什么解释器来执行。</p>
+<p><code>#!/usr/bin/python</code> 是告诉操作系统执行这个脚本的时候，调用 /usr/bin 下的 python 解释器。</p>
+<p><code>#!/usr/bin/env python</code> 这种用法是为了防止操作系统用户没有将 python 装在默认的 /usr/bin 路径里。当系统看到这一行的时候，首先会到 env 设置里查找 python 的安装路径，再调用对应路径下的解释器程序完成操作。为了增强代码的可移植性，<strong>推荐这种写法</strong>。</p>
+<p>在 00_helloworld.py 添加这行代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env python</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Hello，World!&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>然后，修改该文件为可执行属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chmod +x 00_helloworld.py
+</span></span></code></pre></div><p>就可以这样执行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">. 00_helloworld.py
+</span></span></code></pre></div><h2 id="编码格式">编码格式</h2>
+<p>Python3 默认的编码格式是UTF-8（Unicode Transformation Format - 8 bit）。这是一种通用的字符编码，支持几乎所有的字符集，包括 ASCII、Latin、中文、日文、韩文等。</p>
+<p>在 Python 3.x 中，所有的字符串都是以 Unicode 编码存储的。当你在 Python 中创建一个字符串时，你可以使用任何 Unicode 字符，而不必担心编码问题。</p>
+<p>当你打开一个文本文件时，Python 会自动尝试使用 UTF-8 编码来解析文件内容。如果文件使用其他编码格式，你需要使用相应的编码格式来打开文件，或者在读取文件内容后将其解码为 Unicode。</p>
+<p>在 Python 中，你可以使用编码声明（coding declaration）来指定文件的编码格式。编码声明是一个特殊的注释，出现在 Python 文件的第一行或第二行（如果文件的第一行是 shebang，则编码声明必须出现在第二行），格式如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># -*- coding: encoding -*-</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 或者</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># coding=utf-8</span>
+</span></span></code></pre></div><p>其中，<code>encoding</code> 是文件的编码格式，可以是 UTF-8、ISO-8859-1 或其他编码格式的名称。编码声明告诉 Python 解释器应该使用指定的编码格式来解析该文件中的文本内容。如果没有编码声明，Python3 默认使用 UTF-8 编码来解析文件内容。</p>
+<p>Python 2.x 的默认编码格式是 ASCII，这是一种 7-bit 的字符编码，只能表示最基本的 ASCII 字符集，无法支持多语言和 Unicode 字符。</p>
+<p>在 Python 2.x 中，如果你需要使用 Unicode 字符，你需要在字符串前面添加一个 <code>u</code> 字符，以表示该字符串是一个 Unicode 字符串。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># -*- coding: utf-8 -*-</span>
+</span></span><span class="line"><span class="cl"><span class="n">s</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;你好，世界！&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="n">s</span>
+</span></span></code></pre></div><p>在 Python 2.x 中，如果你需要打开一个非 ASCII 编码的文本文件，你需要在打开文件时指定文件的编码格式。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;filename.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">s</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;gbk&#39;</span><span class="p">)</span>  <span class="c1"># 读取并解码文件内容</span>
+</span></span><span class="line"><span class="cl"><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span></code></pre></div><p>在 Python 2.x 中，你可以使用编码声明来指定文件的编码格式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># -*- coding: encoding -*-</span>
+</span></span></code></pre></div><p>其中，<code>encoding</code> 是文件的编码格式，可以是 UTF-8、GBK、ISO-8859-1 或其他编码格式的名称。编码声明告诉 Python 解释器应该使用指定的编码格式来解析该文件中的文本内容。如果没有编码声明，Python 2.x 默认使用 ASCII 编码来解析文件内容。</p>
+<p>在终端输入如下命令，查看编码格式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ python
+</span></span><span class="line"><span class="cl">Python 3.11.3 <span class="o">(</span>main, Apr  <span class="m">7</span> 2023, 20:13:31<span class="o">)</span> <span class="o">[</span>Clang 14.0.0 <span class="o">(</span>clang-1400.0.29.202<span class="o">)]</span> on darwin
+</span></span><span class="line"><span class="cl">Type <span class="s2">&#34;help&#34;</span>, <span class="s2">&#34;copyright&#34;</span>, <span class="s2">&#34;credits&#34;</span> or <span class="s2">&#34;license&#34;</span> <span class="k">for</span> more information.
+</span></span><span class="line"><span class="cl">&gt;&gt;&gt; import sys
+</span></span><span class="line"><span class="cl">&gt;&gt;&gt; sys.getdefaultencoding<span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;utf-8&#39;</span>
+</span></span></code></pre></div><h2 id="注释">注释</h2>
+<p>在 Python 中，注释用于在代码中添加注释、解释或说明。注释通常用于提高代码的可读性，帮助其他人理解你的代码。</p>
+<p>Python 支持两种类型的注释：单行注释和多行注释。</p>
+<h3 id="单行注释">单行注释</h3>
+<p>在 Python 中，单行注释以井号(<code>#</code>)开头，用于在代码行的末尾或者独立一行中添加注释。任何紧随井号后的文本都将被解释器忽略。</p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 这是一个单行注释</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Hello, World!&#34;</span><span class="p">)</span>  <span class="c1"># 这也是一个单行注释</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">text</span> <span class="o">=</span> <span class="s2">&#34;# This is not a comment because it&#39;s inside quotes.&#34;</span>
+</span></span></code></pre></div><p>在这个例子中，第一行是一个独立的单行注释，第二行则是在代码行的末尾添加的单行注释。这些注释不会影响程序的执行，但是可以帮助其他人理解你的代码。</p>
+<h3 id="多行注释">多行注释</h3>
+<p>Python中使用以三个单引号或者三个双引号括起来的注释被视为多行注释。多行注释通常用于注释函数、类、模块等。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">这是一个多行注释，
+</span></span></span><span class="line"><span class="cl"><span class="s1">它可以用于描述函数、类或模块的功能和使用方法。
+</span></span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">add_numbers</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    这是一个用于计算两个数字之和的函数。
+</span></span></span><span class="line"><span class="cl"><span class="s2">    参数：
+</span></span></span><span class="line"><span class="cl"><span class="s2">    a -- 第一个数字
+</span></span></span><span class="line"><span class="cl"><span class="s2">    b -- 第二个数字
+</span></span></span><span class="line"><span class="cl"><span class="s2">    返回值：
+</span></span></span><span class="line"><span class="cl"><span class="s2">    两个数字的和
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span></span></code></pre></div><blockquote>
+<p>注意：</p>
+<p>Python的多行注释实际上是一个字符串字面值，因此如果不被赋值给任何变量，它们将不会对程序产生任何影响。</p>
+</blockquote>
+<h2 id="变量">变量</h2>
+<p>在 Python 中，变量是用来存储数据的标识符。它们是程序中的一种基本元素，用于操作数据并在程序中引用它们。</p>
+<p>Python 中的变量可以存储各种数据类型，包括数字、字符串、列表、元组、字典等。变量的值可以随时更改，因此它们是动态的。</p>
+<p>变量的命名规则如下：</p>
+<ul>
+<li>变量名必须以字母或下划线开头。</li>
+<li>变量名可以包含字母、数字和下划线。</li>
+<li>变量名区分大小写。</li>
+<li>变量名不能与 Python 的关键字相同。</li>
+</ul>
+<blockquote>
+<p>以下是 Python 3.x 版本中的所有关键字：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">False  class   finally is      <span class="k">return</span>
+</span></span><span class="line"><span class="cl">None   <span class="k">continue</span>    <span class="k">for</span>     lambda  try
+</span></span><span class="line"><span class="cl">True   def     from    nonlocal    <span class="k">while</span>
+</span></span><span class="line"><span class="cl">and    del     global  not     with
+</span></span><span class="line"><span class="cl">as     <span class="k">elif</span>    <span class="k">if</span>      or      yield
+</span></span><span class="line"><span class="cl">assert <span class="k">else</span>    import  pass    
+</span></span><span class="line"><span class="cl"><span class="nb">break</span>  except  in      raise   
+</span></span></code></pre></div><p>在 Python 2.x 中，还有两个额外的关键字 <code>exec</code> 和 <code>print</code>，但它们在 Python 3.x 中已经被移除。</p>
+<p>如果你不确定某个标识符是否是关键字，你可以使用 Python 的 <code>keyword</code> 模块来检查：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">keyword</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">keyword</span><span class="o">.</span><span class="n">kwlist</span><span class="p">)</span>
+</span></span></code></pre></div></blockquote>
+<h3 id="变量定义和使用">变量定义和使用</h3>
+<p>在 Python 中，可以使用赋值语句来创建变量。赋值语句使用等号(<code>=</code>)将变量名和要存储在变量中的值分开。</p>
+<p>Python是动态类型的语言，无须声明变量类型，直接对变量赋值即可使用。</p>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 创建一个整型变量 x</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建一个字符串变量 name</span>
+</span></span><span class="line"><span class="cl"><span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;John&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建一个列表变量 my_list</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 引用变量 x 的值</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 输出 5</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 引用变量 name 的值</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;My name is&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>  <span class="c1"># 输出 My name is John</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 引用变量 my_list 的值</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>  <span class="c1"># 输出 [1, 2, 3]</span>
+</span></span></code></pre></div><p>在 Python 中，变量是动态类型的。这意味着变量的类型可以随时更改。例如，一个变量可以在一个时刻存储一个整数，而在下一个时刻存储一个字符串。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 动态类型示例</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># x 是一个整数</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 输出 5</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="s2">&#34;Hello, world!&#34;</span>  <span class="c1"># x 是一个字符串</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 输出 Hello, world!</span>
+</span></span></code></pre></div><blockquote>
+<p>在 Python 中，变量是对象的引用。当一个变量被赋值为一个对象时，它实际上是将这个对象的引用存储到变量中。Python 的内存管理器会自动跟踪和回收不再使用的对象。</p>
+</blockquote>
+<h3 id="一行定义多个变量">一行定义多个变量</h3>
+<p>在 Python 中可以一行定义多个变量。可以使用逗号将多个变量名分开，并使用等号将它们与相应的值分开。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 在 Python 中可以一行定义多个变量。可以使用逗号将多个变量名分开，并使用等号将它们与相应的值分开。</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&#34;John&#34;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出变量值</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 输出 5</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># 输出 John</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>  <span class="c1"># 输出 [1, 2, 3]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 一行定义多个变量，使用相同的值</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出变量值</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># 输出 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>  <span class="c1"># 输出 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>  <span class="c1"># 输出 0</span>
+</span></span></code></pre></div><h3 id="变量的作用域">变量的作用域</h3>
+<p>在 Python 中，变量的作用域是指变量在程序中可见和可访问的范围。Python 中有四种作用域：</p>
+<ul>
+<li>局部作用域：变量在函数内部定义，只能在函数内部访问。</li>
+<li>嵌套作用域：变量在嵌套函数内部定义，可以在嵌套函数内部和外部函数内部访问。</li>
+<li>全局作用域：变量在模块内部定义，可以在模块内的任何函数或类中访问。</li>
+<li>内置作用域：变量是 Python 内置的函数和对象，可以在任何地方访问。</li>
+</ul>
+<p>如果在函数内部访问全局变量，你需要使用 <code>global</code> 关键字来指示变量的作用域。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># 全局变量</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">my_func</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">global</span> <span class="n">x</span>  <span class="c1"># 使用 global 关键字指示变量的作用域</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="mi">20</span>   <span class="c1"># 将全局变量 x 的值修改为 20</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">my_func</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 输出 20</span>
+</span></span></code></pre></div><h3 id="变量解包">变量解包</h3>
+<p>在 Python 中，可以使用变量解包（unpacking）语法将一个序列或元组中的值分配给多个变量。变量解包语法使用等号(<code>=</code>)将变量名与序列或元组中的值分开，并使用逗号将变量名分开。</p>
+<p>对元组解包</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 定义一个元组</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># 注意：左侧变量的个数必须和待展开的列表长度相等，否则会报错</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 变量解包，将元组中的值分配给多个变量</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">my_tuple</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出变量值</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 输出 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># 输出 2</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>  <span class="c1"># 输出 3</span>
+</span></span></code></pre></div><p>可以将变量解包语法与其他 Python 的语言特性结合使用，例如函数返回值和列表推导式。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 定义一个函数，返回两个值</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_name_and_age</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s2">&#34;John&#34;</span><span class="p">,</span> <span class="mi">30</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 变量解包，将函数返回的值分配给多个变量</span>
+</span></span><span class="line"><span class="cl"><span class="n">name</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="n">get_name_and_age</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出变量值</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>  <span class="c1"># 输出 John</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>   <span class="c1"># 输出 30</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用列表推导式创建一个列表，然后进行变量解包</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">my_list</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出变量值</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># 输出 2</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>  <span class="c1"># 输出 4</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>  <span class="c1"># 输出 6</span>
+</span></span></code></pre></div><p>变量解包语法可以用于嵌套的序列或元组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 定义一个嵌套元组</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 变量解包，将元组中的值分配给多个变量</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_tuple</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出变量值</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 输出 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># 输出 2</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>  <span class="c1"># 输出 3</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>  <span class="c1"># 输出 4</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 定义一个嵌套列表</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 变量解包，将列表中的值分配给多个变量</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="p">[</span><span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_list</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出变量值</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 输出 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># 输出 2</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>  <span class="c1"># 输出 3</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>  <span class="c1"># 输出 4</span>
+</span></span></code></pre></div><p>使用变量解包语法进行动态解包。动态解包是指在运行时确定要解包的序列或元组，并将其分配给多个变量。</p>
+<p>这通常涉及到使用函数或方法返回的序列或元组，以及不确定序列或元组的长度的情况。</p>
+<p>使用一个星号(<code>*</code>)作为变量名称的前缀可以指定一个变量来接收除了已分配变量之外的所有值。这个变量将是一个列表。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 定义一个元组</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用动态解包，将元组前两个值分配给变量 x 和 y，后两个值分配给变量 a 和 b，其他值分配给变量 rest</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">my_tuple</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出变量值</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>     <span class="c1"># 输出 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>     <span class="c1"># 输出 2</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span>  <span class="c1"># 输出 [3, 4]</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>     <span class="c1"># 输出 5</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>     <span class="c1"># 输出 6</span>
+</span></span></code></pre></div><h3 id="单下划线变量名">单下划线变量名</h3>
+<p>在 Python 中，以单个下划线(<code>_</code>)开头的变量名通常表示一个私有变量或占位符变量。</p>
+<ol>
+<li>
+<p>私有变量：在 Python 中，没有真正的私有变量，但是以单个下划线开头的变量名通常被视为私有变量。这意味着这些变量不应该在模块或类的外部使用，因为它们可能会发生变化或不再存在。但是，它们仍然可以在模块或类的内部使用。</p>
+</li>
+<li>
+<p>占位符变量：有时候，在编写代码时，需要使用一个变量来占据一个位置，但是不需要引用变量的值。在这种情况下，可以使用以单个下划线开头的变量名来表示一个占位符变量。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 忽略展开时的第二个变量</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span>  <span class="c1"># 输出 1 2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用占位符变量</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="可变和不可变对象">可变和不可变对象</h3>
+<p>在 Python 中，有些对象是可变的，有些对象是不可变的。可变对象是可以修改的，而不可变对象是不能修改的。例如，数字、字符串和元组是不可变的，而列表和字典是可变的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 可变对象示例</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>  <span class="c1"># 输出 [1, 2, 3, 4]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 不可变对象示例</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_string</span> <span class="o">=</span> <span class="s2">&#34;Hello&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">my_string</span> <span class="o">+=</span> <span class="s2">&#34;, world!&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">my_string</span><span class="p">)</span>  <span class="c1"># 输出 Hello, world!</span>
+</span></span></code></pre></div><h2 id="常量">常量</h2>
+<p>在 Python 中，常量是指在程序中定义的不可变的值。常量通常用大写字母表示，以便与变量区分开来。Python 中没有内置的常量类型，但是你可以使用以下方式定义常量：</p>
+<ol>
+<li>使用普通变量表示常量。例如：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">PI</span> <span class="o">=</span> <span class="mf">3.14159265358979323846</span>
+</span></span></code></pre></div><p>在程序中使用 <code>PI</code> 来表示圆周率，这个值不会被修改。</p>
+<ol start="2">
+<li>使用枚举类（Enum）表示常量。枚举类是 Python 中的一种特殊类型，用于定义一组有限的常量。例如：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Color</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">RED</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">GREEN</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BLUE</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span></code></pre></div><p>在程序中使用 <code>Color.RED</code>、<code>Color.GREEN</code> 和 <code>Color.BLUE</code> 来表示三种颜色，这些值不会被修改。</p>
+<p>常量是编写可读性好、易于理解和维护的代码的重要组成部分。在编写代码时，应该将常量定义为不可变的值，并尽可能使用常量来表示不变的数据。</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>《Effective Java 3》笔记11：当覆盖 equals 方法时，总要覆盖 hashCode 方法</title>
+      <link>https://blog.chensoul.com/posts/2023/05/23/always-override-hashcode-when-you-override-equals/</link>
+      <pubDate>Tue, 23 May 2023 10:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/05/23/always-override-hashcode-when-you-override-equals/</guid>
+      <description>本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：当覆盖 equals 方法时，总要覆盖 hashCode 方法。 介绍 在覆盖了 equals 方法的类中，必须覆盖 hashCode 方法</description>
+      <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：当覆盖 equals 方法时，总要覆盖 hashCode 方法。</p>
+<h2 id="介绍">介绍</h2>
+<p><strong>在覆盖了 equals 方法的类中，必须覆盖 hashCode 方法。</strong> 如果你没有这样做，该类将违反 hashCode 方法的一般约定，这将阻止该类在 HashMap 和 HashSet 等集合中正常运行。以下是根据 Object 规范修改的约定：</p>
+<ul>
+<li>应用程序执行期间对对象重复调用 hashCode 方法时，它必须一致地返回相同的值，前提是不对 equals 方法中用于比较的信息进行修改。这个值不需要在应用程序的不同执行之间保持一致。</li>
+<li>如果根据 <code>equals(Object)</code> 方法判断出两个对象是相等的，那么在两个对象上调用 hashCode 方法必须产生相同的整数结果。</li>
+</ul>
+<p>如果根据 <code>equals(Object)</code> 方法判断出两个对象不相等，则不需要在每个对象上调用 hashCode 方法时必须产生不同的结果。但是，程序员应该知道，为不相等的对象生成不同的结果可能会提高散列表的性能。</p>
+<p><strong>当你无法覆盖 hashCode 方法时，将违反第二个关键条款：相等的对象必须具有相等的散列码。</strong> 根据类的 equals 方法，两个不同的实例在逻辑上可能是相等的，但是对于对象的 hashCode 方法来说，它们只是两个没有共同之处的对象。因此，Object 的 hashCode 方法返回两个看似随机的数字，而不是约定要求的两个相等的数字。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">PhoneNumber</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">m</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="n">m</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="k">new</span> <span class="n">PhoneNumber</span><span class="o">(</span><span class="mi">707</span><span class="o">,</span> <span class="mi">867</span><span class="o">,</span> <span class="mi">5309</span><span class="o">),</span> <span class="s">&#34;Jenny&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>此时，你可能期望 <code>m.get(new PhoneNumber(707, 867,5309))</code> 返回「Jenny」，但是它返回 null。注意，这里涉及到两个 PhoneNumber 实例：一个用于插入到 HashMap 中，另一个相等的实例（被试图）用于检索。由于 PhoneNumber 类未能覆盖 hashCode 方法，导致两个相等的实例具有不相等的散列码，这违反了 hashCode 方法约定。因此，get 方法查找电话号码的散列桶可能会与 put 方法存储电话号码的散列桶不同。即使这两个实例碰巧分配在同一个散列桶上，get 方法几乎肯定会返回 null，因为 HashMap 有一个优化，它缓存每个条目相关联的散列码，如果散列码不匹配，就不会检查对象是否相等。</p>
+<p>解决这个问题就像为 PhoneNumber 编写一个正确的 hashCode 方法一样简单。那么 hashCode 方法应该是什么样的呢？写一个反面例子很容易。例如，以下方法是合法的，但是不应该被使用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// The worst possible legal hashCode implementation - never use!
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="mi">42</span><span class="o">;</span> <span class="o">}</span>
+</span></span></code></pre></div><p>它是合法的，因为它确保了相等的对象具有相同的散列码。同时它也很糟糕，因为它使每个对象都有相同的散列码。因此，每个对象都分配到同一个桶中，散列表退化为链表。这样，原本应该在线性阶 <code>O(n)</code> 运行的程序将在平方阶 <code>O(n^2)</code> 运行。对于大型散列表，这是工作和不工作的区别。</p>
+<p>一个好的散列算法倾向于为不相等的实例生成不相等的散列码。这正是 hashCode 方法约定第三部分的含义。理想情况下，一个散列算法应该在所有 int 值上均匀合理分布所有不相等实例集合。实现这个理想是很困难的。幸运的是，实现一个类似的并不太难。这里有一个简单的方式：</p>
+<ul>
+<li>
+<p>1、声明一个名为 result 的 int 变量，并将其初始化为对象中第一个重要字段的散列码 c，如步骤 2.a 中计算的那样。（回想一下 <a href="https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/dev/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md">Item-10</a> 中的重要字段会对比较产生影响）</p>
+</li>
+<li>
+<p>2、对象中剩余的重要字段 f，执行以下操作：</p>
+<ul>
+<li>
+<p>为字段计算一个整数散列码 c：</p>
+<ul>
+<li>如果字段是基本数据类型，计算 <code>Type.hashCode(f)</code>，其中 type 是与 f 类型对应的包装类。</li>
+<li>如果字段是对象引用，并且该类的 equals 方法通过递归调用 equals 方法来比较字段，则递归调用字段上的 hashCode 方法。如果需要更复杂的比较，则为该字段计算一个「canonical representation」，并在 canonical representation 上调用 hashCode 方法。如果字段的值为空，则使用 0（或其他常数，但 0 是惯用的）。</li>
+<li>如果字段是一个数组，则将其每个重要元素都视为一个单独的字段。也就是说，通过递归地应用这些规则计算每个重要元素的散列码，并将每个步骤 2.b 的值组合起来。如果数组中没有重要元素，则使用常量，最好不是 0。如果所有元素都很重要，那么使用 <code>Arrays.hashCode</code>。</li>
+</ul>
+</li>
+<li>
+<p>将步骤 2.a 中计算的散列码 c 合并到 result 变量，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="mi">31</span> <span class="o">*</span> <span class="n">result</span> <span class="o">+</span> <span class="n">c</span><span class="o">;</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>3、返回 result 变量。</p>
+</li>
+</ul>
+<p>当你完成了 hashCode 方法的编写之后，问问自己现在相同的实例是否具有相同的散列码。编写单元测试来验证你的直觉（除非你使用 AutoValue 生成你的 equals 方法和 hashCode 方法，在这种情况下你可以安全地省略这些测试）。如果相同的实例有不相等的散列码，找出原因并修复问题。</p>
+<p>可以从散列码计算中排除派生字段。换句话说，你可以忽略任何可以从包含的字段计算其值的字段。你必须排除不用 <code>equals</code> 比较的任何字段，否则你可能会违反 hashCode 方法约定的第二个条款。</p>
+<p>在步骤 2.b 中使用的乘法将使结果取决于字段的顺序，如果类有多个相似的字段，则会产生一个更好的散列算法。例如，如果字符串散列算法中省略了乘法，那么所有的字母顺序都有相同的散列码。选择 31 是因为它是奇素数。如果是偶数，乘法运算就会溢出，信息就会丢失，因为乘法运算等同于移位。使用素数的好处不太明显，但它是传统用法。31 有一个很好的特性，可以用移位和减法来代替乘法，从而在某些体系结构上获得更好的性能：<code>31 * i == (i &lt;&lt;5) – i</code>。现代虚拟机自动进行这种优化。</p>
+<p>让我们将前面的方法应用到 PhoneNumber 类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// Typical hashCode method
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">Short</span><span class="o">.</span><span class="na">hashCode</span><span class="o">(</span><span class="n">areaCode</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="mi">31</span> <span class="o">*</span> <span class="n">result</span> <span class="o">+</span> <span class="n">Short</span><span class="o">.</span><span class="na">hashCode</span><span class="o">(</span><span class="n">prefix</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="mi">31</span> <span class="o">*</span> <span class="n">result</span> <span class="o">+</span> <span class="n">Short</span><span class="o">.</span><span class="na">hashCode</span><span class="o">(</span><span class="n">lineNum</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>因为这个方法返回一个简单的确定的计算结果，它的唯一输入是 PhoneNumber 实例中的三个重要字段，所以很明显，相等的 PhoneNumber 实例具有相等的散列码。实际上，这个方法是 PhoneNumber 的一个非常好的 hashCode 方法实现，与 Java 库中的 hashCode 方法实现相当。它很简单，速度也相当快，并且合理地将不相等的电话号码分散到不同的散列桶中。</p>
+<p>虽然本条目中的方法产生了相当不错的散列算法，但它们并不是最先进的。它们的质量可与 Java 库的值类型中的散列算法相媲美，对于大多数用途来说都是足够的。如果你确实需要不太可能产生冲突的散列算法，请参阅 Guava 的 com.google.common.hash.Hashing [Guava]。</p>
+<p>Objects 类有一个静态方法，它接受任意数量的对象并返回它们的散列码。这个名为 <code>hash</code> 的方法允许你编写只有一行代码的 hashCode 方法，这些方法的质量可以与本条目中提供的编写方法媲美。不幸的是，它们运行得更慢，因为它们需要创建数组来传递可变数量的参数，如果任何参数是原始类型的，则需要进行装箱和拆箱。推荐只在性能不重要的情况下使用这种散列算法。下面是使用这种技术编写的 PhoneNumber 的散列算法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// One-line hashCode method - mediocre performance
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Objects</span><span class="o">.</span><span class="na">hash</span><span class="o">(</span><span class="n">lineNum</span><span class="o">,</span> <span class="n">prefix</span><span class="o">,</span> <span class="n">areaCode</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果一个类是不可变的，并且计算散列码的成本非常高，那么你可以考虑在对象中缓存散列码，而不是在每次请求时重新计算它。如果你认为这种类型的大多数对象都将用作散列键，那么你应该在创建实例时计算散列码。否则，你可以选择在第一次调用 hashCode 方法时延迟初始化散列码。在一个延迟初始化的字段的情况下，需要注意以确保该类仍然是线程安全的。我们的 PhoneNumber 类不值得进行这种处理，但只是为了向你展示它是如何实现的，如下所示。注意，散列字段的初始值（在本例中为 0）不应该是通常创建的实例的散列码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// hashCode method with lazily initialized cached hash code
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="kt">int</span> <span class="n">hashCode</span><span class="o">;</span> <span class="c1">// Automatically initialized to 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">hashCode</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">result</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span> <span class="o">=</span> <span class="n">Short</span><span class="o">.</span><span class="na">hashCode</span><span class="o">(</span><span class="n">areaCode</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span> <span class="o">=</span> <span class="mi">31</span> <span class="o">*</span> <span class="n">result</span> <span class="o">+</span> <span class="n">Short</span><span class="o">.</span><span class="na">hashCode</span><span class="o">(</span><span class="n">prefix</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span> <span class="o">=</span> <span class="mi">31</span> <span class="o">*</span> <span class="n">result</span> <span class="o">+</span> <span class="n">Short</span><span class="o">.</span><span class="na">hashCode</span><span class="o">(</span><span class="n">lineNum</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hashCode</span> <span class="o">=</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>不要试图从散列码计算中排除重要字段，以提高性能。</strong> 虽然得到的散列算法可能运行得更快，但其糟糕的质量可能会将散列表的性能降低到无法使用的程度。特别是，散列算法可能会遇到大量实例，这些实例在你选择忽略的不同区域。如果发生这种情况，散列算法将把所有这些实例映射很少一部分散列码，使得原本应该在线性阶 <code>O(n)</code> 运行的程序将在平方阶 <code>O(n^2)</code> 运行。</p>
+<p>这不仅仅是一个理论问题。在 Java 2 之前，字符串散列算法在字符串中，以第一个字符开始，最多使用 16 个字符。对于大量且分层次的集合（如 url），该函数完全展示了前面描述的病态行为。</p>
+<p><strong>不要为 hashCode 返回的值提供详细的规范，这样客户端就不能理所应当的依赖它。这（也）给了你更改它的余地。</strong> Java 库中的许多类，例如 String 和 Integer，都将 hashCode 方法返回的确切值指定为实例值的函数。这不是一个好主意，而是一个我们不得不面对的错误：它阻碍了在未来版本中提高散列算法的能力。如果你保留了未指定的细节，并且在散列算法中发现了缺陷，或者发现了更好的散列算法，那么你可以在后续版本中更改它。</p>
+<p>总之，每次覆盖 equals 方法时都必须覆盖 hashCode 方法，否则程序将无法正确运行。你的 hashCode 方法必须遵守 Object 中指定的通用约定，并且必须合理地将不相等的散列码分配给不相等的实例。这很容易实现，如果有点枯燥，可使用第 51 页的方法。AutoValue 框架提供了一种能很好的替代手动编写 equals 方法和 hashCode 方法的功能，IDE 也提供了这种功能。</p>
+<h2 id="总结">总结</h2>
+<p>在《Effective Java 3》第三章《对象的通用方法》中，确实提到了一个重要的原则，即在覆盖equals方法时，总要覆盖hashCode方法。</p>
+<p>这是因为，如果两个对象在equals方法中被认为是相等的，那么它们的hashCode方法也必须返回相同的值。这是因为在Java中，如果两个对象的hashCode不同，则它们将被认为是不同的对象，即使它们在equals方法中被认为是相等的。</p>
+<p>因此，如果不覆盖hashCode方法，那么可能会导致在使用哈希表、哈希集合或哈希映射等数据结构时出现问题。这些数据结构通常使用hashCode方法来确定对象在数据结构中的位置，如果hashCode方法没有正确实现，那么可能会导致对象无法正确添加、删除或查找。</p>
+<p>因此，当覆盖equals方法时，总要覆盖hashCode方法，并确保hashCode方法的实现与equals方法的实现一致。在实现hashCode方法时，通常需要考虑对象的所有属性，并根据属性的值计算一个哈希码，以保证不同的对象具有不同的哈希码，相同的对象具有相同的哈希码。</p>
+<p>在Java中，可以使用Objects类的hash方法来计算对象的哈希码，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Objects</span><span class="o">.</span><span class="na">hash</span><span class="o">(</span><span class="n">property1</span><span class="o">,</span> <span class="n">property2</span><span class="o">,</span> <span class="o">...);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>其中，property1、property2等为对象的属性，可以根据实际情况进行调整。</p>
+<p>总之，在覆盖equals方法时，总要覆盖hashCode方法，并确保hashCode方法的实现与equals方法的实现一致。这是Java编程中一个重要的原则，应该在实际编程中加以注意。</p>
+<p>以下是一些在Java中实现hashCode时需要避免的常见错误：</p>
+<ol>
+<li>不考虑所有相关字段：在实现hashCode时，需要考虑所有相关字段，这些字段对于对象的标识至关重要。如果省略了一个字段，那么可能会导致相等的对象具有不同的哈希码，这可能会在使用哈希表或哈希集合等数据结构时出现问题。</li>
+<li>使用可变字段：如果对象具有可变字段，则不应将它们包含在hashCode计算中。这是因为对象的哈希码应该在其生命周期内保持不变，包含可变字段可能会导致哈希码发生变化，即使对象的标识保持不变。</li>
+<li>分布不均匀：良好的hashCode实现应该生成在哈希表中均匀分布的哈希码。如果哈希码不均匀分布，可能会导致哈希表性能下降或冲突。</li>
+<li>不使用质数：在计算hashCode时，常常使用质数来避免冲突。如果不使用质数，可能会导致更多的冲突和较差的性能。</li>
+<li>使用默认实现：如果不重写hashCode，将使用Object类提供的默认实现，该实现只返回对象的内存地址。这可能对某些情况足够，但不能保证生成唯一的哈希码，可能会在使用哈希表或哈希集合等数据结构时出现问题。</li>
+<li>与equals不一致：hashCode实现应该与equals实现保持一致，这意味着如果根据equals实现，两个对象相等，则它们应该具有相同的hashCode。如果未确保一致性，可能会在使用哈希表或哈希集合等数据结构时出现问题。</li>
+<li>不缓存哈希码：计算对象的哈希码可能是一个昂贵的操作，因此通常需要在计算出哈希码后缓存它。如果不缓存哈希码，可能会导致性能问题，特别是在使用哈希表或哈希集合等数据结构时。</li>
+</ol>
+<p>要确保hashCode分布均匀，可以采用以下方法：</p>
+<ol>
+<li>使用所有相关字段：在计算hashCode时，需要使用所有相关字段，以确保所有字段都对生成的哈希码有贡献。如果省略字段，则可能会导致相等的对象具有不同的哈希码，从而影响哈希表或哈希集合等数据结构的性能。</li>
+<li>选择适当的哈希函数：选择适当的哈希函数可以确保生成的哈希码分布均匀。例如，Java中的Objects类提供了一些哈希函数，例如hash、hashCombine等，可以根据需要选择适当的哈希函数。</li>
+<li>使用质数：使用质数可以避免哈希冲突。在计算hashCode时，可以使用质数来计算不同字段的哈希码，然后将它们组合起来以生成最终的哈希码。</li>
+<li>压缩哈希码：在生成哈希码后，可以将其压缩到哈希表的合法范围内，以确保哈希码分布均匀。例如，如果哈希表大小为2的n次方，可以通过将哈希码与2的n次方-1进行按位与运算来压缩哈希码，以确保哈希码在0到2的n次方-1之间均匀分布。</li>
+<li>使用哈希码随机化：在生成哈希码后，可以对其进行随机化，以避免敌手攻击和哈希冲突。例如，可以使用一个随机数，将其与哈希码混合，以生成最终的哈希码。</li>
+</ol>
+<p>哈希冲突是指不同的键（key）在哈希表中映射到相同的位置（索引）的情况。为了处理哈希冲突，可以采用以下几种方法：</p>
+<ol>
+<li>开放地址法：开放地址法是一种常用的处理哈希冲突的方法，它的思想是在哈希表中寻找一个空槽，将冲突的键放入该槽中。常用的开放地址法包括线性探测、二次探测和双重散列等。</li>
+<li>链地址法：链地址法是另一种常用的处理哈希冲突的方法，它的思想是将哈希表中同一个位置的所有键放在一个链表中。当发生哈希冲突时，只需要将冲突的键添加到链表的末尾即可。链地址法适用于存储大量数据的哈希表。</li>
+<li>再哈希法：再哈希法是一种处理哈希冲突的方法，它的思想是使用另一个哈希函数来计算冲突键的哈希值。当发生哈希冲突时，使用另一个哈希函数重新计算哈希值，直到找到一个空槽插入键为止。</li>
+<li>建立公共溢出区：建立公共溢出区是一种处理哈希冲突的方法，它的思想是在哈希表中保留一些位置，用于存储哈希冲突的键。当发生哈希冲突时，将冲突的键放入公共溢出区中，而不是在哈希表的其他位置中。</li>
+</ol>
+<p>无论采用哪种方法，处理哈希冲突时需要考虑以下几个方面：</p>
+<ol>
+<li>效率：处理哈希冲突的方法应该具有高效性，能够在不影响性能的情况下解决哈希冲突。</li>
+<li>冲突解决度：处理哈希冲突的方法应该具有良好的冲突解决度，能够尽可能地减少哈希冲突的发生。</li>
+<li>实现复杂度：处理哈希冲突的方法应该易于实现和维护。</li>
+</ol>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>【翻译】Build Robust Continuous Integration With Docker and Friends</title>
       <link>https://blog.chensoul.com/posts/2023/05/22/docker-continuous-integration/</link>
@@ -2944,6 +3386,342 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">boolean</span> <span class="n">isEligible</span> <span class="o">=</span> <span class="n">ageRule</span><span class="o">.</span><span class="na">evaluate</span><span class="o">(</span><span class="n">userDocument</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">regionRule</span><span class="o">.</span><span class="na">evaluate</span><span class="o">(</span><span class="n">userDocument</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">amountRule</span><span class="o">.</span><span class="na">evaluate</span><span class="o">(</span><span class="n">userDocument</span><span class="o">);</span>
 </span></span></code></pre></div><h3 id="4数据库映射">4、数据库映射</h3>
 <p>抽象文档模式可以用于将数据库数据映射到文档和属性对象上。通过将数据库表映射到文档对象，将表的列映射到属性对象，可以轻松地访问和修改数据库数据。</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Java设计模式：Abstract Factory</title>
+      <link>https://blog.chensoul.com/posts/2023/05/22/java-design-patterns-abstract-document/</link>
+      <pubDate>Mon, 22 May 2023 14:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/05/22/java-design-patterns-abstract-document/</guid>
+      <description>本文主要介绍 Abstract Factory 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计</description>
+      <content:encoded><![CDATA[<p>本文主要介绍  Abstract Factory 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+<blockquote>
+<p><a href="https://java-design-patterns.com/">Java Design Patterns</a> 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。</p>
+<p>Java Design Patterns 网站提供了多种设计模式分类方式，包括创建型模式（Creational Patterns）、结构型模式（Structural Patterns）和行为型模式（Behavioral Patterns），以及其他一些常见的模式。</p>
+<p>对于每个设计模式，该网站提供了详细的介绍、示例代码和用例说明，并且提供了一些常见的使用场景和注意事项。开发人员可以根据自己的需求选择适合自己的设计模式，并且可以参考示例代码和用例说明来理解和应用该模式。</p>
+<p>此外，Java Design Patterns 网站还提供了一些其他资源，如设计模式的 UML 图、设计模式的优缺点、设计模式的比较等。这些资源可以帮助开发人员更好地理解和应用设计模式。</p>
+<p>中文网站：<a href="https://java-design-patterns.com/zh/">https://java-design-patterns.com/zh/</a></p>
+<p>Github 上源码仓库（非官方）：<a href="https://github.com/iluwatar/java-design-patterns">https://github.com/iluwatar/java-design-patterns</a></p>
+</blockquote>
+<h2 id="目的">目的</h2>
+<p>抽象工厂（Abstract Factory）是一种创建型设计模式，它提供了一种方式来创建一系列相关或依赖对象的家族，而无需指定它们具体的类。</p>
+<p>抽象工厂模式使用一个抽象工厂接口来定义一组相关的工厂方法，每个工厂方法都能够创建一组相关的产品。具体的工厂实现了这个接口，并能够创建具体的产品。客户端代码只需要使用抽象工厂接口来创建产品，而不需要关心具体的产品实现。</p>
+<h2 id="解释">解释</h2>
+<p>真实世界例子</p>
+<blockquote>
+<p>要创建一个王国，我们需要具有共同主题的对象。精灵王国需要精灵国王、精灵城堡和精灵军队，而兽人王国需要兽人国王、兽人城堡和兽人军队。王国中的对象之间存在依赖关系。</p>
+</blockquote>
+<p>通俗的说</p>
+<blockquote>
+<p>工厂的工厂； 一个将单个但相关/从属的工厂分组在一起而没有指定其具体类别的工厂。</p>
+</blockquote>
+<p>维基百科上说</p>
+<blockquote>
+<p>抽象工厂模式提供了一种封装一组具有共同主题的单个工厂而无需指定其具体类的方法</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>翻译上面的王国示例。 首先，我们为王国中的对象提供了一些接口和实现。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Castle</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="nf">getDescription</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">King</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="nf">getDescription</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Army</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="nf">getDescription</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Elven implementations -&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElfCastle</span> <span class="kd">implements</span> <span class="n">Castle</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s">&#34;This is the Elven castle!&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">DESCRIPTION</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElfKing</span> <span class="kd">implements</span> <span class="n">King</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s">&#34;This is the Elven king!&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">DESCRIPTION</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElfArmy</span> <span class="kd">implements</span> <span class="n">Army</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s">&#34;This is the Elven Army!&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">DESCRIPTION</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Orcish implementations similarly -&gt; ...
+</span></span></span></code></pre></div><p>然后我们有了王国工厂的抽象和实现</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">KingdomFactory</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Castle</span> <span class="nf">createCastle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">King</span> <span class="nf">createKing</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Army</span> <span class="nf">createArmy</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ElfKingdomFactory</span> <span class="kd">implements</span> <span class="n">KingdomFactory</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Castle</span> <span class="nf">createCastle</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ElfCastle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">King</span> <span class="nf">createKing</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ElfKing</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Army</span> <span class="nf">createArmy</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ElfArmy</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrcKingdomFactory</span> <span class="kd">implements</span> <span class="n">KingdomFactory</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Castle</span> <span class="nf">createCastle</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">OrcCastle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">King</span> <span class="nf">createKing</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">OrcKing</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Army</span> <span class="nf">createArmy</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">OrcArmy</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在我们有了抽象工厂，使我们可以制作相关对象的系列，即精灵王国工厂创建了精灵城堡，国王和军队等。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">KingdomFactory</span> <span class="n">factory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ElfKingdomFactory</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Castle</span> <span class="n">castle</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">createCastle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">King</span> <span class="n">king</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">createKing</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Army</span> <span class="n">army</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">createArmy</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">castle</span><span class="o">.</span><span class="na">getDescription</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">king</span><span class="o">.</span><span class="na">getDescription</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">army</span><span class="o">.</span><span class="na">getDescription</span><span class="o">();</span>
+</span></span></code></pre></div><p>程序输出:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">This</span> <span class="n">is</span> <span class="n">the</span> <span class="n">Elven</span> <span class="n">castle</span><span class="o">!</span>
+</span></span><span class="line"><span class="cl"><span class="n">This</span> <span class="n">is</span> <span class="n">the</span> <span class="n">Elven</span> <span class="n">king</span><span class="o">!</span>
+</span></span><span class="line"><span class="cl"><span class="n">This</span> <span class="n">is</span> <span class="n">the</span> <span class="n">Elven</span> <span class="n">Army</span><span class="o">!</span>
+</span></span></code></pre></div><p>现在，我们可以为不同的王国工厂设计工厂。 在此示例中，我们创建了FactoryMaker，负责返回ElfKingdomFactory或OrcKingdomFactory的实例。 客户可以使用FactoryMaker来创建所需的具体工厂，该工厂随后将生产不同的具体对象（军队，国王，城堡）。 在此示例中，我们还使用了一个枚举来参数化客户要求的王国工厂类型。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">FactoryMaker</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">enum</span> <span class="n">KingdomType</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ELF</span><span class="o">,</span> <span class="n">ORC</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">KingdomFactory</span> <span class="nf">makeFactory</span><span class="o">(</span><span class="n">KingdomType</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">switch</span> <span class="o">(</span><span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="n">ELF</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">ElfKingdomFactory</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="n">ORC</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">OrcKingdomFactory</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">default</span> <span class="o">-&gt;</span> <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;KingdomType not supported.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">};</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Slf4j</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">App</span><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Kingdom</span> <span class="n">kingdom</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Kingdom</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Kingdom</span> <span class="nf">getKingdom</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">kingdom</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">App</span> <span class="n">app</span> <span class="o">=</span> <span class="k">new</span> <span class="n">App</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;elf kingdom&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">createKingdom</span><span class="o">(</span><span class="n">KingdomType</span><span class="o">.</span><span class="na">ELF</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">kingdom</span><span class="o">.</span><span class="na">getArmy</span><span class="o">().</span><span class="na">getDescription</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">kingdom</span><span class="o">.</span><span class="na">getCastle</span><span class="o">().</span><span class="na">getDescription</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">kingdom</span><span class="o">.</span><span class="na">getKing</span><span class="o">().</span><span class="na">getDescription</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;orc kingdom&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">createKingdom</span><span class="o">(</span><span class="n">KingdomType</span><span class="o">.</span><span class="na">ORC</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">kingdom</span><span class="o">.</span><span class="na">getArmy</span><span class="o">().</span><span class="na">getDescription</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">kingdom</span><span class="o">.</span><span class="na">getCastle</span><span class="o">().</span><span class="na">getDescription</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">kingdom</span><span class="o">.</span><span class="na">getKing</span><span class="o">().</span><span class="na">getDescription</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="类图">类图</h2>
+<p><img loading="lazy" src="https://java-design-patterns.com/assets/abstract-factory.urm-fe0340de.png" alt="alt text"  />
+</p>
+<h2 id="优缺点">优缺点</h2>
+<p>优点包括：</p>
+<ol>
+<li>抽象工厂模式能够帮助我们创建具有高内聚性的对象家族，这些对象家族之间相互协作，从而构成一个完整的系统。</li>
+<li>抽象工厂模式能够保证客户端代码与具体产品实现之间的解耦，从而让系统更加灵活和可扩展。</li>
+<li>抽象工厂模式能够隐藏产品的具体实现细节，从而提高系统的安全性和稳定性。</li>
+</ol>
+<p>而缺点则包括：</p>
+<ol>
+<li>抽象工厂模式比较复杂，需要定义许多接口和抽象类，这会增加系统的复杂性和开发成本。</li>
+<li>如果需要添加新的产品族，那么就需要修改抽象工厂接口以及所有的具体工厂实现，这会带来一定的风险和不便。</li>
+<li>抽象工厂模式可能会导致系统的扩展性受限，因为一旦定义了抽象工厂接口，就不能够轻易地修改它。</li>
+</ol>
+<p>在《Effective Java》中，作者还提到了一个关于抽象工厂模式的建议：在设计抽象工厂接口时，要考虑到未来可能的变化。例如，如果我们预计将来可能会添加新的产品族，那么就应该尽量设计一个灵活的抽象工厂接口，以便在不修改现有代码的情况下添加新的产品族。</p>
+<p>举例：<a href="https://www.digitalocean.com/community/tutorials/abstract-factory-design-pattern-in-java">Abstract Factory Design Pattern in Java</a></p>
+<p>Computer.java：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"> <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Computer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span> <span class="nf">getRAM</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span> <span class="nf">getHDD</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span> <span class="nf">getCPU</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;RAM= &#34;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="na">getRAM</span><span class="o">()+</span><span class="s">&#34;, HDD=&#34;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="na">getHDD</span><span class="o">()+</span><span class="s">&#34;, CPU=&#34;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="na">getCPU</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>PC.java：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PC</span> <span class="kd">extends</span> <span class="n">Computer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">ram</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">hdd</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">PC</span><span class="o">(</span><span class="n">String</span> <span class="n">ram</span><span class="o">,</span> <span class="n">String</span> <span class="n">hdd</span><span class="o">,</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">ram</span><span class="o">=</span><span class="n">ram</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">hdd</span><span class="o">=</span><span class="n">hdd</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">cpu</span><span class="o">=</span><span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getRAM</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">ram</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getHDD</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">hdd</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getCPU</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Server.java：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Server</span> <span class="kd">extends</span> <span class="n">Computer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">ram</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">hdd</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Server</span><span class="o">(</span><span class="n">String</span> <span class="n">ram</span><span class="o">,</span> <span class="n">String</span> <span class="n">hdd</span><span class="o">,</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">ram</span><span class="o">=</span><span class="n">ram</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">hdd</span><span class="o">=</span><span class="n">hdd</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">cpu</span><span class="o">=</span><span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getRAM</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">ram</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getHDD</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">hdd</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getCPU</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>抽象工厂方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ComputerAbstractFactory</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">Computer</span> <span class="nf">createComputer</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PCFactory</span> <span class="kd">implements</span> <span class="n">ComputerAbstractFactory</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">ram</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">hdd</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="nf">PCFactory</span><span class="o">(</span><span class="n">String</span> <span class="n">ram</span><span class="o">,</span> <span class="n">String</span> <span class="n">hdd</span><span class="o">,</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">		<span class="k">this</span><span class="o">.</span><span class="na">ram</span><span class="o">=</span><span class="n">ram</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">this</span><span class="o">.</span><span class="na">hdd</span><span class="o">=</span><span class="n">hdd</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">this</span><span class="o">.</span><span class="na">cpu</span><span class="o">=</span><span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">Computer</span> <span class="nf">createComputer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="k">new</span> <span class="n">PC</span><span class="o">(</span><span class="n">ram</span><span class="o">,</span><span class="n">hdd</span><span class="o">,</span><span class="n">cpu</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServerFactory</span> <span class="kd">implements</span> <span class="n">ComputerAbstractFactory</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">ram</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">hdd</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="nf">ServerFactory</span><span class="o">(</span><span class="n">String</span> <span class="n">ram</span><span class="o">,</span> <span class="n">String</span> <span class="n">hdd</span><span class="o">,</span> <span class="n">String</span> <span class="n">cpu</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">		<span class="k">this</span><span class="o">.</span><span class="na">ram</span><span class="o">=</span><span class="n">ram</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">this</span><span class="o">.</span><span class="na">hdd</span><span class="o">=</span><span class="n">hdd</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">this</span><span class="o">.</span><span class="na">cpu</span><span class="o">=</span><span class="n">cpu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">Computer</span> <span class="nf">createComputer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="k">new</span> <span class="n">Server</span><span class="o">(</span><span class="n">ram</span><span class="o">,</span><span class="n">hdd</span><span class="o">,</span><span class="n">cpu</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>工厂类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ComputerFactory</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Computer</span> <span class="nf">getComputer</span><span class="o">(</span><span class="n">ComputerAbstractFactory</span> <span class="n">factory</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">factory</span><span class="o">.</span><span class="na">createComputer</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestDesignPatterns</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">testAbstractFactory</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">testAbstractFactory</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Computer</span> <span class="n">pc</span> <span class="o">=</span> <span class="n">ComputerFactory</span><span class="o">.</span><span class="na">getComputer</span><span class="o">(</span><span class="k">new</span> <span class="n">PCFactory</span><span class="o">(</span><span class="s">&#34;2 GB&#34;</span><span class="o">,</span><span class="s">&#34;500 GB&#34;</span><span class="o">,</span><span class="s">&#34;2.4 GHz&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Computer</span> <span class="n">server</span> <span class="o">=</span> <span class="n">ComputerFactory</span><span class="o">.</span><span class="na">getComputer</span><span class="o">(</span><span class="k">new</span> <span class="n">ServerFactory</span><span class="o">(</span><span class="s">&#34;16 GB&#34;</span><span class="o">,</span><span class="s">&#34;1 TB&#34;</span><span class="o">,</span><span class="s">&#34;2.9 GHz&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;AbstractFactory PC Config::&#34;</span><span class="o">+</span><span class="n">pc</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;AbstractFactory Server Config::&#34;</span><span class="o">+</span><span class="n">server</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">AbstractFactory PC Config::RAM<span class="o">=</span> <span class="m">2</span> GB, <span class="nv">HDD</span><span class="o">=</span><span class="m">500</span> GB, <span class="nv">CPU</span><span class="o">=</span>2.4 GHz
+</span></span><span class="line"><span class="cl">AbstractFactory Server Config::RAM<span class="o">=</span> <span class="m">16</span> GB, <span class="nv">HDD</span><span class="o">=</span><span class="m">1</span> TB, <span class="nv">CPU</span><span class="o">=</span>2.9 GHz
+</span></span></code></pre></div><p>类图：<img loading="lazy" src="../../../../../../../Downloads/Abstract-Factory-Pattern-ComputerFactory.png" alt="Abstract-Factory-Pattern-ComputerFactory"  />
+</p>
+<h2 id="适用性">适用性</h2>
+<p>在以下情况下使用抽象工厂模式</p>
+<ul>
+<li>该系统应独立于其产品的创建，组成和表示方式</li>
+<li>系统应配置有多个产品系列之一</li>
+<li>相关产品对象系列旨在一起使用，你需要强制执行此约束</li>
+<li>你想提供产品的类库，并且只想暴露它们的接口，而不是它们的实现。</li>
+<li>从概念上讲，依赖项的生存期比使用者的生存期短。</li>
+<li>你需要一个运行时值来构建特定的依赖关系</li>
+<li>你想决定在运行时从系列中调用哪种产品。</li>
+<li>你需要提供一个或更多仅在运行时才知道的参数，然后才能解决依赖关系。</li>
+<li>当你需要产品之间的一致性时</li>
+<li>在向程序添加新产品或产品系列时，您不想更改现有代码。</li>
+</ul>
+<h2 id="相关模式">相关模式</h2>
+<ul>
+<li><a href="https://java-design-patterns.com/patterns/factory-method/">Factory Methodopen</a></li>
+<li><a href="https://java-design-patterns.com/patterns/factory-kit/">Factory Kit</a></li>
+</ul>
+<h2 id="使用">使用</h2>
+<p>jdk中以下类使用了抽象工厂模式：</p>
+<ul>
+<li><a href="http://docs.oracle.com/javase/8/docs/api/javax/xml/parsers/DocumentBuilderFactory.html">javax.xml.parsers.DocumentBuilderFactoryopen</a></li>
+<li><a href="http://docs.oracle.com/javase/8/docs/api/javax/xml/transform/TransformerFactory.html#newInstance--">javax.xml.transform.TransformerFactoryopen</a></li>
+<li><a href="http://docs.oracle.com/javase/8/docs/api/javax/xml/xpath/XPathFactory.html#newInstance--">javax.xml.xpath.XPathFactoryopen</a></li>
+</ul>
+<p>以下是一些常见的开源框架和库：</p>
+<ol>
+<li>Spring Framework：Spring Framework 是一个流行的 Java 应用程序框架，它使用了抽象工厂模式来创建不同类型的对象，例如数据源、事务管理器和消息队列等。</li>
+<li>Hibernate ORM：Hibernate ORM 是一个用于管理对象关系映射（ORM）的框架，它使用了抽象工厂模式来创建数据库连接、事务管理器和查询语句等对象。</li>
+<li>Apache Commons：Apache Commons 是一个开源的 Java 工具库，它包含了许多常用的工具类和函数。其中，一些模块（例如 Commons Codec 和 Commons Pool）使用了抽象工厂模式来创建不同类型的对象。</li>
+<li>Apache Struts：Apache Struts 是一个基于 MVC（模型-视图-控制器）模式的 Web 应用程序框架，它使用了抽象工厂模式来创建不同类型的 Action 类和结果类型。</li>
+<li>Apache CXF：Apache CXF 是一个用于构建 Web 服务的框架，它使用了抽象工厂模式来创建不同类型的 Web 服务端点和客户端。</li>
+<li>Apache Axis：Apache Axis 是一个用于构建 Web 服务的框架，它使用了抽象工厂模式来创建不同类型的 Web 服务端点和客户端。</li>
+<li>Apache Log4j：Apache Log4j 是一个流行的 Java 日志框架，它使用了抽象工厂模式来创建不同类型的日志记录器和 Appender（日志输出器）。</li>
+<li>Apache Commons Configuration：Apache Commons Configuration 是一个用于读取和写入配置文件的库，它使用了抽象工厂模式来创建不同类型的配置对象，例如 XMLConfiguration 和 PropertiesConfiguration 等。</li>
+</ol>
+<p>除此之外，许多其他的开源框架和库也使用了抽象工厂模式，例如 Hibernate、MyBatis、JDBC、JPA、JUnit 等。这些框架和库使用抽象工厂模式的原因是它能够帮助创建具有高内聚性的对象家族，并且能够保证客户端代码与具体产品实现之间的解耦。同时，抽象工厂模式也能够隐藏产品的具体实现细节，从而提高系统的安全性和稳定性。这些优点让抽象工厂模式成为了这些框架和库中常用的设计模式之一。</p>
 ]]></content:encoded>
     </item>
     

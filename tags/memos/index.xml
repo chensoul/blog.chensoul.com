@@ -6,7 +6,91 @@
     <description>Recent content in memos on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 06 May 2023 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/memos/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 May 2023 17:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/memos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>周报-20｜自动生成每日早报、周末团建</title>
+      <link>https://blog.chensoul.com/posts/2023/05/25/weekly_review_20/</link>
+      <pubDate>Thu, 25 May 2023 17:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/05/25/weekly_review_20/</guid>
+      <description>前言 乐农湖畔生态园 本篇是对 2023-05-15 到 2023-05-21 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 不知不觉，这已经是第20篇周报了。</description>
+      <content:encoded><![CDATA[<h2 id="前言">前言</h2>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-20-00.jpeg" alt="weekly-review-20-00"  />
+</p>
+<center><i>乐农湖畔生态园</i></center>
+<br/>
+<p>本篇是对 <code>2023-05-15</code> 到 <code>2023-05-21</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
+<p>不知不觉，这已经是第20篇周报了。这周依旧是健身、理财、学习和写博客。</p>
+<h2 id="自动生成每日早报">自动生成每日早报</h2>
+<p>最近在朋友圈看到这样一个早报，就在想能否通过代码自动抓取新闻并生成这样一个早报图片？</p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-20-04.jpeg" alt="weekly-review-20-04" style="width:50%;" />
+<p>于是，在网上找到一篇文章：<a href="https://icodeq.com/2022/5fe2010403bb/">前后端均基于 vercel 的每日早报项目</a></p>
+<p>参考源代码，做了一些修改，代码见：<a href="https://github.com/chensoul/chensoul/blob/main/fetch_news.py">fetch_news.py</a>。修改后的逻辑是将抓取的新闻发送到 memos，例如：<a href="https://memos.chensoul.com/m/349">https://memos.chensoul.com/m/349</a> 。可以在 github action 设置每天早上7点自动发送到 memos，然后再通过 n8n 同步到 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道。</p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-20-01.png" alt="weekly-review-20-01" style="width: 50%;" />
+<p>在memos中导出的图片如下：</p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-20-05.png" alt="weekly-review-20-05" style="width:50%;" />
+<p>如果能够通过 python 自动生成图片，那就更好了。记录一下，待以后实现。</p>
+<h2 id="团建">团建</h2>
+<p>公司团建选择在周六，而且还是520这一天，真是会挑日子。很多人请假，最后只有13人参加团建，其中有8人是我们开发组的🤣。挑两张照片发到这里～</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-20-03.jpeg" alt="weekly-review-20-03"  />
+</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-20-02.jpeg" alt="weekly-review-20-02"  />
+</p>
+<h2 id="理财">理财</h2>
+<p>这周总计支出 1861 元，明细如下：</p>
+<ul>
+<li>5月15日：1027元，武功山旅游，加油327</li>
+<li>5月16日：42元</li>
+<li>5月17日：12元</li>
+<li>5月18日：16元</li>
+<li>5月19日：25元</li>
+<li>5月20日：562元，看望六舅</li>
+<li>5月21日：177元</li>
+</ul>
+<h2 id="健身">健身</h2>
+<p>本周跑步 36 公里，最长跑步距离为 10 公里。明细数据如下：</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-20-08.png" alt="weekly-review-20-08"  />
+</p>
+<p>我跑过了一些地方，希望随着时间推移，地图点亮的地方越来越多。2 年里我跑过 2个省份 2个城市。更多跑步数据在<a href="https://run.chensoul.com/">跑步</a>主页。</p>
+<h2 id="工作">工作</h2>
+<h4 id="博客">博客</h4>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-20-07.png" alt="weekly-review-20-07"  />
+</p>
+<p>本周完成五篇博客：</p>
+<ul>
+<li>
+<p><a href="/posts/2023/05/22/java-design-patterns-abstract-document/">Java设计模式：Abstract Document</a></p>
+</li>
+<li>
+<p><a href="/posts/2023/05/22/java-design-patterns-abstract-factory/">Java设计模式：Abstract Factory</a></p>
+</li>
+<li>
+<p><a href="/posts/2023/05/23/always-override-hashcode-when-you-override-equals/">《Effective Java 3》笔记11：当覆盖 equals 方法时，总要覆盖 hashCode 方法</a></p>
+</li>
+<li>
+<p><a href="/posts/2023/05/22/docker-continuous-integration/">[译]Build Robust Continuous Integration With Docker and Friends</a></p>
+</li>
+<li>
+<p><a href="/posts/2023/05/23/python-comment-and-variable/">Python学习1：注释、变量和常量</a></p>
+</li>
+</ul>
+<h2 id="本周分享">本周分享</h2>
+<p>大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道或者我的 <a href="https://memos.chensoul.com/">memos</a> 中。我写了一个 python 脚本从 memos读取最近一周的 memos 记录。</p>
+<ul>
+<li><strong>2023-05-19</strong> 陈皓（左耳朵耗子）前年做过一次直播访谈，谈到了技术、行业、创业的各个方面。本文是访谈内容的文字整理，以此纪念他。  <a href="https://mp.weixin.qq.com/s/bOnW8gDJ-dXp4KbAjhDw9A">https://mp.weixin.qq.com/s/bOnW8gDJ-dXp4KbAjhDw9A</a>  <code>#memos</code> <code>#skill</code> <code>#tool</code></li>
+<li><strong>2023-05-17</strong> 用 Material for MkDocs 来生成专业的技术文档 <a href="https://vra.github.io/2023/05/17/mkdocs-material-tutorial/">https://vra.github.io/2023/05/17/mkdocs-material-tutorial/</a>  <code>#memos</code> <code>#tool</code></li>
+<li><strong>2023-05-17</strong> 基于  Popsy 创建自己的个人主页 <a href="https://popsy.co/">https://popsy.co/</a> <code>#memos</code> <code>#tool</code></li>
+<li><strong>2023-05-17</strong> Hellonext是一种反馈管理平台，它可以帮助组织、企业和开发团队更好地管理用户反馈和需求。它提供了一个用户友好的界面，使用户可以轻松地提交反馈和建议，而管理人员可以使用该平台来跟踪和组织这些反馈，并确定哪些反馈应该优先考虑实现。Hellonext还提供了数据分析和报告功能，帮助管理人员了解用户反馈的趋势和优先级，以便更好地满足用户需求。 <a href="https://hellonext.co/">https://hellonext.co/</a> <code>#memos</code> <code>#tool</code></li>
+<li><strong>2023-05-17</strong> Dify 是一个简单且能力丰富的自然语言编程工具。你可以用它搭建商用级应用，个人助理。如果你想自己开发应用，Dify 也能为你省下接入 OpenAI 的后端工作，但使用我们逐步提供高的可视化运营能力，你可以持续的改进和训练你的 GPT 模型。 <a href="https://docs.dify.ai/v/zh-hans/getting-started/intro-to-dify">https://docs.dify.ai/v/zh-hans/getting-started/intro-to-dify</a> <code>#tool</code> <code>#memos</code></li>
+<li><strong>2023-05-17</strong> 用200行python代码实现dns服务器的教程 <a href="https://implement-dns.wizardzines.com/">https://implement-dns.wizardzines.com/</a>  <code>#memos</code> <code>#tool</code></li>
+<li><strong>2023-05-17</strong> postman 推出了postbot，使用人工智能帮助您调试和理解 API、更快地编写测试  <a href="https://blog.postman.com/introducing-postbot-postmans-new-ai-assistant/">https://blog.postman.com/introducing-postbot-postmans-new-ai-assistant/</a>  <code>#tool</code> <code>#memos</code></li>
+<li><strong>2023-05-17</strong> <a href="https://imgg.gg/">https://imgg.gg/</a> 是一个可以将任意 sms 内容转换成为图片的工具，不用担心在 APP 上截图会泄漏隐私。生成的图片的样式很像 <a href="https://poet.so/">https://poet.so/</a> ，不过Poet.so 只能生成推特、linkedin、shopify 的分享图。 <code>#tool</code> <code>#memos</code></li>
+<li><strong>2023-05-17</strong> 都知道 ffmpeg 是媒体文件处理的瑞士军刀，但命令行的操作对大部分人来说确实会面临迷茫和繁琐。FFmpeg.guide 就是一个图形化生成 ffmpeg 命令的工具。  网站地址：<a href="https://ffmpeg.guide/">https://ffmpeg.guide/</a> <code>#tool</code> <code>#memos</code></li>
+</ul>
+<p>以上。</p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>周报-17｜导出苹果健康数据、自动化收集个人数据、FlexyPool动态连接池</title>
       <link>https://blog.chensoul.com/posts/2023/05/06/weekly_review_17/</link>

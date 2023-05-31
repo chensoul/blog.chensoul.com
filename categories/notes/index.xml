@@ -9790,7 +9790,32 @@ ServiceLoader，因为前者比后者要早。</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">custom</span><span class="w">
 </span></span></span></code></pre></div><h2 id="服务部署">服务部署</h2>
-<h3 id="rsshub">Rsshub</h3>
+<h3 id="postgresql">Postgresql</h3>
+<p>1、参考 <a href="/posts/2022/08/19/postgresql-install-deploy/">PostgreSql安装和部署</a> ，通过 docker-compose 安装，创建
+postgresql.yaml：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pgsql</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13-alpine</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">pgsql</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">5432</span><span class="p">:</span><span class="m">5432</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_USER=postgres</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_PASSWORD=admin@pg!</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">custom</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/postgres:/var/lib/postgresql/data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">custom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></div><p>2、启动</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f postgresql.yaml up -d
+</span></span></code></pre></div><h3 id="rsshub">Rsshub</h3>
 <p>直接通过 Docker 安装运行：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run -d --name rsshub -p 1200:1200 diygod/rsshub
 </span></span></code></pre></div><p>配置 nginx ：</p>
@@ -9819,7 +9844,7 @@ ServiceLoader，因为前者比后者要早。</p>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:1200</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="kuma">Kuma</h3>
+</span></span></code></pre></div><h3 id="uptime-kuma">Uptime Kuma</h3>
 <p>参考 <a href="https://uptime.kuma.pet/">kuma</a>，使用 docker compose 部署，创建 uptime.yaml：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.3&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
@@ -9867,31 +9892,10 @@ ServiceLoader，因为前者比后者要早。</p>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span>   <span class="s">Connection</span> <span class="s">&#34;upgrade&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="postgresql">Postgresql</h3>
-<p>1、参考 <a href="/posts/2022/08/19/postgresql-install-deploy/">PostgreSql安装和部署</a> ，通过 docker-compose 安装，创建
-postgresql.yaml：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pgsql</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13-alpine</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">pgsql</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">5432</span><span class="p">:</span><span class="m">5432</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_USER=postgres</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_PASSWORD=admin@pg!</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">custom</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/postgres:/var/lib/postgresql/data</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">custom</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span></code></pre></div><p>2、启动</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f postgresql.yaml up -d
+</span></span></code></pre></div><p>升级</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f uptime.yaml down 
+</span></span><span class="line"><span class="cl">docker pull louislam/uptime-kuma:1
+</span></span><span class="line"><span class="cl">docker-compose -f uptime.yaml up -d
 </span></span></code></pre></div><h3 id="umami">Umami</h3>
 <p>参考 <a href="https://github.com/umami-software/umami/blob/master/docker-compose.yml">umami docker-compose.yml</a> ，使用 docker 镜像
 umami:postgresql-latest 来安装 umami。</p>
@@ -9956,7 +9960,11 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>5、添加网站</p>
 <p>访问 <a href="https://umami.chensoul.com/">https://umami.chensoul.com/</a>，默认用户名和密码为 admin/umami。登陆之后，修改密码，并添加网站。</p>
-<h3 id="cusdis">Cusdis</h3>
+<p>6、升级</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f umami.yaml down 
+</span></span><span class="line"><span class="cl">docker pull ghcr.io/umami-software/umami:postgresql-latest
+</span></span><span class="line"><span class="cl">docker-compose -f umami.yaml up -d
+</span></span></code></pre></div><h3 id="cusdis">Cusdis</h3>
 <blockquote>
 <p>VPS IP 可能被墙，所以可以使用三方云服务部署，具体参考<a href="https://www.pseudoyu.com/zh/2022/05/24/free_and_lightweight_blog_comment_system_using_cusdis_and_railway/">轻量级开源免费博客评论系统解决方案 （Cusdis + Railway）</a></p>
 </blockquote>
@@ -10021,8 +10029,8 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:3010</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="kn">proxy_pass_header</span> <span class="s">Authorization</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="kn">proxy_pass_header</span> <span class="s">WWW-Authenticate</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	    <span class="kn">proxy_pass_header</span> <span class="s">Authorization</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	    <span class="kn">proxy_pass_header</span> <span class="s">WWW-Authenticate</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Real-IP</span> <span class="nv">$remote_addr</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-For</span> <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
@@ -10033,7 +10041,11 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>5、部署一个 Telegram 机器人，参考 <a href="https://cusdis.chensoul.com/doc#/advanced/webhook?id=official-telegram-bot">Official Telegram bot</a>。</p>
-<h3 id="memos">memos</h3>
+<p>6、升级</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f cusdis.yaml down 
+</span></span><span class="line"><span class="cl">docker pull djyde/cusdis:latest
+</span></span><span class="line"><span class="cl">docker-compose -f cusdis.yaml up -d
+</span></span></code></pre></div><h3 id="memos">memos</h3>
 <p>通过 docker-compose 安装，创建 memos.yaml：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.0&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
@@ -10072,6 +10084,10 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:5230</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>升级</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f memos.yaml down 
+</span></span><span class="line"><span class="cl">docker pull neosmemo/memos:latest
+</span></span><span class="line"><span class="cl">docker-compose -f memos.yaml up -d
 </span></span></code></pre></div><h3 id="n8n">n8n</h3>
 <p>1、在 pqsql 容器创建 n8n 数据库和用户：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE USER n8n WITH PASSWORD &#39;n8n@pg&#39;;&#34;</span>
@@ -10127,6 +10143,72 @@ umami:postgresql-latest 来安装 umami。</p>
 <p>参考这篇文章 <a href="http://stiles.cc/archives/237/">http://stiles.cc/archives/237/</a> ，目前我配置了以下 workflows，实现了 github、douban、rss、memos 同步到 Telegram。</p>
 <p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-n8n-workflows.png" alt="my-n8n-workflows"  />
 </p>
+<p>6、升级</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f n8n.yaml down 
+</span></span><span class="line"><span class="cl">docker pull n8nio/n8n
+</span></span><span class="line"><span class="cl">docker-compose -f n8n.yaml up -d
+</span></span></code></pre></div><h3 id="plausible">plausible</h3>
+<p>1、下载代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ curl -L https://github.com/plausible/hosting/archive/master.tar.gz <span class="p">|</span> tar -xz
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> hosting-master
+</span></span></code></pre></div><p>2、更新配置文件 plausible-conf.env</p>
+<p>生成一个随机字符串：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ openssl rand -base64 <span class="m">64</span> <span class="p">|</span> tr -d <span class="s1">&#39;\n&#39;</span> <span class="p">;</span> <span class="nb">echo</span>
+</span></span></code></pre></div><p>修改 plausible-conf.env：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">BASE_URL</span><span class="o">=</span>https://plausible.chensoul.com
+</span></span><span class="line"><span class="cl"><span class="nv">SECRET_KEY_BASE</span><span class="o">=</span>ywewRup6H0pT1TK+qIPwdRdOYNixC/GAr5vy2IoTvzNJygD3Z7rPgQI6v1c/tUV/SsJQYxsfZ60yrn6kMiDxAA<span class="o">==</span>
+</span></span></code></pre></div><p>3、设置反向代理</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">    listen 80;
+</span></span><span class="line"><span class="cl">    listen [::]:80;
+</span></span><span class="line"><span class="cl">    server_name plausible.chensoul.com;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    return 301 https://$host$request_uri;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">    listen          443 ssl;
+</span></span><span class="line"><span class="cl">    server_name     plausible.chensoul.com;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    ssl_certificate      /usr/local/nginx/ssl/fullchain.cer;
+</span></span><span class="line"><span class="cl">    ssl_certificate_key  /usr/local/nginx/ssl/chensoul.com.key;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    ssl_session_cache    shared:SSL:1m;
+</span></span><span class="line"><span class="cl">    ssl_session_timeout  5m;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    ssl_ciphers  HIGH:!aNULL:!MD5;
+</span></span><span class="line"><span class="cl">    ssl_prefer_server_ciphers  on;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    location / {
+</span></span><span class="line"><span class="cl">        proxy_pass http://127.0.0.1:8000;
+</span></span><span class="line"><span class="cl">	    proxy_set_header   X-Real-IP $remote_addr;
+</span></span><span class="line"><span class="cl">        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+</span></span><span class="line"><span class="cl">        proxy_set_header   Host $host;
+</span></span><span class="line"><span class="cl">	    proxy_http_version 1.1;
+</span></span><span class="line"><span class="cl">        proxy_set_header   Upgrade $http_upgrade;
+</span></span><span class="line"><span class="cl">        proxy_set_header   Connection &#34;upgrade&#34;;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>4、启动服务</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose up -d
+</span></span></code></pre></div><p>5、升级</p>
+<p>Docker Compose 的更新比较简单：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose down 
+</span></span><span class="line"><span class="cl">docker compose pull plausible
+</span></span><span class="line"><span class="cl">docker compose up -d
+</span></span></code></pre></div><p>6、访问 postgres 数据库</p>
+<p>第一次登录时可能会要求验证邮箱地址，如果前面没有配置 SMTP，可以通过下面的命令认证所有当前用户：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose <span class="nb">exec</span> plausible_db psql -U postgres -d plausible_db -c <span class="s2">&#34;UPDATE users SET email_verified = true;&#34;</span>
+</span></span></code></pre></div><p>进入 plausible_db 数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose <span class="nb">exec</span> plausible_db psql -U postgres -d plausible_db
+</span></span></code></pre></div><p>7、博客添加统计代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">defer</span> <span class="nx">data</span><span class="o">-</span><span class="nx">domain</span><span class="o">=</span><span class="s2">&#34;blog.chensoul.com&#34;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&#34;https://plausible.chensoul.com/js/script.js&#34;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span></span></code></pre></div><p>8、配置 dns</p>
+<p>在 dns 服务商添加 A 记录 plausible，稍等一下，访问 <a href="https://plausible.chensoul.com/">https://plausible.chensoul.com/</a></p>
+<p>参考文章：</p>
+<ul>
+<li><a href="https://atpx.com/blog/docker-plausible-web-analytics/">使用 Plausible 自建网站流量统计分析工具</a></li>
+</ul>
 ]]></content:encoded>
     </item>
     

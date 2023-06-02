@@ -6,7 +6,949 @@
     <description>Recent content in java on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 31 May 2023 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Jun 2023 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java设计模式：Visitor</title>
+      <link>https://blog.chensoul.com/posts/2023/06/02/java-design-patterns-visitor/</link>
+      <pubDate>Fri, 02 Jun 2023 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/06/02/java-design-patterns-visitor/</guid>
+      <description>本文主要介绍 Visitor 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计模</description>
+      <content:encoded><![CDATA[<p>本文主要介绍 Visitor 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+<blockquote>
+<p><a href="https://java-design-patterns.com/">Java Design Patterns</a> 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。</p>
+<p>Java Design Patterns 网站提供了多种设计模式分类方式，包括创建型模式（Creational Patterns）、结构型模式（Structural Patterns）和行为型模式（Behavioral Patterns），以及其他一些常见的模式。</p>
+<p>对于每个设计模式，该网站提供了详细的介绍、示例代码和用例说明，并且提供了一些常见的使用场景和注意事项。开发人员可以根据自己的需求选择适合自己的设计模式，并且可以参考示例代码和用例说明来理解和应用该模式。</p>
+<p>此外，Java Design Patterns 网站还提供了一些其他资源，如设计模式的 UML 图、设计模式的优缺点、设计模式的比较等。这些资源可以帮助开发人员更好地理解和应用设计模式。</p>
+<p>中文网站：<a href="https://java-design-patterns.com/zh/">https://java-design-patterns.com/zh/</a></p>
+<p>Github 上源码仓库（非官方）：<a href="https://github.com/iluwatar/java-design-patterns">https://github.com/iluwatar/java-design-patterns</a></p>
+</blockquote>
+<h2 id="目的">目的</h2>
+<p>表示要在对象结构的元素上执行的操作。访问者可让你定义新操作，而无需更改其所操作元素的类。</p>
+<blockquote>
+<p>访问者模式的主要目的是在不改变对象结构的前提下，对对象结构中的元素进行新的操作。它通过将操作从对象结构中分离出来，使得可以独立地添加、修改或删除对元素的操作，而不需要修改元素类或对象结构。</p>
+<p>访问者模式的另一个目的是将对象结构与操作解耦。在访问者模式中，元素和操作分别由不同的类来实现，并且元素只暴露出接受访问者对象的接口，而不是暴露出具体的实现细节。这样可以避免在元素类中添加过多的行为，从而提高代码的可扩展性和可维护性。</p>
+<p>最后，访问者模式还可以用于实现对复杂对象结构的遍历。通过访问者对象的递归调用，可以遍历整个对象结构，并对每个元素执行相应的操作。这种遍历方式可以方便地实现对复杂对象结构的分析和处理。</p>
+</blockquote>
+<h2 id="解释">解释</h2>
+<p>真实世界例子</p>
+<blockquote>
+<p>考虑有一个带有军队单位的树形结构。指挥官下有两名中士，每名中士下有三名士兵。基于这个层级结构实现访问者模式，我们可以轻松创建与指挥官，中士，士兵或所有人员互动的新对象</p>
+</blockquote>
+<p>通俗的说</p>
+<blockquote>
+<p>访问者模式定义可以在数据结构的节点上执行的操作。</p>
+</blockquote>
+<p>维基百科说</p>
+<blockquote>
+<p>在面向对象的程序设计和软件工程中，访问者设计模式是一种将算法与操作对象的结构分离的方法。这种分离的实际结果是能够在不修改结构的情况下向现有对象结构添加新操作。</p>
+</blockquote>
+<p>访问者模式是一种行为型设计模式，它允许在不改变对象结构的情况下定义新的操作。该模式的核心思想是将操作从对象结构中分离出来，并在独立的访问者对象中进行实现。</p>
+<p>访问者模式由以下几个关键元素组成：</p>
+<ol>
+<li>抽象访问者（Visitor）：定义可以访问不同类型元素的方法，该方法的参数类型为具体元素类型。</li>
+<li>具体访问者（ConcreteVisitor）：实现抽象访问者中定义的方法，以实现对元素的不同操作。</li>
+<li>抽象元素（Element）：定义接受访问者对象的方法。</li>
+<li>具体元素（ConcreteElement）：实现抽象元素中定义的方法，以便可以接受访问者对象的访问。</li>
+<li>对象结构（Object Structure）：包含一组具体元素，可以被访问者对象遍历。</li>
+</ol>
+<p><strong>程序示例</strong></p>
+<p>使用上面的军队单元的例子，我们首先由单位和单位访问器类型。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Unit</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Unit</span><span class="o">[]</span> <span class="n">children</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">Unit</span><span class="o">(</span><span class="n">Unit</span><span class="o">...</span> <span class="n">children</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">children</span> <span class="o">=</span> <span class="n">children</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">UnitVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">children</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">child</span> <span class="o">-&gt;</span> <span class="n">child</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">visitor</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UnitVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">visitSoldier</span><span class="o">(</span><span class="n">Soldier</span> <span class="n">soldier</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">visitSergeant</span><span class="o">(</span><span class="n">Sergeant</span> <span class="n">sergeant</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">visitCommander</span><span class="o">(</span><span class="n">Commander</span> <span class="n">commander</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后我们有具体的单元。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Commander</span> <span class="kd">extends</span> <span class="n">Unit</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">Commander</span><span class="o">(</span><span class="n">Unit</span><span class="o">...</span> <span class="n">children</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">(</span><span class="n">children</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">UnitVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">visitor</span><span class="o">.</span><span class="na">visitCommander</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">visitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;commander&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sergeant</span> <span class="kd">extends</span> <span class="n">Unit</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">Sergeant</span><span class="o">(</span><span class="n">Unit</span><span class="o">...</span> <span class="n">children</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">(</span><span class="n">children</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">UnitVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">visitor</span><span class="o">.</span><span class="na">visitSergeant</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">visitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;sergeant&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Soldier</span> <span class="kd">extends</span> <span class="n">Unit</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">Soldier</span><span class="o">(</span><span class="n">Unit</span><span class="o">...</span> <span class="n">children</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">(</span><span class="n">children</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">UnitVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">visitor</span><span class="o">.</span><span class="na">visitSoldier</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">visitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;soldier&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后有一些具体的访问者。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CommanderVisitor</span> <span class="kd">implements</span> <span class="n">UnitVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">CommanderVisitor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitSoldier</span><span class="o">(</span><span class="n">Soldier</span> <span class="n">soldier</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Do nothing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitSergeant</span><span class="o">(</span><span class="n">Sergeant</span> <span class="n">sergeant</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Do nothing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitCommander</span><span class="o">(</span><span class="n">Commander</span> <span class="n">commander</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Good to see you {}&#34;</span><span class="o">,</span> <span class="n">commander</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SergeantVisitor</span> <span class="kd">implements</span> <span class="n">UnitVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">SergeantVisitor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitSoldier</span><span class="o">(</span><span class="n">Soldier</span> <span class="n">soldier</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Do nothing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitSergeant</span><span class="o">(</span><span class="n">Sergeant</span> <span class="n">sergeant</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Hello {}&#34;</span><span class="o">,</span> <span class="n">sergeant</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitCommander</span><span class="o">(</span><span class="n">Commander</span> <span class="n">commander</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Do nothing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SoldierVisitor</span> <span class="kd">implements</span> <span class="n">UnitVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">SoldierVisitor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitSoldier</span><span class="o">(</span><span class="n">Soldier</span> <span class="n">soldier</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Greetings {}&#34;</span><span class="o">,</span> <span class="n">soldier</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitSergeant</span><span class="o">(</span><span class="n">Sergeant</span> <span class="n">sergeant</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Do nothing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitCommander</span><span class="o">(</span><span class="n">Commander</span> <span class="n">commander</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Do nothing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，来看看实践中访问者模式的力量。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">commander</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">new</span> <span class="n">SoldierVisitor</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">commander</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">new</span> <span class="n">SergeantVisitor</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">commander</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">new</span> <span class="n">CommanderVisitor</span><span class="o">());</span>
+</span></span></code></pre></div><p>程序输出:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Greetings soldier
+</span></span><span class="line"><span class="cl">Greetings soldier
+</span></span><span class="line"><span class="cl">Greetings soldier
+</span></span><span class="line"><span class="cl">Greetings soldier
+</span></span><span class="line"><span class="cl">Greetings soldier
+</span></span><span class="line"><span class="cl">Greetings soldier
+</span></span><span class="line"><span class="cl">Hello sergeant
+</span></span><span class="line"><span class="cl">Hello sergeant
+</span></span><span class="line"><span class="cl">Good to see you commander
+</span></span></code></pre></div><h2 id="类图">类图</h2>
+<p><img loading="lazy" src="https://java-design-patterns.com/assets/visitor_1-c6c51c6b.png" alt="alt text"  />
+</p>
+<h2 id="优缺点">优缺点</h2>
+<p>访问者模式的优点：</p>
+<ol>
+<li>扩展性好：访问者模式可以通过增加新的访问者类来扩展对对象结构的操作，而无需修改对象结构或元素类。</li>
+<li>分离关注点：访问者模式将对象结构和对对象结构的操作分离开来，使得对象结构和访问者类可以独立发展。这样可以提高代码的复用性和可维护性。</li>
+<li>灵活性高：访问者模式可以支持不同的访问者对象对同一对象结构进行不同的遍历和操作，从而可以实现多种不同的处理方式。</li>
+<li>符合开闭原则：访问者模式可以通过增加新的元素类和访问者类来扩展系统的功能，而不需要修改现有的代码。</li>
+</ol>
+<p>访问者模式的缺点：</p>
+<ol>
+<li>实现复杂：访问者模式的实现比较复杂，需要定义多个接口和类，并且需要对对象结构进行重构。</li>
+<li>违反封装原则：访问者模式需要将访问者对象暴露给元素类，从而破坏了元素类的封装性。</li>
+<li>可能会导致性能问题：访问者模式需要对整个对象结构进行遍历，可能会导致性能问题。</li>
+<li>不易理解：访问者模式的实现比较抽象，可能会导致代码的可读性和可维护性降低。</li>
+</ol>
+<p>总之，访问者模式可以提高系统的扩展性和灵活性，但是需要注意实现的复杂性和性能问题，并且需要权衡封装性和可读性之间的关系。在实际开发中，应该根据具体的需求和场景来选择是否使用访问者模式。</p>
+<h2 id="对比">对比</h2>
+<p>访问者模式和 Acyclic Visitor 设计模式都是用于处理对象结构中的元素，但它们的实现方式和应用场景有所不同。</p>
+<p>访问者模式通过在元素类中定义一个 accept 方法，接受一个访问者对象作为参数，从而将元素的处理委托给访问者对象来完成。访问者对象通常定义了多个 visit 方法，分别对应不同类型的元素，从而可以根据元素的类型来执行不同的操作。</p>
+<p>Acyclic Visitor 设计模式是访问者模式的一种变种，它通过在访问者类中定义抽象访问者类和具体访问者类来实现。抽象访问者类定义了 visit 方法，但不包含任何具体的 visit 方法实现，而具体访问者类则实现了具体的 visit 方法。这样可以避免访问者对象对元素类的依赖，从而实现松耦合。</p>
+<p>Acyclic Visitor 设计模式通常用于处理多继承的对象结构，因为多继承可能会导致访问者对象对元素类的依赖。在多继承的情况下，元素类可能同时继承了多个接口或父类，这样访问者对象就需要对每个接口或父类都定义一个 visit 方法，从而导致访问者对象对元素类的依赖性增加。</p>
+<p>总之，访问者模式和 Acyclic Visitor 设计模式都是用于处理对象结构中的元素，但它们的实现方式和应用场景有所不同。访问者模式适用于处理单继承的对象结构，而 Acyclic Visitor 设计模式适用于处理多继承的对象结构。在实际应用中，应该根据具体的需求和场景来选择使用哪种模式。</p>
+<h2 id="适用场景">适用场景</h2>
+<p>访问者模式适用于以下情况：</p>
+<ol>
+<li>对象结构复杂，包含多种类型的元素，并且需要对这些元素进行不同的操作。</li>
+<li>需要在不改变对象结构的前提下，增加、修改或删除对元素的操作。</li>
+<li>对象结构中的元素类经常发生变化，而访问者类的变化较少。</li>
+<li>需要对对象结构进行多种不同的遍历方式，并且每种遍历方式需要执行不同的操作。</li>
+<li>对象结构中的元素类不希望暴露出太多的行为，而是希望将行为封装在访问者类中。</li>
+</ol>
+<p>需要注意的是，访问者模式的实现比较复杂，因此只有在确实需要对对象结构进行复杂操作时才应该考虑使用该模式。如果仅需要对对象结构进行简单的遍历或操作，则可以考虑使用其他模式，如迭代器模式或组合模式。</p>
+<p>以下是一些访问者模式在实际开发中的应用场景：</p>
+<ol>
+<li>编译器和解释器：访问者模式可以用于实现编译器和解释器。编译器和解释器都需要对抽象语法树（AST）进行遍历，并根据不同的节点类型执行不同的操作。访问者模式可以将这些操作封装在不同的访问者类中，从而实现对AST的遍历和处理。</li>
+<li>数据库查询：访问者模式可以用于实现数据库查询。数据库查询需要对查询语句进行解析，并将查询转换为对数据库中的表进行操作的语句。访问者模式可以将查询解析和转换操作封装在不同的访问者类中，从而实现对查询语句的处理。</li>
+<li>GUI框架：访问者模式可以用于实现GUI框架。GUI框架需要对各种GUI组件进行遍历，并根据不同的组件类型执行不同的操作。访问者模式可以将这些操作封装在不同的访问者类中，从而实现对GUI组件的遍历和处理。</li>
+<li>订单处理系统：访问者模式可以用于实现订单处理系统。订单处理系统需要对订单中的各种项进行遍历，并根据不同的项类型执行不同的操作。访问者模式可以将这些操作封装在不同的访问者类中，从而实现对订单的遍历和处理。</li>
+<li>机器学习：访问者模式可以用于实现机器学习算法。机器学习算法需要对数据集进行遍历，并根据不同的数据类型执行不同的操作。访问者模式可以将这些操作封装在不同的访问者类中，从而实现对数据集的遍历和处理。</li>
+<li>虚拟机：访问者模式可以用于实现虚拟机。虚拟机需要对字节码或中间代码进行遍历，并根据不同的指令类型执行不同的操作。访问者模式可以将这些操作封装在不同的访问者类中，从而实现对字节码或中间代码的遍历和处理。</li>
+<li>多媒体编解码器：访问者模式可以用于实现多媒体编解码器。多媒体编解码器需要对音视频数据进行遍历，并根据不同的数据类型执行不同的编解码操作。访问者模式可以将这些操作封装在不同的访问者类中，从而实现对音视频数据的遍历和处理。</li>
+<li>图像处理软件：访问者模式可以用于实现图像处理软件。图像处理软件需要对图像进行遍历，并根据不同的像素类型执行不同的处理操作。访问者模式可以将这些操作封装在不同的访问者类中，从而实现对图像的遍历和处理。</li>
+<li>网络协议解析器：访问者模式可以用于实现网络协议解析器。网络协议解析器需要对网络数据包进行遍历，并根据不同的协议类型执行不同的解析操作。访问者模式可以将这些操作封装在不同的访问者类中，从而实现对网络数据包的遍历和处理。</li>
+<li>CAD软件：访问者模式可以用于实现CAD软件。CAD软件需要对绘图元素进行遍历，并根据不同的元素类型执行不同的操作，比如绘制线条、填充颜色等。访问者模式可以将这些操作封装在不同的访问者类中，从而实现对绘图元素的遍历和处理。</li>
+<li>代码生成器：访问者模式可以用于实现代码生成器。代码生成器需要对抽象语法树（AST）进行遍历，并根据不同的节点类型生成不同的代码。访问者模式可以将代码生成操作封装在不同的访问者类中，从而实现对AST的遍历和代码生成。</li>
+<li>环境监测系统：访问者模式可以用于实现环境监测系统。环境监测系统需要对多个传感器采集的数据进行遍历，并根据不同的传感器类型执行不同的处理操作，比如温度校准、数据存储等。访问者模式可以将这些操作封装在不同的访问者类中，从而实现对传感器数据的遍历和处理。</li>
+<li>数字信号处理系统：访问者模式可以用于实现数字信号处理系统。数字信号处理系统需要对数字信号进行遍历，并根据不同的信号类型执行不同的处理操作，比如滤波、降噪等。访问者模式可以将这些操作封装在不同的访问者类中，从而实现对数字信号的遍历和处理。</li>
+</ol>
+<p>访问者模式在 JDK 中有多个应用，以下是其中一些例子：</p>
+<ol>
+<li>Java 中的 java.nio.file.FileVisitor 接口和 java.nio.file.Files#walkFileTree 方法，其中的 FileVisitor 接口定义了多个 visit 方法，用于访问文件树中的各个节点对象。Files#walkFileTree 方法可以通过访问者模式来实现遍历文件树并对每个文件进行处理。</li>
+<li>javax.lang.model.element.AnnotationValueVisitor 接口，用于访问注解值的各种类型，例如基本类型、字符串、枚举类型、数组类型和嵌套注解类型等。该接口中定义了多个 visit 方法，用于处理不同类型的注解值。</li>
+<li>javax.lang.model.element.ElementVisitor 接口，用于访问程序元素的各种类型，例如包、类、方法、字段、注解和注解值等。该接口中定义了多个 visit 方法，用于处理不同类型的程序元素。</li>
+<li>javax.lang.model.type.TypeVisitor 接口，用于访问类型的各种类型，例如基本类型、对象类型、数组类型和泛型类型等。该接口中定义了多个 visit 方法，用于处理不同类型的类型。</li>
+</ol>
+<p>总之，访问者模式可以适用于各种不同的领域和场景，只要需要对对象结构进行遍历和处理，都可以考虑使用该模式。</p>
+<h2 id="举例">举例</h2>
+<h3 id="计算图形面积和周长">计算图形面积和周长</h3>
+<p>假设我们有一个图形类 Shape，它有两个子类 Circle 和 Rectangle，我们需要对它们进行面积和周长的计算。我们可以使用访问者模式来实现这个功能。</p>
+<p>我们首先定义一个抽象访问者类 ShapeVisitor，它包含了两个抽象方法 visitCircle 和 visitRectangle，分别用于访问 Circle 和 Rectangle 对象。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 抽象访问者类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">interface</span> <span class="nc">ShapeVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">visitCircle</span><span class="o">(</span><span class="n">Circle</span> <span class="n">circle</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">visitRectangle</span><span class="o">(</span><span class="n">Rectangle</span> <span class="n">rectangle</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后我们定义一个抽象的图形类 Shape，它包含一个 accept 方法，用于接受一个访问者对象作为参数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 抽象图形类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Shape</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">ShapeVisitor</span> <span class="n">visitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接着我们定义两个具体的图形类 Circle 和 Rectangle，它们实现了 accept 方法，并在其中调用访问者对象的 visitCircle 和 visitRectangle 方法。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 具体图形类 Circle
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">class</span> <span class="nc">Circle</span> <span class="kd">extends</span> <span class="n">Shape</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span> <span class="n">radius</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Circle</span><span class="o">(</span><span class="kt">double</span> <span class="n">radius</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">radius</span> <span class="o">=</span> <span class="n">radius</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="nf">getRadius</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">radius</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">ShapeVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">visitor</span><span class="o">.</span><span class="na">visitCircle</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 具体图形类 Rectangle
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">class</span> <span class="nc">Rectangle</span> <span class="kd">extends</span> <span class="n">Shape</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span> <span class="n">width</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span> <span class="n">height</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Rectangle</span><span class="o">(</span><span class="kt">double</span> <span class="n">width</span><span class="o">,</span> <span class="kt">double</span> <span class="n">height</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">width</span> <span class="o">=</span> <span class="n">width</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">height</span> <span class="o">=</span> <span class="n">height</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="nf">getWidth</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">width</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="nf">getHeight</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">height</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">ShapeVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">visitor</span><span class="o">.</span><span class="na">visitRectangle</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后我们定义一个具体的访问者类 ShapeCalculator，它实现了 ShapeVisitor 接口，并在其中实现了 visitCircle 和 visitRectangle 方法，用于计算图形的面积和周长。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 具体访问者类 ShapeCalculator
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">class</span> <span class="nc">ShapeCalculator</span> <span class="kd">implements</span> <span class="n">ShapeVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span> <span class="n">area</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span> <span class="n">perimeter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitCircle</span><span class="o">(</span><span class="n">Circle</span> <span class="n">circle</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">radius</span> <span class="o">=</span> <span class="n">circle</span><span class="o">.</span><span class="na">getRadius</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">area</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">PI</span> <span class="o">*</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">radius</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">perimeter</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="na">PI</span> <span class="o">*</span> <span class="n">radius</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitRectangle</span><span class="o">(</span><span class="n">Rectangle</span> <span class="n">rectangle</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">width</span> <span class="o">=</span> <span class="n">rectangle</span><span class="o">.</span><span class="na">getWidth</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">height</span> <span class="o">=</span> <span class="n">rectangle</span><span class="o">.</span><span class="na">getHeight</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">area</span> <span class="o">=</span> <span class="n">width</span> <span class="o">*</span> <span class="n">height</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">perimeter</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="o">(</span><span class="n">width</span> <span class="o">+</span> <span class="n">height</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="nf">getArea</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">area</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="nf">getPerimeter</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">perimeter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在我们可以使用访问者模式来计算图形的面积和周长了。我们先创建一个 ShapeCalculator 对象，然后分别创建一个 Circle 对象和一个 Rectangle 对象，并调用它们的 accept 方法，将 ShapeCalculator 作为参数传入。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ShapeCalculator</span> <span class="n">calculator</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ShapeCalculator</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Circle</span> <span class="n">circle</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Circle</span><span class="o">(</span><span class="mf">5.0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">circle</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">calculator</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Circle area: &#34;</span> <span class="o">+</span> <span class="n">calculator</span><span class="o">.</span><span class="na">getArea</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Circle perimeter: &#34;</span> <span class="o">+</span> <span class="n">calculator</span><span class="o">.</span><span class="na">getPerimeter</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Rectangle</span> <span class="n">rectangle</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rectangle</span><span class="o">(</span><span class="mf">3.0</span><span class="o">,</span> <span class="mf">4.0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rectangle</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">calculator</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Rectangle area: &#34;</span> <span class="o">+</span> <span class="n">calculator</span><span class="o">.</span><span class="na">getArea</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Rectangle perimeter: &#34;</span> <span class="o">+</span> <span class="n">calculator</span><span class="o">.</span><span class="na">getPerimeter</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>输出结果如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Circle area: 78.53981633974483
+</span></span><span class="line"><span class="cl">Circle perimeter: 31.41592653589793
+</span></span><span class="line"><span class="cl">Rectangle area: 12.0
+</span></span><span class="line"><span class="cl">Rectangle perimeter: 14.0
+</span></span></code></pre></div><p>这个例子展示了如何使用访问者模式来计算图形的面积和周长，我们将计算的逻辑封装在了 ShapeCalculator 类中，并通过访问者模式将它们应用于不同的图形对象。这样可以实现代码的重用和可维护性。</p>
+<h3 id="实现代码生成器">实现代码生成器</h3>
+<p>访问者模式可以用于实现代码生成器，下面是一个简单的例子：</p>
+<p>假设我们需要根据一个语法树生成相应的代码，语法树中包含了不同类型的节点，每个节点代表一个语法结构。我们可以使用访问者模式来实现这个功能，将语法树中的每个节点都作为一个元素，访问者对象则负责生成相应的代码。</p>
+<p>我们首先定义一个抽象访问者类 CodeGenerator，它包含了多个抽象方法，每个方法对应一个节点类型，用于生成相应的代码。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 抽象访问者类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">interface</span> <span class="nc">CodeGenerator</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">generate</span><span class="o">(</span><span class="n">ProgramNode</span> <span class="n">node</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">generate</span><span class="o">(</span><span class="n">StatementNode</span> <span class="n">node</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">generate</span><span class="o">(</span><span class="n">ExpressionNode</span> <span class="n">node</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>然后我们定义一个抽象的节点类 Node，它包含一个 accept 方法，用于接受一个访问者对象作为参数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 抽象节点类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Node</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">CodeGenerator</span> <span class="n">generator</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接着我们定义多个具体的节点类 ProgramNode、StatementNode 和 ExpressionNode，它们实现了 accept 方法，并在其中调用访问者对象的相应方法。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 具体节点类 ProgramNode
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">class</span> <span class="nc">ProgramNode</span> <span class="kd">extends</span> <span class="n">Node</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&gt;</span> <span class="n">children</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">children</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">CodeGenerator</span> <span class="n">generator</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">generator</span><span class="o">.</span><span class="na">generate</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Node</span> <span class="n">child</span> <span class="o">:</span> <span class="n">children</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">child</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">generator</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 具体节点类 StatementNode
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">class</span> <span class="nc">StatementNode</span> <span class="kd">extends</span> <span class="n">Node</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">statement</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">StatementNode</span><span class="o">(</span><span class="n">String</span> <span class="n">statement</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">statement</span> <span class="o">=</span> <span class="n">statement</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">CodeGenerator</span> <span class="n">generator</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">generator</span><span class="o">.</span><span class="na">generate</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="nf">getStatement</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">statement</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 具体节点类 ExpressionNode
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">class</span> <span class="nc">ExpressionNode</span> <span class="kd">extends</span> <span class="n">Node</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">expression</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ExpressionNode</span><span class="o">(</span><span class="n">String</span> <span class="n">expression</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">expression</span> <span class="o">=</span> <span class="n">expression</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">CodeGenerator</span> <span class="n">generator</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">generator</span><span class="o">.</span><span class="na">generate</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="nf">getExpression</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">expression</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后我们定义一个具体的访问者类 JavaCodeGenerator，它实现了 CodeGenerator 接口，并在其中实现了各个节点类型的生成方法，用于生成 Java 代码。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 具体访问者类 JavaCodeGenerator
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">class</span> <span class="nc">JavaCodeGenerator</span> <span class="kd">implements</span> <span class="n">CodeGenerator</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">StringBuilder</span> <span class="n">codeBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">generate</span><span class="o">(</span><span class="n">ProgramNode</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">codeBuilder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;public class Main {\n&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">generate</span><span class="o">(</span><span class="n">StatementNode</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">codeBuilder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;    &#34;</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">getStatement</span><span class="o">()).</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;;\n&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">generate</span><span class="o">(</span><span class="n">ExpressionNode</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">codeBuilder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;    &#34;</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">getExpression</span><span class="o">()).</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;;\n&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="nf">getCode</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">codeBuilder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;}\n&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">codeBuilder</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在我们可以使用访问者模式来生成 Java 代码了。我们先创建一个 ProgramNode 对象，并向其中添加多个 StatementNode 和 ExpressionNode 对象，然后创建一个 JavaCodeGenerator 对象，调用 ProgramNode 的 accept 方法，并将 JavaCodeGenerator 作为参数传入。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ProgramNode</span> <span class="n">programNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProgramNode</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">programNode</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">StatementNode</span><span class="o">(</span><span class="s">&#34;int a = 1&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">programNode</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ExpressionNode</span><span class="o">(</span><span class="s">&#34;a++&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">programNode</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">StatementNode</span><span class="o">(</span><span class="s">&#34;System.out.println(a)&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">JavaCodeGenerator</span> <span class="n">codeGenerator</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JavaCodeGenerator</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">programNode</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">codeGenerator</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">codeGenerator</span><span class="o">.</span><span class="na">getCode</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>输出结果如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这个例子展示了如何使用访问者模式来生成 Java 代码，我们将生成代码的逻辑封装在了 JavaCodeGenerator 类中，并通过访问者模式将它们应用于语法树中的每个节点。这样可以实现代码的快速生成和可维护性。</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Java设计模式：Acyclic Visitor</title>
+      <link>https://blog.chensoul.com/posts/2023/06/01/java-design-patterns-acyclic-visitor/</link>
+      <pubDate>Thu, 01 Jun 2023 09:30:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/06/01/java-design-patterns-acyclic-visitor/</guid>
+      <description>本文主要介绍 Acyclic Visitor 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计</description>
+      <content:encoded><![CDATA[<p>本文主要介绍 Acyclic Visitor 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+<blockquote>
+<p><a href="https://java-design-patterns.com/">Java Design Patterns</a> 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。</p>
+<p>Java Design Patterns 网站提供了多种设计模式分类方式，包括创建型模式（Creational Patterns）、结构型模式（Structural Patterns）和行为型模式（Behavioral Patterns），以及其他一些常见的模式。</p>
+<p>对于每个设计模式，该网站提供了详细的介绍、示例代码和用例说明，并且提供了一些常见的使用场景和注意事项。开发人员可以根据自己的需求选择适合自己的设计模式，并且可以参考示例代码和用例说明来理解和应用该模式。</p>
+<p>此外，Java Design Patterns 网站还提供了一些其他资源，如设计模式的 UML 图、设计模式的优缺点、设计模式的比较等。这些资源可以帮助开发人员更好地理解和应用设计模式。</p>
+<p>中文网站：<a href="https://java-design-patterns.com/zh/">https://java-design-patterns.com/zh/</a></p>
+<p>Github 上源码仓库（非官方）：<a href="https://github.com/iluwatar/java-design-patterns">https://github.com/iluwatar/java-design-patterns</a></p>
+</blockquote>
+<h2 id="目的">目的</h2>
+<p>允许将新功能添加到现有的类层次结构中，而不会影响这些层次结构，也不会有四人帮访客模式中那样循环依赖的问题。</p>
+<blockquote>
+<p>在 Acyclic Visitor 模式中，我们通过引入一个可选操作接口来实现这一点。当数据结构类需要访问访问者类的某些操作时，它可以通过调用 visit 方法来访问可选操作接口中定义的操作，而不需要直接依赖于访问者类中的成员变量。</p>
+</blockquote>
+<h2 id="解释">解释</h2>
+<p>真实世界例子</p>
+<blockquote>
+<p>我们有一个调制解调器类的层次结构。 需要使用基于过滤条件的外部算法（是Unix或DOS兼容的调制解调器）来访问此层次结构中的调制解调器。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>这是调制解调器的层次结构。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Modem</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">ModemVisitor</span> <span class="n">modemVisitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hayes</span> <span class="kd">implements</span> <span class="n">Modem</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">ModemVisitor</span> <span class="n">modemVisitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="o">(</span><span class="n">modemVisitor</span> <span class="k">instanceof</span> <span class="n">HayesVisitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">			<span class="o">((</span><span class="n">HayesVisitor</span><span class="o">)</span> <span class="n">modemVisitor</span><span class="o">).</span><span class="na">visit</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Only HayesVisitor is allowed to visit Hayes modem&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Zoom</span> <span class="kd">implements</span> <span class="n">Modem</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">ModemVisitor</span> <span class="n">modemVisitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="o">(</span><span class="n">modemVisitor</span> <span class="k">instanceof</span> <span class="n">ZoomVisitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">			<span class="o">((</span><span class="n">ZoomVisitor</span><span class="o">)</span> <span class="n">modemVisitor</span><span class="o">).</span><span class="na">visit</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>下面我们介绍<code>调制解调器访问者</code>类结构。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ModemVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HayesVisitor</span> <span class="kd">extends</span> <span class="n">ModemVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">Hayes</span> <span class="n">hayes</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ZoomVisitor</span> <span class="kd">extends</span> <span class="n">ModemVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">Zoom</span> <span class="n">zoom</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">AllModemVisitor</span> <span class="kd">extends</span> <span class="n">ZoomVisitor</span><span class="o">,</span> <span class="n">HayesVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConfigureForDosVisitor</span> <span class="kd">implements</span> <span class="n">AllModemVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">Hayes</span> <span class="n">hayes</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">hayes</span> <span class="o">+</span> <span class="s">&#34; used with Dos configurator.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">Zoom</span> <span class="n">zoom</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">zoom</span> <span class="o">+</span> <span class="s">&#34; used with Dos configurator.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConfigureForUnixVisitor</span> <span class="kd">implements</span> <span class="n">ZoomVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">Zoom</span> <span class="n">zoom</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">zoom</span> <span class="o">+</span> <span class="s">&#34; used with Unix configurator.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，这里是访问者的实践。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Client</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Modem</span><span class="o">[]</span> <span class="n">modems</span> <span class="o">=</span> <span class="o">{</span> <span class="k">new</span> <span class="n">Hayes</span><span class="o">(),</span> <span class="k">new</span> <span class="n">Zoom</span><span class="o">(),</span> <span class="k">new</span> <span class="n">Hayes</span><span class="o">()</span> <span class="o">};</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ModemVisitor</span> <span class="n">dosVisitor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConfigureForDosVisitor</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ModemVisitor</span> <span class="n">unixVisitor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConfigureForUnixVisitor</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Modem</span> <span class="n">modem</span> <span class="o">:</span> <span class="n">modems</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">modem</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">dosVisitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">modem</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">unixVisitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="类图">类图</h2>
+<p><img loading="lazy" src="https://java-design-patterns.com/assets/acyclic-visitor-74cfcfba.png" alt="alt text"  />
+</p>
+<p>以下是对 Acyclic Visitor 模式的解释：</p>
+<ol>
+<li>Element（元素）：在上面的代码中，Modem 接口表示一个元素，定义了一个 accept 方法，用于接受访问者的访问。</li>
+<li>ConcreteElement（具体元素）：在上面的代码中，Hayes 类和 Zoom 类表示具体的元素，实现了 Modem 接口中定义的 accept 方法。</li>
+<li>Visitor（访问者）：在上面的代码中，ModemVisitor 接口表示一个访问者，定义了一个空的接口，用于扩展具体的访问者接口。</li>
+<li>ConcreteVisitor（具体访问者）：在上面的代码中，ConfigureForDosVisitor 和 ConfigureForUnixVisitor 类表示具体的访问者，实现了 HayesVisitor 和 ZoomVisitor 接口中定义的 visit 方法，用于访问具体的元素。</li>
+<li>OptionalOperations（可选操作）：在上面的代码中，AllModemVisitor 接口表示一个可选操作接口，它继承了所有具体访问者接口，用于扩展访问者类的操作。在 ConfigureForDosVisitor 类中，它实现了 AllModemVisitor 接口，同时实现了 visit 方法，用于访问所有具体的元素。在 ConfigureForUnixVisitor 类中，它实现了 ZoomVisitor 接口，同时实现了 visit 方法，用于访问 Zoom 元素。</li>
+</ol>
+<p>在 Acyclic Visitor 模式中，元素和访问者之间是相互独立的，它们之间没有任何依赖关系。在访问元素时，访问者通过 accept 方法访问元素，并根据元素的类型自动调用对应的 visit 方法。由于访问者并没有直接依赖于元素，而是通过访问者接口和可选操作接口来访问元素，因此可以避免循环依赖的问题。同时，由于可选操作是一个接口，访问者可以根据需要实现其中的部分操作，从而动态地添加新的操作，而不会影响现有的类层次结构。这样，Acyclic Visitor 模式可以使代码更加灵活和可扩展，同时也提高了代码的可维护性和可扩展性。</p>
+<h2 id="适用性">适用性</h2>
+<p>以下情况可以使用此模式：</p>
+<ul>
+<li>需要在现有层次结构中添加新功能而无需更改或影响该层次结构时。</li>
+<li>当某些功能在层次结构上运行，但不属于层次结构本身时。 例如 ConfigureForDOS / ConfigureForUnix / ConfigureForX问题。</li>
+<li>当您需要根据对象的类型对对象执行非常不同的操作时。</li>
+<li>当访问的类层次结构将经常使用元素类的新派生进行扩展时。在 Acyclic Visitor 模式中，新的元素类可以通过继承现有的 Element 类来实现，而不需要修改访问者类的代码。这样，可以避免因添加新元素而导致的访问者类的修改和重新编译。</li>
+<li>当重新编译，重新链接，重新测试或重新分发派生元素非常昂贵时。</li>
+</ul>
+<h2 id="对比">对比</h2>
+<p>Acyclic Visitor 模式是 Visitor 模式的一个变体，它解决了 Visitor 模式可能导致的循环依赖问题。下面是 Acyclic Visitor 模式和 Visitor 模式的一些对比：</p>
+<ol>
+<li>目的不同</li>
+</ol>
+<p>Visitor 模式的主要目的是将数据结构和操作分离开来，并将操作封装在访问者类中。这使得我们可以在不修改数据结构代码的情况下添加新的操作。而 Acyclic Visitor 模式则更注重解决 Visitor 模式中可能出现的循环依赖问题。</p>
+<ol start="2">
+<li>实现方式不同</li>
+</ol>
+<p>在 Visitor 模式中，访问者类通常会维护一个数据结构类的引用，以便在 visit 方法中访问数据结构类的成员。这可能会导致循环依赖问题。而在 Acyclic Visitor 模式中，我们引入了一个额外的接口，即可选操作接口，它包含数据结构类可能需要调用的方法。这样，数据结构类就可以通过调用 visit 方法来访问访问者类中的部分操作，而不必直接依赖于访问者类中的成员，从而避免了循环依赖问题。</p>
+<ol start="3">
+<li>可扩展性不同</li>
+</ol>
+<p>由于 Visitor 模式中数据结构类和访问者类之间存在强耦合关系，因此添加新的数据结构类或访问者类可能会导致代码修改。而 Acyclic Visitor 模式通过引入可选操作接口，使得数据结构类和访问者类之间的耦合关系更加灵活，从而提高了代码的可扩展性。</p>
+<ol start="4">
+<li>实现复杂度不同</li>
+</ol>
+<p>Acyclic Visitor 模式相比 Visitor 模式，增加了一个可选操作接口，因此实现上可能会更加复杂。但是，这也使得 Acyclic Visitor 模式更加灵活和可扩展。</p>
+<h2 id="优缺点">优缺点</h2>
+<p>下面是 Acyclic Visitor 模式的优点和缺点：</p>
+<p>优点：</p>
+<ol>
+<li>解决了 Visitor 模式可能出现的循环依赖问题，使得代码更加健壮和可维护。</li>
+<li>可选操作接口使得访问者类的扩展更加灵活，可以根据具体需求选择实现不同的操作。</li>
+<li>将<strong>数据结构和操作分离开来</strong>，提高了代码的可扩展性和可维护性。</li>
+<li>在需要添加新的数据结构类或访问者类时，可以避免对现有代码进行修改，符合开闭原则。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>相对于 Visitor 模式，Acyclic Visitor 模式的实现会更加复杂，因为需要引入一个可选操作接口。</li>
+<li>由于 Acyclic Visitor 模式在实现上更加复杂，可能会降低代码的可读性和可理解性。</li>
+<li>如果数据结构类需要访问访问者类的成员，Acyclic Visitor 模式并不能很好地解决这个问题，需要考虑其他设计模式的使用。</li>
+</ol>
+<h2 id="使用场景">使用场景</h2>
+<p>Acyclic Visitor 模式通常用于以下场景：</p>
+<ol>
+<li>类层次结构中存在多种类型的对象，并且需要对它们进行不同的操作，但不想在类层次结构中添加新的方法或修改现有方法。</li>
+<li>不同的操作需要访问对象的不同部分，而不是整个对象本身。</li>
+<li>类层次结构之间存在依赖关系，但不希望引入循环依赖问题。</li>
+<li>需要在类层次结构中添加新的操作，而不影响现有的类。</li>
+<li>需要支持多个访问者，且访问者之间可能存在依赖关系。</li>
+<li>需要避免在访问者中使用 instanceof 运算符来检查元素的类型。</li>
+</ol>
+<p>具体的使用场景如下：</p>
+<ol>
+<li>解析器（Parser）：在解析器中，可以使用 Acyclic Visitor 模式来实现不同类型的节点的访问。例如，可以使用 Acyclic Visitor 模式来实现语法树的遍历，以实现语法分析、类型检查等功能。</li>
+<li>编译器（Compiler）：在编译器中，可以使用 Acyclic Visitor 模式来实现不同阶段的分析。例如，可以使用 Acyclic Visitor 模式来实现词法分析器、语法分析器、类型检查器、代码生成器等。</li>
+<li>图形用户界面（GUI）：在图形用户界面中，可以使用 Acyclic Visitor 模式来实现不同类型的控件的访问。例如，可以使用 Acyclic Visitor 模式来实现窗口、按钮、菜单等控件的事件处理逻辑。</li>
+<li>数据库访问（Database Access）：在数据库访问中，可以使用 Acyclic Visitor 模式来实现不同类型的对象的访问。例如，可以使用 Acyclic Visitor 模式来实现对关系型数据库中的表、视图、存储过程、触发器等对象的访问。</li>
+<li>游戏开发（Game Development）：在游戏开发中，可以使用 Acyclic Visitor 模式来实现不同类型的游戏对象的访问。例如，可以使用 Acyclic Visitor 模式来实现对角色、道具、怪物等游戏对象的访问。</li>
+<li>打印机驱动程序（Printer Driver）：在打印机驱动程序中，可以使用 Acyclic Visitor 模式来实现不同类型的打印作业的访问。例如，可以使用 Acyclic Visitor 模式来实现对文本、图片、表格等打印作业的访问。</li>
+<li>音频处理（Audio Processing）：在音频处理中，可以使用 Acyclic Visitor 模式来实现不同类型的音频文件的访问。例如，可以使用 Acyclic Visitor 模式来实现对 MP3、WAV、FLAC 等音频文件的访问。</li>
+<li>网络协议（Network Protocol）：在网络协议中，可以使用 Acyclic Visitor 模式来实现不同类型的协议数据包的访问。例如，可以使用 Acyclic Visitor 模式来实现对 TCP、UDP、HTTP、SMTP 等协议数据包的访问。</li>
+<li>机器人控制（Robot Control）：在机器人控制中，可以使用 Acyclic Visitor 模式来实现不同类型的机器人动作的访问。例如，可以使用 Acyclic Visitor 模式来实现对移动、转向、抓取、放置等机器人动作的访问。</li>
+<li>系统监控（System Monitoring）：在系统监控中，可以使用 Acyclic Visitor 模式来实现不同类型的监测数据的访问。例如，可以使用 Acyclic Visitor 模式来实现对 CPU 占用率、内存使用量、网络流量等监测数据的访问。</li>
+<li>机器学习（Machine Learning）：在机器学习中，可以使用 Acyclic Visitor 模式来实现不同类型的训练数据的访问。例如，可以使用 Acyclic Visitor 模式来实现对图像、声音、文本等训练数据的访问。</li>
+<li>金融交易（Financial Trading）：在金融交易中，可以使用 Acyclic Visitor 模式来实现不同类型的交易数据的访问。例如，可以使用 Acyclic Visitor 模式来实现对股票、期货、外汇等交易数据的访问。</li>
+<li>电子商务（E-commerce）：在电子商务中，可以使用 Acyclic Visitor 模式来实现不同类型的商品数据的访问。例如，可以使用 Acyclic Visitor模式来实现对产品、订单、客户等商品数据的访问。</li>
+<li>硬件控制（Hardware Control）：在硬件控制中，可以使用 Acyclic Visitor 模式来实现不同类型的硬件设备的访问。例如，可以使用 Acyclic Visitor 模式来实现对传感器、电机、执行器等硬件设备的访问。</li>
+</ol>
+<p>一个更具体的例子是使用 Acyclic Visitor 模式来实现图像处理功能。假设我们有一个图像处理程序，它可以处理多种类型的图像，如 JPEG、PNG、BMP 等。我们需要为该程序添加一个新的功能，即将图像转换为黑白图像。</p>
+<p>为实现这一功能，我们可以使用 Acyclic Visitor 模式来设计图像处理类层次结构。类层次结构包括多种类型的图像，如 JPEGImage、PNGImage、BMPImage 等。对于每种类型的图像，我们定义一个相应的图像处理器类，如 JPEGImageHandler、PNGImageHandler、BMPImageHandler 等。每个图像处理器类都实现一个 Visitor 接口的子接口，如 JPEGImageVisitor、PNGImageVisitor、BMPImageVisitor，该子接口定义了一些 visit 方法，用于处理图像中的像素数据。</p>
+<p>定义 Visitor 接口及其子接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Visitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">JPEGImageVisitor</span> <span class="kd">extends</span> <span class="n">Visitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">JPEGImage</span> <span class="n">image</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">PNGImageVisitor</span> <span class="kd">extends</span> <span class="n">Visitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">PNGImage</span> <span class="n">image</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">BMPImageVisitor</span> <span class="kd">extends</span> <span class="n">Visitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">BMPImage</span> <span class="n">image</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>定义图像类及其子类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Image</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">Visitor</span> <span class="n">visitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JPEGImage</span> <span class="kd">implements</span> <span class="n">Image</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">JPEGImage</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="o">.</span><span class="na">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">getData</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">Visitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">visitor</span> <span class="k">instanceof</span> <span class="n">JPEGImageVisitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="o">((</span><span class="n">JPEGImageVisitor</span><span class="o">)</span> <span class="n">visitor</span><span class="o">).</span><span class="na">visit</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PNGImage</span> <span class="kd">implements</span> <span class="n">Image</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">PNGImage</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="o">.</span><span class="na">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">getData</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">Visitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">visitor</span> <span class="k">instanceof</span> <span class="n">PNGImageVisitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="o">((</span><span class="n">PNGImageVisitor</span><span class="o">)</span> <span class="n">visitor</span><span class="o">).</span><span class="na">visit</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BMPImage</span> <span class="kd">implements</span> <span class="n">Image</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">BMPImage</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="o">.</span><span class="na">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">getData</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">Visitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">visitor</span> <span class="k">instanceof</span> <span class="n">BMPImageVisitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="o">((</span><span class="n">BMPImageVisitor</span><span class="o">)</span> <span class="n">visitor</span><span class="o">).</span><span class="na">visit</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>  
+</span></span></code></pre></div><p>定义黑白图像处理器类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BlackWhiteImageProcessor</span> <span class="kd">implements</span> <span class="n">JPEGImageVisitor</span><span class="o">,</span> <span class="n">PNGImageVisitor</span><span class="o">,</span><span class="n">BMPImageVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">JPEGImage</span> <span class="n">image</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 将 JPEG 图像转换为黑白图像
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// 处理像素数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">PNGImage</span> <span class="n">image</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 将 PNG 图像转换为黑白图像
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// 处理像素数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">BMPImage</span> <span class="n">image</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 将 BMP 图像转换为黑白图像
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// 处理像素数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>  
+</span></span></code></pre></div><p>最后，我们可以通过以下方式使用 Acyclic Visitor 模式来实现图像处理功能：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Client</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">List</span><span class="o">&lt;</span><span class="n">Image</span><span class="o">&gt;</span> <span class="n">images</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">images</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">JPEGImage</span><span class="o">(</span><span class="n">jpegData</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">images</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">PNGImage</span><span class="o">(</span><span class="n">pngData</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">images</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">BMPImage</span><span class="o">(</span><span class="n">bmpData</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">BlackWhiteImageProcessor</span> <span class="n">processor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BlackWhiteImageProcessor</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Image</span> <span class="n">image</span> <span class="o">:</span> <span class="n">images</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">image</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">processor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个例子中，Acyclic Visitor 模式使我们能够实现对多种类型的图像进行不同的处理，同时保持代码的可扩展性和可维护性。我们可以轻松地添加新的图像处理器类，如 SepiaImageProcessor、BlurImageProcessor 、RotateImageProcessor 等，而无需修改图像类层次结构的代码。同时，我们可以避免在图像类层次结构中添加处理方法，而是将处理逻辑封装在访问者类中，从而提高代码的可扩展性和可维护性。</p>
+<p>下面我给出一个简单的示例代码来演示如何使用 Acyclic Visitor 模式来实现对 CPU 占用率、内存使用量、网络流量等监测数据的访问。</p>
+<p>首先，我们定义一个 Visitor 接口及其子接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Visitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CPUUsageVisitor</span> <span class="kd">extends</span> <span class="n">Visitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">CPUUsage</span> <span class="n">cpuUsage</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MemoryUsageVisitor</span> <span class="kd">extends</span> <span class="n">Visitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">MemoryUsage</span> <span class="n">memoryUsage</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">NetworkTrafficVisitor</span> <span class="kd">extends</span> <span class="n">Visitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">NetworkTraffic</span> <span class="n">networkTraffic</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后，我们定义三个监测数据类：CPUUsage、MemoryUsage 和 NetworkTraffic。这些类实现了 Visitor 接口，并且定义了一个 accept 方法，该方法接受一个 Visitor 对象，并调用 Visitor 对象的 visit 方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Usages</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">Visitor</span> <span class="n">visitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CPUUsage</span> <span class="kd">implements</span> <span class="n">Usages</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span> <span class="n">usage</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">CPUUsage</span><span class="o">(</span><span class="kt">double</span> <span class="n">usage</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">usage</span> <span class="o">=</span> <span class="n">usage</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getUsage</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">usage</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">Visitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">visitor</span> <span class="k">instanceof</span> <span class="n">CPUUsageVisitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="o">((</span><span class="n">CPUUsageVisitor</span><span class="o">)</span> <span class="n">visitor</span><span class="o">).</span><span class="na">visit</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryUsage</span> <span class="kd">implements</span> <span class="n">Visitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">long</span> <span class="n">used</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">long</span> <span class="n">total</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MemoryUsage</span><span class="o">(</span><span class="kt">long</span> <span class="n">used</span><span class="o">,</span> <span class="kt">long</span> <span class="n">total</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">used</span> <span class="o">=</span> <span class="n">used</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">total</span> <span class="o">=</span> <span class="n">total</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">long</span> <span class="nf">getUsed</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">used</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">long</span> <span class="nf">getTotal</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">total</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">Visitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">visitor</span> <span class="k">instanceof</span> <span class="n">MemoryUsageVisitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="o">((</span><span class="n">MemoryUsageVisitor</span><span class="o">)</span> <span class="n">visitor</span><span class="o">).</span><span class="na">visit</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NetworkTraffic</span> <span class="kd">implements</span> <span class="n">Visitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">long</span> <span class="n">sent</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">long</span> <span class="n">received</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">NetworkTraffic</span><span class="o">(</span><span class="kt">long</span> <span class="n">sent</span><span class="o">,</span> <span class="kt">long</span> <span class="n">received</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">sent</span> <span class="o">=</span> <span class="n">sent</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">received</span> <span class="o">=</span> <span class="n">received</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">long</span> <span class="nf">getSent</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">sent</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">long</span> <span class="nf">getReceived</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">received</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">Visitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">visitor</span> <span class="k">instanceof</span> <span class="n">NetworkTrafficVisitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="o">((</span><span class="n">NetworkTrafficVisitor</span><span class="o">)</span> <span class="n">visitor</span><span class="o">).</span><span class="na">visit</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们定义三个 Visitor 实现类：CPUUsageLoggerVistor、MemoryUsageLoggerVistor 和 NetworkTrafficLoggerVistor。这些类实现了 CPUUsageVisitor、MemoryUsageVisitor 和 NetworkTrafficVisitor 接口，并实现了 visit 方法，该方法用于记录监测数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CPUUsageLoggerVistor</span> <span class="kd">implements</span> <span class="n">CPUUsageVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">CPUUsage</span> <span class="n">cpuUsage</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">usage</span> <span class="o">=</span> <span class="n">cpuUsage</span><span class="o">.</span><span class="na">getUsage</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;CPU Usage: &#34;</span> <span class="o">+</span> <span class="n">usage</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryUsageLoggerVistor</span> <span class="kd">implements</span> <span class="n">MemoryUsageVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">MemoryUsage</span> <span class="n">memoryUsage</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">long</span> <span class="n">used</span> <span class="o">=</span> <span class="n">memoryUsage</span><span class="o">.</span><span class="na">getUsed</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="n">memoryUsage</span><span class="o">.</span><span class="na">getTotal</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">usage</span> <span class="o">=</span> <span class="o">(</span><span class="kt">double</span><span class="o">)</span> <span class="n">used</span> <span class="o">/</span> <span class="n">total</span> <span class="o">*</span> <span class="mi">100</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Memory Usage: &#34;</span> <span class="o">+</span> <span class="n">usage</span> <span class="o">+</span> <span class="s">&#34;%&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NetworkTrafficLoggerVistor</span> <span class="kd">implements</span> <span class="n">NetworkTrafficVisitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">NetworkTraffic</span> <span class="n">networkTraffic</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">long</span> <span class="n">sent</span> <span class="o">=</span> <span class="n">networkTraffic</span><span class="o">.</span><span class="na">getSent</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">long</span> <span class="n">received</span> <span class="o">=</span> <span class="n">networkTraffic</span><span class="o">.</span><span class="na">getReceived</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Network Traffic: Sent=&#34;</span> <span class="o">+</span> <span class="n">sent</span> <span class="o">+</span> <span class="s">&#34; bytes, Received=&#34;</span> <span class="o">+</span> <span class="n">received</span> <span class="o">+</span> <span class="s">&#34; bytes&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，我们定义一个监测数据源类：SystemMonitor。该类维护三个监测数据：CPUUsage、MemoryUsage 和 NetworkTraffic，并提供相应的方法用于更新监测数据。该类还提供一个 accept 方法，该方法接受一个 Visitor 对象，并将该 Visitor 对象传递给各个监测数据对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SystemMonitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">CPUUsage</span> <span class="n">cpuUsage</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">MemoryUsage</span> <span class="n">memoryUsage</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">NetworkTraffic</span> <span class="n">networkTraffic</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateCPUUsage</span><span class="o">(</span><span class="kt">double</span> <span class="n">usage</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cpuUsage</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CPUUsage</span><span class="o">(</span><span class="n">usage</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateMemoryUsage</span><span class="o">(</span><span class="kt">long</span> <span class="n">used</span><span class="o">,</span> <span class="kt">long</span> <span class="n">total</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">memoryUsage</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MemoryUsage</span><span class="o">(</span><span class="n">used</span><span class="o">,</span> <span class="n">total</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateNetworkTraffic</span><span class="o">(</span><span class="kt">long</span> <span class="n">sent</span><span class="o">,</span><span class="kt">long</span> <span class="n">received</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">networkTraffic</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NetworkTraffic</span><span class="o">(</span><span class="n">sent</span><span class="o">,</span> <span class="n">received</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">Visitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">cpuUsage</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cpuUsage</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">visitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">memoryUsage</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">memoryUsage</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">visitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">networkTraffic</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">networkTraffic</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">visitor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，我们可以使用上述类来实现对 CPU 占用率、内存使用量、网络流量等监测数据的访问。首先，我们创建一个 SystemMonitor 对象，并更新监测数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SystemMonitor</span> <span class="n">monitor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SystemMonitor</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">monitor</span><span class="o">.</span><span class="na">updateCPUUsage</span><span class="o">(</span><span class="mf">0.75</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">monitor</span><span class="o">.</span><span class="na">updateMemoryUsage</span><span class="o">(</span><span class="mi">1024</span><span class="o">,</span> <span class="mi">2048</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">monitor</span><span class="o">.</span><span class="na">updateNetworkTraffic</span><span class="o">(</span><span class="mi">1024</span><span class="o">,</span> <span class="mi">2048</span><span class="o">);</span>
+</span></span></code></pre></div><p>然后，我们可以创建三个 Visitor 对象：CPUUsageLoggerVistor、MemoryUsageLoggerVistor 和 NetworkTrafficLoggerVistor，用于记录监测数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CPUUsageLoggerVistor</span> <span class="n">cpuUsageLogger</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CPUUsageLoggerVistor</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">MemoryUsageLoggerVistor</span> <span class="n">memoryUsageLogger</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MemoryUsageLoggerVistor</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">NetworkTrafficLoggerVistor</span> <span class="n">networkTrafficLogger</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NetworkTrafficLoggerVistor</span><span class="o">();</span>
+</span></span></code></pre></div><p>最后，我们可以将这些 Visitor 对象传递给 SystemMonitor 对象，并调用 accept 方法来访问监测数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">monitor</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">cpuUsageLogger</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">monitor</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">memoryUsageLogger</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">monitor</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">networkTrafficLogger</span><span class="o">);</span>
+</span></span></code></pre></div><p>这样，我们就可以通过 Acyclic Visitor 模式来实现对 CPU 占用率、内存使用量、网络流量等监测数据的访问。</p>
+<h2 id="参考文章">参考文章</h2>
+<ul>
+<li>
+<p><a href="http://condor.depaul.edu/dmumaugh/OOT/Design-Principles/acv.pdf">Acyclic Visitor by Robert C. Martin</a></p>
+</li>
+<li>
+<p><a href="https://wiki.c2.com/?AcyclicVisitor">Acyclic Visitor in WikiWikiWeb</a></p>
+</li>
+</ul>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>周报-21｜Python之禅、产品经理被优化、端午节送节</title>
       <link>https://blog.chensoul.com/posts/2023/05/31/weekly_review_21/</link>

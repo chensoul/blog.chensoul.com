@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>less on ChenSoul</title>
+    <link>https://blog.chensoul.com/tags/less/</link>
+    <description>Recent content in less on ChenSoul</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 21 Jun 2023 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/less/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[译]为恐龙解释现代CSS</title>
+      <link>https://blog.chensoul.com/posts/2023/06/21/modern-css-explained-for-dinosaurs/</link>
+      <pubDate>Wed, 21 Jun 2023 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/06/21/modern-css-explained-for-dinosaurs/</guid>
+      <description>奇怪的是，CSS 被认为是作为 Web 开发人员最容易学习和最难学习的语言之一。开始使用它当然很容易 - 您可以定义样式属性和值以应用于特定元素，然后&amp;h</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="https://peterxjang.com/img/1__kXsiGLMHSS4jUx4W6yBOlw.png" alt="Dinosaur comic panel 1"  />
+</p>
+<p>奇怪的是，CSS 被认为是作为 Web 开发人员最容易学习和最难学习的语言之一。开始使用它当然很容易 - 您可以定义样式属性和值以应用于特定元素，然后&hellip;&hellip;这几乎就是您开始所需的一切！但是，对于大型项目，以有意义的方式组织 CSS 会变得纠结和复杂。更改任何一行 CSS 以设置一个页面上元素的样式通常会导致其他页面上的元素发生意外更改。</p>
+<p>为了处理 CSS 固有的复杂性，已经建立了各种不同的最佳实践。问题在于，对于哪些最佳实践实际上是最好的，没有任何强烈的共识，其中许多似乎完全相互矛盾。如果你是第一次尝试学习 CSS，至少可以说这可能会让人迷失方向。</p>
+<p>本文的目的是提供一个历史背景，说明 CSS 方法和工具如何在 2018 年发展到今天的样子。通过了解这段历史，将更容易理解每种方法以及如何使用它们来为您带来好处。让我们开始吧！</p>
+<blockquote>
+<p>更新：我制作了本文的新视频课程版本，该版本更深入地介绍了材料，请在此处查看：
+<a href="https://firstclass.actualize.co/p/modern-css-explained-for-dinosaurs">https://firstclass.actualize.co/p/modern-css-explained-for-dinosaurs</a></p>
+</blockquote>
+<h3 id="使用-css-进行基本样式设置">使用 CSS 进行基本样式设置</h3>
+<p>让我们从一个基本网站开始，仅使用一个简单的 <code>index.html</code> 文件链接到一个单独的 <code>index.css</code> 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;UTF-8&#34;</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Modern CSS<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;index.css&#34;</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>This is the header.<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">main</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>This is the main content.<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>This is the navigation section.<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">aside</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>This is an aside section.<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">aside</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>This is the footer.<span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>现在我们在 HTML 中没有使用任何类或 ID，只是 <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element#Content_sectioning">语义标签</a>。没有任何 CSS，网站看起来像这样（使用占位符文本）：</p>
+<p><img loading="lazy" src="https://peterxjang.com/img/1__MwOy9E5LacvhGEtIUb9pXQ.png" alt="Example webpage without styling"  />
+</p>
+<p>功能齐全，但不是很漂亮。我们可以添加 CSS 来改进 <code>index.css</code> 中的基本排版：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* BASIC TYPOGRAPHY                       */</span>  
+</span></span><span class="line"><span class="cl"><span class="c">/* from https://github.com/oxalorg/sakura */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">html</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mf">62.5</span><span class="kt">%</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-family</span><span class="p">:</span> <span class="kc">serif</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mf">1.8</span><span class="kt">rem</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">line-height</span><span class="p">:</span> <span class="mf">1.618</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">max-width</span><span class="p">:</span> <span class="mi">38</span><span class="kt">em</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">margin</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">color</span><span class="p">:</span> <span class="mh">#4a4a4a</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">background-color</span><span class="p">:</span> <span class="mh">#f9f9f9</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">13</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">max-width</span><span class="o">:</span> <span class="nt">684px</span><span class="o">)</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="nt">body</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">font-size</span><span class="p">:</span> <span class="mf">1.53</span><span class="kt">rem</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">max-width</span><span class="o">:</span> <span class="nt">382px</span><span class="o">)</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="nt">body</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">font-size</span><span class="p">:</span> <span class="mf">1.35</span><span class="kt">rem</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">h1</span><span class="o">,</span> <span class="nt">h2</span><span class="o">,</span> <span class="nt">h3</span><span class="o">,</span> <span class="nt">h4</span><span class="o">,</span> <span class="nt">h5</span><span class="o">,</span> <span class="nt">h6</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">line-height</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-family</span><span class="p">:</span> <span class="n">Verdana</span><span class="p">,</span> <span class="n">Geneva</span><span class="p">,</span> <span class="kc">sans-serif</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-weight</span><span class="p">:</span> <span class="mi">700</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">overflow-wrap</span><span class="p">:</span> <span class="kc">break-word</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">word-wrap</span><span class="p">:</span> <span class="kc">break-word</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="kp">-ms-</span><span class="k">word-break</span><span class="p">:</span> <span class="n">break-all</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">word-break</span><span class="p">:</span> <span class="kc">break-word</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="kp">-ms-</span><span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="kp">-moz-</span><span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="kp">-webkit-</span><span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">h1</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mf">2.35</span><span class="kt">em</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">h2</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mi">2</span><span class="kt">em</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">h3</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mf">1.75</span><span class="kt">em</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">h4</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mf">1.5</span><span class="kt">em</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">h5</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mf">1.25</span><span class="kt">em</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">h6</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在这里，大多数 CSS 都是样式排版（具有大小，行高等的字体），并带有一些颜色样式和居中布局。你必须研究设计才能知道要为每个属性选择的好值（这些样式来自 <a href="https://github.com/oxalorg/sakura">sakura.css</a>），但这里应用的 CSS 本身并不太复杂。结果如下所示：</p>
+<p><img loading="lazy" src="https://peterxjang.com/img/1____rykiEopx6MCsnOAAcT8MA.png" alt="Example webpage with basic typography styling"  />
+</p>
+<p>如此不同！这就是 CSS 的承诺 - 一种向文档添加样式的简单方法，无需编程或复杂的逻辑。不幸的是，当我们使用 CSS 不仅仅是排版和颜色时，事情开始变得更加毛茸茸（我们将在下面解决）。</p>
+<h3 id="使用-css-进行布局">使用 CSS 进行布局</h3>
+<p>在 1990 年代，在 CSS 被广泛采用之前，在页面上布局内容的选项并不多。HTML 最初被设计为一种创建普通文档的语言，而不是带有侧边栏，列等的动态网站。在早期，布局通常使用 HTML 表格完成——整个网页将位于一个表格中，可用于在行和列中组织内容。这种方法奏效了，但缺点是内容和呈现的紧密耦合——如果你想改变网站的布局，就需要重写大量的 HTML。</p>
+<p>一旦 CSS 进入场景，就强烈推动将内容（用 HTML 编写）与演示（用 CSS 编写）分开。因此，人们找到了将所有布局代码从 HTML（不再有表格）移动到 CSS 中的方法。需要注意的是，与 HTML 一样，CSS 也不是真正设计为在页面上布局内容，因此早期尝试这种关注点分离很难优雅地实现。</p>
+<p>让我们通过上面的例子来看看这在实践中是如何工作的。在我们定义任何 CSS 布局之前，我们将首先重置任何边距和填充（这会影响布局计算），并为部分提供不同的颜色（不是为了让它漂亮，而是为了让每个部分在测试不同的布局时在视觉上脱颖而出）。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* RESET LAYOUT AND ADD COLORS */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">max-width</span><span class="p">:</span> <span class="kc">inherit</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">background</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">color</span><span class="p">:</span> <span class="mh">#4a4a4a</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">header</span><span class="o">,</span> <span class="nt">footer</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">font-size</span><span class="p">:</span> <span class="kc">large</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">text-align</span><span class="p">:</span> <span class="kc">center</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mf">0.3</span><span class="kt">em</span> <span class="mi">0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">background-color</span><span class="p">:</span> <span class="mh">#4a4a4a</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">color</span><span class="p">:</span> <span class="mh">#f9f9f9</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">nav</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">background</span><span class="p">:</span> <span class="mh">#eee</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">main</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">background</span><span class="p">:</span> <span class="mh">#f9f9f9</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">aside</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">background</span><span class="p">:</span> <span class="mh">#eee</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>现在网站暂时看起来像：</p>
+<p><img loading="lazy" src="https://peterxjang.com/img/1__Ii8mtqbLaS5GIB3VJTpqSw.png" alt="Example website with css reset"  />
+</p>
+<center>单击<a href='https://codepen.io/peterxjang/pen/jZWzEV?editors=1100'>此处</a>查看实时示例</center>
+<p>现在，我们已准备好使用 CSS 在页面上布局内容。我们将按时间顺序介绍三种不同的方法，从经典的基于 float 的布局开始。</p>
+<h4 id="基于-float-的布局">基于 float 的布局</h4>
+<p>CSS float 属性最初是为了在左侧或右侧的文本列内浮动图像（您经常在报纸上看到的）。2000 年代初期的 Web 开发人员利用了这样一个事实，即您不仅可以浮动图像，还可以浮动任何元素，这意味着您可以通过浮动整个内容 div 来创建行和列的错觉。但同样，浮动不是为此目的而设计的，因此很难以一致的方式创造这种错觉。</p>
+<p>2006年，<a href="https://alistapart.com/">A List Apart </a>发表了一篇受欢迎的文章《<a href="https://alistapart.com/article/holygrail">寻找圣杯</a>》，其中概述了一种详细而彻底的方法来创建所谓的圣杯布局 - 一个页眉，三列和一个页脚。认为听起来相当简单的布局被称为圣杯是相当疯狂的，但这确实是当时使用纯 CSS 创建一致的布局是多么困难。</p>
+<p>下面是基于该文章中描述的技术的示例的基于 float 的布局：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* FLOAT-BASED LAYOUT */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding-left</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding-right</span><span class="p">:</span> <span class="mi">190</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">min-width</span><span class="p">:</span> <span class="mi">240</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">header</span><span class="o">,</span> <span class="nt">footer</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">margin-left</span><span class="p">:</span> <span class="mi">-200</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">margin-right</span><span class="p">:</span> <span class="mi">-190</span><span class="kt">px</span><span class="p">;</span>     
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">main</span><span class="o">,</span> <span class="nt">nav</span><span class="o">,</span> <span class="nt">aside</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">position</span><span class="p">:</span> <span class="kc">relative</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">float</span><span class="p">:</span> <span class="kc">left</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">main</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">20</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">nav</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">width</span><span class="p">:</span> <span class="mi">180</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">right</span><span class="p">:</span> <span class="mi">240</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">margin-left</span><span class="p">:</span> <span class="mi">-100</span><span class="kt">%</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">aside</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">width</span><span class="p">:</span> <span class="mi">130</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">margin-right</span><span class="p">:</span> <span class="mi">-100</span><span class="kt">%</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">footer</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">clear</span><span class="p">:</span> <span class="kc">both</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">*</span> <span class="nt">html</span> <span class="nt">nav</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">left</span><span class="p">:</span> <span class="mi">150</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>看看C SS，你可以看到有很多技巧需要让它工作（负边距， <code>clear: both</code> 属性，硬编码宽度计算等）——这篇 <a href="https://alistapart.com/article/holygrail">文章</a> 很好地详细解释了每个原因。结果如下所示：</p>
+<p><img loading="lazy" src="https://peterxjang.com/img/1____2LrWDjxL8Q33fL6Ci4hIw.png" alt="Example website with float based layout"  />
+</p>
+<center>单击<a href='https://codepen.io/peterxjang/pen/VQeXYg?editors=1100'>此处</a>查看实时示例</center>
+<p>这很好，但您可以从颜色中看到三列的高度不相等，并且页面没有填满屏幕的高度。这些问题是基于浮动的方法所固有的。浮动所能做的就是将内容放在一个部分的左侧或右侧——CSS 无法推断其他部分中内容的高度。这个问题直到多年后才有了直接的解决方案，采用了基于弹性框的布局。</p>
+<h4 id="基于弹性框的布局">基于弹性框的布局</h4>
+<p>flexbox CSS 属性于 2009 年首次提出，但直到 2015 年左右才被广泛采用。Flexbox 旨在定义空间在单个列或行中的分布方式，与使用浮动相比，这使其成为定义布局的更好候选项。这意味着在使用基于浮动的布局大约十年之后，Web开发人员终于能够使用 CSS 进行布局，而无需使用浮动所需的技巧。</p>
+<p>下面是基于弹性框的示例布局，基于站点上描述的技术 <a href="https://philipwalton.github.io/solved-by-flexbox/demos/holy-grail/">由弹性框解决</a> （一个展示不同弹性框示例的流行资源）。请注意，为了使 flexbox 工作，我们需要在 HTML 中的三列周围增加一个包装器 div：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;UTF-8&#34;</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Modern CSS<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;index.css&#34;</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>This is the header.<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;container&#34;</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">main</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>This is the main content.<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>This is the navigation section.<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">aside</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>This is an aside section.<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">aside</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>This is the footer.<span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>这是 CSS 中的弹性框代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* FLEXBOX-BASED LAYOUT */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">min-height</span><span class="p">:</span> <span class="mi">100</span><span class="kt">vh</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="kc">flex</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">flex-direction</span><span class="p">:</span> <span class="kc">column</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="kc">flex</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">flex</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">main</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">flex</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">20</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">nav</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">flex</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">180</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">order</span><span class="p">:</span> <span class="mi">-1</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">aside</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">flex</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">130</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>也就是说，与基于浮动的布局方法相比，更紧凑！flexbox 的属性和值乍一看有点令人困惑，但它消除了对许多技巧的需求，例如基于浮动的布局所必需的负边距——这是一个巨大的胜利。结果如下所示：</p>
+<p><img loading="lazy" src="https://peterxjang.com/img/1__I6qa6O31X__jlilGCrcSTsQ.png" alt="Example website with flexbox based layout"  />
+</p>
+<center>单击<a href='https://codepen.io/peterxjang/pen/xYZWGz?editors=1100'>此处</a>查看实时示例</center>
+<p>好多了！这些列的高度都相等，并占据页面的整个高度。从某种意义上说，这似乎是完美的，但这种方法有几个小缺点。一个是浏览器支持 - 目前每个现代浏览器都支持f lexbox，但一些较旧的浏览器永远不会。幸运的是，浏览器供应商正在加大力度终止对这些旧浏览器的支持，为网页设计师提供更一致的开发体验。另一个缺点是我们需要将 <code>&lt;div class=&quot;container&quot;&gt;</code> 添加到标记中——避免它会很好。在理想的世界中，任何 CSS 布局都根本不需要更改 HTML 标记。</p>
+<p>最大的缺点是 CSS 本身的代码 - flexbox 消除了许多浮动黑客，但代码并不像定义布局那样富有表现力。很难阅读 flexbox CSS 并直观地理解所有元素在页面上的布局方式。这会导致在编写基于 flexbox 的布局时进行大量猜测和检查。</p>
+<p>再次需要注意的是，flexbox 旨在将元素间隔在单个列或行内 - 它不是为整个页面布局设计的！尽管它做了一个有用的工作（比基于浮动的布局好得多），但专门开发了不同的规范来处理具有多行和多列的布局。此规范称为 CSS 网格。</p>
+<h4 id="基于网格的布局">基于网格的布局</h4>
+<p>CSS 网格于 2011 年首次提出（在 flexbox 提案之后不久），但花了很长时间才在浏览器中得到广泛采用。截至2018年初，大多数现代浏览器都支持 CSS 网格（甚至比一两年前有了巨大的改进）。</p>
+<p>下面是基于此 <a href="https://css-tricks.com/css-grid-one-layout-multiple-ways/">CSS 技巧文章</a> 中的第一种方法的示例的基于网格的布局。请注意，对于此示例，我们可以摆脱必须为基于 flexbox 的布局添加的 <code>&lt;div class=&quot;container&quot;&gt;</code> — 我们可以简单地使用原始 HTML，而无需修改。以下是 CSS 的外观：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* GRID-BASED LAYOUT */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="k">grid</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">min-height</span><span class="p">:</span> <span class="mi">100</span><span class="kt">vh</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-columns</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="mi">1</span><span class="n">fr</span> <span class="mi">150</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-template-rows</span><span class="p">:</span> <span class="n">min-content</span> <span class="mi">1</span><span class="n">fr</span> <span class="n">min-content</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">header</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">nav</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="mi">2</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">main</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="mi">2</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column</span><span class="p">:</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">20</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">aside</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="mi">2</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column</span><span class="p">:</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">footer</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-row</span><span class="p">:</span> <span class="mi">3</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">grid-column</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>结果在视觉上与基于弹性框的布局相同。但是，这里的 CSS 在清楚地表达所需布局的意义上得到了很大的改进。列和行的大小和形状在正文选择器中定义，网格中的每个项目都由其位置直接定义。</p>
+<p>可能令人困惑的一件事是 <code>grid-column</code> 属性，它定义了列的起点/终点。这可能会令人困惑，因为在此示例中，有 3 列，但数字范围从 1 到 4。当你看下面的图片时，它会变得更加清晰：</p>
+<p><img loading="lazy" src="https://peterxjang.com/img/1__GOJJrm9Mhp__Qr319Bc7V9Q.png" alt="Example website with grid based layout"  />
+</p>
+<center>单击<a href='https://codepen.io/peterxjang/pen/vdLROM?editors=1100'>此处</a>查看实时示例</center>
+<p>第一列从 1 开始，到 2 结束，第二列从 2 开始，到 3 结束，第三列从 3 开始，到 4 结束。标题的 <code>grid-column</code> 为 <code>1 / 4</code> 以跨越整个页面，导航具有 <code>grid-column</code> of <code>1 / 2</code> 以跨越第一列，依此类推。</p>
+<p>一旦你习惯了网格语法，它显然成为在 CSS 中表达布局的理想方式。基于网格的布局唯一真正的缺点是浏览器支持，在过去一年中再次有了很大的改进。CSS 网格作为 CSS 中第一个真正为布局而设计的工具的重要性怎么强调都不为过。从某种意义上说，网页设计师在制作创意布局时总是必须非常保守，因为到目前为止的工具一直很脆弱，使用各种黑客和解决方法。现在 CSS 网格已经存在，有可能出现以前从未有过的创意布局设计的新浪潮 - 激动人心的时代！</p>
+<p><img loading="lazy" src="https://peterxjang.com/img/1__JGkKSd3Hs7Pq17Qt5xTEzw.png" alt="Dinosaur comic panel 2"  />
+</p>
+<h3 id="将-css-预处理器用于新语法">将 CSS 预处理器用于新语法</h3>
+<p>到目前为止，我们已经介绍了使用 CSS 进行基本样式和布局。现在，我们将介绍为帮助改善将 CSS 作为语言本身使用的体验而创建的工具，从 CSS 预处理器开始。</p>
+<p>CSS 预处理器允许您使用不同的语言编写样式，该语言被转换为浏览器可以理解的 CSS。这在浏览器实现新功能非常缓慢的时代至关重要。第一个主要的 CSS 预处理器是 <a href="http://sass-lang.com/">Sass</a>，于2006年发布。它具有新的简洁语法（缩进而不是括号，没有分号等），并添加了 CSS 中缺少的高级功能，例如变量，帮助程序函数和计算。下面是我们前面示例的颜色部分使用带有变量的 Sass 的样子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sass" data-lang="sass"><span class="line"><span class="cl"><span class="na">$dark-color</span><span class="o">:</span> <span class="mh">#4a4a4a</span>  
+</span></span><span class="line"><span class="cl"><span class="na">$light-color</span><span class="o">:</span> <span class="mh">#f9f9f9</span>  
+</span></span><span class="line"><span class="cl"><span class="na">$side-color</span><span class="o">:</span> <span class="mh">#eee</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">body</span>  
+</span></span><span class="line"><span class="cl"><span class="err">  </span><span class="na">color</span><span class="o">:</span> <span class="nv">$dark-color</span>  
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nt">header</span><span class="o">,</span> <span class="nt">footer</span>  
+</span></span><span class="line"><span class="cl"><span class="err">  </span><span class="na">background-color</span><span class="o">:</span> <span class="nv">$dark-color</span>  
+</span></span><span class="line"><span class="cl"><span class="err">  </span><span class="na">color</span><span class="o">:</span> <span class="nv">$light-color</span>  
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nt">main</span>  
+</span></span><span class="line"><span class="cl"><span class="err">  </span><span class="na">background</span><span class="o">:</span> <span class="nv">$light-color</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">nav</span><span class="o">,</span> <span class="nt">aside</span>  
+</span></span><span class="line"><span class="cl"><span class="err">  </span><span class="na">background</span><span class="o">:</span> <span class="nv">$side-color</span>
+</span></span></code></pre></div><p>请注意如何使用 <code>$</code> 符号定义可重用变量，并删除括号和分号，从而使语法看起来更简洁。Sass 中更简洁的语法很好，但是像变量这样的功能在当时是革命性的，因为它们为编写干净和可维护的 CSS 开辟了新的可能性。</p>
+<p>要使用 Sass，您需要 <a href="https://www.ruby-lang.org/en/documentation/installation/">安装 Ruby</a>，这是一种用于将 Sass 代码编译为常规 CSS 的编程语言。然后，您需要安装 <a href="http://sass-lang.com/install">Sass gem</a>，然后<a href="http://sass-lang.com/guide#topic-1">在命令行中运行命令</a>以将 <code>.sass</code> 文件转换为 <code>.css</code> 文件。下面是命令的外观示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sass --watch index.sass index.css
+</span></span></code></pre></div><p>此命令会将编写在名为 <code>index.sass</code> 的文件中的 Sass 代码转换为名为 <code>index.css</code> 的文件中的常规 CSS（ <code>--watch</code> 参数告诉它在保存时输入更改时随时运行，这很方便）。</p>
+<p>这个过程被称为构建步骤，这在 2006 年是一个相当大的进入障碍。如果您习惯了像 Ruby 这样的编程语言，那么这个过程非常简单。但是当时许多前端开发人员只使用 HTM L和 CSS，不需要任何这样的工具。因此，让某人学习整个生态系统以获得 CSS 预处理器提供的功能是一个很大的要求。</p>
+<p>2009年，<a href="http://lesscss.org/">Less</a> CSS 预处理器发布。它也是用 Ruby 编写的，并提供了与 Sass 类似的功能。关键的区别在于语法，它被设计为尽可能接近 CSS。这意味着任何 CSS 代码都是有效的 Less 代码。下面是使用 Less 语法编写的相同示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@dark-color: #4a4a4a;  
+</span></span><span class="line"><span class="cl">@light-color: #f9f9f9;  
+</span></span><span class="line"><span class="cl">@side-color: #eee;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">body {  
+</span></span><span class="line"><span class="cl">  color: @dark-color;  
+</span></span><span class="line"><span class="cl">}  
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">header, footer {  
+</span></span><span class="line"><span class="cl">  background-color: @dark-color;  
+</span></span><span class="line"><span class="cl">  color: @light-color;  
+</span></span><span class="line"><span class="cl">}  
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">main {  
+</span></span><span class="line"><span class="cl">  background: @light-color;  
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">nav, aside {  
+</span></span><span class="line"><span class="cl">  background: @side-color;  
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>它几乎相同（变量的前缀为 <code>@</code> 而不是 <code>$</code> ），但不像 Sass 示例那样漂亮，具有与 CSS 相同的大括号和分号。然而，它更接近 CSS 的事实使开发人员更容易采用它。2012年，Less 被重写为使用 JavaScript（特别是 <a href="https://nodejs.org/en/">Node.js</a>）而不是 Ruby 进行编译。这使得 Less 比它的 Ruby 同行更快，并且对已经在工作流程中使用 Node.js 的开发人员更具吸引力。</p>
+<p>要将此代码转换为常规 CSS，您首先需要 <a href="https://nodejs.org/en/download/">安装 Node.js</a>，然后 <a href="http://lesscss.org/#using-less-installation">安装 Less</a>，然后运行如下命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">lessc index.less index.css
+</span></span></code></pre></div><p>此命令会将在名为 <code>index.less</code> 的文件中编写的较少代码转换为名为 <code>index.css</code> 的文件中的常规 CSS。请注意， <code>lessc</code> 命令没有监视文件更改的方法（与 <code>sass</code> 命令不同），这意味着您需要安装不同的工具来自动监视和编译 <code>.less</code> 个文件，这增加了过程的复杂性。同样，对于习惯使用命令行工具的程序员来说，这并不困难，但对于只想使用 CSS 预处理器的其他人来说，这是一个重要的进入障碍。</p>
+<p>随着 Less 获得思想份额，Sass 开发人员在 2010 年通过添加一个名为 <a href="http://sass-lang.com/documentation/file.SASS_CHANGELOG.html#SCSS__Sassy_CSS_">SCSS</a> 的新语法（这是一个类似于 Less 的 CSS 超集）进行了调整。他们还发布了 <a href="http://sass-lang.com/libsass">LibSass</a>，这是 Ruby Sass 引擎的 C/C++ 端口，这使得它更快，能够在各种语言中使用。</p>
+<p>另一个替代的 CSS 预处理器是 <a href="http://stylus-lang.com/">Stylus</a>，它于2010年问世，用 Node.js 编写，与 Sass or Less 相比，它专注于更简洁的语法。通常关于 CSS 预处理器的讨论集中在这三种最流行的（Sass，Less 和 Stylus）上。最后，它们在提供的功能方面都非常相似，因此选择它们中的任何一个都不会出错。</p>
+<p>然而，有些人认为 CSS 预处理器变得越来越不必要，因为浏览器终于开始实现它们的一些功能（如变量和计算）。此外，还有一种称为 CSS 后处理的不同方法，它有可能使 CSS 预处理器过时（显然并非没有争议），我们接下来将讨论。</p>
+<h3 id="将-css-后处理器用于变革性功能">将 CSS 后处理器用于变革性功能</h3>
+<p>CSS 后处理器使用 JavaScript 来分析您的 CSS 并将其转换为有效的 CSS。从这个意义上说，它与 CSS 预处理器非常相似 - 您可以将其视为解决相同问题的不同方法。关键的区别在于，虽然 CSS 预处理器使用特殊语法来标识需要转换的内容，但 CSS 后处理器可以解析常规 CSS 并转换它，而无需任何特殊语法。最好用一个例子来说明这一点。让我们看一下我们最初在上面定义的用于设置标题标签样式的 CSS 的一部分：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">h1</span><span class="o">,</span> <span class="nt">h2</span><span class="o">,</span> <span class="nt">h3</span><span class="o">,</span> <span class="nt">h4</span><span class="o">,</span> <span class="nt">h5</span><span class="o">,</span> <span class="nt">h6</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="kp">-ms-</span><span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="kp">-moz-</span><span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="kp">-webkit-</span><span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>    
+</span></span><span class="line"><span class="cl">  <span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>粗体中的项目称为供应商前缀。浏览器在实验性地添加新的 CSS 功能时会使用供应商前缀，从而为开发人员提供了一种在最终实现时使用这些新 CSS 属性的方法。这里的前缀 <code>-ms</code> 代表 Microsoft Internet Explorer， <code>-moz</code> 前缀代表 Mozilla Firefox， <code>-webkit</code> 前缀代表使用 webkit 渲染引擎的浏览器（如 Google Chrome、Safari 和较新版本的 Opera）。</p>
+<p>记住输入所有这些不同的供应商前缀来使用这些 CSS 属性是非常烦人的。拥有一个可以根据需要自动放入供应商前缀的工具会很好。我们可以用 CSS 预处理器来实现这一点。例如，您可以使用 SCSS 执行以下操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="k">@mixin</span><span class="nf"> hyphens</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">-ms-hyphens</span><span class="o">:</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">-moz-hyphens</span><span class="o">:</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">-webkit-hyphens</span><span class="o">:</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">hyphens</span><span class="o">:</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nt">h1</span><span class="o">,</span> <span class="nt">h2</span><span class="o">,</span> <span class="nt">h3</span><span class="o">,</span> <span class="nt">h4</span><span class="o">,</span> <span class="nt">h5</span><span class="o">,</span> <span class="nt">h6</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">@include</span><span class="nd"> hyphens</span><span class="p">(</span><span class="ni">auto</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在这里，我们使用 <a href="http://sass-lang.com/guide#topic-6">Sass 的 mixin 功能</a>，它允许您定义一次 CSS 块并在其他任何地方重用它。当此文件编译为常规 CSS 时，任何 <code>@include</code> 语句都将替换为匹配 <code>@mixin</code> 的 CSS。总的来说，这不是一个糟糕的解决方案，但您负责在第一次为任何需要供应商前缀的 CSS 属性定义每个 mixin。这些 mixin 定义将需要维护，因为您可能希望在浏览器更新其 CSS 兼容性时删除不再需要的特定供应商前缀。</p>
+<p>与其使用 mixins，不如简单地编写普通的 CSS 并让工具自动识别需要前缀的属性并相应地添加它们。CSS 后处理器能够做到这一点。例如，如果您将 <a href="http://postcss.org/">PostCSS</a> 与 <a href="https://github.com/postcss/autoprefixer">自动前缀插件</a> 一起使用，则可以编写完全正常的 CSS，而无需任何供应商前缀，并让后处理器完成其余的工作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">h1</span><span class="o">,</span> <span class="nt">h2</span><span class="o">,</span> <span class="nt">h3</span><span class="o">,</span> <span class="nt">h4</span><span class="o">,</span> <span class="nt">h5</span><span class="o">,</span> <span class="nt">h6</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">  <span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>当您在此代码上运行 CSS 后处理器时，结果是 <code>hyphens: auto;</code> 行被替换为所有适当的供应商前缀（如自动前缀插件中定义的那样，您不需要直接管理）。这意味着您可以编写常规 CSS，而不必担心任何兼容性或特殊语法，这很好！</p>
+<p>除了 PostCSS 的自动前缀之外，还有一些插件可以让你做非常酷的事情。<a href="http://cssnext.io/">cssnext</a> 插件允许您使用实验性的 CSS 功能。<a href="https://github.com/css-modules/css-modules">CSS 模块 </a>插件会自动更改类以避免名称冲突。<a href="https://stylelint.io/">stylelint</a> 插件可识别 CSS 中的错误和不一致的约定。这些工具在过去一两年才真正开始起飞，展示了以前从未有过的开发人员工作流程！</p>
+<p>然而，这一进展是要付出代价的。与使用 CSS 预处理器相比，安装和使用 CSS 后处理器（如 PostCSS）更为复杂。您不仅必须使用命令行安装和运行工具，还需要安装和配置单个插件并定义一组更复杂的规则（例如您要针对的浏览器等）。许多开发人员不是直接从命令行运行PostCSS，而是将其集成到可配置的构建系统中，如 <a href="https://github.com/postcss/postcss#runners">Grunt</a>，<a href="https://github.com/postcss/postcss#gulp">Gulp</a> 或 <a href="https://github.com/postcss/postcss#webpack">webpack</a>，这有助于管理您可能在前端工作流程中使用的所有不同构建工具。</p>
+<blockquote>
+<p>注意：如果您以前从未使用过现代前端构建系统，那么学习使现代前端构建系统工作的所有必要部分可能会非常不知所措。如果你想从头开始，请查看我的文章 <a href="https://peterxjang.com/blog/modern-javascript-explained-for-dinosaurs.html">Modern JavaScript Explain For Dinosaurs</a>，其中介绍了前端开发人员利用这些现代功能所需的所有 JavaScript 工具。</p>
+</blockquote>
+<p>值得注意的是，围绕 CSS 后处理器存在一些争论。有些人认为这个术语令人困惑（<a href="https://css-tricks.com/the-trouble-with-preprocessing-based-on-future-specs/">一种观点</a>认为它们都应该被称为 CSS 预处理器，<a href="https://medium.com/@ddprrt/deconfusing-pre-and-post-processing-d68e3bd078a3">另一种观点</a>是它们应该简单地称为 CSS 处理器等）。有些人认为 CSS 后处理器完全消除了对 CSS 预处理器的需求，有些人认为它们应该一起使用。无论如何，很明显，如果你有兴趣推动 CSS 的可能性，那么学习如何使用 CSS 后处理器是值得的。</p>
+<p><img loading="lazy" src="https://peterxjang.com/img/1__53X7__j093ePj9MOxrkA5sw.png" alt="Dinosaur comic panels 3 and 4"  />
+</p>
+<h3 id="使用-css-方法实现可维护性">使用 CSS 方法实现可维护性</h3>
+<p>像 CSS 预处理器和 CSS 后处理器这样的工具在改善 CSS 开发体验方面大有帮助。但是仅靠这些工具不足以解决维护大型 CSS 代码库的问题。为了解决这个问题，人们开始记录关于如何编写 CSS 的不同指南，通常称为 CSS 方法。</p>
+<p>在我们深入研究任何特定的 CSS 方法之前，重要的是要了解是什么让 CSS 随着时间的推移难以维护。关键问题是 CSS 的全局性质 — 您定义的每个样式都全局应用于页面的每个部分。你的工作是提出一个详细的命名约定来维护唯一的类名，或者与 <a href="https://www.smashingmagazine.com/2007/07/css-specificity-things-you-should-know/">特异性规则</a> 争论，以确定应用哪种样式来应用任何给定的元素。CSS 方法提供了一种有组织的方式来编写 CSS，以避免这些带有大型代码库的痛点。让我们按时间顺序大致看一下一些流行的方法。</p>
+<h4 id="oocss">OOCSS</h4>
+<p><a href="https://github.com/stubbornella/oocss/wiki">OOCSS</a>（面向对象的CSS）于2009年首次提出，是一种围绕两个主要原则组织的方法论。第一个原则是分离结构和皮肤。这意味着定义结构（如布局）的 CSS 不应与定义皮肤的 CSS （如颜色、字体等）混合在一起。这样可以更轻松地“重新换肤”应用程序。第二个原则是单独的容器和内容。这意味着将元素视为可重用的对象，其关键思想是无论对象在页面上的位置如何，它都应该看起来相同。</p>
+<p>OOCSS 提供了经过深思熟虑的指导方针，但对方法的细节不是很规范。后来的方法，如 SMACSS 采用了核心概念，并添加了更多细节，使其更容易上手。</p>
+<h4 id="smacss">SMACSS</h4>
+<p><a href="https://smacss.com/">SMACSS</a>（CSS 的可扩展和模块化架构）于 2011 年推出，作为一种基于在 5 个不同类别中编写 CSS 的方法——基本规则、布局规则、模块、状态规则和主题规则。SMACSS 方法还推荐了一些命名约定。对于布局规则，应在类名前面加上 <code>l-</code> 或 <code>layout-</code> 。对于状态规则，应在描述状态的类名（如 <code>is-hidden</code> 或 <code>is-collapsed</code> ）前面添加前缀。</p>
+<p>与 OOCSS 相比，SMACSS 的方法有更多的细节，但在决定哪些 CSS 规则应该归入哪个类别时，它仍然需要仔细考虑。后来像 BEM 这样的方法取消了一些决策，使其更容易采用。</p>
+<h4 id="bem">BEM</h4>
+<p><a href="https://en.bem.info/">BEM</a>（块，元素，修饰符）于2010年推出，作为一种围绕将用户界面划分为独立块的想法组织的方法。块是可重用的组件（例如搜索表单，定义为 <code>&lt;form class=&quot;search-form&quot;&gt;&lt;/form&gt;</code> ）。元素是块的较小部分，不能单独重用（例如搜索表单中的按钮，定义为 <code>&lt;button class=&quot;search-form__button&quot;&gt;Search&lt;/button&gt;</code> ）。修饰符是定义块或元素的外观、状态或行为的实体（例如，定义为 <code>&lt;button class=&quot;search-form__button search-form__button--disabled&quot;&gt;Search&lt;/button&gt;</code> 的禁用搜索表单按钮）。</p>
+<p>BEM 方法易于理解，具有特定的命名约定，允许新手应用它，而无需做出复杂的决策。某些人的缺点是类名可能非常冗长，并且不遵循 <a href="https://css-tricks.com/semantic-class-names/">编写语义类名</a> 的传统规则。后来的方法，如 Atomic CSS，将把这种非传统的方法带到一个全新的层次！</p>
+<h4 id="atomic-css">Atomic CSS</h4>
+<p><a href="https://www.smashingmagazine.com/2013/10/challenging-css-best-practices-atomic-approach/">Atomic CSS</a>（也称为函数式 CSS）于2014年推出，作为一种围绕创建小型单一用途类（名称基于视觉功能）的想法进行组织的方法。这种方法与 OOCSS，SMACS S和 BEM 完全相反 - Atomic CSS 不是将页面上的元素视为可重用的对象，而是完全忽略这些对象，并使用可重用的单一用途实用程序类来设置每个元素的样式。因此，您将拥有类似 <code>&lt;button class=&quot;f6 br3 ph3 pv2 white bg-purple hover-bg-light-purple&quot;&gt;Search&lt;/button&gt;</code> 的东西，而不是 <code>&lt;button class=&quot;search-form__button&quot;&gt;Search&lt;/button&gt;</code> 之类的东西。</p>
+<p>如果你对这个例子的第一反应是惊恐地退缩，你并不孤单——许多人认为这种方法完全违反了既定的 CSS 最佳实践。但是，围绕质疑这些最佳实践在不同场景中的有效性的想法，已经有很多很好的讨论。本文很好地强调了传统的关注点分离最终如何创建依赖于 HTML 的 CSS（即使使用 BEM 等方法），而原子或函数式方法是创建依赖于 CSS 的 HTML。两者都没有错，但仔细检查后，您会发现 CSS 和 HTML 之间的真正关注点分离永远无法完全实现！</p>
+<p>其他 CSS 方法论，如 JS中的CSS ，实际上接受了 CSS 和 HTML 将始终相互依赖的概念，导致了迄今为止最具争议的方法之一。</p>
+<h4 id="js-中的-css">JS 中的 CSS</h4>
+<p><a href="http://blog.vjeux.com/2014/javascript/react-css-in-js-nationjs.html">JS中的CSS </a> 于2014年引入，作为一种围绕定义 CSS 样式而不是在单独的样式表中而是直接在每个组件本身中定义的方法。它是作为 <a href="https://reactjs.org/">React JavaScript 框架</a> 的一种方法引入的（它已经采用了有争议的方法，即直接在 JavaScript 中定义组件的 HTML，而不是单独的 HTML 文件）。最初该方法使用内联样式，但后来的实现使用 JavaScript 生成 CSS（具有基于组件的唯一类名）并将其插入到带有样式标签的文档中。</p>
+<p>JS 方法中的 CSS 再次完全违背了既定的 CSS 关注点分离最佳实践。这是因为随着时间的推移，我们使用网络的方式发生了巨大变化。最初， Web 主要由静态网站组成 - 在这里，HTML 内容与 CSS 表示的分离很有意义。如今，Web 用于创建动态 Web 应用程序 - 在这里，通过可重用的组件将事物分离出来是有意义的。</p>
+<p>JS 中的CSS 的目标是能够定义具有硬边界的组件，这些边界由它们自己封装的 HTML/CSS/JS 组成，这样一个组件中的 CSS 就没有机会影响任何其他组件。React 是最早被广泛采用的框架之一，它推动了这些具有硬边界的组件，影响了其他主要框架，如 Angular、Ember 和 Vue.js 效仿。需要注意的是，JS 方法中的 CSS 是相对较新的，在这个领域有很多实验正在进行，因为开发人员试图在 Web 应用程序组件时代为 CSS 建立新的最佳实践。</p>
+<p>很容易被许多不同的 CSS 方法所淹没，但重要的是要记住，没有一种正确的方法 - 你应该将它们视为不同的可能工具，当你有一个足够复杂的 CSS 代码库时，你可以使用。有不同的经过深思熟虑的选项可供选择，从长远来看，这个领域发生的所有实验都会使每个开发人员受益！</p>
+<h3 id="结论">结论</h3>
+<p>简而言之，这就是现代 CSS。我们介绍了使用 CSS 进行具有排版属性的基本样式，使用 CSS 进行布局（使用基于浮点、弹性框和网格的方法），使用 CSS 预处理器处理新语法（如变量和 mixins），使用 CSS 后处理器实现变革性功能（如添加供应商前缀），以及使用 CSS 方法实现可维护性以克服 CSS 样式的全局性质。我们没有机会深入研究CSS提供的许多其他功能，例如高级选择器，过渡，动画，形状，动态变量 - 列表不胜枚举。CSS 有很多内容需要涵盖 - 任何说它很容易的人可能都不知道它的一半！</p>
+<p>现代 CSS 的使用肯定会令人沮丧，因为它继续快速变化和发展。但重要的是要记住 Web 如何随着时间的推移而发展的历史背景，很高兴知道有很多聪明的人愿意构建具体的工具和方法来帮助 CSS 最佳实践与 Web 一起发展。作为一名开发人员，这是一个激动人心的时刻，我希望这些信息可以作为路线图，在您的旅程中为您提供帮助！</p>
+<p><img loading="lazy" src="https://peterxjang.com/img/1__7Z__JtjrzLil6LFrM7lrNJQ.png" alt="Dinosaur comic panel 5"  />
+</p>
+<p>再次特别感谢 <a href="https://twitter.com/ryanqnorth">@ryanqnorth</a> 的 <a href="http://www.qwantz.com/">恐龙漫画</a>，自2003年以来（当恐龙统治网络时），它提供了一些最好的荒诞幽默。</p>
+<p>原文链接：<a href="https://peterxjang.com/blog/modern-css-explained-for-dinosaurs.html">https://peterxjang.com/blog/modern-css-explained-for-dinosaurs.html</a></p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

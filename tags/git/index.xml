@@ -398,6 +398,7 @@ hotfix分支是为快速修复生产环境中的问题而创建的临时分支�
 </span></span><span class="line"><span class="cl">mvn versions:commit
 </span></span></code></pre></div><p>对于maven多模块项目，如果使用 revision 来统一定义版本号，则使用下面命令：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mvn versions:set-property -Dproperty<span class="o">=</span>revision -DnewVersion<span class="o">=</span>1.0.0-SNAPSHOT
+</span></span><span class="line"><span class="cl">mvn versions:commit
 </span></span></code></pre></div><p>3、本地在 feature 分支上完成一些开发之后，完成 feature 分支</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git flow feature finish <span class="nb">test</span>
 </span></span></code></pre></div><p>4、开始 release 分支</p>
@@ -405,13 +406,22 @@ hotfix分支是为快速修复生产环境中的问题而创建的临时分支�
 </span></span></code></pre></div><p>5、本地在 release 分支上完成一些开发之后，完成 feature 分支</p>
 <p>设置maven项目中版本为 release 版本。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mvn versions:set -DnewVersion<span class="o">=</span>1.0.0
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">mvn versions:commit
 </span></span></code></pre></div><p>对于maven多模块项目，如果使用 revision 来统一定义版本号，则使用下面命令：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mvn versions:set-property -Dproperty<span class="o">=</span>revision -DnewVersion<span class="o">=</span>1.0.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mvn versions:commit
 </span></span></code></pre></div><p>另外，对于多模块项目，需要在每个模块执行下面命令将 jar 推送到 maven 中央仓库：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mvn install -DskipTests
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mvn deploy -DskipTests
 </span></span></code></pre></div><p>然后完成分支：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git flow release finish 1.0.0
+</span></span></code></pre></div><p>6、推送主分支和开发分支</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git push origin develop
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">git checkout main
+</span></span><span class="line"><span class="cl">git push origin main
 </span></span></code></pre></div><p>以上。</p>
 ]]></content:encoded>
     </item>

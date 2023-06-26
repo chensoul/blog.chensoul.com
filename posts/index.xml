@@ -6,7 +6,317 @@
     <description>Recent content in Posts on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 25 Jun 2023 14:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Jun 2023 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[译]微服务设计模式</title>
+      <link>https://blog.chensoul.com/posts/2023/06/26/microservice-design-patterns/</link>
+      <pubDate>Mon, 26 Jun 2023 08:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/06/26/microservice-design-patterns/</guid>
+      <description>基于微服务的应用程序的主要特征在 微服务、单体和 NoOps 中定义。它们是功能分解或领域驱动设计、定义良好的接口、明确发布的接口、单一责任原则和潜在的多</description>
+      <content:encoded><![CDATA[<p>基于微服务的应用程序的主要特征在 <a href="http://web.archive.org/web/20190705163602/http://blog.arungupta.me/microservices-monoliths-noops/">微服务、单体和 NoOps</a> 中定义。它们是功能分解或领域驱动设计、定义良好的接口、明确发布的接口、单一责任原则和潜在的多语言。每项服务都是完全自主和全栈的。</p>
+<p>因此，更改服务实现不会影响其他服务，因为它们使用定义良好的接口进行通信。这种应用程序有几个优点，但它不是 <a href="http://web.archive.org/web/20190705163602/http://highscalability.com/blog/2014/4/8/microservices-not-a-free-lunch.html">免费的午餐</a>，需要在 NoOps 方面付出大量努力。</p>
+<p>但是假设您了解构建此类应用程序所需的工作或至少其中的一部分，并且愿意跳槽。你做什么工作？您构建此类应用程序的方法是什么？</p>
+<p>是否有任何关于这些微服务如何相互协作的设计模式？</p>
+<p>应用程序和团队的功能分解是构建成功的微服务架构的关键。</p>
+<p>这允许您实现松耦合（REST 接口）和高内聚（多个服务可以相互组合以定义更高级别的服务或应用程序）。</p>
+<p>应用程序的动词（例如 Checkout）或名词（Product）是实现现有应用程序分解的有效方法之一。</p>
+<p>例如，产品、目录和结帐可以是三个独立的微服务，然后相互协作以提供完整的购物车体验。</p>
+<p>功能分解提供了敏捷性、灵活性、可扩展性和其他能力，但业务目标仍然是创建应用程序。因此，一旦识别出不同的微服务，您如何组合它们以提供应用程序的功能？</p>
+<p>本博客将讨论一些关于如何将微服务组合在一起的推荐模式。</p>
+<h2 id="聚合微服务设计模式">聚合微服务设计模式</h2>
+<p>第一个，也可能是最常见的，是聚合器微服务设计模式。</p>
+<p>在其最简单的形式中，聚合器将是一个简单的网页，它调用多个服务来实现应用程序所需的功能。由于每个服务（服务 A、服务 B 和服务 C）都使用轻量级 REST 机制公开，因此网页可以检索数据并相应地处理/显示数据。如果需要某种处理，比如将业务逻辑应用于从各个服务接收的数据，那么您可能有一个 CDI bean 可以转换数据，以便网页可以显示它。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/microservices-aggregator.png" alt="microservices-aggregator"  />
+</p>
+<p>聚合器的另一个选择是不需要显示，它只是一个更高级别的复合微服务，可以被其他服务使用。</p>
+<p>在这种情况下，聚合器只需从每个单独的微服务收集数据，对其应用业务逻辑，然后将其进一步发布为 REST 端点。然后可以由需要它的其他服务使用。</p>
+<p>这种设计模式遵循 DRY 原则。</p>
+<p>如果有多个服务需要访问服务 A、B 和 C，那么建议将该逻辑抽象为一个复合微服务，并将该逻辑聚合到一个服务中。在此级别进行抽象的一个优点是各个服务，即服务 A、B 和 C，并且可以独立发展，业务需求仍然由组合微服务提供。</p>
+<p>请注意，每个单独的微服务都有自己的（可选）缓存和数据库。如果聚合器是一个复合微服务，那么它也可能有自己的缓存和数据库层。</p>
+<p>聚合器也可以在 X 轴和 Z 轴上独立缩放。因此，如果它是一个网页，那么您可以启动额外的 Web 服务器，或者如果它是一个使用 Java EE 的复合微服务，那么您可以启动额外的 WildFly 实例来满足不断增长的需求。</p>
+<h2 id="代理微服务设计模式">代理微服务设计模式</h2>
+<p>代理微服务设计模式是聚合器的一种变体。在这种情况下，客户端不需要进行聚合，但可以根据业务需要调用不同的微服务。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/microservices-proxy.png" alt="microservices-proxy"  />
+</p>
+<p>就像 Aggregator 一样，Proxy 也可以在 X 轴和 Z 轴上独立扩展。您可能喜欢这样做，因为每个单独的服务都不需要向消费者公开，而是应该通过一个界面。</p>
+<p>代理可能是一个哑代理，在这种情况下，它只是将请求委托给其中一项服务。或者，它可能是一个智能代理，在将响应提供给客户端之前应用一些数据转换。一个很好的例子就是可以将不同设备的表示层封装在智能代理中。</p>
+<h2 id="链式微服务设计模式">链式微服务设计模式</h2>
+<p>链式微服务设计模式对请求产生单一的综合响应。在这种情况下，来自客户端的请求由服务 A 接收，然后服务 A 与服务 B 通信，而服务 B 又可能与服务 C 通信。</p>
+<p>所有服务都可能使用同步 HTTP 请求/响应消息传递。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/microservices-chain.png" alt="microservices-chain"  />
+</p>
+<p>要记住的关键部分是客户端被阻塞，直到完成请求/响应链，即服务&lt;-&gt;服务B和服务B&lt;-&gt;服务C，完成。从服务 B 到服务 C 的请求可能看起来与从服务 A 到服务 B 的请求完全不同。</p>
+<p>同样，服务 B 对服务 A 的响应可能看起来与服务 C 对服务 B 的响应完全不同。无论如何，这就是不同服务增加其业务价值的全部要点。</p>
+<p>这里要理解的另一个重要方面是不要让链条太长。这一点很重要，因为链的同步特性在客户端看起来像是一个漫长的等待，特别是如果它是一个等待显示响应的网页。</p>
+<p>这个阻塞请求/响应有变通方法，并在后续设计模式中讨论。</p>
+<p>具有单个微服务的链称为单例链。这可能允许链在以后扩展。</p>
+<h2 id="分支微服务设计模式">分支微服务设计模式</h2>
+<p>分支微服务设计模式扩展了聚合器设计模式，并允许同时处理来自两个可能互斥的微服务链的响应。此模式还可用于根据业务需求调用不同的链或单个链。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/microservices-branch.png" alt="microservices-branch"  />
+</p>
+<p>服务 A（网页或复合微服务）可以同时调用两个不同的链，在这种情况下，这类似于聚合器设计模式。或者，服务 A 可以根据从客户端收到的请求仅调用一个链。</p>
+<p>这可以使用 JAX-RS 或 Camel 端点的路由进行配置，并且需要动态配置。</p>
+<h2 id="共享数据微服务设计模式">共享数据微服务设计模式</h2>
+<p>微服务的设计原则之一是自治。这意味着该服务是全栈式的，并且可以控制所有组件——UI、中间件、持久性、事务。这允许服务是多语言的，并使用正确的工具来完成正确的工作。</p>
+<p>例如，如果可以使用 NoSQL 数据存储而不是将数据塞入 SQL 数据库中更合适的话。</p>
+<p>然而，一个典型的问题，尤其是在从现有的单体应用程序重构时，是数据库规范化，这样每个微服务都有正确数量的数据——仅此而已。</p>
+<p>即使在单体应用程序中仅使用 SQL 数据库，对数据库进行非规范化也会导致数据重复，并可能导致不一致。在过渡阶段，一些应用程序可能会受益于共享数据微服务设计模式。</p>
+<p>在这种设计模式中，一些微服务（可能在一个链中）可以共享缓存和数据库存储。</p>
+<p>这只有在两种服务之间存在强耦合时才有意义。有些人可能认为这是一种反模式，但在某些情况下业务需求可能需要遵循这一点。对于基于微服务设计的全新应用程序，这肯定是一种反模式。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/microservices-branch-shared-data.png" alt="microservices-branch-shared-data"  />
+</p>
+<p>这也可以看作是一个过渡阶段，直到微服务过渡到完全自主。</p>
+<h2 id="异步消息微服务设计模式">异步消息微服务设计模式</h2>
+<p>虽然 REST 设计模式非常普遍且易于理解，但它具有同步和阻塞的局限性。</p>
+<p>可以实现异步，但这是以特定于应用程序的方式完成的。因此，一些微服务架构可能会选择使用消息队列而不是 REST 请求/响应。</p>
+<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/microservices-async-messaging.png" alt="microservices-async-messaging"  />
+</p>
+<p>在这种设计模式中，服务 A 可以同步调用服务 C，然后服务 C 使用共享消息队列与服务 B 和 D 异步通信。</p>
+<p>服务 A -&gt; 服务 C 通信可能是异步的，可能使用 WebSockets，以实现所需的可伸缩性。</p>
+<p>可以使用 REST 请求/响应和发布/订阅消息传递的组合来完成业务需求。</p>
+<p><a href="http://web.archive.org/web/20190705163602/https://www.voxxed.com/blog/2015/04/coupling-versus-autonomy-in-microservices/">Coupling vs Autonomy in Microservices</a> 是一本关于为您的微服务选择哪种消息传递模式的好读物。</p>
+<p>希望您发现这些设计模式很有用。</p>
+<p>您使用什么微服务设计模式？</p>
+<p>善于交际，分享！</p>
+<p>原文链接：<a href="http://web.archive.org/web/20190705163602/http://blog.arungupta.me/microservice-design-patterns/">http://web.archive.org/web/20190705163602/http://blog.arungupta.me/microservice-design-patterns/</a></p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Java设计模式：Aggregator Microservices</title>
+      <link>https://blog.chensoul.com/posts/2023/06/26/java-design-patterns-aggregator-microservices/</link>
+      <pubDate>Mon, 26 Jun 2023 07:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/06/26/java-design-patterns-aggregator-microservices/</guid>
+      <description>本文主要介绍 Aggregator Microservices 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计</description>
+      <content:encoded><![CDATA[<p>本文主要介绍 Aggregator Microservices 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+<blockquote>
+<p><a href="https://java-design-patterns.com/">Java Design Patterns</a> 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。</p>
+<p>Java Design Patterns 网站提供了多种设计模式分类方式，包括创建型模式（Creational Patterns）、结构型模式（Structural Patterns）和行为型模式（Behavioral Patterns），以及其他一些常见的模式。</p>
+<p>对于每个设计模式，该网站提供了详细的介绍、示例代码和用例说明，并且提供了一些常见的使用场景和注意事项。开发人员可以根据自己的需求选择适合自己的设计模式，并且可以参考示例代码和用例说明来理解和应用该模式。</p>
+<p>此外，Java Design Patterns 网站还提供了一些其他资源，如设计模式的 UML 图、设计模式的优缺点、设计模式的比较等。这些资源可以帮助开发人员更好地理解和应用设计模式。</p>
+<p>中文网站：<a href="https://java-design-patterns.com/zh/">https://java-design-patterns.com/zh/</a></p>
+<p>Github 上源码仓库（非官方）：<a href="https://github.com/iluwatar/java-design-patterns">https://github.com/iluwatar/java-design-patterns</a></p>
+</blockquote>
+<h2 id="意图">意图</h2>
+<p>用户对聚合器服务进行一次调用，然后聚合器将调用每个相关的微服务。</p>
+<blockquote>
+<p>Aggregator Microservices 是一种微服务架构模式，用于解决大型分布式系统中的数据聚合问题。该模式通常用于有多个数据源的场景，例如电子商务网站中的产品列表页面，其中需要从多个服务中获取产品信息并组合在一起显示。</p>
+<p>Aggregator Microservices 模式包括一个聚合器服务和多个后端服务。聚合器服务负责从多个后端服务中收集数据，并将数据组合成一个聚合的响应。后端服务则负责提供特定的数据源，例如产品信息、库存信息、价格信息等。</p>
+</blockquote>
+<h2 id="解释">解释</h2>
+<p>真实世界例子</p>
+<blockquote>
+<p>我们的网络市场需要有关产品及其当前库存的信息。 它调用聚合服务，聚合服务依次调用产品信息微服务和产品库存微服务，返回组合信息。</p>
+</blockquote>
+<p>通俗地说</p>
+<blockquote>
+<p>聚合器微服务从各种微服务中收集数据，并返回一个聚合数据以进行处理。</p>
+</blockquote>
+<p>Stack Overflow上说</p>
+<blockquote>
+<p>聚合器微服务调用多个服务以实现应用程序所需的功能。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>让我们从数据模型开始。 这是我们的<code>产品</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Product</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kt">int</span> <span class="n">productInventories</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// getters and setters -&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们将介绍我们的聚合器微服务。 它包含用于调用相应微服务的客户端<code>ProductInformationClient</code>和<code> ProductInventoryClient</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Aggregator</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Resource</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">ProductInformationClient</span> <span class="n">informationClient</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Resource</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">ProductInventoryClient</span> <span class="n">inventoryClient</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">&#34;/product&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Product</span> <span class="nf">getProduct</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">var</span> <span class="n">product</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Product</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">var</span> <span class="n">productTitle</span> <span class="o">=</span> <span class="n">informationClient</span><span class="o">.</span><span class="na">getProductTitle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">var</span> <span class="n">productInventory</span> <span class="o">=</span> <span class="n">inventoryClient</span><span class="o">.</span><span class="na">getProductInventories</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//Fallback to error message
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">product</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">requireNonNullElse</span><span class="o">(</span><span class="n">productTitle</span><span class="o">,</span> <span class="s">&#34;Error: Fetching Product Title Failed&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//Fallback to default error inventory
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">product</span><span class="o">.</span><span class="na">setProductInventories</span><span class="o">(</span><span class="n">requireNonNullElse</span><span class="o">(</span><span class="n">productInventory</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">product</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是产品信息微服务的精华实现。 库存微服务类似，它只返回库存计数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">InformationController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/information&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getProductTitle</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;The Product Title.&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在调用我们的聚合器 REST API 会返回产品信息。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl http://localhost:50004/product
+</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;title&#34;</span>:<span class="s2">&#34;The Product Title.&#34;</span>,<span class="s2">&#34;productInventories&#34;</span>:5<span class="o">}</span>
+</span></span></code></pre></div><h2 id="特点">特点</h2>
+<p>以下是该模式的一些关键特点：</p>
+<ul>
+<li>多个后端服务：Aggregator Microservices 模式通常涉及多个后端服务，每个后端服务负责提供特定类型的数据。</li>
+<li>数据聚合：聚合器服务负责从多个后端服务中收集数据，并将数据组合成一个聚合的响应。</li>
+<li>透明的组合：聚合器服务应该尽可能透明地组合数据，使其对调用方看起来像是一个单一的数据源。</li>
+<li>异步通信：由于后端服务可能位于不同的网络位置，聚合器服务通常使用异步通信来收集数据。</li>
+</ul>
+<p>Aggregator Microservices 模式可以带来许多好处，例如：</p>
+<ul>
+<li>可伸缩性：由于聚合器服务可以并行地从多个后端服务中收集数据，因此该模式可以通过增加后端服务来实现可伸缩性。</li>
+<li>低耦合性：后端服务和聚合器服务之间的低耦合性使得系统更加灵活，可以更轻松地添加、修改或删除后端服务。</li>
+<li>可定制性：聚合器服务可以根据需要自定义数据聚合的逻辑，以满足特定的业务需求。</li>
+</ul>
+<h2 id="类图">类图</h2>
+<p><img loading="lazy" src="https://java-design-patterns.com/assets/aggregator-service-4c5a6036.png" alt="alt text"  />
+</p>
+<h2 id="适用性">适用性</h2>
+<p>Aggregator Microservices 模式可以应用于各种不同的场景，以下是一些常见的应用：</p>
+<ol>
+<li>电子商务平台：在电子商务平台中，通常需要从多个供应商那里获取产品信息和价格，并将其聚合到一个统一的产品列表中。Aggregator Microservices 可以用来处理这些数据源，并将数据聚合到一个共同的产品列表中。</li>
+<li>新闻聚合平台：在新闻聚合平台中，需要从不同的新闻来源获取新闻内容，并将其聚合到一个统一的新闻列表中。Aggregator Microservices 可以用来处理这些新闻来源，并将新闻内容聚合到一个共同的新闻列表中。</li>
+<li>金融数据分析：在金融数据分析中，需要从多个数据源中获取数据，例如股票市场数据、货币汇率数据、经济指标数据等，并将数据聚合到一个统一的数据分析工具中。Aggregator Microservices 可以用来处理这些数据源，并将数据聚合到一个共同的数据分析工具中。</li>
+<li>物联网平台：在物联网平台中，需要从多个传感器获取数据，并将其聚合到一个统一的数据中心中。Aggregator Microservices 可以用来处理这些传感器数据源，并将数据聚合到一个共同的数据中心中。</li>
+</ol>
+<p>Aggregator Microservices 可以使用多种实现方式来实现数据聚合，以下是一些常见的实现方式：</p>
+<ol>
+<li>同步阻塞方式：在这种方式下，聚合器服务按照顺序从多个后端服务中收集数据，每次收集完一个服务的数据后再收集下一个服务的数据，直到所有数据都被收集完毕。这种方式的缺点是效率较低，因为所有操作都是同步阻塞的。</li>
+<li>异步非阻塞方式：在这种方式下，聚合器服务使用异步非阻塞的方式从多个后端服务中收集数据，这可以提高效率和性能。例如，聚合器服务可以使用 Java 8 的 CompletableFuture 和流式 API 来实现异步通信并行收集数据。</li>
+<li>数据库方式：在这种方式下，每个后端服务负责将数据写入数据库中，聚合器服务再从数据库中读取数据并进行聚合。这种方式的优点是可以使用数据库的高效查询语句来聚合数据，但缺点是需要额外的数据库管理开销。</li>
+<li>消息队列方式：在这种方式下，每个后端服务将数据发送到一个共享的消息队列中，聚合器服务再从队列中获取数据并进行聚合。这种方式的优点是可以实现异步通信，并且可以使用消息队列的高效消息传递机制来实现数据聚合，但缺点是需要额外的消息队列管理开销。</li>
+<li>边缘计算方式：在这种方式下，聚合器服务可以在边缘设备中运行，直接从多个传感器或设备中收集数据并进行聚合。这种方式的优点是可以减少数据传输和存储的开销，但缺点是需要处理边缘设备的硬件和软件限制。</li>
+</ol>
+<p>当使用消息队列方式来实现 Aggregator Microservices 时，可以应用于以下一些实际的场景：</p>
+<ol>
+<li>
+<p>日志聚合：在一个分布式系统中，可能会生成大量的日志数据，如果将所有的日志数据发送到中心服务器上进行聚合，这会导致中心服务器的压力非常大。使用消息队列方式，可以将日志数据发送到消息队列中，再由聚合器服务从消息队列中获取数据来进行聚合，这样可以降低中心服务器的压力，提高系统的可伸缩性和性能。</p>
+</li>
+<li>
+<p>电商平台订单处理：在一个电商平台中，订单数据可能会分散在多个订单系统中，使用消息队列方式，可以将订单数据发送到消息队列中，再由聚合器服务从消息队列中获取数据来进行聚合，这样可以实现订单数据的统一处理，提高系统的可靠性和可维护性。</p>
+</li>
+<li>
+<p>物联网数据聚合：在一个物联网系统中，可能需要从多个传感器中获取数据，并将数据聚合到一个共同的数据中心中。使用消息队列方式，可以将传感器数据发送到消息队列中，再由聚合器服务从消息队列中获取数据来进行聚合，这样可以提高系统的可伸缩性和性能，并且缓解边缘设备的负载压力。</p>
+</li>
+<li>
+<p>实时数据处理：在一个实时数据处理系统中，可能需要从多个数据源中获取数据，并将数据聚合到一个共同的数据处理中心中。使用消息队列方式，可以将实时数据发送到消息队列中，再由聚合器服务从消息队列中获取数据来进行聚合，这样可以实现实时数据的快速处理和分析。</p>
+</li>
+</ol>
+<p>一个异步聚合服务示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 聚合器服务类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AggregatorService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 后端服务列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">BackendService</span><span class="o">&gt;</span> <span class="n">backendServices</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">AggregatorService</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BackendService</span><span class="o">&gt;</span> <span class="n">backendServices</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">backendServices</span> <span class="o">=</span> <span class="n">backendServices</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 聚合数据的方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span> <span class="nf">getProducts</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span> <span class="n">products</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 并行收集数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">List</span><span class="o">&lt;</span><span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;&gt;&gt;</span> <span class="n">futures</span> <span class="o">=</span> <span class="n">backendServices</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">backendService</span> <span class="o">-&gt;</span> <span class="n">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">backendService</span><span class="o">.</span><span class="na">getProducts</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 等待所有异步操作完成并聚合数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">CompletableFuture</span><span class="o">.</span><span class="na">allOf</span><span class="o">(</span><span class="n">futures</span><span class="o">.</span><span class="na">toArray</span><span class="o">(</span><span class="k">new</span> <span class="n">CompletableFuture</span><span class="o">[</span><span class="n">futures</span><span class="o">.</span><span class="na">size</span><span class="o">()]))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">join</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">futures</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">CompletableFuture</span><span class="o">::</span><span class="n">join</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">products</span><span class="o">::</span><span class="n">addAll</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">products</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 后端服务接口
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">BackendService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span> <span class="nf">getProducts</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 后端服务实现类1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BackendServiceA</span> <span class="kd">implements</span> <span class="n">BackendService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span> <span class="nf">getProducts</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 从数据库获取产品信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span> <span class="n">products</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">products</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Product</span><span class="o">(</span><span class="s">&#34;Product A1&#34;</span><span class="o">,</span> <span class="mf">10.0</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">products</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Product</span><span class="o">(</span><span class="s">&#34;Product A2&#34;</span><span class="o">,</span> <span class="mf">20.0</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">products</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Product</span><span class="o">(</span><span class="s">&#34;Product A3&#34;</span><span class="o">,</span> <span class="mf">30.0</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">products</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 后端服务实现类2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BackendServiceB</span> <span class="kd">implements</span> <span class="n">BackendService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span> <span class="nf">getProducts</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 从API获取产品信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span> <span class="n">products</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">products</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Product</span><span class="o">(</span><span class="s">&#34;Product B1&#34;</span><span class="o">,</span> <span class="mf">15.0</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">products</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Product</span><span class="o">(</span><span class="s">&#34;Product B2&#34;</span><span class="o">,</span> <span class="mf">25.0</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">products</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 产品类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Product</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span> <span class="n">price</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Product</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">double</span> <span class="n">price</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">price</span> <span class="o">=</span> <span class="n">price</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 省略 getter 和 setter 方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>在上述示例代码中，我们定义了一个聚合器服务类 <code>AggregatorService</code>，它包含了多个后端服务接口 <code>BackendService</code> 的实现类 <code>BackendServiceA</code> 和 <code>BackendServiceB</code>。聚合器服务类的 <code>getProducts()</code> 方法负责从多个后端服务中收集产品数据，并将数据组合成一个聚合的响应。在收集数据时，我们使用了 Java 8 的 <code>CompletableFuture</code> 和流式 API 来实现异步通信并行收集数据。最后，我们定义了一个简单的产品类 <code>Product</code>，用于封装产品信息。</p>
+<p>Aggregator Microservices 模式已经得到了广泛的应用和支持，以下是一些常见的开源框架和工具，它们提供了 Aggregator Microservices 模式的实现：</p>
+<ol>
+<li>
+<p>Apache Camel：是一个基于 Java 的开源框架，用于快速实现各种企业集成模式（EIP），包括聚合器模式。Apache Camel 提供了多种聚合器组件，例如 Aggregator、Splitter、Resequencer 等，可以灵活地聚合和处理数据。</p>
+</li>
+<li>
+<p>Spring Integration：是 Spring 生态系统中的一个集成框架，也支持 Aggregator Microservices 模式。Spring Integration 提供了多种聚合器组件，例如 Aggregator、Barrier、ReleaseStrategy 等，可以用来聚合和处理消息。</p>
+</li>
+<li>
+<p>Apache Kafka：是一个分布式流处理平台，用于处理高吞吐量的实时数据流，也支持 Aggregator Microservices 模式。Apache Kafka 提供了消息队列和流处理功能，可以用来聚合和处理数据流。</p>
+</li>
+<li>
+<p>RabbitMQ：是一个开源的消息队列系统，支持多种消息协议和消息模式，也支持 Aggregator Microservices 模式。RabbitMQ 提供了多种消息协议和消息模式，可以用来聚合和处理消息。</p>
+</li>
+<li>
+<p>Apache Spark：是一个分布式计算框架，用于处理大规模数据集，也支持 Aggregator Microservices 模式。Apache Spark 提供了多种数据处理和聚合功能，可以用来聚合和处理大规模数据集。</p>
+</li>
+</ol>
+<h2 id="参考文章">参考文章</h2>
+<ul>
+<li><a href="http://web.archive.org/web/20190705163602/http://blog.arungupta.me/microservice-design-patterns/">Microservice Design Patterns</a></li>
+<li><a href="https://www.amazon.com/gp/product/1617294543/ref=as_li_qf_asin_il_tl?ie=UTF8&amp;tag=javadesignpat-20&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=1617294543&amp;linkId=8b4e570267bc5fb8b8189917b461dc60">Microservices Patterns: With examples in Java</a></li>
+<li><a href="https://www.amazon.com/gp/product/B077T7V8RC/ref=as_li_qf_asin_il_tl?ie=UTF8&amp;tag=javadesignpat-20&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=B077T7V8RC&amp;linkId=c34d204bfe1b277914b420189f09c1a4">Architectural Patterns: Uncover essential patterns in the most indispensable realm of enterprise architecture</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>[译]Python模块和包-简介</title>
       <link>https://blog.chensoul.com/posts/2023/06/25/python-modules-packages/</link>

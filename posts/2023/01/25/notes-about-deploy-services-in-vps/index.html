@@ -353,37 +353,37 @@ umami:postgresql-latest 来安装 umami。</p><p>1、在 pqsql 容器创建 umam
 </span></span></code></pre></div><p>2、更新配置文件 plausible-conf.env</p><p>生成一个随机字符串：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ openssl rand -base64 <span class=m>64</span> <span class=p>|</span> tr -d <span class=s1>&#39;\n&#39;</span> <span class=p>;</span> <span class=nb>echo</span>
 </span></span></code></pre></div><p>修改 plausible-conf.env：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nv>BASE_URL</span><span class=o>=</span>https://plausible.chensoul.com
 </span></span><span class=line><span class=cl><span class=nv>SECRET_KEY_BASE</span><span class=o>=</span>ywewRup6H0pT1TK+qIPwdRdOYNixC/GAr5vy2IoTvzNJygD3Z7rPgQI6v1c/tUV/SsJQYxsfZ60yrn6kMiDxAA<span class=o>==</span>
-</span></span></code></pre></div><p>3、设置反向代理</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>server {
-</span></span><span class=line><span class=cl>    listen 80;
-</span></span><span class=line><span class=cl>    listen [::]:80;
-</span></span><span class=line><span class=cl>    server_name plausible.chensoul.com;
+</span></span></code></pre></div><p>3、设置反向代理</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-conf data-lang=conf><span class=line><span class=cl><span class=nv>server</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>listen</span> <span class=nv>80</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=nv>listen</span> <span class=err>[::]:</span><span class=nv>80</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=nv>server_name</span> <span class=nv>plausible.chensoul.com</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    return 301 https://$host$request_uri;
-</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>    <span class=nv>return</span> <span class=nv>301</span> <span class=nv>https</span><span class=err>://$</span><span class=kt>host</span><span class=err>$</span><span class=nv>request_uri</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>server {
-</span></span><span class=line><span class=cl>    listen          443 ssl;
-</span></span><span class=line><span class=cl>    server_name     plausible.chensoul.com;
+</span></span><span class=line><span class=cl><span class=nv>server</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>listen</span>          <span class=nv>443</span> <span class=nv>ssl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=nv>server_name</span>     <span class=nv>plausible.chensoul.com</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    ssl_certificate      /usr/local/nginx/ssl/fullchain.cer;
-</span></span><span class=line><span class=cl>    ssl_certificate_key  /usr/local/nginx/ssl/chensoul.com.key;
+</span></span><span class=line><span class=cl>    <span class=nv>ssl_certificate</span>      <span class=err>/</span><span class=nv>usr</span><span class=err>/</span><span class=nv>local</span><span class=err>/</span><span class=nv>nginx</span><span class=err>/</span><span class=nv>ssl</span><span class=err>/</span><span class=nv>fullchain.cer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=nv>ssl_certificate_key</span>  <span class=err>/</span><span class=nv>usr</span><span class=err>/</span><span class=nv>local</span><span class=err>/</span><span class=nv>nginx</span><span class=err>/</span><span class=nv>ssl</span><span class=err>/</span><span class=nv>chensoul.com.key</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    ssl_session_cache    shared:SSL:1m;
-</span></span><span class=line><span class=cl>    ssl_session_timeout  5m;
+</span></span><span class=line><span class=cl>    <span class=nv>ssl_session_cache</span>    <span class=nv>shared</span><span class=err>:</span><span class=nv>SSL</span><span class=err>:</span><span class=nv>1m</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=nv>ssl_session_timeout</span>  <span class=nv>5m</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    ssl_ciphers  HIGH:!aNULL:!MD5;
-</span></span><span class=line><span class=cl>    ssl_prefer_server_ciphers  on;
+</span></span><span class=line><span class=cl>    <span class=nv>ssl_ciphers</span>  <span class=nv>HIGH</span><span class=err>:!</span><span class=nv>aNULL</span><span class=err>:!</span><span class=nv>MD5</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=nv>ssl_prefer_server_ciphers</span>  <span class=kc>on</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    location / {
-</span></span><span class=line><span class=cl>        proxy_pass http://127.0.0.1:8000;
-</span></span><span class=line><span class=cl>	    proxy_set_header   X-Real-IP $remote_addr;
-</span></span><span class=line><span class=cl>        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-</span></span><span class=line><span class=cl>        proxy_set_header   Host $host;
-</span></span><span class=line><span class=cl>	    proxy_http_version 1.1;
-</span></span><span class=line><span class=cl>        proxy_set_header   Upgrade $http_upgrade;
-</span></span><span class=line><span class=cl>        proxy_set_header   Connection &#34;upgrade&#34;;
-</span></span><span class=line><span class=cl>    }
-</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>    <span class=nv>location</span> <span class=err>/</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>proxy_pass</span> <span class=nv>http</span><span class=err>://</span><span class=mf>127.0.0.1</span><span class=err>:</span><span class=nv>8000</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	    <span class=nv>proxy_set_header</span>   <span class=nv>X-Real-IP</span> <span class=err>$</span><span class=nv>remote_addr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nv>proxy_set_header</span>   <span class=nv>X-Forwarded-For</span> <span class=err>$</span><span class=nv>proxy_add_x_forwarded_for</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nv>proxy_set_header</span>   <span class=nv>Host</span> <span class=err>$</span><span class=kt>host</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	    <span class=nv>proxy_http_version</span> <span class=nv>1.1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nv>proxy_set_header</span>   <span class=nv>Upgrade</span> <span class=err>$</span><span class=nv>http_upgrade</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nv>proxy_set_header</span>   <span class=nv>Connection</span> <span class=s>&#34;upgrade&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span></code></pre></div><p>4、启动服务</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>docker compose up -d
 </span></span></code></pre></div><p>5、升级</p><p>Docker Compose 的更新比较简单：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>docker compose down 
 </span></span><span class=line><span class=cl>docker compose pull plausible

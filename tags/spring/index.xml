@@ -6,7 +6,966 @@
     <description>Recent content in spring on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 26 May 2023 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Jul 2023 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java设计模式：Ambassador</title>
+      <link>https://blog.chensoul.com/posts/2023/07/06/java-design-patterns-ambassador/</link>
+      <pubDate>Thu, 06 Jul 2023 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/07/06/java-design-patterns-ambassador/</guid>
+      <description>本文主要介绍 Ambassador 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计模</description>
+      <content:encoded><![CDATA[<p>本文主要介绍 Ambassador 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+<blockquote>
+<p><a href="https://java-design-patterns.com/">Java Design Patterns</a> 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。</p>
+<p>Java Design Patterns 网站提供了多种设计模式分类方式，包括创建型模式（Creational Patterns）、结构型模式（Structural Patterns）和行为型模式（Behavioral Patterns），以及其他一些常见的模式。</p>
+<p>对于每个设计模式，该网站提供了详细的介绍、示例代码和用例说明，并且提供了一些常见的使用场景和注意事项。开发人员可以根据自己的需求选择适合自己的设计模式，并且可以参考示例代码和用例说明来理解和应用该模式。</p>
+<p>此外，Java Design Patterns 网站还提供了一些其他资源，如设计模式的 UML 图、设计模式的优缺点、设计模式的比较等。这些资源可以帮助开发人员更好地理解和应用设计模式。</p>
+<p>中文网站：<a href="https://java-design-patterns.com/zh/">https://java-design-patterns.com/zh/</a></p>
+<p>Github 上源码仓库（非官方）：<a href="https://github.com/iluwatar/java-design-patterns">https://github.com/iluwatar/java-design-patterns</a></p>
+</blockquote>
+<h2 id="目的">目的</h2>
+<p>在客户端上提供帮助程序服务实例，并从共享资源上转移常用功能。</p>
+<blockquote>
+<p>Ambassador 设计模式的主要目的是将客户端应用程序与远程服务器之间的通信细节隔离开来，从而使客户端应用程序可以专注于自己的业务逻辑，而不必关注网络通信细节和错误处理。</p>
+<p>在传统的客户端应用程序中，通常需要处理大量的网络通信细节和错误处理，这会使代码变得复杂且难以维护。而使用 Ambassador 设计模式可以将这些细节和处理逻辑集中在一个单独的类中，从而使客户端应用程序的代码更加简洁、易于维护和扩展。</p>
+<p>此外，使用 Ambassador 设计模式还可以提高客户端应用程序与远程服务器之间的通信安全性和可靠性。例如，Ambassador 类可以负责统一处理所有的网络通信，从而可以更轻松地实现安全性和可靠性控制。</p>
+</blockquote>
+<h2 id="解释">解释</h2>
+<p>假设有一个旧版的远程服务，该服务提供了许多客户端访问的功能，但由于用户的大量请求，导致连接问题变得普遍。此外，新的请求频率规则需要同时实现延迟检测和客户端日志功能。为了解决这些问题，可以使用 Ambassador 设计模式。</p>
+<p><a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/ambassador">微软文档</a> 做了如下阐述</p>
+<blockquote>
+<p>可以将大使服务视为与客户端位于同一位置的进程外代理。 此模式对于以语言不可知的方式减轻常见的客户端连接任务（例如监视，日志记录，路由，安全性（如TLS）和弹性模式）的工作很有用。 它通常与旧版应用程序或其他难以修改的应用程序一起使用，以扩展其网络功能。 它还可以使专业团队实现这些功能。</p>
+</blockquote>
+<p>在该模式中，可以创建一个 Ambassador 类来充当客户端应用程序和远程服务之间的代理。Ambassador 类负责处理所有的网络通信细节和错误处理，并实现新的请求频率规则，包括延迟检测和客户端日志功能。</p>
+<p>具体来说，Ambassador 类可以实现以下功能：</p>
+<ol>
+<li>延迟检测：在请求到达远程服务之前，Ambassador 类可以检测请求的时间戳，并计算出请求的延迟时间。如果请求的延迟时间超过了预设的阈值，Ambassador 类可以将请求拒绝。</li>
+<li>客户端日志功能：Ambassador 类可以记录请求的时间戳、请求的内容和响应的内容，并将这些信息保存到客户端的日志文件中。这样可以帮助客户端应用程序进行调试和故障排除。</li>
+<li>连接问题处理：Ambassador 类可以监控远程服务的连接状态，并在连接出现问题时进行自动重试。同时，Ambassador 类还可以实现一些优化策略，例如使用连接池等，以提高连接的可靠性和性能。</li>
+</ol>
+<p><strong>程序示例</strong></p>
+<p>有了上面的介绍我们将在这个例子中模仿功能。我们有一个用远程服务实现的接口，同时也是大使服务。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">interface</span> <span class="nc">RemoteServiceInterface</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="nf">doRemoteFunction</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>表示为单例的远程服务。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RemoteService</span> <span class="kd">implements</span> <span class="n">RemoteServiceInterface</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">RemoteService</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="n">RemoteService</span> <span class="n">service</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">synchronized</span> <span class="n">RemoteService</span> <span class="nf">getRemoteService</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">service</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">service</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RemoteService</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">RemoteService</span><span class="o">()</span> <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">long</span> <span class="nf">doRemoteFunction</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">long</span> <span class="n">waitTime</span> <span class="o">=</span> <span class="o">(</span><span class="kt">long</span><span class="o">)</span> <span class="n">Math</span><span class="o">.</span><span class="na">floor</span><span class="o">(</span><span class="n">Math</span><span class="o">.</span><span class="na">random</span><span class="o">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sleep</span><span class="o">(</span><span class="n">waitTime</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">LOGGER</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Thread sleep interrupted&#34;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">waitTime</span> <span class="o">&gt;=</span> <span class="mi">200</span> <span class="o">?</span> <span class="n">value</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>服务大使添加了像日志和延迟检测的额外功能</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServiceAmbassador</span> <span class="kd">implements</span> <span class="n">RemoteServiceInterface</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">ServiceAmbassador</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">RETRIES</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">DELAY_MS</span> <span class="o">=</span> <span class="mi">3000</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">ServiceAmbassador</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">long</span> <span class="nf">doRemoteFunction</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">safeCall</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kt">long</span> <span class="nf">checkLatency</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Long</span> <span class="n">startTime</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">result</span> <span class="o">=</span> <span class="n">RemoteService</span><span class="o">.</span><span class="na">getRemoteService</span><span class="o">().</span><span class="na">doRemoteFunction</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Long</span> <span class="n">timeTaken</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">-</span> <span class="n">startTime</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Time taken (ms): &#34;</span> <span class="o">+</span> <span class="n">timeTaken</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kt">long</span> <span class="nf">safeCall</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">retries</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">result</span> <span class="o">=</span> <span class="o">(</span><span class="kt">long</span><span class="o">)</span> <span class="n">FAILURE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">RETRIES</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">retries</span> <span class="o">&gt;=</span> <span class="n">RETRIES</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">FAILURE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">((</span><span class="n">result</span> <span class="o">=</span> <span class="n">checkLatency</span><span class="o">(</span><span class="n">value</span><span class="o">))</span> <span class="o">==</span> <span class="n">FAILURE</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Failed to reach remote: (&#34;</span> <span class="o">+</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="s">&#34;)&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">retries</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">sleep</span><span class="o">(</span><span class="n">DELAY_MS</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">LOGGER</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Thread sleep state interrupted&#34;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>客户端具有用于与远程服务进行交互的本地服务大使：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Client</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">Client</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">ServiceAmbassador</span> <span class="n">serviceAmbassador</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServiceAmbassador</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kt">long</span> <span class="nf">useService</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">result</span> <span class="o">=</span> <span class="n">serviceAmbassador</span><span class="o">.</span><span class="na">doRemoteFunction</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Service result: &#34;</span> <span class="o">+</span> <span class="n">result</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是两个使用该服务的客户端。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">App</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Client</span> <span class="n">host1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Client</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Client</span> <span class="n">host2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Client</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">host1</span><span class="o">.</span><span class="na">useService</span><span class="o">(</span><span class="mi">12</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">host2</span><span class="o">.</span><span class="na">useService</span><span class="o">(</span><span class="mi">73</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Here&rsquo;s the output for running the example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Time</span> <span class="nf">taken</span> <span class="o">(</span><span class="n">ms</span><span class="o">):</span> <span class="mi">111</span>
+</span></span><span class="line"><span class="cl"><span class="n">Service</span> <span class="n">result</span><span class="o">:</span> <span class="mi">120</span>
+</span></span><span class="line"><span class="cl"><span class="n">Time</span> <span class="nf">taken</span> <span class="o">(</span><span class="n">ms</span><span class="o">):</span> <span class="mi">931</span>
+</span></span><span class="line"><span class="cl"><span class="n">Failed</span> <span class="n">to</span> <span class="n">reach</span> <span class="n">remote</span><span class="o">:</span> <span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Time</span> <span class="nf">taken</span> <span class="o">(</span><span class="n">ms</span><span class="o">):</span> <span class="mi">665</span>
+</span></span><span class="line"><span class="cl"><span class="n">Failed</span> <span class="n">to</span> <span class="n">reach</span> <span class="n">remote</span><span class="o">:</span> <span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Time</span> <span class="nf">taken</span> <span class="o">(</span><span class="n">ms</span><span class="o">):</span> <span class="mi">538</span>
+</span></span><span class="line"><span class="cl"><span class="n">Failed</span> <span class="n">to</span> <span class="n">reach</span> <span class="n">remote</span><span class="o">:</span> <span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Service</span> <span class="n">result</span><span class="o">:</span> <span class="o">-</span><span class="mi">1</span>
+</span></span></code></pre></div><h2 id="类图">类图</h2>
+<p><img loading="lazy" src="https://java-design-patterns.com/assets/ambassador.urm-75077e88.png" alt="alt text"  />
+</p>
+<h2 id="适用场景">适用场景</h2>
+<p>Ambassador 设计模式适用于以下场景：</p>
+<ol>
+<li>当客户端应用程序需要与远程服务器进行通信，并且需要处理与网络通信相关的所有细节时。</li>
+<li>当客户端应用程序需要隔离与远程服务器的通信细节时，以便更好地专注于自己的业务逻辑。</li>
+<li>当客户端应用程序需要处理与远程服务器的通信错误时。</li>
+<li>当客户端应用程序需要实现新的请求频率规则，例如延迟检测和客户端日志功能等。</li>
+<li>当客户端应用程序需要在不更改旧版远程服务代码的情况下，对远程服务进行定制化扩展时。</li>
+</ol>
+<h2 id="典型用例">典型用例</h2>
+<p>Ambassador 设计模式可以用于许多场景，以下是其中的一些典型用例：</p>
+<h3 id="限流和熔断保护">限流和熔断保护</h3>
+<p>在分布式系统中，服务之间的调用是通过网络进行的，网络延迟、故障和不可用性是常见的问题。当一个服务被频繁调用时，可能会导致其过载或崩溃，从而影响整个系统的稳定性和可用性。使用 Ambassador 设计模式可以实现对服务的请求流量和执行频率进行限制，同时也可以实现熔断保护，当一个服务出现故障或不可用时，自动切换到备用服务。</p>
+<h4 id="限流">限流</h4>
+<p>当使用 Ambassador 设计模式时，可以在 Ambassador 类中实现新的请求频率规则。以下是一个简单的例子，说明如何使用 Ambassador 设计模式来实现请求频率规则：</p>
+<p>假设有一个客户端应用程序需要向远程服务器发送请求，并且需要实现以下请求频率规则：每个客户端在 10 秒钟内只能发送 10 个请求。如果客户端发送的请求超过了这个限制，服务器将返回 429 Too Many Requests 错误。</p>
+<p>为了实现这个规则，可以创建一个 Ambassador 类来充当客户端应用程序和远程服务器之间的代理。在 Ambassador 类中，可以使用计数器和定时器来实现请求频率控制逻辑。</p>
+<p>具体来说，Ambassador 类可以实现以下功能：</p>
+<ol>
+<li>定义计数器和定时器：在 Ambassador 类的构造函数中，可以定义一个计数器和一个定时器。计数器用于记录客户端发送的请求次数，定时器用于在每个 10 秒钟后重置计数器的值。</li>
+<li>处理请求：在 Ambassador 类的处理请求方法中，可以首先检查计数器的值是否超过了限制。如果超过了限制，则返回 429 Too Many Requests 错误；否则，将请求发送到远程服务器，并将计数器的值增加 1。</li>
+<li>处理定时器：在 Ambassador 类中，可以使用定时器来定期重置计数器的值。当定时器触发时，将计数器的值设置为 0。</li>
+</ol>
+<p>以下是一个基于 Java 8 的 Ambassador 设计模式的示例代码，使用了 Java 8 中的 HttpClient 类来发送 HTTP 请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.time.Instant</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.Executors</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.ScheduledExecutorService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.TimeUnit</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.atomic.LongAdder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Ambassador</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">LongAdder</span> <span class="n">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LongAdder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ScheduledExecutorService</span> <span class="n">scheduler</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newSingleThreadScheduledExecutor</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Instant</span> <span class="n">lastResetTime</span> <span class="o">=</span> <span class="n">Instant</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">handleRequest</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 检查计数器是否超过了限制
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">counter</span><span class="o">.</span><span class="na">incrementAndGet</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 返回“Too Many Requests”错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">counter</span><span class="o">.</span><span class="na">decrementAndGet</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="s">&#34;429 Too Many Requests&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 发送请求到远程服务器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">String</span> <span class="n">response</span> <span class="o">=</span> <span class="n">sendRequest</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// 检查是否需要重置计数器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">Instant</span> <span class="n">currentTime</span> <span class="o">=</span> <span class="n">Instant</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">currentTime</span><span class="o">.</span><span class="na">getEpochSecond</span><span class="o">()</span> <span class="o">-</span> <span class="n">lastResetTime</span><span class="o">.</span><span class="na">getEpochSecond</span><span class="o">()</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">counter</span><span class="o">.</span><span class="na">reset</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">lastResetTime</span> <span class="o">=</span> <span class="n">currentTime</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// 返回响应结果
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">return</span> <span class="n">response</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="nf">sendRequest</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 发送 HTTP GET 请求并返回响应结果
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">HttpClient</span> <span class="n">client</span> <span class="o">=</span> <span class="n">HttpClient</span><span class="o">.</span><span class="na">newHttpClient</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HttpRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="o">.</span><span class="na">newBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">uri</span><span class="o">(</span><span class="n">URI</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">url</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">GET</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">HttpResponse</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">HttpResponse</span><span class="o">.</span><span class="na">BodyHandlers</span><span class="o">.</span><span class="na">ofString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="na">body</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="o">|</span> <span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 处理请求异常
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">return</span> <span class="s">&#34;500 Internal Server Error&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Ambassador</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 定时重置计数器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">scheduler</span><span class="o">.</span><span class="na">scheduleAtFixedRate</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">counter</span><span class="o">.</span><span class="na">reset</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">lastResetTime</span> <span class="o">=</span> <span class="n">Instant</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">},</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">shutdown</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 关闭定时器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">scheduler</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上述代码中，Ambassador 类使用了 LongAdder 类型的计数器和 ScheduledExecutorService 类型的定时器，并实现了处理请求的方法 handleRequest。当客户端调用 handleRequest 方法时，Ambassador 类会检查计数器的值是否超过了限制。如果超过了限制，则返回 429 Too Many Requests 错误；否则，将请求发送到远程服务器，并将计数器的值增加 1。同时，Ambassador 类还会使用 ScheduledExecutorService 来定期重置计数器的值。</p>
+<h4 id="熔断">熔断</h4>
+<p>Ambassador 设计模式可以使用熔断模式来保护服务免受故障或不可用性的影响。熔断模式是一种防止故障扩散的机制，当服务出现故障或不可用时，熔断器会自动切换到备用服务，并在一段时间内停止发送请求。如果备用服务也出现故障或不可用，熔断器会重新启动并继续发送请求。以下是一个使用 Ambassador 设计模式实现熔断的示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.*</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.atomic.AtomicInteger</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.logging.Level</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.logging.Logger</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Ambassador</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">AtomicInteger</span> <span class="n">failureCount</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AtomicInteger</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">AtomicBoolean</span> <span class="n">circuitBreaker</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AtomicBoolean</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Service</span> <span class="n">primaryService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Service</span> <span class="n">backupService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">failureThreshold</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">timeout</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ExecutorService</span> <span class="n">executor</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">logger</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Ambassador</span><span class="o">(</span><span class="n">Service</span> <span class="n">primaryService</span><span class="o">,</span> <span class="n">Service</span> <span class="n">backupService</span><span class="o">,</span> <span class="kt">int</span> <span class="n">failureThreshold</span><span class="o">,</span> <span class="kt">int</span> <span class="n">timeout</span><span class="o">,</span> <span class="kt">int</span> <span class="n">maxConcurrentRequests</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">primaryService</span> <span class="o">=</span> <span class="n">primaryService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">backupService</span> <span class="o">=</span> <span class="n">backupService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">failureThreshold</span> <span class="o">=</span> <span class="n">failureThreshold</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">timeout</span> <span class="o">=</span> <span class="n">timeout</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">executor</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="n">maxConcurrentRequests</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">Ambassador</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">handleRequest</span><span class="o">(</span><span class="n">String</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">TimeoutException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 检查熔断器状态
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">circuitBreaker</span><span class="o">.</span><span class="na">get</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 返回备用服务的响应
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">return</span> <span class="n">backupService</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 创建 Callable 对象，并设置超时时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">Callable</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">task</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">primaryService</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Future</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">task</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">response</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">timeout</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 重置故障计数器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">failureCount</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">response</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="o">|</span> <span class="n">ExecutionException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 处理请求异常
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// 增加故障计数器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">failureCount</span><span class="o">.</span><span class="na">incrementAndGet</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 检查故障计数器是否超过阈值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">if</span> <span class="o">(</span><span class="n">failureCount</span><span class="o">.</span><span class="na">get</span><span class="o">()</span> <span class="o">&gt;=</span> <span class="n">failureThreshold</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 启动熔断器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="n">circuitBreaker</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">logger</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="n">Level</span><span class="o">.</span><span class="na">WARNING</span><span class="o">,</span> <span class="s">&#34;Circuit breaker is tripped, switching to backup service&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 返回备用服务的响应
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">return</span> <span class="n">backupService</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">TimeoutException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 处理请求超时异常
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">throw</span> <span class="k">new</span> <span class="n">TimeoutException</span><span class="o">(</span><span class="s">&#34;Request timed out&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 检查熔断器状态
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">if</span> <span class="o">(</span><span class="n">circuitBreaker</span><span class="o">.</span><span class="na">get</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 创建定时任务，定时重置熔断器状态
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="n">ScheduledExecutorService</span> <span class="n">scheduler</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newSingleThreadScheduledExecutor</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">scheduler</span><span class="o">.</span><span class="na">schedule</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1">// 重置故障计数器和熔断器状态
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="n">failureCount</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">circuitBreaker</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">logger</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="n">Level</span><span class="o">.</span><span class="na">INFO</span><span class="o">,</span> <span class="s">&#34;Circuit breaker is reset, switching back to primary service&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1">// 关闭定时任务调度器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="n">scheduler</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">},</span> <span class="n">timeout</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>需要注意的是，在实际应用中，我们需要根据业务需求和系统负载来设置故障计数器的阈值和熔断器的停止时间。如果故障计数器的值超过了阈值，熔断器会启动，并在一定时间内停止发送请求。在熔断器停止期间，Ambassador 类会将所有请求转发到备用服务。当熔断器停止时间到达后，Ambassador 类会重新启动熔断器，并将请求转发到主服务进行处理。同时，我们还需要考虑并发请求的数量和请求的响应时间，以便更好地保证系统的稳定性和性能。</p>
+<h3 id="安全过滤器">安全过滤器</h3>
+<p>在 Web 应用程序中，安全过滤器通常用于检查输入数据的合法性和防止攻击，如 SQL 注入、跨站脚本攻击等。使用 Ambassador 设计模式可以将安全过滤器部署在应用程序的前端，检查所有的输入数据，防止攻击和恶意行为。</p>
+<p>下面是一个简单的示例，演示如何使用 Ambassador 设计模式来实现安全过滤器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.regex.Pattern</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityFilter</span> <span class="kd">implements</span> <span class="n">Service</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Service</span> <span class="n">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">SecurityFilter</span><span class="o">(</span><span class="n">Service</span> <span class="n">service</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">service</span> <span class="o">=</span> <span class="n">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">process</span><span class="o">(</span><span class="n">String</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 检查输入数据，防止攻击和恶意行为
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="o">(!</span><span class="n">isValid</span><span class="o">(</span><span class="n">request</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;Invalid request&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 调用服务处理请求
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isValid</span><span class="o">(</span><span class="n">String</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 检查输入数据是否包含恶意代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Pattern</span> <span class="n">pattern</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">&#34;&lt;script&gt;(.*?)&lt;/script&gt;&#34;</span><span class="o">,</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">CASE_INSENSITIVE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">!</span><span class="n">pattern</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="n">request</span><span class="o">).</span><span class="na">find</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上述代码中，我们创建了一个 SecurityFilter 类，实现了 Service 接口，并在构造函数中传入了一个服务对象。在 process 方法中，我们首先检查输入数据，防止攻击和恶意行为，然后调用服务处理请求。</p>
+<p>在 isValid 方法中，我们使用正则表达式检查输入数据是否包含恶意代码。在这个例子中，我们检查输入数据中是否包含 <code>&lt;script&gt;</code> 和 <code>&lt;/script&gt;</code> 标签，如果包含则认为是恶意代码。</p>
+<p>在实际应用中，我们可以根据具体的业务需求和安全策略，设计更加复杂和完善的安全过滤器。同时，我们还可以使用其他的设计模式和技术，如拦截器、过滤器链、黑白名单、加密算法等，来提高应用程序的安全性和可靠性。</p>
+<p>以下是更进一步优化后的 SecurityFilter 类示例代码，其中使用了过滤器链和黑白名单来实现更加灵活和可配置的安全过滤器，同时增加了日志记录和异常处理，以便更好地监控和调试系统：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.regex.Pattern</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.logging.Level</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.logging.Logger</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityFilter</span> <span class="kd">implements</span> <span class="n">Service</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Service</span> <span class="n">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Filter</span><span class="o">&gt;</span> <span class="n">filters</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">whiteList</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">blackList</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">SecurityFilter</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">SecurityFilter</span><span class="o">(</span><span class="n">Service</span> <span class="n">service</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">service</span> <span class="o">=</span> <span class="n">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">filters</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">whiteList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">blackList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addFilter</span><span class="o">(</span><span class="n">Filter</span> <span class="n">filter</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">filters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">filter</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addWhiteList</span><span class="o">(</span><span class="n">String</span> <span class="n">pattern</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">whiteList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pattern</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addBlackList</span><span class="o">(</span><span class="n">String</span> <span class="n">pattern</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">blackList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pattern</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">process</span><span class="o">(</span><span class="n">String</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 检查白名单
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="o">(!</span><span class="n">isAllowed</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">whiteList</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">logger</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="n">Level</span><span class="o">.</span><span class="na">WARNING</span><span class="o">,</span> <span class="s">&#34;Request not allowed: &#34;</span> <span class="o">+</span> <span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;Request not allowed&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 检查黑名单
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">isBlocked</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">blackList</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">logger</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="n">Level</span><span class="o">.</span><span class="na">WARNING</span><span class="o">,</span> <span class="s">&#34;Request blocked: &#34;</span> <span class="o">+</span> <span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;Request blocked&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 执行过滤器链
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">for</span> <span class="o">(</span><span class="n">Filter</span> <span class="n">filter</span> <span class="o">:</span> <span class="n">filters</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">request</span> <span class="o">=</span> <span class="n">filter</span><span class="o">.</span><span class="na">doFilter</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 调用服务处理请求
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isAllowed</span><span class="o">(</span><span class="n">String</span> <span class="n">request</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">patterns</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 检查请求是否在白名单中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">patterns</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">pattern</span> <span class="o">-&gt;</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">matches</span><span class="o">(</span><span class="n">pattern</span><span class="o">,</span> <span class="n">request</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isBlocked</span><span class="o">(</span><span class="n">String</span> <span class="n">request</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">patterns</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 检查请求是否在黑名单中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">patterns</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">pattern</span> <span class="o">-&gt;</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">matches</span><span class="o">(</span><span class="n">pattern</span><span class="o">,</span> <span class="n">request</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Filter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="nf">doFilter</span><span class="o">(</span><span class="n">String</span> <span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="负载均衡">负载均衡</h3>
+<p>在分布式系统中，负载均衡通常用于将请求分发到多个服务器上，以实现高可用性和容错性。使用 Ambassador 设计模式可以实现负载均衡，将请求分发到多个服务实例上，从而提高系统的可用性和性能。</p>
+<p>下面是一个简单的示例，演示如何使用 Ambassador 设计模式来实现负载均衡：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.ThreadLocalRandom</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoadBalancer</span> <span class="kd">implements</span> <span class="n">Service</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">services</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">LoadBalancingStrategy</span> <span class="n">strategy</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">LoadBalancer</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">services</span><span class="o">,</span> <span class="n">LoadBalancingStrategy</span> <span class="n">strategy</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">services</span> <span class="o">=</span> <span class="n">services</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">strategy</span> <span class="o">=</span> <span class="n">strategy</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">process</span><span class="o">(</span><span class="n">String</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 根据负载均衡策略选择服务实例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Service</span> <span class="n">service</span> <span class="o">=</span> <span class="n">strategy</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">services</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 调用选择的服务处理请求
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">LoadBalancingStrategy</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Service</span> <span class="nf">select</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">services</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">RandomStrategy</span> <span class="kd">implements</span> <span class="n">LoadBalancingStrategy</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Service</span> <span class="nf">select</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">services</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 随机选择一个服务实例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">ThreadLocalRandom</span><span class="o">.</span><span class="na">current</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="n">services</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">services</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">RoundRobinStrategy</span> <span class="kd">implements</span> <span class="n">LoadBalancingStrategy</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Service</span> <span class="nf">select</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">services</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 轮询选择服务实例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">Service</span> <span class="n">service</span> <span class="o">=</span> <span class="n">services</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">index</span> <span class="o">=</span> <span class="o">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">services</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上述代码中，我们创建了一个 LoadBalancer 类，实现了 Service 接口，并在构造函数中传入了一个服务列表和一个负载均衡策略。在 process 方法中，我们根据负载均衡策略选择一个服务实例，然后调用选择的服务处理请求。</p>
+<p>在 LoadBalancingStrategy 接口中，我们定义了一个 select 方法，用于选择服务实例。在 RandomStrategy 类中，我们使用 ThreadLocalRandom 来随机选择一个服务实例。在 RoundRobinStrategy 类中，我们使用轮询算法来选择服务实例。</p>
+<p>在实际应用中，我们可以根据具体的业务需求和性能指标，选择合适的负载均衡策略和算法，如加权轮询、最少连接数、哈希算法等，来实现更加高效和灵活的负载均衡。同时，我们还可以使用其他的设计模式和技术，如缓存、异步处理、分布式锁等，来进一步提高系统的可用性和性能。需要注意的是，在设计负载均衡器时，我们需要根据实际情况和负载均衡算法的特点，合理地分配服务实例和请求，避免出现负载不均衡或性能瓶颈的问题。</p>
+<p>以下是经过优化后的负载均衡器的代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.ConcurrentHashMap</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.ThreadLocalRandom</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.atomic.AtomicInteger</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.function.Function</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoadBalancer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">services</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">LoadBalancingStrategy</span> <span class="n">strategy</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">weights</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">LoadBalancer</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">services</span><span class="o">,</span> <span class="n">LoadBalancingStrategy</span> <span class="n">strategy</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">services</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">services</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">strategy</span> <span class="o">=</span> <span class="n">strategy</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Service</span> <span class="n">service</span> <span class="o">:</span> <span class="n">services</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">weights</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">service</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Service</span> <span class="nf">getService</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">strategy</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">services</span><span class="o">,</span> <span class="n">weights</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setWeight</span><span class="o">(</span><span class="n">Service</span> <span class="n">service</span><span class="o">,</span> <span class="kt">int</span> <span class="n">weight</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">weights</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">service</span><span class="o">,</span> <span class="n">weight</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">LoadBalancer</span> <span class="nf">create</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">services</span><span class="o">,</span> <span class="n">LoadBalancingStrategy</span> <span class="n">strategy</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">LoadBalancer</span><span class="o">(</span><span class="n">services</span><span class="o">,</span> <span class="n">strategy</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">LoadBalancer</span> <span class="nf">createWithRoundRobin</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">services</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">LoadBalancer</span><span class="o">(</span><span class="n">services</span><span class="o">,</span> <span class="n">LoadBalancingStrategy</span><span class="o">.</span><span class="na">ROUND_ROBIN</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">LoadBalancer</span> <span class="nf">createWithRandom</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">services</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">LoadBalancer</span><span class="o">(</span><span class="n">services</span><span class="o">,</span> <span class="n">LoadBalancingStrategy</span><span class="o">.</span><span class="na">RANDOM</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">enum</span> <span class="n">LoadBalancingStrategy</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">RANDOM</span><span class="o">(</span><span class="n">services</span> <span class="o">-&gt;</span> <span class="n">services</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">ThreadLocalRandom</span><span class="o">.</span><span class="na">current</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="n">services</span><span class="o">.</span><span class="na">size</span><span class="o">()))),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ROUND_ROBIN</span><span class="o">(</span><span class="n">services</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">AtomicInteger</span> <span class="n">index</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AtomicInteger</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">services</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">index</span><span class="o">.</span><span class="na">getAndIncrement</span><span class="o">()</span> <span class="o">%</span> <span class="n">services</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="kd">final</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;,</span> <span class="n">Service</span><span class="o">&gt;</span> <span class="n">selector</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">LoadBalancingStrategy</span><span class="o">(</span><span class="n">Function</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;,</span> <span class="n">Service</span><span class="o">&gt;</span> <span class="n">selector</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">selector</span> <span class="o">=</span> <span class="n">selector</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Service</span> <span class="nf">select</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">services</span><span class="o">,</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">weights</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">services</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">services</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;Services cannot be empty&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">services</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">services</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">List</span><span class="o">&lt;</span><span class="n">Service</span><span class="o">&gt;</span> <span class="n">candidates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">services</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">*</span> <span class="mi">100</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="o">(</span><span class="n">Service</span> <span class="n">service</span> <span class="o">:</span> <span class="n">services</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">int</span> <span class="n">weight</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">service</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">weight</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">candidates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">service</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">selector</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">candidates</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上述代码中，我们进行了以下优化：</p>
+<ol>
+<li>使用了 ConcurrentHashMap 来代替 HashMap，确保在并发环境下的线程安全性。</li>
+<li>使用了枚举类型来代替字符串常量，提高代码的可读性和安全性。</li>
+<li>使用了 Lambda 表达式和方法引用来简化负载均衡策略的实现。</li>
+<li>使用了静态工厂方法来创建负载均衡器对象，提高代码的可读性和灵活性。</li>
+<li>重构了 select 方法，将其实现逻辑从 LoadBalancer 类中抽离出来，并优化了权重的处理逻辑。</li>
+</ol>
+<h3 id="缓存">缓存</h3>
+<p>缓存可以提高应用程序的性能和响应速度，减少对数据库等后端资源的访问。使用 Ambassador 设计模式可以将缓存部署在应用程序的前端，将请求转发给缓存服务器进行处理，减少对后端资源的访问，提高系统的性能和响应速度。</p>
+<p>以下是一个使用 Java 实现的简单示例，演示了如何使用 Ambassador 设计模式将请求转发给缓存服务器：</p>
+<p>假设我们有一个简单的电子商务应用程序，用户可以浏览商品、下单、支付等操作。为了提高系统的性能和响应速度，我们可以在应用程序的前端部署一个缓存服务器，并使用 Ambassador 设计模式将请求转发给缓存服务器进行处理。在这个应用程序中，我们假设有一个名为 <code>ProductService</code> 的服务，用于获取商品信息。我们可以在应用程序的前端部署一个缓存服务器，并使用 Ambassador 设计模式将请求转发给缓存服务器。</p>
+<p>首先，我们需要定义一个 <code>ProductService</code> 接口，用于获取商品信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ProductService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Product</span> <span class="nf">getProductById</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们定义一个 <code>ProductServiceImpl</code> 类，实现 <code>ProductService</code> 接口，并用于从后端数据库获取商品信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductServiceImpl</span> <span class="kd">implements</span> <span class="n">ProductService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Product</span> <span class="nf">getProductById</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 从后端数据库获取商品信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="k">new</span> <span class="n">Product</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="s">&#34;Product &#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后，我们定义一个 <code>ProductCache</code> 类，用于缓存商品信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductCache</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Product</span><span class="o">&gt;</span> <span class="n">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Product</span> <span class="nf">getProductById</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">putProduct</span><span class="o">(</span><span class="n">Product</span> <span class="n">product</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">product</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">product</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们定义一个 <code>ProductCacheService</code> 类，实现 <code>ProductService</code> 接口，并用于从缓存服务器获取商品信息。如果缓存服务器中没有所需的数据，那么就将请求转发给后端服务进行处理，并将处理结果缓存起来：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductCacheService</span> <span class="kd">implements</span> <span class="n">ProductService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductService</span> <span class="n">backendService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductCache</span> <span class="n">cache</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">ProductCacheService</span><span class="o">(</span><span class="n">ProductService</span> <span class="n">backendService</span><span class="o">,</span> <span class="n">ProductCache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">backendService</span> <span class="o">=</span> <span class="n">backendService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">cache</span> <span class="o">=</span> <span class="n">cache</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Product</span> <span class="nf">getProductById</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Product</span> <span class="n">product</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="na">getProductById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">product</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 缓存服务器中没有所需的数据，将请求转发给后端服务进行处理
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">product</span> <span class="o">=</span> <span class="n">backendService</span><span class="o">.</span><span class="na">getProductById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 将处理结果缓存起来，以便后续的请求可以直接从缓存服务器获取数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">cache</span><span class="o">.</span><span class="na">putProduct</span><span class="o">(</span><span class="n">product</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">product</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，我们定义一个 <code>ProductServiceAmbassador</code> 类，用于接收来自应用程序的请求，并根据一定的规则将请求转发给缓存服务器或后端服务。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductServiceAmbassador</span> <span class="kd">implements</span> <span class="n">ProductService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductService</span> <span class="n">cacheService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductService</span> <span class="n">backendService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">cachedIds</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">cacheExpireTime</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000L</span><span class="o">;</span> <span class="c1">// 缓存过期时间为 60 秒
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">ProductServiceAmbassador</span><span class="o">(</span><span class="n">ProductService</span> <span class="n">cacheService</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">ProductService</span> <span class="n">backendService</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">cacheService</span> <span class="o">=</span> <span class="n">cacheService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">backendService</span> <span class="o">=</span> <span class="n">backendService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Product</span> <span class="nf">getProductById</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Long</span> <span class="n">cachedTime</span> <span class="o">=</span> <span class="n">cachedIds</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 如果商品 ID 在缓存中存在，并且缓存未过期，那么就直接返回缓存中的商品信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">cachedTime</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">-</span> <span class="n">cachedTime</span> <span class="o">&lt;</span> <span class="n">cacheExpireTime</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">cacheService</span><span class="o">.</span><span class="na">getProductById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 如果商品 ID 在缓存中不存在，或者缓存已过期，那么就将请求转发给后端服务进行处理，并将处理结果缓存起来
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Product</span> <span class="n">product</span> <span class="o">=</span> <span class="n">backendService</span><span class="o">.</span><span class="na">getProductById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cacheService</span><span class="o">.</span><span class="na">putProduct</span><span class="o">(</span><span class="n">product</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cachedIds</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">product</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="服务发现和路由">服务发现和路由</h3>
+<p>在分布式系统中，服务发现和路由通常用于将请求路由到正确的服务实例上，以实现高可用性和容错性。使用 Ambassador 设计模式可以实现服务发现和路由，将请求路由到正确的服务实例上，从而提高系统的可用性和性能。</p>
+<p>以下是一个使用 Ambassador 设计模式实现服务发现和路由的 Java 示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ProductService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Product</span> <span class="nf">getProductById</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Product</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Product</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ProductDiscoveryClient</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getInstances</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductDiscoveryClientImpl</span> <span class="kd">implements</span> <span class="n">ProductDiscoveryClient</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getInstances</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 假装从服务注册中心获取服务实例列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;http://localhost:8080&#34;</span><span class="o">,</span> <span class="s">&#34;http://localhost:8081&#34;</span><span class="o">,</span> <span class="s">&#34;http://localhost:8082&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ProductRoutingStrategy</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="nf">getRoute</span><span class="o">(</span><span class="n">String</span> <span class="n">productId</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">instances</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductRoutingStrategyImpl</span> <span class="kd">implements</span> <span class="n">ProductRoutingStrategy</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getRoute</span><span class="o">(</span><span class="n">String</span> <span class="n">productId</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">instances</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 假装使用负载均衡算法选择一个服务实例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="n">instances</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">instances</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">index</span><span class="o">)</span> <span class="o">+</span> <span class="s">&#34;/product/&#34;</span> <span class="o">+</span> <span class="n">productId</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductServiceAmbassador</span> <span class="kd">implements</span> <span class="n">ProductService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductDiscoveryClient</span> <span class="n">discoveryClient</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductRoutingStrategy</span> <span class="n">routingStrategy</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">RestTemplate</span> <span class="n">restTemplate</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">ProductServiceAmbassador</span><span class="o">(</span><span class="n">ProductDiscoveryClient</span> <span class="n">discoveryClient</span><span class="o">,</span> <span class="n">ProductRoutingStrategy</span> <span class="n">routingStrategy</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">discoveryClient</span> <span class="o">=</span> <span class="n">discoveryClient</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">routingStrategy</span> <span class="o">=</span> <span class="n">routingStrategy</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">restTemplate</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RestTemplate</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Product</span> <span class="nf">getProductById</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">instances</span> <span class="o">=</span> <span class="n">discoveryClient</span><span class="o">.</span><span class="na">getInstances</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">route</span> <span class="o">=</span> <span class="n">routingStrategy</span><span class="o">.</span><span class="na">getRoute</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">instances</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span> <span class="n">response</span> <span class="o">=</span> <span class="n">restTemplate</span><span class="o">.</span><span class="na">getForEntity</span><span class="o">(</span><span class="n">route</span><span class="o">,</span> <span class="n">Product</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="na">getBody</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，我们定义了一个 <code>ProductService</code> 接口和一个 <code>Product</code> 类，用于表示商品服务和商品信息。然后，我们定义了一个 <code>ProductDiscoveryClient</code> 接口和一个 <code>ProductDiscoveryClientImpl</code> 类，用于获取服务实例列表。在 <code>ProductDiscoveryClientImpl</code> 类中，我们假装从服务注册中心获取服务实例列表，这里我们将服务实例列表硬编码为三个本地的 HTTP 地址。</p>
+<p>接下来，我们定义了一个 <code>ProductRoutingStrategy</code> 接口和一个 <code>ProductRoutingStrategyImpl</code> 类，用于选择服务实例。在 <code>ProductRoutingStrategyImpl</code> 类中，我们使用了随机负载均衡算法来选择一个服务实例，并将商品 ID 和服务实例的 URL 拼接在一起，形成最终的路由信息。</p>
+<p>在最后，我们定义了一个 <code>ProductServiceAmbassador</code> 类，用于实现商品服务的代理。在 <code>ProductServiceAmbassador</code> 类中，我们使用了依赖注入（DI）的方式来注入 <code>ProductDiscoveryClient</code> 和 <code>ProductRoutingStrategy</code> 的实现类。在 <code>getProductById</code> 方法中，我们首先通过 <code>ProductDiscoveryClient</code> 获取服务实例列表，然后使用 <code>ProductRoutingStrategy</code> 选择一个服务实例，并将商品 ID 和服务实例的 URL 拼接在一起，形成最终的路由信息。最后，我们使用 <code>RestTemplate</code> 发送 HTTP GET 请求，并将响应的 JSON 数据转换为 <code>Product</code> 对象返回。</p>
+<p>使用 Ambassador 设计模式可以实现服务发现和路由，从而提高系统的可用性和性能，使得服务消费者无需关心服务实例的具体位置和负载均衡算法，只需要通过代理对象来访问服务即可。</p>
+<h3 id="日志记录和监控">日志记录和监控</h3>
+<p>在分布式系统中，日志记录和监控通常用于跟踪服务的运行状态和性能指标，以便进行故障排除和性能优化。使用 Ambassador 设计模式可以将日志记录和监控部署在应用程序的前端，监控服务的运行状态和性能指标，从而实现故障排除和性能优化。</p>
+<p>以下是一个使用 Ambassador 设计模式实现日志记录和监控的 Java 示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ProductService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Product</span> <span class="nf">getProductById</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Product</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Product</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ProductLogger</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">logRequest</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">logResponse</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">,</span> <span class="n">Product</span> <span class="n">product</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductLoggerImpl</span> <span class="kd">implements</span> <span class="n">ProductLogger</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">ProductLoggerImpl</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">logRequest</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Requesting product with ID: {}&#34;</span><span class="o">,</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">logResponse</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">,</span> <span class="n">Product</span> <span class="n">product</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Received product with ID: {}, Name: {}&#34;</span><span class="o">,</span> <span class="n">id</span><span class="o">,</span> <span class="n">product</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ProductMonitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">recordLatency</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">,</span> <span class="kt">long</span> <span class="n">latency</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">incrementCounter</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductMonitorImpl</span> <span class="kd">implements</span> <span class="n">ProductMonitor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">StatsDClient</span> <span class="n">statsd</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">ProductMonitorImpl</span><span class="o">(</span><span class="n">String</span> <span class="n">host</span><span class="o">,</span> <span class="kt">int</span> <span class="n">port</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">statsd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NonBlockingStatsDClient</span><span class="o">(</span><span class="s">&#34;product-service&#34;</span><span class="o">,</span> <span class="n">host</span><span class="o">,</span> <span class="n">port</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">recordLatency</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">,</span> <span class="kt">long</span> <span class="n">latency</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">statsd</span><span class="o">.</span><span class="na">recordExecutionTime</span><span class="o">(</span><span class="s">&#34;product.latency&#34;</span><span class="o">,</span> <span class="n">latency</span><span class="o">,</span> <span class="s">&#34;id:&#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">incrementCounter</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">statsd</span><span class="o">.</span><span class="na">increment</span><span class="o">(</span><span class="s">&#34;product.counter&#34;</span><span class="o">,</span> <span class="s">&#34;id:&#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductServiceAmbassador</span> <span class="kd">implements</span> <span class="n">ProductService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductService</span> <span class="n">productService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductLogger</span> <span class="n">logger</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductMonitor</span> <span class="n">monitor</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">ProductServiceAmbassador</span><span class="o">(</span><span class="n">ProductService</span> <span class="n">productService</span><span class="o">,</span> <span class="n">ProductLogger</span> <span class="n">logger</span><span class="o">,</span> <span class="n">ProductMonitor</span> <span class="n">monitor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">productService</span> <span class="o">=</span> <span class="n">productService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">logger</span> <span class="o">=</span> <span class="n">logger</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">monitor</span> <span class="o">=</span> <span class="n">monitor</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Product</span> <span class="nf">getProductById</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">logger</span><span class="o">.</span><span class="na">logRequest</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">long</span> <span class="n">startTime</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Product</span> <span class="n">product</span> <span class="o">=</span> <span class="n">productService</span><span class="o">.</span><span class="na">getProductById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">long</span> <span class="n">endTime</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">logger</span><span class="o">.</span><span class="na">logResponse</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">product</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">long</span> <span class="n">latency</span> <span class="o">=</span> <span class="n">endTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">monitor</span><span class="o">.</span><span class="na">recordLatency</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">latency</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">monitor</span><span class="o">.</span><span class="na">incrementCounter</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">product</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个示例中，我们定义了一个 <code>ProductService</code> 接口和一个 <code>Product</code> 类，用于表示商品服务和商品信息。然后，我们定义了一个 <code>ProductLogger</code> 接口和一个 <code>ProductLoggerImpl</code> 类，用于记录请求和响应的日志信息。在 <code>ProductLoggerImpl</code> 类中，我们使用了 <code>SLF4J</code> 日志框架来记录日志信息。</p>
+<p>接下来，我们定义了一个 <code>ProductMonitor</code> 接口和一个 <code>ProductMonitorImpl</code> 类，用于记录运行状态和性能指标。在 <code>ProductMonitorImpl</code> 类中，我们使用了 <code>StatsD</code> 客户端来记录运行状态和性能指标，例如请求的延迟和调用次数等。在 <code>ProductMonitorImpl</code> 的构造函数中，我们可以指定 <code>StatsD</code> 客户端的主机和端口。</p>
+<p>最后，我们定义了一个 <code>ProductServiceAmbassador</code> 类，用于实现商品服务的代理。在 <code>ProductServiceAmbassador</code> 类中，我们通过依赖注入（DI）的方式将 <code>ProductService</code>、<code>ProductLogger</code> 和 <code>ProductMonitor</code> 的实现类注入到构造函数中。在 <code>getProductById</code> 方法中，我们首先调用 <code>ProductLogger</code> 的 <code>logRequest</code> 方法来记录请求的日志信息。然后，我们使用 <code>System.currentTimeMillis()</code> 来记录请求的开始时间，然后调用 <code>ProductService</code> 的 <code>getProductById</code> 方法来获取商品信息。接下来，我们使用 <code>System.currentTimeMillis()</code> 来记录请求的结束时间，并调用 <code>ProductLogger</code> 的 <code>logResponse</code> 方法来记录响应的日志信息。最后，我们计算请求的延迟，并调用 <code>ProductMonitor</code> 的 <code>recordLatency</code> 方法来记录请求的延迟，调用 <code>ProductMonitor</code> 的 <code>incrementCounter</code> 方法来记录调用次数。</p>
+<p>使用 Ambassador 设计模式可以将日志记录和监控部署在应用程序的前端，从而监控服务的运行状态和性能指标，并提供实时的故障排除和性能优化。由于日志记录和监控是与业务逻辑解耦的，因此我们可以随时在运行时添加、删除或更改日志记录和监控的实现，而不影响应用程序的正常运行。</p>
+<h2 id="已知使用">已知使用</h2>
+<p>Ambassador 设计模式通常用于分布式系统中，用于解决服务间的通信问题和负载均衡问题。许多开源框架和工具都使用了 Ambassador 模式来实现服务代理和增强等功能。以下是一些常见的使用了 Ambassador 模式的开源框架和工具：</p>
+<ol>
+<li>Istio：Istio 是一个流行的服务网格框架，它使用了 Ambassador 模式来实现服务代理和增强等功能，例如流量管理、安全认证、监控和日志等。</li>
+<li>Envoy：Envoy 是一个高性能的代理服务器，它使用了 Ambassador 模式来实现负载均衡、流量转发和服务代理等功能。</li>
+<li>Linkerd：Linkerd 是另一个流行的服务网格框架，它使用了 Ambassador 模式来实现服务代理和增强等功能，例如负载均衡、故障恢复和流量管理等。</li>
+<li>Open Service Mesh：Open Service Mesh 是一个开源的服务网格框架，它使用了 Ambassador 模式来实现服务代理和增强等功能，例如流量管理、安全认证和监控等。</li>
+<li>Consul：Consul 是一个流行的服务发现和配置工具，它使用了 Ambassador 模式来实现服务代理和增强等功能，例如负载均衡、健康检查和故障恢复等。</li>
+<li>Kubernetes：Kubernetes 是一个流行的容器编排平台，它使用了 Ambassador 模式来实现服务代理和增强等功能，例如服务发现、负载均衡和流量管理等。</li>
+<li>Nginx：Nginx 是一个高性能的 Web 服务器和反向代理服务器，它使用了 Ambassador 模式来实现负载均衡、流量转发和服务代理等功能。</li>
+<li>Kong：Kong 是一个开源的 API 网关，它使用了 Ambassador 模式来实现流量管理、安全认证和监控等功能。</li>
+<li>Traefik：Traefik 是一个流行的反向代理和负载均衡器，它使用了 Ambassador 模式来实现服务代理和增强等功能，例如动态配置、自动发现和流量转发等。</li>
+</ol>
+<p>当然，Java 生态系统中也有许多开源框架和工具使用了 Ambassador 模式。以下是其中的一些：</p>
+<ol>
+<li>Spring Cloud Netflix：Spring Cloud Netflix 是一个流行的微服务框架，它使用了 Netflix OSS 中的 Ribbon 和 Zuul 组件来实现服务代理和增强等功能，例如负载均衡、服务发现和路由等。</li>
+<li>Spring Cloud Gateway：Spring Cloud Gateway 是 Spring Cloud 生态系统中的一个新型 API 网关，它使用了 Reactor Netty 和 Spring WebFlux 等技术来实现服务代理和增强等功能，例如负载均衡、路由和限流等。</li>
+<li>Netflix OSS：Netflix OSS 是 Netflix 开源的一组分布式系统工具，其中包括了许多使用了 Ambassador 模式的组件，例如 Ribbon、Hystrix、Zuul 和 Eureka 等。</li>
+<li>Micronaut：Micronaut 是一个轻量级的 Java 框架，它使用了 Netty 和 Reactive Streams 等技术来实现服务代理和增强等功能，例如负载均衡、服务发现和路由等。</li>
+<li>Vert.x：Vert.x 是一个高性能的异步编程框架，它使用了 Netty 和 Reactive Streams 等技术来实现服务代理和增强等功能，例如负载均衡、路由和限流等。</li>
+</ol>
+<h3 id="spring-cloud-gateway">Spring Cloud Gateway</h3>
+<p>Spring Cloud Gateway 是 Spring Cloud 生态系统中的一个新型 API 网关，它使用了 Reactor Netty 和 Spring WebFlux 等技术来实现服务代理和增强等功能。它的设计理念就是基于 Ambassador 模式来构建的，它将每个后端服务都看作一个独立的实体，通过一个中央入口点来统一管理和控制。</p>
+<p>下面通过代码来说明 Spring Cloud Gateway 如何使用 Ambassador 模式。假设我们有两个后端服务，一个是 user-service，一个是 order-service，我们希望通过 Spring Cloud Gateway 来实现负载均衡和路由的功能。</p>
+<p>首先，我们需要添加 Spring Cloud Gateway 依赖，可以在 Maven 中添加以下依赖：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-gateway<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>然后，我们需要在配置文件中配置 Spring Cloud Gateway，例如 application.yml 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">routes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l">user-service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l">lb://user-service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">predicates</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">Path=/users/**</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l">order-service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l">lb://order-service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">predicates</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">Path=/orders/**</span><span class="w">
+</span></span></span></code></pre></div><p>这段配置代码的意思是，我们定义了两个路由规则，一个是对于 /users/** 的请求，将会被路由到 user-service 服务上，另一个是对于 /orders/** 的请求，将会被路由到 order-service 服务上。其中，uri 前缀的 lb:// 表示使用负载均衡的方式来路由请求，这里我们使用了 Spring Cloud LoadBalancer 组件来实现负载均衡的功能。</p>
+<p>最后，我们需要在启动类上添加 @EnableGateway 注解，来启用 Spring Cloud Gateway：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@SpringBootApplication</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableDiscoveryClient</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableGateway</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GatewayApplication</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">GatewayApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这样，我们就完成了 Spring Cloud Gateway 的配置和启用。通过以上的配置和代码，我们实现了 Ambassador 模式的基本功能，即通过一个中央入口点来统一管理和控制后端服务。同时，由于 Spring Cloud Gateway 基于 Reactor Netty 和 Spring WebFlux 等技术实现，它也具有非常高的性能和可扩展性。</p>
+<p>Spring Cloud Gateway 源码中的实现方式，主要是基于 Reactor Netty 和 Spring WebFlux 框架来实现的。它的核心组件是 GatewayFilter 和 RouteLocator，其中 GatewayFilter 用于实现各种过滤器，例如请求转发、重定向、限流和认证等，而 RouteLocator 用于实现动态路由和负载均衡等功能。</p>
+<p>具体来说，Spring Cloud Gateway 的工作原理如下：</p>
+<ol>
+<li>Spring Cloud Gateway 接收客户端的请求，然后根据配置文件中的路由规则，选择一个合适的路由器进行处理。</li>
+<li>路由器会根据请求的 URL 和配置文件中的路由规则，选择一个或多个过滤器对请求进行处理。过滤器可以选择性地修改请求和响应，或者中断请求并返回响应。</li>
+<li>过滤器将处理后的请求发送到后端服务，然后将响应返回给客户端。</li>
+<li>在处理请求和响应的过程中，Spring Cloud Gateway 支持多种协议和格式，例如 HTTP、WebSocket、JSON 和 XML 等。</li>
+</ol>
+<p>在 Spring Cloud Gateway 的源码中，它的核心组件是 GatewayFilter 和 RouteLocator。其中，GatewayFilter 是一个过滤器接口，它定义了一个过滤器的基本方法链，开发者可以通过实现 GatewayFilter 接口来实现自定义的过滤器。而 RouteLocator 则是一个路由规则接口，它定义了一个动态路由表，开发者可以通过实现 RouteLocator 接口来实现自定义的路由规则，例如基于服务发现的路由规则。</p>
+<blockquote>
+<p>Spring Cloud Gateway 支持 WebSocket 协议。WebSocket 是一种在单个 TCP 连接上进行全双工通信的协议，它允许客户端和服务器之间进行实时交互和通信。Spring Cloud Gateway 通过支持 WebSocket 协议，可以实现实时通信、推送和广播等功能。</p>
+<p>要在 Spring Cloud Gateway 中支持 WebSocket 协议，需要进行以下步骤：</p>
+<ol>
+<li>
+<p>引入 Spring Cloud Gateway WebSocket 依赖，可以在 Maven 中添加以下依赖：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-gateway-websocket<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">```
+</span></span></code></pre></div></li>
+<li>
+<p>配置 Spring Cloud Gateway，需要在 application.yml 或 application.properties 文件中添加以下配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">websockets</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">```</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">这段配置代码的意思是，启用 Spring Cloud Gateway 的 WebSocket 支持。</span><span class="w">
+</span></span></span></code></pre></div></li>
+<li>
+<p>配置 WebSocket 路由，需要在 application.yml 或 application.properties 文件中添加以下配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">routes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l">ws-route</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l">ws://localhost:8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">predicates</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">Path=/ws/**</span><span class="w">
+</span></span></span></code></pre></div><p>这段配置代码的意思是，将 /ws/** 的请求路由到 uri 为 ws://localhost:8080 的 WebSocket 服务上。</p>
+</li>
+<li>
+<p>实现 WebSocket 处理器，需要编写一个实现 WebSocketHandler 接口的处理器，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoWebSocketHandler</span> <span class="kd">implements</span> <span class="n">WebSocketHandler</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span> <span class="nf">handle</span><span class="o">(</span><span class="n">WebSocketSession</span> <span class="n">session</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 处理 WebSocketSession
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">session</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="n">session</span><span class="o">.</span><span class="na">receive</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">msg</span> <span class="o">-&gt;</span> <span class="n">session</span><span class="o">.</span><span class="na">textMessage</span><span class="o">(</span><span class="s">&#34;Echo: &#34;</span> <span class="o">+</span> <span class="n">msg</span><span class="o">.</span><span class="na">getPayloadAsText</span><span class="o">())));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这段代码的意思是，实现一个处理器，用来处理 WebSocketSession。在此示例中，处理器会将接收到的消息进行回显，并返回给客户端。</p>
+</li>
+<li>
+<p>配置 WebSocket 处理器，需要在 application.yml 或 application.properties 文件中添加以下配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">routes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l">ws-route</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l">ws://localhost:8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">predicates</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">Path=/ws/**</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">filters</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">WebSocket</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">args</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">handler</span><span class="p">:</span><span class="w"> </span><span class="l">echoWebSocketHandler</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">subprotocols</span><span class="p">:</span><span class="w"> </span><span class="l">subprotocol1, subprotocol2</span><span class="w">
+</span></span></span></code></pre></div><p>这段配置代码的意思是，将 WebSocket 处理器 echoWebSocketHandler 绑定到 WebSocket 路由上，并指定了子协议 subprotocol1 和 subprotocol2。</p>
+</li>
+</ol>
+<p>这样，我们就完成了在 Spring Cloud Gateway 中支持 WebSocket 协议的配置和代码实现。通过以上的配置和代码，我们可以在 Spring Cloud Gateway 上实现 WebSocket 的功能，例如实时通信、推送和广播等。</p>
+</blockquote>
+<h2 id="相关模式">相关模式</h2>
+<ul>
+<li><a href="https://java-design-patterns.com/patterns/proxy/">Proxy</a></li>
+</ul>
+<h2 id="其他">其他</h2>
+<h3 id="ambassador-和-aop">Ambassador 和 AOP</h3>
+<p>Ambassador 设计模式和 AOP（面向切面编程）都是用于实现横切关注点的设计模式。它们都可以在不修改现有代码的情况下，往程序中添加一些额外的行为，例如日志记录、性能监控、安全验证等。</p>
+<p>Ambassador 设计模式是一种结构型设计模式，它通过代理对象来隐藏底层服务的实现细节，并提供一些额外的功能，例如服务发现、负载均衡、日志记录和监控等。在 Ambassador 设计模式中，代理对象和原始对象都实现了同一个接口，代理对象负责将调用转发到原始对象，并在调用前后执行一些额外的逻辑。</p>
+<p>AOP 也是一种结构型设计模式，它通过将横切关注点从业务逻辑中分离出来，实现了一种基于切面的模块化设计。在 AOP 中，横切关注点被封装成切面，并通过切点和通知来定义切面的行为。在程序运行期间，AOP 框架会动态地将切面织入到目标对象的方法调用中，从而实现切面的功能。</p>
+<p>虽然 Ambassador 设计模式和 AOP 都可以实现横切关注点，但它们的应用场景和目的略有不同。Ambassador 设计模式通常用于实现与底层服务相关的功能，例如服务发现、负载均衡、日志记录和监控等。而 AOP 则更加通用，可以用于实现任何与业务逻辑无关的功能，例如事务管理、安全验证、性能监控等。此外，AOP 还可以通过切面的织入顺序来实现一些复杂的功能，例如事务嵌套和并发控制等。</p>
+<p>在实践中，Ambassador 设计模式和 AOP 可以结合使用，从而实现更加灵活和可扩展的应用程序设计。例如，在使用 Ambassador 设计模式实现服务调用时，我们可以使用 AOP 来记录请求和响应的日志信息，或者实现安全验证和性能监控等功能。在这种情况下，Ambassador 设计模式和 AOP 通常是相互补充的，可以在不同的层次上实现横切关注点的功能。</p>
+<h3 id="ambassador-和代理">Ambassador 和代理</h3>
+<p>Ambassador 设计模式和代理模式都是结构型设计模式，它们都使用代理对象来隐藏真实对象的实现细节，并提供一些额外的功能。然而，它们的目的和实现方式略有不同。</p>
+<p>代理模式是一种结构型设计模式，它通过代理对象来控制对真实对象的访问。在代理模式中，代理对象和真实对象实现相同的接口，代理对象负责将方法调用传递给真实对象，并在此基础上添加一些额外的逻辑，例如权限控制、缓存、远程访问等。代理模式可以在不修改现有代码的情况下，为真实对象提供额外的功能和保护。</p>
+<p>Ambassador 设计模式也是一种结构型设计模式，它通过代理对象来隐藏底层服务的实现细节，并提供一些额外的功能，例如服务发现、负载均衡、日志记录和监控等。在 Ambassador 设计模式中，代理对象和底层服务实现相同的接口，代理对象负责将调用转发到底层服务，并在此基础上添加一些额外的逻辑。Ambassador 设计模式通常用于实现与底层服务相关的功能。</p>
+<p>Ambassador 设计模式和代理模式在某些方面确实非常相似，它们都使用代理对象来隐藏真实对象的实现细节，并提供一些额外的功能。然而，它们的目的和应用场景略有不同，这也是它们的区别所在。</p>
+<p>代理模式通常用于控制对真实对象的访问，例如权限控制、缓存、远程访问等。它的重点在于实现对真实对象的保护和控制。代理模式的应用场景非常广泛，可以用于任何需要对真实对象进行访问控制和保护的场景。</p>
+<p>Ambassador 设计模式则更加专注于底层服务的代理和增强，例如服务发现、负载均衡、日志记录和监控等。它通常用于分布式系统中，用于解决服务间的通信问题和负载均衡问题。Ambassador 设计模式的重点在于为底层服务提供代理和增强功能，以便更好地管理和控制底层服务。</p>
+<p>虽然 Ambassador 设计模式和代理模式在某些方面非常相似，但它们在实际应用中通常被用于不同的场景和目的。在实践中，我们可以根据具体的需求和应用场景来选择使用哪种模式，或者将它们结合起来使用，以实现更加灵活和可扩展的应用程序设计。</p>
+<h2 id="参考文章">参考文章</h2>
+<ol>
+<li><a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/ambassador">Ambassador Pattern</a>: 该文章介绍了 Ambassador 模式的概念和应用场景，并提供了一些实际案例供参考。</li>
+<li><a href="https://dzone.com/articles/design-patterns-for-microservices-ambassador-anti">Design Patterns for Microservices: Ambassador, Anti-Corruption Layer, and Backends for Frontends</a> : 这篇文章介绍了在微服务架构中使用的两种设计模式：Ambassador 模式和 Anti-corruption Layer 模式。。</li>
+<li><a href="https://itnext.io/ambassador-and-istio-edge-proxy-and-service-mesh-814aac9f23df">The Ambassador pattern and Istio</a>: 这篇文章介绍了如何使用 Istio 和 Ambassador 模式来实现微服务的边缘代理和服务网格。</li>
+<li><a href="https://medium.com/bb-tutorials-and-thoughts/kubernetes-learn-ambassador-container-pattern-bc2e1331bd3a">Kubernetes — Learn Ambassador Container Pattern</a> 介绍了如何在 Kubernetes 中使用 Ambassador 模式来解决微服务通信的问题。</li>
+<li><a href="https://blog.getambassador.io/api-gateway-vs-service-mesh-104c01fa4784">Ambassador vs API Gateway</a>: 该文章对比了 Ambassador 模式和传统的 API 网关的优缺点，分析了它们在不同场景下的应用和适用性。</li>
+</ol>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>Java设计模式：Active Object</title>
       <link>https://blog.chensoul.com/posts/2023/05/26/java-design-patterns-active-object/</link>

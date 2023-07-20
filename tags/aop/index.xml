@@ -878,64 +878,70 @@
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-gateway-websocket<span class="nt">&lt;/artifactId&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
-</span></span><span class="line"><span class="cl">```
 </span></span></code></pre></div></li>
 <li>
 <p>配置 Spring Cloud Gateway，需要在 application.yml 或 application.properties 文件中添加以下配置：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spring</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">websockets</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">```</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">这段配置代码的意思是，启用 Spring Cloud Gateway 的 WebSocket 支持。</span><span class="w">
-</span></span></span></code></pre></div></li>
-<li>
-<p>配置 WebSocket 路由，需要在 application.yml 或 application.properties 文件中添加以下配置：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spring</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">routes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l">ws-route</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l">ws://localhost:8080</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">predicates</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">Path=/ws/**</span><span class="w">
-</span></span></span></code></pre></div><p>这段配置代码的意思是，将 /ws/** 的请求路由到 uri 为 ws://localhost:8080 的 WebSocket 服务上。</p>
-</li>
-<li>
-<p>实现 WebSocket 处理器，需要编写一个实现 WebSocketHandler 接口的处理器，例如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
-</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoWebSocketHandler</span> <span class="kd">implements</span> <span class="n">WebSocketHandler</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span> <span class="nf">handle</span><span class="o">(</span><span class="n">WebSocketSession</span> <span class="n">session</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 处理 WebSocketSession
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">session</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="n">session</span><span class="o">.</span><span class="na">receive</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">msg</span> <span class="o">-&gt;</span> <span class="n">session</span><span class="o">.</span><span class="na">textMessage</span><span class="o">(</span><span class="s">&#34;Echo: &#34;</span> <span class="o">+</span> <span class="n">msg</span><span class="o">.</span><span class="na">getPayloadAsText</span><span class="o">())));</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>这段代码的意思是，实现一个处理器，用来处理 WebSocketSession。在此示例中，处理器会将接收到的消息进行回显，并返回给客户端。</p>
-</li>
-<li>
-<p>配置 WebSocket 处理器，需要在 application.yml 或 application.properties 文件中添加以下配置：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spring</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">routes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l">ws-route</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l">ws://localhost:8080</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">predicates</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">Path=/ws/**</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">filters</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">WebSocket</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">args</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">handler</span><span class="p">:</span><span class="w"> </span><span class="l">echoWebSocketHandler</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">subprotocols</span><span class="p">:</span><span class="w"> </span><span class="l">subprotocol1, subprotocol2</span><span class="w">
-</span></span></span></code></pre></div><p>这段配置代码的意思是，将 WebSocket 处理器 echoWebSocketHandler 绑定到 WebSocket 路由上，并指定了子协议 subprotocol1 和 subprotocol2。</p>
 </li>
 </ol>
-<p>这样，我们就完成了在 Spring Cloud Gateway 中支持 WebSocket 协议的配置和代码实现。通过以上的配置和代码，我们可以在 Spring Cloud Gateway 上实现 WebSocket 的功能，例如实时通信、推送和广播等。</p>
-</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="w"> </span><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">     </span><span class="nt">gateway</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="nt">websockets</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">         </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></div><pre><code>  这段配置代码的意思是，启用 Spring Cloud Gateway 的 WebSocket 支持。
+</code></pre>
+<ol start="3">
+<li>
+<p>配置 WebSocket 路由，需要在 application.yml 或 application.properties 文件中添加以下配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"></code></pre></div></li>
+</ol>
+<p>spring:
+cloud:
+gateway:
+routes:
+- id: ws-route
+uri: ws://localhost:8080
+predicates:
+- Path=/ws/**</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">这段配置代码的意思是，将 /ws/** 的请求路由到 uri 为 ws://localhost:8080 的 WebSocket 服务上。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">4. 实现 WebSocket 处理器，需要编写一个实现 WebSocketHandler 接口的处理器，例如：
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">```java
+</span></span><span class="line"><span class="cl">@Component
+</span></span><span class="line"><span class="cl">public class EchoWebSocketHandler implements WebSocketHandler {
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    @Override
+</span></span><span class="line"><span class="cl">       public Mono&lt;Void&gt; handle(WebSocketSession session) {
+</span></span><span class="line"><span class="cl">        // 处理 WebSocketSession
+</span></span><span class="line"><span class="cl">        return session.send(session.receive().map(msg -&gt; session.textMessage(&#34;Echo: &#34; + msg.getPayloadAsText())));
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>这段代码的意思是，实现一个处理器，用来处理 WebSocketSession。在此示例中，处理器会将接收到的消息进行回显，并返回给客户端。</p>
+<ol start="5">
+<li>
+<p>配置 WebSocket 处理器，需要在 application.yml 或 application.properties 文件中添加以下配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"></code></pre></div></li>
+</ol>
+<p>spring:
+cloud:
+gateway:
+routes:
+- id: ws-route
+uri: ws://localhost:8080
+predicates:
+- Path=/ws/**
+filters:
+- name: WebSocket
+args:
+handler: echoWebSocketHandler
+subprotocols: subprotocol1, subprotocol2</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">这段配置代码的意思是，将 WebSocket 处理器 echoWebSocketHandler 绑定到 WebSocket 路由上，并指定了子协议 subprotocol1 和 subprotocol2。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">这样，我们就完成了在 Spring Cloud Gateway 中支持 WebSocket 协议的配置和代码实现。通过以上的配置和代码，我们可以在 Spring Cloud Gateway 上实现 WebSocket 的功能，例如实时通信、推送和广播等。
+</span></span></code></pre></div></blockquote>
 <h2 id="相关模式">相关模式</h2>
 <ul>
 <li><a href="https://java-design-patterns.com/patterns/proxy/">Proxy</a></li>

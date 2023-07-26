@@ -56,10 +56,10 @@
 <p>Spring Boot 提供了一些属性，我们可以使用它们添加异常消息、异常类，甚至堆栈跟踪作为响应负载的一部分：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">server</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">error</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">include-message</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">include-binding-errors</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">include-stacktrace</span><span class="p">:</span><span class="w"> </span><span class="l">on_trace_param</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">include-exception</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">include-message</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">include-binding-errors</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">include-stacktrace</span><span class="p">:</span><span class="w"> </span><span class="l">on_trace_param</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">include-exception</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span></span></span></code></pre></div><p>在 <code>application.yml</code> 中使用这些 <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#server-properties">Spring Boot 服务器属性</a>，我们可以在某种程度上改变错误响应。</p>
 <p>现在，如果我们使用无效的 <code>id</code> 再次调用 <code>/product</code> API，我们将得到以下响应：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
@@ -1079,7 +1079,7 @@
     </item>
     
     <item>
-      <title>[译]在 Spring 中实现 OAuth2：使用范围（第 2 部分）</title>
+      <title>[译]使用Spring Boot Actuator公开有用的信息端点</title>
       <link>https://blog.chensoul.com/posts/2023/07/26/spring-boot-info-endpoint/</link>
       <pubDate>Wed, 26 Jul 2023 07:05:00 +0800</pubDate>
       

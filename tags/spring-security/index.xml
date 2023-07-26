@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>spring security on ChenSoul</title>
+    <link>https://blog.chensoul.com/tags/spring-security/</link>
+    <description>Recent content in spring security on ChenSoul</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 26 Jul 2023 07:20:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/spring-security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[译]使用 Spring Boot 和 Spring Security 配置 CORS</title>
+      <link>https://blog.chensoul.com/posts/2023/07/26/spring-cors/</link>
+      <pubDate>Wed, 26 Jul 2023 07:20:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/07/26/spring-cors/</guid>
+      <description>跨源资源共享 (CORS) 是一种基于 HTTP 标头的机制，允许服务器显式将某些源列入白名单，并帮助绕过同源策略。 这是必需的，因为浏览器默认应用同源策略以确保安全</description>
+      <content:encoded><![CDATA[<p>跨源资源共享 (CORS) 是一种基于 HTTP 标头的机制，允许服务器显式将某些源列入白名单，并帮助绕过同源策略。</p>
+<p>这是必需的，因为浏览器默认应用同源策略以确保安全。通过在 Web 应用程序中实施 CORS，网页可以请求额外的资源并从其他域加载到浏览器中。</p>
+<p>本文将重点介绍在基于 Spring 的应用程序中实现 CORS 的各种方式。要详细了解 CORS 的工作原理，请参阅这篇优秀的<a href="https://reflectoring.io/complete-guide-to-cors/">介绍性文章</a>。</p>
+<h2 id="示例代码">示例代码</h2>
+<p>本文附有 GitHub 上的工作<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring">代码示例</a>。</p>
+<h2 id="cors-特定-http-响应标头概述">CORS 特定 HTTP 响应标头概述</h2>
+<p>CORS 规范定义了服务器返回的一组响应标头，这将是后续部分的重点。</p>
+<table>
+<thead>
+<tr>
+<th>响应头</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Access-Control-Allow-Origin</code></td>
+<td>以逗号分隔的白名单来源列表或“*”。</td>
+</tr>
+<tr>
+<td><code>Access-Control-Allow-Methods</code></td>
+<td>Web 服务器允许跨源请求的 HTTP 方法的逗号分隔列表。</td>
+</tr>
+<tr>
+<td><code>Access-Control-Allow-Headers</code></td>
+<td>Web 服务器允许跨源请求的 HTTP 标头的逗号分隔列表。</td>
+</tr>
+<tr>
+<td><code>Access-Control-Expose-Headers</code></td>
+<td>客户端脚本认为可以安全显示的以逗号分隔的 HTTP 标头列表。</td>
+</tr>
+<tr>
+<td><code>Access-Control-Allow-Credentials</code></td>
+<td>如果浏览器通过传递凭据（以 cookie 或授权标头的形式）向服务器发出请求，则其值设置为 <code>true</code> 。</td>
+</tr>
+<tr>
+<td><code>Access-Control-Max-Age</code></td>
+<td>指示预检请求的结果可以缓存多长时间。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="设置示例客户端应用程序">设置示例客户端应用程序</h2>
+<p>我们将使用一个简单的角度应用程序来调用 REST 端点，我们可以使用浏览器开发人员工具检查这些端点。您可以在 GitHub 上查看<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring/cors-app">源代码</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">    ng serve --open
+</span></span></code></pre></div><p>我们应该能够成功启动客户端应用程序。</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/configuring-cors-with-spring/client_hu6933403b7320f6f893a41150b2491685_84510_1441x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<h2 id="设置示例服务器应用程序">设置示例服务器应用程序</h2>
+<p>我们将使用一个基于 Spring 的示例应用程序，其中包含客户端应用程序可以调用的 <code>GET</code> 和 <code>POST</code> 请求。请注意，您会发现两个独立的应用程序：一个使用 Spring MVC (REST)，另一个使用 Spring Reactive 堆栈。</p>
+<p>为简单起见，两个应用程序之间的 CORS 配置相同，并且定义了相同的端点。两台服务器都从不同的端口 8091 和 8092 启动。</p>
+<p>与应用程序捆绑在一起的 Maven Wrapper 将用于启动服务。您可以查看 <a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring/SimpleLibraryApplication">Spring REST 源代码</a>和 <a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring/LibraryWebfluxApplication">Spring Reactive 源代码</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">    mvnw clean verify spring-boot:run <span class="o">(</span><span class="k">for</span> Windows<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   ./mvnw clean verify spring-boot:run <span class="o">(</span><span class="k">for</span> Linux<span class="o">)</span>
+</span></span></code></pre></div><p>一旦 Spring 应用程序成功启动，客户端应用程序应该能够成功从服务器加载数据。</p>
+<p>调用 Spring REST 服务器：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/configuring-cors-with-spring/app_hu6933403b7320f6f893a41150b2491685_157341_1871x0_resize_q90_box.JPG" alt="settings"  />
+
+调用 Spring Reactive 服务器：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/configuring-cors-with-spring/app_reactive_hu6933403b7320f6f893a41150b2491685_154439_1859x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<h2 id="了解-crossorigin-属性">了解 <code>@CrossOrigin</code> 属性</h2>
+<p>在 Spring Boot 应用程序中，我们使用 <code>@CrossOrigin</code> 注解来启用跨域调用。我们先了解一下 <code>@CrossOrigin</code> 支持的属性。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>Description 描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>origins</code></td>
+<td>允许您指定允许的来源列表。默认情况下，它允许所有来源。 该属性值将在预检响应和实际响应的 <code>Access-Control-Allow-Origin</code> 标头中设置。 用法示例： <code>@CrossOrigin(origins = &quot;http://localhost:8080&quot;)</code>  <code>@CrossOrigin(origins = {&quot;http://localhost:8080&quot;, &quot;http://testserver:8087&quot;})</code></td>
+</tr>
+<tr>
+<td><code>allowedHeaders</code></td>
+<td>允许您指定浏览器发出请求时将接受的标头列表。默认情况下，任何标头都将被允许。此属性中指定的值用于预检响应中的 <code>Access-Control-Allow-Headers</code> 中。  <strong>用法示例：</strong> <code>@CrossOrigin(allowedHeaders = {&quot;Authorization&quot;, &quot;Origin&quot;})</code></td>
+</tr>
+<tr>
+<td><code>exposedHeaders</code></td>
+<td>在实际响应标头中设置的标头列表。如果未指定，则只有安全列表中的标头才会被认为可以安全地由客户端脚本公开。  <strong>用法示例：</strong> <code>@CrossOrigin(exposedHeaders = {&quot;Access-Control-Allow-Origin&quot;,&quot;Access-Control-Allow-Credentials&quot;})</code></td>
+</tr>
+<tr>
+<td><code>allowCredentials</code></td>
+<td>当需要凭据来调用 API 时，请将 <code>Access-Control-Allow-Credentials</code> 标头值设置为 true。如果不需要凭据，请省略标头。  <strong>用法示例：</strong> <code>@CrossOrigin(allowCredentials = true)</code></td>
+</tr>
+<tr>
+<td><code>maxAge</code></td>
+<td>默认 <code>maxAge</code> 设置为 1800 秒（30 分钟）。指示预检响应可以缓存多长时间。  <strong>用法示例：</strong> <code>@CrossOrigin(maxAge = 300)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="如果不配置cors怎么办">如果不配置CORS怎么办？</h2>
+<p>考虑我们的 Spring Boot 应用程序尚未配置为 CORS 支持。如果我们尝试访问在端口 4200 上运行的 Angular 应用程序，我们会在开发人员控制台上看到以下错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Access to XMLHttpRequest at http://localhost:8091 
+</span></span><span class="line"><span class="cl">from origin http://localhost:4200 has been blocked by CORS policy: 
+</span></span><span class="line"><span class="cl">No &#39;Access-Control-Allow-Origin` header is present on the requested 
+</span></span><span class="line"><span class="cl">resource
+</span></span></code></pre></div><p><img loading="lazy" src="https://reflectoring.io/images/posts/configuring-cors-with-spring/cors-error_hu6933403b7320f6f893a41150b2491685_149954_1882x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<p>这是因为，即使两个应用程序均由 <code>localhost</code> 提供服务，但<a href="https://reflectoring.io/complete-guide-to-cors/#same-origin-vs-cross-origin">由于端口不同</a>，它们不会被视为同一来源。</p>
+<h2 id="在-spring-web-mvc-应用程序中配置-cors">在 Spring Web MVC 应用程序中配置 CORS</h2>
+<p>使用 Spring Initializr 创建的初始设置包含所有必需的 CORS 依赖项。无需添加外部依赖项。请参阅此<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring/SpringWebApplication">示例 Spring Web 应用程序项目</a>。</p>
+<h3 id="在类级别定义-crossorigin">在类级别定义 <code>@CrossOrigin</code></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="mi">3600</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;cors-library/managed/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LibraryController</span> <span class="o">{}</span>
+</span></span></code></pre></div><p>由于我们已经定义了 <code>@CrossOrigin</code> ：</p>
+<ul>
+<li>控制器中的所有 <code>@RequestMapping</code> 方法（以及使用速记注释 <code>@GetMapping</code> 、 <code>@PostMapping</code> 等的方法）都将接受跨域请求。</li>
+<li>自 <code>maxAge = 3600</code> 起，所有飞行前响应将被缓存 60 分钟。</li>
+</ul>
+<h3 id="在方法级别定义-crossorigin">在方法级别定义 <code>@CrossOrigin</code></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">origins</span> <span class="o">=</span> <span class="s">&#34;http://localhost:4200&#34;</span><span class="o">,</span> <span class="n">allowedHeaders</span> <span class="o">=</span> <span class="s">&#34;Requestor-Type&#34;</span><span class="o">,</span> <span class="n">exposedHeaders</span> <span class="o">=</span> <span class="s">&#34;X-Get-Header&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@GetMapping</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;</span> <span class="nf">getBooks</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HttpHeaders</span> <span class="n">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">headers</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">,</span> <span class="s">&#34;ExampleHeader&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">headers</span><span class="o">(</span><span class="n">headers</span><span class="o">).</span><span class="na">body</span><span class="o">(</span><span class="n">libraryService</span><span class="o">.</span><span class="na">getAllBooks</span><span class="o">(</span><span class="n">type</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这将产生以下效果：</p>
+<ul>
+<li>
+<p>仅接受来自来源 <code>http://localhost:4200</code> 的请求。</p>
+</li>
+<li>
+<p>如果我们希望只接受某些标头，则可以在 <code>allowedHeaders</code> 属性中指定这些标头。如果浏览器未发送 <code>Requestor-Type</code> 标头，则不会处理该请求。</p>
+</li>
+<li>
+<p>如果我们设置某些响应标头，为了让客户端应用程序能够使用它们，我们需要使用 <code>exposedHeaders</code> 属性显式设置要公开的响应标头列表。</p>
+</li>
+</ul>
+<h3 id="类和方法级别的-crossorigin-组合">类和方法级别的 <code>@CrossOrigin</code> 组合</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="mi">3600</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;cors-library/managed/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LibraryController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">LibraryController</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">LibraryService</span> <span class="n">libraryService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">LibraryController</span><span class="o">(</span><span class="n">LibraryService</span> <span class="n">libraryService</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">libraryService</span> <span class="o">=</span> <span class="n">libraryService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">origins</span> <span class="o">=</span> <span class="s">&#34;http://localhost:4200&#34;</span><span class="o">,</span> <span class="n">allowedHeaders</span> <span class="o">=</span> <span class="s">&#34;Requestor-Type&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;</span> <span class="nf">getBooks</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HttpHeaders</span> <span class="n">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">headers</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">,</span> <span class="s">&#34;ExampleHeader&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">headers</span><span class="o">(</span><span class="n">headers</span><span class="o">).</span><span class="na">body</span><span class="o">(</span><span class="n">libraryService</span><span class="o">.</span><span class="na">getAllBooks</span><span class="o">(</span><span class="n">type</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ul>
+<li>
+<p>通过在类和方法级别定义注释，其组合属性将应用于方法，即（ <code>origins</code> 、 <code>allowedHeaders</code> 、``）</p>
+</li>
+<li>
+<p>在上述所有情况下，我们可以使用 <code>@CrossOrigin</code> 定义全局 CORS cmaxAgeonconfiguration 和本地配置。对于接受多个值的属性，将应用全局值和本地值的组合（即它们被合并）。对于仅接受单个值的属性，本地值将优先于全局值。</p>
+</li>
+</ul>
+<h3 id="全局启用-cors">全局启用 CORS</h3>
+<p>我们可以定义一个适用于定义的所有资源的通用 CORS 配置，而不是分别向每个资源添加 CORS。</p>
+<p>在这里，我们将使用 <code>WebMvcConfigurer</code> ，它是 Spring Web MVC 库的一部分</p>
+<p>通过重写 <code>addCorsMapping()</code> 方法，我们将为 Spring Web MVC 处理的所有 URL 配置 CORS。</p>
+<p>为了全局定义相同的配置（如前几节所述），我们将使用 <code>application.yml</code> 中定义的配置参数来创建一个 bean，如下定义。</p>
+<p><code>application.yml</code> 中定义的属性（ <code>allowed-origins</code> 、 <code>allowed-methods</code> 、 <code>max-age</code> 、 <code>allowed-headers</code> 、 <code>exposed-headers</code> ) 是通过 <code>@ConfigurationProperties(prefix = &quot;web&quot;)</code> 映射到自定义类 Cors 的自定义属性</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">web</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cors</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">allowed-origins</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;http://localhost:4200&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">allowed-methods</span><span class="p">:</span><span class="w"> </span><span class="l">GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">max-age</span><span class="p">:</span><span class="w"> </span><span class="m">3600</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">allowed-headers</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Requestor-Type&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">exposed-headers</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;X-Get-Header&#34;</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">WebMvcConfigurer</span> <span class="nf">corsMappingConfigurer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">return</span> <span class="k">new</span> <span class="n">WebMvcConfigurer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">       <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">       <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCorsMappings</span><span class="o">(</span><span class="n">CorsRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">           <span class="n">WebConfigProperties</span><span class="o">.</span><span class="na">Cors</span> <span class="n">cors</span> <span class="o">=</span> <span class="n">webConfigProperties</span><span class="o">.</span><span class="na">getCors</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">           <span class="n">registry</span><span class="o">.</span><span class="na">addMapping</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">             <span class="o">.</span><span class="na">allowedOrigins</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedOrigins</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">             <span class="o">.</span><span class="na">allowedMethods</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedMethods</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">             <span class="o">.</span><span class="na">maxAge</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getMaxAge</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">             <span class="o">.</span><span class="na">allowedHeaders</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedHeaders</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">             <span class="o">.</span><span class="na">exposedHeaders</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getExposedHeaders</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">       <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="o">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><blockquote>
+<h4 id="corsconfiguration-默认值"><code>CorsConfiguration</code> 默认值</h4>
+<p>如果未显式定义一个或多个方法（ <code>allowedOrigins</code> 、 <code>allowedMethods</code> 、 <code>maxAge</code> 、 <code>allowedHeaders</code> 、 <code>exposedHeaders</code> ），则 <code>addMapping()</code> 返回一个 <code>CorsRegistration</code> 对象，该对象应用默认的 <code>CorsConfiguration</code> 。请参阅 Spring 库方法 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/cors/CorsConfiguration.html#applyPermitDefaultValues--">CorsConfiguration.applyPermitDefaultValues()</a> 以了解应用的默认值。</p>
+</blockquote>
+<h2 id="在-spring-webflux-应用程序中配置-cors">在 Spring Webflux 应用程序中配置 CORS</h2>
+<p>初始设置是使用 Spring Initializr 创建的，并使用 Spring Webflux、Spring Data R2DBC 和 H2 数据库。无需添加外部依赖项。请参阅<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring/SpringWebfluxApplication">此示例 Spring Webflux 项目</a>。</p>
+<h3 id="使用-crossorigin-进行-spring-webflux-的-cors-配置">使用 <code>@CrossOrigin</code> 进行 Spring Webflux 的 CORS 配置</h3>
+<p>与Spring MVC类似，在Spring Webflux中我们可以在类级别或方法级别定义 <code>@CrossOrigin</code> 。前面几节中描述的相同 <code>@CrossOrigin</code> 属性将适用。此外，当在类和方法中都定义了注释时，其组合属性将应用于方法。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">origins</span> <span class="o">=</span> <span class="s">&#34;http://localhost:4200&#34;</span><span class="o">,</span> <span class="n">allowedHeaders</span> <span class="o">=</span> <span class="s">&#34;Requestor-Type&#34;</span><span class="o">,</span> <span class="n">exposedHeaders</span> <span class="o">=</span> <span class="s">&#34;X-Get-Header&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@GetMapping</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Mono</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;&gt;</span> <span class="nf">getBooks</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HttpHeaders</span> <span class="n">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">headers</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">,</span> <span class="s">&#34;ExampleHeader&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">headers</span><span class="o">(</span><span class="n">headers</span><span class="o">).</span><span class="na">body</span><span class="o">(</span><span class="n">libraryService</span><span class="o">.</span><span class="na">getAllBooks</span><span class="o">(</span><span class="n">type</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="在-spring-webflux-中全局启用-cors-配置">在 Spring Webflux 中全局启用 CORS 配置</h3>
+<p>要在 Spring Webflux 应用程序中全局定义 CORS，我们使用 <code>WebfluxConfigurer</code> 并覆盖 <code>addCorsMappings()</code> 。与 Spring MVC 类似，它使用带有默认值的 <code>CorsConfiguration</code> ，可以根据需要覆盖默认值。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">WebFluxConfigurer</span> <span class="nf">corsMappingConfigurer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">WebFluxConfigurer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCorsMappings</span><span class="o">(</span><span class="n">CorsRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">WebConfigProperties</span><span class="o">.</span><span class="na">Cors</span> <span class="n">cors</span> <span class="o">=</span> <span class="n">webConfigProperties</span><span class="o">.</span><span class="na">getCors</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">registry</span><span class="o">.</span><span class="na">addMapping</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">allowedOrigins</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedOrigins</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">allowedMethods</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedMethods</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">maxAge</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getMaxAge</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">allowedHeaders</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedHeaders</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">exposedHeaders</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getExposedHeaders</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="使用-webfilter-启用-cors">使用 <code>WebFilter</code> 启用 CORS</h3>
+<p>Webflux 框架允许通过 <code>CorsWebFilter</code> 全局设置 CORS 配置。我们可以使用 <code>CorsConfiguration</code> 对象来设置所需的配置并注册要与过滤器一起使用的 <code>CorsConfigurationSource</code> 。</p>
+<p>但是，默认情况下，过滤器中的 <code>CorsConfiguration</code> 不会将默认配置分配给端点！只能应用指定的配置。</p>
+<p>另一种选择是显式调用 <code>CorsConfiguration.applyPermitDefaultValues()</code> 。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">CorsWebFilter</span> <span class="nf">corsWebFilter</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">CorsConfiguration</span> <span class="n">corsConfig</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CorsConfiguration</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">setAllowedOrigins</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;http://localhost:4200&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="mi">3600L</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedMethod</span><span class="o">(</span><span class="s">&#34;*&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedHeader</span><span class="o">(</span><span class="s">&#34;Requestor-Type&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">addExposedHeader</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">UrlBasedCorsConfigurationSource</span> <span class="n">source</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="n">UrlBasedCorsConfigurationSource</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">source</span><span class="o">.</span><span class="na">registerCorsConfiguration</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">,</span> <span class="n">corsConfig</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">CorsWebFilter</span><span class="o">(</span><span class="n">source</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="使用-spring-security-启用-cors">使用 Spring Security 启用 CORS</h2>
+<p>如果 Spring Security 应用于 Spring 应用程序，则必须在 Spring Security 生效之前处理 CORS，因为预检请求不会包含 cookie，并且 Spring Security 将拒绝该请求，因为它将确定用户未经过身份验证。这里显示的示例将演示基本身份验证。</p>
+<p>为了应用 Spring 安全性，我们将添加以下依赖 Maven：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>Gradle:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl">  <span class="n">implementation</span> <span class="s1">&#39;org.springframework.boot:spring-boot-starter-security&#39;</span>
+</span></span></code></pre></div><h3 id="spring-security-应用于-spring-web-mvc">Spring Security 应用于 Spring Web MVC</h3>
+<p>Spring security 默认保护每个端点。但是，这会导致 CORS 错误，因为浏览器的 <code>OPTIONS</code> 预检请求将被阻止。要使 Spring Security 绕过预检请求，我们需要将 <code>http.cors()</code> 添加到 <code>HTTPSecurity</code> 对象，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="n">BasicAuthConfigProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">BasicAuthConfigProperties</span> <span class="n">basicAuth</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">SecurityConfiguration</span><span class="o">(</span><span class="n">BasicAuthConfigProperties</span> <span class="n">basicAuth</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">basicAuth</span> <span class="o">=</span> <span class="n">basicAuth</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">cors</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>要在绕过预检请求后使用 Spring Security 设置额外的 CORS 配置，我们可以使用 <code>@CrossOrigin</code> 注释来配置 CORS：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="mi">3600</span><span class="o">,</span> <span class="n">allowCredentials</span> <span class="o">=</span> <span class="s">&#34;true&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;cors-library/managed/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LibraryController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">LibraryController</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">LibraryService</span> <span class="n">libraryService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">LibraryController</span><span class="o">(</span><span class="n">LibraryService</span> <span class="n">libraryService</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">libraryService</span> <span class="o">=</span> <span class="n">libraryService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">origins</span> <span class="o">=</span> <span class="s">&#34;http://localhost:4200&#34;</span><span class="o">,</span> <span class="n">allowedHeaders</span> <span class="o">=</span> <span class="o">{</span><span class="s">&#34;Requestor-Type&#34;</span><span class="o">,</span> <span class="s">&#34;Authorization&#34;</span><span class="o">},</span> <span class="n">exposedHeaders</span> <span class="o">=</span> <span class="s">&#34;X-Get-Header&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;</span> <span class="nf">getBooks</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HttpHeaders</span> <span class="n">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">headers</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">,</span> <span class="s">&#34;ExampleHeader&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">headers</span><span class="o">(</span><span class="n">headers</span><span class="o">).</span><span class="na">body</span><span class="o">(</span><span class="n">libraryService</span><span class="o">.</span><span class="na">getAllBooks</span><span class="o">(</span><span class="n">type</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>或者，我们可以创建一个 <code>CorsConfigurationSource</code> bean：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="n">CorsConfigurationSource</span> <span class="nf">corsConfigurationSource</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">CorsConfiguration</span> <span class="n">configuration</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CorsConfiguration</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setAllowedOrigins</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;http://localhost:4200&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setAllowedMethods</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;GET&#34;</span><span class="o">,</span><span class="s">&#34;POST&#34;</span><span class="o">,</span><span class="s">&#34;PATCH&#34;</span><span class="o">,</span> <span class="s">&#34;PUT&#34;</span><span class="o">,</span> <span class="s">&#34;DELETE&#34;</span><span class="o">,</span> <span class="s">&#34;OPTIONS&#34;</span><span class="o">,</span> <span class="s">&#34;HEAD&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setAllowCredentials</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setAllowedHeaders</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;Authorization&#34;</span><span class="o">,</span> <span class="s">&#34;Requestor-Type&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setExposedHeaders</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="mi">3600L</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">UrlBasedCorsConfigurationSource</span> <span class="n">source</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UrlBasedCorsConfigurationSource</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">source</span><span class="o">.</span><span class="na">registerCorsConfiguration</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">,</span> <span class="n">configuration</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">source</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="spring-security-应用于-spring-webflux">Spring Security 应用于 Spring Webflux</h3>
+<p>对于 Webflux，尽管使用 Spring Security，将 CORS 配置应用于传入请求的最首选方法是使用 <code>CorsWebFilter</code> 。我们可以禁用 CORS 与 Spring security 的集成，而是通过提供 <code>CorsConfigurationSource</code> 与 <code>CorsWebFilter</code> 集成：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebFluxSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="n">BasicAuthConfigProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">BasicAuthConfigProperties</span> <span class="n">basicAuth</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">SecurityConfiguration</span><span class="o">(</span><span class="n">BasicAuthConfigProperties</span> <span class="n">basicAuth</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">basicAuth</span> <span class="o">=</span> <span class="n">basicAuth</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityWebFilterChain</span> <span class="nf">securityWebFilterChain</span><span class="o">(</span><span class="n">ServerHttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">cors</span><span class="o">(</span><span class="n">cors</span> <span class="o">-&gt;</span> <span class="n">cors</span><span class="o">.</span><span class="na">disable</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">securityMatcher</span><span class="o">(</span><span class="k">new</span> <span class="n">PathPatternParserServerWebExchangeMatcher</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">authorizeExchange</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">anyExchange</span><span class="o">().</span><span class="na">authenticated</span><span class="o">().</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">httpBasic</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">MapReactiveUserDetailsService</span> <span class="nf">userDetailsService</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">UserDetails</span> <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="na">withDefaultPasswordEncoder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">username</span><span class="o">(</span><span class="n">basicAuth</span><span class="o">.</span><span class="na">getUsername</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">password</span><span class="o">(</span><span class="n">basicAuth</span><span class="o">.</span><span class="na">getPassword</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">roles</span><span class="o">(</span><span class="s">&#34;USER&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">MapReactiveUserDetailsService</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">CorsConfigurationSource</span> <span class="nf">corsConfiguration</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CorsConfiguration</span> <span class="n">corsConfig</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CorsConfiguration</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">applyPermitDefaultValues</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">setAllowCredentials</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedMethod</span><span class="o">(</span><span class="s">&#34;GET&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedMethod</span><span class="o">(</span><span class="s">&#34;PATCH&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedMethod</span><span class="o">(</span><span class="s">&#34;POST&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedMethod</span><span class="o">(</span><span class="s">&#34;OPTIONS&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">setAllowedOrigins</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;http://localhost:4200&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">setAllowedHeaders</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;Authorization&#34;</span><span class="o">,</span> <span class="s">&#34;Requestor-Type&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">setExposedHeaders</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">UrlBasedCorsConfigurationSource</span> <span class="n">source</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">                <span class="k">new</span> <span class="n">UrlBasedCorsConfigurationSource</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">source</span><span class="o">.</span><span class="na">registerCorsConfiguration</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">,</span> <span class="n">corsConfig</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">source</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">CorsWebFilter</span> <span class="nf">corsWebFilter</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">CorsWebFilter</span><span class="o">(</span><span class="n">corsConfiguration</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="结论">结论</h2>
+<p>简而言之，CORS 配置取决于多个因素：</p>
+<ul>
+<li>Spring Web / Spring Webflux</li>
+<li>本地/全局 CORS 配置</li>
+<li>是否使用 Spring Security</li>
+</ul>
+<p>根据框架，我们可以决定哪种方法效果最好并且最容易实现，这样我们就可以避免 CORS 错误。您可以使用 <a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring">GitHub 上的示例应用程序</a>。</p>
+<p>原文链接：<a href="https://reflectoring.io/spring-cors/">https://reflectoring.io/spring-cors/</a></p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

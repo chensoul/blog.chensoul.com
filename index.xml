@@ -6,7 +6,1418 @@
     <description>Recent content on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 26 Jul 2023 07:05:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 26 Jul 2023 08:30:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[译]Spring Boot异常处理完整指南</title>
+      <link>https://blog.chensoul.com/posts/2023/07/26/spring-boot-exception-handling/</link>
+      <pubDate>Wed, 26 Jul 2023 08:30:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/07/26/spring-boot-exception-handling/</guid>
+      <description>处理异常是构建健壮应用程序的重要部分。 Spring Boot 提供了不止一种方法。 本文将探讨这些方法，并提供一些关于何时某种给定方法可能优于另一种方法的指导。 示</description>
+      <content:encoded><![CDATA[<p>处理异常是构建健壮应用程序的重要部分。 Spring Boot 提供了不止一种方法。</p>
+<p>本文将探讨这些方法，并提供一些关于何时某种给定方法可能优于另一种方法的指导。</p>
+<h2 id="示例代码">示例代码</h2>
+<p>本文附有 GitHub 上的工作<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/exception-handling">代码示例</a>。</p>
+<h2 id="介绍">介绍</h2>
+<p>Spring Boot 为我们提供了处理异常的工具，而不仅仅是简单的“try-catch”块。为了使用这些工具，我们应用了一些注释，使我们能够将异常处理视为横切关注点：</p>
+<ul>
+<li><a href="https://reflectoring.io/spring-boot-exception-handling/#responsestatus"><code>@ResponseStatus</code></a></li>
+<li><a href="https://reflectoring.io/spring-boot-exception-handling/#exceptionhandler"><code>@ExceptionHandler</code></a></li>
+<li><a href="https://reflectoring.io/spring-boot-exception-handling/#controlleradvice"><code>@ControllerAdvice</code></a></li>
+</ul>
+<p>在深入了解这些注释之前，我们将首先了解 Spring 如何处理 Web 控制器抛出的异常——这是捕获异常的最后一道防线。</p>
+<p>我们还将查看 Spring Boot 提供的一些配置来修改默认行为。</p>
+<p>我们将确定这样做时面临的挑战，然后我们将尝试使用这些注释来克服这些挑战。</p>
+<h2 id="spring-boot默认的异常处理机制">Spring Boot默认的异常处理机制</h2>
+<p>假设我们有一个名为 <code>ProductController</code> 的控制器，当未找到具有给定 id 的 <code>Product</code> 时，其 <code>getProduct(...)</code> 方法会抛出 <code>NoSuchElementFoundException</code> 运行时异常：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/product&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductService</span> <span class="n">productService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//constructor omitted for brevity...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Response</span> <span class="nf">getProduct</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="n">String</span> <span class="n">id</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// this method throws a &#34;NoSuchElementFoundException&#34; exception
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">productService</span><span class="o">.</span><span class="na">getProduct</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果我们使用无效的 <code>id</code> 调用 <code>/product</code> API，服务将抛出 <code>NoSuchElementFoundException</code> 运行时异常，我们将得到以下响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2020-11-28T13:24:02.239+00:00&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;error&#34;</span><span class="p">:</span> <span class="s2">&#34;Internal Server Error&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;path&#34;</span><span class="p">:</span> <span class="s2">&#34;/product/1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>我们可以看到，除了格式良好的错误响应之外，有效负载没有为我们提供任何有用的信息。甚至 <code>message</code> 字段也是空的，我们可能希望包含“未找到 id 1 的项目”之类的内容。</p>
+<p>让我们从修复错误消息问题开始。</p>
+<p>Spring Boot 提供了一些属性，我们可以使用它们添加异常消息、异常类，甚至堆栈跟踪作为响应负载的一部分：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">server</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">error</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">include-message</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">include-binding-errors</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">include-stacktrace</span><span class="p">:</span><span class="w"> </span><span class="l">on_trace_param</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">include-exception</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span></code></pre></div><p>在 <code>application.yml</code> 中使用这些 <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#server-properties">Spring Boot 服务器属性</a>，我们可以在某种程度上改变错误响应。</p>
+<p>现在，如果我们使用无效的 <code>id</code> 再次调用 <code>/product</code> API，我们将得到以下响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2020-11-29T09:42:12.287+00:00&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;error&#34;</span><span class="p">:</span> <span class="s2">&#34;Internal Server Error&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="s2">&#34;Item with id 1 not found&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;path&#34;</span><span class="p">:</span> <span class="s2">&#34;/product/1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><p>请注意，我们已将属性 <code>include-stacktrace</code> 设置为 <code>on_trace_param</code> ，这意味着仅当我们在 URL ( <code>?trace=true</code> ) 中包含 <code>trace</code> 参数时，我们才会在响应负载中获得堆栈跟踪：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2020-11-29T09:42:12.287+00:00&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;error&#34;</span><span class="p">:</span> <span class="s2">&#34;Internal Server Error&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="s2">&#34;Item with id 1 not found&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;trace&#34;</span><span class="p">:</span> <span class="s2">&#34;io.reflectoring.exception.exception.NoSuchElementFoundException: Item with id 1 not found...&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;path&#34;</span><span class="p">:</span> <span class="s2">&#34;/product/1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><p>我们可能希望将 <code>include-stacktrace</code> 标志的值保留为 <code>never</code> ，至少在生产中，因为它可能会揭示我们应用程序的内部工作原理。</p>
+<p>继续！状态和错误消息 - <code>500</code> - 表明我们的服务器代码有问题，但实际上这是客户端错误，因为客户端提供了无效的 ID。</p>
+<p>我们当前的状态代码没有正确反映这一点。不幸的是，这就是我们可以使用 <code>server.error</code> 配置属性的范围，因此我们必须查看 Spring Boot 提供的注释。</p>
+<h2 id="responsestatus"><code>@ResponseStatus</code></h2>
+<p>顾名思义， <code>@ResponseStatus</code> 允许我们修改响应的 HTTP 状态。它可以应用在以下地方：</p>
+<ul>
+<li>关于异常类本身</li>
+<li>以及方法上的 <code>@ExceptionHandler</code> 注释</li>
+<li>以及类上的 <code>@ControllerAdvice</code> 注释</li>
+</ul>
+<p>在本节中，我们将仅讨论第一种情况。</p>
+<p>让我们回到当前的问题，即我们的错误响应总是给我们 HTTP 状态 500，而不是更具描述性的状态代码。</p>
+<p>为了解决这个问题，我们可以用 <code>@ResponseStatus</code> 注释我们的 Exception 类，并在其 <code>value</code> 属性中传入所需的 HTTP 响应状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NoSuchElementFoundException</span> <span class="kd">extends</span> <span class="n">RuntimeException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果我们使用无效 ID 调用控制器，此更改将带来更好的响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2020-11-29T09:42:12.287+00:00&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="mi">404</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;error&#34;</span><span class="p">:</span> <span class="s2">&#34;Not Found&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="s2">&#34;Item with id 1 not found&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;path&#34;</span><span class="p">:</span> <span class="s2">&#34;/product/1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><p>实现相同目的的另一种方法是扩展 <code>ResponseStatusException</code> 类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NoSuchElementFoundException</span> <span class="kd">extends</span> <span class="n">ResponseStatusException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="nf">NoSuchElementFoundException</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">super</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">,</span> <span class="n">message</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">HttpHeaders</span> <span class="nf">getResponseHeaders</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// return response headers
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>当我们想要操作响应头时，这种方法会派上用场，因为我们可以重写 <code>getResponseHeaders()</code> 方法。</p>
+<p><code>@ResponseStatus</code> 与 <code>server.error</code> 配置属性相结合，使我们能够操作 Spring 定义的错误响应负载中的几乎所有字段。</p>
+<p>但是如果还想操纵响应负载的结构怎么办？</p>
+<p>让我们在下一节中看看如何实现这一目标。</p>
+<h2 id="exceptionhandler"><code>@ExceptionHandler</code></h2>
+<p><code>@ExceptionHandler</code> 注释在处理异常方面为我们提供了很大的灵活性。对于初学者来说，要使用它，我们只需在控制器本身或 <code>@ControllerAdvice</code> 类中创建一个方法，并用 <code>@ExceptionHandler</code> 注释它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/product&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductController</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductService</span> <span class="n">productService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">//constructor omitted for brevity...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Response</span> <span class="nf">getProduct</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">productService</span><span class="o">.</span><span class="na">getProduct</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="n">NoSuchElementFoundException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">handleNoSuchElementFoundException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">NoSuchElementFoundException</span> <span class="n">exception</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ResponseEntity</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">exception</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>异常处理程序方法接受一个异常或异常列表作为我们要在定义的方法中处理的参数。我们用 <code>@ExceptionHandler</code> 和 <code>@ResponseStatus</code> 注释该方法来定义我们想要处理的异常和我们想要返回的状态代码。</p>
+<p>如果我们不想使用这些注释，那么只需将异常定义为方法的参数也可以：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ExceptionHandler</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">handleNoSuchElementFoundException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NoSuchElementFoundException</span> <span class="n">exception</span><span class="o">)</span>
+</span></span></code></pre></div><p>尽管我们已经在方法签名中提到了它，但在注释中提及异常类是个好主意。它提供了更好的可读性。</p>
+<p>此外，处理程序方法上的注释 <code>@ResponseStatus(HttpStatus.NOT_FOUND)</code> 不是必需的，因为传递到 <code>ResponseEnity</code> 的 HTTP 状态将优先，但出于相同的可读性原因，我们仍然保留它。</p>
+<p>除了异常参数之外，我们还可以使用 <code>HttpServletRequest</code> 、 <code>WebRequest</code> 或 <code>HttpSession</code> 类型作为参数。</p>
+<p>同样，处理程序方法支持各种返回类型，例如 <code>ResponseEntity</code> 、 <code>String</code> 甚至 <code>void</code> 。</p>
+<p>在 <code>@ExceptionHandler</code> <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ExceptionHandler.html">java 文档</a>中查找更多输入和返回类型。</p>
+<p>在异常处理函数中，我们可以通过输入参数和返回类型的形式使用许多不同的选项，因此我们可以完全控制错误响应。</p>
+<p>现在，让我们最终确定 API 的错误响应负载。如果出现任何错误，客户通常会期望两件事：</p>
+<ul>
+<li>
+<p>错误代码告诉客户端它是什么类型的错误。客户端可以在其代码中使用错误代码来驱动基于它的某些业务逻辑。通常，错误代码是标准的 HTTP 状态代码，但我也看到 API 返回自定义错误代码，例如 <code>E001</code> 。</p>
+</li>
+<li>
+<p>一条附加的人类可读消息，提供有关错误的更多信息，甚至提供有关如何修复错误的一些提示或 API 文档的链接。</p>
+</li>
+</ul>
+<p>我们还将添加一个可选的 <code>stackTrace</code> 字段，这将帮助我们在开发环境中进行调试。</p>
+<p>最后，我们还想处理响应中的验证错误。您可以在这篇有关使用 Spring Boot 处理验证的文章中找到有关 bean 验证的更多信息。</p>
+<p>记住这些点，我们将为错误响应使用以下有效负载：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Getter</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Setter</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequiredArgsConstructor</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@JsonInclude</span><span class="o">(</span><span class="n">JsonInclude</span><span class="o">.</span><span class="na">Include</span><span class="o">.</span><span class="na">NON_NULL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ErrorResponse</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">status</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">message</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">String</span> <span class="n">stackTrace</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">ValidationError</span><span class="o">&gt;</span> <span class="n">errors</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Getter</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@Setter</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequiredArgsConstructor</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ValidationError</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">field</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">message</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addValidationError</span><span class="o">(</span><span class="n">String</span> <span class="n">field</span><span class="o">,</span> <span class="n">String</span> <span class="n">message</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="o">(</span><span class="n">Objects</span><span class="o">.</span><span class="na">isNull</span><span class="o">(</span><span class="n">errors</span><span class="o">)){</span>
+</span></span><span class="line"><span class="cl">      <span class="n">errors</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">errors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ValidationError</span><span class="o">(</span><span class="n">field</span><span class="o">,</span> <span class="n">message</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，让我们将所有这些应用到 <code>NoSuchElementFoundException</code> 处理程序方法中。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/product&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@AllArgsConstructor</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">TRACE</span> <span class="o">=</span> <span class="s">&#34;trace&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${reflectoring.trace:false}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">printStackTrace</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">ProductService</span> <span class="n">productService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Product</span> <span class="nf">getProduct</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="n">String</span> <span class="n">id</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">productService</span><span class="o">.</span><span class="na">getProduct</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@PostMapping</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Product</span> <span class="nf">addProduct</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="nd">@Valid</span> <span class="n">ProductInput</span> <span class="n">input</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">productService</span><span class="o">.</span><span class="na">addProduct</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="n">NoSuchElementFoundException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorResponse</span><span class="o">&gt;</span> <span class="nf">handleItemNotFoundException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">NoSuchElementFoundException</span> <span class="n">exception</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">WebRequest</span> <span class="n">request</span>
+</span></span><span class="line"><span class="cl">  <span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Failed to find the requested element&#34;</span><span class="o">,</span> <span class="n">exception</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">buildErrorResponse</span><span class="o">(</span><span class="n">exception</span><span class="o">,</span> <span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="n">MethodArgumentNotValidException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">UNPROCESSABLE_ENTITY</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorResponse</span><span class="o">&gt;</span> <span class="nf">handleMethodArgumentNotValid</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">MethodArgumentNotValidException</span> <span class="n">ex</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">WebRequest</span> <span class="n">request</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ErrorResponse</span> <span class="n">errorResponse</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ErrorResponse</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HttpStatus</span><span class="o">.</span><span class="na">UNPROCESSABLE_ENTITY</span><span class="o">.</span><span class="na">value</span><span class="o">(),</span> 
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;Validation error. Check &#39;errors&#39; field for details.&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="n">FieldError</span> <span class="n">fieldError</span> <span class="o">:</span> <span class="n">ex</span><span class="o">.</span><span class="na">getBindingResult</span><span class="o">().</span><span class="na">getFieldErrors</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">errorResponse</span><span class="o">.</span><span class="na">addValidationError</span><span class="o">(</span><span class="n">fieldError</span><span class="o">.</span><span class="na">getField</span><span class="o">(),</span> 
+</span></span><span class="line"><span class="cl">          <span class="n">fieldError</span><span class="o">.</span><span class="na">getDefaultMessage</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">unprocessableEntity</span><span class="o">().</span><span class="na">body</span><span class="o">(</span><span class="n">errorResponse</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="n">Exception</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">INTERNAL_SERVER_ERROR</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorResponse</span><span class="o">&gt;</span> <span class="nf">handleAllUncaughtException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Exception</span> <span class="n">exception</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">WebRequest</span> <span class="n">request</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Unknown error occurred&#34;</span><span class="o">,</span> <span class="n">exception</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">buildErrorResponse</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">exception</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;Unknown error occurred&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">HttpStatus</span><span class="o">.</span><span class="na">INTERNAL_SERVER_ERROR</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">request</span>
+</span></span><span class="line"><span class="cl">    <span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorResponse</span><span class="o">&gt;</span> <span class="nf">buildErrorResponse</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Exception</span> <span class="n">exception</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">HttpStatus</span> <span class="n">httpStatus</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">WebRequest</span> <span class="n">request</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">buildErrorResponse</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">exception</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">exception</span><span class="o">.</span><span class="na">getMessage</span><span class="o">(),</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">httpStatus</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorResponse</span><span class="o">&gt;</span> <span class="nf">buildErrorResponse</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Exception</span> <span class="n">exception</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">String</span> <span class="n">message</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">HttpStatus</span> <span class="n">httpStatus</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">WebRequest</span> <span class="n">request</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ErrorResponse</span> <span class="n">errorResponse</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ErrorResponse</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">httpStatus</span><span class="o">.</span><span class="na">value</span><span class="o">(),</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">exception</span><span class="o">.</span><span class="na">getMessage</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="o">(</span><span class="n">printStackTrace</span> <span class="o">&amp;&amp;</span> <span class="n">isTraceOn</span><span class="o">(</span><span class="n">request</span><span class="o">)){</span>
+</span></span><span class="line"><span class="cl">      <span class="n">errorResponse</span><span class="o">.</span><span class="na">setStackTrace</span><span class="o">(</span><span class="n">ExceptionUtils</span><span class="o">.</span><span class="na">getStackTrace</span><span class="o">(</span><span class="n">exception</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="n">httpStatus</span><span class="o">).</span><span class="na">body</span><span class="o">(</span><span class="n">errorResponse</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isTraceOn</span><span class="o">(</span><span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="o">[]</span> <span class="n">value</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameterValues</span><span class="o">(</span><span class="n">TRACE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Objects</span><span class="o">.</span><span class="na">nonNull</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">&amp;&amp;</span> <span class="n">value</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">        <span class="o">&amp;&amp;</span> <span class="n">value</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">contentEquals</span><span class="o">(</span><span class="s">&#34;true&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这里需要注意几点：</p>
+<h3 id="提供堆栈跟踪">提供堆栈跟踪</h3>
+<p>在错误响应中提供堆栈跟踪可以使我们的开发人员和 QA 工程师免去爬行日志文件的麻烦。</p>
+<p>正如我们在 <a href="https://reflectoring.io/spring-boot-exception-handling/#spring-boots-default-exception-handling-mechanism">Spring Boot 的默认异常处理机制</a>中看到的，Spring 已经为我们提供了这个功能。但现在，由于我们自己处理错误响应，因此这也需要我们自己处理。</p>
+<p>为了实现这一点，我们首先引入了一个名为 <code>reflectoring.trace</code> 的服务器端配置属性，如果将其设置为 <code>true</code> ，为了实现此目的，我们首先引入了一个名为 <code>reflectoring.trace</code> 的服务器端配置属性，如果将其设置为 <code>true</code> ，将启用响应中的 <code>stackTrace</code> 字段。要实际在 API 响应中获取 <code>stackTrace</code> ，我们的客户端还必须传递带有值 <code>true</code> 的 <code>trace</code> 参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl --location --request GET <span class="s1">&#39;http://localhost:8080/product/1?trace=true&#39;</span>
+</span></span></code></pre></div><p>现在，由于 <code>stackTrace</code> 的行为由属性文件中的功能标志控制，因此当我们在生产环境中部署时，我们可以将其删除或将其设置为 <code>false</code> 。</p>
+<h3 id="捕获所有异常处理程序">捕获所有异常处理程序</h3>
+<p><em>需要把他们全都抓到：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">try</span><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">performSomeOperation</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="n">OperationSpecificException</span> <span class="n">ex</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="n">Exception</span> <span class="n">catchAllExcetion</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//...  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>作为一项谨慎措施，我们经常用一个包罗万象的 try-catch 异常处理程序块包围顶级方法的主体，以避免任何不需要的副作用或行为。我们控制器中的 <code>handleAllUncaughtException()</code> 方法的行为类似。它将捕获我们没有特定处理程序的所有异常。</p>
+<p>我想在这里指出的一件事是，即使我们没有这个包罗万象的异常处理程序，Spring 也会处理它。但我们希望响应采用我们的格式而不是 Spring 的格式，因此我们必须自己处理异常。</p>
+<p>包罗万象的处理程序方法也是记录异常的好地方，因为它们可以深入了解可能的错误。我们可以跳过记录字段验证异常，例如 <code>MethodArgumentNotValidException</code> ，因为它们是由于语法上无效的输入而引发的，但我们应该始终在捕获所有处理程序中记录未知异常。</p>
+<h3 id="异常处理程序的顺序">异常处理程序的顺序</h3>
+<p>提及处理程序方法的顺序并不重要。 Spring将首先寻找最具体的异常处理方法。</p>
+<p>如果找不到它，那么它将查找父异常的处理程序，在我们的例子中是 <code>RuntimeException</code> ，如果没有找到，则 <code>handleAllUncaughtException()</code> 方法将最终处理该异常。</p>
+<p>这应该可以帮助我们处理这个特定控制器中的异常，但是如果其他控制器也抛出这些相同的异常怎么办？我们如何处理这些？我们是否在所有控制器中创建相同的处理程序，或者创建具有公共处理程序的基类并在所有控制器中扩展它？</p>
+<p>幸运的是，我们不必这样做。 Spring 以“控制器建议”的形式为这个问题提供了一个非常优雅的解决方案。</p>
+<p>让我们研究一下它们。</p>
+<h2 id="controlleradvice"><code>@ControllerAdvice</code></h2>
+<blockquote>
+<p><strong>为什么称为“控制器建议”？</strong></p>
+<p>“建议”一词来自面向方面编程 (AOP)，它允许我们围绕现有方法注入横切代码（称为“建议”）。控制器建议允许我们拦截和修改控制器方法的返回值，在我们的例子中是为了处理异常。</p>
+</blockquote>
+<p>控制器建议类允许我们将异常处理程序应用于应用程序中的多个或所有控制器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ControllerAdvice</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GlobalExceptionHandler</span> <span class="kd">extends</span> <span class="n">ResponseEntityExceptionHandler</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">TRACE</span> <span class="o">=</span> <span class="s">&#34;trace&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${reflectoring.trace:false}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">printStackTrace</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">UNPROCESSABLE_ENTITY</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">protected</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleMethodArgumentNotValid</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">MethodArgumentNotValidException</span> <span class="n">ex</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">HttpHeaders</span> <span class="n">headers</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">HttpStatus</span> <span class="n">status</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">WebRequest</span> <span class="n">request</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">//Body omitted as it&#39;s similar to the method of same name
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// in ProductController example...  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//.....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="n">ItemNotFoundException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleItemNotFoundException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ItemNotFoundException</span> <span class="n">itemNotFoundException</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">WebRequest</span> <span class="n">request</span>
+</span></span><span class="line"><span class="cl">  <span class="o">){</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">//Body omitted as it&#39;s similar to the method of same name
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// in ProductController example...  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//.....  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="n">RuntimeException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">INTERNAL_SERVER_ERROR</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleAllUncaughtException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">RuntimeException</span> <span class="n">exception</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">WebRequest</span> <span class="n">request</span>
+</span></span><span class="line"><span class="cl">  <span class="o">){</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">//Body omitted as it&#39;s similar to the method of same name
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// in ProductController example...  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//.....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">//....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleExceptionInternal</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Exception</span> <span class="n">ex</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Object</span> <span class="n">body</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">HttpHeaders</span> <span class="n">headers</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">HttpStatus</span> <span class="n">status</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">buildErrorResponse</span><span class="o">(</span><span class="n">ex</span><span class="o">,</span><span class="n">status</span><span class="o">,</span><span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>处理函数的主体和其他支持代码被省略，因为它们与我们在 @ExceptionHandler 部分看到的代码几乎相同。请在 Github Repo 的 <a href="https://github.com/thombergs/code-examples/blob/master/spring-boot/exception-handling/src/main/java/io/reflectoring/exception/exception/GlobalExceptionHandler.java">GlobalExceptionHandler</a> 类中找到完整的代码。</p>
+<p>有几件事是新的，我们稍后会讨论。这里的一个主要区别是这些处理程序将处理应用程序中所有控制器抛出的异常，而不仅仅是 <code>ProductController</code> 。</p>
+<p>如果我们想有选择地将控制器建议的范围应用或限制到特定控制器或包，我们可以使用注释提供的属性：</p>
+<ul>
+<li><code>@ControllerAdvice(&quot;com.reflectoring.controller&quot;)</code> ：我们可以在注释的 <code>value</code> 或 <code>basePackages</code> 参数中传递包名称或包名称列表。这样，控制器建议将仅处理该包控制器的异常。</li>
+<li><code>@ControllerAdvice(annotations = Advised.class)</code> ：只有标有 <code>@Advised</code> 注释的控制器才会由控制器建议处理。</li>
+</ul>
+<p>在 <code>@ControllerAdvice</code> <a href="https://www.javadoc.io/doc/org.springframework/spring-web/4.3.8.RELEASE/org/springframework/web/bind/annotation/ControllerAdvice.html">注释文档</a>中查找其他参数。</p>
+<h3 id="responseentityexceptionhandler"><code>ResponseEntityExceptionHandler</code></h3>
+<p><code>ResponseEntityExceptionHandler</code> 是控制器建议类的便捷基类。它为内部 Spring 异常提供异常处理程序。如果我们不扩展它，那么所有异常将被重定向到 <code>DefaultHandlerExceptionResolver</code> ，它返回一个 <code>ModelAndView</code> 对象。因为我们的使命是塑造我们自己的错误响应，所以我们不希望这样。</p>
+<p>正如您所看到的，我们重写了两个 <code>ResponseEntityExceptionHandler</code> 方法：</p>
+<ul>
+<li><code>handleMethodArgumentNotValid()</code> ：在 @ExceptionHandler 部分，我们自己实现了一个处理程序。在这里我们只是覆盖了它的行为。</li>
+<li><code>handleExceptionInternal()</code> ： <code>ResponseEntityExceptionHandler</code> 中的所有处理程序都使用此函数来构建类似于 <code>buildErrorResponse()</code> 的 <code>ResponseEntity</code> 。如果我们不重写此方法，那么客户端将仅收到响应标头中的 HTTP 状态，但由于我们也希望在响应正文中包含 HTTP 状态，因此我们重写了该方法。</li>
+</ul>
+<blockquote>
+<h4 id="处理-nohandlerfoundexception-需要一些额外的步骤">处理 <code>NoHandlerFoundException</code> 需要一些额外的步骤</h4>
+<p>当您尝试调用系统中不存在的API时，会出现此异常。尽管我们通过 <code>ResponseEntityExceptionHandler</code> 类实现其处理程序，但异常仍被重定向到 <code>DefaultHandlerExceptionResolver</code> 。</p>
+<p>要将异常重定向到我们的建议，我们需要在属性文件中设置几个属性： <code>spring.mvc.throw-exception-if-no-handler-found=true</code> 和 <code>spring.web.resources.add-mappings=false</code></p>
+</blockquote>
+<h3 id="使用-controlleradvice-时要记住的一些要点">使用 <code>@ControllerAdvice</code> 时要记住的一些要点</h3>
+<ul>
+<li>
+<p>为了简单起见，项目中始终只有一个控制器建议类。最好有一个应用程序中所有异常的单一存储库。如果您创建多个控制器建议，请尝试使用 <code>basePackages</code> 或 <code>annotations</code> 属性来明确它将建议哪些控制器。</p>
+</li>
+<li>
+<p>Spring 可以按任何顺序处理控制器建议类，除非我们使用 <code>@Order</code> 注释对其进行注释。因此，如果您有多个控制器建议，那么在编写一个包罗万象的处理程序时要小心。特别是当您没有在注释中指定 <code>basePackages</code> 或 <code>annotations</code> 时。</p>
+</li>
+</ul>
+<h2 id="spring如何处理异常">Spring如何处理异常？</h2>
+<p>现在我们已经介绍了 Spring 中处理异常的可用机制，让我们简要了解 Spring 如何处理它以及何时一种机制优先于另一种机制。</p>
+<p>如果我们还没有构建自己的异常处理程序，请看下面的流程图，它跟踪了 Spring 异常处理的过程：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/spring-exception-handling/spring-exception-handling-mechanism_hubae3aff6e8617ef25d3790cb826a42d7_144133_2512x0_resize_box_3.png" alt="Spring Exception Handling Flow"  />
+</p>
+<h2 id="结论">结论</h2>
+<p>当异常跨越控制器的边界时，它注定会以 JSON 响应或 HTML 网页的形式到达客户端。</p>
+<p>在本文中，我们了解了 Spring Boot 如何将这些异常转换为客户友好的输出，以及配置和注释，使我们能够将它们进一步塑造成我们想要的形状。</p>
+<p>感谢您的阅读！您可以在 GitHub 上找到工作代码。</p>
+<p>原文链接：<a href="https://reflectoring.io/spring-boot-exception-handling/">https://reflectoring.io/spring-boot-exception-handling/</a></p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>[译]使用 Spring 的 Null-Safety 注解保护您的代码免受 NullPointerExceptions 的影响</title>
+      <link>https://blog.chensoul.com/posts/2023/07/26/spring-boot-null-safety-annotations/</link>
+      <pubDate>Wed, 26 Jul 2023 08:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/07/26/spring-boot-null-safety-annotations/</guid>
+      <description>NullPointerExceptions （通常缩写为“NPE”）对于每个 Java 程序员来说都是一场噩梦。 我们可以在互联网上找到大量解释如何编写空安全代码的文章。空安全确保我们在代码中添</description>
+      <content:encoded><![CDATA[<p><code>NullPointerExceptions</code> （通常缩写为“NPE”）对于每个 Java 程序员来说都是一场噩梦。</p>
+<p>我们可以在互联网上找到大量解释如何编写空安全代码的文章。空安全确保我们在代码中添加了适当的检查，以保证对象引用不能为空，或者毕竟在对象为空时采取可能的安全措施。</p>
+<p>由于 <code>NullPointerException</code> 是一个运行时异常，因此在代码编译过程中很难找出这种情况。 Java 的类型系统没有办法快速消除危险的空对象引用。</p>
+<p>幸运的是，Spring 框架提供了一些注释来解决这个问题。在本文中，我们将学习如何使用这些注释通过 <a href="https://reflectoring.io/categories/spring-boot/">Spring Boot</a> 编写空安全代码。</p>
+<h2 id="示例代码">示例代码</h2>
+<p>本文附有 GitHub 上的工作<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/spring-boot-null-safe-annotations">代码示例</a>。</p>
+<h2 id="spring-中的空安全注解">Spring 中的空安全注解</h2>
+<p>在Spring核心包 <code>org.springframework.lang</code> 下，有4个这样的注解：</p>
+<ul>
+<li><code>@NonNull</code>, <code>@NonNull</code> ，</li>
+<li><code>@NonNullFields</code>, <code>@NonNullFields</code> ，</li>
+<li><code>@Nullable</code>,</li>
+<li><code>@NonNullApi</code>.</li>
+</ul>
+<p>Eclipse 和 IntelliJ IDEA 等流行的 IDE 可以理解这些注释。它们可以在编译期间警告开发人员潜在的问题。</p>
+<p>我们将在本教程中使用 IntelliJ IDEA。让我们通过一些代码示例来了解更多信息。</p>
+<p>要创建基础项目，我们可以使用 Spring Initializr。 Spring Boot启动器就是我们所需要的，不需要添加任何额外的依赖项。</p>
+<h2 id="ide配置">IDE配置</h2>
+<p><strong>请注意，并非所有开发工具都可以显示这些编译警告。如果您没有看到相关警告，请检查 IDE 中的编译器设置。</strong></p>
+<h3 id="intellij">IntelliJ</h3>
+<p>对于 IntelliJ，我们可以在“Build, Execution, Deployment -&gt; Compiler”下激活注释检查：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/spring-boot-null-safety-annotations/intellij-compiler-settings_hud188e08fdc0139feec7b91a21ff944e5_145688_1866x0_resize_box_3.png" alt="IntelliJ compiler config"  />
+</p>
+<h3 id="eclipse">Eclipse</h3>
+<p>对于 Eclipse，我们可以在“Java -&gt; Compiler -&gt; Errors/Warnings”下找到设置：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/spring-boot-null-safety-annotations/eclipse-compiler-settings_hu8534a04dde40f239dc7f4772e1ef3337_850180_2084x0_resize_box_3.png" alt="Eclipse compiler config"  />
+</p>
+<h2 id="示例代码-1">示例代码</h2>
+<p>让我们使用一个简单的 <code>Employee</code> 类来理解注释：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">io.reflectoring.nullsafety</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// imports 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Employee</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">LocalDate</span> <span class="n">joiningDate</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="n">pastEmployment</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// standard constructor, getters, setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h2 id="nonnull"><code>@NonNull</code></h2>
+<p>大多数情况下， <code>id</code> 字段（在 <code>Employee</code> 类中）将是一个不可为 null 的值。因此，为了避免任何潜在的 <code>NullPointerException</code> 我们可以将此字段标记为 <code>@NonNull</code> ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Employee</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@NonNull</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>现在，如果我们不小心尝试在代码中的任何位置将 <code>id</code> 的值设置为 null，IDE 将显示编译警告：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/spring-boot-null-safety-annotations/nonnull-ide-warning_hu5348352c54dfc5689093e49bbc5394b7_33745_1138x0_resize_box_3.png" alt="IDE warning for NonNull"  />
+</p>
+<p><code>@NonNull</code> 注释可以在方法、参数或字段级别使用。**</p>
+<p>此时，您可能会想“如果一个类有多个非空字段怎么办？”。如果我们必须在每一个之前添加 <code>@NonNull</code> 注释，是不是太罗嗦了？</p>
+<p>我们可以通过使用 <code>@NonNullFields</code> 注释来解决这个问题。</p>
+<p>以下是 <code>@NonNull</code> 的快速摘要：</p>
+<table>
+<thead>
+<tr>
+<th>带注释的元素</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>field</td>
+<td>当字段为空时显示警告</td>
+</tr>
+<tr>
+<td>parameter</td>
+<td>当参数为空时显示警告</td>
+</tr>
+<tr>
+<td>method</td>
+<td>当方法返回 null 时显示警告</td>
+</tr>
+<tr>
+<td>package</td>
+<td>不适用</td>
+</tr>
+</tbody>
+</table>
+<h2 id="nonnullfields"><code>@NonNullFields</code></h2>
+<p>让我们创建一个 <code>package-info.java</code> 文件以在包级别应用非空字段检查。该文件将包含带有 <code>@NonNullFields</code> 注释的根包名称：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@NonNullFields</span>
+</span></span><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">io.reflectoring.nullsafety</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.lang.NonNullFields</span><span class="o">;</span>
+</span></span></code></pre></div><p>现在，我们不再需要使用 <code>@NonNull</code> 注释来注释字段。因为默认情况下，该包中类的所有字段现在都被视为非空。而且，我们仍然会看到与以前相同的警告：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/spring-boot-null-safety-annotations/nonnull-ide-warning_hu5348352c54dfc5689093e49bbc5394b7_33745_1138x0_resize_box_3.png" alt="IDE warning for NonNullFields"  />
+</p>
+<p>这里要注意的另一点是，如果有任何未初始化的字段，那么我们将看到初始化这些字段的警告：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/spring-boot-null-safety-annotations/nonnullfields-ide-warning_huf1e2dea76ed1bc462a15a89ca8946d6c_20352_612x0_resize_box_3.png" alt="IDE warning for NonNull"  />
+</p>
+<p>以下是 <code>@NonNullFields</code> 的快速摘要：</p>
+<table>
+<thead>
+<tr>
+<th>带注释的元素</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>field</td>
+<td>不适用</td>
+</tr>
+<tr>
+<td>parameter</td>
+<td>不适用</td>
+</tr>
+<tr>
+<td>method</td>
+<td>不适用</td>
+</tr>
+<tr>
+<td>package</td>
+<td>如果所应用的包的任何字段为空，则显示警告</td>
+</tr>
+</tbody>
+</table>
+<h2 id="nonnullapi"><code>@NonNullApi</code></h2>
+<p>到目前为止，您可能已经发现了另一个要求，即对方法参数或返回值进行类似的检查。 <code>@NonNullApi</code> 将会来拯救我们。</p>
+<p>与 <code>@NonNullFields</code> 类似，我们可以使用 <code>package-info.java</code> 文件并为目标包添加 <code>@NonNullApi</code> 注释：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@NonNullApi</span>
+</span></span><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">io.reflectoring.nullsafety</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.lang.NonNullApi</span><span class="o">;</span>
+</span></span></code></pre></div><p>现在，如果我们编写方法返回 null 的代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">io.reflectoring.nullsafety</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// imports
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Employee</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="nf">getPastEmployment</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>  
+</span></span></code></pre></div><p>我们可以看到 IDE 现在警告我们有关不可为 null 的返回值：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/spring-boot-null-safety-annotations/nonnullapi-method-ide-warning_hu0f179a30c6c723f579ce7eeee2a50ca2_40298_1084x0_resize_box_3.png" alt="IDE warning for NonNullApi"  />
+</p>
+<p>以下是 <code>@NonNullApi</code> 的快速摘要：</p>
+<table>
+<thead>
+<tr>
+<th>带注释的元素</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>field</td>
+<td>不适用</td>
+</tr>
+<tr>
+<td>parameter</td>
+<td>不适用</td>
+</tr>
+<tr>
+<td>method</td>
+<td>不适用</td>
+</tr>
+<tr>
+<td>package</td>
+<td>如果所应用的包的任何参数或返回值为空，则显示警告</td>
+</tr>
+</tbody>
+</table>
+<h2 id="nullable"><code>@Nullable</code></h2>
+<p>但这里有一个问题。在某些情况下，特定字段可能为空（无论我们多么想避免它）。</p>
+<p>例如， <code>pastEmployment</code> 字段在 <code>Employee</code> 类中可以为空（对于以前没有工作过的人）。但根据我们的安全检查，IDE 认为不可能。</p>
+<p>我们可以使用字段上的 <code>@Nullable</code> 注释来表达我们的意图。这将告诉 IDE 该字段在某些情况下可以为空，因此无需触发警报。正如 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/lang/Nullable.html">JavaDoc</a> 所建议的：</p>
+<blockquote>
+<p>可以与 <code>@NonNullApi</code> 或 <code>@NonNullFields</code> 结合使用，将默认的不可为空语义覆盖为可为空。</p>
+</blockquote>
+<p>与 <code>NonNull</code> 类似， <code>Nullable</code> 注释可以应用于方法、参数或字段级别。</p>
+<p>我们现在可以将 <code>pastEmployment</code> 字段标记为可为空：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">io.reflectoring.nullsafety</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// imports
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Employee</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Nullable</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="n">pastEmployment</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Nullable</span> <span class="n">String</span> <span class="nf">getPastEmployment</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">pastEmployment</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>  
+</span></span></code></pre></div><p>以下是 <code>@Nullable</code> 的快速摘要：</p>
+<table>
+<thead>
+<tr>
+<th>带注释的元素</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>field</td>
+<td>表示该字段可以为空</td>
+</tr>
+<tr>
+<td>parameter</td>
+<td>表示参数可以为空</td>
+</tr>
+<tr>
+<td>method</td>
+<td>表示该方法可以返回null</td>
+</tr>
+<tr>
+<td>package</td>
+<td>不适用</td>
+</tr>
+</tbody>
+</table>
+<h2 id="自动构建检查">自动构建检查</h2>
+<p>到目前为止，我们正在讨论现代 IDE 如何使编写空安全代码变得更容易。然而，如果我们想在构建管道中进行一些自动代码检查，这在某种程度上也是可行的。</p>
+<p><a href="https://spotbugs.github.io/">SpotBugs</a>（著名但已废弃的 <a href="http://findbugs.sourceforge.net/">FindBugs</a> 项目的转世）提供了一个 Maven/Gradle 插件，可以检测由于可空性而导致的代码异味。让我们看看如何使用它。</p>
+<p>对于 Maven 项目，我们需要更新 <code>pom.xml</code> 以添加 <a href="https://spotbugs.readthedocs.io/en/latest/maven.html">SpotBugs Maven</a> 插件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>com.github.spotbugs<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spotbugs-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;version&gt;</span>4.5.2.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;groupId&gt;</span>com.github.spotbugs<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;artifactId&gt;</span>spotbugs<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;version&gt;</span>4.5.3<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/dependencies&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>构建项目后，我们可以使用该插件的以下目标：</p>
+<ul>
+<li>
+<p><code>spotbugs</code> 目标分析目标项目。</p>
+</li>
+<li>
+<p><code>check</code> 目标运行 <code>spotbugs</code> 目标，如果发现任何错误，则使构建失败。</p>
+</li>
+</ul>
+<p>如果您使用 Gradle 而不是 Maven，则可以在 <code>build.gradle</code> 文件中配置 SpotBugs Gradle 插件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">dependencies</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">spotbugsPlugins</span> <span class="s1">&#39;com.h3xstream.findsecbugs:findsecbugs-plugin:1.11.0&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">spotbugs</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">toolVersion</span> <span class="o">=</span> <span class="s1">&#39;4.5.3&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>项目更新后，我们可以使用 <code>gradle check</code> 命令运行检查。</p>
+<p>SpotBugs 提供了一些规则，通过在 Maven 构建期间处理 <code>@NonNull</code> 注释来标记潜在问题。您可以查看<a href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html">错误描述的详细列表</a>。</p>
+<p>例如，如果任何用 <code>@NonNull</code> 注释的方法意外返回 null，则 SpotBugs 检查将失败，并显示类似以下内容的错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[ERROR] High: io.reflectoring.nullsafety.Employee.getJoiningDate() may return null, but is declared @Nonnull [io.reflectoring.nullsafety.Employee] At Employee.java:[line 36] NP_NONNULL_RETURN_VIOLATION
+</span></span></code></pre></div><h2 id="结论">结论</h2>
+<p>这些注解对于Java程序员来说确实是一个福音，可以减少运行时出现 <code>NullPointerException</code> 的可能性。但是请记住，这并不能保证完全的空安全。</p>
+<p>Kotlin 使用这些注释来推断 Spring API 的可为空性。</p>
+<p>我希望您现在已经准备好在 Spring Boot 中编写 null 安全代码！</p>
+<p>原文链接：<a href="https://reflectoring.io/spring-boot-null-safety-annotations/">https://reflectoring.io/spring-boot-null-safety-annotations/</a></p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>[译]使用 Spring Boot 和 Spring Security 配置 CORS</title>
+      <link>https://blog.chensoul.com/posts/2023/07/26/spring-cors/</link>
+      <pubDate>Wed, 26 Jul 2023 07:20:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/07/26/spring-cors/</guid>
+      <description>跨源资源共享 (CORS) 是一种基于 HTTP 标头的机制，允许服务器显式将某些源列入白名单，并帮助绕过同源策略。 这是必需的，因为浏览器默认应用同源策略以确保安全</description>
+      <content:encoded><![CDATA[<p>跨源资源共享 (CORS) 是一种基于 HTTP 标头的机制，允许服务器显式将某些源列入白名单，并帮助绕过同源策略。</p>
+<p>这是必需的，因为浏览器默认应用同源策略以确保安全。通过在 Web 应用程序中实施 CORS，网页可以请求额外的资源并从其他域加载到浏览器中。</p>
+<p>本文将重点介绍在基于 Spring 的应用程序中实现 CORS 的各种方式。要详细了解 CORS 的工作原理，请参阅这篇优秀的<a href="https://reflectoring.io/complete-guide-to-cors/">介绍性文章</a>。</p>
+<h2 id="示例代码">示例代码</h2>
+<p>本文附有 GitHub 上的工作<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring">代码示例</a>。</p>
+<h2 id="cors-特定-http-响应标头概述">CORS 特定 HTTP 响应标头概述</h2>
+<p>CORS 规范定义了服务器返回的一组响应标头，这将是后续部分的重点。</p>
+<table>
+<thead>
+<tr>
+<th>响应头</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Access-Control-Allow-Origin</code></td>
+<td>以逗号分隔的白名单来源列表或“*”。</td>
+</tr>
+<tr>
+<td><code>Access-Control-Allow-Methods</code></td>
+<td>Web 服务器允许跨源请求的 HTTP 方法的逗号分隔列表。</td>
+</tr>
+<tr>
+<td><code>Access-Control-Allow-Headers</code></td>
+<td>Web 服务器允许跨源请求的 HTTP 标头的逗号分隔列表。</td>
+</tr>
+<tr>
+<td><code>Access-Control-Expose-Headers</code></td>
+<td>客户端脚本认为可以安全显示的以逗号分隔的 HTTP 标头列表。</td>
+</tr>
+<tr>
+<td><code>Access-Control-Allow-Credentials</code></td>
+<td>如果浏览器通过传递凭据（以 cookie 或授权标头的形式）向服务器发出请求，则其值设置为 <code>true</code> 。</td>
+</tr>
+<tr>
+<td><code>Access-Control-Max-Age</code></td>
+<td>指示预检请求的结果可以缓存多长时间。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="设置示例客户端应用程序">设置示例客户端应用程序</h2>
+<p>我们将使用一个简单的角度应用程序来调用 REST 端点，我们可以使用浏览器开发人员工具检查这些端点。您可以在 GitHub 上查看<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring/cors-app">源代码</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">    ng serve --open
+</span></span></code></pre></div><p>我们应该能够成功启动客户端应用程序。</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/configuring-cors-with-spring/client_hu6933403b7320f6f893a41150b2491685_84510_1441x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<h2 id="设置示例服务器应用程序">设置示例服务器应用程序</h2>
+<p>我们将使用一个基于 Spring 的示例应用程序，其中包含客户端应用程序可以调用的 <code>GET</code> 和 <code>POST</code> 请求。请注意，您会发现两个独立的应用程序：一个使用 Spring MVC (REST)，另一个使用 Spring Reactive 堆栈。</p>
+<p>为简单起见，两个应用程序之间的 CORS 配置相同，并且定义了相同的端点。两台服务器都从不同的端口 8091 和 8092 启动。</p>
+<p>与应用程序捆绑在一起的 Maven Wrapper 将用于启动服务。您可以查看 <a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring/SimpleLibraryApplication">Spring REST 源代码</a>和 <a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring/LibraryWebfluxApplication">Spring Reactive 源代码</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">    mvnw clean verify spring-boot:run <span class="o">(</span><span class="k">for</span> Windows<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   ./mvnw clean verify spring-boot:run <span class="o">(</span><span class="k">for</span> Linux<span class="o">)</span>
+</span></span></code></pre></div><p>一旦 Spring 应用程序成功启动，客户端应用程序应该能够成功从服务器加载数据。</p>
+<p>调用 Spring REST 服务器：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/configuring-cors-with-spring/app_hu6933403b7320f6f893a41150b2491685_157341_1871x0_resize_q90_box.JPG" alt="settings"  />
+
+调用 Spring Reactive 服务器：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/configuring-cors-with-spring/app_reactive_hu6933403b7320f6f893a41150b2491685_154439_1859x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<h2 id="了解-crossorigin-属性">了解 <code>@CrossOrigin</code> 属性</h2>
+<p>在 Spring Boot 应用程序中，我们使用 <code>@CrossOrigin</code> 注解来启用跨域调用。我们先了解一下 <code>@CrossOrigin</code> 支持的属性。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>Description 描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>origins</code></td>
+<td>允许您指定允许的来源列表。默认情况下，它允许所有来源。 该属性值将在预检响应和实际响应的 <code>Access-Control-Allow-Origin</code> 标头中设置。 用法示例： <code>@CrossOrigin(origins = &quot;http://localhost:8080&quot;)</code>  <code>@CrossOrigin(origins = {&quot;http://localhost:8080&quot;, &quot;http://testserver:8087&quot;})</code></td>
+</tr>
+<tr>
+<td><code>allowedHeaders</code></td>
+<td>允许您指定浏览器发出请求时将接受的标头列表。默认情况下，任何标头都将被允许。此属性中指定的值用于预检响应中的 <code>Access-Control-Allow-Headers</code> 中。  <strong>用法示例：</strong> <code>@CrossOrigin(allowedHeaders = {&quot;Authorization&quot;, &quot;Origin&quot;})</code></td>
+</tr>
+<tr>
+<td><code>exposedHeaders</code></td>
+<td>在实际响应标头中设置的标头列表。如果未指定，则只有安全列表中的标头才会被认为可以安全地由客户端脚本公开。  <strong>用法示例：</strong> <code>@CrossOrigin(exposedHeaders = {&quot;Access-Control-Allow-Origin&quot;,&quot;Access-Control-Allow-Credentials&quot;})</code></td>
+</tr>
+<tr>
+<td><code>allowCredentials</code></td>
+<td>当需要凭据来调用 API 时，请将 <code>Access-Control-Allow-Credentials</code> 标头值设置为 true。如果不需要凭据，请省略标头。  <strong>用法示例：</strong> <code>@CrossOrigin(allowCredentials = true)</code></td>
+</tr>
+<tr>
+<td><code>maxAge</code></td>
+<td>默认 <code>maxAge</code> 设置为 1800 秒（30 分钟）。指示预检响应可以缓存多长时间。  <strong>用法示例：</strong> <code>@CrossOrigin(maxAge = 300)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="如果不配置cors怎么办">如果不配置CORS怎么办？</h2>
+<p>考虑我们的 Spring Boot 应用程序尚未配置为 CORS 支持。如果我们尝试访问在端口 4200 上运行的 Angular 应用程序，我们会在开发人员控制台上看到以下错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Access to XMLHttpRequest at http://localhost:8091 
+</span></span><span class="line"><span class="cl">from origin http://localhost:4200 has been blocked by CORS policy: 
+</span></span><span class="line"><span class="cl">No &#39;Access-Control-Allow-Origin` header is present on the requested 
+</span></span><span class="line"><span class="cl">resource
+</span></span></code></pre></div><p><img loading="lazy" src="https://reflectoring.io/images/posts/configuring-cors-with-spring/cors-error_hu6933403b7320f6f893a41150b2491685_149954_1882x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<p>这是因为，即使两个应用程序均由 <code>localhost</code> 提供服务，但<a href="https://reflectoring.io/complete-guide-to-cors/#same-origin-vs-cross-origin">由于端口不同</a>，它们不会被视为同一来源。</p>
+<h2 id="在-spring-web-mvc-应用程序中配置-cors">在 Spring Web MVC 应用程序中配置 CORS</h2>
+<p>使用 Spring Initializr 创建的初始设置包含所有必需的 CORS 依赖项。无需添加外部依赖项。请参阅此<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring/SpringWebApplication">示例 Spring Web 应用程序项目</a>。</p>
+<h3 id="在类级别定义-crossorigin">在类级别定义 <code>@CrossOrigin</code></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="mi">3600</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;cors-library/managed/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LibraryController</span> <span class="o">{}</span>
+</span></span></code></pre></div><p>由于我们已经定义了 <code>@CrossOrigin</code> ：</p>
+<ul>
+<li>控制器中的所有 <code>@RequestMapping</code> 方法（以及使用速记注释 <code>@GetMapping</code> 、 <code>@PostMapping</code> 等的方法）都将接受跨域请求。</li>
+<li>自 <code>maxAge = 3600</code> 起，所有飞行前响应将被缓存 60 分钟。</li>
+</ul>
+<h3 id="在方法级别定义-crossorigin">在方法级别定义 <code>@CrossOrigin</code></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">origins</span> <span class="o">=</span> <span class="s">&#34;http://localhost:4200&#34;</span><span class="o">,</span> <span class="n">allowedHeaders</span> <span class="o">=</span> <span class="s">&#34;Requestor-Type&#34;</span><span class="o">,</span> <span class="n">exposedHeaders</span> <span class="o">=</span> <span class="s">&#34;X-Get-Header&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@GetMapping</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;</span> <span class="nf">getBooks</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HttpHeaders</span> <span class="n">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">headers</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">,</span> <span class="s">&#34;ExampleHeader&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">headers</span><span class="o">(</span><span class="n">headers</span><span class="o">).</span><span class="na">body</span><span class="o">(</span><span class="n">libraryService</span><span class="o">.</span><span class="na">getAllBooks</span><span class="o">(</span><span class="n">type</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这将产生以下效果：</p>
+<ul>
+<li>
+<p>仅接受来自来源 <code>http://localhost:4200</code> 的请求。</p>
+</li>
+<li>
+<p>如果我们希望只接受某些标头，则可以在 <code>allowedHeaders</code> 属性中指定这些标头。如果浏览器未发送 <code>Requestor-Type</code> 标头，则不会处理该请求。</p>
+</li>
+<li>
+<p>如果我们设置某些响应标头，为了让客户端应用程序能够使用它们，我们需要使用 <code>exposedHeaders</code> 属性显式设置要公开的响应标头列表。</p>
+</li>
+</ul>
+<h3 id="类和方法级别的-crossorigin-组合">类和方法级别的 <code>@CrossOrigin</code> 组合</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="mi">3600</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;cors-library/managed/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LibraryController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">LibraryController</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">LibraryService</span> <span class="n">libraryService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">LibraryController</span><span class="o">(</span><span class="n">LibraryService</span> <span class="n">libraryService</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">libraryService</span> <span class="o">=</span> <span class="n">libraryService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">origins</span> <span class="o">=</span> <span class="s">&#34;http://localhost:4200&#34;</span><span class="o">,</span> <span class="n">allowedHeaders</span> <span class="o">=</span> <span class="s">&#34;Requestor-Type&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;</span> <span class="nf">getBooks</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HttpHeaders</span> <span class="n">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">headers</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">,</span> <span class="s">&#34;ExampleHeader&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">headers</span><span class="o">(</span><span class="n">headers</span><span class="o">).</span><span class="na">body</span><span class="o">(</span><span class="n">libraryService</span><span class="o">.</span><span class="na">getAllBooks</span><span class="o">(</span><span class="n">type</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ul>
+<li>
+<p>通过在类和方法级别定义注释，其组合属性将应用于方法，即（ <code>origins</code> 、 <code>allowedHeaders</code> 、``）</p>
+</li>
+<li>
+<p>在上述所有情况下，我们可以使用 <code>@CrossOrigin</code> 定义全局 CORS cmaxAgeonconfiguration 和本地配置。对于接受多个值的属性，将应用全局值和本地值的组合（即它们被合并）。对于仅接受单个值的属性，本地值将优先于全局值。</p>
+</li>
+</ul>
+<h3 id="全局启用-cors">全局启用 CORS</h3>
+<p>我们可以定义一个适用于定义的所有资源的通用 CORS 配置，而不是分别向每个资源添加 CORS。</p>
+<p>在这里，我们将使用 <code>WebMvcConfigurer</code> ，它是 Spring Web MVC 库的一部分</p>
+<p>通过重写 <code>addCorsMapping()</code> 方法，我们将为 Spring Web MVC 处理的所有 URL 配置 CORS。</p>
+<p>为了全局定义相同的配置（如前几节所述），我们将使用 <code>application.yml</code> 中定义的配置参数来创建一个 bean，如下定义。</p>
+<p><code>application.yml</code> 中定义的属性（ <code>allowed-origins</code> 、 <code>allowed-methods</code> 、 <code>max-age</code> 、 <code>allowed-headers</code> 、 <code>exposed-headers</code> ) 是通过 <code>@ConfigurationProperties(prefix = &quot;web&quot;)</code> 映射到自定义类 Cors 的自定义属性</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">web</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cors</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">allowed-origins</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;http://localhost:4200&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">allowed-methods</span><span class="p">:</span><span class="w"> </span><span class="l">GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">max-age</span><span class="p">:</span><span class="w"> </span><span class="m">3600</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">allowed-headers</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Requestor-Type&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">exposed-headers</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;X-Get-Header&#34;</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">WebMvcConfigurer</span> <span class="nf">corsMappingConfigurer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">return</span> <span class="k">new</span> <span class="n">WebMvcConfigurer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">       <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">       <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCorsMappings</span><span class="o">(</span><span class="n">CorsRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">           <span class="n">WebConfigProperties</span><span class="o">.</span><span class="na">Cors</span> <span class="n">cors</span> <span class="o">=</span> <span class="n">webConfigProperties</span><span class="o">.</span><span class="na">getCors</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">           <span class="n">registry</span><span class="o">.</span><span class="na">addMapping</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">             <span class="o">.</span><span class="na">allowedOrigins</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedOrigins</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">             <span class="o">.</span><span class="na">allowedMethods</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedMethods</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">             <span class="o">.</span><span class="na">maxAge</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getMaxAge</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">             <span class="o">.</span><span class="na">allowedHeaders</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedHeaders</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">             <span class="o">.</span><span class="na">exposedHeaders</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getExposedHeaders</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">       <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="o">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><blockquote>
+<h4 id="corsconfiguration-默认值"><code>CorsConfiguration</code> 默认值</h4>
+<p>如果未显式定义一个或多个方法（ <code>allowedOrigins</code> 、 <code>allowedMethods</code> 、 <code>maxAge</code> 、 <code>allowedHeaders</code> 、 <code>exposedHeaders</code> ），则 <code>addMapping()</code> 返回一个 <code>CorsRegistration</code> 对象，该对象应用默认的 <code>CorsConfiguration</code> 。请参阅 Spring 库方法 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/cors/CorsConfiguration.html#applyPermitDefaultValues--">CorsConfiguration.applyPermitDefaultValues()</a> 以了解应用的默认值。</p>
+</blockquote>
+<h2 id="在-spring-webflux-应用程序中配置-cors">在 Spring Webflux 应用程序中配置 CORS</h2>
+<p>初始设置是使用 Spring Initializr 创建的，并使用 Spring Webflux、Spring Data R2DBC 和 H2 数据库。无需添加外部依赖项。请参阅<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring/SpringWebfluxApplication">此示例 Spring Webflux 项目</a>。</p>
+<h3 id="使用-crossorigin-进行-spring-webflux-的-cors-配置">使用 <code>@CrossOrigin</code> 进行 Spring Webflux 的 CORS 配置</h3>
+<p>与Spring MVC类似，在Spring Webflux中我们可以在类级别或方法级别定义 <code>@CrossOrigin</code> 。前面几节中描述的相同 <code>@CrossOrigin</code> 属性将适用。此外，当在类和方法中都定义了注释时，其组合属性将应用于方法。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">origins</span> <span class="o">=</span> <span class="s">&#34;http://localhost:4200&#34;</span><span class="o">,</span> <span class="n">allowedHeaders</span> <span class="o">=</span> <span class="s">&#34;Requestor-Type&#34;</span><span class="o">,</span> <span class="n">exposedHeaders</span> <span class="o">=</span> <span class="s">&#34;X-Get-Header&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@GetMapping</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Mono</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;&gt;</span> <span class="nf">getBooks</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HttpHeaders</span> <span class="n">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">headers</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">,</span> <span class="s">&#34;ExampleHeader&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">headers</span><span class="o">(</span><span class="n">headers</span><span class="o">).</span><span class="na">body</span><span class="o">(</span><span class="n">libraryService</span><span class="o">.</span><span class="na">getAllBooks</span><span class="o">(</span><span class="n">type</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="在-spring-webflux-中全局启用-cors-配置">在 Spring Webflux 中全局启用 CORS 配置</h3>
+<p>要在 Spring Webflux 应用程序中全局定义 CORS，我们使用 <code>WebfluxConfigurer</code> 并覆盖 <code>addCorsMappings()</code> 。与 Spring MVC 类似，它使用带有默认值的 <code>CorsConfiguration</code> ，可以根据需要覆盖默认值。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">WebFluxConfigurer</span> <span class="nf">corsMappingConfigurer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">WebFluxConfigurer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCorsMappings</span><span class="o">(</span><span class="n">CorsRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">WebConfigProperties</span><span class="o">.</span><span class="na">Cors</span> <span class="n">cors</span> <span class="o">=</span> <span class="n">webConfigProperties</span><span class="o">.</span><span class="na">getCors</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">registry</span><span class="o">.</span><span class="na">addMapping</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">allowedOrigins</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedOrigins</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">allowedMethods</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedMethods</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">maxAge</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getMaxAge</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">allowedHeaders</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getAllowedHeaders</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">exposedHeaders</span><span class="o">(</span><span class="n">cors</span><span class="o">.</span><span class="na">getExposedHeaders</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="使用-webfilter-启用-cors">使用 <code>WebFilter</code> 启用 CORS</h3>
+<p>Webflux 框架允许通过 <code>CorsWebFilter</code> 全局设置 CORS 配置。我们可以使用 <code>CorsConfiguration</code> 对象来设置所需的配置并注册要与过滤器一起使用的 <code>CorsConfigurationSource</code> 。</p>
+<p>但是，默认情况下，过滤器中的 <code>CorsConfiguration</code> 不会将默认配置分配给端点！只能应用指定的配置。</p>
+<p>另一种选择是显式调用 <code>CorsConfiguration.applyPermitDefaultValues()</code> 。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">CorsWebFilter</span> <span class="nf">corsWebFilter</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">CorsConfiguration</span> <span class="n">corsConfig</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CorsConfiguration</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">setAllowedOrigins</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;http://localhost:4200&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="mi">3600L</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedMethod</span><span class="o">(</span><span class="s">&#34;*&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedHeader</span><span class="o">(</span><span class="s">&#34;Requestor-Type&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">addExposedHeader</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">UrlBasedCorsConfigurationSource</span> <span class="n">source</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="n">UrlBasedCorsConfigurationSource</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">source</span><span class="o">.</span><span class="na">registerCorsConfiguration</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">,</span> <span class="n">corsConfig</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">CorsWebFilter</span><span class="o">(</span><span class="n">source</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="使用-spring-security-启用-cors">使用 Spring Security 启用 CORS</h2>
+<p>如果 Spring Security 应用于 Spring 应用程序，则必须在 Spring Security 生效之前处理 CORS，因为预检请求不会包含 cookie，并且 Spring Security 将拒绝该请求，因为它将确定用户未经过身份验证。这里显示的示例将演示基本身份验证。</p>
+<p>为了应用 Spring 安全性，我们将添加以下依赖 Maven：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>Gradle:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl">  <span class="n">implementation</span> <span class="s1">&#39;org.springframework.boot:spring-boot-starter-security&#39;</span>
+</span></span></code></pre></div><h3 id="spring-security-应用于-spring-web-mvc">Spring Security 应用于 Spring Web MVC</h3>
+<p>Spring security 默认保护每个端点。但是，这会导致 CORS 错误，因为浏览器的 <code>OPTIONS</code> 预检请求将被阻止。要使 Spring Security 绕过预检请求，我们需要将 <code>http.cors()</code> 添加到 <code>HTTPSecurity</code> 对象，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="n">BasicAuthConfigProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">BasicAuthConfigProperties</span> <span class="n">basicAuth</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">SecurityConfiguration</span><span class="o">(</span><span class="n">BasicAuthConfigProperties</span> <span class="n">basicAuth</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">basicAuth</span> <span class="o">=</span> <span class="n">basicAuth</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">cors</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>要在绕过预检请求后使用 Spring Security 设置额外的 CORS 配置，我们可以使用 <code>@CrossOrigin</code> 注释来配置 CORS：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="mi">3600</span><span class="o">,</span> <span class="n">allowCredentials</span> <span class="o">=</span> <span class="s">&#34;true&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;cors-library/managed/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LibraryController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">LibraryController</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">LibraryService</span> <span class="n">libraryService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">LibraryController</span><span class="o">(</span><span class="n">LibraryService</span> <span class="n">libraryService</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">libraryService</span> <span class="o">=</span> <span class="n">libraryService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">origins</span> <span class="o">=</span> <span class="s">&#34;http://localhost:4200&#34;</span><span class="o">,</span> <span class="n">allowedHeaders</span> <span class="o">=</span> <span class="o">{</span><span class="s">&#34;Requestor-Type&#34;</span><span class="o">,</span> <span class="s">&#34;Authorization&#34;</span><span class="o">},</span> <span class="n">exposedHeaders</span> <span class="o">=</span> <span class="s">&#34;X-Get-Header&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;</span> <span class="nf">getBooks</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HttpHeaders</span> <span class="n">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">headers</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">,</span> <span class="s">&#34;ExampleHeader&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">headers</span><span class="o">(</span><span class="n">headers</span><span class="o">).</span><span class="na">body</span><span class="o">(</span><span class="n">libraryService</span><span class="o">.</span><span class="na">getAllBooks</span><span class="o">(</span><span class="n">type</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>或者，我们可以创建一个 <code>CorsConfigurationSource</code> bean：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="n">CorsConfigurationSource</span> <span class="nf">corsConfigurationSource</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">CorsConfiguration</span> <span class="n">configuration</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CorsConfiguration</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setAllowedOrigins</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;http://localhost:4200&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setAllowedMethods</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;GET&#34;</span><span class="o">,</span><span class="s">&#34;POST&#34;</span><span class="o">,</span><span class="s">&#34;PATCH&#34;</span><span class="o">,</span> <span class="s">&#34;PUT&#34;</span><span class="o">,</span> <span class="s">&#34;DELETE&#34;</span><span class="o">,</span> <span class="s">&#34;OPTIONS&#34;</span><span class="o">,</span> <span class="s">&#34;HEAD&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setAllowCredentials</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setAllowedHeaders</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;Authorization&#34;</span><span class="o">,</span> <span class="s">&#34;Requestor-Type&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setExposedHeaders</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="mi">3600L</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">UrlBasedCorsConfigurationSource</span> <span class="n">source</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UrlBasedCorsConfigurationSource</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">source</span><span class="o">.</span><span class="na">registerCorsConfiguration</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">,</span> <span class="n">configuration</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">source</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="spring-security-应用于-spring-webflux">Spring Security 应用于 Spring Webflux</h3>
+<p>对于 Webflux，尽管使用 Spring Security，将 CORS 配置应用于传入请求的最首选方法是使用 <code>CorsWebFilter</code> 。我们可以禁用 CORS 与 Spring security 的集成，而是通过提供 <code>CorsConfigurationSource</code> 与 <code>CorsWebFilter</code> 集成：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebFluxSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="n">BasicAuthConfigProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">BasicAuthConfigProperties</span> <span class="n">basicAuth</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">SecurityConfiguration</span><span class="o">(</span><span class="n">BasicAuthConfigProperties</span> <span class="n">basicAuth</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">basicAuth</span> <span class="o">=</span> <span class="n">basicAuth</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityWebFilterChain</span> <span class="nf">securityWebFilterChain</span><span class="o">(</span><span class="n">ServerHttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">cors</span><span class="o">(</span><span class="n">cors</span> <span class="o">-&gt;</span> <span class="n">cors</span><span class="o">.</span><span class="na">disable</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">securityMatcher</span><span class="o">(</span><span class="k">new</span> <span class="n">PathPatternParserServerWebExchangeMatcher</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">authorizeExchange</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">anyExchange</span><span class="o">().</span><span class="na">authenticated</span><span class="o">().</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">httpBasic</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">MapReactiveUserDetailsService</span> <span class="nf">userDetailsService</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">UserDetails</span> <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="na">withDefaultPasswordEncoder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">username</span><span class="o">(</span><span class="n">basicAuth</span><span class="o">.</span><span class="na">getUsername</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">password</span><span class="o">(</span><span class="n">basicAuth</span><span class="o">.</span><span class="na">getPassword</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">roles</span><span class="o">(</span><span class="s">&#34;USER&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">MapReactiveUserDetailsService</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">CorsConfigurationSource</span> <span class="nf">corsConfiguration</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CorsConfiguration</span> <span class="n">corsConfig</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CorsConfiguration</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">applyPermitDefaultValues</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">setAllowCredentials</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedMethod</span><span class="o">(</span><span class="s">&#34;GET&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedMethod</span><span class="o">(</span><span class="s">&#34;PATCH&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedMethod</span><span class="o">(</span><span class="s">&#34;POST&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedMethod</span><span class="o">(</span><span class="s">&#34;OPTIONS&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">setAllowedOrigins</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;http://localhost:4200&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">setAllowedHeaders</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;Authorization&#34;</span><span class="o">,</span> <span class="s">&#34;Requestor-Type&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">corsConfig</span><span class="o">.</span><span class="na">setExposedHeaders</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">UrlBasedCorsConfigurationSource</span> <span class="n">source</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">                <span class="k">new</span> <span class="n">UrlBasedCorsConfigurationSource</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">source</span><span class="o">.</span><span class="na">registerCorsConfiguration</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">,</span> <span class="n">corsConfig</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">source</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">CorsWebFilter</span> <span class="nf">corsWebFilter</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">CorsWebFilter</span><span class="o">(</span><span class="n">corsConfiguration</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="结论">结论</h2>
+<p>简而言之，CORS 配置取决于多个因素：</p>
+<ul>
+<li>Spring Web / Spring Webflux</li>
+<li>本地/全局 CORS 配置</li>
+<li>是否使用 Spring Security</li>
+</ul>
+<p>根据框架，我们可以决定哪种方法效果最好并且最容易实现，这样我们就可以避免 CORS 错误。您可以使用 <a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring">GitHub 上的示例应用程序</a>。</p>
+<p>原文链接：<a href="https://reflectoring.io/spring-cors/">https://reflectoring.io/spring-cors/</a></p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>[译]在 Spring 中实现 OAuth2：使用范围（第 2 部分）</title>
+      <link>https://blog.chensoul.com/posts/2023/07/26/spring-boot-info-endpoint/</link>
+      <pubDate>Wed, 26 Jul 2023 07:05:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/07/26/spring-boot-info-endpoint/</guid>
+      <description>在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。 Spring Boot Actuator帮助我们监控</description>
+      <content:encoded><![CDATA[<p>在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。</p>
+<p>Spring Boot Actuator帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。</p>
+<p>在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。</p>
+<h2 id="示例代码">示例代码</h2>
+<p>本文附有 GitHub 上的工作<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/spring-boot-app-info">代码示例</a>。</p>
+<h2 id="启用-spring-boot-执行器">启用 Spring Boot 执行器</h2>
+<p>Spring Boot Actuator是Spring Boot的一个子项目。在本节中，我们将快速了解如何引导示例项目并启用 <code>/info</code> 端点。如果您想了解更多有关 Spring Boot Actuator 的信息，已经有一个很棒的<a href="https://reflectoring.io/exploring-a-spring-boot-app-with-actuator-and-jq/">教程</a>了。</p>
+<p>让我们使用 <a href="https://start.spring.io/">Spring Initializr</a> 快速创建一个 Spring Boot 项目。我们将需要以下依赖项：</p>
+<table>
+<thead>
+<tr>
+<th>依赖性</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spring Boot Actuator</td>
+<td>公开应用程序管理端点，例如 <code>info</code> 。</td>
+</tr>
+<tr>
+<td>Spring Web</td>
+<td>启用 Web 应用程序行为。</td>
+</tr>
+</tbody>
+</table>
+<p>如果有帮助，这里是 <a href="https://start.spring.io/#!type=maven-project&amp;language=java&amp;platformVersion=2.6.4&amp;packaging=jar&amp;jvmVersion=11&amp;groupId=io.reflectoring&amp;artifactId=demo&amp;name=Demo%20Application&amp;description=Demo%20project%20for%20Spring%20Boot%20Application%20Info&amp;packageName=io.reflectoring.demo&amp;dependencies=web,actuator">Maven</a> 和 <a href="https://start.spring.io/#!type=gradle-project&amp;language=java&amp;platformVersion=2.6.4&amp;packaging=jar&amp;jvmVersion=11&amp;groupId=io.reflectoring&amp;artifactId=demo&amp;name=Demo%20Application&amp;description=Demo%20project%20for%20Spring%20Boot%20Application%20Info&amp;packageName=io.reflectoring.demo&amp;dependencies=web,actuator">Gradle</a> 中预填充项目的链接。</p>
+<p>项目构建后，我们将通过 HTTP 公开内置的 <code>/info</code> 端点。默认情况下， <code>/info</code> Web 端点处于禁用状态。我们可以通过在 <code>application.properties</code> 配置中添加 <code>management.endpoints.web.exposure.include</code> 属性来简单地启用它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">management.endpoints.web.exposure.include</span><span class="o">=</span><span class="s">health,info</span>
+</span></span></code></pre></div><p>让我们运行 Spring Boot 应用程序并在浏览器中打开 URL <code>http://localhost:8080/actuator/info</code> 。目前还看不到任何有用的东西，因为我们仍然需要进行一些配置更改。在下一节中，我们将了解如何在此响应中添加信息丰富的构建信息。</p>
+<blockquote>
+<h4 id="保护端点">保护端点</h4>
+<p>如果您公开公开端点，请确保适当<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.security">保护</a>它们。我们不应在不知情的情况下泄露任何敏感信息。</p>
+</blockquote>
+<h2 id="spring-boot应用程序信息">Spring Boot应用程序信息</h2>
+<p>Spring 从应用程序上下文中定义的各种 <a href="https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/actuate/info/InfoContributor.html">InfoContributor</a> bean 收集有用的应用程序信息。下面是默认 <code>InfoContributor</code> beans 的摘要：</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Bean Name</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>build</code></td>
+<td><code>BuildInfoContributor</code></td>
+<td>公开构建信息。</td>
+</tr>
+<tr>
+<td><code>env</code></td>
+<td><code>EnvironmentInfoContributor</code></td>
+<td>公开 <code>Environment</code> 中名称以 <code>info.</code> 开头的任何属性</td>
+</tr>
+<tr>
+<td><code>git</code></td>
+<td><code>GitInfoContributor</code></td>
+<td>公开 Git 相关信息。</td>
+</tr>
+<tr>
+<td><code>java</code></td>
+<td><code>JavaInfoContributor</code></td>
+<td>公开 Java 运行时信息。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>默认情况下， <code>env</code> 和 <code>java</code> 贡献者被禁用。</strong></p>
+<p>首先，我们将通过在 <code>application.properties</code> 中添加以下键值对来启用 <code>java</code> 贡献者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">management.info.java.enabled</span><span class="o">=</span><span class="s">true</span>
+</span></span></code></pre></div><p>让我们重新运行该应用程序。如果我们在浏览器中再次打开执行器 <code>/info</code> 端点，我们会得到如下输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;java&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;vendor&#34;</span><span class="p">:</span> <span class="s2">&#34;Eclipse Adoptium&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;11.0.14&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;runtime&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;OpenJDK Runtime Environment&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;11.0.14+9&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;jvm&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;OpenJDK 64-Bit Server VM&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;vendor&#34;</span><span class="p">:</span> <span class="s2">&#34;Eclipse Adoptium&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;11.0.14+9&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>根据安装的 Java 版本，您可能会看到不同的值。</p>
+<p>现在，是时候显示环境变量了。 Spring 会选取属性名称以 <code>info</code> 开头的任何环境变量。要查看实际效果，让我们在 <code>application.properties</code> 文件中添加以下属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">management.info.env.enabled</span><span class="o">=</span><span class="s">true</span>
+</span></span><span class="line"><span class="cl"><span class="na">info.app.website</span><span class="o">=</span><span class="s">reflectoring.io</span>
+</span></span></code></pre></div><p>重新启动应用程序后，我们将开始看到添加到执行器 <code>info</code> 端点的以下信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;app&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;website&#34;</span><span class="p">:</span> <span class="s2">&#34;reflectoring.io&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>请随意添加您想要的任意数量的信息变量:)</p>
+<p>在以下部分中，我们将了解如何添加 Git 和应用程序构建特定信息。</p>
+<h2 id="添加构建信息">添加构建信息</h2>
+<p>添加有用的<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.build.generate-info">构建信息</a>有助于快速识别构建工件名称、版本、创建时间等。它可以方便地检查团队是否部署了应用程序的相关版本。 Spring Boot 允许使用 Maven 或 Gradle 构建插件轻松添加此内容。</p>
+<h3 id="使用-maven-插件">使用 Maven 插件</h3>
+<p>Spring Boot Maven 插件捆绑了许多有用的功能，例如创建可执行 jar 或 war 存档、运行应用程序等。它还提供了一种添加应用程序构建信息的方法。</p>
+<p>如果存在有效的 <code>META-INF/build-info.properties</code> 文件，Spring Boot Actuator 将显示构建详细信息。 Spring Boot Maven 插件的 <code>build-info</code> 目标是创建此文件。</p>
+<p>如果您使用 Spring Initializr 引导项目，则默认情况下该插件将出现在 <code>pom.xml</code> 中。我们只需添加 <code>build-info</code> 执行目标，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;version&gt;</span>2.6.4<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;goal&gt;</span>build-info<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>如果我们现在运行命令 <code>./mvnw spring-boot:run</code> （对于 Linux/macOS）或 <code>mvnw.bat spring-boot:run</code> （对于 Windows），所需的文件将在 <code>target/classes/META-INF/build-info.properties</code> 中创建。</p>
+<p><strong>文件内容将与此类似：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">build.artifact</span><span class="o">=</span><span class="s">spring-boot-build-info</span>
+</span></span><span class="line"><span class="cl"><span class="na">build.group</span><span class="o">=</span><span class="s">io.reflectoring</span>
+</span></span><span class="line"><span class="cl"><span class="na">build.name</span><span class="o">=</span><span class="s">spring-boot-build-info</span>
+</span></span><span class="line"><span class="cl"><span class="na">build.time</span><span class="o">=</span><span class="s">2022-03-06T05\:53\:45.236Z</span>
+</span></span><span class="line"><span class="cl"><span class="na">build.version</span><span class="o">=</span><span class="s">0.0.1-SNAPSHOT</span>
+</span></span></code></pre></div><p>我们还可以使用 <code>additionalProperties</code> 属性将自定义属性添加到此列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;goal&gt;</span>build-info<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;additionalProperties&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;custom.key1&gt;</span>value1<span class="nt">&lt;/custom.key1&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;custom.key2&gt;</span>value2<span class="nt">&lt;/custom.key2&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/additionalProperties&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/execution&gt;</span>
+</span></span></code></pre></div><p>如果我们现在运行应用程序并在浏览器中打开 <code>http://localhost:8080/actuator/info</code> 端点，我们将看到类似于以下内容的响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;build&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;custom&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;key2&#34;</span><span class="p">:</span> <span class="s2">&#34;value2&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;key1&#34;</span><span class="p">:</span> <span class="s2">&#34;value1&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.0.1-SNAPSHOT&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;artifact&#34;</span><span class="p">:</span> <span class="s2">&#34;spring-boot-build-info&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;spring-boot-build-info&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-03-06T06:34:30.306Z&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;group&#34;</span><span class="p">:</span> <span class="s2">&#34;io.reflectoring&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>如果您想排除任何可以使用 <code>excludeInfoProperties</code> 配置的属性。让我们看看如何排除 <code>artifact</code> 属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;excludeInfoProperties&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;infoProperty&gt;</span>artifact<span class="nt">&lt;/infoProperty&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/excludeInfoProperties&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/configuration&gt;</span>
+</span></span></code></pre></div><p>请参阅 Spring Boot <a href="https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/#goals-build-info">官方文档</a>了解更多信息。</p>
+<p>现在，是时候看看我们如何使用 Spring Boot Gradle 插件实现相同的输出了。</p>
+<h3 id="使用-gradle-插件">使用 Gradle 插件</h3>
+<p>添加构建信息的最简单方法是使用插件 DSL。在 <code>build.gradle</code> 文件中，我们需要添加以下块：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gradle" data-lang="gradle"><span class="line"><span class="cl"><span class="n">springBoot</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">buildInfo</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果我们现在同步 Gradle 项目，我们可以看到一个新任务 <code>bootBuildInfo</code> 可供使用。运行该任务将生成带有构建信息的类似 <code>build/resources/main/META-INF/build-info.properties</code> 文件（源自项目）。使用 DSL，我们可以自定义现有值或添加新属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gradle" data-lang="gradle"><span class="line"><span class="cl"><span class="n">springBoot</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">buildInfo</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">properties</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Sample App&#39;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">additional</span> <span class="o">=</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s1">&#39;customKey&#39;</span><span class="o">:</span> <span class="s1">&#39;customValue&#39;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>是时候使用 <code>./gradlew bootRun</code> （对于 macOS/Linux）或 <code>gradlew.bat bootRun</code> （对于 Windows）命令运行应用程序了。应用程序运行后，我们可以在浏览器中打开 <code>http://localhost:8080/actuator/info</code> 端点并找到响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;build&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;customKey&#34;</span><span class="p">:</span> <span class="s2">&#34;customValue&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.0.1-SNAPSHOT&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;artifact&#34;</span><span class="p">:</span> <span class="s2">&#34;spring-boot-build-info&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Sample App&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-03-06T09:11:53.380Z&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;group&#34;</span><span class="p">:</span> <span class="s2">&#34;io.reflectoring&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>我们可以通过将其值设置为 <code>null</code> 来从生成的构建信息中排除任何默认属性。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gradle" data-lang="gradle"><span class="line"><span class="cl"><span class="n">properties</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">group</span> <span class="o">=</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>想了解更多关于该插件的信息，可以参考 Spring Boot <a href="https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#integrating-with-actuator">官方文档</a>。</p>
+<h2 id="添加-git-信息">添加 Git 信息</h2>
+<p><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.build.generate-git-info">Git 信息</a>可以方便地快速识别生产中是否存在相关代码或者分布式部署是否与预期同步。 Spring Boot 可以使用 Maven 和 Gradle 插件轻松地将 Git 属性包含在 Actuator 端点中。</p>
+<p>使用这个插件我们可以生成一个 <code>git.properties</code> 文件。此文件的存在将自动配置 <a href="https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/info/GitProperties.html">GitProperties</a> bean，供 <a href="https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/actuate/info/GitInfoContributor.html">GitInfoContributor</a> bean 使用来整理相关信息。</p>
+<p><strong>默认情况下，将公开以下信息：</strong></p>
+<ul>
+<li><code>git.branch</code></li>
+<li><code>git.commit.id</code></li>
+<li><code>git.commit.time</code></li>
+</ul>
+<p>以下管理应用程序属性控制 Git 相关信息：</p>
+<table>
+<thead>
+<tr>
+<th>应用属性</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>management.info.git.enabled=false</code></td>
+<td>完全从 <code>info</code> 端点禁用 Git 信息</td>
+</tr>
+<tr>
+<td><code>management.info.git.mode=full</code></td>
+<td>显示 <code>git.properties</code> 文件中的所有属性</td>
+</tr>
+</tbody>
+</table>
+<h3 id="使用-maven-插件-1">使用 Maven 插件</h3>
+<p><a href="https://github.com/git-commit-id/git-commit-id-maven-plugin">Maven Git Commit ID 插件</a>通过 <code>spring-boot-starter-parent</code> pom.xml 进行管理。要使用它，我们必须编辑 <code>pom.xml</code> 如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>pl.project13.maven<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>git-commit-id-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>如果我们运行该项目并在浏览器中打开 <code>/actuator/info</code> 端点，它将返回Git相关信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;git&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;branch&#34;</span><span class="p">:</span> <span class="s2">&#34;main&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;commit&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;5404bdf&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-03-06T10:34:16Z&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>我们还可以检查 <code>target/classes/git.properties</code> 下生成的文件。这对我来说是这样的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">#Generated by Git-Commit-Id-Plugin
+</span></span><span class="line"><span class="cl">git.branch=main
+</span></span><span class="line"><span class="cl">git.build.host=mylaptop
+</span></span><span class="line"><span class="cl">git.build.time=2022-03-06T23\:22\:16+0530
+</span></span><span class="line"><span class="cl">git.build.user.email=user@email.com
+</span></span><span class="line"><span class="cl">git.build.user.name=user
+</span></span><span class="line"><span class="cl">git.build.version=0.0.1-SNAPSHOT
+</span></span><span class="line"><span class="cl">git.closest.tag.commit.count=
+</span></span><span class="line"><span class="cl">git.closest.tag.name=
+</span></span><span class="line"><span class="cl">git.commit.author.time=2022-03-06T22\:46\:56+0530
+</span></span><span class="line"><span class="cl">git.commit.committer.time=2022-03-06T22\:46\:56+0530
+</span></span><span class="line"><span class="cl">git.commit.id=e9fa20d4914367c1632e3a0eb8ca4d2f32b31a89
+</span></span><span class="line"><span class="cl">git.commit.id.abbrev=e9fa20d
+</span></span><span class="line"><span class="cl">git.commit.id.describe=e9fa20d-dirty
+</span></span><span class="line"><span class="cl">git.commit.id.describe-short=e9fa20d-dirty
+</span></span><span class="line"><span class="cl">git.commit.message.full=Update config
+</span></span><span class="line"><span class="cl">git.commit.message.short=Update config
+</span></span><span class="line"><span class="cl">git.commit.time=2022-03-06T22\:46\:56+0530
+</span></span><span class="line"><span class="cl">git.commit.user.email=saikat@email.com
+</span></span><span class="line"><span class="cl">git.commit.user.name=Saikat
+</span></span><span class="line"><span class="cl">git.dirty=true
+</span></span><span class="line"><span class="cl">git.local.branch.ahead=NO_REMOTE
+</span></span><span class="line"><span class="cl">git.local.branch.behind=NO_REMOTE
+</span></span><span class="line"><span class="cl">git.remote.origin.url=Unknown
+</span></span><span class="line"><span class="cl">git.tags=
+</span></span><span class="line"><span class="cl">git.total.commit.count=2
+</span></span></code></pre></div><p>这个插件带有很多<a href="https://github.com/git-commit-id/git-commit-id-maven-plugin/blob/master/docs/using-the-plugin.md">配置</a>选项。例如，要包含/排除特定属性，我们可以添加 <code>configuration</code> 部分，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;excludeProperties&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;excludeProperty&gt;</span>time<span class="nt">&lt;/excludeProperty&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/excludeProperties&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;includeOnlyProperties&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;property&gt;</span>git.commit.id<span class="nt">&lt;/property&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/includeOnlyProperties&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/configuration&gt;</span>
+</span></span></code></pre></div><p>它将生成如下输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;git&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;commit&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;5404bdf&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><blockquote>
+<p>译者备注：</p>
+<p>使用 4.9.10 版本时，如果想指定输出内容，需要这样设置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;groupId&gt;</span>pl.project13.maven<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;artifactId&gt;</span>git-commit-id-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;version&gt;</span>4.9.10<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">           <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">               <span class="nt">&lt;goal&gt;</span>revision<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">           <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="nt">&lt;generateGitPropertiesFile&gt;</span>true<span class="nt">&lt;/generateGitPropertiesFile&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="nt">&lt;dateFormat&gt;</span>yyyy-MM-dd HH:mm:ss<span class="nt">&lt;/dateFormat&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="nt">&lt;dateFormatTimeZone&gt;</span>GMT+8<span class="nt">&lt;/dateFormatTimeZone&gt;</span>           <span class="nt">&lt;includeOnlyProperties&gt;</span>git.branch,git.build.time,git.build.version,git.commit.id,git.commit.time,git.commit.message.full<span class="nt">&lt;/includeOnlyProperties&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div></blockquote>
+<p>现在让我们看看 Gradle 用户可以使用哪些选项。</p>
+<h3 id="使用-gradle-插件-1">使用 Gradle 插件</h3>
+<p>在 <code>build.gradle</code> 中，我们将添加 <code>gradle-git-properties</code> 插件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gradle" data-lang="gradle"><span class="line"><span class="cl"><span class="n">plugins</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">id</span> <span class="s1">&#39;com.gorylenko.gradle-git-properties&#39;</span> <span class="n">version</span> <span class="s1">&#39;2.4.0&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在让我们构建 Gradle 项目。我们可以看到 <code>build/resources/main/git.properties</code> 文件已创建。并且，执行器 <code>info</code> 端点将显示相同的数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;git&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;branch&#34;</span><span class="p">:</span> <span class="s2">&#34;main&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;commit&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;5404bdf&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-03-06T10:34:16Z&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>该插件也提供了多种使用属性 <code>gitProperties</code> 配置输出的方法。例如，我们通过添加以下内容来限制要出现的键：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gradle" data-lang="gradle"><span class="line"><span class="cl"><span class="n">gitProperties</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">keys</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;git.commit.id&#39;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>重新运行应用程序现在将显示有限的 Git 信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;git&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;commit&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;5404bdf&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="结论">结论</h2>
+<p>在本文中，我们学习了如何使用 Spring Actuator 来公开有关我们应用程序的相关信息。我们了解了如何将有关构建、环境、Git 和 Java 环境的信息添加到 Actuator <code>/info</code> 端点。我们还研究了如何通过 Maven/Gradle 构建插件配置和控制所有这些信息。</p>
+<p>您可以使用 GitHub 上的<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/spring-boot-app-info">代码</a>来尝试一个完整的应用程序来说明这些想法。</p>
+<p>原文链接：<a href="https://reflectoring.io/spring-boot-info-endpoint/">https://reflectoring.io/spring-boot-info-endpoint/</a></p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>[译]在 Spring 中实现 OAuth2：使用范围（第 2 部分）</title>
       <link>https://blog.chensoul.com/posts/2023/07/26/using-oauth2-in-spring-scopes/</link>

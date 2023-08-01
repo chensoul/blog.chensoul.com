@@ -87,7 +87,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="n">KeyPair</span> <span class="nf">generateRsaKey</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">NoSuchAlgorithmException</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">KeyPairGenerator</span> <span class="n">keyPairGenerator</span> <span class="o">=</span> <span class="n">KeyPairGenerator</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="s">&#34;RSA&#34;</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">keyPairGenerator</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="mi">2048</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">keyPairGenerator</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="n">2048</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">keyPairGenerator</span><span class="o">.</span><span class="na">generateKeyPair</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>我们在解码器 bean 中使用这个源，所以我们需要定义它。我们使用 RSA 2048 密钥对，我们也可以在需要时更改它。</p>
@@ -540,8 +540,8 @@
 </span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isTraceOn</span><span class="o">(</span><span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="o">[]</span> <span class="n">value</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameterValues</span><span class="o">(</span><span class="n">TRACE</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Objects</span><span class="o">.</span><span class="na">nonNull</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">        <span class="o">&amp;&amp;</span> <span class="n">value</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">        <span class="o">&amp;&amp;</span> <span class="n">value</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">contentEquals</span><span class="o">(</span><span class="s">&#34;true&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">&amp;&amp;</span> <span class="n">value</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">        <span class="o">&amp;&amp;</span> <span class="n">value</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">contentEquals</span><span class="o">(</span><span class="s">&#34;true&#34;</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">  <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>这里需要注意几点：</p>
@@ -1061,7 +1061,7 @@
 <h2 id="在-spring-web-mvc-应用程序中配置-cors">在 Spring Web MVC 应用程序中配置 CORS</h2>
 <p>使用 Spring Initializr 创建的初始设置包含所有必需的 CORS 依赖项。无需添加外部依赖项。请参阅此<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/cors/configuring-cors-with-spring/SpringWebApplication">示例 Spring Web 应用程序项目</a>。</p>
 <h3 id="在类级别定义-crossorigin">在类级别定义 <code>@CrossOrigin</code></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="mi">3600</span><span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="n">3600</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
 </span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;cors-library/managed/books&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LibraryController</span> <span class="o">{}</span>
@@ -1091,7 +1091,7 @@
 </li>
 </ul>
 <h3 id="类和方法级别的-crossorigin-组合">类和方法级别的 <code>@CrossOrigin</code> 组合</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="mi">3600</span><span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="n">3600</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
 </span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;cors-library/managed/books&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LibraryController</span> <span class="o">{</span>
@@ -1188,7 +1188,7 @@
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">CorsWebFilter</span> <span class="nf">corsWebFilter</span><span class="o">()</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">CorsConfiguration</span> <span class="n">corsConfig</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CorsConfiguration</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">setAllowedOrigins</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;http://localhost:4200&#34;</span><span class="o">));</span>
-</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="mi">3600L</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="n">3600L</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedMethod</span><span class="o">(</span><span class="s">&#34;*&#34;</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">addAllowedHeader</span><span class="o">(</span><span class="s">&#34;Requestor-Type&#34;</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">corsConfig</span><span class="o">.</span><span class="na">addExposedHeader</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">);</span>
@@ -1226,7 +1226,7 @@
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>要在绕过预检请求后使用 Spring Security 设置额外的 CORS 配置，我们可以使用 <code>@CrossOrigin</code> 注释来配置 CORS：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="mi">3600</span><span class="o">,</span> <span class="n">allowCredentials</span> <span class="o">=</span> <span class="s">&#34;true&#34;</span><span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="n">3600</span><span class="o">,</span> <span class="n">allowCredentials</span> <span class="o">=</span> <span class="s">&#34;true&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
 </span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;cors-library/managed/books&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LibraryController</span> <span class="o">{</span>
@@ -1256,7 +1256,7 @@
 </span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setAllowCredentials</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setAllowedHeaders</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;Authorization&#34;</span><span class="o">,</span> <span class="s">&#34;Requestor-Type&#34;</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setExposedHeaders</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;X-Get-Header&#34;</span><span class="o">));</span>
-</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="mi">3600L</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">configuration</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="n">3600L</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">  <span class="n">UrlBasedCorsConfigurationSource</span> <span class="n">source</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UrlBasedCorsConfigurationSource</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">  <span class="n">source</span><span class="o">.</span><span class="na">registerCorsConfiguration</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">,</span> <span class="n">configuration</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">source</span><span class="o">;</span>

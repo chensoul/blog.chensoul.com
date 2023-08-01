@@ -203,7 +203,7 @@
 </span></span><span class=line><span class=cl>    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>visitCircle</span><span class=o>(</span><span class=n>Circle</span> <span class=n>circle</span><span class=o>)</span> <span class=o>{</span>
 </span></span><span class=line><span class=cl>        <span class=kt>double</span> <span class=n>radius</span> <span class=o>=</span> <span class=n>circle</span><span class=o>.</span><span class=na>getRadius</span><span class=o>();</span>
 </span></span><span class=line><span class=cl>        <span class=n>area</span> <span class=o>=</span> <span class=n>Math</span><span class=o>.</span><span class=na>PI</span> <span class=o>*</span> <span class=n>radius</span> <span class=o>*</span> <span class=n>radius</span><span class=o>;</span>
-</span></span><span class=line><span class=cl>        <span class=n>perimeter</span> <span class=o>=</span> <span class=mi>2</span> <span class=o>*</span> <span class=n>Math</span><span class=o>.</span><span class=na>PI</span> <span class=o>*</span> <span class=n>radius</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>perimeter</span> <span class=o>=</span> <span class=n>2</span> <span class=o>*</span> <span class=n>Math</span><span class=o>.</span><span class=na>PI</span> <span class=o>*</span> <span class=n>radius</span><span class=o>;</span>
 </span></span><span class=line><span class=cl>    <span class=o>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=nd>@Override</span>
@@ -211,7 +211,7 @@
 </span></span><span class=line><span class=cl>        <span class=kt>double</span> <span class=n>width</span> <span class=o>=</span> <span class=n>rectangle</span><span class=o>.</span><span class=na>getWidth</span><span class=o>();</span>
 </span></span><span class=line><span class=cl>        <span class=kt>double</span> <span class=n>height</span> <span class=o>=</span> <span class=n>rectangle</span><span class=o>.</span><span class=na>getHeight</span><span class=o>();</span>
 </span></span><span class=line><span class=cl>        <span class=n>area</span> <span class=o>=</span> <span class=n>width</span> <span class=o>*</span> <span class=n>height</span><span class=o>;</span>
-</span></span><span class=line><span class=cl>        <span class=n>perimeter</span> <span class=o>=</span> <span class=mi>2</span> <span class=o>*</span> <span class=o>(</span><span class=n>width</span> <span class=o>+</span> <span class=n>height</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>perimeter</span> <span class=o>=</span> <span class=n>2</span> <span class=o>*</span> <span class=o>(</span><span class=n>width</span> <span class=o>+</span> <span class=n>height</span><span class=o>);</span>
 </span></span><span class=line><span class=cl>    <span class=o>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>double</span> <span class=nf>getArea</span><span class=o>()</span> <span class=o>{</span>
@@ -226,12 +226,12 @@
 </span></span><span class=line><span class=cl>    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=o>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=o>)</span> <span class=o>{</span>
 </span></span><span class=line><span class=cl>        <span class=n>ShapeCalculator</span> <span class=n>calculator</span> <span class=o>=</span> <span class=k>new</span> <span class=n>ShapeCalculator</span><span class=o>();</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>        <span class=n>Circle</span> <span class=n>circle</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Circle</span><span class=o>(</span><span class=mf>5.0</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>Circle</span> <span class=n>circle</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Circle</span><span class=o>(</span><span class=n>5</span><span class=o>.</span><span class=na>0</span><span class=o>);</span>
 </span></span><span class=line><span class=cl>        <span class=n>circle</span><span class=o>.</span><span class=na>accept</span><span class=o>(</span><span class=n>calculator</span><span class=o>);</span>
 </span></span><span class=line><span class=cl>        <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;Circle area: &#34;</span> <span class=o>+</span> <span class=n>calculator</span><span class=o>.</span><span class=na>getArea</span><span class=o>());</span>
 </span></span><span class=line><span class=cl>        <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;Circle perimeter: &#34;</span> <span class=o>+</span> <span class=n>calculator</span><span class=o>.</span><span class=na>getPerimeter</span><span class=o>());</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>        <span class=n>Rectangle</span> <span class=n>rectangle</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Rectangle</span><span class=o>(</span><span class=mf>3.0</span><span class=o>,</span> <span class=mf>4.0</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>Rectangle</span> <span class=n>rectangle</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Rectangle</span><span class=o>(</span><span class=n>3</span><span class=o>.</span><span class=na>0</span><span class=o>,</span> <span class=n>4</span><span class=o>.</span><span class=na>0</span><span class=o>);</span>
 </span></span><span class=line><span class=cl>        <span class=n>rectangle</span><span class=o>.</span><span class=na>accept</span><span class=o>(</span><span class=n>calculator</span><span class=o>);</span>
 </span></span><span class=line><span class=cl>        <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;Rectangle area: &#34;</span> <span class=o>+</span> <span class=n>calculator</span><span class=o>.</span><span class=na>getArea</span><span class=o>());</span>
 </span></span><span class=line><span class=cl>        <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;Rectangle perimeter: &#34;</span> <span class=o>+</span> <span class=n>calculator</span><span class=o>.</span><span class=na>getPerimeter</span><span class=o>());</span>
@@ -341,7 +341,7 @@
 </span></span><span class=line><span class=cl>    <span class=o>}</span>
 </span></span><span class=line><span class=cl><span class=o>}</span>
 </span></span></code></pre></div><p>输出结果如下：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kd>public</span> <span class=kd>class</span> <span class=nc>Main</span> <span class=o>{</span>
-</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span> <span class=mi>1</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span> <span class=n>1</span><span class=o>;</span>
 </span></span><span class=line><span class=cl>    <span class=n>a</span><span class=o>++;</span>
 </span></span><span class=line><span class=cl>    <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>a</span><span class=o>);</span>
 </span></span><span class=line><span class=cl><span class=o>}</span>

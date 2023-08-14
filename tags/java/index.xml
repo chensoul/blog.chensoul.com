@@ -6,7 +6,397 @@
     <description>Recent content in java on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 26 Jul 2023 14:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Aug 2023 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java设计模式：Async Method Invocation</title>
+      <link>https://blog.chensoul.com/posts/2023/08/14/java-design-patterns-async-method-invocation/</link>
+      <pubDate>Mon, 14 Aug 2023 08:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/14/java-design-patterns-async-method-invocation/</guid>
+      <description>本文主要介绍 Async Method Invocation 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 Async Method Invoca</description>
+      <content:encoded><![CDATA[<p>本文主要介绍 Async Method Invocation 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+<h2 id="介绍">介绍</h2>
+<p>Async Method Invocation（异步方法调用）是一种编程模式，用于处理异步操作和并发执行。它允许在执行某个操作时不阻塞主线程，而是将操作委托给另一个线程或处理程序，并在操作完成后获取结果或执行回调。</p>
+<p>异步方法调用的主要目的是提高应用程序的性能和响应能力。通过将耗时的操作（如网络请求、文件读写、数据库查询等）置于后台线程或异步任务中，可以使主线程能够继续执行其他任务，而不会被阻塞。</p>
+<p>异步方法调用可以在不同的编程语言和框架中以不同的方式实现，包括以下几种常见的形式：</p>
+<ol>
+<li>回调函数（Callback）：通过定义回调函数，将异步操作的结果传递给调用方。当异步操作完成时，回调函数会被调用并处理结果。</li>
+<li>Future/Promise（Future/Deferred）：通过Future或Promise对象表示异步操作的结果，调用方可以在需要时获取结果或添加回调函数来处理结果。</li>
+<li>异步/await：异步/await是一种语法糖，用于简化异步代码的编写和理解。它允许以同步的方式编写异步操作，使代码更具可读性。</li>
+<li>观察者模式（Observer）：通过定义观察者对象，异步操作的结果可以被观察者订阅。当结果可用时，观察者会被通知并执行相应的操作。</li>
+</ol>
+<p>使用异步方法调用可以提高应用程序的并发性能和用户体验。它可以在后台执行耗时的操作，使主线程保持响应，并允许应用程序同时处理多个并发请求。然而，对于并发操作的正确处理和管理资源的安全性仍然需要仔细考虑和实施。</p>
+<h2 id="举例">举例</h2>
+<p><code>AsyncResult</code>（用于异步评估值的中间容器），<code>AsyncCallback</code>（可以在任务完成时被执行）和<code>AsyncExecutor</code>（用于管理异步任务的执行）。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">AsyncResult</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">boolean</span> <span class="nf">isCompleted</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">T</span> <span class="nf">getValue</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">ExecutionException</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">await</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">AsyncCallback</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">onComplete</span><span class="o">(</span><span class="n">T</span> <span class="n">value</span><span class="o">,</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Exception</span><span class="o">&gt;</span> <span class="n">ex</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">AsyncExecutor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">startProcess</span><span class="o">(</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">task</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">startProcess</span><span class="o">(</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">task</span><span class="o">,</span> <span class="n">AsyncCallback</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">callback</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span> <span class="nf">endProcess</span><span class="o">(</span><span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">asyncResult</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ExecutionException</span><span class="o">,</span> <span class="n">InterruptedException</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><code>ThreadAsyncExecutor</code>是<code>AsyncExecutor</code>的实现。 接下来将突出显示其一些关键部分。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ThreadAsyncExecutor</span> <span class="kd">implements</span> <span class="n">AsyncExecutor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">startProcess</span><span class="o">(</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">task</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">startProcess</span><span class="o">(</span><span class="n">task</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">startProcess</span><span class="o">(</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">task</span><span class="o">,</span> <span class="n">AsyncCallback</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">var</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CompletableResult</span><span class="o">&lt;&gt;(</span><span class="n">callback</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">              <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">result</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="n">task</span><span class="o">.</span><span class="na">call</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">              <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">result</span><span class="o">.</span><span class="na">setException</span><span class="o">(</span><span class="n">ex</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">              <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">},</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#34;executor-&#34;</span> <span class="o">+</span> <span class="n">idx</span><span class="o">.</span><span class="na">incrementAndGet</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span> <span class="nf">endProcess</span><span class="o">(</span><span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">asyncResult</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">throws</span> <span class="n">ExecutionException</span><span class="o">,</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(!</span><span class="n">asyncResult</span><span class="o">.</span><span class="na">isCompleted</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">asyncResult</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">asyncResult</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后，看看一切是如何协同工作的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 构造一个将执行异步任务的新执行程序
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">var</span> <span class="n">executor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadAsyncExecutor</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 以不同的处理时间开始一些异步任务，最后两个使用回调处理程序
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kd">final</span> <span class="n">var</span> <span class="n">asyncResult1</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">startProcess</span><span class="o">(</span><span class="n">lazyval</span><span class="o">(</span><span class="n">10</span><span class="o">,</span> <span class="n">500</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">final</span> <span class="n">var</span> <span class="n">asyncResult2</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">startProcess</span><span class="o">(</span><span class="n">lazyval</span><span class="o">(</span><span class="s">&#34;test&#34;</span><span class="o">,</span> <span class="n">300</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">final</span> <span class="n">var</span> <span class="n">asyncResult3</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">startProcess</span><span class="o">(</span><span class="n">lazyval</span><span class="o">(</span><span class="n">50L</span><span class="o">,</span> <span class="n">700</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">final</span> <span class="n">var</span> <span class="n">asyncResult4</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">startProcess</span><span class="o">(</span><span class="n">lazyval</span><span class="o">(</span><span class="n">20</span><span class="o">,</span> <span class="n">400</span><span class="o">),</span> <span class="n">callback</span><span class="o">(</span><span class="s">&#34;Deploying lunar rover&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">final</span> <span class="n">var</span> <span class="n">asyncResult5</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">      <span class="n">executor</span><span class="o">.</span><span class="na">startProcess</span><span class="o">(</span><span class="n">lazyval</span><span class="o">(</span><span class="s">&#34;callback&#34;</span><span class="o">,</span> <span class="n">600</span><span class="o">),</span> <span class="n">callback</span><span class="o">(</span><span class="s">&#34;Deploying lunar rover&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 在当前线程中模拟异步任务正在它们自己的线程中执行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">350</span><span class="o">);</span> <span class="c1">// 哦，兄弟，我们在这很辛苦
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">log</span><span class="o">(</span><span class="s">&#34;Mission command is sipping coffee&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 等待任务完成
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kd">final</span> <span class="n">var</span> <span class="n">result1</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">endProcess</span><span class="o">(</span><span class="n">asyncResult1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">final</span> <span class="n">var</span> <span class="n">result2</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">endProcess</span><span class="o">(</span><span class="n">asyncResult2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">final</span> <span class="n">var</span> <span class="n">result3</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">endProcess</span><span class="o">(</span><span class="n">asyncResult3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">asyncResult4</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">asyncResult5</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// log the results of the tasks, callbacks log immediately when complete
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 记录任务结果的日志， 回调的日志会在回调完成时立刻记录
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">log</span><span class="o">(</span><span class="s">&#34;Space rocket &lt;&#34;</span> <span class="o">+</span> <span class="n">result1</span> <span class="o">+</span> <span class="s">&#34;&gt; launch complete&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">log</span><span class="o">(</span><span class="s">&#34;Space rocket &lt;&#34;</span> <span class="o">+</span> <span class="n">result2</span> <span class="o">+</span> <span class="s">&#34;&gt; launch complete&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">log</span><span class="o">(</span><span class="s">&#34;Space rocket &lt;&#34;</span> <span class="o">+</span> <span class="n">result3</span> <span class="o">+</span> <span class="s">&#34;&gt; launch complete&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是程序控制台的输出。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nl">21:</span><span class="n">47</span><span class="o">:</span><span class="n">08</span><span class="o">.</span><span class="na">227</span> <span class="o">[</span><span class="n">executor</span><span class="o">-</span><span class="n">2</span><span class="o">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="na">iluwatar</span><span class="o">.</span><span class="na">async</span><span class="o">.</span><span class="na">method</span><span class="o">.</span><span class="na">invocation</span><span class="o">.</span><span class="na">App</span> <span class="o">-</span> <span class="n">Space</span> <span class="n">rocket</span> <span class="o">&lt;</span><span class="n">test</span><span class="o">&gt;</span> <span class="n">launched</span> <span class="n">successfully</span>
+</span></span><span class="line"><span class="cl"><span class="nl">21:</span><span class="n">47</span><span class="o">:</span><span class="n">08</span><span class="o">.</span><span class="na">269</span> <span class="o">[</span><span class="n">main</span><span class="o">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="na">iluwatar</span><span class="o">.</span><span class="na">async</span><span class="o">.</span><span class="na">method</span><span class="o">.</span><span class="na">invocation</span><span class="o">.</span><span class="na">App</span> <span class="o">-</span> <span class="n">Mission</span> <span class="n">command</span> <span class="n">is</span> <span class="n">sipping</span> <span class="n">coffee</span>
+</span></span><span class="line"><span class="cl"><span class="nl">21:</span><span class="n">47</span><span class="o">:</span><span class="n">08</span><span class="o">.</span><span class="na">318</span> <span class="o">[</span><span class="n">executor</span><span class="o">-</span><span class="n">4</span><span class="o">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="na">iluwatar</span><span class="o">.</span><span class="na">async</span><span class="o">.</span><span class="na">method</span><span class="o">.</span><span class="na">invocation</span><span class="o">.</span><span class="na">App</span> <span class="o">-</span> <span class="n">Space</span> <span class="n">rocket</span> <span class="o">&lt;</span><span class="n">20</span><span class="o">&gt;</span> <span class="n">launched</span> <span class="n">successfully</span>
+</span></span><span class="line"><span class="cl"><span class="nl">21:</span><span class="n">47</span><span class="o">:</span><span class="n">08</span><span class="o">.</span><span class="na">335</span> <span class="o">[</span><span class="n">executor</span><span class="o">-</span><span class="n">4</span><span class="o">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="na">iluwatar</span><span class="o">.</span><span class="na">async</span><span class="o">.</span><span class="na">method</span><span class="o">.</span><span class="na">invocation</span><span class="o">.</span><span class="na">App</span> <span class="o">-</span> <span class="n">Deploying</span> <span class="n">lunar</span> <span class="n">rover</span> <span class="o">&lt;</span><span class="n">20</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nl">21:</span><span class="n">47</span><span class="o">:</span><span class="n">08</span><span class="o">.</span><span class="na">414</span> <span class="o">[</span><span class="n">executor</span><span class="o">-</span><span class="n">1</span><span class="o">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="na">iluwatar</span><span class="o">.</span><span class="na">async</span><span class="o">.</span><span class="na">method</span><span class="o">.</span><span class="na">invocation</span><span class="o">.</span><span class="na">App</span> <span class="o">-</span> <span class="n">Space</span> <span class="n">rocket</span> <span class="o">&lt;</span><span class="n">10</span><span class="o">&gt;</span> <span class="n">launched</span> <span class="n">successfully</span>
+</span></span><span class="line"><span class="cl"><span class="nl">21:</span><span class="n">47</span><span class="o">:</span><span class="n">08</span><span class="o">.</span><span class="na">519</span> <span class="o">[</span><span class="n">executor</span><span class="o">-</span><span class="n">5</span><span class="o">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="na">iluwatar</span><span class="o">.</span><span class="na">async</span><span class="o">.</span><span class="na">method</span><span class="o">.</span><span class="na">invocation</span><span class="o">.</span><span class="na">App</span> <span class="o">-</span> <span class="n">Space</span> <span class="n">rocket</span> <span class="o">&lt;</span><span class="n">callback</span><span class="o">&gt;</span> <span class="n">launched</span> <span class="n">successfully</span>
+</span></span><span class="line"><span class="cl"><span class="nl">21:</span><span class="n">47</span><span class="o">:</span><span class="n">08</span><span class="o">.</span><span class="na">519</span> <span class="o">[</span><span class="n">executor</span><span class="o">-</span><span class="n">5</span><span class="o">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="na">iluwatar</span><span class="o">.</span><span class="na">async</span><span class="o">.</span><span class="na">method</span><span class="o">.</span><span class="na">invocation</span><span class="o">.</span><span class="na">App</span> <span class="o">-</span> <span class="n">Deploying</span> <span class="n">lunar</span> <span class="n">rover</span> <span class="o">&lt;</span><span class="n">callback</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nl">21:</span><span class="n">47</span><span class="o">:</span><span class="n">08</span><span class="o">.</span><span class="na">616</span> <span class="o">[</span><span class="n">executor</span><span class="o">-</span><span class="n">3</span><span class="o">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="na">iluwatar</span><span class="o">.</span><span class="na">async</span><span class="o">.</span><span class="na">method</span><span class="o">.</span><span class="na">invocation</span><span class="o">.</span><span class="na">App</span> <span class="o">-</span> <span class="n">Space</span> <span class="n">rocket</span> <span class="o">&lt;</span><span class="n">50</span><span class="o">&gt;</span> <span class="n">launched</span> <span class="n">successfully</span>
+</span></span><span class="line"><span class="cl"><span class="nl">21:</span><span class="n">47</span><span class="o">:</span><span class="n">08</span><span class="o">.</span><span class="na">617</span> <span class="o">[</span><span class="n">main</span><span class="o">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="na">iluwatar</span><span class="o">.</span><span class="na">async</span><span class="o">.</span><span class="na">method</span><span class="o">.</span><span class="na">invocation</span><span class="o">.</span><span class="na">App</span> <span class="o">-</span> <span class="n">Space</span> <span class="n">rocket</span> <span class="o">&lt;</span><span class="n">10</span><span class="o">&gt;</span> <span class="n">launch</span> <span class="n">complete</span>
+</span></span><span class="line"><span class="cl"><span class="nl">21:</span><span class="n">47</span><span class="o">:</span><span class="n">08</span><span class="o">.</span><span class="na">617</span> <span class="o">[</span><span class="n">main</span><span class="o">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="na">iluwatar</span><span class="o">.</span><span class="na">async</span><span class="o">.</span><span class="na">method</span><span class="o">.</span><span class="na">invocation</span><span class="o">.</span><span class="na">App</span> <span class="o">-</span> <span class="n">Space</span> <span class="n">rocket</span> <span class="o">&lt;</span><span class="n">test</span><span class="o">&gt;</span> <span class="n">launch</span> <span class="n">complete</span>
+</span></span><span class="line"><span class="cl"><span class="nl">21:</span><span class="n">47</span><span class="o">:</span><span class="n">08</span><span class="o">.</span><span class="na">618</span> <span class="o">[</span><span class="n">main</span><span class="o">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="na">iluwatar</span><span class="o">.</span><span class="na">async</span><span class="o">.</span><span class="na">method</span><span class="o">.</span><span class="na">invocation</span><span class="o">.</span><span class="na">App</span> <span class="o">-</span> <span class="n">Space</span> <span class="n">rocket</span> <span class="o">&lt;</span><span class="n">50</span><span class="o">&gt;</span> <span class="n">launch</span> <span class="n">complete</span>
+</span></span></code></pre></div><h2 id="类图">类图</h2>
+<p><img loading="lazy" src="https://java-design-patterns.com/assets/async-method-invocation-93a424d0.png" alt="alt text"  />
+</p>
+<h2 id="注意事项">注意事项</h2>
+<h3 id="线程安全性和管理异步任务">线程安全性和管理异步任务</h3>
+<p>在使用异步方法调用模式时，确保线程安全性和管理异步任务是非常重要的。以下是一些常用的方法和技术：</p>
+<ol>
+<li>线程安全性：
+<ul>
+<li>使用线程安全的数据结构：在异步方法调用中，多个线程可能同时访问和修改共享的数据。为了确保线程安全，可以使用线程安全的数据结构，如<code>ConcurrentHashMap</code>、<code>ConcurrentLinkedQueue</code>等，来管理共享数据。</li>
+<li>使用同步机制：使用同步机制，如<code>synchronized</code>关键字或<code>Lock</code>接口，来保护共享资源的访问，以避免并发访问导致的数据竞争和不一致性。</li>
+<li>避免共享状态：尽可能避免在异步任务之间共享状态，而是通过参数传递和返回值来进行数据交换。这可以减少对共享资源的并发访问，从而简化线程安全性的管理。</li>
+</ul>
+</li>
+<li>异步任务管理：
+<ul>
+<li>使用线程池：使用线程池可以有效地管理和调度异步任务的执行。线程池可以控制并发线程的数量，重用线程，避免线程创建和销毁的开销，并提供任务队列来缓冲待执行的任务。</li>
+<li>使用Future和Promise：Future和Promise是用于管理异步任务的常用概念。Future表示一个异步任务的结果，可以通过它来获取任务的返回值或等待任务完成。Promise是Future的扩展，它允许设置异步任务的结果。通过使用Future和Promise，可以更方便地管理异步任务的状态和结果。</li>
+<li>使用回调函数：回调函数是异步方法调用中常用的一种方式，用于在任务完成时执行相应的操作。通过定义回调函数，可以将任务的处理逻辑与任务执行的异步性解耦，从而更灵活地处理异步任务的结果。</li>
+</ul>
+</li>
+</ol>
+<p>同时，请注意以下几点：</p>
+<ul>
+<li>在设计和实现异步方法调用时，需要仔细考虑线程安全性和并发访问的问题，并进行适当的测试和验证。</li>
+<li>根据具体的应用场景和需求，选择适合的线程安全机制和异步任务管理策略。</li>
+<li>在多线程环境下使用异步方法调用时，要注意可能出现的线程安全性问题，如数据竞争、死锁和活锁等，并采取相应的预防和解决措施。</li>
+</ul>
+<p>综上所述，线程安全性和异步任务管理是确保异步方法调用模式正确运行的关键因素，需要仔细设计和实施相应的策略和机制。</p>
+<h3 id="异常处理">异常处理</h3>
+<p>在异步任务管理中，处理任务执行过程中可能出现的异常是很重要的。以下是一些常用的方法和技术：</p>
+<ol>
+<li>异常处理机制：
+<ul>
+<li>使用try-catch块：在异步任务的执行代码块内，使用try-catch块捕获可能抛出的异常，并在catch块中进行相应的异常处理。可以根据具体需求选择恰当的异常处理策略，如记录日志、发送通知、回滚操作等。</li>
+<li>使用异常回调函数：定义一个异常回调函数，用于在任务执行过程中捕获异常并进行相应的处理。回调函数可以接收异常对象作为参数，并在任务执行完成时被调用。这样可以将异常处理逻辑与任务执行逻辑解耦，提高代码的可维护性和灵活性。</li>
+</ul>
+</li>
+<li>异常传递和封装：
+<ul>
+<li>使用Future和Promise：在异步任务中，可以使用Future和Promise来传递任务的执行结果和异常。当任务执行过程中发生异常时，可以将异常信息设置到Promise对象中，并通过Future获取异常信息进行处理。</li>
+<li>封装异常信息：在异常发生时，可以将异常信息封装到自定义的异常类中，并通过抛出该异常来表示任务执行过程中的异常情况。调用方可以通过捕获并处理相应的异常来处理任务的执行结果和异常情况。</li>
+</ul>
+</li>
+<li>错误处理策略：
+<ul>
+<li>重试机制：当任务执行过程中发生异常时，可以根据一定的策略进行重试。可以设置最大重试次数和重试间隔时间，以便在一定程度上解决临时性的异常情况。</li>
+<li>回退策略：当任务执行过程中发生异常时，可以使用回退策略来处理。回退策略可以选择执行备选方案或使用默认值，以确保任务的正常执行。</li>
+</ul>
+</li>
+</ol>
+<p>请注意以下几点：</p>
+<ul>
+<li>在异步任务管理中，及时捕获和处理异常是非常重要的，以防止异常的传播和影响其他任务或系统的正常运行。</li>
+<li>根据具体的应用场景和需求，选择适合的异常处理机制和错误处理策略。</li>
+<li>在处理异常时，需要根据异常类型和情况进行适当的处理，以确保任务的正确执行和系统的稳定性。</li>
+</ul>
+<p>总结而言，在异步任务管理中，合理处理任务执行过程中的异常是保证系统稳定性和可靠性的关键因素之一。通过适当的异常处理机制、异常传递和封装，以及错误处理策略，可以有效地处理任务执行中可能出现的异常情况。</p>
+<h2 id="适用性">适用性</h2>
+<p>异步方法调用模式适用于以下情况:</p>
+<ol>
+<li>当您有多个可以并行运行的独立任务时：该模式允许您以并行的方式处理多个任务，而无需等待单个任务完成。这对于并行处理独立任务的情况非常有用，以提高整体的执行效率。</li>
+<li>当您需要提高一组顺序任务的性能时：如果存在一组任务按照特定顺序执行，但其中某些任务可能是耗时的，您可以使用异步方法调用模式来并行处理这些任务。这样，在等待某个任务完成时，其他任务可以继续执行，从而提高整体性能。</li>
+<li>当您的处理能力或长时间运行的任务数量有限，并且调用方不应等待任务执行完毕时：如果您的系统资源有限，无法同时处理大量的长时间运行任务，而且调用方不希望被阻塞等待任务完成，那么异步方法调用模式可以很好地满足这种需求。它允许调用方立即返回，并在任务完成后通过回调或等待来获取任务结果。</li>
+</ol>
+<p>异步方法调用模式可以提高应用程序的性能、资源利用率和响应能力。通过并行处理任务和减少等待时间，可以更好地利用系统资源，提高整体效率。然而，使用该模式可能会增加代码复杂性，需要考虑线程安全性和异步任务的管理等问题。</p>
+<p>请注意，适用性取决于具体的应用场景和需求。在决定是否使用异步方法调用模式时，需要综合考虑系统的要求、资源限制以及代码复杂性等因素。</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Java设计模式：API Gateway </title>
+      <link>https://blog.chensoul.com/posts/2023/08/13/java-design-patterns-api-gateway/</link>
+      <pubDate>Sun, 13 Aug 2023 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/13/java-design-patterns-api-gateway/</guid>
+      <description>本文主要介绍 API Gateway 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 目的 API网关设计模式</description>
+      <content:encoded><![CDATA[<p>本文主要介绍 API Gateway 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+<h2 id="目的">目的</h2>
+<p>API网关设计模式旨在将所有对微服务的调用聚合到一起。客户端通过调用API网关来实现对多个微服务的访问，而不是直接调用每个微服务。这种模式的目的是解决以下问题：</p>
+<ol>
+<li>减少客户端的网络请求：如果客户端直接调用每个微服务，会导致额外的网络请求，增加加载时间。通过使用API网关，客户端只需要进行一次调用，而不是多次调用。</li>
+<li>解耦客户端和微服务：如果客户端直接与每个微服务进行通信，客户端与微服务之间的耦合度很高。当微服务的实现发生变化或位置发生变化时，需要更新所有客户端。使用API网关可以将客户端与具体的微服务解耦，客户端只需要与API网关通信。</li>
+<li>提供集中化的功能和服务：API网关可以实现一些通用的功能和服务，例如限流、认证、授权、安全性等。这样可以避免每个微服务都实现这些功能，减少重复代码。</li>
+</ol>
+<h2 id="解释">解释</h2>
+<p>在实际应用中，API网关通常包括一个转换引擎，用于实时地编排和修改请求和响应。它还可以提供收集分析数据和提供缓存等功能。另外，API网关还可以支持身份验证、授权、安全性、审计和法规遵从性等功能。</p>
+<p>假设你正在开发一个电子商务平台，其中包含多个微服务，如用户服务、产品服务、图片服务、订单服务和支付服务等。每个微服务都有自己的API和数据库。</p>
+<p>在这种情况下，你可以引入一个API网关来处理对这些微服务的访问。API网关作为一个入口点，接收来自客户端的请求，并将请求转发到适当的微服务。</p>
+<p>例如，当一个客户端需要获取某个产品的详细信息时，他们可以发送一个HTTP请求到API网关的特定端点。API网关会验证请求并将其转发到产品服务。产品服务将查询数据库获取产品信息，并将响应返回给API网关。然后，API网关将产品信息返回给客户端。</p>
+<p>API网关可以实现以下功能：</p>
+<ol>
+<li>认证和授权：API网关可以验证客户端的身份和权限，确保只有经过授权的用户能够访问特定的微服务。</li>
+<li>请求转发和路由：API网关根据请求的路径和参数将请求转发到适当的微服务。它可以执行负载均衡和路由策略，确保请求被正确地分发到相应的微服务实例。</li>
+<li>响应聚合：如果一个请求需要从多个微服务获取数据，API网关可以将这些请求发送给相应的微服务，并将它们的响应聚合到一个响应中返回给客户端。</li>
+<li>缓存和性能优化：API网关可以缓存常用的请求和响应，以提高性能并减轻后端微服务的负载。</li>
+<li>安全性和监控：API网关可以实施安全策略，例如防止恶意请求和DDoS攻击。它还可以监控请求和响应，收集应用程序的指标和日志数据。</li>
+</ol>
+<p><strong>程序示例</strong></p>
+<p>此实现展示了电子商务站点的API网关模式。<code> ApiGateway</code>分别使用<code> ImageClientImpl</code>和<code> PriceClientImpl</code>来调用Image和Price微服务。 在桌面设备上查看该网站的客户可以看到价格信息和产品图片，因此<code> ApiGateway</code>会调用这两种微服务并在<code>DesktopProduct</code>模型中汇总数据。 但是，移动用户只能看到价格信息。 他们看不到产品图片。 对于移动用户，<code>ApiGateway</code>仅检索价格信息，并将其用于填充<code>MobileProduct</code>模型。</p>
+<p>这个是图像微服务的实现。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ImageClient</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="nf">getImagePath</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ImageClientImpl</span> <span class="kd">implements</span> <span class="n">ImageClient</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getImagePath</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">var</span> <span class="n">httpClient</span> <span class="o">=</span> <span class="n">HttpClient</span><span class="o">.</span><span class="na">newHttpClient</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">var</span> <span class="n">httpGet</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="o">.</span><span class="na">newBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">GET</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">uri</span><span class="o">(</span><span class="n">URI</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="s">&#34;http://localhost:50005/image-path&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">var</span> <span class="n">httpResponse</span> <span class="o">=</span> <span class="n">httpClient</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="n">httpGet</span><span class="o">,</span> <span class="n">BodyHandlers</span><span class="o">.</span><span class="na">ofString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">httpResponse</span><span class="o">.</span><span class="na">body</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="o">|</span> <span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这里是价格服务的实现。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">PriceClient</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">String</span> <span class="nf">getPrice</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PriceClientImpl</span> <span class="kd">implements</span> <span class="n">PriceClient</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getPrice</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">var</span> <span class="n">httpClient</span> <span class="o">=</span> <span class="n">HttpClient</span><span class="o">.</span><span class="na">newHttpClient</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">var</span> <span class="n">httpGet</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="o">.</span><span class="na">newBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">GET</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">uri</span><span class="o">(</span><span class="n">URI</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="s">&#34;http://localhost:50006/price&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">var</span> <span class="n">httpResponse</span> <span class="o">=</span> <span class="n">httpClient</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="n">httpGet</span><span class="o">,</span> <span class="n">BodyHandlers</span><span class="o">.</span><span class="na">ofString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">httpResponse</span><span class="o">.</span><span class="na">body</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="o">|</span> <span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，我们可以看到API网关如何将请求映射到微服务。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApiGateway</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Resource</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">ImageClient</span> <span class="n">imageClient</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Resource</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">PriceClient</span> <span class="n">priceClient</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">&#34;/desktop&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">DesktopProduct</span> <span class="nf">getProductDesktop</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">var</span> <span class="n">desktopProduct</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DesktopProduct</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">desktopProduct</span><span class="o">.</span><span class="na">setImagePath</span><span class="o">(</span><span class="n">imageClient</span><span class="o">.</span><span class="na">getImagePath</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">desktopProduct</span><span class="o">.</span><span class="na">setPrice</span><span class="o">(</span><span class="n">priceClient</span><span class="o">.</span><span class="na">getPrice</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">desktopProduct</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">&#34;/mobile&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">MobileProduct</span> <span class="nf">getProductMobile</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">var</span> <span class="n">mobileProduct</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MobileProduct</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mobileProduct</span><span class="o">.</span><span class="na">setPrice</span><span class="o">(</span><span class="n">priceClient</span><span class="o">.</span><span class="na">getPrice</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">mobileProduct</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="类图">类图</h2>
+<p><img loading="lazy" src="https://java-design-patterns.com/assets/api-gateway-fe73287d.png" alt="alt text"  />
+</p>
+<h2 id="适用性">适用性</h2>
+<ul>
+<li>
+<p>API网关模式适用于以下情况：</p>
+<ol>
+<li>微服务架构：当你的应用程序采用微服务架构时，每个微服务负责特定的业务功能。API网关可以作为微服务架构的入口点，聚合和管理所有微服务的访问。</li>
+<li>多渠道访问：如果你的应用程序需要支持多个客户端渠道（如Web、移动应用、第三方集成等），API网关可以提供统一的接入点，处理不同渠道的请求，并将其转发到相应的微服务。</li>
+<li>安全性和认证：当你需要对客户端进行身份验证和授权，并确保只有合法用户能够访问你的微服务时，API网关可以实施安全性策略，集中管理认证和授权。</li>
+<li>请求聚合和转换：如果客户端需要从多个微服务获取数据，并希望将这些数据聚合为单个响应，API网关可以处理这种请求聚合，并在需要时转换请求和响应的格式。</li>
+<li>性能优化和缓存：API网关可以实现请求的缓存机制，减少对后端微服务的重复请求，提高性能和响应时间。</li>
+<li>监控和日志记录：通过集中管理请求和响应的流量，API网关可以收集应用程序的指标和日志数据，用于监控和故障排除。</li>
+</ol>
+<p>总的来说，API网关模式适用于需要对微服务架构进行统一管理、安全性控制、请求聚合、性能优化和监控的场景。它提供了一个中心化的入口点，简化了客户端与微服务之间的通信，并提供了额外的功能和服务。</p>
+</li>
+</ul>
+<h2 id="参考">参考</h2>
+<ul>
+<li>
+<p>&ldquo;API Gateway&rdquo; - Martin Fowler: <a href="https://martinfowler.com/articles/microservices.html#APIGateway">https://martinfowler.com/articles/microservices.html#APIGateway</a></p>
+</li>
+<li>
+<p>&ldquo;API Gateway&rdquo; - AWS Well-Architected Framework: <a href="https://wa.aws.amazon.com/wat.pillar.apigateway.en.html">https://wa.aws.amazon.com/wat.pillar.apigateway.en.html</a></p>
+</li>
+<li>
+<p>&ldquo;Introduction to API Gateways&rdquo; - NGINX: <a href="https://www.nginx.com/api-gateway/">https://www.nginx.com/api-gateway/</a></p>
+</li>
+<li>
+<p><a href="http://microservices.io/patterns/apigateway.html">microservices.io - API Gateway</a></p>
+</li>
+<li>
+<p><a href="https://www.nginx.com/blog/building-microservices-using-an-api-gateway/">NGINX - Building Microservices: Using an API Gateway</a></p>
+</li>
+<li>
+<p><a href="https://www.amazon.com/gp/product/1617294543/ref=as_li_qf_asin_il_tl?ie=UTF8&amp;tag=javadesignpat-20&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=1617294543&amp;linkId=ac7b6a57f866ac006a309d9086e8cfbd">Microservices Patterns: With examples in Java</a></p>
+</li>
+<li>
+<p><a href="https://www.amazon.com/gp/product/1491950358/ref=as_li_qf_asin_il_tl?ie=UTF8&amp;tag=javadesignpat-20&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=1491950358&amp;linkId=4c95ca9831e05e3f0dadb08841d77bf1">Building Microservices: Designing Fine-Grained Systems</a></p>
+</li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Java设计模式：Arrange/Act/Assert</title>
+      <link>https://blog.chensoul.com/posts/2023/08/13/java-design-patterns-arrange-act-assert/</link>
+      <pubDate>Sun, 13 Aug 2023 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/13/java-design-patterns-arrange-act-assert/</guid>
+      <description>本文主要介绍 Arrange/Act/Assert 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 Arrange/Ac</description>
+      <content:encoded><![CDATA[<p>本文主要介绍 Arrange/Act/Assert 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+<h2 id="介绍">介绍</h2>
+<p>Arrange/Act/Assert（安排/执行/断言）又称 Given/When/Then，是一种测试设计模式，用于组织和编写单元测试的结构。它提供了一种清晰的测试布局，使得测试代码易于理解和维护。</p>
+<p>该模式的三个阶段如下：</p>
+<ol>
+<li>Arrange（安排）：在这个阶段，你准备测试环境和设置测试数据。这包括创建对象、设置输入参数、模拟依赖项等。你的目标是为将要进行的测试创建一个合适的环境。</li>
+<li>Act（执行）：在这个阶段，你执行要测试的操作或调用要测试的方法。这是你对被测试代码进行实际调用的地方。</li>
+<li>Assert（断言）：在这个阶段，你验证测试的结果是否符合预期。你会检查实际的输出、状态变化或异常情况，并使用断言语句来断言测试的期望结果。</li>
+</ol>
+<p>这种测试结构的优势在于它提供了清晰的分离和组织测试代码的方式，并使得测试的目的和预期结果更容易理解。它也有助于减少测试代码中的重复和冗余。</p>
+<p>以下是一个使用Arrange/Act/Assert模式编写的示例测试方法的伪代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">testCalculateTotalPrice</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Arrange
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ShoppingCart</span> <span class="n">cart</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ShoppingCart</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cart</span><span class="o">.</span><span class="na">addItem</span><span class="o">(</span><span class="k">new</span> <span class="n">Item</span><span class="o">(</span><span class="s">&#34;Item 1&#34;</span><span class="o">,</span> <span class="n">10</span><span class="o">.</span><span class="na">0</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cart</span><span class="o">.</span><span class="na">addItem</span><span class="o">(</span><span class="k">new</span> <span class="n">Item</span><span class="o">(</span><span class="s">&#34;Item 2&#34;</span><span class="o">,</span> <span class="n">15</span><span class="o">.</span><span class="na">0</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Act
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">double</span> <span class="n">totalPrice</span> <span class="o">=</span> <span class="n">cart</span><span class="o">.</span><span class="na">calculateTotalPrice</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Assert
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">assertEquals</span><span class="o">(</span><span class="n">25</span><span class="o">.</span><span class="na">0</span><span class="o">,</span> <span class="n">totalPrice</span><span class="o">,</span> <span class="n">0</span><span class="o">.</span><span class="na">01</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上述示例中，首先在Arrange阶段创建了一个购物车对象，并添加了两个商品。然后，在Act阶段调用了<code>calculateTotalPrice()</code>方法来计算总价格。最后，在Assert阶段使用断言语句来验证计算的结果是否等于预期的总价格。</p>
+<h2 id="适用性">适用性</h2>
+<p>Arrange/Act/Assert（安排/执行/断言）设计模式适用于编写单元测试，特别是针对函数、方法或类的单元测试。它在以下情况下特别有用：</p>
+<ol>
+<li>单元测试：Arrange/Act/Assert模式适用于对单个函数或方法进行测试。它帮助你组织测试代码，使其结构清晰，并确保每个测试只关注一个特定的功能或行为。</li>
+<li>易于理解和维护：这种模式提供了一种一致的测试结构，使得测试代码易于理解和维护。通过明确的安排、执行和断言阶段，你可以更清楚地了解测试的目的和预期结果。</li>
+<li>测试代码可读性：Arrange/Act/Assert模式可以使测试代码更具可读性。通过按照统一的结构组织测试代码，使得测试逻辑更加清晰可见，易于他人理解和参与。</li>
+<li>提高可维护性：使用这种模式可以减少测试代码中的重复和冗余，使得测试代码更易于维护。在Arrange阶段设置测试环境和准备数据，可以减少在每个测试中重复的代码。</li>
+<li>测试结果验证：Arrange/Act/Assert模式明确了测试结果的验证过程。在Assert阶段使用断言语句来验证实际结果与预期结果的一致性，帮助你确保被测试代码的正确性。</li>
+</ol>
+<p>需要注意的是，Arrange/Act/Assert模式主要适用于单元测试，而对于集成测试或端到端测试等更大范围的测试，可能需要使用其他测试设计模式或框架来进行组织和管理测试代码。</p>
+<blockquote>
+<p>除了Arrange/Act/Assert模式，以下是一些适用于集成测试或端到端测试的设计模式或框架：</p>
+<ol>
+<li>Page Object模式：Page Object模式是一种用于管理用户界面元素和操作的设计模式。它将页面的元素和操作封装到可重用的对象中，使得测试代码更具可读性和可维护性。Page Object模式特别适用于Web应用程序的端到端测试。</li>
+<li>数据构建器模式：数据构建器模式用于生成测试数据，以便在集成测试或端到端测试中使用。它提供了一种灵活的方式来创建测试数据，包括复杂的数据结构和关联关系。</li>
+<li>数据准备和清理模式：在集成测试或端到端测试中，通常需要准备测试数据和环境，并在测试完成后进行清理。数据准备和清理模式提供了一种结构化的方法来管理这些操作，确保测试的一致性和可重复性。</li>
+<li>Mock对象模式：Mock对象模式用于模拟或替代外部依赖项，以便进行集成测试或端到端测试。通过使用Mock对象，你可以隔离被测试代码与外部系统的交互，使得测试更加可控和独立。</li>
+<li>BDD（行为驱动开发）框架：BDD框架（如Cucumber、SpecFlow等）提供了一种以自然语言编写测试用例和规范的方式。它将测试用例描述为可读性强的场景和步骤，帮助开发人员、测试人员和业务利益相关者之间的沟通和理解。</li>
+</ol>
+</blockquote>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://blog.ncrunch.net/post/arrange-act-assert-aaa-testing.aspx">Arrange, Act, Assert: What is AAA Testing?</a></li>
+<li><a href="https://xp123.com/articles/3a-arrange-act-assert/">Bill Wake: 3A – Arrange, Act, Assert</a></li>
+<li><a href="https://martinfowler.com/bliki/GivenWhenThen.html">Martin Fowler: GivenWhenThen</a></li>
+<li><a href="https://www.amazon.com/gp/product/0131495054/ref=as_li_qf_asin_il_tl?ie=UTF8&amp;tag=javadesignpat-20&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0131495054&amp;linkId=99701e8f4af2f7e8dd50d720c9b63dbf">xUnit Test Patterns: Refactoring Test Code</a></li>
+<li><a href="https://www.amazon.com/gp/product/1617296279/ref=as_li_qf_asin_il_tl?ie=UTF8&amp;tag=javadesignpat-20&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=1617296279&amp;linkId=74c75cf22a63c3e4758ae08aa0a0cc35">Unit Testing Principles, Practices, and Patterns</a></li>
+<li><a href="https://www.amazon.com/gp/product/0321146530/ref=as_li_qf_asin_il_tl?ie=UTF8&amp;tag=javadesignpat-20&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0321146530&amp;linkId=5c63a93d8c1175b84ca5087472ef0e05">Test Driven Development: By Example</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>[译]Spring Boot授权服务器 - 使用 Java 的资源服务器和客户端凭证示例</title>
       <link>https://blog.chensoul.com/posts/2023/07/26/spring-boot-authorization-server/</link>
@@ -4114,8 +4504,49 @@ subprotocols: subprotocol1, subprotocol2</p>
       <pubDate>Thu, 15 Jun 2023 09:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/06/15/minimize-the-accessibility-of-classes-and-members/</guid>
-      <description>本文是 《Effective Java 3》第四章《类和接口》的学习笔记：在公共类中，使用访问器方法，而不是公共字段。</description>
+      <description>本文是 《Effective Java 3》第四章《类和接口》的学习笔记：在公共类中，使用访问器方法，而不是公共字段。 介绍 与其直接将类的内部字段公开为公</description>
       <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第四章《类和接口》的学习笔记：在公共类中，使用访问器方法，而不是公共字段。</p>
+<h2 id="介绍">介绍</h2>
+<p>与其直接将类的内部字段公开为公共字段，推荐使用访问器方法（也称为getter和setter）来访问和修改对象的状态。这样可以使类对其内部表示保持控制，并为类的客户端提供一种抽象程度。</p>
+<p>通过使用访问器方法，您可以实现以下目标：</p>
+<ol>
+<li>封装内部表示（Encapsulate Internal Representation）：
+<ul>
+<li>Getter方法：Getter方法用于获取私有字段的值。通过使用getter方法，可以将字段的访问限制在类的内部，从而隐藏了字段的具体实现细节。客户端只能通过调用getter方法来获取字段的值，而无法直接访问字段本身。</li>
+<li>Setter方法：Setter方法用于设置私有字段的值。使用setter方法，可以对字段进行验证、约束和逻辑处理。这样，类可以对字段的修改进行控制，并确保只有经过验证的值才能被设置。</li>
+</ul>
+</li>
+<li>控制访问和修改（Control Access and Modification）：
+<ul>
+<li>Getter方法：通过getter方法，可以对字段的访问进行控制。例如，可以在getter方法中添加权限检查，只允许特定的用户或角色获取字段的值。还可以在getter方法中进行计算或转换，以便返回不同于字段本身的值。</li>
+<li>Setter方法：Setter方法允许对字段的修改进行控制。在setter方法中，可以进行输入验证、范围检查和其他逻辑处理。这样可以确保只有符合规定的值才能被设置到字段中，从而保持类的状态的一致性和完整性。</li>
+</ul>
+</li>
+<li>促进演化和兼容性：如果使用公共字段，并且以后需要更改表示方式或添加附加逻辑，则很难保持向后兼容性。然而，通过使用访问器方法，可以修改内部表示或添加新行为，而不会影响类的客户端。</li>
+</ol>
+<h2 id="反例">反例</h2>
+<p>Java 库中的几个类违反了公共类不应该直接公开字段的建议。突出的例子包括 java.awt 包中的 Point 和 Dimension。</p>
+<p>在Java的早期版本中，一些类设计并没有遵循现代的面向对象设计原则和最佳实践。这些类中的字段被直接声明为公共（public），而没有提供相应的访问器方法。</p>
+<p>例如，java.awt包中的Point类和Dimension类提供了公共的x、y和width、height字段来表示点的坐标和矩形的宽度和高度。这意味着客户端代码可以直接访问和修改这些字段，绕过了封装和控制的机制。</p>
+<p>这种设计方式存在一些问题：</p>
+<ol>
+<li>缺乏封装：直接公开字段破坏了封装的原则，使得类的内部表示暴露给外部，导致了不可预测的行为和潜在的错误。</li>
+<li>限制扩展性：如果需要在这些类中添加验证逻辑、计算属性或实现其他行为，会面临困难，因为不能在字段被直接访问的情况下进行控制和修改。</li>
+</ol>
+<p>除了java.awt包中的Point和Dimension类之外，还有其他一些Java库中的类违反了&quot;公共类不应该直接公开字段&quot;的建议。以下是一些例子：</p>
+<ol>
+<li>java.util包中的Date类：在早期版本的Java中，Date类的字段（如年、月、日、小时等）是公共的，可以直接访问和修改。这种设计导致了Date类的可变性和线程安全性问题。随后，Java引入了新的日期和时间API（java.time包），其中封装了更好的设计原则，遵循了使用访问器方法的建议。</li>
+<li>java.util包中的Vector类：Vector类是一个动态数组，它在早期版本中使用了公共字段来表示元素数量（elementCount）和容量（capacity）。这种设计违反了封装性和控制访问的原则。随着Java集合框架的发展，推荐使用ArrayList等更现代的集合类，它们使用私有字段并提供了相应的访问器方法。</li>
+</ol>
+<h2 id="扩展">扩展</h2>
+<h3 id="如何确保字段的可见性限定为包级私有">如何确保字段的可见性限定为包级私有？</h3>
+<p>在一些特定的情况下，对于包级私有或私有嵌套类，有时候需要公开字段，无论这个类是可变的还是不可变的。以下是这种情况的一些例子：</p>
+<ol>
+<li>不可变类的常量字段：对于不可变类（Immutable Class），其中的字段一旦被初始化就不会再改变。在这种情况下，将字段声明为公共（public）且不可变的常量是可以接受的。这样可以提供方便的访问和使用方式。例如，java.lang包中的String类就有一个公共的常量字段：<code>public static final String EMPTY = &quot;&quot;;</code>。</li>
+<li>公共常量字段：有些类可能包含一些公共的常量字段，这些字段在整个包或模块中都是可见的。这样的字段通常是不可变的，并且在设计中被视为公共的API的一部分。例如，java.awt包中的Color类具有一些预定义的公共常量字段，如RED、GREEN、BLUE等。</li>
+</ol>
+<p>需要注意的是，这些情况是例外而不是常规规则。在一般情况下，尽量避免直接公开字段，并使用访问器方法（getter和setter）来访问和修改类的状态。这样可以提供更好的封装性和控制访问的能力，同时保护类的内部表示和不变性。</p>
+<p>在编写和设计代码时，应该根据具体情况来判断是否需要公开字段。如果确定有必要公开字段，确保字段的可见性限定为包级私有（package-private），以限制对字段的访问范围，并遵循最小暴露原则。</p>
 ]]></content:encoded>
     </item>
     

@@ -6,7 +6,595 @@
     <description>Recent content in Posts on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 14 Aug 2023 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Aug 2023 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Spring Security和OAuth2发展过程</title>
+      <link>https://blog.chensoul.com/posts/2023/08/15/spring-security-oauth2-history/</link>
+      <pubDate>Tue, 15 Aug 2023 08:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/15/spring-security-oauth2-history/</guid>
+      <description>Spring Security的发展过程 Spring Security 是一个功能强大且广泛使用的安全框架，为企业级应用程序提供了全面的安全性。Spring Security 最初是 Acegi Security 项目的一部分</description>
+      <content:encoded><![CDATA[<h2 id="spring-security的发展过程">Spring Security的发展过程</h2>
+<p>Spring Security 是一个功能强大且广泛使用的安全框架，为企业级应用程序提供了全面的安全性。Spring Security 最初是 Acegi Security 项目的一部分，于2004年发布，现在已经成为 Spring 生态系统的核心组件。 Spring Security 的发展过程可以分为三个阶段：</p>
+<p>第一阶段：Spring Security起源于一个名为Acegi Security的开源项目，初期重点实现了Spring应用的身份认证和授权服务功能。2003年，Acegi Security作为一个孵化项目被捐献给Spring社区。2004年，正式作为Spring框架的核心组件之一Absorbed进Spring。并更名为Spring Security。Spring Security 1.0 版本 Spring Security 1.0 版本发布于 2004 年。它提供了最基本的安全功能，包括身份验证和授权。身份验证是验证用户是否是他们所声称的人的过程。授权是确定用户是否有权访问特定资源的过程。 Spring Security 1.0 版本使用了以下技术来实现身份验证和授权：</p>
+<ul>
+<li>表单身份验证：表单身份验证是通过用户提交表单来验证用户身份的过程。</li>
+<li>基于角色的访问控制 (RBAC)：RBAC 是一种授权模型，它将用户分配到角色，然后这些角色被授予对特定资源的访问权限。</li>
+</ul>
+<p>第二阶段：Spring Security 2.0 版本 Spring Security 2.0 版本发布于 2006 年。它提供了更多的安全功能，包括加密和会话管理。加密是将数据转换成无法被他人理解的形式的过程。会话管理是跟踪用户会话的状态的过程。 Spring Security 2.0 版本使用了以下技术来实现加密和会话管理：</p>
+<ul>
+<li>安全套接字层 (SSL)：SSL 是一种加密协议，它可以保护数据在传输过程中不被窃听。</li>
+<li>会话管理：Spring Security 提供了自己的会话管理实现，它可以跟踪用户会话的状态。</li>
+</ul>
+<p>第三阶段：Spring Security 3.0 版本 Spring Security 3.0 版本发布于 2008 年。它是一个重大的版本更新，它提供了许多新的安全功能，包括 OAuth、SAML 和 OpenID。 OAuth 是一种授权框架，它允许第三方应用程序访问用户的资源。SAML 是一种单点登录 (SSO) 协议，它允许用户在一个地方登录，然后访问多个网站。OpenID 是一种开放的身份验证协议，它允许用户使用他们选择的身份提供商来验证他们的身份。 Spring Security 3.0 版本使用了以下技术来实现 OAuth、SAML 和 OpenID：</p>
+<ul>
+<li>
+<p>OAuth：Spring Security 提供了自己的 OAuth 实现，它可以让你轻松地在你的应用程序中使用 OAuth。</p>
+</li>
+<li>
+<p>SAML：Spring Security 提供了自己的 SAML 实现，它可以让你轻松地在你的应用程序中使用 SAML。</p>
+</li>
+<li>
+<p>OpenID：Spring Security 提供了自己的 OpenID 实现，它可以让你轻松地在你的应用程序中使用 OpenID。</p>
+</li>
+</ul>
+<p>以下是 Spring Security 的详细的发展过程和版本变化：</p>
+<ol>
+<li>
+<p>Acegi Security：Acegi Security 是 Spring Security 的前身，最初由 Ben Alex 创建并于2004年发布。Acegi Security 提供了一组基于 Spring 的安全性功能，用于保护 Web 应用程序、Web 服务和基于 Spring 的应用程序。</p>
+</li>
+<li>
+<p>Spring Security 2：Spring Security 2 是 Acegi Security 的继任者，于2006年发布。Spring Security 2 提供了一些新的功能和改进，例如对 OpenID、LDAP 和 CAS 的支持，以及更好的集成和配置选项。</p>
+</li>
+<li>
+<p>Spring Security 3：Spring Security 3 于2009年发布，是 Spring Security 的一个重大更新。Spring Security 3 提供了更多的安全功能和改进，例如对 RESTful Web 服务的支持、基于注解的安全性、更好的 CSRF 防护、更好的密码存储和认证管理等。</p>
+</li>
+<li>
+<p>Spring Security 4：Spring Security 4 于2015年发布，带来了一些新的功能和改进，例如对 OAuth2、JWT 和 Spring Boot 的支持、更好的 SSO 和多因素认证等。</p>
+</li>
+<li>
+<p>Spring Security 5：Spring Security 5 于2017年发布，是一个重大的更新，带来了一些新的功能和改进，例如对 WebFlux 和 Reactive Spring 的支持、更好的 OAuth2 和 OpenID Connect 的支持、更好的密码编码和认证管理等。</p>
+</li>
+<li>
+<p>Spring Security 5.1：Spring Security 5.1 发布于 2018 年，主要提供了对 Spring Boot 2.1 的支持和一些新的功能，如 Kotlin DSL、OAuth2 支持的私有证书、JWT 生成器等。</p>
+</li>
+<li>
+<p>Spring Security 5.2：Spring Security 5.2 发布于 2019 年，带来了许多改进和新特性，包括对 Spring Cloud Gateway 和 Spring MVC 的 WebFlux 支持、OAuth2 和 OpenID Connect 的改进、更好的密码管理和认证、更好的跨域资源共享（CORS）支持等。</p>
+</li>
+<li>
+<p>Spring Security 5.3：Spring Security 5.3 发布于 2020 年，主要提供了更好的 WebFlux 和 RSocket 支持、更好的 OAuth2 支持、更好的测试和性能、更好的 Kotlin 支持、更好的 JUnit 5 支持等。</p>
+</li>
+<li>
+<p>Spring Security 5.4：Spring Security 5.4 发布于 2021 年，带来了一些新的功能和改进，例如对 Spring Boot 2.4 的支持、更好的 JWT 和 OAuth2 支持、更好的密码编码、更好的 WebFlux 和 RSocket 支持、更好的测试和性能等。</p>
+</li>
+<li>
+<p>Spring Security 5.5：是当前最新的版本，于2022年发布。Spring Security 5.5 带来了一些新的功能和改进，包括对 Spring Framework 6 和 Java 17 的支持、更好的密码编码和认证管理、更好的 OAuth2 和 OpenID Connect 支持、更好的 WebFlux 和 RSocket 支持、更好的测试和性能等。</p>
+<p>除了不断改进和增强现有功能之外，Spring Security 还增加了对新的安全威胁的防御和支持，例如 CSRF、XSS、CSP 等。此外，Spring Security 还提供了许多有用的扩展和插件，例如 Spring Security OAuth、Spring Security SAML、Spring Security Kerberos 等，以满足不同的安全需求。</p>
+</li>
+</ol>
+<h2 id="spring-security-oauth2-发展">Spring Security OAuth2 发展</h2>
+<p>Spring Security OAuth2 是一个用于构建安全的 OAuth2-based 网络应用的框架，它是 Spring Security 的一部分。下面是 Spring Security OAuth2 的发展过程：</p>
+<h3 id="1-spring-security-oauth2-v1x--v20">1. Spring Security OAuth2 V1.x – V2.0</h3>
+<p>最初的几个版本是为了构建一个安全的 OAuth2-based 网络应用。核心的功能包括：</p>
+<ul>
+<li>支持 OAuth2 协议的四种授权方式：授权码（authorization code）、隐式授权（implicit）、密码授权（resource owner password credentials）和客户端凭据（client credentials）</li>
+<li>提供了一个简单易用的 API 用于构建 OAuth2 服务器和客户端</li>
+<li>支持 JWT（JSON Web Tokens）</li>
+<li>提供了详细的文档和示例代码</li>
+</ul>
+<h3 id="2-spring-security-oauth2-v21">2. Spring Security OAuth2 V2.1</h3>
+<p>在 2.1 版本中，Spring Security OAuth2 进行了一系列的改进和扩展，包括：</p>
+<ul>
+<li>支持 OpenID Connect 1.0</li>
+<li>支持 Token Introspection Endpoint</li>
+<li>更好的支持 JWT，包括 JWS（JSON Web Signatures）和 JWE（JSON Web Encryption）</li>
+</ul>
+<h3 id="3-spring-security-50-oauth2-login-and-oauth2-client">3. Spring Security 5.0 OAuth2 Login and OAuth2 Client</h3>
+<p>在 Spring Security 5.0 中，Spring Security OAuth2 的部分功能被合并到了 Spring Security 5.0 中，提供了 OAuth2 登录和客户端支持。</p>
+<h3 id="4-spring-security-51-oauth2-resource-server">4. Spring Security 5.1 OAuth2 Resource Server</h3>
+<p>在 Spring Security 5.1 中，Spring Security OAuth2 的资源服务器功能被合并到了 Spring Security 中。</p>
+<h3 id="5-spring-security-52-oauth2-authorization-server">5. Spring Security 5.2 OAuth2 Authorization Server</h3>
+<p>在 Spring Security 5.2 中，Spring Security OAuth2 的授权服务器功能被合并到了 Spring Security 中。这是 Spring Security OAuth2 的最后一个独立版本。</p>
+<h3 id="6-spring-authorization-server">6. Spring Authorization Server</h3>
+<p>在 2020 年 4 月，Spring 宣布了一个新的项目——Spring Authorization Server，该项目旨在提供一个用于实现 OAuth 2.1 授权服务器的基础。</p>
+<h3 id="7-spring-security-53-and-beyond">7. Spring Security 5.3 and beyond</h3>
+<p>在 Spring Security 5.3 和之后的版本中，Spring Security OAuth2 的所有功能都被合并到了 Spring Security 中，而 Spring Security OAuth2 作为一个独立的项目已经停止开发。</p>
+<h2 id="spring-boot和spring-oauth2版本关系">Spring Boot和Spring OAuth2版本关系</h2>
+<p>Spring Boot和Spring OAuth2是可以配合使用的，主要注意版本匹配即可。</p>
+<p>Spring Boot使用了特定版本的Spring OAuth2作为依赖。所以使用对应的Spring Boot版本，就会自动获取匹配的Spring OAuth2版本。</p>
+<p>举几个版本的例子：</p>
+<ul>
+<li>Spring Boot 1.5.x 使用 Spring OAuth2 2.0.x</li>
+<li>Spring Boot 2.0.x 使用 Spring OAuth2 2.0.x</li>
+<li>Spring Boot 2.1.x 使用 Spring OAuth2 2.1.x</li>
+<li>Spring Boot 2.2.x 使用 Spring OAuth2 2.2.x</li>
+<li>Spring Boot 2.3.x 使用 Spring OAuth2 2.3.x</li>
+</ul>
+<p>所以使用Spring Boot时，不需要额外指定Spring OAuth2的版本，只需要选择匹配的Spring Boot版本即可。</p>
+<p>在配置和使用Spring OAuth2时，只需要参考Spring OAuth2的文档即可，不需要特别关注其版本。Spring Boot会负责管理版本匹配。</p>
+<p>此外，从Spring Boot 1.5开始，Spring Security已经集成了OAuth2的实现，可以直接使用Spring Security来实现OAuth2，无需引入Spring OAuth项目。</p>
+<p>总之，Spring Boot大大简化了Spring OAuth2的使用，只需要关注Spring Boot版本即可自动获取正确的Spring OAuth2版本。</p>
+<h2 id="spring-cloud和spring-oauth2版本关系">Spring Cloud和Spring OAuth2版本关系</h2>
+<p>Spring Cloud和Spring OAuth2版本之间没有固定的对应关系，但通常来说建议符合以下情况：</p>
+<ul>
+<li>Spring Cloud版本越新，内置的Spring OAuth支持也会更稳定和完善。</li>
+<li>Spring Cloud Hoxton/Greenwich等主流版本，内置的Spring OAuth支持正常使用Spring Security OAuth2版本2.x。</li>
+<li>Spring Cloud Edgware及更早版本，内置的Spring OAuth支持建议使用Spring Security OAuth2版本1.x。</li>
+<li>即使Spring Cloud版本和Spring Security OAuth版本不完全匹配，也无大碍，但功能和兼容性会受一定影响。</li>
+</ul>
+<p>所以一般来说：</p>
+<ul>
+<li>Spring Cloud Finch/ Greenwich等最新版本，建议使用Spring Security OAuth2版本2.3.x及以上。</li>
+<li>Spring Cloud Edgware到Hoxton，建议使用Spring Security OAuth2版本1.5.x到2.3.x都可以。</li>
+<li>Spring Cloud版本比较早，如Dalston以下，建议使用Spring Security OAuth2版本1.0.x到1.5.x。</li>
+</ul>
+<p>但不是说版本一定要完全匹配，主要看自己需要用到的Spring OAuth功能是否得到支持。选择版本时优先考虑Spring Cloud版本的内置支持程度。此外，也可以根据项目其他依赖选择一个相对稳定的Spring Security OAuth版本。</p>
+<h2 id="spring-cloud-security">Spring Cloud Security</h2>
+<p>Spring Cloud Security提供了一种集成化的方式来实现微服务应用的安全功能。主要有以下几点：</p>
+<ol>
+<li>身份认证(Authentication)</li>
+</ol>
+<p>Spring Cloud Security支持常见的认证方式，比如基于OAuth2.0的认证协议。可以实现集中式的认证管理，登入后获取访问令牌并在各个微服务之间传递。</p>
+<ol>
+<li>授权(Authorization)</li>
+</ol>
+<p>支持基于RBAC和ABAC等授权模型。可以实现集中式的授权管理，给不同用户或组分配不同的访问权限。</p>
+<ol>
+<li>安全终端(Security Endpoints)</li>
+</ol>
+<p>提供了安全终端的实现，比如/oauth/token令牌访问端点、/userinfo用户信息端点等。</p>
+<ol>
+<li>加密通信(Encryption)</li>
+</ol>
+<p>支持在微服务之间进行安全的HTTP通信，通过TLS/SSL加密数据传输和服务间调用。</p>
+<ol>
+<li>日志审计(Logging &amp; Auditing)</li>
+</ol>
+<p>支持收集和记录安全相关的审计日志，比如授权错误日志、登入/登出日志等，方便管理和监控。</p>
+<ol>
+<li>安全配置(Security Configuration)</li>
+</ol>
+<p>提供了弹性和易用的安全配置能力，如动态配置安全相关Bean等。</p>
+<ol>
+<li>集成支持(Integration Support)</li>
+</ol>
+<p>天然支持Spring Cloud和Springboot项目，无缝集成从认证到授权的全套安全功能。</p>
+<p>所以总体来说，Spring Cloud Security提供了一种标准化和集成的方式来实现微服务环境下的安全需求。开发人员可以更便捷地利用其丰富的功能。</p>
+<h2 id="示例">示例</h2>
+<h3 id="spring-security如何实现json-web-token的功能">Spring Security如何实现JSON Web Token的功能？</h3>
+<p>Spring Security可以通过如下方式实现JSON Web Token(JWT)的功能：</p>
+<ol>
+<li>导入spring-security-jwt依赖。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.springframework.security<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spring-security-jwt<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>spring-boot-starter-security版本信息如下：</p>
+<ul>
+<li>spring-boot-starter-parent版本号：2.7.5</li>
+<li>依赖的spring-boot-starter-security版本号：2.7.5</li>
+</ul>
+<p>spring-boot-starter-security是Spring Boot安全功能的启动器依赖，它会自动引入核心安全依赖：</p>
+<ul>
+<li>
+<p>spring-security-core：Spring Security的核心模块，提供认证、授权、安全相关的主要接口和组件。</p>
+</li>
+<li>
+<p>spring-security-config：提供了Spring Security的基础配置能力，包含过滤器链、密码编码器等。</p>
+</li>
+<li>
+<p>spring-security-web：提供了web安全相关的支持，如过滤器、登录表单、注解等。</p>
+</li>
+<li>
+<p>spring-security-crypto：包含密码哈希功能的实现类，用于对密码进行安全的加密存储。</p>
+</li>
+<li>
+<p>spring-security-data：包含了支持JDBC和LDAP等后端数据源的安全组件。</p>
+</li>
+<li>
+<p>spring-security-oauth2-client：提供了对OAuth2客户端功能的支持。主要提供以下OAuth2客户端相关功能：</p>
+<ul>
+<li>客户端注册和资源服务器配置：支持为客户端应用配置clientId、secret等信息。</li>
+<li>客户端凭证获取：支持BasicAuth和密码模式获取client credentials。</li>
+<li>访问令牌请求：实现客户端向授权服务器请求访问令牌的功能，支持password、refresh_token等grant类型。</li>
+<li>令牌存储：提供TokenStore接口的实现，支持在会话或数据库中存储/获取访问令牌。</li>
+<li>资源服务器访问：通过访问令牌来访问受保护的资源，支持从请求头或参数中提取令牌。</li>
+<li>刷新令牌：实现使用refresh_token来刷新过期的访问令牌功能。</li>
+<li>用户授权：提供类似@PreAuthorize注解来处理用户授权逻辑。</li>
+<li>客户端详情：封装ClientDetails实现类，包含客户端注册信息。</li>
+<li>默认令牌服务：DefaultTokenServices实现类管理令牌生命周期。</li>
+<li>请求工厂：提供RestTemplate和Apache HTTP Components等请求客户端。</li>
+</ul>
+<p>spring-security-oauth2-client模块同时也提供部分支持其他授权类型：</p>
+<ul>
+<li>授权码模式(authorization_code)：主流模式，客户端通过auth code获取access token。</li>
+<li>密码模式(password)：客户端直接提供用户名密码获取token，适合trusted客户端。</li>
+<li>隐藏式授权模式(implicit)：客户端直接获取access token，不支持refresh。</li>
+<li>客户端模式(client_credentials)：客户端以自身名义请求资源服务，适合机密客户端。</li>
+<li>资主授权模式(owner)：类似密码模式但用户需确认通过用户界面。</li>
+<li>运行时审批模式(approval_prompt)：用户每次访问都需确认授权。</li>
+</ul>
+<p>除了上述常见授权类型外，spring-security-oauth2-client还提供了对以下模式的选择性支持：</p>
+<ul>
+<li>断路器模式(urn:ietf:params:oauth:grant-type:device_code)</li>
+<li>分阶段授权模式(urn:ietf:params:oauth:grant-type:stage)</li>
+<li>令牌交换模式(urn:ietf:params:oauth:grant-type:token-exchange)</li>
+</ul>
+</li>
+<li>
+<p>spring-security-oauth2-core：OAuth2协议支持的核心部件。</p>
+</li>
+</ul>
+<p>因此spring-boot-starter-security的版本始终保持与spring-boot-starters版本一致。</p>
+<p>当前较为主流和稳定的spring-boot版本有：</p>
+<ul>
+<li>Spring Boot 2.7.x 最新版</li>
+<li>Spring Boot 2.6.x</li>
+<li>Spring Boot 2.5.x</li>
+</ul>
+<p>对应的spring-boot-starter-security版本如下：</p>
+<ul>
+<li>Spring Boot 2.7.x - spring-boot-starter-security 2.7.x</li>
+<li>Spring Boot 2.6.x - spring-boot-starter-security 2.6.x</li>
+<li>Spring Boot 2.5.x - spring-boot-starter-security 2.5.x</li>
+</ul>
+<p>所以在选择spring boot版本时，直接依赖spring-boot-starter-security而不用单独指定版本，就可以保证安全功能的版本一致性。</p>
+<p>目前大多数场景下可以使用Spring Boot 2.6.x或者2.7.x作为选择，它们内置的spring-boot-starter-security版本都很成熟。</p>
+<ol start="2">
+<li>配置JwtToken enhancer来生成JWT令牌。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">JwtAccessTokenConverter</span> <span class="nf">jwtTokenEnhancer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">JwtAccessTokenConverter</span> <span class="n">converter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JwtAccessTokenConverter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">converter</span><span class="o">.</span><span class="na">setSigningKey</span><span class="o">(</span><span class="s">&#34;123456&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">converter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol start="3">
+<li>定义JwtTokenStore来保存JWT令牌。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">TokenStore</span> <span class="nf">tokenStore</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="k">new</span> <span class="n">JwtTokenStore</span><span class="o">(</span><span class="n">jwtTokenEnhancer</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol start="4">
+<li>在AuthorizationServerConfigurerAdapter配置类中设置tokenStore。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@Override
+</span></span><span class="line"><span class="cl">public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+</span></span><span class="line"><span class="cl">  endpoints.tokenStore(tokenStore());  
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><ol start="5">
+<li>
+<p>客户端使用JWT令牌进行认证访问资源服务器。</p>
+</li>
+<li>
+<p>资源服务器使用JwtTokenStore和JwtAccessTokenConverter校验JWT令牌的合法性。</p>
+</li>
+<li>
+<p>解析JWTpayload获取用户信息，实现鉴权决策。</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">String username =  ((Jwt)authentication.getPrincipal()).getSubject();
+</span></span></code></pre></div><p>完整代码，配置类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfig</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">JwtAccessTokenConverter</span> <span class="nf">accessTokenConverter</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">JwtAccessTokenConverter</span> <span class="n">converter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JwtAccessTokenConverter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">converter</span><span class="o">.</span><span class="na">setSigningKey</span><span class="o">(</span><span class="s">&#34;as123456dfsdf&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">converter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">TokenStore</span> <span class="nf">tokenStore</span><span class="o">()</span> <span class="o">{</span>    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">JwtTokenStore</span><span class="o">(</span><span class="n">accessTokenConverter</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">http</span><span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">http</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">&#34;/oauth/**&#34;</span><span class="o">).</span><span class="na">permitAll</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@Primary</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">DefaultTokenServices</span> <span class="nf">tokenServices</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DefaultTokenServices</span> <span class="n">defaultTokenServices</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultTokenServices</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">defaultTokenServices</span><span class="o">.</span><span class="na">setTokenStore</span><span class="o">(</span><span class="n">tokenStore</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">defaultTokenServices</span><span class="o">.</span><span class="na">setSupportRefreshToken</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">defaultTokenServices</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>授权服务器配置，使用客户端模式配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuthorizationServerConfig</span> <span class="kd">extends</span> <span class="n">AuthorizationServerConfigurerAdapter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">TokenStore</span> <span class="n">tokenStore</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">ClientDetailsServiceConfigurer</span> <span class="n">clients</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">clients</span><span class="o">.</span><span class="na">inMemory</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">withClient</span><span class="o">(</span><span class="s">&#34;clientapp&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">secret</span><span class="o">(</span><span class="s">&#34;$2a$10$6aQQyhlhol4M1KAncczPdu4zX7/TgvjpOU.sWzt7j5Xl6W/z5V4cC&#34;</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">authorizedGrantTypes</span><span class="o">(</span><span class="s">&#34;password&#34;</span><span class="err">，</span> <span class="s">&#34;refresh_token&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">scopes</span><span class="o">(</span><span class="s">&#34;read&#34;</span><span class="err">，</span> <span class="s">&#34;write&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">accessTokenValiditySeconds</span><span class="o">(</span><span class="n">3600</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">AuthorizationServerEndpointsConfigurer</span> <span class="n">endpoints</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">      <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">endpoints</span><span class="o">.</span><span class="na">tokenStore</span><span class="o">(</span><span class="n">tokenStore</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">authenticationManager</span><span class="o">(</span><span class="n">authenticationManager</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>主要配置：</p>
+<ol>
+<li>使用ClientDetailsServiceConfigurer配置客户端信息，如clientId、secret等</li>
+<li>配置tokenStore</li>
+<li>配置authenticationManager来获取用户信息</li>
+</ol>
+<p>这样就实现了基于客户端模式下的授权服务配置，客户端可以使用clientId/secret获取访问令牌而无需用户登录。</p>
+<p>客户端访问示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -X POST http://localhost:8080/oauth/token -d <span class="s2">&#34;grant_type=password&amp;username=user&amp;password=password&amp;client_id=clientapp&amp;client_secret=secret&#34;</span>
+</span></span></code></pre></div><p>让客户端在后台获取访问令牌，资源服务再使用令牌验证授权。</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>《Effective Java 3》笔记17：减少可变性</title>
+      <link>https://blog.chensoul.com/posts/2023/08/14/minimize-mutability/</link>
+      <pubDate>Mon, 14 Aug 2023 15:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/14/minimize-mutability/</guid>
+      <description>本文是 《Effective Java 3》第四章《类和接口》的学习笔记：减少可变性。 原文 不可变类是实例不能被修改的类。每个实例中包含的所有信息在对象的</description>
+      <content:encoded><![CDATA[<p>本文是 《Effective Java 3》第四章《类和接口》的学习笔记：减少可变性。</p>
+<h2 id="原文">原文</h2>
+<p>不可变类是实例不能被修改的类。每个实例中包含的所有信息在对象的生命周期内都是固定的，因此永远不会观察到任何更改。Java 库包含许多不可变的类，包括 String、基本类型的包装类、BigInteger 和 BigDecimal。这么做有很好的理由：不可变类比可变类更容易设计、实现和使用。它们不太容易出错，而且更安全。</p>
+<p>要使类不可变，请遵循以下 5 条规则：</p>
+<ul>
+<li>
+<p>1、<strong>不要提供修改对象状态的方法</strong>（这类方法也被称为修改器）</p>
+</li>
+<li>
+<p>2、<strong>确保类不能被继承。</strong> 这可以防止粗心或恶意的通过子类实例对象状态可改变的方式，损害父类的不可变行为。防止子类化通常用 final 修饰父类，但是还有一种替代方法，我们将在后面讨论。</p>
+</li>
+<li>
+<p>3、<strong>所有字段用 final 修饰。</strong> 这清楚地表达了意图，并由系统强制执行。同样，如果在没有同步的情况下，引用新创建的实例并从一个线程传递到另一个线程，那么就有必要确保正确的行为，就像内存模型中描述的那样。</p>
+</li>
+<li>
+<p>4、<strong>所有字段设为私有。</strong> 这将阻止客户端访问字段引用的可变对象并直接修改这些对象。虽然在技术上允许不可变类拥有包含基本类型或对不可变对象的引用的公共 final 字段，但不建议这样做，因为在以后的版本中无法更改内部表示。</p>
+</li>
+<li>
+<p>5、<strong>确保对任何可变组件的独占访问。</strong> 如果你的类有任何引用可变对象的字段，请确保该类的客户端无法获得对这些对象的引用。永远不要向提供对象引用的客户端初始化这样的字段，也不要从访问器返回字段。在构造函数、访问器和 readObject 方法中创建防御性副本。</p>
+</li>
+</ul>
+<p>前面条目中的许多示例类都是不可变的。其中一个类是 PhoneNumber，它的每个属性都有访问器，但没有对应的修改器。下面是一个稍微复杂的例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// Immutable complex number class
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Complex</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">re</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">im</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Complex</span><span class="o">(</span><span class="kt">double</span> <span class="n">re</span><span class="o">,</span> <span class="kt">double</span> <span class="n">im</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">re</span> <span class="o">=</span> <span class="n">re</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">realPart</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">re</span><span class="o">;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">imaginaryPart</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">im</span><span class="o">;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Complex</span> <span class="nf">plus</span><span class="o">(</span><span class="n">Complex</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Complex</span><span class="o">(</span><span class="n">re</span> <span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="na">re</span><span class="o">,</span> <span class="n">im</span> <span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="na">im</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Complex</span> <span class="nf">minus</span><span class="o">(</span><span class="n">Complex</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Complex</span><span class="o">(</span><span class="n">re</span> <span class="o">-</span> <span class="n">c</span><span class="o">.</span><span class="na">re</span><span class="o">,</span> <span class="n">im</span> <span class="o">-</span> <span class="n">c</span><span class="o">.</span><span class="na">im</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Complex</span> <span class="nf">times</span><span class="o">(</span><span class="n">Complex</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Complex</span><span class="o">(</span><span class="n">re</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="na">re</span> <span class="o">-</span> <span class="n">im</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="na">im</span><span class="o">,</span> <span class="n">re</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="na">im</span> <span class="o">+</span> <span class="n">im</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="na">re</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Complex</span> <span class="nf">dividedBy</span><span class="o">(</span><span class="n">Complex</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">re</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="na">re</span> <span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="na">im</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="na">im</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Complex</span><span class="o">((</span><span class="n">re</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="na">re</span> <span class="o">+</span> <span class="n">im</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="na">im</span><span class="o">)</span> <span class="o">/</span> <span class="n">tmp</span><span class="o">,</span> <span class="o">(</span><span class="n">im</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="na">re</span> <span class="o">-</span> <span class="n">re</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="na">im</span><span class="o">)</span> <span class="o">/</span> <span class="n">tmp</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="k">this</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(!(</span><span class="n">o</span> <span class="k">instanceof</span> <span class="n">Complex</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Complex</span> <span class="n">c</span> <span class="o">=</span> <span class="o">(</span><span class="n">Complex</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// See page 47 to find out why we use compare instead of ==
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">Double</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">c</span><span class="o">.</span><span class="na">re</span><span class="o">,</span> <span class="n">re</span><span class="o">)</span> <span class="o">==</span> <span class="n">0</span> <span class="o">&amp;&amp;</span> <span class="n">Double</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">c</span><span class="o">.</span><span class="na">im</span><span class="o">,</span> <span class="n">im</span><span class="o">)</span> <span class="o">==</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">31</span> <span class="o">*</span> <span class="n">Double</span><span class="o">.</span><span class="na">hashCode</span><span class="o">(</span><span class="n">re</span><span class="o">)</span> <span class="o">+</span> <span class="n">Double</span><span class="o">.</span><span class="na">hashCode</span><span class="o">(</span><span class="n">im</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span> <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;(&#34;</span> <span class="o">+</span> <span class="n">re</span> <span class="o">+</span> <span class="s">&#34; + &#34;</span> <span class="o">+</span> <span class="n">im</span> <span class="o">+</span> <span class="s">&#34;i)&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这个类表示一个复数（包含实部和虚部的数）。除了标准的 Object 方法之外，它还为实部和虚部提供访问器，并提供四种基本的算术运算：加法、减法、乘法和除法。值得注意的是，算术操作创建和返回一个新的 Complex 实例，而不是修改这个实例。这种模式称为函数式方法，因为方法返回的结果是将函数应用到其操作数，而不是修改它。将其与过程式或命令式方法进行对比，在这种方法中，方法将一个计算过程应用于它们的操作数，从而导致其状态发生变化。注意，方法名是介词（如 plus)，而不是动词（如 add)。这强调了这样一个事实，即方法不会改变对象的值。BigInteger 和 BigDecimal 类不遵守这种命名约定，这导致了许多使用错误。</p>
+<p>如果不熟悉函数式方法，那么它可能看起来不自然，但它实现了不变性，这么做有很多优势。 <strong>不可变对象很简单。</strong> 不可变对象可以保持它被创建时的状态。如果能够确保所有构造函数都建立了类不变量，那么就可以保证这些不变量将一直保持，而无需你或使用类的程序员做进一步的工作。另一方面，可变对象可以具有任意复杂的状态空间。如果文档没有提供由修改器方法执行的状态转换的精确描述，那么就很难或不可能可靠地使用可变类。</p>
+<p><strong>不可变对象本质上是线程安全的；它们不需要同步。</strong> 它们不会因为多线程并发访问而损坏。这无疑是实现线程安全的最简单方法。由于任何线程都无法观察到另一个线程对不可变对象的任何影响，因此 <strong>可以自由共享不可变对象。</strong> 同时，不可变类应该鼓励客户端尽可能复用现有的实例。一种简单的方法是为常用值提供公共静态 final 常量。例如，Complex 类可能提供以下常量：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Complex</span> <span class="n">ZERO</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Complex</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Complex</span> <span class="n">ONE</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Complex</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Complex</span> <span class="n">I</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Complex</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span>
+</span></span></code></pre></div><p>这种方法可以更进一步。不可变类可以提供静态工厂，这些工厂缓存经常请求的实例，以避免在现有实例可用时创建新实例。所有包装类和 BigInteger 都是这样做的。使用这种静态工厂会导致客户端共享实例而不是创建新实例，从而减少内存占用和垃圾收集成本。在设计新类时，选择静态工厂而不是公共构造函数，这将使你能够灵活地在以后添加缓存，而无需修改客户端。</p>
+<p>不可变对象可以自由共享这一事实的结果之一是，你永远不需要对它们进行防御性的复制。事实上，你根本不需要做任何拷贝，因为拷贝将永远等同于原件。因此，你不需要也不应该在不可变类上提供克隆方法或复制构造函数。这在 Java 平台的早期并没有得到很好的理解，因此 String 类确实有一个复制构造函数，但是，即使有，也应该少用。</p>
+<p><strong>你不仅可以共享不可变对象，而且可以共享它们的内部实现。</strong> 例如，BigInteger 类在内部使用符号大小来表示。符号由 int 表示，大小由 int 数组表示。negate 方法产生一个新的 BigInteger，大小相同，符号相反。即使数组是可变的，也不需要复制；新创建的 BigInteger 指向与原始数组相同的内部数组。</p>
+<p><strong>不可变对象可以很好的作为其他对象的构建模块，</strong> 无论是可变的还是不可变的。如果知道复杂对象的组件对象不会在其内部发生更改，那么维护复杂对象的不变性就会容易得多。这个原则的一个具体的例子是，不可变对象很合适作为 Map 的键和 Set 的元素：你不必担心它们的值在 Map 或 Set 中发生变化，从而破坏 Map 或 Set 的不变性。</p>
+<p><strong>不可变对象自带提供故障原子性</strong>。他们的状态从未改变，所以不可能出现暂时的不一致。</p>
+<p><strong>不可变类的主要缺点是每个不同的值都需要一个单独的对象。</strong> 创建这些对象的成本可能很高，尤其是对象很大的时候。例如，假设你有一个百万位的 BigInteger，你想改变它的低阶位：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">BigInteger</span> <span class="n">moby</span> <span class="o">=</span> <span class="o">...;</span>
+</span></span><span class="line"><span class="cl"><span class="n">moby</span> <span class="o">=</span> <span class="n">moby</span><span class="o">.</span><span class="na">flipBit</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span></code></pre></div><p>flipBit 方法创建了一个新的 BigInteger 实例，也有百万位长，只在一个比特上与原始的不同。该操作需要与 BigInteger 的大小成比例的时间和空间。与 <code>java.util.BitSet</code> 形成对比。与 BigInteger 一样，BitSet 表示任意长的位序列，但与 BigInteger 不同，BitSet 是可变的。BitSet 类提供了一种方法，可以让你在固定的时间内改变百万位实例的单个位的状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">BitSet</span> <span class="n">moby</span> <span class="o">=</span> <span class="o">...;</span>
+</span></span><span class="line"><span class="cl"><span class="n">moby</span><span class="o">.</span><span class="na">flip</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span></code></pre></div><p>如果执行多步操作，在每一步生成一个新对象，最终丢弃除最终结果之外的所有对象，那么性能问题就会被放大。有两种方法可以解决这个问题。第一种方法是猜测通常需要哪些多步操作，并将它们作为基本数据类型提供。如果将多步操作作为基本数据类型提供，则不可变类不必在每个步骤中创建单独的对象。在内部，不可变类可以任意聪明。例如，BigInteger 有一个包私有的可变「伴随类」，它使用这个类来加速多步操作，比如模块化求幂。由于前面列出的所有原因，使用可变伴随类要比使用 BigInteger 难得多。幸运的是，你不必使用它：BigInteger 的实现者为你做了艰苦的工作。</p>
+<p>如果你能够准确地预测客户端希望在不可变类上执行哪些复杂操作，那么包私有可变伴随类方法就可以很好地工作。如果不是，那么你最好的选择就是提供一个公共可变伴随类。这种方法在 Java 库中的主要示例是 String 类，它的可变伴随类是 StringBuilder（及其过时的前身 StringBuffer)。</p>
+<p>既然你已经知道了如何创建不可变类，并且了解了不可变性的优缺点，那么让我们来讨论一些设计方案。回想一下，为了保证不变性，类不允许自己被子类化。可以用 final 修饰以达到目的，但是还有另外一个更灵活的选择，你可以将其所有构造函数变为私有或包私有，并使用公共静态工厂方法来代替公共的构造函数。Complex 类采用这种方式修改后如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// Immutable class with static factories instead of constructors
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Complex</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">re</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">im</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">Complex</span><span class="o">(</span><span class="kt">double</span> <span class="n">re</span><span class="o">,</span> <span class="kt">double</span> <span class="n">im</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">re</span> <span class="o">=</span> <span class="n">re</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Complex</span> <span class="nf">valueOf</span><span class="o">(</span><span class="kt">double</span> <span class="n">re</span><span class="o">,</span> <span class="kt">double</span> <span class="n">im</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Complex</span><span class="o">(</span><span class="n">re</span><span class="o">,</span> <span class="n">im</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span> <span class="c1">// Remainder unchanged
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>这种方式通常是最好的选择。它是最灵活的，因为它允许使用多个包私有实现类。对于驻留在包之外的客户端而言，不可变类实际上是 final 类，因为不可能继承自另一个包的类，因为它缺少公共或受保护的构造函数。除了允许多实现类的灵活性之外，这种方法还通过改进静态工厂的对象缓存功能，使得后续版本中调优该类的性能成为可能。</p>
+<p>当编写 BigInteger 和 BigDecimal 时，不可变类必须是有效的 final 这一点没有被广泛理解，因此它们的所有方法都可能被重写。遗憾的是，在保留向后兼容性的情况下，这个问题无法得到纠正。如果你编写的类的安全性依赖于来自不受信任客户端的 BigInteger 或 BigDecimal 参数的不可变性，那么你必须检查该参数是否是「真正的」BigInteger 或 BigDecimal，而不是不受信任的子类实例。如果是后者，你必须防御性的复制它，假设它可能是可变的:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">BigInteger</span> <span class="nf">safeInstance</span><span class="o">(</span><span class="n">BigInteger</span> <span class="n">val</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="na">getClass</span><span class="o">()</span> <span class="o">==</span> <span class="n">BigInteger</span><span class="o">.</span><span class="na">class</span> <span class="o">?</span>
+</span></span><span class="line"><span class="cl"><span class="n">val</span> <span class="o">:</span> <span class="k">new</span> <span class="n">BigInteger</span><span class="o">(</span><span class="n">val</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这个条目开头的不可变类的规则列表指出，没有方法可以修改对象，它的所有字段必须是 final 的。实际上，这些规则过于严格，可以适当放松来提高性能。实际上，任何方法都不能在对象的状态中产生外部可见的更改。然而，一些不可变类有一个或多个非 final 字段，它们在第一次需要这些字段时，就会在其中缓存昂贵计算的结果。如果再次请求相同的值，则返回缓存的值，从而节省了重新计算的成本。这个技巧之所以有效，是因为对象是不可变的，这就保证了重复计算会产生相同的结果。</p>
+<p>例如，PhoneNumber 的 hashCode 方法在第一次调用时计算哈希代码，并缓存它，以备再次调用。这个技术是一个延迟初始化的例子，String 也使用这个技术。</p>
+<p>关于可序列化性，应该提出一个警告。如果你选择让不可变类实现 Serializable，并且该类包含一个或多个引用可变对象的字段，那么你必须提供一个显式的 readObject 或 readResolve 方法，或者使用 ObjectOutputStream.writeUnshared 或 ObjectInputStream.readUnshared 方法，即使默认的序列化形式是可以接受的。否则攻击者可能创建类的可变实例。</p>
+<p>总而言之，不要急于为每个 getter 都编写 setter。<strong>类应该是不可变的，除非有很好的理由让它们可变。</strong> 不可变类提供了许多优点，它们唯一的缺点是在某些情况下可能出现性能问题。你应该始终使小的值对象（如 PhoneNumber 和 Complex）成为不可变的。（Java 库中有几个类，比如 <code>java.util.Date</code> 和 <code>java.awt.Point</code>，应该是不可改变的，但事实并非如此。）也应该认真考虑将较大的值对象（如 String 和 BigInteger）设置为不可变的。只有确认了实现令人满意的性能是必要的，才应该为不可变类提供一个公共可变伴随类。</p>
+<p>对于某些类来说，不变性是不切实际的。<strong>如果一个类不能成为不可变的，那么就尽可能地限制它的可变性。</strong> 减少对象可能存在的状态数可以更容易地 reason about the object 并减少出错的可能性。因此，除非有令人信服的理由，否则每个字段都应该用 final 修饰。将本条目的建议与 Item-15 的建议结合起来，你自然会倾向于 <strong>声明每个字段为私有 final，除非有很好的理由不这样做。</strong></p>
+<p><strong>构造函数应该创建完全初始化的对象，并建立所有的不变量。</strong> 除非有充分的理由，否则不要提供与构造函数或静态工厂分离的公共初始化方法。类似地，不要提供「重新初始化」的方法，该方法允许复用对象，就好像它是用不同的初始状态构造的一样。这些方法通常只提供很少的性能收益，而代价是增加了复杂性。</p>
+<p>CountDownLatch 类体现了这些原则。它是可变的，但是它的状态空间故意保持很小。创建一个实例，使用它一次，它就完成了使命：一旦倒计时锁存器的计数达到零，你可能不会复用它。</p>
+<p>关于本条目中 Complex 类的最后一点需要补充的说明。这个例子只是为了说明不变性。它不是一个工业级强度的复数实现。它使用了复杂乘法和除法的标准公式，这些公式没有被正确地四舍五入，并且为复杂的 NaNs 和 infinities 提供了糟糕的语义。</p>
+<h2 id="扩展">扩展</h2>
+<h3 id="常见的方法来减少可变性">常见的方法来减少可变性</h3>
+<p>减少可变性是一种重要的编程原则，它旨在减少代码中可变状态的数量，以提高代码的可维护性、可测试性和并发安全性。以下是一些常见的方法来减少可变性：</p>
+<ol>
+<li>使用不可变类：不可变类是指其实例在创建后不能被修改的类。不可变类的字段都是final的，并且类中没有提供修改字段的方法（setter）。通过使用不可变类，可以确保对象的状态不会被意外地修改，从而减少潜在的错误和并发问题。</li>
+<li>封装可变状态：如果某个类必须具有可变状态，建议将可变状态封装在类内部，并通过访问器方法（getter和setter）来控制对状态的访问和修改。这样可以限制对状态的直接访问，提供更好的封装和控制机制。</li>
+<li>避免共享可变对象：在多线程环境下，共享可变对象可能导致并发问题。为了减少可变性，可以避免共享可变对象，或者确保在共享时进行适当的同步。如果可能，使用不可变对象或线程安全的对象来代替可变对象。</li>
+<li>使用不可变集合：Java提供了许多不可变集合类，如Collections.unmodifiableList和Collections.unmodifiableMap等。通过使用这些不可变集合类，可以确保集合内容不会被修改，从而减少可变性。</li>
+<li>使用函数式编程风格：函数式编程鼓励使用不可变数据和无副作用的函数。通过使用纯函数（没有副作用，并且对相同的输入始终产生相同的输出），可以减少可变性，并提高代码的可读性和可维护性。</li>
+</ol>
+<p>下面是一些常见的不可变数据结构的例子：</p>
+<ol>
+<li>
+<p>不可变列表（Immutable List）：不可变列表是指一旦创建就不能修改的列表。在Java中，可以使用<code>java.util.Collections.unmodifiableList()</code>方法来创建不可变列表。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">immutableList</span> <span class="o">=</span> <span class="n">Collections</span><span class="o">.</span><span class="na">unmodifiableList</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;apple&#34;</span><span class="o">,</span> <span class="s">&#34;banana&#34;</span><span class="o">,</span> <span class="s">&#34;cherry&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><p>上述代码创建了一个不可变列表，无法对其进行添加、删除或修改操作。</p>
+</li>
+<li>
+<p>不可变映射（Immutable Map）：不可变映射是指一旦创建就不能修改的映射关系。在Java中，可以使用<code>java.util.Collections.unmodifiableMap()</code>方法来创建不可变映射。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">immutableMap</span> <span class="o">=</span> <span class="n">Collections</span><span class="o">.</span><span class="na">unmodifiableMap</span><span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;apple&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="s">&#34;banana&#34;</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="s">&#34;cherry&#34;</span><span class="o">,</span> <span class="n">3</span><span class="o">));</span>
+</span></span></code></pre></div><p>上述代码创建了一个不可变映射，无法对其进行添加、删除或修改操作。</p>
+</li>
+<li>
+<p>不可变集合（Immutable Set）：不可变集合是指一旦创建就不能修改的集合。在Java中，可以使用<code>java.util.Collections.unmodifiableSet()</code>方法来创建不可变集合。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">immutableSet</span> <span class="o">=</span> <span class="n">Collections</span><span class="o">.</span><span class="na">unmodifiableSet</span><span class="o">(</span><span class="n">Set</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;apple&#34;</span><span class="o">,</span> <span class="s">&#34;banana&#34;</span><span class="o">,</span> <span class="s">&#34;cherry&#34;</span><span class="o">));</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>​		上述代码创建了一个不可变集合，无法对其进行添加、删除或修改操作。</p>
+<p>不可变数据结构的特点是它们在创建后不能被修改，这意味着它们具有固定的状态。如果需要修改数据结构，必须创建一个新的不可变实例。这种不可变性使得数据结构更安全、线程安全，并且可以有效地用于并发环境。</p>
+<p>需要注意的是，虽然不可变数据结构本身是不可变的，但其中的元素对象可能是可变的。如果需要确保元素对象也是不可变的，则需要采取相应的措施来保证元素对象的不可变性。</p>
+<p>下面是一些使用函数式编程风格减少可变性的示例：</p>
+<ol>
+<li>
+<p>使用不可变数据结构：函数式编程鼓励使用不可变的数据结构，如不可变列表、不可变映射等。这些数据结构在创建后不能被修改，而是通过创建新的不可变实例来表示修改后的状态。例如，Java 8引入的<code>java.util.stream.Stream</code>中的操作返回的是不可变流，它们无法修改原始流，而是生成一个新的流。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">doubledNumbers</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                                      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">n</span> <span class="o">-&gt;</span> <span class="n">n</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                                      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">doubledNumbers</span><span class="o">);</span> <span class="c1">// 输出: [2, 4, 6, 8, 10]
+</span></span></span></code></pre></div><p>在上面的示例中，通过使用<code>map</code>操作创建了一个新的流来表示每个元素翻倍后的状态，而原始的<code>numbers</code>列表保持不变。</p>
+</li>
+<li>
+<p>避免副作用：函数式编程鼓励使用无副作用的函数，即函数的执行不会对外部状态产生影响。这意味着函数不应该修改传入的参数或任何外部状态。相反，函数应该返回计算结果，并且对于相同的输入应该始终返回相同的输出。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 有副作用的示例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">incrementCounter</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">counter</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 无副作用的示例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">increment</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">value</span> <span class="o">+</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>​		在上面的示例中，<code>incrementCounter</code>函数对外部状态进行了修改（副作用），而<code>increment</code>函数则返回了新的计算结果，而不改变传入的参数或任何外部状态。</p>
+<p>通过使用不可变数据结构和避免副作用，函数式编程风格可以减少可变性，提高代码的可读性、可测试性和并发安全性。同时，这种风格还可以使代码更易于推理和调试，并减少潜在的错误和bug。</p>
+<h3 id="如何确保不可变数据结构中的元素对象也是不可变的">如何确保不可变数据结构中的元素对象也是不可变的？</h3>
+<p>确保不可变数据结构中的元素对象也是不可变的，可以遵循以下几个步骤：</p>
+<ol>
+<li>
+<p>使用不可变对象：尽可能使用不可变对象作为元素对象。不可变对象是指其状态在创建后不能被修改的对象。如果使用现有的不可变类（如<code>String</code>和<code>Integer</code>），则无需额外的步骤，因为它们本身就是不可变的。</p>
+</li>
+<li>
+<p>使用深度不可变性：如果元素对象是可变的，并且需要确保它们不会被修改，可以采用深度不可变性的方法。这意味着在创建不可变数据结构时，对于每个可变元素对象，都要进行克隆或创建新的不可变实例，而不是直接引用可变对象。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 以不可变对象作为元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">immutableList</span> <span class="o">=</span> <span class="n">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;apple&#34;</span><span class="o">,</span> <span class="s">&#34;banana&#34;</span><span class="o">,</span> <span class="s">&#34;cherry&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用深度不可变性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">immutablePersonList</span> <span class="o">=</span> <span class="n">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="n">Person</span><span class="o">(</span><span class="s">&#34;John&#34;</span><span class="o">,</span> <span class="n">25</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="n">Person</span><span class="o">(</span><span class="s">&#34;Alice&#34;</span><span class="o">,</span> <span class="n">30</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="n">Person</span><span class="o">(</span><span class="s">&#34;Bob&#34;</span><span class="o">,</span> <span class="n">35</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Person类需要是不可变的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Person</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 只提供getter方法，没有setter方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getAge</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">age</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">```</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">在上述示例中</span><span class="err">，`</span><span class="n">Person</span><span class="err">`</span><span class="n">类是不可变的</span><span class="err">，</span><span class="n">它没有提供修改属性的方法</span><span class="err">（</span><span class="n">setter</span><span class="err">）。</span><span class="n">通过创建新的</span><span class="err">`</span><span class="n">Person</span><span class="err">`</span><span class="n">实例</span><span class="err">，</span><span class="n">并将其作为不可变列表的元素</span><span class="err">，</span><span class="n">确保了元素对象的不可变性</span><span class="err">。</span>
+</span></span></code></pre></div></li>
+<li>
+<p>防御性复制：如果不可变数据结构中的元素对象是可变的，并且不希望它们被外部修改，可以在访问器方法中返回元素对象的防御性复制。这样可以确保返回的是一个新的副本，而不是直接返回原始对象的引用。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">ImmutableDataStructure</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">persons</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">ImmutableDataStructure</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">persons</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">persons</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">persons</span><span class="o">);</span> <span class="c1">// 防御性复制
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="nf">getPersons</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">persons</span><span class="o">);</span> <span class="c1">// 防御性复制
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>​		在上述示例中，<code>ImmutableDataStructure</code>类包含一个<code>persons</code>列表，通过在构造函数和访问器方法中进行防御性复制，返回了一个新的列表副本，从而保护了元素对象的不可变性。</p>
+<p>通过遵循这些步骤，可以确保不可变数据结构中的元素对象也是不可变的。这有助于保持数据的一致性、线程安全性，并提供更好的封装性和可维护性。</p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>Java设计模式：Async Method Invocation</title>
       <link>https://blog.chensoul.com/posts/2023/08/14/java-design-patterns-async-method-invocation/</link>

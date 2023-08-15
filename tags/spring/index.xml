@@ -265,10 +265,10 @@
 </span></span></code></pre></div><ol start="4">
 <li>在AuthorizationServerConfigurerAdapter配置类中设置tokenStore。</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@Override
-</span></span><span class="line"><span class="cl">public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-</span></span><span class="line"><span class="cl">  endpoints.tokenStore(tokenStore());  
-</span></span><span class="line"><span class="cl">}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">AuthorizationServerEndpointsConfigurer</span> <span class="n">endpoints</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">endpoints</span><span class="o">.</span><span class="na">tokenStore</span><span class="o">(</span><span class="n">tokenStore</span><span class="o">());</span>  
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><ol start="5">
 <li>
 <p>客户端使用JWT令牌进行认证访问资源服务器。</p>
@@ -280,7 +280,7 @@
 <p>解析JWTpayload获取用户信息，实现鉴权决策。</p>
 </li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">String username =  ((Jwt)authentication.getPrincipal()).getSubject();
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">username</span> <span class="o">=</span>  <span class="o">((</span><span class="n">Jwt</span><span class="o">)</span><span class="n">authentication</span><span class="o">.</span><span class="na">getPrincipal</span><span class="o">()).</span><span class="na">getSubject</span><span class="o">();</span>
 </span></span></code></pre></div><p>完整代码，配置类：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
 </span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>

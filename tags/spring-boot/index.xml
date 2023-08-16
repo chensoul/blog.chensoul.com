@@ -6,7 +6,833 @@
     <description>Recent content in spring boot on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 16 Aug 2023 14:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/spring-boot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Aug 2023 14:40:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/spring-boot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[译]Spring Security 和 Spring Boot 入门</title>
+      <link>https://blog.chensoul.com/posts/2023/08/16/spring-security/</link>
+      <pubDate>Wed, 16 Aug 2023 14:40:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/16/spring-security/</guid>
+      <description>Spring Security 是一个有助于保护企业应用程序安全的框架。通过与 Spring MVC、Spring Webflux 或 Spring Boot 集成，我们可以创建一个强大且高度可定制的身份验证和访问控制框</description>
+      <content:encoded><![CDATA[<p>Spring Security 是一个有助于保护企业应用程序安全的框架。通过与 Spring MVC、Spring Webflux 或 Spring Boot 集成，我们可以创建一个强大且高度可定制的身份验证和访问控制框架。在本文中，我们将解释核心概念并仔细研究 Spring Security 提供的默认配置及其工作原理。我们将进一步尝试自定义它们并分析它们对示例 Spring Boot 应用程序的影响。</p>
+<h2 id="示例代码">示例代码</h2>
+<p>本文附有 <a href="https://github.com/thombergs/code-examples/tree/master/spring-security/getting-started">GitHub</a> 上的工作代码示例。</p>
+<h2 id="创建示例应用程序">创建示例应用程序</h2>
+<p>让我们从头开始构建一个 Spring Boot 应用程序，看看 spring 如何配置和提供安全性。让我们从 spring starter 创建一个应用程序并添加所需的最少依赖项。</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/initializr_hu6933403b7320f6f893a41150b2491685_104058_1717x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<p>生成项目后，我们将其导入到 IDE 中并将其配置为在端口 8083 上运行。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mvnw clean verify spring-boot:run <span class="o">(</span><span class="k">for</span> Windows<span class="o">)</span>
+</span></span><span class="line"><span class="cl">./mvnw clean verify spring-boot:run <span class="o">(</span><span class="k">for</span> Linux<span class="o">)</span>
+</span></span></code></pre></div><p>在应用程序启动时，我们应该看到一个登录页面。</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/login_hu6933403b7320f6f893a41150b2491685_53186_1672x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<p>控制台日志打印作为默认安全配置的一部分随机生成的默认密码：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/login-logs_hu24781b5fc66e29ce24179fd263c22bdb_320455_1691x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<p>使用默认用户名 <code>user</code> 和默认密码（来自日志），我们应该能够登录该应用程序。我们可以在 <code>application.yml</code> 中覆盖这些默认值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">security</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">user</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">admin</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">passw@rd</span><span class="w">
+</span></span></span></code></pre></div><p>现在，我们应该能够使用用户 <code>admin</code> 和密码 <code>passw@rd</code> 登录。</p>
+<h4 id="依赖版本">依赖版本</h4>
+<p>在这里，我们使用了 Spring Boot 2.7.5 版本。基于此版本，Spring Boot内部将Spring Security版本解析为5.7.4。但是，如果需要，我们可以在 <code>pom.xml</code> 中覆盖这些版本，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;properties&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;spring-security.version&gt;</span>5.2.5.RELEASE<span class="nt">&lt;/spring-security.version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/properties&gt;</span>
+</span></span></code></pre></div><h2 id="了解安全组件">了解安全组件</h2>
+<p>要了解默认配置的工作原理，我们首先需要了解以下内容：</p>
+<ul>
+<li><strong>Servlet Filters 过滤器</strong></li>
+<li>**Authentication 认证 **</li>
+<li><strong>Authorization 授权</strong></li>
+</ul>
+<h3 id="servlet-filters">Servlet Filters</h3>
+<p>让我们仔细看看应用程序启动时的控制台日志。我们看到 <code>DefaultSecurityFilterChain</code> 在请求到达 <code>DispatcherServlet</code> 之前触发一系列过滤器。 <code>DispatcherServlet</code> 是 Web 框架中的关键组件，用于处理传入的 Web 请求并将它们分派到适当的处理程序进行处理。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with 
+</span></span><span class="line"><span class="cl"><span class="o">[</span>org.springframework.security.web.session.DisableEncodeUrlFilter@2fd954f, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.context.request.async.
+</span></span><span class="line"><span class="cl">  WebAsyncManagerIntegrationFilter@5731d3a, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.context.SecurityContextPersistenceFilter@5626d18c, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.header.HeaderWriterFilter@52b3bf03, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.csrf.CsrfFilter@30c4e352, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.authentication.logout.LogoutFilter@37ad042b, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.authentication.
+</span></span><span class="line"><span class="cl">UsernamePasswordAuthenticationFilter@1e60b459, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.authentication.ui.
+</span></span><span class="line"><span class="cl">  DefaultLoginPageGeneratingFilter@29b40b3, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.authentication.ui.
+</span></span><span class="line"><span class="cl">  DefaultLogoutPageGeneratingFilter@6a0f2853, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.authentication.www.
+</span></span><span class="line"><span class="cl">  BasicAuthenticationFilter@254449bb, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3dc95b8b, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.servletapi.
+</span></span><span class="line"><span class="cl">  SecurityContextHolderAwareRequestFilter@2d55e826, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.authentication.
+</span></span><span class="line"><span class="cl">  AnonymousAuthenticationFilter@1eff3cfb, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.session.SessionManagementFilter@462abec3, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.access.ExceptionTranslationFilter@6f8aba08, 
+</span></span><span class="line"><span class="cl">org.springframework.security.web.access.intercept.
+</span></span><span class="line"><span class="cl">  FilterSecurityInterceptor@7ce85af2<span class="o">]</span>
+</span></span></code></pre></div><p>要了解 <code>FilterChain</code> 的工作原理，让我们看一下 <a href="https://docs.spring.io/spring-security/reference/servlet/architecture.html#servlet-securityfilterchain">Spring Security 文档</a>中的流程图</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/filterChain_hu6933403b7320f6f893a41150b2491685_82682_1079x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<p>现在，让我们看看参与过滤器链的核心组件：</p>
+<ol>
+<li><a href="https://docs.spring.io/spring-security/reference/servlet/architecture.html#servlet-delegatingfilterproxy">DelegatingFilterProxy</a>  Spring 提供的一个 servlet 过滤器，充当 Servlet 容器和 Spring Application Context 之间的桥梁。 <code>DelegatingFilterProxy</code> 类负责将任何实现 <code>javax.servlet.Filter</code> 的类连接到过滤器链中。</li>
+<li><a href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/FilterChainProxy.html">FilterChainProxy</a> Spring 安全性在内部创建一个名为 <code>springSecurityFilterChain</code> 的 <code>FilterChainProxy</code> bean，包装在 <code>DelegatingFilterProxy</code> 中。 <code>FilterChainProxy</code> 是一个过滤器，它根据安全配置链接多个过滤器。因此， <code>DelegatingFilterProxy</code> 将请求委托给 <code>FilterChainProxy</code> ，后者确定要调用的过滤器。</li>
+<li><a href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/SecurityFilterChain.html">SecurityFilterChain</a>: <code>SecurityFilterChain</code> 中的安全过滤器是用 <code>FilterChainProxy</code> 注册的 bean。一个应用程序可以有多个 <code>SecurityFilterChain</code> 。 <code>FilterChainProxy</code> 使用 <code>HttpServletRequest</code> 上的 <code>RequestMatcher</code> 接口来确定需要调用哪个 <code>SecurityFilterChain</code> 。</li>
+</ol>
+<h4 id="spring-security-chain补充说明">Spring Security Chain补充说明</h4>
+<ul>
+<li>Spring Boot 应用程序中的默认后备过滤器链有一个请求匹配器 <code>/**</code> ，这意味着它将应用于所有请求。</li>
+<li>默认过滤器链具有预定义的 <code>@Order</code> SecurityProperties.BASIC_AUTH_ORDER。</li>
+<li>我们可以通过设置 security.basic.enabled=false 来排除这个完整的过滤器链。</li>
+<li>我们可以定义多个过滤器链的顺序。例如，要在默认过滤器链之前调用自定义过滤器链，我们需要设置较低的 <code>@Order</code> 。示例 <code>@Order(SecurityProperties.BASIC_AUTH_ORDER - 10)</code> 。</li>
+<li>我们可以使用 <code>FilterRegistrationBean</code> 或扩展 <code>OncePerRequestFilter</code> 在现有过滤器链中插入自定义过滤器（随时调用或针对特定 URL 模式调用）。</li>
+<li>对于定义的自定义过滤器，如果未指定@Order，则它是安全链中的最后一个。 （具有默认顺序 <code>LOWEST_PRECEDENCE</code> 。）</li>
+<li>我们还可以使用方法 <code>addFilterAfter()</code> 、 <code>addFilterAt()</code> 和 <code>addFilterBefore()</code> 来更好地控制我们定义的自定义过滤器的顺序。</li>
+</ul>
+<p>我们将在后面的部分中定义自定义过滤器和过滤器链。</p>
+<p>现在我们知道 Spring Security 为我们提供了一个默认的过滤器链，它调用一组预定义且有序的过滤器，让我们尝试简要了解链中几个重要过滤器的角色。</p>
+<ol>
+<li><strong><a href="https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/web/csrf/CsrfFilter.html">org.springframework.security.web.csrf.CsrfFilter</a></strong> : 此过滤器默认将 CSRF 保护应用于所有 REST 端点。要详细了解 Spring Boot 和 Spring Security 中的 CSRF 功能，请参考这篇文章。</li>
+<li><strong><a href="https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/web/authentication/logout/LogoutFilter.html">org.springframework.security.web.authentication.logout.LogoutFilter</a></strong> : 当用户注销应用程序时调用此过滤器。调用默认注册的 <code>LogoutHandler</code> 实例，负责使会话无效并清除 <code>SecurityContext</code> 。接下来， <code>LogoutSuccessHandler</code> 的默认实现将用户重定向到新页面 ( <code>/login?logout</code> )。</li>
+<li><strong><a href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/authentication/UsernamePasswordAuthenticationFilter.html">org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter</a></strong> : 使用启动时提供的默认凭据验证 URL ( <code>/login</code> ) 的用户名和密码。</li>
+<li><strong><a href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/authentication/ui/DefaultLoginPageGeneratingFilter.html">org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter</a></strong> : 在 <code>/login</code> 处生成默认登录页面 html</li>
+<li><strong><a href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/authentication/ui/DefaultLogoutPageGeneratingFilter.html">org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter</a></strong> : 在 <code>/login?logout</code> 处生成默认注销页面 html</li>
+<li><strong><a href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/authentication/www/BasicAuthenticationFilter.html">org.springframework.security.web.authentication.www.BasicAuthenticationFilter</a></strong> : 此过滤器负责处理任何具有授权、基本身份验证方案、Base64 编码的用户名密码的 HTTP 请求标头的请求。身份验证成功后， <code>Authentication</code> 对象将被放置在 <code>SecurityContextHolder</code> 中。</li>
+<li><strong><a href="https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/web/authentication/AnonymousAuthenticationFilter.html">org.springframework.security.web.authentication.AnonymousAuthenticationFilter</a></strong> : 如果在 <code>SecurityContext</code> 中找不到 <code>Authentication</code> 对象，它会创建一个具有主体 <code>anonymousUser</code> 和角色 &lt; b3&gt;。</li>
+<li><strong><a href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/access/ExceptionTranslationFilter.html">org.springframework.security.web.access.ExceptionTranslationFilter</a></strong> :处理过滤器链中抛出的 <code>AccessDeniedException</code> 和 <code>AuthenticationException</code> 。对于 <code>AuthenticationException</code> ，需要 <code>AuthenticationEntryPoint</code> 实例来处理响应。对于 <code>AccessDeniedException</code> ，此过滤器将委托给 <code>AccessDeniedHandler</code> ，其默认实现为 <code>AccessDeniedHandlerImpl</code> 。</li>
+<li><strong><a href="https://docs.spring.io/spring-security/site/docs/6.0.0/api/org/springframework/security/web/access/intercept/FilterSecurityInterceptor.html">org.springframework.security.web.access.intercept.FilterSecurityInterceptor</a></strong> : 此过滤器负责在请求到达控制器之前对通过过滤器链的每个请求进行授权。</li>
+</ol>
+<h3 id="authentication">Authentication</h3>
+<p>身份验证是验证用户凭据并确保其有效性的过程。让我们了解一下 spring 框架如何验证创建的默认凭据：</p>
+<p>步骤 1：当启用 FormLogin 时，即向 URL <code>/login</code> 发出请求时， <code>UsernamePasswordAuthenticationFilter</code> 被调用作为安全过滤器链的一部分。该类是基类 <code>AbstractAuthenticationProcessingFilter</code> 的具体实现。当尝试进行身份验证时，过滤器会将请求转发到 <code>AuthenticationManager</code> 。</p>
+<p>步骤2： <code>UsernamePasswordAuthenticationToken</code> 是 <code>Authentication</code> 接口的实现。此类指定身份验证机制必须通过用户名-密码进行。</p>
+<p>步骤 3：获得身份验证详细信息后， <code>AuthenticationManager</code> 尝试在 <code>AuthenticationProvider</code> 的适当实现和经过完全身份验证的 <code>Authentication</code> 对象的帮助下对请求进行身份验证被返回。默认实现是 <code>DaoAuthenticationProvider</code> ，它从 <code>UserDetailsService</code> 检索用户详细信息。如果身份验证失败，则抛出 <code>AuthenticationException</code> 。</p>
+<p>步骤4： <code>UserDetailsService</code> 的 <code>loadUserByUsername(username)</code> 方法返回包含用户数据的 <code>UserDetails</code> 对象。如果没有找到具有给定用户名的用户，则抛出 <code>UsernameNotFoundException</code> 。</p>
+<p>步骤 5：身份验证成功后， <code>SecurityContext</code> 将更新为当前经过身份验证的用户。</p>
+<p>为了理解上面概述的步骤，让我们看一下 Spring Security 文档中定义的身份验证架构。</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/providerManager_hu6933403b7320f6f893a41150b2491685_64311_1210x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<p><code>ProviderManager</code> 是 <code>AuthenticationManager</code> 最常见的实现。如图所示， <code>ProviderManager</code> 将请求委托给已配置的 <code>AuthenticationProvider</code> 列表，每个列表都会被查询以查看是否可以执行身份验证。如果认证失败，返回 <code>ProviderNotFoundException</code> ，这是 <code>AuthenticationException</code> 的特殊类型，说明 <code>ProviderManager</code> 不支持 <code>Authentication</code></p>
+<p><code>AuthenticationEntryPoint</code> 是一个充当身份验证入口点的接口，用于确定客户端在请求资源时是否包含有效的凭据。如果没有，则使用该接口的适当实现来向客户端请求凭证。</p>
+<p>现在，让我们了解 <code>Authentication</code> 对象如何绑定整个身份验证过程。 <code>Authentication</code> 接口有以下用途：</p>
+<ol>
+<li>向 <code>AuthenticationManager</code> 提供用户凭据。</li>
+<li>代表 <code>SecurityContext</code> 中当前经过身份验证的用户。 <code>Authentication</code> 的每个实例都必须包含</li>
+</ol>
+<ul>
+<li><strong><code>principal</code></strong> - 这是标识用户的 <code>UserDetails</code> 实例。</li>
+<li><strong><code>credentials</code></strong></li>
+<li><strong><code>authorities</code></strong> - <code>GrantedAuthority</code> <code>GrantedAuthority</code> 的实例在授权过程中发挥着重要作用。</li>
+</ul>
+<h4 id="关于-spring-身份验证的附加说明">关于 Spring 身份验证的附加说明</h4>
+<ul>
+<li>在某些情况下，我们可能需要在单独授权的情况下使用 Spring Security，因为在访问我们的应用程序之前它已经由外部系统进行了可靠的身份验证。请参阅预认证文档了解如何配置和处理此类场景。</li>
+<li>Spring 允许通过多种方式来<a href="https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/storage.html">定制身份验证机制</a>，我们将在后面的部分中介绍其中的几种。</li>
+</ul>
+<h3 id="authorization-授权">Authorization 授权</h3>
+<p>授权是确保访问资源的用户或系统具有有效权限的过程。</p>
+<p>在Spring security过滤器链中， <code>FilterSecurityInterceptor</code> 触发授权检查。从过滤器的执行顺序可以看出，认证先于授权运行。该过滤器在用户成功通过身份验证后检查有效权限。如果授权失败，则会抛出 <code>AccessDeniedException</code> 。</p>
+<h4 id="授予权限">授予权限</h4>
+<p>如上一节所示，每个用户实例都包含一个 <code>GrantedAuthority</code> 对象列表。 GrantedAuthority 是一个具有单一方法的接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">GrantedAuthority</span> <span class="kd">extends</span> <span class="n">Serializable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="nf">getAuthority</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Spring security 默认情况下调用具体的 <code>GrantedAuthority</code> 实现 <code>SimpleGrantedAuthority</code> 。 <code>SimpleGrantedAuthority</code> 允许我们将角色指定为字符串，自动将它们映射到 <code>GrantedAuthority</code> 实例中。 <code>AuthenticationManager</code> 负责将 <code>GrantedAuthority</code> 对象列表插入到 <code>Authentication</code> 对象中。然后 <code>AccessDecisionManager</code> 使用 <code>getAuthority()</code> 来决定授权是否成功。</p>
+<h4 id="授予的权限与角色">授予的权限与角色</h4>
+<p>Spring Security 分别使用 <code>hasAuthority()</code> 和 <code>hasRole()</code> 方法通过授予的权限和角色提供授权支持。这些方法用于基于表达式的安全性，并且是接口 <code>SecurityExpressionOperations</code> 的一部分。对于大多数情况，这两种方法可以互换使用，最显着的区别是 <code>hasRole()</code> 不需要指定 ROLE 前缀，而 <code>hasAuthority()</code> 需要显式指定完整的字符串。例如， <code>hasAuthority(&quot;ROLE_ADMIN&quot;)</code> 和 <code>hasRole(&quot;ADMIN&quot;)</code> 执行相同的任务。</p>
+<h4 id="spring授权的补充说明">Spring授权的补充说明</h4>
+<ul>
+<li>Spring 允许我们使用 <code>@PreAuthorize</code> 和 <code>@PostAuthorize</code> 注释来配置方法级安全性。正如名称所示，它们允许我们在方法执行之前和之后对用户进行授权。授权检查的条件可以在 Spring 表达式语言 (SpEL) 中指定。我们将在后面的部分中查看一些示例。</li>
+<li>我们可以通过公开 <code>GrantedAuthorityDefaults</code> bean 将授权规则配置为使用不同的前缀（ <code>ROLE_</code> 除外）。</li>
+</ul>
+<h2 id="常见漏洞保护">常见漏洞保护</h2>
+<p>默认的 spring security 配置带有默认启用的针对各种攻击的保护功能。我们不会在本文中介绍这些细节。您可以参考 Spring 文档以获取详细指南。但是，要了解 CORS 和 CSRF 上的深入 Spring Security 配置，请参阅以下文章：</p>
+<ul>
+<li><a href="https://reflectoring.io/spring-cors/">CORS in Spring Security</a></li>
+<li><a href="https://reflectoring.io/spring-csrf/">CSRF in Spring Security</a></li>
+</ul>
+<h2 id="实现安全配置">实现安全配置</h2>
+<p>现在我们已经熟悉了 Spring Security 工作原理的细节，接下来让我们了解应用程序中的配置设置，以处理我们在前面几节中简要提到的各种场景。</p>
+<h3 id="默认配置">默认配置</h3>
+<p><code>org.springframework.boot.autoconfigure.security.servlet</code> 包中的 <code>SpringBootWebSecurityConfiguration</code> 类为 Spring Boot 应用程序提供了一组默认的 Spring 安全配置。该类的反编译版本如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">SpringBootWebSecurityConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ConditionalOnDefaultWebSecurity</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SecurityFilterChainConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SecurityFilterChainConfiguration</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Order</span><span class="o">(</span><span class="n">2147483642</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SecurityFilterChain</span> <span class="nf">defaultSecurityFilterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">                <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="o">((</span><span class="n">AuthorizedUrl</span><span class="o">)</span> <span class="n">http</span><span class="o">.</span><span class="na">authorizeRequests</span><span class="o">().</span><span class="na">anyRequest</span><span class="o">()).</span><span class="na">authenticated</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">http</span><span class="o">.</span><span class="na">formLogin</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">http</span><span class="o">.</span><span class="na">httpBasic</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="o">(</span><span class="n">SecurityFilterChain</span><span class="o">)</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Spring 使用上述配置来创建默认的 <code>SecurityFilterChainBean</code> ：</p>
+<ol>
+<li><code>authorizeRequests()</code> 基于 <code>RequestMatcher</code> 实现限制访问。这里 <code>authorizeRequests().anyRequest()</code> 将允许所有请求。为了更好地控制限制访问，我们可以通过 <code>antMatchers()</code> 指定 URL 模式。</li>
+<li><code>authenticated()</code> 要求所有调用的端点在进入过滤器链之前都经过身份验证。</li>
+<li><code>formLogin()</code> 调用默认的 <code>FormLoginConfigurer</code> 类，该类加载登录页面以通过用户名密码进行身份验证，并相应地重定向到相应的失败或成功处理程序。有关表单登录工作原理的图示，请参阅 Spring 文档中的详细说明。</li>
+<li><code>httpBasic()</code> 调用设置默认值的 <code>HttpBasicConfigurer</code> 以帮助进行基本身份验证。详细理解可以参考Spring文档。</li>
+</ol>
+<h4 id="spring-security-与-securityfilterchain">Spring Security 与 <code>SecurityFilterChain</code></h4>
+<ul>
+<li>从 Spring Security 5.7.0-M2 开始， <code>WebSecurityConfigurerAdapter</code> 已被弃用并替换为 <code>SecurityFilterChain</code> ，从而进入基于组件的安全配置。</li>
+<li>要了解差异，请参阅这篇 <a href="https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter">Spring 博客文章</a>。</li>
+<li>本文中的所有示例都将使用使用 <code>SecurityFilterChain</code> 的较新配置。</li>
+</ul>
+<h3 id="常见用例">常见用例</h3>
+<p>现在我们了解了 Spring Security 默认值的工作原理，让我们看一些场景并相应地自定义配置。</p>
+<h4 id="1-自定义默认配置">1. 自定义默认配置</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span><span class="o">[]</span> <span class="n">ENDPOINTS_WHITELIST</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#34;/css/**&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#34;/&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#34;/login&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#34;/home&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">};</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">LOGIN_URL</span> <span class="o">=</span> <span class="s">&#34;/login&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">LOGOUT_URL</span> <span class="o">=</span> <span class="s">&#34;/logout&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">LOGIN_FAIL_URL</span> <span class="o">=</span> <span class="n">LOGIN_URL</span> <span class="o">+</span> <span class="s">&#34;?error&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">DEFAULT_SUCCESS_URL</span> <span class="o">=</span> <span class="s">&#34;/home&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">USERNAME</span> <span class="o">=</span> <span class="s">&#34;username&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PASSWORD</span> <span class="o">=</span> <span class="s">&#34;password&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">filterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">authorizeRequests</span><span class="o">(</span><span class="n">request</span> <span class="o">-&gt;</span> 
+</span></span><span class="line"><span class="cl">                <span class="n">request</span><span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">ENDPOINTS_WHITELIST</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">formLogin</span><span class="o">(</span><span class="n">form</span> <span class="o">-&gt;</span> <span class="n">form</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">loginPage</span><span class="o">(</span><span class="n">LOGIN_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">loginProcessingUrl</span><span class="o">(</span><span class="n">LOGIN_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">failureUrl</span><span class="o">(</span><span class="n">LOGIN_FAIL_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">usernameParameter</span><span class="o">(</span><span class="n">USERNAME</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">passwordParameter</span><span class="o">(</span><span class="n">PASSWORD</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">defaultSuccessUrl</span><span class="o">(</span><span class="n">DEFAULT_SUCCESS_URL</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们可以自定义登录的各个方面，而不是使用 spring security 登录默认设置：</p>
+<ul>
+<li><code>loginPage</code> - 自定义默认登录页面。在这里，我们创建了一个自定义 <code>login.html</code> 及其相应的 <code>LoginController</code> 类。</li>
+<li><code>loginProcessingUrl</code> - 验证用户名和密码的 URL。</li>
+<li><code>failureUrl</code> - 登录失败时定向到的 URL。</li>
+<li><code>defaultSuccessUrl</code> - 成功登录后定向到的 URL。在这里，我们创建了一个自定义 <code>homePage.html</code> 及其相应的 <code>HomeController</code> 类。</li>
+<li><code>antMatchers()</code> - 过滤掉将成为登录过程一部分的 URL。</li>
+</ul>
+<p>同样，我们也可以自定义注销过程。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">filterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">authorizeRequests</span><span class="o">(</span><span class="n">request</span> <span class="o">-&gt;</span> 
+</span></span><span class="line"><span class="cl">                <span class="n">request</span><span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">ENDPOINTS_WHITELIST</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">formLogin</span><span class="o">(</span><span class="n">form</span> <span class="o">-&gt;</span> <span class="n">form</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">loginPage</span><span class="o">(</span><span class="n">LOGIN_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">loginProcessingUrl</span><span class="o">(</span><span class="n">LOGIN_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">failureUrl</span><span class="o">(</span><span class="n">LOGIN_FAIL_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">usernameParameter</span><span class="o">(</span><span class="n">USERNAME</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">passwordParameter</span><span class="o">(</span><span class="n">PASSWORD</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">defaultSuccessUrl</span><span class="o">(</span><span class="n">DEFAULT_SUCCESS_URL</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">logout</span><span class="o">(</span><span class="n">logout</span> <span class="o">-&gt;</span> <span class="n">logout</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">logoutUrl</span><span class="o">(</span><span class="s">&#34;/logout&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">invalidateHttpSession</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">deleteCookies</span><span class="o">(</span><span class="s">&#34;JSESSIONID&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">logoutSuccessUrl</span><span class="o">(</span><span class="n">LOGIN_URL</span> <span class="o">+</span> <span class="s">&#34;?logout&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>在这里，当用户注销时，http 会话将失效，但会话 cookie 不会被清除。使用 <code>deleteCookies(&quot;JSESSIONID&quot;)</code> 有助于避免基于会话的冲突。</p>
+<p>此外，我们可以通过 Spring Security 管理和配置会话。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">filterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">authorizeRequests</span><span class="o">(</span><span class="n">request</span> <span class="o">-&gt;</span> 
+</span></span><span class="line"><span class="cl">                <span class="n">request</span><span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">ENDPOINTS_WHITELIST</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">formLogin</span><span class="o">(</span><span class="n">form</span> <span class="o">-&gt;</span> <span class="n">form</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">loginPage</span><span class="o">(</span><span class="n">LOGIN_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">loginProcessingUrl</span><span class="o">(</span><span class="n">LOGIN_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">failureUrl</span><span class="o">(</span><span class="n">LOGIN_FAIL_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">usernameParameter</span><span class="o">(</span><span class="n">USERNAME</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">passwordParameter</span><span class="o">(</span><span class="n">PASSWORD</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">defaultSuccessUrl</span><span class="o">(</span><span class="n">DEFAULT_SUCCESS_URL</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">logout</span><span class="o">(</span><span class="n">logout</span> <span class="o">-&gt;</span> <span class="n">logout</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">logoutUrl</span><span class="o">(</span><span class="s">&#34;/logout&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">invalidateHttpSession</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">deleteCookies</span><span class="o">(</span><span class="s">&#34;JSESSIONID&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">logoutSuccessUrl</span><span class="o">(</span><span class="n">LOGIN_URL</span> <span class="o">+</span> <span class="s">&#34;?logout&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">sessionManagement</span><span class="o">(</span><span class="n">session</span> <span class="o">-&gt;</span> <span class="n">session</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">ALWAYS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">invalidSessionUrl</span><span class="o">(</span><span class="s">&#34;/invalidSession.htm&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">maximumSessions</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">maxSessionsPreventsLogin</span><span class="o">(</span><span class="kc">true</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>它为我们提供了以下会话属性 <code>sessionCreationPolicy</code> 值：</p>
+<ol>
+<li>SessionCreationPolicy.STATELESS - 不会创建或使用任何会话。</li>
+<li>SessionCreationPolicy.ALWAYS - 如果会话不存在，则始终会创建该会话。</li>
+<li>SessionCreationPolicy.NEVER - 永远不会创建会话。但如果会话存在，就会使用它。</li>
+<li>SessionCreationPolicy.IF_REQUIRED - 如果需要，将创建会话。 （默认配置）</li>
+</ol>
+<p>Other options include: 其他选项包括：</p>
+<ul>
+<li><code>invalidSessionUrl</code> - 检测到无效会话时重定向到的 URL。</li>
+<li><code>maximumSessions</code> - 限制单个用户可以同时拥有的活动会话数。</li>
+<li><code>maxSessionsPreventsLogin</code> - 默认值为 <code>false</code> ，表示在现有用户的会话过期时允许经过身份验证的用户访问。 <code>true</code> 表示到达 <code>SessionManagementConfigurer.maximumSessions(int)</code> 时不会对用户进行身份验证。在这种情况下，当检测到多次登录时，它将重定向到 <code>/invalidSession</code> 。</li>
+</ul>
+<h4 id="2-配置多个过滤器链">2. 配置多个过滤器链</h4>
+<p>Spring Security 允许我们拥有多个共存的安全配置，使我们能够更好地控制应用程序。为了演示这一点，让我们为图书馆应用程序创建 REST 端点，该应用程序使用 H2 数据库根据体裁存储书籍。我们的 <code>BookController</code> 类将有一个端点定义如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/library/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;</span> <span class="nf">getBooks</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">genre</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">body</span><span class="o">(</span><span class="n">bookService</span><span class="o">.</span><span class="na">getBook</span><span class="o">(</span><span class="n">genre</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>为了保护此端点，让我们在 <code>SecurityConfiguration</code> 类中使用基本身份验证并配置详细信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="n">BasicAuthProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">BasicAuthProperties</span> <span class="n">props</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">SecurityConfiguration</span><span class="o">(</span><span class="n">BasicAuthProperties</span> <span class="n">props</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">props</span> <span class="o">=</span> <span class="n">props</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">bookFilterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">sessionManagement</span><span class="o">(</span><span class="n">session</span> <span class="o">-&gt;</span> <span class="n">session</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">STATELESS</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatcher</span><span class="o">(</span><span class="s">&#34;/library/**&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">HttpMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="s">&#34;/library/**&#34;</span><span class="o">).</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;USER&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">httpBasic</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">exceptionHandling</span><span class="o">(</span><span class="n">exception</span> <span class="o">-&gt;</span> <span class="n">exception</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">authenticationEntryPoint</span><span class="o">(</span><span class="n">userAuthenticationErrorHandler</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">accessDeniedHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">UserForbiddenErrorHandler</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">UserDetailsService</span> <span class="nf">userDetailsService</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">InMemoryUserDetailsManager</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="na">getUserDetails</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">AuthenticationEntryPoint</span> <span class="nf">userAuthenticationErrorHandler</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">UserAuthenticationErrorHandler</span> <span class="n">userAuthenticationErrorHandler</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">                <span class="k">new</span> <span class="n">UserAuthenticationErrorHandler</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">userAuthenticationErrorHandler</span><span class="o">.</span><span class="na">setRealmName</span><span class="o">(</span><span class="s">&#34;Basic Authentication&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">userAuthenticationErrorHandler</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span><span class="o">[]</span> <span class="n">ENDPOINTS_WHITELIST</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#34;/css/**&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#34;/login&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#34;/home&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">};</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">LOGIN_URL</span> <span class="o">=</span> <span class="s">&#34;/login&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">LOGIN_FAIL_URL</span> <span class="o">=</span> <span class="n">LOGIN_URL</span> <span class="o">+</span> <span class="s">&#34;?error&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">DEFAULT_SUCCESS_URL</span> <span class="o">=</span> <span class="s">&#34;/home&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">USERNAME</span> <span class="o">=</span> <span class="s">&#34;username&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PASSWORD</span> <span class="o">=</span> <span class="s">&#34;password&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="n">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">filterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">authorizeRequests</span><span class="o">(</span><span class="n">request</span> <span class="o">-&gt;</span> 
+</span></span><span class="line"><span class="cl">                <span class="n">request</span><span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">ENDPOINTS_WHITELIST</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatcher</span><span class="o">(</span><span class="s">&#34;/login&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">formLogin</span><span class="o">(</span><span class="n">form</span> <span class="o">-&gt;</span> <span class="n">form</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">loginPage</span><span class="o">(</span><span class="n">LOGIN_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">loginProcessingUrl</span><span class="o">(</span><span class="n">LOGIN_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">failureUrl</span><span class="o">(</span><span class="n">LOGIN_FAIL_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">usernameParameter</span><span class="o">(</span><span class="n">USERNAME</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">passwordParameter</span><span class="o">(</span><span class="n">PASSWORD</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">defaultSuccessUrl</span><span class="o">(</span><span class="n">DEFAULT_SUCCESS_URL</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">logout</span><span class="o">(</span><span class="n">logout</span> <span class="o">-&gt;</span> <span class="n">logout</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">logoutUrl</span><span class="o">(</span><span class="s">&#34;/logout&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">invalidateHttpSession</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">deleteCookies</span><span class="o">(</span><span class="s">&#34;JSESSIONID&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">logoutSuccessUrl</span><span class="o">(</span><span class="n">LOGIN_URL</span> <span class="o">+</span> <span class="s">&#34;?logout&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">sessionManagement</span><span class="o">(</span><span class="n">session</span> <span class="o">-&gt;</span> <span class="n">session</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">ALWAYS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">invalidSessionUrl</span><span class="o">(</span><span class="s">&#34;/invalidSession&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">maximumSessions</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">maxSessionsPreventsLogin</span><span class="o">(</span><span class="kc">true</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们仔细看看代码：</p>
+<ol>
+<li>我们有两个 SecurityFilterChain 方法 <code>bookFilterChain()</code> 和 <code>filterChain()</code> 方法以及 <code>@Order(1)</code> 和 <code>@Order(2)</code> 。它们都将按上述顺序执行。</li>
+<li>由于两个过滤器链都满足不同的端点，因此 <code>application.yml</code> 中存在不同的凭据</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">auth</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">users</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">loginadmin</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l">admin</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">loginpass</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">bookadmin</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l">user</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">bookpass</span><span class="w">
+</span></span></span></code></pre></div><p>为了让 Spring Security 使用这些凭据，我们将 <code>UserDetailsService</code> 自定义为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">UserDetailsService</span> <span class="nf">userDetailsService</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">InMemoryUserDetailsManager</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="na">getUserDetails</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><ol>
+<li>为了满足 <code>AuthenticationException</code> 和 <code>AccessDeniedException</code> ，我们定制了 <code>exceptionHandling()</code> 并配置了自定义类 <code>UserAuthenticationErrorHandler</code> 和 <code>UserForbiddenErrorHandler</code> 。</li>
+</ol>
+<p>使用此配置，REST 端点的邮递员响应如下所示：</p>
+<p>成功的回应:</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/postman01_hu6933403b7320f6f893a41150b2491685_94086_1709x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<p>未经授权的回应：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/postman-unauth_hu6933403b7320f6f893a41150b2491685_91990_1705x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<p>禁止的回应：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/postman-forbidden_hu6933403b7320f6f893a41150b2491685_84284_1689x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<h4 id="3-默认情况下保护的其他端点">3. 默认情况下保护的其他端点</h4>
+<p>一旦为请求匹配器配置了 Spring Security，默认情况下添加的其他端点就会受到保护。例如，让我们向 <code>BookController</code> 类添加一个端点</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/library/books/all&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;</span> <span class="nf">getAllBooks</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">body</span><span class="o">(</span><span class="n">bookService</span><span class="o">.</span><span class="na">getAllBooks</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>为了成功调用此端点，我们需要提供基本的身份验证凭据。</p>
+<p>没有通过凭据时的错误响应：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/postman-nocreds_hu6933403b7320f6f893a41150b2491685_78352_1702x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<p>成功的回应：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/postman-creds_hu6933403b7320f6f893a41150b2491685_92812_1724x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<h4 id="4-不安全的特定端点">4. 不安全的特定端点</h4>
+<p>我们可以指定需要从安全配置中排除的端点列表。为此，我们首先向 <code>BookController</code> 类添加另一个端点，并添加以下配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/library/info&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">LibraryInfo</span><span class="o">&gt;</span> <span class="nf">getInfo</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">body</span><span class="o">(</span><span class="n">bookService</span><span class="o">.</span><span class="na">getLibraryInfo</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">WebSecurityCustomizer</span> <span class="nf">webSecurityCustomizer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">(</span><span class="n">web</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">web</span><span class="o">.</span><span class="na">ignoring</span><span class="o">().</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">&#34;/library/info&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>现在，我们应该能够在不传递凭据的情况下从邮递员到达端点：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/unsecure_hu6933403b7320f6f893a41150b2491685_95757_1686x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<h4 id="5-添加自定义过滤器">5. 添加自定义过滤器</h4>
+<p>Spring 通过执行链中的一系列过滤器来提供安全性。如果我们需要在请求到达控制器之前对其添加额外的检查，Spring Security 为我们提供了以下方法，帮助我们在链中所需的位置添加自定义过滤器。</p>
+<ul>
+<li>addFilterBefore(Filter filter, Class beforeFilter)：此方法允许我们在链中指定过滤器之前添加自定义过滤器。</li>
+<li>addFilterAfter(Filter filter, Class afterFilter)：此方法允许我们在链中指定过滤器之后添加自定义过滤器。</li>
+<li>addFilterAt(Filter filter, Class atFilter)：此方法允许我们以相同的优先级在链中的指定过滤器处添加自定义过滤器。添加自定义过滤器后，这两个过滤器都将在过滤器链中被调用（无特定顺序）。</li>
+</ul>
+<p>让我们看一下示例配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="n">BasicAuthProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">BasicAuthProperties</span> <span class="n">props</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">SecurityConfiguration</span><span class="o">(</span><span class="n">BasicAuthProperties</span> <span class="n">props</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">props</span> <span class="o">=</span> <span class="n">props</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">bookFilterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">sessionManagement</span><span class="o">(</span><span class="n">session</span> <span class="o">-&gt;</span> <span class="n">session</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">STATELESS</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatcher</span><span class="o">(</span><span class="s">&#34;/library/**&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">HttpMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="s">&#34;/library/**&#34;</span><span class="o">).</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;USER&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">httpBasic</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">exceptionHandling</span><span class="o">(</span><span class="n">exception</span> <span class="o">-&gt;</span> <span class="n">exception</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">authenticationEntryPoint</span><span class="o">(</span><span class="n">userAuthenticationErrorHandler</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">accessDeniedHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">UserForbiddenErrorHandler</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">addFilterBefore</span><span class="o">(</span><span class="n">customHeaderValidatorFilter</span><span class="o">(),</span> 
+</span></span><span class="line"><span class="cl">                <span class="n">BasicAuthenticationFilter</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">CustomHeaderValidatorFilter</span> <span class="nf">customHeaderValidatorFilter</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">CustomHeaderValidatorFilter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>为了编写自定义过滤器，我们创建一个类 <code>CustomHeaderValidatorFilter</code> ，它扩展了为此目的而创建的特殊过滤器 <code>OncePerRequestFilter</code> 。这确保我们的过滤器对于每个请求仅被调用一次。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomHeaderValidatorFilter</span> <span class="kd">extends</span> <span class="n">OncePerRequestFilter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="n">CustomHeaderValidatorFilter</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doFilterInternal</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">                                    <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">                                    <span class="n">FilterChain</span> <span class="n">filterChain</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">            <span class="kd">throws</span> <span class="n">ServletException</span><span class="o">,</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Custom filter called...&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">&#34;X-Application-Name&#34;</span><span class="o">)))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">response</span><span class="o">.</span><span class="na">setStatus</span><span class="o">(</span><span class="n">HttpServletResponse</span><span class="o">.</span><span class="na">SC_FORBIDDEN</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">&#34;application/json&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">response</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">().</span><span class="na">println</span><span class="o">(</span><span class="k">new</span> <span class="n">ObjectMapper</span><span class="o">().</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">writeValueAsString</span><span class="o">(</span><span class="n">CommonException</span><span class="o">.</span><span class="na">headerError</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">filterChain</span><span class="o">.</span><span class="na">doFilter</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，我们重写了 <code>doFilterInternal()</code> 并添加了我们的逻辑。在这种情况下，仅当请求中传递了所需的标头 <code>X-Application-Name</code> 时，请求才会在过滤器链中继续进行。此外，我们还可以验证该过滤器是否已从日志连接到我们的 <code>SecurityConfiguration</code> 类。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Will secure Ant [pattern=&#39;/library/**&#39;] with 
+</span></span><span class="line"><span class="cl">[org.springframework.security.web.session.DisableEncodeUrlFilter@669469c9,
+</span></span><span class="line"><span class="cl"> org.springframework.security.web.context.request.async.
+</span></span><span class="line"><span class="cl">   WebAsyncManagerIntegrationFilter@7f39ad3f,
+</span></span><span class="line"><span class="cl"> org.springframework.security.web.context.SecurityContextPersistenceFilter@1b901f7b,
+</span></span><span class="line"><span class="cl"> org.springframework.security.web.header.HeaderWriterFilter@64f49b3,
+</span></span><span class="line"><span class="cl"> org.springframework.security.web.authentication.logout.LogoutFilter@628aea61,
+</span></span><span class="line"><span class="cl"> com.reflectoring.security.CustomHeaderValidatorFilter@3d40a3b4,
+</span></span><span class="line"><span class="cl"> org.springframework.security.web.authentication.www.
+</span></span><span class="line"><span class="cl">   BasicAuthenticationFilter@8d23cd8,
+</span></span><span class="line"><span class="cl"> org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1a1e38ab,
+</span></span><span class="line"><span class="cl"> org.springframework.security.web.servletapi.
+</span></span><span class="line"><span class="cl">   SecurityContextHolderAwareRequestFilter@5bfdabf3,
+</span></span><span class="line"><span class="cl"> org.springframework.security.web.authentication.
+</span></span><span class="line"><span class="cl">   AnonymousAuthenticationFilter@7524125c,
+</span></span><span class="line"><span class="cl"> org.springframework.security.web.session.SessionManagementFilter@3dc14f80,
+</span></span><span class="line"><span class="cl"> org.springframework.security.web.access.ExceptionTranslationFilter@58c16efd,
+</span></span><span class="line"><span class="cl"> org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5ab06829]
+</span></span></code></pre></div><p>这里为所有端点 <code>/library/**</code> 调用过滤器。为了进一步限制它以满足特定的端点，我们可以将 Filter 类修改为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">shouldNotFilter</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">            <span class="kd">throws</span> <span class="n">ServletException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">path</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestURI</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">&#34;/library/books/all&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>通过此更改，对于端点 <code>/library/books/all</code> ，将不会执行 <code>doFilterInternal()</code> 方法。相同的概念适用于使用 <code>addFilterAt()</code> 和 <code>addFilterAfter()</code> 方法添加的过滤器。</p>
+<h4 id="6-基于角色的授权">6. 基于角色的授权</h4>
+<p>在 Spring Security 的上下文中，授权是在用户通过身份验证后发生的。在前面的部分中，我们查看了处理 <code>AccessDeniedException</code> 的示例。当用户授权失败时抛出该异常。在我们的示例中，我们在 <code>application.yml</code> 中为用户 <code>bookadmin</code> 和 <code>loginadmin</code> 定义了角色：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">auth</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">users</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">loginadmin</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l">admin</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">loginpass</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">bookadmin</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l">user</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">bookpass</span><span class="w">
+</span></span></span></code></pre></div><p>为了确保授权，我们将 Spring Security 配置为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">filterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">authorizeRequests</span><span class="o">(</span><span class="n">request</span> <span class="o">-&gt;</span> 
+</span></span><span class="line"><span class="cl">             <span class="n">request</span><span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">ENDPOINTS_WHITELIST</span><span class="o">).</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;ADMIN&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* Code continued.. */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>以及</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="n">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">bookFilterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">sessionManagement</span><span class="o">(</span><span class="n">session</span> <span class="o">-&gt;</span> <span class="n">session</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">STATELESS</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatcher</span><span class="o">(</span><span class="s">&#34;/library/**&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">HttpMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="s">&#34;/library/**&#34;</span><span class="o">).</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;USER&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* Code continued.. */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们看一下可用于授权端点的方法。</p>
+<ul>
+<li><strong><code>hasRole(String role)</code></strong> : 如果当前主体具有指定角色，则返回 <code>true</code> 。例如。 <code>hasRole(&quot;ADMIN&quot;)</code></li>
+<li><strong><code>hasAnyRole(String... roles)</code></strong> :可以指定多个角色。如果任何角色匹配，则返回 <code>true</code> 。例如。 <code>hasAnyRole(&quot;ADMIN&quot;, &quot;USER&quot;)</code> 注意：在上述两种情况下， <code>ROLE_</code> 前缀默认添加到提供的角色字符串中。</li>
+<li><strong><code>hasAuthority(String authority)</code></strong> :如果当前主体具有指定的权限，则返回 <code>true</code> 。例如。 <code>hasAuthority(ROLE_ADMIN)</code></li>
+<li><strong><code>hasAnyAuthority(String... authorities)</code></strong> : 可以指定多个权限。如果任何权限匹配，则返回 <code>true</code> 。例如。 <code>hasAnyAuthority(&quot;ROLE_ADMIN&quot;, &quot;ROLE_USER&quot;)</code></li>
+</ul>
+<h4 id="spring-security-访问控制的附加说明">Spring Security 访问控制的附加说明</h4>
+<ul>
+<li>上面讨论的所有方法都使用 spEL 来支持更复杂的访问控制。这允许我们使用特定的类来实现 Web 和方法安全性来访问当前主体等值。要了解如何利用 spEL，请参阅此 Spring 文档</li>
+<li>另外，如果我们不需要设置授权，我们可以使用方法 <code>permitAll()</code> 和 <code>denyAll()</code> 分别允许或拒绝所有角色和权限。</li>
+</ul>
+<p>让我们看一下一个示例配置，该配置在同一方法中为不同端点使用不同的角色。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">bookFilterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">HttpMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="s">&#34;/library/info&#34;</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">HttpMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="s">&#34;/library/books&#34;</span><span class="o">).</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;USER&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">HttpMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="s">&#34;/library/books/all&#34;</span><span class="o">).</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;ADMIN&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h4 id="7preauthorize和postauthorize">7.@PreAuthorize和@PostAuthorize</h4>
+<p>Spring Security 允许我们通过 <code>@PreAuthorize</code> 和 <code>@PostAuthorize</code> 注解将安全机制扩展到方法。这些注释使用 spEL 根据传递的参数进行评估和授权。</p>
+<ul>
+<li><strong><code>@PreAuthorize</code></strong>: 在执行方法之前授权条件。</li>
+<li><strong><code>@PostAuthorize</code></strong>: 授权方法执行后的条件。为了使这些注释起作用，我们需要将 <code>@EnableGlobalMethodSecurity(prePostEnabled = true)</code> 添加到我们的配置类中，如下所示：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableGlobalMethodSecurity</span><span class="o">(</span><span class="n">prePostEnabled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="n">BasicAuthProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* ... */</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来我们看看如何使用这些注解。这里我们在 Controller 类中使用了 <code>@PreAuthorize</code> 。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Controller</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BookController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">BookController</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">BookService</span> <span class="n">bookService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">BookController</span><span class="o">(</span><span class="n">BookService</span> <span class="n">bookService</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">bookService</span> <span class="o">=</span> <span class="n">bookService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/library/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@PreAuthorize</span><span class="o">(</span><span class="s">&#34;#user == authentication.principal.username&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;</span> <span class="nf">getBooks</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">genre</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">                                                  <span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">body</span><span class="o">(</span><span class="n">bookService</span><span class="o">.</span><span class="na">getBook</span><span class="o">(</span><span class="n">genre</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/library/books/all&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@PreAuthorize</span><span class="o">(</span><span class="s">&#34;hasRole(&#39;ROLE_USER&#39;)&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">BookDto</span><span class="o">&gt;&gt;</span> <span class="nf">getAllBooks</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">body</span><span class="o">(</span><span class="n">bookService</span><span class="o">.</span><span class="na">getAllBooks</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，我们演示了使用 <code>@PreAuthorize</code> 注释的两种方法。</p>
+<ol>
+<li>登录的用户名作为请求参数传递，并使用当前主体进行验证。对于成功的匹配，邮递员会返回有效的响应。</li>
+</ol>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/Preauth-success_hu6933403b7320f6f893a41150b2491685_85856_1634x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<p>如果出现错误，我们会得到：</p>
+<p><img loading="lazy" src="https://reflectoring.io/images/posts/getting-started-with-spring-security/Preauth-error_hu6933403b7320f6f893a41150b2491685_94064_1728x0_resize_q90_box.JPG" alt="settings"  />
+</p>
+<ol>
+<li><code>@PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)</code> : 仅当当前主体具有 USER 角色时，我们才会收到成功响应。</li>
+</ol>
+<p>接下来，让我们在 Repository 类中使​​用 <code>@PostAuthorize</code> 。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Repository</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">BookRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span> <span class="nf">findByGenre</span><span class="o">(</span><span class="n">String</span> <span class="n">genre</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@PostAuthorize</span><span class="o">(</span><span class="s">&#34;returnObject.size() &gt; 0&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这里， <code>returnObject</code> 表示 <code>List&lt;Book&gt;</code> 。因此，当 <code>size()</code> 返回0时，我们将得到一个错误响应。</p>
+<h4 id="自定义授权">自定义授权</h4>
+<ul>
+<li>要自定义表达式的处理方式，我们需要将 <code>MethodSecurityExpressionHandler</code> 公开为 bean。</li>
+<li>Spring 方法安全性是使用 Spring AOP 构建的。有关更多示例，请参阅<a href="https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html">方法安全文档</a>。</li>
+</ul>
+<h4 id="8-基于数据库的认证和授权">8. 基于数据库的认证和授权</h4>
+<p>在之前的所有示例中，我们都使用 <code>InMemoryUserDetailsManager</code> 配置用户、密码、角色。 Spring Security 允许我们自定义身份验证和授权过程。我们还可以在数据库中配置这些详细信息，并让 Spring Security 相应地访问它们。</p>
+<p>有关工作示例，请参阅<a href="https://reflectoring.io/spring-security-password-handling/">本文</a>。它还解释了为了提高安全性而应采用的不同方式处理密码。</p>
+<p>让我们概述一下使此配置正常工作所需的步骤。</p>
+<p><strong>Step.1</strong> : 通过重写 <code>loadUserByUsername()</code> 自定义 <code>UserDetailsService</code> 以从数据库加载用户凭据。</p>
+<p><strong>Step.2</strong> : 根据使用的编码机制创建 <code>PasswordEncoder</code> bean。</p>
+<p><strong>Step.3</strong> : 由于 <code>AuthenticationProvider</code> 负责验证凭据，因此自定义并覆盖 <code>authenticate()</code> 以使用数据库凭据进行验证。</p>
+<h4 id="有关密码编码器的附加信息">有关密码编码器的附加信息</h4>
+<ul>
+<li>在 Spring Security 5.0 之前，默认的 <code>PasswordEncoder</code> 是 <code>NoOpPasswordEncoder</code> ，它需要纯文本密码。</li>
+<li>从 Spring Security 5.0 开始，我们使用 <code>DelegatingPasswordEncoder</code> 确保使用当前密码存储建议对密码进行编码。</li>
+<li>有关 <code>DelegatingPasswordEncoder</code> 的更多信息，请参阅<a href="https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html">此文档</a></li>
+</ul>
+<h2 id="使用-spring-security-进行测试">使用 Spring Security 进行测试</h2>
+<p>现在我们已经了解了各种安全配置的工作原理，让我们看看它们的单元测试。 Spring security为我们提供了以下依赖：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">			<span class="nt">&lt;groupId&gt;</span>org.springframework.security<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">			<span class="nt">&lt;artifactId&gt;</span>spring-security-test<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">			<span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl">		<span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>此外，我们还添加了 Hamcrest 依赖项。 Hamcrest 是一个框架，允许我们在断言中使用 Matcher 对象来进行更具表现力的响应匹配。请参阅 Hamcrest 文档以深入了解其功能。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">			<span class="nt">&lt;groupId&gt;</span>org.hamcrest<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">			<span class="nt">&lt;artifactId&gt;</span>hamcrest-library<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">			<span class="nt">&lt;version&gt;</span>2.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">			<span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl">		<span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>首先，让我们设置 <code>ApplicationContext</code> 来测试 <code>BookController</code> 类。这里我们使用 <code>@Sql</code> 定义了一个示例测试数据</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@SpringBootTest</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@AutoConfigureMockMvc</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@SqlGroup</span><span class="o">({</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Sql</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;classpath:init/first.sql&#34;</span><span class="o">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">BEFORE_TEST_METHOD</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Sql</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;classpath:init/second.sql&#34;</span><span class="o">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">BEFORE_TEST_METHOD</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BookControllerTest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，让我们看看可用于测试基本身份验证安全端点的各种选项。</p>
+<h3 id="withmockuser">@WithMockUser</h3>
+<p>顾名思义，我们将此注释与默认用户名 <code>user</code> 、密码 <code>password</code> 和角色 <code>ROLE_USER</code> 一起使用。由于我们正在模拟用户，因此用户不需要实际存在。只要我们的端点是安全的， <code>@WithMockUser</code> 就会成功。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BookControllerTest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">&#34;TestCase1 Check if spring security applies to the endpoint&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@WithMockUser</span><span class="o">(</span><span class="n">username</span> <span class="o">=</span> <span class="s">&#34;bookadmin&#34;</span><span class="o">,</span> <span class="n">roles</span> <span class="o">=</span> <span class="o">{</span><span class="s">&#34;USER&#34;</span><span class="o">})</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">successIfSecurityApplies</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/library/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;genre&#34;</span><span class="o">,</span> <span class="s">&#34;Fiction&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;user&#34;</span><span class="o">,</span> <span class="s">&#34;bookadmin&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">&#34;X-Application-Name&#34;</span><span class="o">,</span> <span class="s">&#34;Library&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andDo</span><span class="o">(</span><span class="n">print</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isOk</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">authenticated</span><span class="o">().</span><span class="na">withUsername</span><span class="o">(</span><span class="s">&#34;bookadmin&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">authenticated</span><span class="o">().</span><span class="na">withRoles</span><span class="o">(</span><span class="s">&#34;USER&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">jsonPath</span><span class="o">(</span><span class="s">&#34;$&#34;</span><span class="o">,</span> <span class="n">hasSize</span><span class="o">(</span><span class="n">3</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">&#34;TestCase2 Fails when wrong roles are provided&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@WithMockUser</span><span class="o">(</span><span class="n">username</span> <span class="o">=</span> <span class="s">&#34;bookadmin&#34;</span><span class="o">,</span> <span class="n">roles</span> <span class="o">=</span> <span class="o">{</span><span class="s">&#34;ADMIN&#34;</span><span class="o">})</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">failsForWrongAuthorization</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/library/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;genre&#34;</span><span class="o">,</span> <span class="s">&#34;Fiction&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;user&#34;</span><span class="o">,</span> <span class="s">&#34;bookadmin&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">&#34;X-Application-Name&#34;</span><span class="o">,</span> <span class="s">&#34;Library&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andDo</span><span class="o">(</span><span class="n">print</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isForbidden</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">        <span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">&#34;TestCase3 Fails when we run the test with no security&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">failsIfSecurityApplies</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/library/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;genre&#34;</span><span class="o">,</span> <span class="s">&#34;Fiction&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;user&#34;</span><span class="o">,</span> <span class="s">&#34;bookadmin&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">&#34;X-Application-Name&#34;</span><span class="o">,</span> <span class="s">&#34;Library&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andDo</span><span class="o">(</span><span class="n">print</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isUnauthorized</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">        <span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>@WithMockUser(username = &quot;bookadmin&quot;, roles = {&quot;USER&quot;})</code></strong> :这里我们使用用户名 <code>bookadmin</code> 和角色 <code>USER</code> 运行测试。此测试仅用于验证端点是否安全。此外，我们还使用方法 <code>authenticated()</code> 来验证身份验证详细信息，并使用 hamcrest 匹配器 <code>hasSize()</code> 来验证响应对象。</li>
+<li><strong><code>@WithMockUser(username = &quot;bookadmin&quot;, roles = {&quot;ADMIN&quot;})</code></strong> : 在这里，我们收到 Forbidden 响应，因为角色不匹配。尽管用户被嘲笑，但角色需要匹配才能获得成功响应。</li>
+<li>当没有指定用户细节时，端点没有得到保护，因此我们收到了未授权的响应。</li>
+</ul>
+<h3 id="withuserdetails">@WithUserDetails</h3>
+<p>我们还可以使用在 <code>SecurityConfiguration</code> 类中创建的 <code>UserDetailsService</code> bean，而不是模拟用户。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BookControllerTest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">&#34;TestCase4 Run the test with configured UserDetailsService&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@WithUserDetails</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;bookadmin&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">userDetailsServiceBeanName</span> <span class="o">=</span> <span class="s">&#34;userDetailsService&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">testBookWithConfiguredUserDetails</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/library/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;genre&#34;</span><span class="o">,</span> <span class="s">&#34;Fantasy&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;user&#34;</span><span class="o">,</span> <span class="s">&#34;bookadmin&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">&#34;X-Application-Name&#34;</span><span class="o">,</span> <span class="s">&#34;Library&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andDo</span><span class="o">(</span><span class="n">print</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isOk</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">jsonPath</span><span class="o">(</span><span class="s">&#34;$&#34;</span><span class="o">,</span> <span class="n">hasSize</span><span class="o">(</span><span class="n">1</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">&#34;TestCase5 Fails when execution of CustomHeaderValidatorFilter &#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#34;does not meet the criteria&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@WithUserDetails</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;bookadmin&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">userDetailsServiceBeanName</span> <span class="o">=</span> <span class="s">&#34;userDetailsService&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">failsIfMandatoryHeaderIsMissing</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/library/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;genre&#34;</span><span class="o">,</span> <span class="s">&#34;Fantasy&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;user&#34;</span><span class="o">,</span> <span class="s">&#34;bookadmin&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andDo</span><span class="o">(</span><span class="n">print</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isForbidden</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">        <span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">&#34;TestCase6 Fails when preauthorization &#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#34;of current principal fails&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@WithUserDetails</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;bookadmin&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">userDetailsServiceBeanName</span> <span class="o">=</span> <span class="s">&#34;userDetailsService&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">failsIfPreAuthorizeConditionFails</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/library/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;genre&#34;</span><span class="o">,</span> <span class="s">&#34;Fantasy&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;user&#34;</span><span class="o">,</span> <span class="s">&#34;bookuser&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">&#34;X-Application-Name&#34;</span><span class="o">,</span> <span class="s">&#34;Library&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andDo</span><span class="o">(</span><span class="n">print</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isForbidden</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">        <span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">&#34;TestCase7 Fails when wrong basic auth credentials are applied&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">testBookWithWrongCredentialsUserDetails</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/library/books&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;genre&#34;</span><span class="o">,</span> <span class="s">&#34;Fantasy&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&#34;user&#34;</span><span class="o">,</span> <span class="s">&#34;bookadmin&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">&#34;X-Application-Name&#34;</span><span class="o">,</span> <span class="s">&#34;Library&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="n">httpBasic</span><span class="o">(</span><span class="s">&#34;bookadmin&#34;</span><span class="o">,</span> <span class="s">&#34;password&#34;</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andDo</span><span class="o">(</span><span class="n">print</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isUnauthorized</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>通过此配置，端点将使用 <code>userDetailsService</code> bean 进行身份验证。我们可以使用 <code>httpBasic()</code> 来确保拒绝错误的凭据。此外，上述测试验证了预授权和自定义过滤器检查。</p>
+<h2 id="结论">结论</h2>
+<p>在本文中，我们研究了适用于 Spring Security 的基本概念。此外，我们还解释了 spring 提供的默认配置以及如何覆盖它们。此外，我们还研究了一些常见的用例，并通过单元测试对其进行了验证。正如我们所看到的，Spring 提供了很大的灵活性，允许我们为复杂的应用程序定制安全性。我们可以扩展 <a href="https://github.com/thombergs/code-examples/tree/master/spring-security/getting-started">GitHub</a> 上应用程序中应用的示例配置以满足我们的需求。</p>
+<p>原文链接：<a href="https://reflectoring.io/spring-security/">https://reflectoring.io/spring-security/</a></p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>[译]为 Spring Boot 应用程序创建优化的 Docker 映像</title>
       <link>https://blog.chensoul.com/posts/2023/08/16/spring-boot-docker/</link>

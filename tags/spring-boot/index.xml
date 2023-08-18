@@ -6,7 +6,960 @@
     <description>Recent content in spring boot on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 18 Aug 2023 11:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/spring-boot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 18 Aug 2023 12:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/spring-boot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[译]Spring Boot项目如何实现JWT认证？</title>
+      <link>https://blog.chensoul.com/posts/2023/08/18/how-to-implement-jwt-authentication-in-spring-boot-project/</link>
+      <pubDate>Fri, 18 Aug 2023 12:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/18/how-to-implement-jwt-authentication-in-spring-boot-project/</guid>
+      <description>没有人可以否认这样一个事实：安全性是生产就绪应用程序的一项重要功能。尽管我们可以使用内存身份验证、JDBC 身份验证或通过 UserDetail</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="https://javatechonline.com/ezoimgfmt/i0.wp.com/javatechonline.com/wp-content/uploads/2020/12/JWT_With_SpringBoot-1.jpg?resize=550%2C382&amp;is-pending-load=1#038;ssl=1&amp;ezimgfmt=rs:550x382/rscb4/ngcb3/notWebP" alt="How to implement JWT Authentication in Spring Boot Project?"  />
+</p>
+<p>没有人可以否认这样一个事实：安全性是生产就绪应用程序的一项重要功能。尽管我们可以<a href="https://javatechonline.com/how-to-implement-security-in-spring-boot-project/">使用内存身份验证</a>、<a href="https://javatechonline.com/how-to-implement-security-in-spring-boot-project/">JDBC 身份验证</a>或通过 <a href="https://javatechonline.com/how-to-implement-security-in-spring-boot-using-userdetailsservice/">UserDetailsS</a>​​ervice 来保护一个 Web 应用程序的安全。但是，当一个应用程序在内部使用其他应用程序的服务时，使用 Web 服务概念实现安全性就变得很重要。在这种情况下，我们使用具有特定有效期的令牌来保护我们的应用程序。此外，我们将学习“如何在 Spring Boot 项目中实现 JWT 身份验证？”以整体了解 JWT（JSON Web Token）身份验证背后的概念。</p>
+<p>由于 JWT 代表“JSON Web Token”，很明显，该令牌仅以 JSON 形式保存数据。</p>
+<p>此外，与上述身份验证技术不同，JWT 属于无状态身份验证。简而言之，它没有数据。通常，这种类型的身份验证用于 Web 服务、服务器的水平扩展，甚至在某种程度上用于 OAuth 技术。为了说明该网络服务，让我们可视化从亚马逊预订订单的过程。在这里，用户与 Amazon 应用程序交互，而 Amazon 应用程序在内部通过 Web 服务调用与支付网关应用程序交互。</p>
+<p>现在让我们开始讨论我们的主题“如何在 Spring Boot 项目中实现 JWT 身份验证？”以及相关点。</p>
+<h2 id="您对整篇文章有何期望">您对整篇文章有何期望？</h2>
+<p>读完本文后，您将能够回答：</p>
+<ol>
+<li>
+<p>什么是安全上下文中的无状态和有状态身份验证？</p>
+</li>
+<li>
+<p>无状态认证和有状态认证有什么区别？</p>
+</li>
+</ol>
+<ol start="3">
+<li>那么什么是 Token，什么是 JWT(JSON Web Token)？</li>
+</ol>
+<ol start="4">
+<li>
+<p>使用JWT认证有什么好处？</p>
+</li>
+<li>
+<p>JWT内部如何运作？</p>
+</li>
+<li>
+<p>我们在什么情况下使用JWT身份验证？</p>
+</li>
+</ol>
+<ol start="7">
+<li>此外，JWT 身份验证和状态身份验证之间有什么区别？</li>
+</ol>
+<ol start="8">
+<li>
+<p>此外，如何生成 JWT 编码令牌以及如何将其解码回来？</p>
+</li>
+<li>
+<p>如何在Spring Boot项目中逐步实现JWT认证？</p>
+</li>
+<li>
+<p>在 Spring Boot 3.0 中，如何在不使用 WebSecurityConfigurerAdapter 的情况下编写安全配置类？</p>
+</li>
+</ol>
+<ol start="11">
+<li>最后，如何测试启用 JWT 安全的应用程序？</li>
+</ol>
+<h2 id="什么是无状态和有状态身份验证">什么是无状态和有状态身份验证？</h2>
+<p>通常有两种类型的认证技术。两者都发生在客户端服务器概念中，服务器仅在身份验证后才向客户端提供服务。这里的客户端可以是浏览器，也可以是另一个服务器。</p>
+<h3 id="状态认证">状态认证</h3>
+<p>在这种类型的身份验证中，客户端和服务器之间涉及会话管理。当客户端向服务器请求服务时，它首先登录到服务器。然后服务器创建一个会话并以键值对的形式存储该信息。这个会话是服务器端的一种内存。我们也称其为 HttpSession，因为 Http 协议管理它。</p>
+<p>此外，为了响应客户端请求，服务器以Cookie的形式向客户端提供带有响应的会话id。该 cookie 存储在客户端浏览器中。当同一个客户端第二次发出请求时，请求头中也会带有cookie。因此，服务器会检查请求标头，如果在 cookie 中发现相同的 SID（会话 ID），则假定该请求来自同一客户端。通过这种方式，会话管理就发生了。</p>
+<p>当客户端从服务器注销时，会话会相应地被销毁。结果，服务器相应地从内存中删除会话信息（键值）。同样重要的是，对于每个新客户端，服务器都会创建一个新会话（内存）。</p>
+<h3 id="无状态身份验证">无状态身份验证</h3>
+<p>当客户端向服务器发送服务请求时，它首先登录到服务器。因此，服务器生成一个令牌（编码格式的数据）并将响应发送到客户端。在发出第二个请求时，客户端将相同的令牌与请求一起发送到服务器。现在，服务器从请求中读取令牌并验证令牌。事实上，从第一个请求开始，服务器就检查客户端的有效登录（凭据）。</p>
+<p>如果它是有效的登录，那么服务器只会创建一个令牌。</p>
+<p>此外，在第二个请求时，它会验证令牌。如果令牌有效，则发送请求的响应，否则要求客户端再次登录。但每个Token都会有一个有效时间段，比如30分钟、1小时等。根据业务需求，Token的有效期可以配置。</p>
+<p>对于Token来说，没有注销的概念。相反，客户端可以发出请求并获取响应，直到令牌过期。</p>
+<h2 id="什么是令牌jwt-身份验证是什么以及使用它的好处是什么">什么是令牌、JWT 身份验证是什么以及使用它的好处是什么？</h2>
+<p>简单来说，Token就是一种编码格式的数据。它可以使用密钥（一种密码）生成。 JWT 是“JSON Web Token”的缩写，它是生成令牌的标准机制。它定义了一种紧凑且独立的方式，以 JSON 对象的形式在各​​方（多个服务器）之间安全地传输信息。 JWT 由三部分组成：标头、有效负载和签名。每个部分都用逗号分隔。它是一个开源 API。</p>
+<p>JWT概念不仅存在于Java中，也存在于其他语言中。</p>
+<ul>
+<li>ader : 包含 JWT 特定信息</li>
+<li>Payload : 有效负载，包含声明（客户 ID、客户名称、发行人名称、受众名称、发行日期、到期日期等&hellip;）</li>
+<li>Signature: 签名，标头和有效负载的 Base64 编码形式。另外，用密钥签名</li>
+</ul>
+<p>以下是格式示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">aaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.cccccccccccccccccccccccccccccccccc
+</span></span></code></pre></div><p>编码后的JWT例子 :</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">eyJhbGciOiJIUzUxMiJ9
+</span></span><span class="line"><span class="cl">.eyJqdGkiOiIzNDMyIiwic3ViIjoiZHMyNTI1IiwiaXNzIjoiQUJDX0x0ZCIsImF1ZCI6IlhZWl9MdGQiLCJpYXQiOjE2MDc0NDI1NzQsImV4cCI6MTYwNzQ0NjE3NH0
+</span></span><span class="line"><span class="cl">.3fIcXIvL9Uz0WtZgaXC95Wj8Hn7ONWKkaaspRwCT6v5Q8QSxZx7hiDQY3klYUMkfe5t2ioasYzEulM_OGc_GEw
+</span></span></code></pre></div><h2 id="jwt-身份验证如何工作">JWT 身份验证如何工作？</h2>
+<p>当客户端向服务器请求服务时，它首先登录到服务器。因此，服务器生成一个令牌（编码格式的数据）并将其与响应一起发送给客户端。在发出第二个请求时，客户端将令牌与请求一起发送到服务器。现在服务器从请求中读取令牌并验证令牌。在验证客户端随请求发送的令牌时，服务器再次需要该密钥来对其进行解码。</p>
+<p>此外，为了验证令牌服务器始终需要密钥。即使在成功登录后，服务器也仅在第一次使用密钥生成令牌。总之，服务器在生成令牌时甚至在验证令牌时也需要密钥。</p>
+<p>与状态身份验证不同，这里服务器仅在服务器端维护令牌。如上所述，在状态认证中，浏览器（客户端）以 cookie 的形式存储会话 ID。</p>
+<p>假设我们通过JWT应用程序预订订单。整体至少需要三名参与者才能完成预订。用户、亚马逊应用程序和支付网关应用程序。这里支付网关应用程序验证亚马逊应用程序而不是客户端。发生这种情况是由于令牌身份验证技术。此外，一旦付款完成，亚马逊应用程序将不再使用支付网关的服务。因此，在这种情况下令牌身份验证是更好的选择。有关智威汤逊的更多内部详细信息，请访问智威汤逊网站。</p>
+<h2 id="如何生成-jwt-编码令牌并再次解码阅读声明">如何生成 JWT 编码令牌并再次解码（阅读声明）？</h2>
+<p>这里的声明是通过提供两个输入来读取或解析 JWT 详细信息的过程：令牌和密钥</p>
+<p>为了实现“如何生成和读取声明”的 POC（概念验证），我们应该考虑为 JWT 找到一个 JAVA API。毫无疑问，我们已经有了 jjwt.jar 来使它成为可能。现在让我们创建一个 POC 来逐步实现我们的功能。</p>
+<h3 id="步骤1在-eclipse-或-sts-中创建一个简单的-maven-项目">步骤#1：在 Eclipse 或 STS 中创建一个简单的 Maven 项目。</h3>
+<p>打开 Eclipse 并选择 File&gt;New&gt;Other，然后搜索“Maven Project”。然后单击“下一步”，选择“创建一个简单项目”复选框。现在点击“下一步”。输入“Group Id”和“Artifact id”作为您的项目详细信息。最后点击“完成”。</p>
+<h3 id="步骤2在-pomxml-中包含-jjwt-依赖项">步骤#2：在 pom.xml 中包含 jjwt 依赖项。</h3>
+<p>包含“jjwt”依赖项，如下所示。此外，如果您使用 JDK8 或更高版本，您还需要包含“jaxb”依赖项。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>io.jsonwebtoken<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>jjwt<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>0.9.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>javax.xml.bind<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>jaxb-api<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.3.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h3 id="步骤3创建类并实现功能">步骤#3：创建类并实现功能</h3>
+<p>因此，我们将创建两个类：JWTUtil.java 和 JWT_Test.java</p>
+<p>在 JWTUtil.java 中，我们将具有可以作为实用程序类工作的实现逻辑。此外，我们将相应地从 JWT_Test.java 测试我们的 POC。</p>
+<p>JWTUtil.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ackage</span> <span class="n">com</span><span class="o">.</span><span class="na">dev</span><span class="o">.</span><span class="na">spring</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">jwt</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Base64</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.TimeUnit</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">io.jsonwebtoken.Claims</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">io.jsonwebtoken.Jwts</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">io.jsonwebtoken.SignatureAlgorithm</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JWTUtil</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="c1">// code to generate Token
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">generateToken</span><span class="o">(</span><span class="n">String</span> <span class="n">subject</span><span class="o">,</span> <span class="n">String</span> <span class="n">secret_key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">Jwts</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="s">&#34;tk9931&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setSubject</span><span class="o">(</span><span class="n">subject</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setIssuer</span><span class="o">(</span><span class="s">&#34;ABC_Ltd&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setAudience</span><span class="o">(</span><span class="s">&#34;XYZ_Ltd&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setIssuedAt</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setExpiration</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">+</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">.</span><span class="na">toMillis</span><span class="o">(</span><span class="n">1</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">signWith</span><span class="o">(</span><span class="n">SignatureAlgorithm</span><span class="o">.</span><span class="na">HS512</span><span class="o">,</span> <span class="n">Base64</span><span class="o">.</span><span class="na">getEncoder</span><span class="o">().</span><span class="na">encode</span><span class="o">(</span><span class="n">secret_key</span><span class="o">.</span><span class="na">getBytes</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">compact</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="c1">//code to get Claims
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Claims</span> <span class="nf">getClaims</span><span class="o">(</span><span class="n">String</span> <span class="n">token</span><span class="o">,</span> <span class="n">String</span> <span class="n">secret_key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">Jwts</span><span class="o">.</span><span class="na">parser</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setSigningKey</span><span class="o">(</span><span class="n">Base64</span><span class="o">.</span><span class="na">getEncoder</span><span class="o">().</span><span class="na">encode</span><span class="o">(</span><span class="n">secret_key</span><span class="o">.</span><span class="na">getBytes</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">parseClaimsJws</span><span class="o">(</span><span class="n">token</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">getBody</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl"><span class="o">}</span>	
+</span></span><span class="line"><span class="cl">	
+</span></span></code></pre></div><p>JWT_Test.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Base64</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">io.jsonwebtoken.Claims</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">io.jsonwebtoken.Jwts</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JWT_Test</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">secret_key</span> <span class="o">=</span> <span class="s">&#34;J@!gt*K&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="c1">// code to test generated Token
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">String</span> <span class="n">token</span><span class="o">=</span> <span class="n">JWTUtil</span><span class="o">.</span><span class="na">generateToken</span><span class="o">(</span><span class="s">&#34;Token1&#34;</span><span class="o">,</span> <span class="n">secret_key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;------------------------TOKEN----------------------------------------------------&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">token</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;------------------------CLAIMS----------------------------------------------------&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="c1">//code to test parsed token : Claims
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		
+</span></span><span class="line"><span class="cl">		<span class="n">Claims</span> <span class="n">claims</span><span class="o">=</span> <span class="n">Jwts</span><span class="o">.</span><span class="na">parser</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setSigningKey</span><span class="o">(</span><span class="n">Base64</span><span class="o">.</span><span class="na">getEncoder</span><span class="o">().</span><span class="na">encode</span><span class="o">(</span><span class="n">secret_key</span><span class="o">.</span><span class="na">getBytes</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">parseClaimsJws</span><span class="o">(</span><span class="n">token</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">getBody</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Token ID: &#34;</span><span class="o">+</span><span class="n">claims</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Token Subject: &#34;</span><span class="o">+</span><span class="n">claims</span><span class="o">.</span><span class="na">getSubject</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Token Issuer: &#34;</span><span class="o">+</span><span class="n">claims</span><span class="o">.</span><span class="na">getIssuer</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Token Issue Date: &#34;</span><span class="o">+</span><span class="n">claims</span><span class="o">.</span><span class="na">getIssuedAt</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Token Expiration Date: &#34;</span><span class="o">+</span><span class="n">claims</span><span class="o">.</span><span class="na">getExpiration</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Token Audience: &#34;</span><span class="o">+</span><span class="n">claims</span><span class="o">.</span><span class="na">getAudience</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="输出">输出</h3>
+<p>以下是我们的 POC 的输出。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">------------------------TOKEN----------------------------------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="nt">eyJhbGciOiJIUzUxMiJ9</span><span class="p">.</span><span class="nc">eyJqdGkiOiJ0azk5MzEiLCJzdWIiOiJUb2tlbjEiLCJpc3MiOiJBQkNfTHRkIiwiYXVkIjoiWFlaX0x0ZCIsImlhdCI6MTYwNzUwNjY0OCwiZXhwIjoxNjA3NTEwMjQ4fQ</span><span class="p">.</span><span class="nc">lFA0_Jvnt0o69CnotXbTIyYANpWjjeTGxvv6avVihlCqKnuw1bXADp_y3s-NMdohcD2Sq0Cft16wLo7rwvTHpQ</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">------------------------CLAIMS----------------------------------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="nt">Token</span> <span class="nt">ID</span><span class="o">:</span> <span class="nt">tk9931</span>
+</span></span><span class="line"><span class="cl"><span class="nt">Token</span> <span class="nt">Subject</span><span class="o">:</span> <span class="nt">Token1</span>
+</span></span><span class="line"><span class="cl"><span class="nt">Token</span> <span class="nt">Issuer</span><span class="o">:</span> <span class="nt">ABC_Ltd</span>
+</span></span><span class="line"><span class="cl"><span class="nt">Token</span> <span class="nt">Issue</span> <span class="nt">Date</span><span class="o">:</span> <span class="nt">Wed</span> <span class="nt">Dec</span> <span class="nt">09</span> <span class="nt">15</span><span class="p">:</span><span class="nd">07</span><span class="p">:</span><span class="nd">28</span> <span class="nt">IST</span> <span class="nt">2020</span>
+</span></span><span class="line"><span class="cl"><span class="nt">Token</span> <span class="nt">Expiration</span> <span class="nt">Date</span><span class="o">:</span> <span class="nt">Wed</span> <span class="nt">Dec</span> <span class="nt">09</span> <span class="nt">16</span><span class="p">:</span><span class="nd">07</span><span class="p">:</span><span class="nd">28</span> <span class="nt">IST</span> <span class="nt">2020</span>
+</span></span><span class="line"><span class="cl"><span class="nt">Token</span> <span class="nt">Audience</span><span class="o">:</span> <span class="nt">XYZ_Ltd</span>
+</span></span></code></pre></div><h2 id="如何在spring-boot项目中实现jwt认证">如何在Spring Boot项目中实现JWT认证？</h2>
+<p>为了说明 JWT 身份验证的实现，我们肯定需要一个 Web 服务调用。为此，我们将使用 REST Web 服务将一些用户注册到数据库中。为了实现这一点，我们将使用 POSTMAN 软件，因为在这种情况下我们不会有注册表。然后我们将 JWT 安全功能应用到我们的代码中。最后，我们将通过测试验证我们纳入的安全功能。让我们开始相应地实施它。</p>
+<h3 id="您需要什么软件技术">您需要什么软件/技术？</h3>
+<ul>
+<li>STS (Spring Tool Suite) : Version-&gt; 4.7.1.RELEASE</li>
+<li>Dependent Starters : Spring Security, Spring Web, Lombok, Spring Data JPA, MySQL Driver, Spring Boot DevTools</li>
+<li>MySQL Database : Version -&gt;8.0.19 MySQL Community Server</li>
+<li>JDK8 or later versions (Extremely tested on JDK8, JDK11 and JDK14)</li>
+</ul>
+<h3 id="步骤1在-stsspring-tool-suite-中创建-spring-boot-starter-项目">步骤#1：在 STS(Spring Tool Suite) 中创建 Spring Boot Starter 项目</h3>
+<p>创建入门项目时，选择“Spring Security”、“Spring Web”、“Spring Data JPA”、“MySQL Driver”、“Lombok”和“Spring Boot DevTools”作为入门项目依赖项。另外，如上所述，在 pom.xml 中添加“jaxb”依赖项。即使您不知道如何创建 Spring Boot Starter 项目，也请访问内部链接。另外，如果您想了解有关 Lombok 的更多信息，请访问 Lombok 上的内部链接。</p>
+<h3 id="步骤2a创建实体类-userjava-适用于低于-spring-boot-30-的版本">步骤#2A：创建实体类 User.java （适用于低于 Spring Boot 3.0 的版本）</h3>
+<p>User.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.entity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Set</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.persistence.CollectionTable</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.persistence.Column</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.persistence.ElementCollection</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.persistence.FetchType</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.persistence.GeneratedValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.persistence.Id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.persistence.JoinColumn</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.persistence.Table</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Data</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Entity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Table</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;users&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Id</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@GeneratedValue</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_id&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">Integer</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_name&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">username</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_passwd&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">password</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_email&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@ElementCollection</span><span class="o">(</span><span class="n">fetch</span><span class="o">=</span> <span class="n">FetchType</span><span class="o">.</span><span class="na">EAGER</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@CollectionTable</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">			<span class="n">name</span><span class="o">=</span><span class="s">&#34;roles&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">joinColumns</span> <span class="o">=</span> <span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_id&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_role&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">roles</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤2b创建实体类-userjava适用于-spring-boot-30-及更高版本">步骤#2B：创建实体类 User.java（适用于 Spring Boot 3.0 及更高版本）</h3>
+<p>在 import 语句中，使用“jakarta”代替“javax”。例如：使用“jakarta.persistence.Entity;”代替“javax.persistence.Entity;”。</p>
+<p>User.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.entity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Set</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">jakarta.persistence.CollectionTable</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">jakarta.persistence.Column</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">jakarta.persistence.ElementCollection</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">jakarta.persistence.Entity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">jakarta.persistence.FetchType</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">jakarta.persistence.GeneratedValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">jakarta.persistence.Id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">jakarta.persistence.JoinColumn</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">jakarta.persistence.Table</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Data</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Entity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Table</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;users&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Id</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@GeneratedValue</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_id&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">Integer</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_name&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">username</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_passwd&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">password</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_email&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@ElementCollection</span><span class="o">(</span><span class="n">fetch</span><span class="o">=</span> <span class="n">FetchType</span><span class="o">.</span><span class="na">EAGER</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@CollectionTable</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">			<span class="n">name</span><span class="o">=</span><span class="s">&#34;roles&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">joinColumns</span> <span class="o">=</span> <span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_id&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user_role&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">roles</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤3更新-applicationproperties">步骤#3：更新 application.properties</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="c1">#application.properties</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#-------------------- Server Properties ---------------</span>
+</span></span><span class="line"><span class="cl"><span class="na">server.port</span><span class="o">=</span><span class="s">8080</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#--------------------- DB Connection Properties ------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#AutoLoading of driver class since JDBC 4</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver </span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.datasource.url</span><span class="o">=</span><span class="s">jdbc:mysql://localhost:3306/testJWTSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.datasource.username</span><span class="o">=</span><span class="s">root</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.datasource.password</span><span class="o">=</span><span class="s">devs</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#--------------------JPA Properties-----------------</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.jpa.show-sql</span><span class="o">=</span><span class="s">true</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.jpa.hibernate.ddl-auto</span><span class="o">=</span><span class="s">update</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#spring.jpa.database-platform=org.hibernet.dialect.MySQL8Dialect</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#------------------Security Specific Properties-------</span>
+</span></span><span class="line"><span class="cl"><span class="na">app.secret.key</span><span class="o">=</span><span class="s">J@!gt*K</span>
+</span></span></code></pre></div><h3 id="步骤4创建接口-userrepositoryjava">步骤#4：创建接口 UserRepository.java</h3>
+<p>UserRepository.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.repo</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaRepository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.entity.User</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">	<span class="n">Optional</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">findByUsername</span><span class="o">(</span><span class="n">String</span> <span class="n">username</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤5创建appconfigjava">步骤#5：创建AppConfig.java</h3>
+<p>AppConfig.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.config</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">BCryptPasswordEncoder</span> <span class="nf">encodePassword</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="k">new</span> <span class="n">BCryptPasswordEncoder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤6创建用户服务接口及其实现类">步骤#6：创建用户服务接口及其实现类</h3>
+<p>IUserService.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.entity.User</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">IUserService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">Integer</span> <span class="nf">saveUser</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="n">Optional</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">findByUsername</span><span class="o">(</span><span class="n">String</span> <span class="n">username</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>UserServiceImpl.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.HashSet</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Set</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.GrantedAuthority</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.authority.SimpleGrantedAuthority</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetails</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetailsService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UsernameNotFoundException</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.stereotype.Service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.entity.User</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.repo.UserRepository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Service</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceImpl</span> <span class="kd">implements</span> <span class="n">IUserService</span><span class="o">,</span> <span class="n">UserDetailsService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">UserRepository</span> <span class="n">userRepo</span><span class="o">;</span> 
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">BCryptPasswordEncoder</span> <span class="n">bCryptEncoder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">Integer</span> <span class="nf">saveUser</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="c1">//Encode password before saving to DB
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">user</span><span class="o">.</span><span class="na">setPassword</span><span class="o">(</span><span class="n">bCryptEncoder</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getPassword</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">userRepo</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">).</span><span class="na">getId</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">//find user by username
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">findByUsername</span><span class="o">(</span><span class="n">String</span> <span class="n">username</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">userRepo</span><span class="o">.</span><span class="na">findByUsername</span><span class="o">(</span><span class="n">username</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">UserDetails</span> <span class="nf">loadUserByUsername</span><span class="o">(</span><span class="n">String</span> <span class="n">username</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">UsernameNotFoundException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Optional</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">userRepo</span><span class="o">.</span><span class="na">findByUsername</span><span class="o">(</span><span class="n">username</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">userdetails</span><span class="o">.</span><span class="na">User</span> <span class="n">springUser</span><span class="o">=</span><span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="k">if</span><span class="o">(</span><span class="n">opt</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">throw</span> <span class="k">new</span> <span class="n">UsernameNotFoundException</span><span class="o">(</span><span class="s">&#34;User with username: &#34;</span> <span class="o">+</span><span class="n">username</span> <span class="o">+</span><span class="s">&#34; not found&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">			<span class="n">User</span> <span class="n">user</span> <span class="o">=</span><span class="n">opt</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>	<span class="c1">//retrieving user from DB
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">roles</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="na">getRoles</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Set</span><span class="o">&lt;</span><span class="n">GrantedAuthority</span><span class="o">&gt;</span> <span class="n">ga</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">			<span class="k">for</span><span class="o">(</span><span class="n">String</span> <span class="n">role</span><span class="o">:</span><span class="n">roles</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">				<span class="n">ga</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">SimpleGrantedAuthority</span><span class="o">(</span><span class="n">role</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">			<span class="o">}</span>
+</span></span><span class="line"><span class="cl">			
+</span></span><span class="line"><span class="cl">			<span class="n">springUser</span> <span class="o">=</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">userdetails</span><span class="o">.</span><span class="na">User</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">							<span class="n">username</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">							<span class="n">user</span><span class="o">.</span><span class="na">getPassword</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">							<span class="n">ga</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="o">}</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">springUser</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤7创建-jwtutiljava">步骤#7：创建 JWTUtil.java</h3>
+<p>JWTUtil.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.util</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Base64</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.concurrent.TimeUnit</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">io.jsonwebtoken.Claims</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">io.jsonwebtoken.Jwts</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">io.jsonwebtoken.SignatureAlgorithm</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JWTUtil</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${app.secret.key}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">secret_key</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// code to generate Token
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kd">public</span> <span class="n">String</span> <span class="nf">generateToken</span><span class="o">(</span><span class="n">String</span> <span class="n">subject</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">String</span> <span class="n">tokenId</span><span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="k">new</span> <span class="n">Random</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="n">10000</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">Jwts</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">tokenId</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setSubject</span><span class="o">(</span><span class="n">subject</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setIssuer</span><span class="o">(</span><span class="s">&#34;ABC_Ltd&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setAudience</span><span class="o">(</span><span class="s">&#34;XYZ_Ltd&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setIssuedAt</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setExpiration</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">+</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">.</span><span class="na">toMillis</span><span class="o">(</span><span class="n">1</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">signWith</span><span class="o">(</span><span class="n">SignatureAlgorithm</span><span class="o">.</span><span class="na">HS512</span><span class="o">,</span> <span class="n">Base64</span><span class="o">.</span><span class="na">getEncoder</span><span class="o">().</span><span class="na">encode</span><span class="o">(</span><span class="n">secret_key</span><span class="o">.</span><span class="na">getBytes</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">compact</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// code to get Claims
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kd">public</span> <span class="n">Claims</span> <span class="nf">getClaims</span><span class="o">(</span><span class="n">String</span> <span class="n">token</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">Jwts</span><span class="o">.</span><span class="na">parser</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">setSigningKey</span><span class="o">(</span><span class="n">Base64</span><span class="o">.</span><span class="na">getEncoder</span><span class="o">().</span><span class="na">encode</span><span class="o">(</span><span class="n">secret_key</span><span class="o">.</span><span class="na">getBytes</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">parseClaimsJws</span><span class="o">(</span><span class="n">token</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">				<span class="o">.</span><span class="na">getBody</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// code to check if token is valid
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValidToken</span><span class="o">(</span><span class="n">String</span> <span class="n">token</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">getClaims</span><span class="o">(</span><span class="n">token</span><span class="o">).</span><span class="na">getExpiration</span><span class="o">().</span><span class="na">after</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="c1">// code to check if token is valid as per username
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValidToken</span><span class="o">(</span><span class="n">String</span> <span class="n">token</span><span class="o">,</span><span class="n">String</span> <span class="n">username</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">String</span> <span class="n">tokenUserName</span><span class="o">=</span><span class="n">getSubject</span><span class="o">(</span><span class="n">token</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">(</span><span class="n">username</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">tokenUserName</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isTokenExpired</span><span class="o">(</span><span class="n">token</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="c1">// code to check if token is expired
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isTokenExpired</span><span class="o">(</span><span class="n">String</span> <span class="n">token</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">getExpirationDate</span><span class="o">(</span><span class="n">token</span><span class="o">).</span><span class="na">before</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="c1">//code to get expiration date
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kd">public</span> <span class="n">Date</span> <span class="nf">getExpirationDate</span><span class="o">(</span><span class="n">String</span> <span class="n">token</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">getClaims</span><span class="o">(</span><span class="n">token</span><span class="o">).</span><span class="na">getExpiration</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="c1">//code to get expiration date
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kd">public</span> <span class="n">String</span> <span class="nf">getSubject</span><span class="o">(</span><span class="n">String</span> <span class="n">token</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">getClaims</span><span class="o">(</span><span class="n">token</span><span class="o">).</span><span class="na">getSubject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤7创建-userrequest-和-userresponse-模型">步骤#7：创建 UserRequest 和 UserResponse 模型</h3>
+<p>UserRequest.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.entity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Data</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserRequest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">username</span><span class="o">;</span>	
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">password</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>UserResponse.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.entity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">lombok.NoArgsConstructor</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Data</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@NoArgsConstructor</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@AllArgsConstructor</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserResponse</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">token</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">String</span> <span class="n">message</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤8创建-userrestcontrollerjava">步骤#8：创建 UserRestController.java</h3>
+<p>UserRestController.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.controller</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.security.Principal</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.http.ResponseEntity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.authentication.AuthenticationManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.authentication.UsernamePasswordAuthenticationToken</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.stereotype.Controller</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PostMapping</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestBody</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.entity.User</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.entity.UserRequest</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.entity.UserResponse</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.service.IUserService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.util.JWTUtil</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Controller</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/user&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserRestController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">IUserService</span> <span class="n">userService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">JWTUtil</span> <span class="n">util</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">AuthenticationManager</span> <span class="n">authenticationManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@PostMapping</span><span class="o">(</span><span class="s">&#34;/saveUser&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">saveUser</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="n">Integer</span> <span class="n">id</span> <span class="o">=</span> <span class="n">userService</span><span class="o">.</span><span class="na">saveUser</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">String</span> <span class="n">message</span><span class="o">=</span> <span class="s">&#34;User with id &#39;&#34;</span><span class="o">+</span><span class="n">id</span><span class="o">+</span><span class="s">&#34;&#39; saved succssfully!&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//return new ResponseEntity&lt;String&gt;(message, HttpStatus.OK);
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@PostMapping</span><span class="o">(</span><span class="s">&#34;/loginUser&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">UserResponse</span><span class="o">&gt;</span> <span class="nf">login</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="n">UserRequest</span> <span class="n">request</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="c1">//Validate username/password with DB(required in case of Stateless Authentication)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">authenticationManager</span><span class="o">.</span><span class="na">authenticate</span><span class="o">(</span><span class="k">new</span> <span class="n">UsernamePasswordAuthenticationToken</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">				<span class="n">request</span><span class="o">.</span><span class="na">getUsername</span><span class="o">(),</span> <span class="n">request</span><span class="o">.</span><span class="na">getPassword</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">		<span class="n">String</span> <span class="n">token</span> <span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="na">generateToken</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getUsername</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="k">new</span> <span class="n">UserResponse</span><span class="o">(</span><span class="n">token</span><span class="o">,</span><span class="s">&#34;Token generated successfully!&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@PostMapping</span><span class="o">(</span><span class="s">&#34;/getData&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">testAfterLogin</span><span class="o">(</span><span class="n">Principal</span> <span class="n">p</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="s">&#34;You are accessing data after a valid Login. You are :&#34;</span> <span class="o">+</span><span class="n">p</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤9创建securityfilterjava">步骤＃9：创建SecurityFilter.java</h3>
+<p>SecurityFilter.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.filter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.servlet.FilterChain</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.servlet.ServletException</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletResponse</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.authentication.UsernamePasswordAuthenticationToken</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.context.SecurityContextHolder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetails</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetailsService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.web.authentication.WebAuthenticationDetailsSource</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.web.filter.OncePerRequestFilter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.util.JWTUtil</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityFilter</span> <span class="kd">extends</span> <span class="n">OncePerRequestFilter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">JWTUtil</span> <span class="n">util</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">UserDetailsService</span> <span class="n">userDetailsService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doFilterInternal</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span> <span class="n">FilterChain</span> <span class="n">filterChain</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="kd">throws</span> <span class="n">ServletException</span><span class="o">,</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// Reading Token from Authorization Header
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">String</span> <span class="n">token</span><span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">&#34;Authorization&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span><span class="o">(</span><span class="n">token</span> <span class="o">!=</span><span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">			<span class="n">String</span> <span class="n">username</span><span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="na">getSubject</span><span class="o">(</span><span class="n">token</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">//if username is not null &amp; Context Authentication must be null
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="k">if</span><span class="o">(</span><span class="n">username</span> <span class="o">!=</span><span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">SecurityContextHolder</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">getAuthentication</span><span class="o">()==</span><span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">				<span class="n">UserDetails</span> <span class="n">user</span><span class="o">=</span> <span class="n">userDetailsService</span><span class="o">.</span><span class="na">loadUserByUsername</span><span class="o">(</span><span class="n">username</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">				<span class="kt">boolean</span> <span class="n">isValid</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="na">isValidToken</span><span class="o">(</span><span class="n">token</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getUsername</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span><span class="o">(</span><span class="n">isValid</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">					<span class="n">UsernamePasswordAuthenticationToken</span> <span class="n">authToken</span><span class="o">=</span> 
+</span></span><span class="line"><span class="cl">							<span class="k">new</span> <span class="n">UsernamePasswordAuthenticationToken</span><span class="o">(</span><span class="n">username</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getPassword</span><span class="o">(),</span> <span class="n">user</span><span class="o">.</span><span class="na">getAuthorities</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">					<span class="n">authToken</span><span class="o">.</span><span class="na">setDetails</span><span class="o">(</span><span class="k">new</span> <span class="n">WebAuthenticationDetailsSource</span><span class="o">().</span><span class="na">buildDetails</span><span class="o">(</span><span class="n">request</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">					<span class="n">SecurityContextHolder</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">setAuthentication</span><span class="o">(</span><span class="n">authToken</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">							
+</span></span><span class="line"><span class="cl">				<span class="o">}</span>
+</span></span><span class="line"><span class="cl">			<span class="o">}</span>
+</span></span><span class="line"><span class="cl">		<span class="o">}</span>
+</span></span><span class="line"><span class="cl">		<span class="n">filterChain</span><span class="o">.</span><span class="na">doFilter</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤10创建-unauthorizeduserauthenticationentrypointjava">步骤#10：创建 UnAuthorizedUserAuthenticationEntryPoint.java</h3>
+<p>UnAuthorizedUserAuthenticationEntryPoint.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.config</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.servlet.ServletException</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletResponse</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.AuthenticationException</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.web.AuthenticationEntryPoint</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UnAuthorizedUserAuthenticationEntryPoint</span> <span class="kd">implements</span> <span class="n">AuthenticationEntryPoint</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">commence</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">AuthenticationException</span> <span class="n">authException</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">ServletException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">response</span><span class="o">.</span><span class="na">sendError</span><span class="o">(</span><span class="n">HttpServletResponse</span><span class="o">.</span><span class="na">SC_UNAUTHORIZED</span><span class="o">,</span><span class="s">&#34;UnAuthorized User&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤11a创建securityconfigjava适用于低于spring-security-57的版本">步骤#11A：创建SecurityConfig.java（适用于低于Spring Security 5.7的版本）</h3>
+<p>SecurityConfig.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.config</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.authentication.AuthenticationManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.builders.HttpSecurity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.EnableWebSecurity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.http.SessionCreationPolicy</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetailsService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.filter.SecurityFilter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfig</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">UserDetailsService</span> <span class="n">userDetailsService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">BCryptPasswordEncoder</span> <span class="n">bCryptEncoder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">UnAuthorizedUserAuthenticationEntryPoint</span> <span class="n">authenticationEntryPoint</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">SecurityFilter</span> <span class="n">secFilter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="c1">//Required in case of Stateless Authentication
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nd">@Override</span> <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">protected</span> <span class="n">AuthenticationManager</span> <span class="nf">authenticationManager</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">authenticationManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">AuthenticationManagerBuilder</span> <span class="n">auth</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">auth</span><span class="o">.</span><span class="na">userDetailsService</span><span class="o">(</span><span class="n">userDetailsService</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">		    <span class="o">.</span><span class="na">passwordEncoder</span><span class="o">(</span><span class="n">bCryptEncoder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">http</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>    <span class="c1">//Disabling CSRF as not using form based login
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">&#34;/user/saveUser&#34;</span><span class="o">,</span><span class="s">&#34;/user/loginUser&#34;</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">exceptionHandling</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">authenticationEntryPoint</span><span class="o">(</span><span class="n">authenticationEntryPoint</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">sessionManagement</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">STATELESS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">//To Verify user from second request onwards............
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">addFilterBefore</span><span class="o">(</span><span class="n">secFilter</span><span class="o">,</span> <span class="n">UsernamePasswordAuthenticationFilter</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤11b创建securityconfigjava适用于高于spring-security-57且低于spring-security-60的版本">步骤#11B：创建SecurityConfig.java（适用于高于Spring Security 5.7且低于Spring Security 6.0的版本）</h3>
+<p>由于根据 Spring 官网发布的公告，WebSecurityConfigurerAdapter 已从 Spring Security 5.7.0-M2 中弃用，因此，2022 年 2 月 21 日，我们将不使用 WebSecurityConfigurerAdapter 来编写 SecurityConfig 类，如下所示：</p>
+<p>SecurityConfig.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.config</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.authentication.AuthenticationProvider</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.authentication.dao.DaoAuthenticationProvider</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.authentication.AuthenticationManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.builders.HttpSecurity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.EnableWebSecurity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.http.SessionCreationPolicy</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetailsService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.web.SecurityFilterChain</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.web.util.matcher.AntPathRequestMatcher</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.filter.SecurityFilter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfig</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">UserDetailsService</span> <span class="n">userDetailsService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">BCryptPasswordEncoder</span> <span class="n">bCryptEncoder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">UnAuthorizedUserAuthenticationEntryPoint</span> <span class="n">authenticationEntryPoint</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">SecurityFilter</span> <span class="n">secFilter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="c1">//Required in case of Stateless Authentication
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nd">@Override</span> 
+</span></span><span class="line"><span class="cl">	<span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">protected</span> <span class="n">AuthenticationManager</span> <span class="nf">authenticationManager</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">authenticationManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">AuthenticationManagerBuilder</span> <span class="n">auth</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">auth</span><span class="o">.</span><span class="na">userDetailsService</span><span class="o">(</span><span class="n">userDetailsService</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">		    <span class="o">.</span><span class="na">passwordEncoder</span><span class="o">(</span><span class="n">bCryptEncoder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">protected</span> <span class="n">SecurityFilterChain</span> <span class="nf">filterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">http</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">// .csrf().disable()    //Disabling CSRF as not using form based login
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">&#34;/user/saveUser&#34;</span><span class="o">,</span><span class="s">&#34;/user/loginUser&#34;</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">exceptionHandling</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">authenticationEntryPoint</span><span class="o">(</span><span class="n">authenticationEntryPoint</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">sessionManagement</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">STATELESS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">//To Verify user from second request onwards............
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">addFilterBefore</span><span class="o">(</span><span class="n">secFilter</span><span class="o">,</span> <span class="n">UsernamePasswordAuthenticationFilter</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">		    <span class="o">.</span><span class="na">authenticationProvider</span><span class="o">(</span><span class="n">authenticationProvider</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">			
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">AuthenticationProvider</span> <span class="nf">authenticationProvider</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">DaoAuthenticationProvider</span> <span class="n">authenticationProvider</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DaoAuthenticationProvider</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">		<span class="n">authenticationProvider</span><span class="o">.</span><span class="na">setUserDetailsService</span><span class="o">(</span><span class="n">userDetailsService</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">authenticationProvider</span><span class="o">.</span><span class="na">setPasswordEncoder</span><span class="o">(</span><span class="n">bCryptEncoder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">authenticationProvider</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="步骤11c创建securityconfigjava对于spring-security-60及更高版本spring-boot-30">步骤＃11C：创建SecurityConfig.java（对于Spring Security 6.0及更高版本：Spring Boot 3.0）</h3>
+<p>从 Spring Security 6.0（2022 年 11 月发布）开始，WebSecurityConfigurerAdapter 已从 Spring Security API 中完全删除。它还影响了 2022 年 11 月新发布的 Spring Boot 3.0。因此，如果您使用 Spring Framework 6.0+ 或 Spring Boot 3.0+，无论哪种情况，SecurityConfig.java 的实现应如下所示。此外，您还可以检查Spring Framework 6.0中与Spring Security相关的更改。</p>
+<p>SecurityConfig.java</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.dev.spring.security.jwt.config</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.authentication.AuthenticationProvider</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.authentication.dao.DaoAuthenticationProvider</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.authentication.AuthenticationManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.builders.HttpSecurity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.EnableWebSecurity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.config.http.SessionCreationPolicy</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetailsService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.web.SecurityFilterChain</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.web.util.matcher.AntPathRequestMatcher</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.dev.spring.security.jwt.filter.SecurityFilter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfig</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">UserDetailsService</span> <span class="n">userDetailsService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">BCryptPasswordEncoder</span> <span class="n">bCryptEncoder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">UnAuthorizedUserAuthenticationEntryPoint</span> <span class="n">authenticationEntryPoint</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="n">SecurityFilter</span> <span class="n">secFilter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="c1">//Required in case of Stateless Authentication
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nd">@Override</span> 
+</span></span><span class="line"><span class="cl">	<span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">protected</span> <span class="n">AuthenticationManager</span> <span class="nf">authenticationManager</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">authenticationManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">AuthenticationManagerBuilder</span> <span class="n">auth</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">auth</span><span class="o">.</span><span class="na">userDetailsService</span><span class="o">(</span><span class="n">userDetailsService</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">		    <span class="o">.</span><span class="na">passwordEncoder</span><span class="o">(</span><span class="n">bCryptEncoder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">protected</span> <span class="n">SecurityFilterChain</span> <span class="nf">filterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="n">http</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">// .csrf().disable()    //Disabling CSRF as not using form based login
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="o">.</span><span class="na">authorizeHttpRequests</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">requestMatchers</span><span class="o">(</span><span class="s">&#34;/user/saveUser&#34;</span><span class="o">,</span><span class="s">&#34;/user/loginUser&#34;</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">exceptionHandling</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">authenticationEntryPoint</span><span class="o">(</span><span class="n">authenticationEntryPoint</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">sessionManagement</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">STATELESS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">//To Verify user from second request onwards............
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">addFilterBefore</span><span class="o">(</span><span class="n">secFilter</span><span class="o">,</span> <span class="n">UsernamePasswordAuthenticationFilter</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">			
+</span></span><span class="line"><span class="cl">			<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">		    <span class="o">.</span><span class="na">authenticationProvider</span><span class="o">(</span><span class="n">authenticationProvider</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">			
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">AuthenticationProvider</span> <span class="nf">authenticationProvider</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">DaoAuthenticationProvider</span> <span class="n">authenticationProvider</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DaoAuthenticationProvider</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">		<span class="n">authenticationProvider</span><span class="o">.</span><span class="na">setUserDetailsService</span><span class="o">(</span><span class="n">userDetailsService</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">authenticationProvider</span><span class="o">.</span><span class="na">setPasswordEncoder</span><span class="o">(</span><span class="n">bCryptEncoder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">authenticationProvider</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Finally, your project structure should look like below screenshot.
+最后，您的项目结构应如下图所示。</p>
+<p><img loading="lazy" src="https://i0.wp.com/javatechonline.com/wp-content/uploads/2020/12/JWT4-1.jpg" alt="img"  />
+</p>
+<h2 id="如何测试启用-jwt-安全的应用程序">如何测试启用 JWT 安全的应用程序？</h2>
+<p>虽然“测试”这个词对开发人员来说看起来很容易，但它同样重要，因为它提供了我们整体实施的结果。因此，请按照以下步骤操作：</p>
+<h3 id="1-使用-postman-通过-rest-调用注册用户">1) 使用 Postman 通过 REST 调用注册用户</h3>
+<p>在Postman中输入URL http://localhost:8080/user/saveUser，选择POST方法，然后分别选择Body&gt;Raw&gt;JSON。现在粘贴下面的 JSON 数据，然后单击“发送”按钮。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="err">“username”:</span> <span class="err">“ds2525”,</span>
+</span></span><span class="line"><span class="cl"><span class="err">“password”:</span> <span class="err">“donotforgetme”,</span>
+</span></span><span class="line"><span class="cl"><span class="err">“email”:</span> <span class="err">“ds2525@gmail.com”,</span>
+</span></span><span class="line"><span class="cl"><span class="err">“roles”:</span> <span class="err">[“Admin”,”Manager”]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>您应该得到以下回复：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">User with id ‘1’ saved succssfully!
+</span></span></code></pre></div><h3 id="2以用户身份登录生成令牌">2）以用户身份登录生成令牌</h3>
+<p>在Postman中输入URL http://localhost:8080/user/loginUser，选择POST方法，然后分别选择Body&gt;Raw&gt;JSON。现在粘贴下面的 JSON 数据，然后单击“发送”按钮。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="err">“username”:</span> <span class="err">“ds2525”,</span> <span class="err">“用户名”：“ds2525”，</span>
+</span></span><span class="line"><span class="cl"><span class="err">“password”:</span> <span class="err">“donotforgetme”,</span>
+</span></span><span class="line"><span class="cl"><span class="err">“密码”：“不要忘记我”，</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>您应该得到以下回复：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="err">&#34;token&#34;:</span> <span class="err">&#34;eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0MzI5Iiwic3ViIjoiZHMyNDI0IiwiaXN</span>
+</span></span><span class="line"><span class="cl">          <span class="err">zIjoiQUJDX0x0ZCIsImF1ZCI6IlhZWl9MdGQiLCJpYXQiOjE2MDc0MzA5</span>
+</span></span><span class="line"><span class="cl">          <span class="err">OTIsImV4cCI6MTYwNzQzNDU5Mn0.hIET_EjL6dqgdUMX-dH9a7msPHSO5-</span>
+</span></span><span class="line"><span class="cl">          <span class="err">GlLFfSotXWWvvxO69hVOLjkiUGYKBZDyux0QRA_bb75Mpp34EOXLHYiw&#34;,</span>
+</span></span><span class="line"><span class="cl"><span class="err">&#34;message&#34;:</span> <span class="err">&#34;Token</span> <span class="err">generated</span> <span class="err">successfully!&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>如果输入了错误的用户名/密码，则输出将如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="err">&#34;timestamp&#34;:</span> <span class="err">&#34;2020-12-08</span><span class="n">T12</span><span class="p">:</span><span class="mi">38</span><span class="o">:</span><span class="mf">25.778</span><span class="mi">+00</span><span class="o">:</span><span class="mi">00</span><span class="s2">&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;</span><span class="n">status</span><span class="s2">&#34;: 401,
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;</span><span class="n">error</span><span class="s2">&#34;: &#34;</span><span class="n">Unauthorized</span><span class="s2">&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;</span><span class="n">trace</span><span class="s2">&#34;: &#34;</span><span class="n">org</span><span class="o">.</span><span class="n">springframework</span><span class="o">.</span><span class="n">security</span><span class="o">.</span><span class="n">authentication</span><span class="o">.</span><span class="n">BadCredentialsException</span><span class="o">:</span> <span class="n">Bad</span> <span class="n">credentials</span><span class="err">\</span><span class="n">r</span><span class="err">\</span><span class="n">n</span><span class="err">\</span><span class="n">tat</span> <span class="n">org</span><span class="o">.....................................</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;message&#34;</span><span class="o">:</span> <span class="s2">&#34;UnAuthorized User&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;path&#34;</span><span class="o">:</span> <span class="s2">&#34;/user/loginUser&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="3在token有效期内访问数据资源">3）在token有效期内访问数据/资源</h3>
+<p>在 Postman URL 栏中输入 URL http://localhost:8080/user/getData，选择 POST 方法，然后选择 Headers。在标题下选择密钥作为“授权”。现在将令牌粘贴为授权值，如下面的屏幕截图所示。然后单击“发送”按钮。</p>
+<p><img loading="lazy" src="https://javatechonline.com/ezoimgfmt/i0.wp.com/javatechonline.com/wp-content/uploads/2020/12/JWT1-2.jpg?resize=640%2C318&amp;is-pending-load=1#038;ssl=1&amp;ezimgfmt=rs:640x318/rscb4/ng:webp/ngcb3" alt="How To Implement JWT Authentication In Spring Boot Project?"  />
+</p>
+<p>作为成功的响应，您应该得到以下输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">You are accessing data after a valid Login. You are :ds2525
+</span></span></code></pre></div><h2 id="概括">概括</h2>
+<p>在完成“如何在 Spring Boot 项目中实现 JWT 身份验证？”的所有理论和示例部分之后，最后，我们能够在 Spring Boot 项目中实现 JWT 身份验证安全性。当然，在这篇文章中我们已经彻底了解了JWT认证特性。同样，我们希望您进一步扩展此示例并在您的项目中相应地实现它。另外，如果将来有任何变化，我们将相应地更新文章。</p>
+<p>另外，欢迎在评论区提出你的意见。</p>
+<p>原文链接：<a href="https://javatechonline.com/how-to-implement-jwt-authentication-in-spring-boot-project/">https://javatechonline.com/how-to-implement-jwt-authentication-in-spring-boot-project/</a></p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>[译]如何在Spring Boot2中使用UserDetailsService实现安全性？</title>
       <link>https://blog.chensoul.com/posts/2023/08/18/how-to-implement-security-in-spring-boot2-using-userdetailsservice/</link>

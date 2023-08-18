@@ -23,17 +23,13 @@
 <h2 id="您对整篇文章有何期望">您对整篇文章有何期望？</h2>
 <p>读完本文后，您将能够回答：</p>
 <ol>
-<li>
-<p>什么是安全上下文中的无状态和有状态身份验证？</p>
-</li>
-<li>
-<p>无状态认证和有状态认证有什么区别？</p>
-</li>
+<li>什么是安全上下文中的无状态和有状态身份验证？</li>
+<li>无状态认证和有状态认证有什么区别？</li>
 </ol>
 <ol start="3">
-<li>那么什么是 Token，什么是 JWT(JSON Web Token)？</li>
-</ol>
-<ol start="4">
+<li>
+<p>那么什么是 Token，什么是 JWT(JSON Web Token)？</p>
+</li>
 <li>
 <p>使用JWT认证有什么好处？</p>
 </li>
@@ -43,11 +39,9 @@
 <li>
 <p>我们在什么情况下使用JWT身份验证？</p>
 </li>
-</ol>
-<ol start="7">
-<li>此外，JWT 身份验证和状态身份验证之间有什么区别？</li>
-</ol>
-<ol start="8">
+<li>
+<p>此外，JWT 身份验证和状态身份验证之间有什么区别？</p>
+</li>
 <li>
 <p>此外，如何生成 JWT 编码令牌以及如何将其解码回来？</p>
 </li>
@@ -57,9 +51,9 @@
 <li>
 <p>在 Spring Boot 3.0 中，如何在不使用 WebSecurityConfigurerAdapter 的情况下编写安全配置类？</p>
 </li>
-</ol>
-<ol start="11">
-<li>最后，如何测试启用 JWT 安全的应用程序？</li>
+<li>
+<p>最后，如何测试启用 JWT 安全的应用程序？</p>
+</li>
 </ol>
 <h2 id="什么是无状态和有状态身份验证">什么是无状态和有状态身份验证？</h2>
 <p>通常有两种类型的认证技术。两者都发生在客户端服务器概念中，服务器仅在身份验证后才向客户端提供服务。这里的客户端可以是浏览器，也可以是另一个服务器。</p>
@@ -969,7 +963,7 @@
       <description>在 Spring Security 模块的上下文中，WebSecurityConfigurerAdapter 是一个抽象类，根据 Spring 官方网站 2022 年 2 月 21 日发布的公告，该类已从 Spring</description>
       <content:encoded><![CDATA[<p><img loading="lazy" src="https://javatechonline.com/ezoimgfmt/i0.wp.com/javatechonline.com/wp-content/uploads/2022/07/SpringSecurityWithoutWSCA-1.jpg" alt="Spring Security Without WebSecurityConfigurerAdapter"  />
 
-在 Spring Security 模块的上下文中，WebSecurityConfigurerAdapter 是一个抽象类，根据 <a href="https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter">Spring 官方网站</a> 2022 年 2 月 21 日发布的公告，该类已从 Spring Security 5.7.0-M2 中弃用。它通常用于扩展配置() 方法由自定义配置子类实现。因此，它鼓励用户转向基于组件的安全配置。为了支持对这种新配置设计的更改，我们将讨论常见用例列表和未来建议的替代方案。因此，我们将讨论没有 WebSecurityConfigurerAdapter 的 Spring Security 用例的实现。</p>
+在 Spring Security 模块的上下文中，WebSecurityConfigurerAdapter 是一个抽象类，根据 <a href="https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter">Spring 官方网站</a> 2022 年 2 月 21 日发布的公告，该类已从 Spring Security 5.7.0-M2 中弃用。它通常用于扩展 configure() 方法由自定义配置子类实现。因此，它鼓励用户转向基于组件的安全配置。为了支持对这种新配置设计的更改，我们将讨论常见用例列表和未来建议的替代方案。因此，我们将讨论没有 WebSecurityConfigurerAdapter 的 Spring Security 用例的实现。</p>
 <p>了解这一变化很重要，因为迟早我们将使用最新版本的 Spring Security 来开发安全功能。让我们讨论“没有 WebSecurityConfigurerAdapter 的 Spring Security”主题及其相关概念。</p>
 <h2 id="什么是-websecurityconfigureradapter">什么是 WebSecurityConfigurerAdapter？</h2>
 <p>WebSecurityConfigurerAdapter是Spring Security模块提供的一个抽象类。一般来说，我们使用它来重写它的configure()方法来定义我们的安全配置类。通常，我们在应用程序中实现 Spring Security 时使用两个具有不同参数的 configure() 方法。一种用于声明与身份验证相关的配置，另一种用于声明与授权相关的配置。该代码类似于下面的代码片段。</p>
@@ -7962,6 +7956,12 @@ Also, during every authentication attempt, we shall be checking this property wi
 </li>
 <li>
 <p>Spring Security 5.5：是当前最新的版本，于2022年发布。Spring Security 5.5 带来了一些新的功能和改进，包括对 Spring Framework 6 和 Java 17 的支持、更好的密码编码和认证管理、更好的 OAuth2 和 OpenID Connect 支持、更好的 WebFlux 和 RSocket 支持、更好的测试和性能等。</p>
+</li>
+<li>
+<p>Spring Security 5.7：由于<a href="https://javatechonline.com/spring-security-without-websecurityconfigureradapter/">根据 Spring 官网发布的公告</a>，WebSecurityConfigurerAdapter 已从 Spring Security 5.7.0-M2 中弃用。</p>
+</li>
+<li>
+<p>Spring Security 6.0：2022 年 11 月发布，WebSecurityConfigurerAdapter 已从 Spring Security API 中完全删除。它还影响了 2022 年 11 月新发布的 <a href="https://javatechonline.com/new-features-in-spring-boot-3-and-spring-6/">Spring Boot 3.0</a>。</p>
 <p>除了不断改进和增强现有功能之外，Spring Security 还增加了对新的安全威胁的防御和支持，例如 CSRF、XSS、CSP 等。此外，Spring Security 还提供了许多有用的扩展和插件，例如 Spring Security OAuth、Spring Security SAML、Spring Security Kerberos 等，以满足不同的安全需求。</p>
 </li>
 </ol>

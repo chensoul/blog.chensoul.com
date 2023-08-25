@@ -1098,7 +1098,23 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE DATABASE n8n owner=n8n;&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;GRANT ALL privileges ON DATABASE n8n TO n8n;&#34;</span> <span class="p">;</span>
-</span></span></code></pre></div><p>2、通过 docker-compose 安装，创建 n8n.yaml：</p>
+</span></span></code></pre></div><p>2、通过 docker 安装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl">docker run -d  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --name n8n <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> --network<span class="o">=</span>custom <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -p 5678:5678 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -e <span class="nv">DB_TYPE</span><span class="o">=</span>postgresdb <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -e <span class="nv">DB_POSTGRESDB_DATABASE</span><span class="o">=</span>n8n <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -e <span class="nv">DB_POSTGRESDB_HOST</span><span class="o">=</span>pgsql <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -e <span class="nv">DB_POSTGRESDB_PORT</span><span class="o">=</span><span class="m">5432</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -e <span class="nv">DB_POSTGRESDB_USER</span><span class="o">=</span>n8n <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -e <span class="nv">DB_POSTGRESDB_PASSWORD</span><span class="o">=</span>n8n@pg <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -e <span class="nv">GENERIC_TIMEZONE</span><span class="o">=</span><span class="s2">&#34;Asia/Shanghai&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -e <span class="nv">WEBHOOK_URL</span><span class="o">=</span>https://n8n.chensoul.com/ <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -v ~/.n8n:/home/node/.n8n <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> docker.n8n.io/n8nio/n8n <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> n8n start<span class="err">
+</span></span></span></code></pre></div><p>通过 docker-compose 安装，创建 n8n.yaml：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.8&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
@@ -1114,12 +1130,12 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_POSTGRESDB_USER=n8n</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">DB_POSTGRESDB_PASSWORD=n8n@pg</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">TZ=&#34;Asia/Shanghai&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">GENERIC_TIMEZONE=&#34;Asia/Shanghai&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">WEBHOOK_URL=https://n8n.chensoul.com/</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">5678</span><span class="p">:</span><span class="m">5678</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/n8n:/home/node/.n8n</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">n8n start --tunnel</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/.n8n:/home/node/.n8n</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">custom</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
@@ -1136,13 +1152,20 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">    <span class="kn">chunked_transfer_encoding</span> <span class="no">off</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kn">proxy_buffering</span> <span class="no">off</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kn">proxy_cache</span> <span class="no">off</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kn">access_log</span> <span class="s">/var/log/nginx/forward.log</span> <span class="s">combined</span> <span class="s">buffer=128k</span> <span class="s">flush=5s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">access_log</span> <span class="s">/var/log/nginx/n8n.log</span> <span class="s">combined</span> <span class="s">buffer=128k</span> <span class="s">flush=5s</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>这里面的转发配置不对的话，会导致直接访问 5678 端口正常，但是访问 nginx 的话，workflow 会一直处于执行。</p>
 <p>5、添加 workflow</p>
 <p>参考这篇文章 <a href="http://stiles.cc/archives/237/">http://stiles.cc/archives/237/</a> ，目前我配置了以下 workflows，实现了 github、douban、rss、memos 同步到 Telegram。</p>
 <p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-n8n-workflows.png" alt="my-n8n-workflows"  />
 </p>
+<p>workflows 参考：</p>
+<ul>
+<li><a href="https://reorx.com/blog/sharing-my-footprints-automation/">Reorx</a></li>
+<li><a href="https://www.pseudoyu.com/zh/2022/09/19/weekly_review_20220919/">Pseudoyu</a></li>
+<li><a href="https://raye.xlog.app/gou-jian-ge-xing-hua-de-shu-zi-ri-ji--zi-dong-hua-gong-zuo-liu-shi-xian-xin-xi-ju-he">raye</a></li>
+<li><a href="https://zeabur.com/docs/marketplace/n8n">Zeabur</a></li>
+</ul>
 <p>6、升级</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f n8n.yaml down 
 </span></span><span class="line"><span class="cl">docker pull n8nio/n8n

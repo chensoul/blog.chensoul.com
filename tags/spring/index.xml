@@ -6,7 +6,935 @@
     <description>Recent content in spring on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 18 Aug 2023 12:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 25 Aug 2023 08:20:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[译]REST API 的自定义错误消息处理</title>
+      <link>https://blog.chensoul.com/posts/2023/08/25/global-error-handler-in-a-spring-rest-api/</link>
+      <pubDate>Fri, 25 Aug 2023 08:20:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/25/global-error-handler-in-a-spring-rest-api/</guid>
+      <description>1. 概述 在本教程中，我们将讨论如何为 Spring REST API 实现全局错误处理程序。 我们将使用每个异常的语义为客户端构建有意义的错误消息，其明确的目标是为客户端提</description>
+      <content:encoded><![CDATA[<h2 id="1-概述">1. 概述</h2>
+<p>在本教程中，我们将讨论如何为 Spring REST API 实现全局错误处理程序。</p>
+<p>我们将使用每个异常的语义为客户端构建有意义的错误消息，其明确的目标是为客户端提供所有信息以轻松诊断问题。</p>
+<h2 id="2-自定义错误消息">2. 自定义错误消息</h2>
+<p>让我们首先实现一个用于通过线路发送错误的简单结构 — <code>ApiError</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApiError</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">HttpStatus</span> <span class="n">status</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">message</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">errors</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">ApiError</span><span class="o">(</span><span class="n">HttpStatus</span> <span class="n">status</span><span class="o">,</span> <span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">errors</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">status</span> <span class="o">=</span> <span class="n">status</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">message</span> <span class="o">=</span> <span class="n">message</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">errors</span> <span class="o">=</span> <span class="n">errors</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">ApiError</span><span class="o">(</span><span class="n">HttpStatus</span> <span class="n">status</span><span class="o">,</span> <span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">String</span> <span class="n">error</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">status</span> <span class="o">=</span> <span class="n">status</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">message</span> <span class="o">=</span> <span class="n">message</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">errors</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">error</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这里的信息应该很简单：</p>
+<ul>
+<li><em><code>status</code></em> – HTTP 状态代码</li>
+<li><em><code>message</code></em> – 与异常相关的错误消息</li>
+<li><em><code>error</code></em> – 构建的错误消息列表</li>
+</ul>
+<p>当然，对于 Spring 中的实际异常处理逻辑，我们将使用 <code>@ControllerAdvice</code> 注解：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ControllerAdvice</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomRestExceptionHandler</span> <span class="kd">extends</span> <span class="n">ResponseEntityExceptionHandler</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="3-处理错误请求异常">3. 处理错误请求异常</h2>
+<h3 id="31处理异常">3.1.处理异常</h3>
+<p>现在让我们看看如何处理最常见的客户端错误 - 基本上是客户端向 API 发送无效请求的情况：</p>
+<ul>
+<li><em><code>BindException</code></em> –  发生致命绑定错误时抛出此异常。</li>
+<li><em><code>MethodArgumentNotValidException</code></em> – 当使用 <code>@Valid</code> 注解的参数验证失败时抛出此异常：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleMethodArgumentNotValid</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">MethodArgumentNotValidException</span> <span class="n">ex</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">HttpHeaders</span> <span class="n">headers</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">HttpStatus</span> <span class="n">status</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">errors</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="n">FieldError</span> <span class="n">error</span> <span class="o">:</span> <span class="n">ex</span><span class="o">.</span><span class="na">getBindingResult</span><span class="o">().</span><span class="na">getFieldErrors</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">errors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">error</span><span class="o">.</span><span class="na">getField</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34;: &#34;</span> <span class="o">+</span> <span class="n">error</span><span class="o">.</span><span class="na">getDefaultMessage</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="n">ObjectError</span> <span class="n">error</span> <span class="o">:</span> <span class="n">ex</span><span class="o">.</span><span class="na">getBindingResult</span><span class="o">().</span><span class="na">getGlobalErrors</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">errors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">error</span><span class="o">.</span><span class="na">getObjectName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34;: &#34;</span> <span class="o">+</span> <span class="n">error</span><span class="o">.</span><span class="na">getDefaultMessage</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">apiError</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">      <span class="k">new</span> <span class="n">ApiError</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">BAD_REQUEST</span><span class="o">,</span> <span class="n">ex</span><span class="o">.</span><span class="na">getLocalizedMessage</span><span class="o">(),</span> <span class="n">errors</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">handleExceptionInternal</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ex</span><span class="o">,</span> <span class="n">apiError</span><span class="o">,</span> <span class="n">headers</span><span class="o">,</span> <span class="n">apiError</span><span class="o">.</span><span class="na">getStatus</span><span class="o">(),</span> <span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，我们正在重写 ResponseEntityExceptionHandler 的基本方法并提供我们自己的自定义实现。情况并非总是如此。有时，我们需要处理基类中没有默认实现的自定义异常，稍后我们将在这里看到。</p>
+<p>下一个：</p>
+<ul>
+<li><em><code>MissingServletRequestPartException</code></em> – 当未找到多部分请求的一部分时引发此异常。</li>
+<li><em><code>MissingServletRequestParameterException</code></em> –  当请求缺少参数时抛出此异常：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleMissingServletRequestParameter</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">MissingServletRequestParameterException</span> <span class="n">ex</span><span class="o">,</span> <span class="n">HttpHeaders</span> <span class="n">headers</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">HttpStatus</span> <span class="n">status</span><span class="o">,</span> <span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">error</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="na">getParameterName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; parameter is missing&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">apiError</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">      <span class="k">new</span> <span class="n">ApiError</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">BAD_REQUEST</span><span class="o">,</span> <span class="n">ex</span><span class="o">.</span><span class="na">getLocalizedMessage</span><span class="o">(),</span> <span class="n">error</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">apiError</span><span class="o">,</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">(),</span> <span class="n">apiError</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ul>
+<li><em><code>ConstraintViolationException</code></em> – 此异常报告约束违规的结果：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ExceptionHandler</span><span class="o">({</span> <span class="n">ConstraintViolationException</span><span class="o">.</span><span class="na">class</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleConstraintViolation</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ConstraintViolationException</span> <span class="n">ex</span><span class="o">,</span> <span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">errors</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="n">ConstraintViolation</span><span class="o">&lt;?&gt;</span> <span class="n">violation</span> <span class="o">:</span> <span class="n">ex</span><span class="o">.</span><span class="na">getConstraintViolations</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">errors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">violation</span><span class="o">.</span><span class="na">getRootBeanClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">          <span class="n">violation</span><span class="o">.</span><span class="na">getPropertyPath</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34;: &#34;</span> <span class="o">+</span> <span class="n">violation</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">apiError</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">      <span class="k">new</span> <span class="n">ApiError</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">BAD_REQUEST</span><span class="o">,</span> <span class="n">ex</span><span class="o">.</span><span class="na">getLocalizedMessage</span><span class="o">(),</span> <span class="n">errors</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">apiError</span><span class="o">,</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">(),</span> <span class="n">apiError</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ul>
+<li><em><code>TypeMismatchException</code></em> – 当尝试设置错误类型的 bean 属性时抛出此异常。</li>
+<li><em><code>MethodArgumentTypeMismatchException</code></em> –  当方法参数不是预期类型时抛出此异常：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ExceptionHandler</span><span class="o">({</span> <span class="n">MethodArgumentTypeMismatchException</span><span class="o">.</span><span class="na">class</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleMethodArgumentTypeMismatch</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">MethodArgumentTypeMismatchException</span> <span class="n">ex</span><span class="o">,</span> <span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">error</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">ex</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; should be of type &#34;</span> <span class="o">+</span> <span class="n">ex</span><span class="o">.</span><span class="na">getRequiredType</span><span class="o">().</span><span class="na">getName</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">apiError</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">      <span class="k">new</span> <span class="n">ApiError</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">BAD_REQUEST</span><span class="o">,</span> <span class="n">ex</span><span class="o">.</span><span class="na">getLocalizedMessage</span><span class="o">(),</span> <span class="n">error</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">apiError</span><span class="o">,</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">(),</span> <span class="n">apiError</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="32从客户端使用-api">3.2.从客户端使用 API</h3>
+<p>现在让我们看一下遇到 <code>MethodArgumentTypeMismatchException</code> 的测试。</p>
+<p>我们将发送一个 id 为 String 而不是 long 的请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenMethodArgumentMismatch_thenBadRequest</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">givenAuth</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">URL_PREFIX</span> <span class="o">+</span> <span class="s">&#34;/api/foos/ccc&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">error</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="n">ApiError</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">BAD_REQUEST</span><span class="o">,</span> <span class="n">error</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">error</span><span class="o">.</span><span class="na">getErrors</span><span class="o">().</span><span class="na">size</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">error</span><span class="o">.</span><span class="na">getErrors</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="s">&#34;should be of type&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，考虑到同样的请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Request method:	GET
+</span></span><span class="line"><span class="cl">Request path:	http://localhost:8080/spring-security-rest/api/foos/ccc
+</span></span></code></pre></div><p>此类 JSON 错误响应如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;status&#34;</span>: <span class="s2">&#34;BAD_REQUEST&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;message&#34;</span>: 
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Failed to convert value of type [java.lang.String] 
+</span></span></span><span class="line"><span class="cl"><span class="s2">       to required type [java.lang.Long]; nested exception 
+</span></span></span><span class="line"><span class="cl"><span class="s2">       is java.lang.NumberFormatException: For input string: \&#34;ccc\&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;errors&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;id should be of type java.lang.Long&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="4-处理nohandlerfoundexception">4. 处理NoHandlerFoundException</h2>
+<p>接下来，我们可以自定义 servlet 来抛出此异常，而不是发送 404 响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;servlet&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet-name&gt;</span>api<span class="nt">&lt;/servlet-name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet-class&gt;</span>
+</span></span><span class="line"><span class="cl">      org.springframework.web.servlet.DispatcherServlet<span class="nt">&lt;/servlet-class&gt;</span>        
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;init-param&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;param-name&gt;</span>throwExceptionIfNoHandlerFound<span class="nt">&lt;/param-name&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;param-value&gt;</span>true<span class="nt">&lt;/param-value&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/init-param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/servlet&gt;</span>
+</span></span></code></pre></div><p>然后，一旦发生这种情况，我们可以像处理任何其他异常一样简单地处理它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleNoHandlerFoundException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">NoHandlerFoundException</span> <span class="n">ex</span><span class="o">,</span> <span class="n">HttpHeaders</span> <span class="n">headers</span><span class="o">,</span> <span class="n">HttpStatus</span> <span class="n">status</span><span class="o">,</span> <span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">error</span> <span class="o">=</span> <span class="s">&#34;No handler found for &#34;</span> <span class="o">+</span> <span class="n">ex</span><span class="o">.</span><span class="na">getHttpMethod</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">ex</span><span class="o">.</span><span class="na">getRequestURL</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">apiError</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ApiError</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">,</span> <span class="n">ex</span><span class="o">.</span><span class="na">getLocalizedMessage</span><span class="o">(),</span> <span class="n">error</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;(</span><span class="n">apiError</span><span class="o">,</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">(),</span> <span class="n">apiError</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是一个简单的测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenNoHandlerForHttpRequest_thenNotFound</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">givenAuth</span><span class="o">().</span><span class="na">delete</span><span class="o">(</span><span class="n">URL_PREFIX</span> <span class="o">+</span> <span class="s">&#34;/api/xx&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">error</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="n">ApiError</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">,</span> <span class="n">error</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">error</span><span class="o">.</span><span class="na">getErrors</span><span class="o">().</span><span class="na">size</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">error</span><span class="o">.</span><span class="na">getErrors</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="s">&#34;No handler found&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span><span class="n">让我们看一下完整的请求</span><span class="err">：</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Request method:	DELETE
+</span></span><span class="line"><span class="cl">Request path:	http://localhost:8080/spring-security-rest/api/xx
+</span></span></code></pre></div><p>以及错误 JSON 响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;status&#34;</span>:<span class="s2">&#34;NOT_FOUND&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;message&#34;</span>:<span class="s2">&#34;No handler found for DELETE /spring-security-rest/api/xx&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;errors&#34;</span>:<span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;No handler found for DELETE /spring-security-rest/api/xx&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们将看看另一个有趣的异常。</p>
+<h2 id="5-处理httprequestmethodnotsupportedexception">5. 处理HttpRequestMethodNotSupportedException</h2>
+<p>当我们使用不受支持的 HTTP 方法发送请求时，会发生 <code>HttpRequestMethodNotSupportedException</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleHttpRequestMethodNotSupported</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">HttpRequestMethodNotSupportedException</span> <span class="n">ex</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">HttpHeaders</span> <span class="n">headers</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">HttpStatus</span> <span class="n">status</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StringBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">ex</span><span class="o">.</span><span class="na">getMethod</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34; method is not supported for this request. Supported methods are &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ex</span><span class="o">.</span><span class="na">getSupportedHttpMethods</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">t</span> <span class="o">+</span> <span class="s">&#34; &#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">apiError</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ApiError</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">METHOD_NOT_ALLOWED</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">ex</span><span class="o">.</span><span class="na">getLocalizedMessage</span><span class="o">(),</span> <span class="n">builder</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">apiError</span><span class="o">,</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">(),</span> <span class="n">apiError</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是一个重现此异常的简单测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenHttpRequestMethodNotSupported_thenMethodNotAllowed</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">givenAuth</span><span class="o">().</span><span class="na">delete</span><span class="o">(</span><span class="n">URL_PREFIX</span> <span class="o">+</span> <span class="s">&#34;/api/foos/1&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">error</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="n">ApiError</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">METHOD_NOT_ALLOWED</span><span class="o">,</span> <span class="n">error</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">error</span><span class="o">.</span><span class="na">getErrors</span><span class="o">().</span><span class="na">size</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">error</span><span class="o">.</span><span class="na">getErrors</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="s">&#34;Supported methods are&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是完整的请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Request method:	DELETE
+</span></span><span class="line"><span class="cl">Request path:	http://localhost:8080/spring-security-rest/api/foos/1
+</span></span></code></pre></div><p>以及错误 JSON 响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;status&#34;</span>:<span class="s2">&#34;METHOD_NOT_ALLOWED&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;message&#34;</span>:<span class="s2">&#34;Request method &#39;DELETE&#39; not supported&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;errors&#34;</span>:<span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;DELETE method is not supported for this request. Supported methods are GET &#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-处理-httpmediatypenotsupportedexception">6. 处理 HttpMediaTypeNotSupportedException</h2>
+<p>现在让我们处理 <code>HttpMediaTypeNotSupportedException</code>，当客户端发送不支持的媒体类型的请求时会发生该异常：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleHttpMediaTypeNotSupported</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">HttpMediaTypeNotSupportedException</span> <span class="n">ex</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">HttpHeaders</span> <span class="n">headers</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">HttpStatus</span> <span class="n">status</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StringBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">ex</span><span class="o">.</span><span class="na">getContentType</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34; media type is not supported. Supported media types are &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ex</span><span class="o">.</span><span class="na">getSupportedMediaTypes</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">t</span> <span class="o">+</span> <span class="s">&#34;, &#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">apiError</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ApiError</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">UNSUPPORTED_MEDIA_TYPE</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">ex</span><span class="o">.</span><span class="na">getLocalizedMessage</span><span class="o">(),</span> <span class="n">builder</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">builder</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="n">2</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">apiError</span><span class="o">,</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">(),</span> <span class="n">apiError</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是针对此问题的简单测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenSendInvalidHttpMediaType_thenUnsupportedMediaType</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">givenAuth</span><span class="o">().</span><span class="na">body</span><span class="o">(</span><span class="s">&#34;&#34;</span><span class="o">).</span><span class="na">post</span><span class="o">(</span><span class="n">URL_PREFIX</span> <span class="o">+</span> <span class="s">&#34;/api/foos&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">error</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="n">ApiError</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">UNSUPPORTED_MEDIA_TYPE</span><span class="o">,</span> <span class="n">error</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">error</span><span class="o">.</span><span class="na">getErrors</span><span class="o">().</span><span class="na">size</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">error</span><span class="o">.</span><span class="na">getErrors</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="s">&#34;media type is not supported&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，这是一个示例请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Request method:	POST
+</span></span><span class="line"><span class="cl">Request path:	http://localhost:8080/spring-security-
+</span></span><span class="line"><span class="cl">Headers:	Content-Type<span class="o">=</span>text/plain<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>ISO-8859-1
+</span></span></code></pre></div><p>以及错误 JSON 响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;status&#34;</span>:<span class="s2">&#34;UNSUPPORTED_MEDIA_TYPE&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;message&#34;</span>:<span class="s2">&#34;Content type &#39;text/plain;charset=ISO-8859-1&#39; not supported&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;errors&#34;</span>:<span class="o">[</span><span class="s2">&#34;text/plain;charset=ISO-8859-1 media type is not supported. 
+</span></span></span><span class="line"><span class="cl"><span class="s2">       Supported media types are text/xml 
+</span></span></span><span class="line"><span class="cl"><span class="s2">       application/x-www-form-urlencoded 
+</span></span></span><span class="line"><span class="cl"><span class="s2">       application/*+xml 
+</span></span></span><span class="line"><span class="cl"><span class="s2">       application/json;charset=UTF-8 
+</span></span></span><span class="line"><span class="cl"><span class="s2">       application/*+json;charset=UTF-8 */&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="7-默认处理程序">7. 默认处理程序</h2>
+<p>最后，我们将实现一个后备处理程序 - 一种包罗万象的逻辑类型，用于处理没有特定处理程序的所有其他异常：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ExceptionHandler</span><span class="o">({</span> <span class="n">Exception</span><span class="o">.</span><span class="na">class</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleAll</span><span class="o">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="o">,</span> <span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ApiError</span> <span class="n">apiError</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ApiError</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">HttpStatus</span><span class="o">.</span><span class="na">INTERNAL_SERVER_ERROR</span><span class="o">,</span> <span class="n">ex</span><span class="o">.</span><span class="na">getLocalizedMessage</span><span class="o">(),</span> <span class="s">&#34;error occurred&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">apiError</span><span class="o">,</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">(),</span> <span class="n">apiError</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="8结论">8.结论</h2>
+<p>为 Spring REST API 构建适当、成熟的错误处理程序非常困难，而且绝对是一个迭代过程。希望本教程将是一个良好的起点，也是帮助 API 客户端快速轻松地诊断错误并克服错误的良好锚点。</p>
+<p>本教程的完整实现可以在 <a href="https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-web-rest">GitHub 项目</a>中找到。这是一个基于 Eclipse 的项目，因此应该很容易导入并按原样运行。</p>
+<p>原文链接：<a href="https://www.baeldung.com/global-error-handler-in-a-spring-rest-api">https://www.baeldung.com/global-error-handler-in-a-spring-rest-api</a></p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>[译]使用Spring进行REST的错误处理</title>
+      <link>https://blog.chensoul.com/posts/2023/08/25/exception-handling-for-rest-with-spring/</link>
+      <pubDate>Fri, 25 Aug 2023 08:05:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/25/exception-handling-for-rest-with-spring/</guid>
+      <description>1. 概述 本教程将说明如何使用 Spring 为 REST API 实现异常处理。我们还将获得一些历史概述，并了解不同版本引入了哪些新选项。 在 Spring 3.2 之前，Spring MVC 应用程序</description>
+      <content:encoded><![CDATA[<h2 id="1-概述">1. 概述</h2>
+<p>本教程将说明如何使用 Spring 为 REST API 实现异常处理。我们还将获得一些历史概述，并了解不同版本引入了哪些新选项。</p>
+<p>在 Spring 3.2 之前，Spring MVC 应用程序中处理异常的两种主要方法是 <code>HandlerExceptionResolver</code> 或 <code>@ExceptionHandler</code> 注解。两者都有一些明显的缺点。</p>
+<p>从 3.2 开始，我们使用了 <code>@ControllerAdvice</code> 注释来解决前两个解决方案的局限性，并促进整个应用程序的统一异常处理。</p>
+<p>现在 Spring 5 引入了 <code>ResponseStatusException</code> 类，一种在 REST API 中进行基本错误处理的快速方法。</p>
+<p>所有这些都有一个共同点：它们很好地处理了关注点分离。应用程序可以正常抛出异常来指示某种失败，然后将单独处理。</p>
+<p>最后，我们将了解 Spring Boot 带来的功能以及如何配置它以满足我们的需求。</p>
+<h2 id="2方案一控制器级exceptionhandler">2.方案一：控制器级@ExceptionHandler</h2>
+<p>第一个解决方案在 <code>@Controller </code>级别工作。我们将定义一个处理异常的方法并使用<code>@ExceptionHandler</code> 进行注释：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooController</span><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nd">@ExceptionHandler</span><span class="o">({</span> <span class="n">CustomException1</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">CustomException2</span><span class="o">.</span><span class="na">class</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleException</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这种方法有一个主要缺点：· 注解的方法仅对特定的控制器有效，而不是对整个应用程序全局有效。当然，将其添加到每个控制器使其不太适合通用异常处理机制。</p>
+<p>我们可以通过让所有控制器扩展基本控制器类来解决此限制。</p>
+<p>然而，对于无论出于何种原因这是不可能的应用程序来说，此解决方案可能是一个问题。例如，控制器可能已经从另一个基类扩展，该基类可能位于另一个 jar 中或不可直接修改，或者本身可能不可直接修改。</p>
+<p>接下来，我们将研究另一种解决异常处理问题的方法 - 一种全局的方法，不包括对现有工件（例如控制器）的任何更改。</p>
+<h2 id="3解决方案2handlerexceptionresolver">3.解决方案2：HandlerExceptionResolver</h2>
+<p>第二种解决方案是定义一个 <code>HandlerExceptionResolver</code>。这将解决应用程序抛出的任何异常。它还允许我们在 REST API 中实现统一的异常处理机制。</p>
+<p>在选择自定义解析器之前，让我们先回顾一下现有的实现。</p>
+<h3 id="31异常处理器异常解析器">3.1.异常处理器异常解析器</h3>
+<p>该解析器是在 Spring 3.1 中引入的，并且在 <code>DispatcherServlet</code> 中默认启用。这实际上是前面介绍的 <code>@ExceptionHandler</code> 机制如何工作的核心组件。</p>
+<h3 id="32默认处理程序异常解析器">3.2.默认处理程序异常解析器</h3>
+<p>这个解析器是在 Spring 3.0 中引入的，并且在 <code>DispatcherServlet</code> 中默认启用。</p>
+<p>它用于将标准 Spring 异常解析为其相应的 HTTP 状态代码，即客户端错误 4xx 和服务器错误 5xx 状态代码。以下是它处理的 Spring 异常的完整列表以及它们如何映射到状态代码。</p>
+<p>虽然它确实正确设置了响应的状态代码，但一个限制是它不会对响应正文设置任何内容。对于 REST API（状态代码实际上不足以向客户端提供足够的信息），响应还必须有一个正文，以允许应用程序提供有关失败的附加信息。</p>
+<p>这可以通过 · 配置视图分辨率并渲染错误内容来解决，但该解决方案显然不是最优的。这就是为什么 Spring 3.2 引入了一个更好的选项，我们将在后面的部分中讨论。</p>
+<h3 id="33响应状态异常解析器">3.3.响应状态异常解析器</h3>
+<p>这个解析器也在 Spring 3.0 中引入，并且在 · 中默认启用。</p>
+<p>它的主要职责是使用自定义异常上可用的 <code>@ResponseStatus</code> 注释并将这些异常映射到HTTP状态代码。</p>
+<p>这样的自定义异常可能如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyResourceNotFoundException</span> <span class="kd">extends</span> <span class="n">RuntimeException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MyResourceNotFoundException</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MyResourceNotFoundException</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">,</span> <span class="n">Throwable</span> <span class="n">cause</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">(</span><span class="n">message</span><span class="o">,</span> <span class="n">cause</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MyResourceNotFoundException</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MyResourceNotFoundException</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">cause</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">(</span><span class="n">cause</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>与 <code>DefaultHandlerExceptionResolver</code> 相同，此解析器在处理响应正文的方式上受到限制 - 它确实将状态代码映射到响应上，但正文仍然为空。</p>
+<h3 id="34自定义handlerexceptionresolver">3.4.自定义HandlerExceptionResolver</h3>
+<p><code>DefaultHandlerExceptionResolver</code> 和 <code>ResponseStatusExceptionResolver</code> 的组合大大有助于为 Spring RESTful 服务提供良好的错误处理机制。如前所述，缺点是无法控制响应的正文。</p>
+<p>理想情况下，我们希望能够输出 JSON 或 XML，具体取决于客户端要求的格式（通过 Accept 标头）。</p>
+<p>仅此一点就证明创建一个新的自定义异常解析器是合理的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RestResponseStatusExceptionResolver</span> <span class="kd">extends</span> <span class="n">AbstractHandlerExceptionResolver</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="n">ModelAndView</span> <span class="nf">doResolveException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">Object</span> <span class="n">handler</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">ex</span> <span class="k">instanceof</span> <span class="n">IllegalArgumentException</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">handleIllegalArgument</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">                  <span class="o">(</span><span class="n">IllegalArgumentException</span><span class="o">)</span> <span class="n">ex</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">handler</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">...</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">handlerException</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">logger</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">&#34;Handling of [&#34;</span> <span class="o">+</span> <span class="n">ex</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34;] 
+</span></span></span><span class="line"><span class="cl"><span class="s">              resulted in Exception&#34;</span><span class="o">,</span> <span class="n">handlerException</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">ModelAndView</span> 
+</span></span><span class="line"><span class="cl">      <span class="nf">handleIllegalArgument</span><span class="o">(</span><span class="n">IllegalArgumentException</span> <span class="n">ex</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">      <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">response</span><span class="o">.</span><span class="na">sendError</span><span class="o">(</span><span class="n">HttpServletResponse</span><span class="o">.</span><span class="na">SC_CONFLICT</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">accept</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="n">HttpHeaders</span><span class="o">.</span><span class="na">ACCEPT</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">ModelAndView</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这里需要注意的一个细节是我们可以访问请求本身，因此我们可以考虑客户端发送的 Accept 标头的值。</p>
+<p>例如，如果客户端请求 <code>application/json</code>，那么在出现错误情况时，我们希望确保返回用 <code>application/json</code> 编码的响应正文。</p>
+<p>另一个重要的实现细节是我们返回一个 <code>ModelAndView</code>——这是响应的主体，它将允许我们对其进行必要的设置。</p>
+<p>这种方法是一种一致且易于配置的机制，用于 Spring REST 服务的错​​误处理。</p>
+<p>然而，它确实有局限性：它与低级 <code>HtttpServletResponse</code> 交互，并且适合使用 ModelAndView 的旧 MVC <code>模型</code>，因此仍有改进的空间。</p>
+<h2 id="4解决方案3controlleradvice">4.解决方案3：@ControllerAdvice</h2>
+<p>Spring 3.2 通过 <code>@ControllerAdvice</code> 注释支持全局 <code>@ExceptionHandler</code>。</p>
+<p>这实现了一种脱离旧 MVC 模型的机制，并利用 <code>ResponseEntity</code> 以及 <code>@ExceptionHandler</code> 的类型安全性和灵活性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ControllerAdvice</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RestResponseEntityExceptionHandler</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">extends</span> <span class="n">ResponseEntityExceptionHandler</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="n">value</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="o">{</span> <span class="n">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">IllegalStateException</span><span class="o">.</span><span class="na">class</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleConflict</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">RuntimeException</span> <span class="n">ex</span><span class="o">,</span> <span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">bodyOfResponse</span> <span class="o">=</span> <span class="s">&#34;This should be application specific&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">handleExceptionInternal</span><span class="o">(</span><span class="n">ex</span><span class="o">,</span> <span class="n">bodyOfResponse</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">          <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">(),</span> <span class="n">HttpStatus</span><span class="o">.</span><span class="na">CONFLICT</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><code>@ControllerAdvice</code> 注释允许我们将之前的多个分散的 <code>@ExceptionHandler</code> 合并到一个全局错误处理组件中。</p>
+<p>实际的机制非常简单但也非常灵活：</p>
+<ul>
+<li>它使我们能够完全控制响应正文以及状态代码。</li>
+<li>它提供了多个异常到同一方法的映射，以便一起处理。</li>
+<li>它充分利用了较新的 RESTful <code>ResposeEntity</code> 响应。</li>
+</ul>
+<p>这里要记住的一件事是将使用 <code>@ExceptionHandler</code> 声明的异常与用作方法参数的异常相匹配。</p>
+<p>如果它们不匹配，编译器不会抱怨——没有理由应该抱怨——Spring 也不会抱怨。</p>
+<p>然而，当异常在运行时实际抛出时，异常解决机制将失败，并显示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">java.lang.IllegalStateException: No suitable resolver <span class="k">for</span> argument <span class="o">[</span>0<span class="o">]</span> <span class="o">[</span><span class="nv">type</span><span class="o">=</span>...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">HandlerMethod details: ...
+</span></span></code></pre></div><h2 id="5解决方案4responsestatusexceptionspring-5及以上版本">5.解决方案4：ResponseStatusException（Spring 5及以上版本）</h2>
+<p>Spring 5 引入了 <code>ResponseStatusException</code> 类。</p>
+<p>我们可以创建它的一个实例，提供 <code>HttpStatus</code> 和可选的原因：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Foo</span> <span class="nf">findById</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">)</span> <span class="n">Long</span> <span class="n">id</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Foo</span> <span class="n">resourceById</span> <span class="o">=</span> <span class="n">RestPreconditions</span><span class="o">.</span><span class="na">checkFound</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">id</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">eventPublisher</span><span class="o">.</span><span class="na">publishEvent</span><span class="o">(</span><span class="k">new</span> <span class="n">SingleResourceRetrievedEvent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">response</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">resourceById</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">     <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">catch</span> <span class="o">(</span><span class="n">MyResourceNotFoundException</span> <span class="n">exc</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">         <span class="k">throw</span> <span class="k">new</span> <span class="n">ResponseStatusException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">           <span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">,</span> <span class="s">&#34;Foo Not Found&#34;</span><span class="o">,</span> <span class="n">exc</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>使用 <code>ResponseStatusException</code> 有什么好处？</p>
+<ul>
+<li>非常适合原型设计：我们可以非常快速地实施基本解决方案。</li>
+<li>一种类型，多个状态代码：一种异常类型可以导致多种不同的响应。与 @ExceptionHandler 相比，这减少了紧密耦合。</li>
+<li>我们不必创建那么多自定义异常类。</li>
+<li>由于可以通过编程方式创建异常，因此我们可以更好地控制异常处理。</li>
+</ul>
+<p>那么权衡又如何呢？</p>
+<ul>
+<li>没有统一的异常处理方式：与提供全局方法的 <code>@ControllerAdvice</code> 相比，强制执行一些应用程序范围的约定更加困难。</li>
+<li>代码重复：我们可能会发现自己在多个控制器中复制代码。</li>
+</ul>
+<p>我们还应该注意到，可以在一个应用程序中组合不同的方法。</p>
+<p>例如，我们可以全局实现 <code>@ControllerAdvice</code>，也可以在本地实现 <code>ResponseStatusExceptions</code>。</p>
+<p>但是，我们需要小心：如果可以通过多种方式处理相同的异常，我们可能会注意到一些令人惊讶的行为。一种可能的约定是始终以一种方式处理一种特定类型的异常。</p>
+<p>有关更多详细信息和更多示例，请参阅有关 <a href="https://www.baeldung.com/spring-response-status-exception">ResponseStatusException 的教程</a>。</p>
+<h2 id="6处理spring-security中拒绝访问的情况">6.处理Spring Security中拒绝访问的情况</h2>
+<p>当经过身份验证的用户尝试访问他没有足够权限访问的资源时，就会发生访问被拒绝的情况。</p>
+<h3 id="61-rest-和方法级安全性">6.1. REST 和方法级安全性</h3>
+<p>最后，让我们看看如何处理方法级安全注解 <code>@PreAuthorize</code>、<code>@PostAuthorize</code> 和 <code>@Secure</code> 抛出的 <code>Access Denied</code> 异常。</p>
+<p>当然，我们也将使用前面讨论的全局异常处理机制来处理 <code>AccessDeniedException</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ControllerAdvice</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RestResponseEntityExceptionHandler</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">extends</span> <span class="n">ResponseEntityExceptionHandler</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@ExceptionHandler</span><span class="o">({</span> <span class="n">AccessDeniedException</span><span class="o">.</span><span class="na">class</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">handleAccessDeniedException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Exception</span> <span class="n">ex</span><span class="o">,</span> <span class="n">WebRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;(</span>
+</span></span><span class="line"><span class="cl">          <span class="s">&#34;Access denied message here&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">HttpHeaders</span><span class="o">(),</span> <span class="n">HttpStatus</span><span class="o">.</span><span class="na">FORBIDDEN</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="7-spring-boot-支持">7. Spring Boot 支持</h2>
+<p>Spring Boot 提供了 <code>ErrorController</code> 实现来以合理的方式处理错误。</p>
+<p>简而言之，它为浏览器提供后备错误页面（也称为 Whitelabel 错误页面），并为 RESTful、非 HTML 请求提供 JSON 响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-01-17T16:12:45.977+0000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;error&#34;</span><span class="p">:</span> <span class="s2">&#34;Internal Server Error&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="s2">&#34;Error processing the request!&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;path&#34;</span><span class="p">:</span> <span class="s2">&#34;/my-endpoint-with-exceptions&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>与往常一样，Spring Boot 允许使用属性配置这些功能：</p>
+<ul>
+<li><code>server.error.whitelabel.enabled</code>: 可用于禁用 Whitelabel 错误页面并依赖 servlet 容器提供HTML错误消息</li>
+<li><code>server.error.include-stacktrace</code>: 具有始终值；在 HTML 和 JSON 默认响应中包含堆栈跟踪</li>
+<li><code>server.error.include-message</code>: 从2.3版本开始，Spring Boot隐藏了响应中的 <code>message</code> 字段，以避免泄露敏感信息；我们可以使用带有 <code>always</code> 值的这个属性来启用它</li>
+</ul>
+<p>除了这些属性之外，我们还可以为<code> /error</code> 提供我们自己的视图解析器映射，覆盖白标签页面。</p>
+<p>我们还可以通过在上下文中包含 <code>ErrorAttributes</code> bean 来自定义要在响应中显示的属性。我们可以扩展 Spring Boot 提供的 <code>DefaultErrorAttributes</code> 类来使事情变得更简单：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyCustomErrorAttributes</span> <span class="kd">extends</span> <span class="n">DefaultErrorAttributes</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="nf">getErrorAttributes</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">WebRequest</span> <span class="n">webRequest</span><span class="o">,</span> <span class="n">ErrorAttributeOptions</span> <span class="n">options</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">errorAttributes</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">          <span class="kd">super</span><span class="o">.</span><span class="na">getErrorAttributes</span><span class="o">(</span><span class="n">webRequest</span><span class="o">,</span> <span class="n">options</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">errorAttributes</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;locale&#34;</span><span class="o">,</span> <span class="n">webRequest</span><span class="o">.</span><span class="na">getLocale</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">errorAttributes</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="s">&#34;error&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">errorAttributes</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果我们想进一步定义（或覆盖）应用程序如何处理特定内容类型的错误，我们可以注册一个 <code>ErrorController</code> bean。</p>
+<p>同样，我们可以利用 Spring Boot 提供的默认 <code>BasicErrorController</code> 来帮助我们。</p>
+<p>例如，假设我们想要自定义应用程序如何处理 XML 端点中触发的错误。我们所要做的就是使用 <code>@RequestMapping</code> 定义一个公共方法，并声明它生成 <code>application/xm</code>l 媒体类型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyErrorController</span> <span class="kd">extends</span> <span class="n">BasicErrorController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MyErrorController</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ErrorAttributes</span> <span class="n">errorAttributes</span><span class="o">,</span> <span class="n">ServerProperties</span> <span class="n">serverProperties</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">(</span><span class="n">errorAttributes</span><span class="o">,</span> <span class="n">serverProperties</span><span class="o">.</span><span class="na">getError</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">produces</span> <span class="o">=</span> <span class="n">MediaType</span><span class="o">.</span><span class="na">APPLICATION_XML_VALUE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;&gt;</span> <span class="nf">xmlError</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>注意：这里我们仍然依赖于我们项目中可能定义的 <code>server.error.*</code> 引导属性，这些属性绑定到 <code>ServerProperties</code> bean。</p>
+<h2 id="8-结论">8. 结论</h2>
+<p>本文讨论了在 Spring 中实现 REST API 异常处理机制的几种方法，从旧的机制开始，继续提供 Spring 3.2 支持，一直到 4.x 和 5.x。</p>
+<p>与往常一样，本文中提供的代码可以在 <a href="https://github.com/eugenp/tutorials/tree/master/spring-boot-rest">GitHub</a> 上获取。</p>
+<p>Spring Security相关的代码可以查看 <a href="https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-web-rest">spring-security-rest</a> 模块。</p>
+<p>原文链接：<a href="https://www.baeldung.com/exception-handling-for-rest-with-spring">https://www.baeldung.com/exception-handling-for-rest-with-spring</a></p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>[译]使用@Async进行Spring Security上下文传播</title>
+      <link>https://blog.chensoul.com/posts/2023/08/25/spring-security-async-principal-propagation/</link>
+      <pubDate>Fri, 25 Aug 2023 08:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/25/spring-security-async-principal-propagation/</guid>
+      <description>1. 简介 在本教程中，我们将重点关注使用 @Async 传播 Spring Security 主体 默认情况下，Spring Security 身份验证绑定到 ThreadLocal - 因此，当执行流在带有 @Async 的新线程中运行时，它不会</description>
+      <content:encoded><![CDATA[<h2 id="1-简介">1. 简介</h2>
+<p>在本教程中，我们将重点关注使用 <code>@Async</code> 传播 Spring Security 主体
+默认情况下，Spring Security 身份验证绑定到 <code>ThreadLocal</code> - 因此，当执行流在带有 <code>@Async</code> 的新线程中运行时，它不会是经过身份验证的上下文。</p>
+<p>这并不理想——让我们解决它。</p>
+<h2 id="2maven依赖">2.Maven依赖</h2>
+<p>为了在 Spring Security 中使用异步集成，我们需要在 pom.xml 的依赖项中包含以下部分：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.security<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-security-config<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>5.7.3<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>可以在<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.springframework.security%22">此处</a>找到最新版本的 Spring Security 依赖项。</p>
+<h2 id="3使用async进行spring-security传播">3.使用@Async进行Spring Security传播</h2>
+<p>我们先写一个简单的例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/async&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Object</span> <span class="nf">standardProcessing</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Outside the @Async logic - before the async call: &#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="n">SecurityContextHolder</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">getAuthentication</span><span class="o">().</span><span class="na">getPrincipal</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">asyncService</span><span class="o">.</span><span class="na">asyncCall</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Inside the @Async logic - after the async call: &#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="n">SecurityContextHolder</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">getAuthentication</span><span class="o">().</span><span class="na">getPrincipal</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">SecurityContextHolder</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">getAuthentication</span><span class="o">().</span><span class="na">getPrincipal</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们想要检查 Spring <code>SecurityContext</code> 是否传播到新线程。首先，我们在异步调用之前记录上下文，接下来我们运行异步方法，最后再次记录上下文。<code> asyncCall()</code> 方法具有以下实现：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Async</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">asyncCall</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Inside the @Async logic: &#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="n">SecurityContextHolder</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">getAuthentication</span><span class="o">().</span><span class="na">getPrincipal</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>正如我们所看到的，只有一行代码将输出异步方法的新线程内的上下文。</p>
+<h2 id="4-默认配置">4. 默认配置</h2>
+<p>默认情况下，<code>@Async</code> 方法内的安全上下文将具有空值。</p>
+<p>特别是，如果我们运行异步逻辑，我们将能够在主程序中记录 <code>Authentication</code> 对象，但是当我们将其记录在 <code>@Async</code> 中时，它将为 null。这是日志输出的示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">web - 2016-12-30 22:41:58,916 [http-nio-8081-exec-3] INFO
+</span></span><span class="line"><span class="cl">  o.baeldung.web.service.AsyncService -
+</span></span><span class="line"><span class="cl">  Outside the @Async logic - before the async call:
+</span></span><span class="line"><span class="cl">  org.springframework.security.core.userdetails.User@76507e51:
+</span></span><span class="line"><span class="cl">  Username: temporary; ...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">web - 2016-12-30 22:41:58,921 [http-nio-8081-exec-3] INFO
+</span></span><span class="line"><span class="cl">  o.baeldung.web.service.AsyncService -
+</span></span><span class="line"><span class="cl">  Inside the @Async logic - after the async call:
+</span></span><span class="line"><span class="cl">  org.springframework.security.core.userdetails.User@76507e51:
+</span></span><span class="line"><span class="cl">  Username: temporary; ...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  web - 2016-12-30 22:41:58,926 [SimpleAsyncTaskExecutor-1] ERROR
+</span></span><span class="line"><span class="cl">  o.s.a.i.SimpleAsyncUncaughtExceptionHandler -
+</span></span><span class="line"><span class="cl">  Unexpected error occurred invoking async method
+</span></span><span class="line"><span class="cl">  &#39;public void com.baeldung.web.service.AsyncServiceImpl.asyncCall()&#39;.
+</span></span><span class="line"><span class="cl">  java.lang.NullPointerException: null
+</span></span></code></pre></div><p>因此，正如您所看到的，在执行程序线程内，我们的调用失败并出现 NPE，正如预期的那样——因为主体在那里不可用。</p>
+<h2 id="5-异步安全上下文配置">5. 异步安全上下文配置</h2>
+<p>如果我们想要访问异步线程内部的主体，就像我们可以在外部访问它一样，我们需要创建 <code>DelegatingSecurityContextAsyncTaskExecutor</code> bean：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span> 
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">DelegatingSecurityContextAsyncTaskExecutor</span> <span class="nf">taskExecutor</span><span class="o">(</span><span class="n">ThreadPoolTaskExecutor</span> <span class="n">delegate</span><span class="o">)</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">DelegatingSecurityContextAsyncTaskExecutor</span><span class="o">(</span><span class="n">delegate</span><span class="o">);</span> 
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>通过这样做，Spring 将在每个 <code>@Async</code> 调用中使用当前的 <code>SecurityContext</code>。</p>
+<p>现在，让我们再次运行该应用程序并查看日志信息以确保情况确实如此：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">web - 2016-12-30 22:45:18,013 [http-nio-8081-exec-3] INFO
+</span></span><span class="line"><span class="cl">  o.baeldung.web.service.AsyncService -
+</span></span><span class="line"><span class="cl">  Outside the @Async logic - before the async call:
+</span></span><span class="line"><span class="cl">  org.springframework.security.core.userdetails.User@76507e51:
+</span></span><span class="line"><span class="cl">  Username: temporary; ...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">web - 2016-12-30 22:45:18,018 [http-nio-8081-exec-3] INFO
+</span></span><span class="line"><span class="cl">  o.baeldung.web.service.AsyncService -
+</span></span><span class="line"><span class="cl">  Inside the @Async logic - after the async call:
+</span></span><span class="line"><span class="cl">  org.springframework.security.core.userdetails.User@76507e51:
+</span></span><span class="line"><span class="cl">  Username: temporary; ...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">web - 2016-12-30 22:45:18,019 [SimpleAsyncTaskExecutor-1] INFO
+</span></span><span class="line"><span class="cl">  o.baeldung.web.service.AsyncService -
+</span></span><span class="line"><span class="cl">  Inside the @Async logic:
+</span></span><span class="line"><span class="cl">  org.springframework.security.core.userdetails.User@76507e51:
+</span></span><span class="line"><span class="cl">  Username: temporary; ...
+</span></span></code></pre></div><p>正如我们所期望的，我们在异步执行器线程中看到了相同的原理。</p>
+<h2 id="6-使用案例">6. 使用案例</h2>
+<p>有一些有趣的用例，我们可能希望确保 <code>SecurityContext</code> 像这样传播：</p>
+<ul>
+<li>我们想要发出多个可以并行运行并且可能需要大量时间来执行的外部请求</li>
+<li>我们需要在本地进行一些重要的处理，并且我们的外部请求可以与该处理并行执行</li>
+<li>其他代表即发即忘场景，例如发送电子邮件</li>
+</ul>
+<h2 id="7结论">7.结论</h2>
+<p>在本快速教程中，我们介绍了 Spring 对使用传播的 <code>SecurityContext</code> 发送异步请求的支持。从编程模型的角度来看，新功能看似简单。</p>
+<p>请注意，如果先前以同步方式将多个方法调用链接在一起，则转换为异步方法可能需要同步结果。</p>
+<p>此 <a href="https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-web-rest">示例</a> 也可作为 Github 上的 Maven 项目提供。</p>
+<p>原文链接：<a href="https://www.baeldung.com/spring-security-async-principal-propagation">https://www.baeldung.com/spring-security-async-principal-propagation</a></p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>[译]Spring Events</title>
+      <link>https://blog.chensoul.com/posts/2023/08/25/spring-events/</link>
+      <pubDate>Fri, 25 Aug 2023 07:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/25/spring-events/</guid>
+      <description>1. 概述 在本教程中，我们将讨论如何在 Spring 中使用事件。 事件是框架中最容易被忽视的功能之一，但也是最有用的功能之一。与 Spring 中的许多其他功能一样，事件发</description>
+      <content:encoded><![CDATA[<h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本教程中，我们将讨论如何在 Spring 中使用事件。</p>
+<p>事件是框架中最容易被忽视的功能之一，但也是最有用的功能之一。与 Spring 中的许多其他功能一样，事件发布是 <code>ApplicationContext</code> 提供的功能之一。</p>
+<p>有一些简单的准则需要遵循：</p>
+<ul>
+<li>如果我们使用 Spring Framework 4.2 之前的版本，事件类应该扩展 <code>ApplicationEvent</code>。从 4.2 版本开始，事件类不再需要扩展 ApplicationEvent 类。</li>
+<li>发布者应该注入一个 <code>ApplicationEventPublisher</code> 对象。</li>
+<li>监听器应该实现 <code>ApplicationListener</code> 接口。</li>
+</ul>
+<h2 id="2-自定义事件"><strong>2. 自定义事件</strong></h2>
+<p>Spring 允许我们创建和发布默认情况下同步的自定义事件。这有一些优点，例如侦听器能够参与发布者的事务上下文。</p>
+<h3 id="21一个简单的应用程序事件"><strong>2.1.一个简单的应用程序事件</strong></h3>
+<p>让我们创建一个简单的事件类——只是一个存储事件数据的占位符。</p>
+<p>在本例中，事件类保存一条字符串消息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomSpringEvent</span> <span class="kd">extends</span> <span class="n">ApplicationEvent</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">message</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">CustomSpringEvent</span><span class="o">(</span><span class="n">Object</span> <span class="n">source</span><span class="o">,</span> <span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">(</span><span class="n">source</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">message</span> <span class="o">=</span> <span class="n">message</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getMessage</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">message</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="22发布者">2.2.发布者</h3>
+<p>现在让我们创建该事件的发布者。发布者构造事件对象并将其发布给正在侦听的任何人。</p>
+<p>要发布事件，发布者只需注入 <code>ApplicationEventPublisher</code> 并使用 <code>publishEvent() </code>API：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomSpringEventPublisher</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">ApplicationEventPublisher</span> <span class="n">applicationEventPublisher</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">publishCustomEvent</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Publishing custom event. &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CustomSpringEvent</span> <span class="n">customSpringEvent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CustomSpringEvent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">message</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">applicationEventPublisher</span><span class="o">.</span><span class="na">publishEvent</span><span class="o">(</span><span class="n">customSpringEvent</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>或者，发布者类可以实现 <code>ApplicationEventPublisherAware</code> 接口，这也将在应用程序启动时注入事件发布者。通常，使用 <code>@Autowire</code> 注入发布者会更简单。</p>
+<p>从 Spring Framework 4.2 开始，<code>ApplicationEventPublisher</code> 接口为<code>publishEvent(Object event) </code>方法提供了新的重载，该方法接受任何对象作为事件。因此，Spring 事件不再需要扩展<code>ApplicationEvent</code> 类。</p>
+<h3 id="23监听者">2.3.监听者</h3>
+<p>最后，让我们创建监听器。</p>
+<p>监听器的唯一要求是是一个 bean 并实现 <code>ApplicationListener</code> 接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomSpringEventListener</span> <span class="kd">implements</span> <span class="n">ApplicationListener</span><span class="o">&lt;</span><span class="n">CustomSpringEvent</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onApplicationEvent</span><span class="o">(</span><span class="n">CustomSpringEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Received spring custom event - &#34;</span> <span class="o">+</span> <span class="n">event</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意我们的自定义侦听器如何使用自定义事件的通用类型进行参数化，这使得 <code>onApplicationEvent() </code>方法类型安全。这也避免了必须检查对象是否是特定事件类的实例并转换它。</p>
+<p>而且，正如已经讨论过的（默认情况下 Spring 事件是同步的）， <code>doStuffAndPublishAnEvent()</code> 方法会阻塞，直到所有侦听器完成对事件的处理。</p>
+<h2 id="3-创建异步事件">3. 创建异步事件</h2>
+<p>在某些情况下，同步发布事件并不是我们真正想要的——我们可能需要异步处理事件。</p>
+<p>我们可以通过创建带有执行器的 <code>ApplicationEventMulticaster</code> bean 在配置中打开它。</p>
+<p>出于我们的目的，<code>SimpleAsyncTaskExecutor</code> 效果很好：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AsynchronousSpringEventsConfig</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;applicationEventMulticaster&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ApplicationEventMulticaster</span> <span class="nf">simpleApplicationEventMulticaster</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SimpleApplicationEventMulticaster</span> <span class="n">eventMulticaster</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">          <span class="k">new</span> <span class="n">SimpleApplicationEventMulticaster</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">eventMulticaster</span><span class="o">.</span><span class="na">setTaskExecutor</span><span class="o">(</span><span class="k">new</span> <span class="n">SimpleAsyncTaskExecutor</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">eventMulticaster</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>事件、发布者和侦听器实现与以前相同，但现在侦听器将在单独的线程中异步处理事件。</p>
+<h2 id="4现有框架事件">4.现有框架事件</h2>
+<p>Spring 本身发布了各种开箱即用的事件。例如，<code>ApplicationContext</code> 将触发各种框架事件：<code>ContextRefreshedEvent</code>、<code>ContextStartedEvent</code>、<code>RequestHandledEvent</code> 等。</p>
+<p>这些事件为应用程序开发人员提供了一个选项，可以挂钩应用程序和上下文的生命周期，并在需要时添加自己的自定义逻辑。</p>
+<p>下面是侦听器侦听上下文刷新的简单示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ContextRefreshedListener</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">implements</span> <span class="n">ApplicationListener</span><span class="o">&lt;</span><span class="n">ContextRefreshedEvent</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onApplicationEvent</span><span class="o">(</span><span class="n">ContextRefreshedEvent</span> <span class="n">cse</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Handling context re-freshed event. &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5-注解驱动的事件监听器">5. 注解驱动的事件监听器</h2>
+<p>从 Spring 4.2 开始，事件侦听器不需要是实现 <code>ApplicationListener</code> 接口的 bean — 它可以通过 <code>@EventListener</code> 注释在托管 bean 的任何公共方法上注册：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AnnotationDrivenEventListener</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@EventListener</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleContextStart</span><span class="o">(</span><span class="n">ContextStartedEvent</span> <span class="n">cse</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Handling context started event.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>和以前一样，方法签名声明它消耗的事件类型。</p>
+<p>默认情况下，监听器是同步调用的。但是，我们可以通过添加 @Async 注解轻松使其异步。我们只需要记住在应用程序中启用异步支持即可。</p>
+<h2 id="6-泛型支持">6. 泛型支持</h2>
+<p>还可以使用事件类型中的泛型信息来调度事件。</p>
+<h3 id="61通用应用程序事件">6.1.通用应用程序事件</h3>
+<p>让我们创建一个通用事件类型。</p>
+<p>在我们的示例中，事件类包含任何内容和成功状态指示器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GenericSpringEvent</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">T</span> <span class="n">what</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">boolean</span> <span class="n">success</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">GenericSpringEvent</span><span class="o">(</span><span class="n">T</span> <span class="n">what</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">success</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">what</span> <span class="o">=</span> <span class="n">what</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">success</span> <span class="o">=</span> <span class="n">success</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ... standard getters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>请注意 <code>GenericSpringEvent</code> 和 <code>CustomSpringEvent</code> 之间的区别。我们现在可以灵活地发布任何任意事件，并且不再需要从 <code>ApplicationEvent</code> 进行扩展。</p>
+<h3 id="62监听者">6.2.监听者</h3>
+<p>现在让我们创建该事件的侦听器。</p>
+<p>我们可以像以前一样通过实现 <code>ApplicationListener</code> 接口来定义监听器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GenericSpringEventListener</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">implements</span> <span class="n">ApplicationListener</span><span class="o">&lt;</span><span class="n">GenericSpringEvent</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onApplicationEvent</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">GenericSpringEvent</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Received spring generic event - &#34;</span> <span class="o">+</span> <span class="n">event</span><span class="o">.</span><span class="na">getWhat</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>但不幸的是这个定义要求我们从 <code>ApplicationEvent</code> 类继承 <code>GenericSpringEvent</code>。因此，在本教程中，我们将使用前面讨论的注释驱动事件侦听器。</p>
+<p>还可以通过在 <code>@EventListener</code> 注释上定义布尔 SpEL 表达式来使事件侦听器成为有条件的。</p>
+<p>在这种情况下，只有成功的 String <code>GenericSpringEvent</code> 才会调用事件处理程序：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AnnotationDrivenEventListener</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@EventListener</span><span class="o">(</span><span class="n">condition</span> <span class="o">=</span> <span class="s">&#34;#event.success&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleSuccessful</span><span class="o">(</span><span class="n">GenericSpringEvent</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Handling generic event (conditional).&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Spring 表达式语言 (SpEL) 是一种功能强大的表达式语言，在另一个教程中详细介绍了它。</p>
+<h3 id="63发布者">6.3.发布者</h3>
+<p>事件发布者与上面描述的类似。但由于类型擦除，我们需要发布一个事件来解析我们要过滤的泛型参数，例如，<code>class GenericStringSpringEvent extends GenericSpringEvent</code>。</p>
+<p>此外，还有另一种发布事件的方式。如果我们从使用 <code>@EventListener</code> 注释的方法返回一个非空值作为结果，Spring Framework 会将该结果作为新事件发送给我们。此外，我们可以通过将多个新事件作为事件处理的结果返回到集合中来发布它们。</p>
+<h2 id="7-交易绑定事件">7. 交易绑定事件</h2>
+<p>本节介绍如何使用 <code>@TransactionalEventListener</code> 注释。要了解有关事务管理的更多信息，请查看 <a href="https://www.baeldung.com/transaction-configuration-with-jpa-and-spring">Transactions With Spring and JPA</a>。</p>
+<p>从Spring 4.2开始，框架提供了一个新的 <code>@TransactionalEventListener</code> 注解，它是<code>@EventListener</code> 的扩展，允许将事件的监听器绑定到事务的某个阶段。</p>
+<p>可以对以下交易阶段进行绑定：</p>
+<ul>
+<li><em><code>AFTER_COMMIT</code></em>（默认）用于在事务成功完成时触发该事件。</li>
+<li><em><code>AFTER_ROLLBACK</code></em> – 如果事务已回滚</li>
+<li><em><code>AFTER_COMPLETION</code></em> –  如果事务已完成（<code>AFTER_COMMIT</code> 和 <code>AFTER_ROLLBACK</code> 的别名）</li>
+<li><em><code>BEFORE_COMMIT</code></em>  – 用于在事务提交之前触发该事件。</li>
+</ul>
+<p>这是事务事件侦听器的一个简单示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@TransactionalEventListener</span><span class="o">(</span><span class="n">phase</span> <span class="o">=</span> <span class="n">TransactionPhase</span><span class="o">.</span><span class="na">BEFORE_COMMIT</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleCustom</span><span class="o">(</span><span class="n">CustomSpringEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Handling event inside a transaction BEFORE COMMIT.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>仅当事件生成器正在运行且即将提交的事务中时，才会调用此侦听器。</p>
+<p>如果没有事务正在运行，则根本不会发送事件，除非我们通过将 <code>FallbackExecution</code> 属性设置为 true 来覆盖它。</p>
+<h2 id="8-结论">8. 结论</h2>
+<p>在这篇简短的文章中，我们回顾了在 Spring 中处理事件的基础知识，包括创建一个简单的自定义事件、发布它，然后在侦听器中处理它。</p>
+<p>我们还简要了解了如何在配置中启用事件的异步处理。</p>
+<p>然后我们了解了 Spring 4.2 中引入的改进，例如注释驱动的侦听器、更好的泛型支持以及绑定到事务阶段的事件。</p>
+<p>与往常一样，本文中提供的代码可以在 <a href="https://github.com/eugenp/tutorials/tree/master/spring-core-2">GitHub</a> 上获取。这是一个基于 Maven 的项目，因此应该很容易导入并按原样运行。</p>
+<p>原文链接：<a href="https://www.baeldung.com/spring-events">https://www.baeldung.com/spring-events</a></p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>[译]如何在Spring中执行@Async</title>
+      <link>https://blog.chensoul.com/posts/2023/08/25/spring-async/</link>
+      <pubDate>Fri, 25 Aug 2023 07:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/08/25/spring-async/</guid>
+      <description>1. 概述 在本教程中，我们将探讨 Spring 中的异步执行支持和 @Async 注解。 简单地说，用 @Async 注解 bean 的方法将使其在单独的线程中执行。换句话说，调用者不会等待被调用方</description>
+      <content:encoded><![CDATA[<h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本教程中，我们将探讨 Spring 中的异步执行支持和 <code>@Async</code> 注解。</p>
+<p>简单地说，用 <code>@Async</code> 注解 bean 的方法将使其在单独的线程中执行。换句话说，调用者不会等待被调用方法的完成。</p>
+<p>Spring 的一个有趣的方面是，框架中的事件支持还 <a href="https://www.baeldung.com/spring-events">支持异步处理</a>（如果需要）。</p>
+<h2 id="2启用异步支持">2.启用异步支持</h2>
+<p>让我们首先通过 Java 注解启用异步处理。</p>
+<p>我们将通过将 <code>@EnableAsync</code> 添加到配置类来完成此操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableAsync</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringAsyncConfig</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
+</span></span></code></pre></div><p>启用注解就足够了。但也有一些简单的配置选项：</p>
+<ul>
+<li><strong>annotation</strong> 默认情况下，<code>@EnableAsync</code> 检测 Spring 的 <code>@Async</code> 注解和 EJB 3.1 <code>javax.ejb.Asynchronous</code>。我们也可以使用此选项来检测其他用户定义的注解类型。</li>
+<li>**mode ** 指示应使用的建议类型 - 基于 <code>JDK</code> 代理或 <code>AspectJ</code> 编织。</li>
+<li><em><strong>proxyTargetClass</strong></em> 指示应使用的代理类型 — <code>CGLIB</code> 或 <code>JDK</code>。仅当模式设置为 <code>AdviceMode.PROXY</code> 时，此属性才有效。</li>
+<li><em><strong>order</strong></em> 设置应用 <code>AsyncAnnotationBeanPostProcessor</code> 的顺序。默认情况下，它最后运行，以便它可以考虑所有现有代理。</li>
+</ul>
+<p>我们还可以使用任务命名空间通过 XML 配置启用异步处理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;task:executor</span> <span class="na">id=</span><span class="s">&#34;myexecutor&#34;</span> <span class="na">pool-size=</span><span class="s">&#34;5&#34;</span>  <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;task:annotation-driven</span> <span class="na">executor=</span><span class="s">&#34;myexecutor&#34;</span><span class="nt">/&gt;</span>Copy
+</span></span></code></pre></div><h2 id="3async注解">3.@Async注解</h2>
+<p>首先，让我们回顾一下规则。 <code>@Async</code> 有两个限制：</p>
+<ul>
+<li>它必须仅应用于公共方法。</li>
+<li>自调用（从同一个类中调用异步方法）将不起作用。</li>
+</ul>
+<p>原因很简单：该方法需要公开，以便可以被代理。并且自调用不起作用，因为它绕过代理并直接调用底层方法。</p>
+<h3 id="31返回类型为-void-的方法">3.1.返回类型为 void 的方法</h3>
+<p>这是配置具有 void 返回类型的方法以异步运行的简单方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Async</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">asyncMethodWithVoidReturnType</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Execute method asynchronously. &#34;</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="32具有返回类型的方法">3.2.具有返回类型的方法</h3>
+<p>我们还可以通过将实际返回包装在 <code>Future</code> 中来将 <code>@Async</code> 应用于具有返回类型的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Async</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Future</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">asyncMethodWithReturnType</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Execute method asynchronously - &#34;</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">5000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;(</span><span class="s">&#34;hello world !!!!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Spring还提供了一个实现<code>Future</code>的<code>AsyncResult</code>类。我们可以用它来跟踪异步方法执行的结果。</p>
+<p>现在让我们调用上述方法并使用 <code>Future</code> 对象检索异步过程的结果。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">testAsyncAnnotationForMethodsWithReturnType</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">InterruptedException</span><span class="o">,</span> <span class="n">ExecutionException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Invoking an asynchronous method. &#34;</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Future</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">future</span> <span class="o">=</span> <span class="n">asyncAnnotationExample</span><span class="o">.</span><span class="na">asyncMethodWithReturnType</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">future</span><span class="o">.</span><span class="na">isDone</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Result from asynchronous process - &#34;</span> <span class="o">+</span> <span class="n">future</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Continue doing something else. &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">1000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="4-executor">4. Executor</h2>
+<p>默认情况下，Spring 使用 <code>SimpleAsyncTaskExecutor</code> 来实际异步运行这些方法。但我们可以在两个级别覆盖默认值：应用程序级别或单个方法级别。</p>
+<h3 id="41在方法级别重写executor">4.1.在方法级别重写Executor</h3>
+<p>我们需要在配置类中声明所需的执行器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableAsync</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringAsyncConfig</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;threadPoolTaskExecutor&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Executor</span> <span class="nf">threadPoolTaskExecutor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">ThreadPoolTaskExecutor</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后我们应该在 <code>@Async</code> 中提供执行程序名称作为属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Async</span><span class="o">(</span><span class="s">&#34;threadPoolTaskExecutor&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">asyncMethodWithConfiguredExecutor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Execute method with configured executor - &#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="42在应用程序级别覆盖executor">4.2.在应用程序级别覆盖Executor</h3>
+<p>配置类应实现 <code>AsyncConfigurer</code> 接口。因此，它必须实现 <code>getAsyncExecutor()</code> 方法。在这里，我们将返回整个应用程序的执行器。现在，它成为运行用 <code>@Async</code> 注解的方法的默认执行器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableAsync</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringAsyncConfig</span> <span class="kd">implements</span> <span class="n">AsyncConfigurer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Executor</span> <span class="nf">getAsyncExecutor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ThreadPoolTaskExecutor</span> <span class="n">threadPoolTaskExecutor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadPoolTaskExecutor</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">threadPoolTaskExecutor</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">threadPoolTaskExecutor</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5-异常处理">5. 异常处理</h2>
+<p>当方法返回类型是 <code>Future</code> 时，异常处理很容易。 <code>Future.get()</code> 方法将抛出异常。</p>
+<p>但如果返回类型为 void，异常将不会传播到调用线程。因此，我们需要添加额外的配置来处理异常。</p>
+<p>我们将通过实现 <code>AsyncUncaughtExceptionHandler</code> 接口来创建自定义异步异常处理程序。当存在任何未捕获的异步异常时，将调用 <code>handleUncaughtException()</code> 方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomAsyncExceptionHandler</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">implements</span> <span class="n">AsyncUncaughtExceptionHandler</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleUncaughtException</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Throwable</span> <span class="n">throwable</span><span class="o">,</span> <span class="n">Method</span> <span class="n">method</span><span class="o">,</span> <span class="n">Object</span><span class="o">...</span> <span class="n">obj</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Exception message - &#34;</span> <span class="o">+</span> <span class="n">throwable</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Method name - &#34;</span> <span class="o">+</span> <span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Object</span> <span class="n">param</span> <span class="o">:</span> <span class="n">obj</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Parameter value - &#34;</span> <span class="o">+</span> <span class="n">param</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上一节中，我们了解了配置类实现的 <code>AsyncConfigurer</code> 接口。作为其中的一部分，我们还需要重写 <code>getAsyncUncaughtExceptionHandler() </code> 方法以返回我们的自定义异步异常处理程序：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">AsyncUncaughtExceptionHandler</span> <span class="nf">getAsyncUncaughtExceptionHandler</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">CustomAsyncExceptionHandler</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-结论">6. 结论</h2>
+<p>在本文中，我们研究了使用 Spring 运行异步代码。</p>
+<p>我们从非常基本的配置和注解开始，以使其正常工作。但我们也研究了更高级的配置，例如提供我们自己的执行器或异常处理策略。</p>
+<p>与往常一样，本文中提供的完整代码可以在 <a href="https://github.com/eugenp/tutorials/tree/master/spring-scheduling">GitHub</a> 上找到。</p>
+<p>原文链接：<a href="https://www.baeldung.com/spring-async">https://www.baeldung.com/spring-async</a></p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>[译]Spring Boot项目如何实现JWT认证？</title>
       <link>https://blog.chensoul.com/posts/2023/08/18/how-to-implement-jwt-authentication-in-spring-boot-project/</link>
@@ -9994,7 +10922,7 @@ Also, during every authentication attempt, we shall be checking this property wi
 <p>我们必须提供 <a href="https://docs.spring.io/spring-security/site/docs/4.2.3.RELEASE/apidocs/org/springframework/security/core/userdetails/UserDetailsService.html">UserDetailsService</a> 接口的实现，以便获取用户凭据和权限，如下所示</p>
 <p><img loading="lazy" src="https://miro.medium.com/v2/resize:fit:1400/1*dyyiX3P9XSdsPuYQyc4_kA.jpeg" alt="img"  />
 </p>
-<p>为了向应用程序提供安全性，我们将使用 <a href="https://docs.spring.io/spring-security/site/docs/4.2.3.RELEASE/apidocs/org/springframework/security/config/annotation/web/configuration/EnableWebSecurity.html">@EnableWebSecurity</a> 注释和 WebSecurityConfigurerAdapter</p>
+<p>为了向应用程序提供安全性，我们将使用 <a href="https://docs.spring.io/spring-security/site/docs/4.2.3.RELEASE/apidocs/org/springframework/security/config/annotation/web/configuration/EnableWebSecurity.html">@EnableWebSecurity</a> 注解和 WebSecurityConfigurerAdapter</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.aak.configuration</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>

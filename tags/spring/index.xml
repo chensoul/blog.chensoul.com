@@ -819,13 +819,13 @@
 </span></span></code></pre></div><p>启用注解就足够了。但也有一些简单的配置选项：</p>
 <ul>
 <li><strong>annotation</strong> 默认情况下，<code>@EnableAsync</code> 检测 Spring 的 <code>@Async</code> 注解和 EJB 3.1 <code>javax.ejb.Asynchronous</code>。我们也可以使用此选项来检测其他用户定义的注解类型。</li>
-<li>**mode ** 指示应使用的建议类型 - 基于 <code>JDK</code> 代理或 <code>AspectJ</code> 编织。</li>
+<li><strong>mode</strong> 指示应使用的建议类型 - 基于 <code>JDK</code> 代理或 <code>AspectJ</code> 编织。</li>
 <li><em><strong>proxyTargetClass</strong></em> 指示应使用的代理类型 — <code>CGLIB</code> 或 <code>JDK</code>。仅当模式设置为 <code>AdviceMode.PROXY</code> 时，此属性才有效。</li>
 <li><em><strong>order</strong></em> 设置应用 <code>AsyncAnnotationBeanPostProcessor</code> 的顺序。默认情况下，它最后运行，以便它可以考虑所有现有代理。</li>
 </ul>
 <p>我们还可以使用任务命名空间通过 XML 配置启用异步处理：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;task:executor</span> <span class="na">id=</span><span class="s">&#34;myexecutor&#34;</span> <span class="na">pool-size=</span><span class="s">&#34;5&#34;</span>  <span class="nt">/&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="nt">&lt;task:annotation-driven</span> <span class="na">executor=</span><span class="s">&#34;myexecutor&#34;</span><span class="nt">/&gt;</span>Copy
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;task:annotation-driven</span> <span class="na">executor=</span><span class="s">&#34;myexecutor&#34;</span><span class="nt">/&gt;</span>
 </span></span></code></pre></div><h2 id="3async注解">3.@Async注解</h2>
 <p>首先，让我们回顾一下规则。 <code>@Async</code> 有两个限制：</p>
 <ul>

@@ -578,7 +578,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">5678</span><span class="p">:</span><span class="m">5678</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/.n8n:/home/node/.n8n</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">~/.n8n:/home/node/.n8n</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">custom</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
@@ -588,14 +588,38 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></span></code></pre></div><p>3、启动</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f n8n.yaml up -d
 </span></span></code></pre></div><p>4、设置 nginx 转发</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">location</span> <span class="s">/</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:5678/</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kn">proxy_set_header</span> <span class="s">Connection</span> <span class="s">&#39;&#39;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kn">chunked_transfer_encoding</span> <span class="no">off</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kn">proxy_buffering</span> <span class="no">off</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kn">proxy_cache</span> <span class="no">off</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kn">access_log</span> <span class="s">/var/log/nginx/n8n.log</span> <span class="s">combined</span> <span class="s">buffer=128k</span> <span class="s">flush=5s</span><span class="p">;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="s">[::]:80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span> <span class="s">n8n.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span>          <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span>     <span class="s">n8n.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate</span>      <span class="s">/usr/local/nginx/ssl/fullchain.cer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate_key</span>  <span class="s">/usr/local/nginx/ssl/chensoul.com.key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_cache</span>    <span class="s">shared:SSL:1m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_session_timeout</span>  <span class="mi">5m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_ciphers</span>  <span class="s">HIGH:!aNULL:!MD5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl_prefer_server_ciphers</span>  <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:5678</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">chunked_transfer_encoding</span> <span class="no">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_buffering</span> <span class="no">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_cache</span> <span class="no">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">				<span class="kn">access_log</span> <span class="s">/var/log/nginx/n8n.log</span> <span class="s">combined</span> <span class="s">buffer=128k</span> <span class="s">flush=5s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">				<span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    		<span class="kn">proxy_set_header</span> <span class="s">Upgrade</span> <span class="nv">$http_upgrade</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    		<span class="kn">proxy_set_header</span> <span class="s">Connection</span> <span class="s">&#34;Upgrade&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>这里面的转发配置不对的话，会导致直接访问 5678 端口正常，但是访问 nginx 的话，workflow 会一直处于执行。</p>
 <p>5、添加 workflow</p>
@@ -613,69 +637,23 @@ umami:postgresql-latest 来安装 umami。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f n8n.yaml down 
 </span></span><span class="line"><span class="cl">docker pull n8nio/n8n
 </span></span><span class="line"><span class="cl">docker-compose -f n8n.yaml up -d
-</span></span></code></pre></div><h3 id="plausible">plausible</h3>
-<p>1、下载代码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ curl -L https://github.com/plausible/hosting/archive/master.tar.gz <span class="p">|</span> tar -xz
-</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> hosting-master
-</span></span></code></pre></div><p>2、更新配置文件 plausible-conf.env</p>
-<p>生成一个随机字符串：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ openssl rand -base64 <span class="m">64</span> <span class="p">|</span> tr -d <span class="s1">&#39;\n&#39;</span> <span class="p">;</span> <span class="nb">echo</span>
-</span></span></code></pre></div><p>修改 plausible-conf.env：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">BASE_URL</span><span class="o">=</span>https://plausible.chensoul.com
-</span></span><span class="line"><span class="cl"><span class="nv">SECRET_KEY_BASE</span><span class="o">=</span>ywewRup6H0pT1TK+qIPwdRdOYNixC/GAr5vy2IoTvzNJygD3Z7rPgQI6v1c/tUV/SsJQYxsfZ60yrn6kMiDxAA<span class="o">==</span>
-</span></span></code></pre></div><p>3、设置反向代理</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-conf" data-lang="conf"><span class="line"><span class="cl"><span class="nv">server</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">listen</span> <span class="nv">80</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">listen</span> <span class="err">[::]:</span><span class="nv">80</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">server_name</span> <span class="nv">plausible.chensoul.com</span><span class="p">;</span>
+</span></span></code></pre></div><p>7、备份</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">: <span class="si">${</span><span class="nv">EXPORT_DIR</span><span class="p">=</span><span class="s2">&#34;workflow-</span><span class="k">$(</span>date +%Y%m%d<span class="k">)</span><span class="s2">&#34;</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">rm -rf <span class="nv">$EXPORT_DIR</span>/*
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nv">return</span> <span class="nv">301</span> <span class="nv">https</span><span class="err">://$</span><span class="kt">host</span><span class="err">$</span><span class="nv">request_uri</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -u node -it n8n n8n export:workflow --backup --output<span class="o">=</span>./<span class="nv">$EXPORT_DIR</span>/
+</span></span><span class="line"><span class="cl">docker cp n8n:/home/node/<span class="nv">$EXPORT_DIR</span> .
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">server</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">listen</span>          <span class="nv">443</span> <span class="nv">ssl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">server_name</span>     <span class="nv">plausible.chensoul.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#docker exec -u node -it n8n n8n export:credentials --all --output=./credentials.json</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#docker cp n8n:/home/node/credentials.json .</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nv">ssl_certificate</span>      <span class="err">/</span><span class="nv">usr</span><span class="err">/</span><span class="nv">local</span><span class="err">/</span><span class="nv">nginx</span><span class="err">/</span><span class="nv">ssl</span><span class="err">/</span><span class="nv">fullchain.cer</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">ssl_certificate_key</span>  <span class="err">/</span><span class="nv">usr</span><span class="err">/</span><span class="nv">local</span><span class="err">/</span><span class="nv">nginx</span><span class="err">/</span><span class="nv">ssl</span><span class="err">/</span><span class="nv">chensoul.com.key</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nv">ssl_session_cache</span>    <span class="nv">shared</span><span class="err">:</span><span class="nv">SSL</span><span class="err">:</span><span class="nv">1m</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">ssl_session_timeout</span>  <span class="nv">5m</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nv">ssl_ciphers</span>  <span class="nv">HIGH</span><span class="err">:!</span><span class="nv">aNULL</span><span class="err">:!</span><span class="nv">MD5</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">ssl_prefer_server_ciphers</span>  <span class="kc">on</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nv">location</span> <span class="err">/</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">proxy_pass</span> <span class="nv">http</span><span class="err">://</span><span class="mf">127.0.0.1</span><span class="err">:</span><span class="nv">8000</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	    <span class="nv">proxy_set_header</span>   <span class="nv">X-Real-IP</span> <span class="err">$</span><span class="nv">remote_addr</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">proxy_set_header</span>   <span class="nv">X-Forwarded-For</span> <span class="err">$</span><span class="nv">proxy_add_x_forwarded_for</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">proxy_set_header</span>   <span class="nv">Host</span> <span class="err">$</span><span class="kt">host</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	    <span class="nv">proxy_http_version</span> <span class="nv">1.1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">proxy_set_header</span>   <span class="nv">Upgrade</span> <span class="err">$</span><span class="nv">http_upgrade</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">proxy_set_header</span>   <span class="nv">Connection</span> <span class="s">&#34;upgrade&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>4、启动服务</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose up -d
-</span></span></code></pre></div><p>5、升级</p>
-<p>Docker Compose 的更新比较简单：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose down 
-</span></span><span class="line"><span class="cl">docker compose pull plausible
-</span></span><span class="line"><span class="cl">docker compose up -d
-</span></span></code></pre></div><p>6、访问 postgres 数据库</p>
-<p>第一次登录时可能会要求验证邮箱地址，如果前面没有配置 SMTP，可以通过下面的命令认证所有当前用户：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose <span class="nb">exec</span> plausible_db psql -U postgres -d plausible_db -c <span class="s2">&#34;UPDATE users SET email_verified = true;&#34;</span>
-</span></span></code></pre></div><p>进入 plausible_db 数据库：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose <span class="nb">exec</span> plausible_db psql -U postgres -d plausible_db
-</span></span></code></pre></div><p>7、博客添加统计代码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">defer</span> <span class="nx">data</span><span class="o">-</span><span class="nx">domain</span><span class="o">=</span><span class="s2">&#34;blog.chensoul.com&#34;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&#34;https://plausible.chensoul.com/js/script.js&#34;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
-</span></span></code></pre></div><p>8、配置 dns</p>
-<p>在 dns 服务商添加 A 记录 plausible，稍等一下，访问 <a href="https://plausible.chensoul.com/">https://plausible.chensoul.com/</a></p>
-<p>参考文章：</p>
-<ul>
-<li><a href="https://atpx.com/blog/docker-plausible-web-analytics/">使用 Plausible 自建网站流量统计分析工具</a></li>
-</ul>
-]]></content:encoded>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="nv">$EXPORT_DIR</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> file in *<span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">filename</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">&#34;</span> <span class="p">|</span> jq -r <span class="s1">&#39;.name&#39;</span><span class="k">)</span>  <span class="c1"># 使用-r选项以纯文本形式输出字段值</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    mv <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span>.json
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div>]]></content:encoded>
     </item>
     
   </channel>

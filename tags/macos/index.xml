@@ -15,44 +15,60 @@
       <guid>https://blog.chensoul.com/posts/2021/09/09/mac-development-environment-setup/</guid>
       <description>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是Mac开发环境，所以，这篇文章主要是基于Mac操作系</description>
       <content:encoded><![CDATA[<p>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是Mac开发环境，所以，这篇文章主要是基于Mac操作系统，记录开发环境搭建过程。</p>
-<h2 id="偏好设置">偏好设置</h2>
-<ul>
-<li>系统所有偏好设置
-<ul>
-<li>通用：关闭文稿时要求保存更改</li>
-<li>Siri：关闭</li>
-<li>辅助功能 - 指针控制（或鼠标与触控板） - 触控板选项：启动拖移(三指拖移)</li>
-<li>触控板 &gt; 光标与点击，轻拍来点按，辅助点按</li>
-<li>Dock
-<ul>
-<li>置于屏幕上的位置：右边</li>
-<li>设置 Dock 图标更小（大小随个人喜好）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Finder
-<ul>
-<li>显示各种栏</li>
-<li>显示所有文件扩展名</li>
-<li>标题栏显示完整路径：<code>defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES; killall Finder</code></li>
-</ul>
-</li>
-<li>禁用大部分 iCloud 同步</li>
-<li>键盘 -&gt; 快捷键
-<ul>
-<li>command + 空格：spotlight  </li>
-<li>control + 空格：切换输入法</li>
-</ul>
-</li>
-</ul>
-<h2 id="安装-xcode">安装 XCode</h2>
-<p>从 App store 或苹果开发者网站安装 <a href="https://developer.apple.com/xcode/">Xcode</a> ，然后安装 Xcode command line tools：</p>
+<h2 id="系统设置">系统设置</h2>
+<h3 id="实用命令">实用命令</h3>
+<ol>
+<li><strong>取消 4 位数密码限制</strong></li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo pwpolicy -clearaccountpolicies
+</span></span></code></pre></div><ol>
+<li><strong>允许安装任意来源的 App</strong></li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo spctl --master-disable
+</span></span></code></pre></div><ol>
+<li><strong>xcode 命令行工具</strong></li>
+</ol>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xcode-select --install
-</span></span></code></pre></div><p>安装完成后，你将可以直接在 terminal 中使用主要的命令，比如：<code>make, GCC, clang, perl, svn, git, size, strip, strings, libtool, cpp</code>等等。</p>
-<p>如果你想了解 Xcode command line tools 包含多少可用的命令，可以通过下面命令查看：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ls /Library/Developer/CommandLineTools/usr/bin/
-</span></span></code></pre></div><h2 id="安装-homebrew">安装 Homebrew</h2>
+</span></span></code></pre></div><ol>
+<li><strong>程序坞自动隐藏加速</strong></li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 设置启动坞动画时间设置为 0.5 秒 </span>
+</span></span><span class="line"><span class="cl">defaults write com.apple.dock autohide-time-modifier -float 0.5 <span class="o">&amp;&amp;</span> killall Dock
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置启动坞响应时间最短</span>
+</span></span><span class="line"><span class="cl">defaults write com.apple.dock autohide-delay -int <span class="m">0</span> <span class="o">&amp;&amp;</span> killall Dock
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 恢复启动坞默认动画时间</span>
+</span></span><span class="line"><span class="cl">defaults delete com.apple.dock autohide-time-modifier <span class="o">&amp;&amp;</span> killall Dock
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 恢复默认启动坞响应时间</span>
+</span></span><span class="line"><span class="cl">defaults delete com.apple.Dock autohide-delay <span class="o">&amp;&amp;</span> killall Dock
+</span></span></code></pre></div><ol>
+<li><strong>启动台自定义行和列</strong></li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 设置列数</span>
+</span></span><span class="line"><span class="cl">defaults write com.apple.dock springboard-columns -int <span class="m">7</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置行数</span>
+</span></span><span class="line"><span class="cl">defaults write com.apple.dock springboard-rows -int <span class="m">6</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重启 Dock 生效</span>
+</span></span><span class="line"><span class="cl">killall Dock
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 恢复默认的列数和行数</span>
+</span></span><span class="line"><span class="cl">defaults write com.apple.dock springboard-rows Default
+</span></span><span class="line"><span class="cl">defaults write com.apple.dock springboard-columns Default
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重启 Dock 生效</span>
+</span></span><span class="line"><span class="cl">killall Dock
+</span></span></code></pre></div><h3 id="dotfile配置">dotfile配置</h3>
+<p>下载 dotfile 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone git@github.com:chensoul/snippets.git
+</span></span></code></pre></div><p>拷贝到用户目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> dotfiles
+</span></span><span class="line"><span class="cl">sh bootstrap.sh
+</span></span></code></pre></div><h2 id="软件设置">软件设置</h2>
+<h3 id="安装-homebrew">安装 Homebrew</h3>
 <p><a href="http://brew.sh/">Brew</a> 是 Mac 下面的包管理工具，通过 Github 托管适合 Mac 的编译配置以及 Patch，可以方便的安装开发工具。</p>
 <p>打开终端模拟器，开始安装</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/bin/bash -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="k">)</span><span class="s2">&#34;</span>
@@ -66,7 +82,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;eval &#34;$(/opt/homebrew/bin/brew shellenv)&#34;&#39;</span> &gt;&gt; ~/.bash_profile
 </span></span></code></pre></div><p>如果安装了zsh，则是：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;eval &#34;$(/opt/homebrew/bin/brew shellenv)&#34;&#39;</span> &gt;&gt; ~/.zshrc
-</span></span></code></pre></div><h2 id="通过-brew-安装软件">通过 brew 安装软件</h2>
+</span></span></code></pre></div><h3 id="通过-brew-安装软件">通过 brew 安装软件</h3>
 <p>安装常用命令：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># hub: a github-specific version of git</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># ripgrep: rg is faster than alternatives</span>
@@ -74,66 +90,97 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># tree: really handy for listing out directories in text</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># bat: A cat(1) clone with syntax highlighting and Git integration.</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># delta: A fantastic diff tool</span>
-</span></span><span class="line"><span class="cl">brew install git hub ripgrep ffmpeg tree tmux bat wget vim hugo maven go python3 visual-studio-code	
+</span></span><span class="line"><span class="cl"><span class="c1"># neofetch、fastfetch: 查看系统配置</span>
+</span></span><span class="line"><span class="cl">brew install git hub ripgrep ffmpeg tree tmux bat wget vim hugo maven go python3 visual-studio-code neofetch fastfetch	
 </span></span></code></pre></div><p>安装常用软件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">brew install --cask google-chrome tableplus <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>1password telegram iterm2 typora postman switchhosts <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>tinypng4mac picgo netnewswire xmind baidunetdisk feishu wechat
-</span></span></code></pre></div><h2 id="安装-oh-my-zsh">安装 oh-my-zsh</h2>
-<p>将 brew 安装的 zsh 路径添加到 /etc/shells</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo sh -c <span class="s2">&#34;echo </span><span class="k">$(</span>which zsh<span class="k">)</span><span class="s2"> &gt;&gt; /etc/shells&#34;</span>
-</span></span></code></pre></div><p>更改当前使用的 Shell</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chsh -s <span class="k">$(</span>which zsh<span class="k">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 验证当前使用的 Shell</span>
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$SHELL</span>
-</span></span></code></pre></div><p>如果你的 macOS 系统语言是中文，终端里会使用系统语言作为 <code>locale</code> 设置，我想要终端里的 Shell 显示语言为英语，可以编辑 zsh 配置文件</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 编辑 zsh 配置用户</span>
-</span></span><span class="line"><span class="cl">vim ~/.zshrc
-</span></span><span class="line"><span class="cl"><span class="c1"># 在开头加入以下配置</span>
-</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
-</span></span></code></pre></div><p>安装oh-my-zsh：</p>
+</span></span></code></pre></div><h3 id="oh-my-zsh">Oh-my-zsh</h3>
+<p>安装oh-my-zsh：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 通过 cURL 安装</span>
 </span></span><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 或是通过 Wget 安装</span>
-</span></span><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -<span class="k">)</span><span class="s2">&#34;</span>
 </span></span></code></pre></div><p>oh-my-zsh 的默认主题是 <code>robbyrussell</code>，修改为 &ldquo;pygmalion&rdquo;</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 编辑配置文件</span>
 </span></span><span class="line"><span class="cl">vim ~/.zshrc
-</span></span><span class="line"><span class="cl"><span class="c1"># 找到 ZSH_THEME 字段</span>
-</span></span><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">&#34;robbyrussell&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 将 robbyrussell 改为 ys 即可</span>
 </span></span><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">&#34;pygmalion&#34;</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 使配置文件生效</span>
 </span></span><span class="line"><span class="cl"><span class="nb">source</span> ~/.zshrc
-</span></span></code></pre></div><p>接下来安装几个 Zshell + oh-my-zsh 的增强插件</p>
-<h3 id="zsh-z">zsh-z</h3>
-<p><a href="https://github.com/agkozak/zsh-z#known-bugs">zsh-z</a> 快速跳转到经常访问的目录，是 <a href="https://github.com/rupa/z">rupa/z</a> 的原生 Zshell 端口，具有附加功能</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 源码安装</span>
+</span></span></code></pre></div><p>接下来安装几个 插件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 目录切换神器</span>
+</span></span><span class="line"><span class="cl">➜ brew install autojump
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 快速跳转到经常访问的目录</span>
 </span></span><span class="line"><span class="cl">git clone https://github.com/agkozak/zsh-z <span class="si">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="si">}</span>/plugins/zsh-z
-</span></span><span class="line"><span class="cl"><span class="c1"># 编辑配置文件</span>
-</span></span><span class="line"><span class="cl">vim ~/.zshrc
-</span></span><span class="line"><span class="cl"><span class="c1"># 找到 plugins 字段，加入 zsh-autosuggestions</span>
-</span></span><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>git zsh-z<span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 配置文件生效</span>
-</span></span><span class="line"><span class="cl"><span class="nb">source</span> ~/.zshrc
-</span></span></code></pre></div><h3 id="zsh-autosuggestions">zsh-autosuggestions</h3>
-<p><a href="https://github.com/zsh-users/zsh-autosuggestions">zsh-autosuggestions</a> 可以根据历史记录对输入进行提示和建议</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 源码安装</span>
-</span></span><span class="line"><span class="cl">git clone https://github.com/zsh-users/zsh-autosuggestions <span class="si">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="si">}</span>/plugins/zsh-autosuggestions
-</span></span><span class="line"><span class="cl"><span class="c1"># 编辑配置文件</span>
-</span></span><span class="line"><span class="cl">vim ~/.zshrc
-</span></span><span class="line"><span class="cl"><span class="c1"># 找到 plugins 字段，加入 zsh-autosuggestions</span>
-</span></span><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>git zsh-z zsh-autosuggestions<span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 配置文件生效</span>
-</span></span><span class="line"><span class="cl"><span class="nb">source</span> ~/.zshrc
-</span></span></code></pre></div><h3 id="zsh-syntax-highlighting">zsh-syntax-highlighting</h3>
-<p><a href="https://github.com/zsh-users/zsh-syntax-highlighting">zsh-syntax-highlighting</a> 可以对 Shell 中的命令进行高亮显示</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="si">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="si">}</span>/plugins/zsh-syntax-highlighting
-</span></span></code></pre></div><p>修改 .zshrc ：</p>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 自动建议提示接下来可能要输入的命令</span>
+</span></span><span class="line"><span class="cl">git clone https://github.com/zsh-users/zsh-autosuggestions <span class="nv">$ZSH_CUSTOM</span>/plugins/zsh-autosuggestions
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 命令语法检测</span>
+</span></span><span class="line"><span class="cl">git clone https://github.com/zsh-users/zsh-syntax-highlighting <span class="nv">$ZSH_CUSTOM</span>/plugins/zsh-syntax-highlighting
+</span></span></code></pre></div><p>在 <code>~/.zshrc</code> 中配置启用这些插件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>git mvn zsh-z zsh-autosuggestions zsh-syntax-highlighting<span class="o">)</span>
-</span></span></code></pre></div><h2 id="安装-nvs">安装 nvs</h2>
+</span></span></code></pre></div><p>其他功能配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 关掉 URL 反斜杠转义</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;DISABLE_MAGIC_FUNCTIONS=true&#34;</span> &gt;&gt; ~/.zshrc
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 禁用 on my zsh 自动更新</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34; zstyle &#39;:omz:update&#39; mode disabled&#34;</span> &gt;&gt; ~/.zshrc
+</span></span></code></pre></div><h3 id="mysql">MySQL</h3>
+<p>安装 MySQL：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl"><span class="c1"># 搜索可以安装的版本</span>
+</span></span><span class="line"><span class="cl">➜ brew search mysql
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装对应的版本</span>
+</span></span><span class="line"><span class="cl">➜ brew install mysql@5.7
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 写入环境变量</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;export PATH=&#34;/opt/homebrew/opt/mysql@5.7/bin:$PATH&#34;&#39;</span> &gt;&gt; ~/.zshrc
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 为了让编译器找到 mysql@5.7 还需要写入</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;export LDFLAGS=&#34;-L/opt/homebrew/opt/mysql@5.7/lib&#34;&#39;</span> &gt;&gt; ~/.zshrc
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;export CPPFLAGS=&#34;-I/opt/homebrew/opt/mysql@5.7/include&#34;&#39;</span> &gt;&gt; ~/.zshrc
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 为了让 pkg-config 找到 mysql@5.7 还需要写入</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;PKG_CONFIG_PATH=&#34;/opt/homebrew/opt/mysql@5.7/lib/pkgconfig&#34;&#39;</span> &gt;&gt; ~/.zshrc
+</span></span></code></pre></div><p>MySQL 服务相关：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl"><span class="c1"># 查看 MySQL 服务状态</span>
+</span></span><span class="line"><span class="cl">➜ brew services info mysql@5.7
+</span></span><span class="line"><span class="cl">➜ mysql.server status
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 MySQL 服务</span>
+</span></span><span class="line"><span class="cl">➜ brew services start mysql@5.7
+</span></span><span class="line"><span class="cl">➜ mysql.server start
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重启 MySQL 服务</span>
+</span></span><span class="line"><span class="cl">➜ brew services restart mysql@5.7
+</span></span><span class="line"><span class="cl">➜ mysql.server restart
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 停止 MySQL 服务</span>
+</span></span><span class="line"><span class="cl">➜ brew services stop mysql@5.7
+</span></span><span class="line"><span class="cl">➜ mysql.server stop
+</span></span></code></pre></div><p>接着初始化 MySQL 设置，主要配置一下 root 密码已经是否远程登录登，根据提示来操作就行了：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">mysql_secure_installation
+</span></span></code></pre></div><p>数据库外连，这是个可选操作 根据自己的实际情况自行决定是否开启（有被攻击的风险）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-SQL" data-lang="SQL"><span class="line"><span class="cl"><span class="n">mysql</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="k">grant</span><span class="w"> </span><span class="k">all</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">root</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="w"> </span><span class="n">identified</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="s1">&#39;你设置的密码&#39;</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="k">grant</span><span class="w"> </span><span class="k">option</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">mysql</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">flush</span><span class="w"> </span><span class="k">privileges</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><h3 id="redis">Redis</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl"><span class="c1"># 安装 redis</span>
+</span></span><span class="line"><span class="cl">➜ brew install redis
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看 redis 服务状态</span>
+</span></span><span class="line"><span class="cl">➜ brew services info redis
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 redis 服务端</span>
+</span></span><span class="line"><span class="cl">➜ brew services start redis
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 redis 客户端</span>
+</span></span><span class="line"><span class="cl">➜ redis-cli
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 编辑默认配置文件</span>
+</span></span><span class="line"><span class="cl">➜ sudo vim /opt/homebrew/etc/redis.conf
+</span></span></code></pre></div><h3 id="nvs">NVS</h3>
 <p>Linux / macOS 环境通过 Git Clone 对应的项目即可。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">NVS_HOME</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/.nvs&#34;</span>
 </span></span><span class="line"><span class="cl">$ git clone https://github.com/jasongin/nvs --depth<span class="o">=</span><span class="m">1</span> <span class="s2">&#34;</span><span class="nv">$NVS_HOME</span><span class="s2">&#34;</span>
@@ -157,7 +204,28 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 在当前 Shell 切换版本</span>
 </span></span><span class="line"><span class="cl">$ nvs use <span class="m">12</span>
 </span></span></code></pre></div><p>更多指令参见 <code>nvs --help</code> 。</p>
-<h2 id="安装-sdkman">安装 sdkman</h2>
+<h3 id="orbstack">OrbStack</h3>
+<p><a href="https://orbstack.dev/">OrbStack</a> 是一种在 macOS 上运行 Docker 容器和 Linux 机器的快速、轻便且简单的方法。可以将其视为强大的 WSL 和 Docker Desktop 替代方案，全部集成在一个易于使用的应用程序中。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl"><span class="c1"># Homebrew Cask 安装更优雅一点</span>
+</span></span><span class="line"><span class="cl">➜ brew install orbstack
+</span></span></code></pre></div><p>Docker 的一些镜像国内拉取很慢，我们可以配置一下一些国内的加速源：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;ipv6&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  	<span class="nt">&#34;registry-mirrors&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    	<span class="s2">&#34;http://hub-mirror.c.163.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    	<span class="s2">&#34;https://registry.docker-cn.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    	<span class="s2">&#34;https://mirror.baidubce.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    	<span class="s2">&#34;https://kn77wnbv.mirror.aliyuncs.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    	<span class="s2">&#34;https://y0qd3iq.mirror.aliyuncs.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    	<span class="s2">&#34;https://6kx4zyno.mirror.aliyuncs.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    	<span class="s2">&#34;https://0dj0t5fb.mirror.aliyuncs.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    	<span class="s2">&#34;https://docker.nju.edu.cn&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    	<span class="s2">&#34;https://kuamavit.mirror.aliyuncs.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    	<span class="s2">&#34;https://y0qd3iq.mirror.aliyuncs.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    	<span class="s2">&#34;https://docker.mirrors.ustc.edu.cn&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="sdkman">sdkman</h3>
 <p>安装：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -s <span class="s2">&#34;https://get.sdkman.io&#34;</span> <span class="p">|</span> bash
 </span></span></code></pre></div><p>安装 java8：</p>
@@ -168,12 +236,6 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sdk install jmeter
 </span></span></code></pre></div><p>安装 Spring Boot：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sdk install springboot
-</span></span></code></pre></div><h2 id="dotfile配置">dotfile配置</h2>
-<p>下载 dotfile 文件：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone git@github.com:chensoul/dotfiles.git
-</span></span></code></pre></div><p>拷贝到用户目录：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> dotfiles
-</span></span><span class="line"><span class="cl">sh bootstrap.sh
 </span></span></code></pre></div>]]></content:encoded>
     </item>
     

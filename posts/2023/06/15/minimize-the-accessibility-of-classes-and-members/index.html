@@ -3,4 +3,113 @@
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
         <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script async src=https://umami.chensoul.com/script.js data-website-id=96086d6c-67d3-4bd4-820b-6c4733c7b608></script>
+<script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * Adds two integers and returns the result.
+</span></span></span><span class=line><span class=cl><span class=cm>     *
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param a the first integer
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param b the second integer
+</span></span></span><span class=line><span class=cl><span class=cm>     * @return the sum of a and b
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=nf>add</span><span class=o>(</span><span class=kt>int</span> <span class=n>a</span><span class=o>,</span> <span class=kt>int</span> <span class=n>b</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * Subtracts two integers and returns the result.
+</span></span></span><span class=line><span class=cl><span class=cm>     *
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param a the first integer
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param b the second integer
+</span></span></span><span class=line><span class=cl><span class=cm>     * @return the difference of a and b
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=nf>subtract</span><span class=o>(</span><span class=kt>int</span> <span class=n>a</span><span class=o>,</span> <span class=kt>int</span> <span class=n>b</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * Multiplies two integers and returns the result.
+</span></span></span><span class=line><span class=cl><span class=cm>     *
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param a the first integer
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param b the second integer
+</span></span></span><span class=line><span class=cl><span class=cm>     * @return the product of a and b
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=nf>multiply</span><span class=o>(</span><span class=kt>int</span> <span class=n>a</span><span class=o>,</span> <span class=kt>int</span> <span class=n>b</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * Divides two integers and returns the result.
+</span></span></span><span class=line><span class=cl><span class=cm>     *
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param a the numerator
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param b the denominator
+</span></span></span><span class=line><span class=cl><span class=cm>     * @return the quotient of a and b
+</span></span></span><span class=line><span class=cl><span class=cm>     * @throws ArithmeticException if b is zero
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=nf>divide</span><span class=o>(</span><span class=kt>int</span> <span class=n>a</span><span class=o>,</span> <span class=kt>int</span> <span class=n>b</span><span class=o>)</span> <span class=kd>throws</span> <span class=n>ArithmeticException</span><span class=o>;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></div><p>在上面的示例中，我们设计了一个名为 Arithmetic 的接口，它提供了四个基本的算术操作：加法、减法、乘法和除法。每个方法都有清晰的文档注释，描述了方法的用途、参数和返回值。此外，除法方法还声明了一个异常，以防止除以零的情况。</p><p>以下是一些关于如何设计公共 API 的最佳实践：</p><ol><li>最小化公共 API：尽可能地减少公共 API 的规模和复杂度，只暴露必要的接口和行为。这样可以保持 API 的简单性和稳定性，避免意外的依赖和耦合。</li><li>保护不可变性：对于公共静态 final 字段引用的对象，应该确保它们是不可变的，以避免意外修改公共状态。</li><li>使用接口和抽象类：使用接口和抽象类来定义公共 API，从而使得实现类可以灵活地选择自己的实现方式。同时，接口和抽象类可以隐藏实现细节，保持 API 的简单性和稳定性。</li><li>使用枚举类型：枚举类型可以在定义一组常量时提供类型安全性，并且可以避免意外的实例化和修改。</li><li>文档化 API：提供详细的文档和示例代码，以便开发人员能够正确地使用公共 API。</li></ol><p>当设计一个公共 API 时，文档化是非常重要的。以下是一些关于如何文档化 API 的最佳实践：</p><ol><li>提供 API 文档：为 API 提供详细的文档，包括 API 的使用方法、接口、参数、返回值、异常和示例代码等。API 文档应该清晰、简单、易于理解，并且应该提供足够的上下文和解释。</li><li>为 API 提供示例代码：为 API 提供详细的示例代码，以便开发人员能够快速地理解和使用 API。示例代码应该清晰、简单、易于理解，并且应该提供足够的注释和解释。</li><li>使用标准注释：使用标准注释格式，例如 Javadoc 或者 Doxygen，以便生成 API 文档。标准注释格式可以提高文档的一致性和可读性，并且可以使用自动化工具来生成 API 文档。</li><li>为 API 提供版本号：为 API 提供版本号，以便开发人员可以跟踪 API 的演变和变化。版本号应该清晰、简单、易于理解，并且应该遵循一定的命名规则。</li><li>提供 API 更新日志：为 API 提供更新日志，以便开发人员可以了解 API 的变化和演变。更新日志应该清晰、简单、易于理解，并且应该提供足够的上下文和解释。</li><li>避免使用过时的 API：避免使用过时的 API，以避免出现不必要的问题和错误。如果必须使用过时的 API，应该提供警告和替代方案，以便开发人员能够了解风险和替代方案。</li></ol><p>以下是一个使用 Javadoc 注释格式为 Java 类和方法文档化的示例代码：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * The BasicArithmetic class provides a basic implementation of the Arithmetic interface.
+</span></span></span><span class=line><span class=cl><span class=cm> * This implementation is not recommended for use in production code, and will be removed in a future release.
+</span></span></span><span class=line><span class=cl><span class=cm> *
+</span></span></span><span class=line><span class=cl><span class=cm> * @deprecated This class is for demonstration purposes only.
+</span></span></span><span class=line><span class=cl><span class=cm> *             Use {@link AdvancedArithmetic} for more advanced arithmetic operations.
+</span></span></span><span class=line><span class=cl><span class=cm> *             For basic arithmetic operations, use the {@link java.lang.Math} class instead.
+</span></span></span><span class=line><span class=cl><span class=cm> * @see Arithmetic
+</span></span></span><span class=line><span class=cl><span class=cm> * @see AdvancedArithmetic
+</span></span></span><span class=line><span class=cl><span class=cm> * @see java.lang.Math
+</span></span></span><span class=line><span class=cl><span class=cm> * @since 1.0.0
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=nd>@Deprecated</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=kd>class</span> <span class=nc>BasicArithmetic</span> <span class=kd>implements</span> <span class=n>Arithmetic</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * {@inheritDoc}
+</span></span></span><span class=line><span class=cl><span class=cm>     *
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param a the first integer to be added
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param b the second integer to be added
+</span></span></span><span class=line><span class=cl><span class=cm>     * @return the sum of a and b
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Override</span>
+</span></span><span class=line><span class=cl>    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>add</span><span class=o>(</span><span class=kt>int</span> <span class=n>a</span><span class=o>,</span> <span class=kt>int</span> <span class=n>b</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>a</span> <span class=o>+</span> <span class=n>b</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * {@inheritDoc}
+</span></span></span><span class=line><span class=cl><span class=cm>     *
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param a the integer to be subtracted from
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param b the integer to subtract
+</span></span></span><span class=line><span class=cl><span class=cm>     * @return the difference of a and b
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Override</span>
+</span></span><span class=line><span class=cl>    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>subtract</span><span class=o>(</span><span class=kt>int</span> <span class=n>a</span><span class=o>,</span> <span class=kt>int</span> <span class=n>b</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>a</span> <span class=o>-</span> <span class=n>b</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * {@inheritDoc}
+</span></span></span><span class=line><span class=cl><span class=cm>     *
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param a the first integer to be multiplied
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param b the second integer to be multiplied
+</span></span></span><span class=line><span class=cl><span class=cm>     * @return the product of a and b
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Override</span>
+</span></span><span class=line><span class=cl>    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>multiply</span><span class=o>(</span><span class=kt>int</span> <span class=n>a</span><span class=o>,</span> <span class=kt>int</span> <span class=n>b</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>a</span> <span class=o>*</span> <span class=n>b</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * {@inheritDoc}
+</span></span></span><span class=line><span class=cl><span class=cm>     *
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param a the numerator to be divided
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param b the denominator to divide by
+</span></span></span><span class=line><span class=cl><span class=cm>     * @return the quotient of a and b
+</span></span></span><span class=line><span class=cl><span class=cm>     * @throws ArithmeticException if b is zero
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Override</span>
+</span></span><span class=line><span class=cl>    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>divide</span><span class=o>(</span><span class=kt>int</span> <span class=n>a</span><span class=o>,</span> <span class=kt>int</span> <span class=n>b</span><span class=o>)</span> <span class=kd>throws</span> <span class=n>ArithmeticException</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=o>(</span><span class=n>b</span> <span class=o>==</span> <span class=n>0</span><span class=o>)</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=n>ArithmeticException</span><span class=o>(</span><span class=s>&#34;Cannot divide by zero.&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>a</span> <span class=o>/</span> <span class=n>b</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></div><blockquote><p>在上面的示例中，我们添加了@autho、@since、@see、@link 、@deprecated 和 @inheritDoc 标记。</p><ul><li><p>@author 标记指定了类的作者，可以是单个人或组织。</p></li><li><p>@since 标记指定了类最初被引入的版本。</p></li><li><p>@see 标记提供了一个链接到其他相关的类或接口。</p></li><li><p>@link 标记提供了一个链接到其他相关的类、方法、字段或包。</p></li><li><p>@deprecated 标记指示该类或方法已过时，不推荐使用，并会在将来的版本中被删除。</p></li><li><p>@inheritDoc 继承父类的 Javadoc 注释。但是需要注意的是，@inheritDoc 标记不能继承任何其他的注释信息，如参数、返回值或异常。如果子类方法有自己的参数、返回值或异常，则需要在子类方法中添加对应的 Javadoc 注释。</p></li></ul></blockquote></div><footer class=post-footer><ul class=post-tags><li><a href=https://blog.chensoul.com/tags/java/>java</a></li></ul></footer></article></main><footer class=footer><span>&copy; 2023 <a href=https://blog.chensoul.com/>ChenSoul</a></span>
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script async src=https://umami.chensoul.com/script.js data-website-id=96086d6c-67d3-4bd4-820b-6c4733c7b608></script>
 <script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

@@ -6,7 +6,367 @@
     <description>Recent content in oauth2 on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 19 Sep 2023 07:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/oauth2/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 19 Sep 2023 14:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/oauth2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[译]SPRING BOOT JWT - 如何使用 SPRING SECURITY 和 JSON WEB 令牌保护您的 REST API</title>
+      <link>https://blog.chensoul.com/posts/2023/09/19/spring-security-jwt/</link>
+      <pubDate>Tue, 19 Sep 2023 14:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/09/19/spring-security-jwt/</guid>
+      <description>如果您快速搜索如何使用 JSON Web Tokens 在 Spring Boot 中保护 REST API，您会发现很多相同的结果。这些结果包含一种方法，该方法涉及编写自定义过滤器链并引入第三方库来</description>
+      <content:encoded><![CDATA[<p>如果您快速搜索如何使用 JSON Web Tokens 在 Spring Boot 中保护 REST API，您会发现很多相同的结果。这些结果包含一种方法，该方法涉及编写自定义过滤器链并引入第三方库来编码和解码 JWT。</p>
+<p>在看完这些令人费解且令人困惑的教程后，我说必须有一种更简单的方法来做到这一点。我做了任何直接接触 Spring Security 团队的人都会做的事情，我向他们寻求帮助。他们告诉我，Spring Security 确实使用 oAuth2 资源服务器内置了对 JWT 的支持。</p>
+<p>在本教程中，您将学习如何使用 JSON Web Tokens (JWT) 和 Spring Security 来保护您的 API。我并不是说这种方法无论如何都很容易，但对我来说，它比其他选择更有意义。</p>
+<p><a href="https://github.com/danvega/jwt">Github 存储库</a></p>
+<h2 id="应用架构">应用架构</h2>
+<p>在我们开始编写一些代码之前，我想确保我们对于我们正在构建的内容都达成共识。在下面的示例中，您有一个客户端应用程序，它可以是一个简单的命令行应用程序、一个用 Angular 或 Vue 等编写的完整前端应用程序，或者系统中的其他一些服务。</p>
+<p>该客户端应用程序将调用使用 Spring Boot 编写的服务器应用程序，该应用程序通过 REST API 公开数据。在下面的示例中，它是一个整体，但如果您有分布式架构，则同样适用。当前有 3 个 REST 控制器公开资源产品、订单和客户。</p>
+<p>您要做的是保护所有资源，以便当客户端调用 REST API 时，客户端将收到 401（未经授权），这意味着客户端请求尚未完成，因为它缺少所请求资源的有效身份验证凭据。</p>
+<p><img loading="lazy" src="https://www.danvega.dev/assets/static/app-arch-401.f374804.0962d1509d07acba537f6129298c4fa5.png" alt="Application Architecture: 401 Unauthorized"  />
+</p>
+<h3 id="json-网络令牌-jwt">JSON 网络令牌 (JWT)</h3>
+<p>JSON Web 令牌是一种开放方法，用于在两方之间安全地表示声明。 JWT 是一组声明（JSON 属性-值对），它们共同构成一个 JSON 对象。它由三部分组成：</p>
+<ul>
+<li>Header: 由两个属性组成：{ &ldquo;alg&rdquo;: &ldquo;HS256&rdquo;, &ldquo;typ&rdquo;: &ldquo;JWT&rdquo; }。 alg 是用于加密 JWT 的算法。</li>
+<li>Payload: 这是存储要发送的数据的地方；该数据存储为 JSON 属性-值对。</li>
+<li>Signature: 这是通过加密创建的，使用标头中指定的算法：（i）base64Url 编码的标头，（ii）base64Url 编码的有效负载，以及（iii）秘密（或私钥）：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">HMACSHA256(base64UrlEncode(header) + &#34;.&#34; + base64UrlEncode(payload), secret|privateKey)
+</span></span></code></pre></div><p>最终的 JWT 由三部分组成。每个都是 base64Url 编码的，并且与下一个之间用点分隔。有关更多详细信息，请参阅 openid.net 和 jwt.io 网站。</p>
+<p>您将引入一个新的身份验证控制器，客户端可以使用其身份验证凭据（用户名 + 密码）向该控制器发出请求，并且当成功通过身份验证时，服务将返回 JWT。</p>
+<p><img loading="lazy" src="https://www.danvega.dev/assets/static/app-arch-jwt.f374804.0d833a85e47f7d3f2d2662ffc1e13ede.png" alt="Application Architecture: JSON Web Token (JWT)"  />
+</p>
+<p>然后，客户端将存储 JWT，并且每个后续请求将通过 Authorization 标头传递它。当服务器应用程序收到带有 JWT 的请求时，它将验证它是否是有效令牌，如果是，则允许请求继续。</p>
+<p><img loading="lazy" src="https://www.danvega.dev/assets/static/app-arch-with-jwt-200.f6e5db1.507593f0d844675167707e10fc94cf72.png" alt="Application Architecture: Request with JSON Web Token (JWT)"  />
+</p>
+<h2 id="入门">入门</h2>
+<p>首先，您将前往 start.spring.io 并创建一个新项目。填写项目的元数据并添加以下依赖项：</p>
+<ul>
+<li>Spring Web</li>
+<li>oAuth2 Resource Server oAuth2</li>
+<li>Spring Configuration Processor</li>
+</ul>
+<p><img loading="lazy" src="https://www.danvega.dev/assets/static/start-spring-io.42db587.ed9464eb8a6d436a6fcb7502aaeaa00c.png" alt="Spring Initiliazr"  />
+</p>
+<p>这将在您的 <code>pom.xml</code> 中生成以下依赖项</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-oauth2-resource-server<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-boot-configuration-processor<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;optional&gt;</span>true<span class="nt">&lt;/optional&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>我知道你在想什么，Spring Security 怎么样？如果您深入研究 <code>spring-boot-starter-oauth2-resource-server</code> ，您会发现它包含 Spring Security Starter，其中包含您需要的一切。</p>
+<h2 id="rest-api">REST API</h2>
+<p>您需要做的第一件事是创建一个您想要保护的 REST API。出于演示目的并保持简单，使用返回字符串的单个方法在 <code>controller</code> 包中创建 <code>HomeController</code> 。请求映射处理程序方法可以接受一系列参数，其中之一是 <code>java.security.Principal</code> 。这将允许您打印出当前经过身份验证的用户的用户名。</p>
+<p>Spring Security 采用默认安全的安全方法。这意味着，如果您启动应用程序并尝试访问 http://localhost:8080，您将被重定向到登录页面。如果您想登录，可以输入用户名 <code>user</code> ，密码将生成并应在控制台输出中列出。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HomeController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@GetMapping</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">home</span><span class="o">(</span><span class="n">Principal</span> <span class="n">principal</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;Hello, &#34;</span> <span class="o">+</span> <span class="n">principal</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><img loading="lazy" src="https://www.danvega.dev/assets/static/please-sign-in.42db587.ffed1af8b1a6885620ffbe7f761b1441.png" alt="Spring Security Login"  />
+</p>
+<h2 id="spring安全配置">SPRING安全配置</h2>
+<p>默认的安全配置足以让您启动并运行，但您需要提供自己的安全配置来满足应用程序的需求。过去，您可以扩展 <code>WebSecurityConfigurerAdapter</code> ，但这在 Spring Security 5.7.x 中已被弃用。如果您有兴趣了解有关此更改的更多信息，可以查看<a href="https://youtu.be/s4X4SJv2RrU">本教程</a>。</p>
+<p>首先，在 <code>config</code> 包中创建一个名为 <code>SecurityConfig</code> 的新类。该类将具有以下配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfig</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">securityFilterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">csrf</span><span class="o">(</span><span class="n">csrf</span> <span class="o">-&gt;</span> <span class="n">csrf</span><span class="o">.</span><span class="na">disable</span><span class="o">())</span> <span class="c1">// (1)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">(</span> <span class="n">auth</span> <span class="o">-&gt;</span> <span class="n">auth</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">()</span> <span class="c1">// (2)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">sessionManagement</span><span class="o">(</span><span class="n">session</span> <span class="o">-&gt;</span> <span class="n">session</span><span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">STATELESS</span><span class="o">))</span> <span class="c1">// (3)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">httpBasic</span><span class="o">(</span><span class="n">Customizer</span><span class="o">.</span><span class="na">withDefaults</span><span class="o">())</span> <span class="c1">// (4)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol>
+<li>禁用跨站点请求伪造 (CSRF)</li>
+<li>应针对应用程序中的任何请求对用户进行身份验证。</li>
+<li>Spring Security 永远不会创建 HttpSession，也永远不会使用它来获取安全上下文。</li>
+<li>Spring Security 的 HTTP 基本身份验证支持默认启用。但是，一旦提供任何基于 servlet 的配置，就必须显式提供 HTTP Basic。</li>
+</ol>
+<p>⚠️ 警告：在启用会话管理的同时，切勿禁用 CSRF 保护！这样做会使您面临跨站点请求伪造攻击。</p>
+<p>现在您已经有了自定义安全配置，您需要一个不是 Spring Boot 提供的默认用户的用户。以下配置将使用 <code>NoOpPasswordEncoder</code> 创建内存中用户。这是一个密码编码器，不执行任何操作，对于测试很有用，但不应在生产中使用。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">InMemoryUserDetailsManager</span> <span class="nf">users</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">InMemoryUserDetailsManager</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">User</span><span class="o">.</span><span class="na">withUsername</span><span class="o">(</span><span class="s">&#34;dvega&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">.</span><span class="na">password</span><span class="o">(</span><span class="s">&#34;{noop}password&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">.</span><span class="na">authorities</span><span class="o">(</span><span class="s">&#34;read&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">.</span><span class="na">build</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>配置新用户后，您应该能够重新启动应用程序并访问 http://localhost:8080。您将看到一个对话框，要求输入用户名和密码，如果一切正常，您应该能够使用 <code>dvega</code> + <code>password</code> 登录。</p>
+<p><img loading="lazy" src="https://www.danvega.dev/assets/static/http-basic-auth.42db587.59885479c41b23db4fa6810d75cfaa42.png" alt="Spring Security HTTP Basic"  />
+</p>
+<h2 id="oauth-20-资源服务器">OAUTH 2.0 资源服务器</h2>
+<p>如果您看过我之前的教程，那么您到目前为止所做的一切应该很熟悉，但我知道这不是您来这里的目的。 Spring Security 支持使用两种形式的 OAuth 2.0 不记名令牌保护端点：</p>
+<ul>
+<li>JWT</li>
+<li>Opaque Tokens</li>
+</ul>
+<p>在应用程序将其权限管理委托给<a href="https://tools.ietf.org/html/rfc6749">授权服务器</a>（例如，Okta 或 <a href="https://spring.io/projects/spring-authorization-server">Spring 授权服务器</a>）的情况下，这非常方便。资源服务器可以咨询该授权服务器来授权请求​​。</p>
+<p>在本教程中，您将使用自签名 JWT，这将无需引入授权服务器。虽然这适用于本示例，但您的应用程序要求可能有所不同，因此什么时候不再接受使用自签名 JWT？我也向 Spring Security 团队提出了这个问题，并得到了一些非常好的答案。</p>
+<blockquote>
+<p>当您达到无法接受自签名 JWT 的权衡时。一个例子可能是您想要引入刷新令牌的时刻。</p>
+</blockquote>
+<blockquote>
+<p>我想补充一点，当您拥有多个服务或者您希望能够强化安全性时，不同的授权服务器更有意义（隔离像身份验证这样重要的东西可以提供价值，因为攻击面减少了）</p>
+</blockquote>
+<p>我们可能会花很多时间讨论授权和资源服务器。为了让本教程围绕这个主题，我将给您留下一些非常好的资源，我建议您在有时间时阅读它们。</p>
+<ul>
+<li><a href="https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/index.html">OAuth2 Resource Server</a></li>
+<li><a href="https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html">OAuth2 Resource Server JWT</a></li>
+<li><a href="https://spring.io/projects/spring-authorization-server">Spring Authorization Server</a></li>
+</ul>
+<h3 id="oauth-2-资源服务器配置">OAUTH 2 资源服务器配置</h3>
+<p>现在您已经知道什么是资源服务器以及它的用途，您需要配置一个。您可以通过设置 <code>.oauth2ResourceServer()</code> 在安全配置中执行此操作。这可以是自定义资源服务器配置器，或者您可以使用 Spring 提供的 <code>OAuth2ResourceServerConfigurer</code> 类。</p>
+<p><code>OAuth2ResourceServerConfigurer</code> 是 OAuth 2.0 资源服务器支持的 <code>AbstractHttpConfigurer</code> 。默认情况下，这会连接一个 <code>BearerTokenAuthenticationFilter</code> ，它可用于解析对承载令牌的请求并进行身份验证尝试。</p>
+<p>该配置类有以下可用选项：</p>
+<ul>
+<li><code>accessDeniedHandler</code> - 自定义处理拒绝访问错误的方式。</li>
+<li><code>authenticationEntryPoint</code> - 自定义如何处理身份验证失败。</li>
+<li><code>bearerTokenResolver</code> - 自定义如何从请求中解析承载令牌。</li>
+<li><code>jwt</code>(Customizer) - 启用 Jwt 编码的不记名令牌支持。</li>
+<li><code>opaqueToken</code>(Customizer) -启用不透明的不记名令牌支持。</li>
+</ul>
+<p>您将使用 JWT，因此配置选项可以使用方法引用，并且看起来像 <code>OAuth2ResourceServerConfigurer::jwt</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">securityFilterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">http</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">csrf</span><span class="o">(</span><span class="n">csrf</span> <span class="o">-&gt;</span> <span class="n">csrf</span><span class="o">.</span><span class="na">disable</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">(</span> <span class="n">auth</span> <span class="o">-&gt;</span> <span class="n">auth</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">            <span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">oauth2ResourceServer</span><span class="o">(</span><span class="n">OAuth2ResourceServerConfigurer</span><span class="o">::</span><span class="n">jwt</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">sessionManagement</span><span class="o">(</span><span class="n">session</span> <span class="o">-&gt;</span> <span class="n">session</span><span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">STATELESS</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">httpBasic</span><span class="o">(</span><span class="n">withDefaults</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>当您使用 JWT 定制器时，您需要提供以下其中一项：</p>
+<ul>
+<li>通过 <code>OAuth2ResourceServerConfigurer.JwtConfigurer.jwkSetUri</code> 提供 Jwk Set Uri</li>
+<li>通过 <code>OAuth2ResourceServerConfigurer.JwtConfigurer.decoder</code> 提供 JwtDecoder 实例</li>
+<li>公开 JwtDecoder bean。</li>
+</ul>
+<p>如果您尝试运行该应用程序而不提供上述选项之一，您将收到以下错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Description:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Parameter 0 of method setFilterChains in
+</span></span><span class="line"><span class="cl">org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration
+</span></span><span class="line"><span class="cl">required a bean of type &#39;org.springframework.security.oauth2.jwt.JwtDecoder&#39; that could not be found.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Action:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Consider defining a bean of type &#39;org.springframework.security.oauth2.jwt.JwtDecoder&#39;
+</span></span><span class="line"><span class="cl">in your configuration.
+</span></span></code></pre></div><h3 id="签署-json-网络令牌">签署 JSON 网络令牌</h3>
+<p>下一步是创建一个新的 <code>JwtDecoder</code> bean，但我认为我们需要讨论一下我们将在这里做什么。正如您之前了解到的，JWT 由 3 个部分组成：标头、有效负载和签名。签名是通过加密标头+有效负载和秘密（或私钥）来创建的。</p>
+<p>JWT 可以使用对称密钥（共享密钥）或非对称密钥（私有-公共对的私有密钥）进行加密。</p>
+<ul>
+<li>对称密钥：相同的密钥用于加密（创建 JWT 时）和解密（MobileTogether Server 使用该密钥来验证 JWT）。对称密钥（也称为共享密钥）作为设置存储在 MobileTogether Server 中。有关使用对称密钥的详细信息，请参阅对称密钥：共享密钥。</li>
+<li>非对称密钥：加密（私钥）和解密（公钥）使用不同的密钥。公钥作为设置存储在 MobileTogether 服务器中，以便可以验证 JWT。有关对 JWT 使用非对称加密的信息，请参阅非对称密钥：公钥。</li>
+</ul>
+<p>每种方法都有优点/缺点，但通常建议您使用非对称密钥，因此这就是您在此处采用的方法。</p>
+<h3 id="公钥和私钥">公钥和私钥</h3>
+<p>您将创建一个公钥/私钥对。您可以通过代码来完成此操作，但我认为如果您在这里手动执行此操作可能会更有意义。我将在 <code>/src/main/rescurces/certs</code> 下的新文件夹中创建它们。我将使用默认安装在 macOS 上的 OpenSSL，但您应该能够在您使用的任何操作系统上安装它。</p>
+<p>通常情况下，您可以运行前两个命令。第三条命令的原因是私钥需要采用 PEM 编码的 PKCS#8 格式。切换到该 certs 目录并分别运行以下每个命令。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># create rsa key pair</span>
+</span></span><span class="line"><span class="cl">openssl genrsa -out keypair.pem <span class="m">2048</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># extract public key</span>
+</span></span><span class="line"><span class="cl">openssl rsa -in keypair.pem -pubout -out public.pem
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># create private key in PKCS#8 format</span>
+</span></span><span class="line"><span class="cl">openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in keypair.pem -out private.pem
+</span></span></code></pre></div><p>如果一切运行没有错误并且您同时拥有公钥和私钥，则可以删除 <code>keypair.pem</code></p>
+<h3 id="jwtdecoder">JWTDECODER</h3>
+<p>公钥和私钥就位后，您可以将注意力集中到定义 <code>JwtDecoder</code> bean 上。首先，在 <code>config</code> 包中创建一个名为 <code>RsaKeyProperties</code> 的新记录类，这将用于外部化公钥和私钥。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ConfigurationProperties</span><span class="o">(</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">&#34;rsa&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">record</span> <span class="nf">RsaKeyProperties</span><span class="o">(</span><span class="n">RSAPublicKey</span> <span class="n">publicKey</span><span class="o">,</span> <span class="n">RSAPrivateKey</span> <span class="n">privateKey</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果您运行构建并打开 <code>application.properties</code> ，您应该获得私钥和公钥配置的 IntelliSense。添加以下配置，以便您的应用程序可以找到您的密钥。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rsa.private-key<span class="o">=</span>classpath:certs/private.pem
+</span></span><span class="line"><span class="cl">rsa.public-key<span class="o">=</span>classpath:certs/public.pem
+</span></span></code></pre></div><p>接下来，您需要在主类上启用配置属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@SpringBootApplication</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="n">RsaKeyProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JwtDemoApplication</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">JwtDemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>回到 <code>SecurityConfig</code> ，您可以获取自动装配的实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfig</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">RsaKeyProperties</span> <span class="n">rsaKeys</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">SecurityConfig</span><span class="o">(</span><span class="n">RsaKeyProperties</span> <span class="n">rsaKeys</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">rsaKeys</span> <span class="o">=</span> <span class="n">rsaKeys</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>现在您可以使用公钥创建 <code>JwtDecoder</code> 。这是您通常需要引入第三方库的事情，但您不需要这样做。资源服务器为您带来的依赖项之一是 ``spring-security-oauth2-jose`，它包含一个名为 Nimbus Jose JWT 的库。您可以使用刚刚创建的公钥返回 Nimbus JWT 解码器。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="n">JwtDecoder</span> <span class="nf">jwtDecoder</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">NimbusJwtDecoder</span><span class="o">.</span><span class="na">withPublicKey</span><span class="o">(</span><span class="n">rsaKeys</span><span class="o">.</span><span class="na">publicKey</span><span class="o">()).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此时，您应该能够运行该应用程序而不会出现任何错误。</p>
+<h2 id="身份验证控制器和令牌服务">身份验证控制器和令牌服务</h2>
+<p>您已准备好密钥并定义了解码器，这是一种破译 JWT 的方法。如果您还记得之前的架构图，用户将需要使用用户名和密码登录。如果他们通过身份验证，您将生成一个新的 JSON Web 令牌并将其在响应中发回。</p>
+<p><img loading="lazy" src="https://www.danvega.dev/assets/static/app-arch-jwt.f374804.0d833a85e47f7d3f2d2662ffc1e13ede.png" alt="Application Architecture: JSON Web Token (JWT)"  />
+</p>
+<p>为此，您首先需要创建一个 <code>JwtEncoder</code> 类型的 bean，并且可以在 <code>SecurityConfig</code> 中执行此操作。编码器将用于将我们之前了解的签名编码为令牌，并使用我们的私钥对其进行签名。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="n">JwtEncoder</span> <span class="nf">jwtEncoder</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">JWK</span> <span class="n">jwk</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RSAKey</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="n">rsaKeys</span><span class="o">.</span><span class="na">publicKey</span><span class="o">()).</span><span class="na">privateKey</span><span class="o">(</span><span class="n">rsaKeys</span><span class="o">.</span><span class="na">privateKey</span><span class="o">()).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">JWKSource</span><span class="o">&lt;</span><span class="n">SecurityContext</span><span class="o">&gt;</span> <span class="n">jwks</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ImmutableJWKSet</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="n">JWKSet</span><span class="o">(</span><span class="n">jwk</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">NimbusJwtEncoder</span><span class="o">(</span><span class="n">jwks</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>您可以直接在身份验证控制器中使用编码器，但我觉得您应该将其提取到服务层。在名为 <code>service</code> 的新包中创建一个名为 <code>TokenService</code> 的新类，该类将使用新的 <code>JwtEncoder</code> 生成令牌。在以下示例中，令牌将在 1 小时后过期，但您可以调整它以满足您的需要。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Service</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TokenService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">JwtEncoder</span> <span class="n">encoder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">TokenService</span><span class="o">(</span><span class="n">JwtEncoder</span> <span class="n">encoder</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">encoder</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">generateToken</span><span class="o">(</span><span class="n">Authentication</span> <span class="n">authentication</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Instant</span> <span class="n">now</span> <span class="o">=</span> <span class="n">Instant</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">scope</span> <span class="o">=</span> <span class="n">authentication</span><span class="o">.</span><span class="na">getAuthorities</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">GrantedAuthority</span><span class="o">::</span><span class="n">getAuthority</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">(</span><span class="s">&#34; &#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">JwtClaimsSet</span> <span class="n">claims</span> <span class="o">=</span> <span class="n">JwtClaimsSet</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">issuer</span><span class="o">(</span><span class="s">&#34;self&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">issuedAt</span><span class="o">(</span><span class="n">now</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">expiresAt</span><span class="o">(</span><span class="n">now</span><span class="o">.</span><span class="na">plus</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">ChronoUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">subject</span><span class="o">(</span><span class="n">authentication</span><span class="o">.</span><span class="na">getName</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">claim</span><span class="o">(</span><span class="s">&#34;scope&#34;</span><span class="o">,</span> <span class="n">scope</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">encoder</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="n">JwtEncoderParameters</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">claims</span><span class="o">)).</span><span class="na">getTokenValue</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来在 <code>controller</code> 包中创建一个名为 <code>AuthController</code> 的新控制器。这将包含一个 POST 方法，该方法将使用新的令牌服务为经过身份验证的用户生成令牌。正如您所看到的，有一些用于调试目的的日志记录，以便在开发中您将看到用户请求 JWT 和创建的令牌。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuthController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">AuthController</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">TokenService</span> <span class="n">tokenService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">AuthController</span><span class="o">(</span><span class="n">TokenService</span> <span class="n">tokenService</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">tokenService</span> <span class="o">=</span> <span class="n">tokenService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@PostMapping</span><span class="o">(</span><span class="s">&#34;/token&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">token</span><span class="o">(</span><span class="n">Authentication</span> <span class="n">authentication</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LOG</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Token requested for user: &#39;{}&#39;&#34;</span><span class="o">,</span> <span class="n">authentication</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">token</span> <span class="o">=</span> <span class="n">tokenService</span><span class="o">.</span><span class="na">generateToken</span><span class="o">(</span><span class="n">authentication</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LOG</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Token granted: {}&#34;</span><span class="o">,</span> <span class="n">token</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">token</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果一切都正确完成，您应该能够毫无错误地启动您的应用程序。</p>
+<h2 id="spring-安全测试">SPRING 安全测试</h2>
+<p>这样，您应该使用 JWT 保护您的根路径。现在您只需要测试一下即可。</p>
+<h3 id="手动测试">手动测试</h3>
+<p>您可以通过多种方法手动测试这一点，但在本教程中，我将向您展示 2.</p>
+<p><strong>Postman</strong></p>
+<p>测试这一点的一个简单方法是使用 Postman 等工具。如果您向令牌端点创建新的 POST 请求，您可以从“授权”选项卡中选择“基本身份验证”并输入您的凭据。如果一切正常，您将在响应中返回生成的 JWT。</p>
+<p><img loading="lazy" src="https://www.danvega.dev/assets/static/postman-basic-auth.42db587.e23a2ab227f6b4c42ea5a7dda30c2096.png" alt="Postman Basic Auth"  />
+</p>
+<p>复制 JWT 并为 http://localhost:8080 创建新的 GET 请求。转到“授权”选项卡并选择“承载令牌”并粘贴生成的令牌。如果您发送请求，您应该取回从 <code>HomeController</code> 中的 home 方法返回的字符串。</p>
+<p><img loading="lazy" src="https://www.danvega.dev/assets/static/postman-with-jwt-response.42db587.b0c6661e760ad4f110496be102413c38.png" alt="Postman with JWT Response"  />
+</p>
+<p><strong>命令行</strong></p>
+<p>我非常喜欢命令行和 <a href="https://httpie.io/">httpie</a> 工具。它简化了在终端中测试 API 的命令的编写。您可以使用以下命令使用您的凭据向令牌端点发送请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http POST :8080/token --auth dvega:password -v
+</span></span></code></pre></div><p><code>-v</code> 参数将打印请求和响应</p>
+<p><img loading="lazy" src="https://www.danvega.dev/assets/static/httpie-auth.42db587.6370b61c99685b116d4b436f5339d2f3.png" alt="Httpie with Authorization"  />
+</p>
+<p>响应将包含生成的 JWT 令牌。如果您在没有授权标头或没有正确令牌的情况下向根路径发出请求，您将收到 401（拒绝）响应。但是，如果您以正确的格式包含 Authorization 标头，您将获得从 <code>HomeController</code> 中的 home 方法返回的字符串。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http :8080 <span class="s1">&#39;Authorization: Bearer JWT_TOKEN_HERE&#39;</span>
+</span></span></code></pre></div><p><img loading="lazy" src="https://www.danvega.dev/assets/static/httpie-success.42db587.ed172ae5e4c8e03c2cc236c582715f45.png" alt="Httpie Response Success"  />
+</p>
+<h3 id="自动化测试">自动化测试</h3>
+<p>手动测试很棒，因为您可以看到一切都按预期运行。但是，您将需要一些适当的自动化测试，以便在进行更改时您可以确信没有任何内容破坏现有功能。我不会对此进行过多讨论，但我想为您提供一个简单的示例来说明如何编写此类测试。</p>
+<p>当您引入资源服务器时，有一个依赖项没有引入，那就是 <code>spring-security-test</code> 。在编写任何与安全相关的测试之前，您需要将其添加到您的 <code>pom.xml</code> 中。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&lt;groupId&gt;</span>org.springframework.security<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&lt;artifactId&gt;</span>spring-security-test<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>当您编写仅关注 Web 层配置的切片测试时，服务类将不会添加到应用程序上下文中。为了使一切正常工作，您需要手动导入 <code>SercurityConfig</code> 和 <code>TokenService</code> 类。这些测试应该是不言自明的，但如果您希望我进行这些测试，请联系我并告诉我。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@WebMvcTest</span><span class="o">({</span><span class="n">HomeController</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">AuthController</span><span class="o">.</span><span class="na">class</span><span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Import</span><span class="o">({</span><span class="n">SecurityConfig</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">TokenService</span><span class="o">.</span><span class="na">class</span><span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">HomeControllerTest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MockMvc</span> <span class="n">mvc</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">rootWhenUnauthenticatedThen401</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">mvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isUnauthorized</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">rootWhenAuthenticatedThenSaysHelloUser</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">MvcResult</span> <span class="n">result</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">mvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">post</span><span class="o">(</span><span class="s">&#34;/token&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="n">httpBasic</span><span class="o">(</span><span class="s">&#34;dvega&#34;</span><span class="o">,</span> <span class="s">&#34;password&#34;</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isOk</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andReturn</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">token</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="na">getResponse</span><span class="o">().</span><span class="na">getContentAsString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">mvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">&#34;Authorization&#34;</span><span class="o">,</span> <span class="s">&#34;Bearer &#34;</span> <span class="o">+</span> <span class="n">token</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">content</span><span class="o">().</span><span class="na">string</span><span class="o">(</span><span class="s">&#34;Hello, dvega&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@WithMockUser</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">rootWithMockUserStatusIsOK</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">mvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/&#34;</span><span class="o">)).</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isOk</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="结论">结论</h2>
+<p>当我开始创建本教程时，我的全部目标是让您知道有一种更简单的方法可以使用 JWT 来保护您的 API。我希望现在您知道 Spring Security 使用 oAuth2 资源服务器内置了对 JSON Web 令牌的支持，您可以在下一个项目中使用它。这只是如何在 Spring Boot 应用程序中使用 JWT 的起跑线，绝不是终点线。如果您对具体配置有疑问，请<a href="https://twitter.com/therealdanvega">与我联系</a>。</p>
+<p>我感到非常幸运，能够在 VMware 这样的公司工作，并且能够接触到一些非常聪明的人。当您与一群总是愿意分享知识和提供帮助的优秀人士一起工作时，这种访问就意味着更重要。我要特别感谢以下帮助我将这些内容整合在一起的人：</p>
+<ul>
+<li>Steve Riesenberg</li>
+<li>Rob Winch</li>
+<li>Josh Cummings</li>
+<li>Toshiaki Maki</li>
+</ul>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>[译]Spring Security 与 JWT for REST API</title>
       <link>https://blog.chensoul.com/posts/2023/09/19/spring-security-tutorial/</link>

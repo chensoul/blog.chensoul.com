@@ -6,7 +6,215 @@
     <description>Recent content in nodejs on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 19 Jun 2023 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/nodejs/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 22 Sep 2023 11:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/nodejs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>React入门：初始化应用的两种方法</title>
+      <link>https://blog.chensoul.com/posts/2023/09/22/react-create-project/</link>
+      <pubDate>Fri, 22 Sep 2023 11:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/09/22/react-create-project/</guid>
+      <description>在 React 中，您可以使用多种方法来初始化一个应用程序。以下是几种常见的方法： 使用 Create React App（CRA）。Create React App 是一个官方提供的脚手架工具，</description>
+      <content:encoded><![CDATA[<p>在 React 中，您可以使用多种方法来初始化一个应用程序。以下是几种常见的方法：</p>
+<ol>
+<li>使用 Create React App（CRA）。Create React App 是一个官方提供的脚手架工具，用于快速创建 React 应用程序的基本结构和配置。</li>
+<li>使用 Vite。Vite 是一个快速、简单且现代化的前端构建工具。</li>
+</ol>
+<h2 id="create-react-app">create-react-app</h2>
+<p><code>create-react-app</code> 是一个用于快速创建 React 应用程序的命令行工具。它提供了一个简单的方式来设置和配置一个全新的 React 项目，包括构建、开发服务器和其他常见的配置。</p>
+<p>要使用 <code>create-react-app</code> 创建一个新的 React 项目，您可以按照以下步骤进行操作：</p>
+<ol>
+<li>
+<p>安装 Node.js</p>
+</li>
+<li>
+<p>创建 React 应用：一旦你安装了 Node.js，你可以使用 <code>create-react-app</code> 工具快速创建一个新的 React 应用。</p>
+<p>在命令行中运行以下命令来全局安装 <code>create-react-app</code>：</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm install -g create-react-app
+</span></span></code></pre></div><ol start="3">
+<li>创建新的 React 应用：使用以下命令创建一个新的 React 应用：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">create-react-app my-app
+</span></span></code></pre></div><blockquote>
+<p>提示：</p>
+<p><code>npx</code> 是在运行命令时临时安装和执行包的工具。这意味着您无需全局安装 <code>create-react-app</code>，而是在运行 <code>npx create-react-app</code> 命令时自动下载和使用最新版本的 <code>create-react-app</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npx create-react-app my-app
+</span></span></code></pre></div></blockquote>
+<p>这将在当前目录下创建一个名为 <code>&quot;my-app&quot;</code> 的新文件夹，并在此文件夹里做了如下工作：</p>
+<ul>
+<li>为你的应用程序安装了一些 npm 包；</li>
+<li>写入 react 应用启动所需要的脚本文件；</li>
+<li>创建一系列结构化的子文件夹和文件；</li>
+<li>如果你的电脑上安装了 git 的话，顺便帮你把 git 仓库也建好。</li>
+</ul>
+<blockquote>
+<p>如果你的电脑上安装了 yarn 的话，create-react-app 会默认使用 yarn 而非 npm。如果你同时安装了 yarn 和 npm，但你希望使用 npm 的话，在 create-react-app 的时候需要输入 <code>--use-npm</code> ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">create-react-app my-app --use-npm
+</span></span></code></pre></div></blockquote>
+<ol start="4">
+<li>进入应用目录：进入新创建的应用程序目录。在命令行中运行以下命令：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cd my-app
+</span></span></code></pre></div><ol start="5">
+<li>启动开发服务器：运行以下命令来启动 React 开发服务器：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm start
+</span></span></code></pre></div><p>先前由 create-react-app 创建的脚本会启动一个地服务 <a href="localhost:3000">localhost:3000</a>，并打开你的默认浏览器来访问这个服务。成功启动浏览器的话，你的浏览器上会显示如下画面：</p>
+<p><img loading="lazy" src="https://developer.mozilla.org/zh-CN/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_getting_started/default-create-react-app.png" alt=""  />
+</p>
+<ol start="6">
+<li>
+<p>应用结构</p>
+<p>create-react-app 提供了开发 React 应用所需的工具。它的初始文件结构如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">my-app
+</span></span><span class="line"><span class="cl">├── README.md
+</span></span><span class="line"><span class="cl">├── node_modules
+</span></span><span class="line"><span class="cl">├── package.json
+</span></span><span class="line"><span class="cl">├── package-lock.json
+</span></span><span class="line"><span class="cl">├── .gitignore
+</span></span><span class="line"><span class="cl">├── public
+</span></span><span class="line"><span class="cl">│   ├── favicon.ico
+</span></span><span class="line"><span class="cl">│   ├── index.html
+</span></span><span class="line"><span class="cl">│   └── manifest.json
+</span></span><span class="line"><span class="cl">└── src
+</span></span><span class="line"><span class="cl">    ├── App.css
+</span></span><span class="line"><span class="cl">    ├── App.js
+</span></span><span class="line"><span class="cl">    ├── App.test.js
+</span></span><span class="line"><span class="cl">    ├── index.css
+</span></span><span class="line"><span class="cl">    ├── index.js
+</span></span><span class="line"><span class="cl">    ├── logo.svg
+</span></span><span class="line"><span class="cl">    └── reportWebVitals.js
+</span></span></code></pre></div><p>各目录和文件说明：</p>
+<ul>
+<li>
+<p>目录 <strong><code>src</code></strong> 是我们花费时间最多的地方，因为它是我们 React 应用源码存放的目录。</p>
+</li>
+<li>
+<p>目录 <strong><code>public</code></strong> 包含了开发应用时浏览器会读取的文件，其中最重要的就是 <code>index.html</code>。React 将目录 <strong><code>src</code></strong> 中的代码嵌入这个文件，从而浏览器才能运行此文件。 <code>index.html</code>中的有些内容关乎 create-react-app 的运作，因此除非你知道自己在做什么样的修改，否则不建议编辑这个文件。当然，你可以修改<code>index.html</code>中的 title 元素的内容来表现此应用程序通俗易懂的名称。</p>
+</li>
+<li>
+<p>目录 <code>public</code> 会在建立并部署此应用的时候更新。</p>
+</li>
+<li>
+<p>文件 <code>package.json</code> 包含了 Node.js/npm 为了建立该应用程序所管理着的文件信息。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>编辑 React 组件。在 <code>src</code> 目录中，可以找到名为 <code>App.js</code> 的文件。这是 React 应用的主要组件。你可以编辑该文件以添加、修改或删除组件的内容。</p>
+<p>create-react-app 添加了一些我们在项目中完全不会用到的文件。</p>
+<ul>
+<li>我们不打算写每个组件的样式表，所以首先从 <code>App.js</code> 的顶部删除 <code>App.css</code> 的导入。</li>
+<li>我们也不打算使用 <code>logo.svg</code> 文件，所以也要删除这个导入。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> src
+</span></span><span class="line"><span class="cl"><span class="c1"># Delete a few files</span>
+</span></span><span class="line"><span class="cl">rm -- App.test.js App.css logo.svg reportWebVitals.js setupTests.js
+</span></span><span class="line"><span class="cl"><span class="c1"># Move back up to the root of the project</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ..
+</span></span></code></pre></div><p>修改 src/App.js 如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">import</span> <span class="s1">&#39;./App.css&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&#34;App&#34;</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">&lt;</span><span class="nx">header</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">Hello</span> <span class="nx">React</span>
+</span></span><span class="line"><span class="cl">        <span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">&lt;</span><span class="err">/header&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</span></span></code></pre></div><p>修改 src/index.js 如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">&#39;react-dom/client&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="s1">&#39;./index.css&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">App</span> <span class="nx">from</span> <span class="s1">&#39;./App&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">createRoot</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nx">root</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="nx">React</span><span class="p">.</span><span class="nx">StrictMode</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="nx">App</span> <span class="o">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="err">/React.StrictMode&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span></code></pre></div></li>
+<li>
+<p>查看应用程序：在你进行编辑并保存代码后，开发服务器将自动重新加载并刷新应用程序。你可以在默认浏览器中查看更新后的应用程序。</p>
+</li>
+</ol>
+<h2 id="vite">vite</h2>
+<p>要使用 Vite 创建一个 React 项目，可以按照以下步骤进行操作：</p>
+<ol>
+<li>确保你已经安装了 Node.js。</li>
+<li>安装 Vite：在命令行中运行以下命令来全局安装 Vite：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm install -g create-vite
+</span></span></code></pre></div><ol start="3">
+<li>创建新的 React 项目：使用以下命令创建一个新的 React 项目：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">create-vite my-app-vite --template react
+</span></span></code></pre></div><p><code>--template react</code> 参数告诉 Vite 使用 React 模板来创建项目。</p>
+<ol start="4">
+<li>进入项目目录：进入新创建的项目目录。在命令行中运行以下命令：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cd my-app-vite
+</span></span></code></pre></div><ol start="5">
+<li>安装依赖项：在项目目录中，运行以下命令来安装项目的依赖项：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm install
+</span></span></code></pre></div><ol start="6">
+<li>启动开发服务器：运行以下命令来启动 Vite 开发服务器：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm run dev
+</span></span></code></pre></div><p>这将启动开发服务器并在默认浏览器中打开项目。你可以在开发服务器运行期间进行代码编辑，并实时查看项目的更改。</p>
+<ol start="7">
+<li>
+<p>编辑 React 组件：在 <code>src</code> 目录中，可以找到名为 <code>App.jsx</code> 的文件。这是 React 项目的主要组件。你可以编辑该文件以添加、修改或删除组件的内容。</p>
+</li>
+<li>
+<p>查看项目：在你进行编辑并保存代码后，开发服务器将自动重新加载并刷新项目。你可以在默认浏览器中查看更新后的项目。</p>
+</li>
+</ol>
+<h2 id="create-react-app-和-vite-区别">create-react-app 和 vite 区别</h2>
+<p>Create React App (CRA) 和 Vite 是两种常用的工具，用于创建和开发 React 应用程序，它们在一些方面有所区别。</p>
+<ol>
+<li>构建方式：
+<ul>
+<li>Create React App：CRA 是一个用于构建 React 应用程序的脚手架工具。它使用 Webpack 作为构建工具，并配置了一组默认的构建配置，使得开发者无需手动配置即可开始开发 React 应用程序。</li>
+<li>Vite：Vite 是一个现代化的构建工具，专为现代 Web 开发而设计。它使用 ES 模块作为开发时的构建方式，利用浏览器原生支持的模块解析功能，实现了快速的冷启动和热模块替换（HMR）。</li>
+</ul>
+</li>
+<li>开发体验：
+<ul>
+<li>Create React App：CRA 提供了一个简单且一致的开发环境，使得开发者可以专注于编写 React 组件和业务逻辑。它隐藏了大部分的构建配置细节，使得开发者无需关心底层的构建配置。</li>
+<li>Vite：Vite 在开发环境中具有出色的开发体验。它通过使用 ES 模块的直接导入，避免了传统的构建步骤，大大减少了冷启动时间，同时提供了快速的热模块替换，使得开发者能够更快地看到代码更改的效果。</li>
+</ul>
+</li>
+<li>构建速度：
+<ul>
+<li>Create React App：CRA 使用 Webpack 进行构建，通常在项目较大时，构建时间会相对较长。</li>
+<li>Vite：Vite 利用了现代浏览器对 ES 模块的原生支持，构建速度非常快，尤其在开发环境中。</li>
+</ul>
+</li>
+<li>配置灵活性：
+<ul>
+<li>Create React App：CRA 提供了预定义的构建配置，对于大多数应用程序来说，这些配置已经足够。如果你需要更改构建配置，你需要使用 <code>eject</code> 命令将配置暴露出来，并自己进行配置。</li>
+<li>Vite：Vite 的配置方式非常灵活，你可以根据需要自定义配置。Vite 使用了一种基于插件的方式来扩展和修改构建配置，使得配置更加直观和可维护。</li>
+</ul>
+</li>
+</ol>
+<p>综上所述，Create React App 适合那些希望快速启动 React 项目且不需要过多自定义配置的开发者。而 Vite 则适合对开发体验和构建速度有较高要求的开发者，并提供了更大的配置灵活性。选择使用哪个工具取决于你的具体需求和项目特点。</p>
+<h2 id="参考文章">参考文章</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Introduction">React 入门</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>[译]为恐龙解释现代JavaScript</title>
       <link>https://blog.chensoul.com/posts/2023/06/19/modern-javascript-explained-for-dinosaurs/</link>

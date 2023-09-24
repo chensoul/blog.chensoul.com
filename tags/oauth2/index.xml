@@ -262,7 +262,7 @@
 </span></span><span class="line"><span class="cl">        <span class="n">JwtClaimsSet</span> <span class="n">claims</span> <span class="o">=</span> <span class="n">JwtClaimsSet</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">issuer</span><span class="o">(</span><span class="s">&#34;self&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">issuedAt</span><span class="o">(</span><span class="n">now</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">expiresAt</span><span class="o">(</span><span class="n">now</span><span class="o">.</span><span class="na">plus</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">ChronoUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">expiresAt</span><span class="o">(</span><span class="n">now</span><span class="o">.</span><span class="na">plus</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">ChronoUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">subject</span><span class="o">(</span><span class="n">authentication</span><span class="o">.</span><span class="na">getName</span><span class="o">())</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">claim</span><span class="o">(</span><span class="s">&#34;scope&#34;</span><span class="o">,</span> <span class="n">scope</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
@@ -653,7 +653,7 @@
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1">// Get jwt token and validate
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kd">final</span> <span class="n">String</span> <span class="n">token</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&#34; &#34;</span><span class="o">)[</span><span class="n">1</span><span class="o">].</span><span class="na">trim</span><span class="o">();</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kd">final</span> <span class="n">String</span> <span class="n">token</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&#34; &#34;</span><span class="o">)[</span><span class="mi">1</span><span class="o">].</span><span class="na">trim</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(!</span><span class="n">jwtTokenUtil</span><span class="o">.</span><span class="na">validate</span><span class="o">(</span><span class="n">token</span><span class="o">))</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">chain</span><span class="o">.</span><span class="na">doFilter</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="o">;</span>
@@ -3174,7 +3174,7 @@
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="nd">@Bean</span>
-</span></span><span class="line"><span class="cl">        <span class="nd">@Order</span><span class="o">(</span><span class="n">2147483642</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Order</span><span class="o">(</span><span class="mi">2147483642</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">        <span class="n">SecurityFilterChain</span> <span class="nf">defaultSecurityFilterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> 
 </span></span><span class="line"><span class="cl">                <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="o">((</span><span class="n">AuthorizedUrl</span><span class="o">)</span> <span class="n">http</span><span class="o">.</span><span class="na">authorizeRequests</span><span class="o">().</span><span class="na">anyRequest</span><span class="o">()).</span><span class="na">authenticated</span><span class="o">();</span>
@@ -3285,7 +3285,7 @@
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">sessionManagement</span><span class="o">(</span><span class="n">session</span> <span class="o">-&gt;</span> <span class="n">session</span>
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">ALWAYS</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">invalidSessionUrl</span><span class="o">(</span><span class="s">&#34;/invalidSession.htm&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">maximumSessions</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">maximumSessions</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">maxSessionsPreventsLogin</span><span class="o">(</span><span class="kc">true</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
@@ -3323,7 +3323,7 @@
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
-</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">bookFilterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">http</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
@@ -3368,7 +3368,7 @@
 </span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PASSWORD</span> <span class="o">=</span> <span class="s">&#34;password&#34;</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
-</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="n">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">filterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">authorizeRequests</span><span class="o">(</span><span class="n">request</span> <span class="o">-&gt;</span> 
 </span></span><span class="line"><span class="cl">                <span class="n">request</span><span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">ENDPOINTS_WHITELIST</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span>
@@ -3390,7 +3390,7 @@
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">sessionManagement</span><span class="o">(</span><span class="n">session</span> <span class="o">-&gt;</span> <span class="n">session</span>
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="n">SessionCreationPolicy</span><span class="o">.</span><span class="na">ALWAYS</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">invalidSessionUrl</span><span class="o">(</span><span class="s">&#34;/invalidSession&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">maximumSessions</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">maximumSessions</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">maxSessionsPreventsLogin</span><span class="o">(</span><span class="kc">true</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
@@ -3474,7 +3474,7 @@
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
-</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">bookFilterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">http</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
@@ -3563,7 +3563,7 @@
 </span></span></span></code></pre></div><p>为了确保授权，我们将 Spring Security 配置为：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
-</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">filterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">authorizeRequests</span><span class="o">(</span><span class="n">request</span> <span class="o">-&gt;</span> 
 </span></span><span class="line"><span class="cl">             <span class="n">request</span><span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">ENDPOINTS_WHITELIST</span><span class="o">).</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;ADMIN&#34;</span><span class="o">)</span>
@@ -3575,7 +3575,7 @@
 </span></span></code></pre></div><p>以及</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
-</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="n">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Order</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">SecurityFilterChain</span> <span class="nf">bookFilterChain</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">http</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
@@ -3734,7 +3734,7 @@
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isOk</span><span class="o">())</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">authenticated</span><span class="o">().</span><span class="na">withUsername</span><span class="o">(</span><span class="s">&#34;bookadmin&#34;</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">authenticated</span><span class="o">().</span><span class="na">withRoles</span><span class="o">(</span><span class="s">&#34;USER&#34;</span><span class="o">))</span>
-</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">jsonPath</span><span class="o">(</span><span class="s">&#34;$&#34;</span><span class="o">,</span> <span class="n">hasSize</span><span class="o">(</span><span class="n">3</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">jsonPath</span><span class="o">(</span><span class="s">&#34;$&#34;</span><span class="o">,</span> <span class="n">hasSize</span><span class="o">(</span><span class="mi">3</span><span class="o">)))</span>
 </span></span><span class="line"><span class="cl">        <span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
@@ -3786,7 +3786,7 @@
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">&#34;X-Application-Name&#34;</span><span class="o">,</span> <span class="s">&#34;Library&#34;</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andDo</span><span class="o">(</span><span class="n">print</span><span class="o">())</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isOk</span><span class="o">())</span>
-</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">jsonPath</span><span class="o">(</span><span class="s">&#34;$&#34;</span><span class="o">,</span> <span class="n">hasSize</span><span class="o">(</span><span class="n">1</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">jsonPath</span><span class="o">(</span><span class="s">&#34;$&#34;</span><span class="o">,</span> <span class="n">hasSize</span><span class="o">(</span><span class="mi">1</span><span class="o">)))</span>
 </span></span><span class="line"><span class="cl">        <span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
@@ -4461,7 +4461,7 @@
 </span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">secret</span><span class="o">(</span><span class="s">&#34;$2a$10$6aQQyhlhol4M1KAncczPdu4zX7/TgvjpOU.sWzt7j5Xl6W/z5V4cC&#34;</span><span class="o">)</span> 
 </span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">authorizedGrantTypes</span><span class="o">(</span><span class="s">&#34;password&#34;</span><span class="err">，</span> <span class="s">&#34;refresh_token&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">scopes</span><span class="o">(</span><span class="s">&#34;read&#34;</span><span class="err">，</span> <span class="s">&#34;write&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">accessTokenValiditySeconds</span><span class="o">(</span><span class="n">3600</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">accessTokenValiditySeconds</span><span class="o">(</span><span class="mi">3600</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">  <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
@@ -4527,7 +4527,7 @@
 </span></span><span class="line"><span class="cl">                        <span class="s">&#34;refresh_token&#34;</span><span class="o">,</span> <span class="s">&#34;implicit&#34;</span><span class="o">,</span> <span class="s">&#34;client_credentials&#34;</span><span class="o">,</span> <span class="s">&#34;authorization_code&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">authorities</span><span class="o">(</span><span class="s">&#34;CLIENT&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">scopes</span><span class="o">(</span><span class="s">&#34;read&#34;</span><span class="o">,</span> <span class="s">&#34;write&#34;</span><span class="o">,</span> <span class="s">&#34;trust&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">accessTokenValiditySeconds</span><span class="o">(</span><span class="n">60</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">accessTokenValiditySeconds</span><span class="o">(</span><span class="mi">60</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">redirectUris</span><span class="o">(</span><span class="s">&#34;http://localhost:8081/test.html&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">resourceIds</span><span class="o">(</span><span class="s">&#34;resource&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">secret</span><span class="o">(</span><span class="s">&#34;mysecret&#34;</span><span class="o">);</span>
@@ -4715,7 +4715,7 @@
 </span></span><span class="line"><span class="cl">                        <span class="s">&#34;refresh_token&#34;</span><span class="o">,</span> <span class="s">&#34;implicit&#34;</span><span class="o">,</span> <span class="s">&#34;client_credentials&#34;</span><span class="o">,</span> <span class="s">&#34;authorization_code&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">authorities</span><span class="o">(</span><span class="s">&#34;ROLE_CLIENT&#34;</span><span class="o">,</span> <span class="s">&#34;ROLE_TRUSTED_CLIENT&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">scopes</span><span class="o">(</span><span class="s">&#34;read&#34;</span><span class="o">,</span> <span class="s">&#34;write&#34;</span><span class="o">,</span> <span class="s">&#34;trust&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">accessTokenValiditySeconds</span><span class="o">(</span><span class="n">60</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">accessTokenValiditySeconds</span><span class="o">(</span><span class="mi">60</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">redirectUris</span><span class="o">(</span><span class="s">&#34;http://localhost:8081/test.html&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">resourceIds</span><span class="o">(</span><span class="s">&#34;resource&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">secret</span><span class="o">(</span><span class="s">&#34;mysecret&#34;</span><span class="o">);</span>

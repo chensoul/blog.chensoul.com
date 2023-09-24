@@ -270,26 +270,26 @@
 </span></span><span class=line><span class=cl><span class=nt>nav</span><span class=o>,</span> <span class=nt>aside</span>  
 </span></span><span class=line><span class=cl><span class=err>  </span><span class=na>background</span><span class=o>:</span> <span class=nv>$side-color</span>
 </span></span></code></pre></div><p>请注意如何使用 <code>$</code> 符号定义可重用变量，并删除括号和分号，从而使语法看起来更简洁。Sass 中更简洁的语法很好，但是像变量这样的功能在当时是革命性的，因为它们为编写干净和可维护的 CSS 开辟了新的可能性。</p><p>要使用 Sass，您需要 <a href=https://www.ruby-lang.org/en/documentation/installation/>安装 Ruby</a>，这是一种用于将 Sass 代码编译为常规 CSS 的编程语言。然后，您需要安装 <a href=http://sass-lang.com/install>Sass gem</a>，然后<a href=http://sass-lang.com/guide#topic-1>在命令行中运行命令</a>以将 <code>.sass</code> 文件转换为 <code>.css</code> 文件。下面是命令的外观示例：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sass --watch index.sass index.css
-</span></span></code></pre></div><p>此命令会将编写在名为 <code>index.sass</code> 的文件中的 Sass 代码转换为名为 <code>index.css</code> 的文件中的常规 CSS（ <code>--watch</code> 参数告诉它在保存时输入更改时随时运行，这很方便）。</p><p>这个过程被称为构建步骤，这在 2006 年是一个相当大的进入障碍。如果您习惯了像 Ruby 这样的编程语言，那么这个过程非常简单。但是当时许多前端开发人员只使用 HTM L和 CSS，不需要任何这样的工具。因此，让某人学习整个生态系统以获得 CSS 预处理器提供的功能是一个很大的要求。</p><p>2009年，<a href=http://lesscss.org/>Less</a> CSS 预处理器发布。它也是用 Ruby 编写的，并提供了与 Sass 类似的功能。关键的区别在于语法，它被设计为尽可能接近 CSS。这意味着任何 CSS 代码都是有效的 Less 代码。下面是使用 Less 语法编写的相同示例：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>@dark-color: #4a4a4a;  
-</span></span><span class=line><span class=cl>@light-color: #f9f9f9;  
-</span></span><span class=line><span class=cl>@side-color: #eee;
+</span></span></code></pre></div><p>此命令会将编写在名为 <code>index.sass</code> 的文件中的 Sass 代码转换为名为 <code>index.css</code> 的文件中的常规 CSS（ <code>--watch</code> 参数告诉它在保存时输入更改时随时运行，这很方便）。</p><p>这个过程被称为构建步骤，这在 2006 年是一个相当大的进入障碍。如果您习惯了像 Ruby 这样的编程语言，那么这个过程非常简单。但是当时许多前端开发人员只使用 HTM L和 CSS，不需要任何这样的工具。因此，让某人学习整个生态系统以获得 CSS 预处理器提供的功能是一个很大的要求。</p><p>2009年，<a href=http://lesscss.org/>Less</a> CSS 预处理器发布。它也是用 Ruby 编写的，并提供了与 Sass 类似的功能。关键的区别在于语法，它被设计为尽可能接近 CSS。这意味着任何 CSS 代码都是有效的 Less 代码。下面是使用 Less 语法编写的相同示例：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-gdscript data-lang=gdscript><span class=line><span class=cl><span class=err>@</span><span class=n>dark</span><span class=o>-</span><span class=n>color</span><span class=p>:</span> <span class=c1>#4a4a4a;  </span>
+</span></span><span class=line><span class=cl><span class=err>@</span><span class=n>light</span><span class=o>-</span><span class=n>color</span><span class=p>:</span> <span class=c1>#f9f9f9;  </span>
+</span></span><span class=line><span class=cl><span class=err>@</span><span class=n>side</span><span class=o>-</span><span class=n>color</span><span class=p>:</span> <span class=c1>#eee;</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>body {  
-</span></span><span class=line><span class=cl>  color: @dark-color;  
-</span></span><span class=line><span class=cl>}  
+</span></span><span class=line><span class=cl><span class=n>body</span> <span class=p>{</span>  
+</span></span><span class=line><span class=cl>  <span class=n>color</span><span class=p>:</span> <span class=err>@</span><span class=n>dark</span><span class=o>-</span><span class=n>color</span><span class=p>;</span>  
+</span></span><span class=line><span class=cl><span class=p>}</span>  
 </span></span><span class=line><span class=cl>    
-</span></span><span class=line><span class=cl>header, footer {  
-</span></span><span class=line><span class=cl>  background-color: @dark-color;  
-</span></span><span class=line><span class=cl>  color: @light-color;  
-</span></span><span class=line><span class=cl>}  
+</span></span><span class=line><span class=cl><span class=n>header</span><span class=p>,</span> <span class=n>footer</span> <span class=p>{</span>  
+</span></span><span class=line><span class=cl>  <span class=n>background</span><span class=o>-</span><span class=n>color</span><span class=p>:</span> <span class=err>@</span><span class=n>dark</span><span class=o>-</span><span class=n>color</span><span class=p>;</span>  
+</span></span><span class=line><span class=cl>  <span class=n>color</span><span class=p>:</span> <span class=err>@</span><span class=n>light</span><span class=o>-</span><span class=n>color</span><span class=p>;</span>  
+</span></span><span class=line><span class=cl><span class=p>}</span>  
 </span></span><span class=line><span class=cl>    
-</span></span><span class=line><span class=cl>main {  
-</span></span><span class=line><span class=cl>  background: @light-color;  
-</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl><span class=n>main</span> <span class=p>{</span>  
+</span></span><span class=line><span class=cl>  <span class=n>background</span><span class=p>:</span> <span class=err>@</span><span class=n>light</span><span class=o>-</span><span class=n>color</span><span class=p>;</span>  
+</span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>nav, aside {  
-</span></span><span class=line><span class=cl>  background: @side-color;  
-</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl><span class=n>nav</span><span class=p>,</span> <span class=n>aside</span> <span class=p>{</span>  
+</span></span><span class=line><span class=cl>  <span class=n>background</span><span class=p>:</span> <span class=err>@</span><span class=n>side</span><span class=o>-</span><span class=n>color</span><span class=p>;</span>  
+</span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span></code></pre></div><p>它几乎相同（变量的前缀为 <code>@</code> 而不是 <code>$</code> ），但不像 Sass 示例那样漂亮，具有与 CSS 相同的大括号和分号。然而，它更接近 CSS 的事实使开发人员更容易采用它。2012年，Less 被重写为使用 JavaScript（特别是 <a href=https://nodejs.org/en/>Node.js</a>）而不是 Ruby 进行编译。这使得 Less 比它的 Ruby 同行更快，并且对已经在工作流程中使用 Node.js 的开发人员更具吸引力。</p><p>要将此代码转换为常规 CSS，您首先需要 <a href=https://nodejs.org/en/download/>安装 Node.js</a>，然后 <a href=http://lesscss.org/#using-less-installation>安装 Less</a>，然后运行如下命令：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>lessc index.less index.css
 </span></span></code></pre></div><p>此命令会将在名为 <code>index.less</code> 的文件中编写的较少代码转换为名为 <code>index.css</code> 的文件中的常规 CSS。请注意， <code>lessc</code> 命令没有监视文件更改的方法（与 <code>sass</code> 命令不同），这意味着您需要安装不同的工具来自动监视和编译 <code>.less</code> 个文件，这增加了过程的复杂性。同样，对于习惯使用命令行工具的程序员来说，这并不困难，但对于只想使用 CSS 预处理器的其他人来说，这是一个重要的进入障碍。</p><p>随着 Less 获得思想份额，Sass 开发人员在 2010 年通过添加一个名为 <a href=http://sass-lang.com/documentation/file.SASS_CHANGELOG.html#SCSS__Sassy_CSS_>SCSS</a> 的新语法（这是一个类似于 Less 的 CSS 超集）进行了调整。他们还发布了 <a href=http://sass-lang.com/libsass>LibSass</a>，这是 Ruby Sass 引擎的 C/C++ 端口，这使得它更快，能够在各种语言中使用。</p><p>另一个替代的 CSS 预处理器是 <a href=http://stylus-lang.com/>Stylus</a>，它于2010年问世，用 Node.js 编写，与 Sass or Less 相比，它专注于更简洁的语法。通常关于 CSS 预处理器的讨论集中在这三种最流行的（Sass，Less 和 Stylus）上。最后，它们在提供的功能方面都非常相似，因此选择它们中的任何一个都不会出错。</p><p>然而，有些人认为 CSS 预处理器变得越来越不必要，因为浏览器终于开始实现它们的一些功能（如变量和计算）。此外，还有一种称为 CSS 后处理的不同方法，它有可能使 CSS 预处理器过时（显然并非没有争议），我们接下来将讨论。</p><h3 id=将-css-后处理器用于变革性功能>将 CSS 后处理器用于变革性功能<a hidden class=anchor aria-hidden=true href=#将-css-后处理器用于变革性功能>#</a></h3><p>CSS 后处理器使用 JavaScript 来分析您的 CSS 并将其转换为有效的 CSS。从这个意义上说，它与 CSS 预处理器非常相似 - 您可以将其视为解决相同问题的不同方法。关键的区别在于，虽然 CSS 预处理器使用特殊语法来标识需要转换的内容，但 CSS 后处理器可以解析常规 CSS 并转换它，而无需任何特殊语法。最好用一个例子来说明这一点。让我们看一下我们最初在上面定义的用于设置标题标签样式的 CSS 的一部分：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-css data-lang=css><span class=line><span class=cl><span class=nt>h1</span><span class=o>,</span> <span class=nt>h2</span><span class=o>,</span> <span class=nt>h3</span><span class=o>,</span> <span class=nt>h4</span><span class=o>,</span> <span class=nt>h5</span><span class=o>,</span> <span class=nt>h6</span> <span class=p>{</span>  
 </span></span><span class=line><span class=cl>  <span class=kp>-ms-</span><span class=k>hyphens</span><span class=p>:</span> <span class=kc>auto</span><span class=p>;</span>  

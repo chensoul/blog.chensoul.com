@@ -45,7 +45,7 @@
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kd>private</span> <span class=kd>static</span> <span class=n>KeyPair</span> <span class=nf>generateRsaKey</span><span class=o>()</span> <span class=kd>throws</span> <span class=n>NoSuchAlgorithmException</span> <span class=o>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>KeyPairGenerator</span> <span class=n>keyPairGenerator</span> <span class=o>=</span> <span class=n>KeyPairGenerator</span><span class=o>.</span><span class=na>getInstance</span><span class=o>(</span><span class=s>&#34;RSA&#34;</span><span class=o>);</span>
-</span></span><span class=line><span class=cl>    <span class=n>keyPairGenerator</span><span class=o>.</span><span class=na>initialize</span><span class=o>(</span><span class=n>2048</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>keyPairGenerator</span><span class=o>.</span><span class=na>initialize</span><span class=o>(</span><span class=mi>2048</span><span class=o>);</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>keyPairGenerator</span><span class=o>.</span><span class=na>generateKeyPair</span><span class=o>();</span>
 </span></span><span class=line><span class=cl><span class=o>}</span>
 </span></span></code></pre></div><p>我们在解码器 bean 中使用这个源，所以我们需要定义它。我们使用 RSA 2048 密钥对，我们也可以在需要时更改它。</p><ul><li><strong>AuthorizationServerSettings</strong></li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@Bean</span>

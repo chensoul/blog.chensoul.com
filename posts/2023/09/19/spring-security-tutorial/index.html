@@ -196,7 +196,7 @@
 </span></span><span class=line><span class=cl>        <span class=o>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>        <span class=c1>// Get jwt token and validate
-</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=kd>final</span> <span class=n>String</span> <span class=n>token</span> <span class=o>=</span> <span class=n>header</span><span class=o>.</span><span class=na>split</span><span class=o>(</span><span class=s>&#34; &#34;</span><span class=o>)[</span><span class=n>1</span><span class=o>].</span><span class=na>trim</span><span class=o>();</span>
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=kd>final</span> <span class=n>String</span> <span class=n>token</span> <span class=o>=</span> <span class=n>header</span><span class=o>.</span><span class=na>split</span><span class=o>(</span><span class=s>&#34; &#34;</span><span class=o>)[</span><span class=mi>1</span><span class=o>].</span><span class=na>trim</span><span class=o>();</span>
 </span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=o>(!</span><span class=n>jwtTokenUtil</span><span class=o>.</span><span class=na>validate</span><span class=o>(</span><span class=n>token</span><span class=o>))</span> <span class=o>{</span>
 </span></span><span class=line><span class=cl>            <span class=n>chain</span><span class=o>.</span><span class=na>doFilter</span><span class=o>(</span><span class=n>request</span><span class=o>,</span> <span class=n>response</span><span class=o>);</span>
 </span></span><span class=line><span class=cl>            <span class=k>return</span><span class=o>;</span>

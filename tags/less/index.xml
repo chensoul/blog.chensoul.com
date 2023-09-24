@@ -352,26 +352,26 @@
 </span></span></code></pre></div><p>此命令会将编写在名为 <code>index.sass</code> 的文件中的 Sass 代码转换为名为 <code>index.css</code> 的文件中的常规 CSS（ <code>--watch</code> 参数告诉它在保存时输入更改时随时运行，这很方便）。</p>
 <p>这个过程被称为构建步骤，这在 2006 年是一个相当大的进入障碍。如果您习惯了像 Ruby 这样的编程语言，那么这个过程非常简单。但是当时许多前端开发人员只使用 HTM L和 CSS，不需要任何这样的工具。因此，让某人学习整个生态系统以获得 CSS 预处理器提供的功能是一个很大的要求。</p>
 <p>2009年，<a href="http://lesscss.org/">Less</a> CSS 预处理器发布。它也是用 Ruby 编写的，并提供了与 Sass 类似的功能。关键的区别在于语法，它被设计为尽可能接近 CSS。这意味着任何 CSS 代码都是有效的 Less 代码。下面是使用 Less 语法编写的相同示例：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@dark-color: #4a4a4a;  
-</span></span><span class="line"><span class="cl">@light-color: #f9f9f9;  
-</span></span><span class="line"><span class="cl">@side-color: #eee;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript" data-lang="gdscript"><span class="line"><span class="cl"><span class="err">@</span><span class="n">dark</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="c1">#4a4a4a;  </span>
+</span></span><span class="line"><span class="cl"><span class="err">@</span><span class="n">light</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="c1">#f9f9f9;  </span>
+</span></span><span class="line"><span class="cl"><span class="err">@</span><span class="n">side</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="c1">#eee;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">body {  
-</span></span><span class="line"><span class="cl">  color: @dark-color;  
-</span></span><span class="line"><span class="cl">}  
+</span></span><span class="line"><span class="cl"><span class="n">body</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="n">color</span><span class="p">:</span> <span class="err">@</span><span class="n">dark</span><span class="o">-</span><span class="n">color</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>  
 </span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">header, footer {  
-</span></span><span class="line"><span class="cl">  background-color: @dark-color;  
-</span></span><span class="line"><span class="cl">  color: @light-color;  
-</span></span><span class="line"><span class="cl">}  
+</span></span><span class="line"><span class="cl"><span class="n">header</span><span class="p">,</span> <span class="n">footer</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="err">@</span><span class="n">dark</span><span class="o">-</span><span class="n">color</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">  <span class="n">color</span><span class="p">:</span> <span class="err">@</span><span class="n">light</span><span class="o">-</span><span class="n">color</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>  
 </span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">main {  
-</span></span><span class="line"><span class="cl">  background: @light-color;  
-</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl"><span class="n">main</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="n">background</span><span class="p">:</span> <span class="err">@</span><span class="n">light</span><span class="o">-</span><span class="n">color</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">nav, aside {  
-</span></span><span class="line"><span class="cl">  background: @side-color;  
-</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl"><span class="n">nav</span><span class="p">,</span> <span class="n">aside</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="n">background</span><span class="p">:</span> <span class="err">@</span><span class="n">side</span><span class="o">-</span><span class="n">color</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>它几乎相同（变量的前缀为 <code>@</code> 而不是 <code>$</code> ），但不像 Sass 示例那样漂亮，具有与 CSS 相同的大括号和分号。然而，它更接近 CSS 的事实使开发人员更容易采用它。2012年，Less 被重写为使用 JavaScript（特别是 <a href="https://nodejs.org/en/">Node.js</a>）而不是 Ruby 进行编译。这使得 Less 比它的 Ruby 同行更快，并且对已经在工作流程中使用 Node.js 的开发人员更具吸引力。</p>
 <p>要将此代码转换为常规 CSS，您首先需要 <a href="https://nodejs.org/en/download/">安装 Node.js</a>，然后 <a href="http://lesscss.org/#using-less-installation">安装 Less</a>，然后运行如下命令：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">lessc index.less index.css

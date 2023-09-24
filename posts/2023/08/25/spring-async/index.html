@@ -14,7 +14,7 @@
 </span></span><span class=line><span class=cl>    <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;Execute method asynchronously - &#34;</span> 
 </span></span><span class=line><span class=cl>      <span class=o>+</span> <span class=n>Thread</span><span class=o>.</span><span class=na>currentThread</span><span class=o>().</span><span class=na>getName</span><span class=o>());</span>
 </span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=o>{</span>
-</span></span><span class=line><span class=cl>        <span class=n>Thread</span><span class=o>.</span><span class=na>sleep</span><span class=o>(</span><span class=n>5000</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>Thread</span><span class=o>.</span><span class=na>sleep</span><span class=o>(</span><span class=mi>5000</span><span class=o>);</span>
 </span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>new</span> <span class=n>AsyncResult</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;(</span><span class=s>&#34;hello world !!!!&#34;</span><span class=o>);</span>
 </span></span><span class=line><span class=cl>    <span class=o>}</span> <span class=k>catch</span> <span class=o>(</span><span class=n>InterruptedException</span> <span class=n>e</span><span class=o>)</span> <span class=o>{</span>
 </span></span><span class=line><span class=cl>        <span class=c1>//
@@ -34,7 +34,7 @@
 </span></span><span class=line><span class=cl>            <span class=k>break</span><span class=o>;</span>
 </span></span><span class=line><span class=cl>        <span class=o>}</span>
 </span></span><span class=line><span class=cl>        <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;Continue doing something else. &#34;</span><span class=o>);</span>
-</span></span><span class=line><span class=cl>        <span class=n>Thread</span><span class=o>.</span><span class=na>sleep</span><span class=o>(</span><span class=n>1000</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>Thread</span><span class=o>.</span><span class=na>sleep</span><span class=o>(</span><span class=mi>1000</span><span class=o>);</span>
 </span></span><span class=line><span class=cl>    <span class=o>}</span>
 </span></span><span class=line><span class=cl><span class=o>}</span>
 </span></span></code></pre></div><h2 id=4-executor>4. Executor<a hidden class=anchor aria-hidden=true href=#4-executor>#</a></h2><p>默认情况下，Spring 使用 <code>SimpleAsyncTaskExecutor</code> 来实际异步运行这些方法。但我们可以在两个级别覆盖默认值：应用程序级别或单个方法级别。</p><h3 id=41在方法级别重写executor>4.1.在方法级别重写Executor<a hidden class=anchor aria-hidden=true href=#41在方法级别重写executor>#</a></h3><p>我们需要在配置类中声明所需的执行器：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@Configuration</span>

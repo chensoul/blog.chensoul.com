@@ -104,7 +104,7 @@
 </span></span><span class=line><span class=cl>   <span class=cm>/** 
 </span></span></span><span class=line><span class=cl><span class=cm>   * 
 </span></span></span><span class=line><span class=cl><span class=cm>   */</span> 
-</span></span><span class=line><span class=cl>   <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kt>long</span> <span class=n>serialVersionUID</span> <span class=o>=</span> <span class=n>1L</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>   <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kt>long</span> <span class=n>serialVersionUID</span> <span class=o>=</span> <span class=mi>1L</span><span class=o>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>   <span class=nd>@Id</span> 
 </span></span><span class=line><span class=cl>   <span class=kd>private</span> <span class=n>String</span> <span class=n>username</span><span class=o>;</span> 
@@ -308,7 +308,7 @@ Also, during every authentication attempt, we shall be checking this property wi
 </span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>com.tutorial.spring.security.formlogin.repository.UserRepository</span><span class=o>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nd>@Component</span> <span class=kd>public</span> <span class=kd>class</span> <span class=nc>AuthProvider</span> <span class=kd>implements</span> <span class=n>AuthenticationProvider</span> <span class=o>{</span>
-</span></span><span class=line><span class=cl>   <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kt>int</span> <span class=n>ATTEMPTS_LIMIT</span> <span class=o>=</span> <span class=n>3</span><span class=o>;</span> 
+</span></span><span class=line><span class=cl>   <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kt>int</span> <span class=n>ATTEMPTS_LIMIT</span> <span class=o>=</span> <span class=mi>3</span><span class=o>;</span> 
 </span></span><span class=line><span class=cl>   
 </span></span><span class=line><span class=cl>   <span class=nd>@Autowired</span> 
 </span></span><span class=line><span class=cl>   <span class=kd>private</span> <span class=n>SecurityUserDetailsService</span> <span class=n>userDetailsService</span><span class=o>;</span> 
@@ -323,7 +323,7 @@ Also, during every authentication attempt, we shall be checking this property wi
 </span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>com.tutorial.spring.security.formlogin.repository.UserRepository</span><span class=o>;</span> 
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nd>@Component</span> <span class=kd>public</span> <span class=kd>class</span> <span class=nc>AuthProvider</span> <span class=kd>implements</span> <span class=n>AuthenticationProvider</span> <span class=o>{</span> 
-</span></span><span class=line><span class=cl>   <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kt>int</span> <span class=n>ATTEMPTS_LIMIT</span> <span class=o>=</span> <span class=n>3</span><span class=o>;</span> 
+</span></span><span class=line><span class=cl>   <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kt>int</span> <span class=n>ATTEMPTS_LIMIT</span> <span class=o>=</span> <span class=mi>3</span><span class=o>;</span> 
 </span></span><span class=line><span class=cl>   <span class=nd>@Autowired</span> <span class=kd>private</span> <span class=n>SecurityUserDetailsService</span> <span class=n>userDetailsService</span><span class=o>;</span> 
 </span></span><span class=line><span class=cl>   <span class=nd>@Autowired</span> <span class=kd>private</span> <span class=n>PasswordEncoder</span> <span class=n>passwordEncoder</span><span class=o>;</span> 
 </span></span><span class=line><span class=cl>   <span class=nd>@Autowired</span> <span class=kd>private</span> <span class=n>AttemptsRepository</span> <span class=n>attemptsRepository</span><span class=o>;</span> 
@@ -336,7 +336,7 @@ Also, during every authentication attempt, we shall be checking this property wi
 </span></span><span class=line><span class=cl>      <span class=n>userAttempts</span> <span class=o>=</span> <span class=n>attemptsRepository</span><span class=o>.</span><span class=na>findAttemptsByUsername</span><span class=o>(</span><span class=n>username</span><span class=o>);</span> 
 </span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=o>(</span><span class=n>userAttempts</span><span class=o>.</span><span class=na>isPresent</span><span class=o>())</span> <span class=o>{</span> 
 </span></span><span class=line><span class=cl>         <span class=n>Attempts</span> <span class=n>attempts</span> <span class=o>=</span> <span class=n>userAttempts</span><span class=o>.</span><span class=na>get</span><span class=o>();</span>
-</span></span><span class=line><span class=cl>         <span class=n>attempts</span><span class=o>.</span><span class=na>setAttempts</span><span class=o>(</span><span class=n>0</span><span class=o>);</span> <span class=n>attemptsRepository</span><span class=o>.</span><span class=na>save</span><span class=o>(</span><span class=n>attempts</span><span class=o>);</span> 
+</span></span><span class=line><span class=cl>         <span class=n>attempts</span><span class=o>.</span><span class=na>setAttempts</span><span class=o>(</span><span class=mi>0</span><span class=o>);</span> <span class=n>attemptsRepository</span><span class=o>.</span><span class=na>save</span><span class=o>(</span><span class=n>attempts</span><span class=o>);</span> 
 </span></span><span class=line><span class=cl>      <span class=o>}</span> 
 </span></span><span class=line><span class=cl>   <span class=o>}</span> 
 </span></span><span class=line><span class=cl>   <span class=kd>private</span> <span class=kt>void</span> <span class=nf>processFailedAttempts</span><span class=o>(</span><span class=n>String</span> <span class=n>username</span><span class=o>,</span> <span class=n>User</span> <span class=n>user</span><span class=o>)</span> <span class=o>{</span> 
@@ -345,14 +345,14 @@ Also, during every authentication attempt, we shall be checking this property wi
 </span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=o>(</span><span class=n>userAttempts</span><span class=o>.</span><span class=na>isEmpty</span><span class=o>())</span> <span class=o>{</span> 
 </span></span><span class=line><span class=cl>         <span class=n>Attempts</span> <span class=n>attempts</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Attempts</span><span class=o>();</span> 
 </span></span><span class=line><span class=cl>         <span class=n>attempts</span><span class=o>.</span><span class=na>setUsername</span><span class=o>(</span><span class=n>username</span><span class=o>);</span> 
-</span></span><span class=line><span class=cl>         <span class=n>attempts</span><span class=o>.</span><span class=na>setAttempts</span><span class=o>(</span><span class=n>1</span><span class=o>);</span> 
+</span></span><span class=line><span class=cl>         <span class=n>attempts</span><span class=o>.</span><span class=na>setAttempts</span><span class=o>(</span><span class=mi>1</span><span class=o>);</span> 
 </span></span><span class=line><span class=cl>         <span class=n>attemptsRepository</span><span class=o>.</span><span class=na>save</span><span class=o>(</span><span class=n>attempts</span><span class=o>);</span> 
 </span></span><span class=line><span class=cl>      <span class=o>}</span> <span class=k>else</span> <span class=o>{</span>
 </span></span><span class=line><span class=cl>         <span class=n>Attempts</span> <span class=n>attempts</span> <span class=o>=</span> <span class=n>userAttempts</span><span class=o>.</span><span class=na>get</span><span class=o>();</span> 
-</span></span><span class=line><span class=cl>         <span class=n>attempts</span><span class=o>.</span><span class=na>setAttempts</span><span class=o>(</span><span class=n>attempts</span><span class=o>.</span><span class=na>getAttempts</span><span class=o>()</span> <span class=o>+</span> <span class=n>1</span><span class=o>);</span> 
+</span></span><span class=line><span class=cl>         <span class=n>attempts</span><span class=o>.</span><span class=na>setAttempts</span><span class=o>(</span><span class=n>attempts</span><span class=o>.</span><span class=na>getAttempts</span><span class=o>()</span> <span class=o>+</span> <span class=mi>1</span><span class=o>);</span> 
 </span></span><span class=line><span class=cl>         <span class=n>attemptsRepository</span><span class=o>.</span><span class=na>save</span><span class=o>(</span><span class=n>attempts</span><span class=o>);</span>
 </span></span><span class=line><span class=cl>      
-</span></span><span class=line><span class=cl>         <span class=k>if</span> <span class=o>(</span><span class=n>attempts</span><span class=o>.</span><span class=na>getAttempts</span><span class=o>()</span> <span class=o>+</span> <span class=n>1</span> <span class=o>&gt;</span> 
+</span></span><span class=line><span class=cl>         <span class=k>if</span> <span class=o>(</span><span class=n>attempts</span><span class=o>.</span><span class=na>getAttempts</span><span class=o>()</span> <span class=o>+</span> <span class=mi>1</span> <span class=o>&gt;</span> 
 </span></span><span class=line><span class=cl>         <span class=n>ATTEMPTS_LIMIT</span><span class=o>)</span> <span class=o>{</span>
 </span></span><span class=line><span class=cl>            <span class=n>user</span><span class=o>.</span><span class=na>setAccountNonLocked</span><span class=o>(</span><span class=kc>false</span><span class=o>);</span> 
 </span></span><span class=line><span class=cl>            <span class=n>userRepository</span><span class=o>.</span><span class=na>save</span><span class=o>(</span><span class=n>user</span><span class=o>);</span> 

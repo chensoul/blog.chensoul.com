@@ -6,7 +6,483 @@
     <description>Recent content in java on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 12 Oct 2023 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 13 Oct 2023 07:30:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java设计模式：Callback</title>
+      <link>https://blog.chensoul.com/posts/2023/10/13/java-design-patterns-callback/</link>
+      <pubDate>Fri, 13 Oct 2023 07:30:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/10/13/java-design-patterns-callback/</guid>
+      <description>本文主要介绍 Callback 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 回调（Callbac</description>
+      <content:encoded><![CDATA[<p>本文主要介绍 <a href="https://java-design-patterns.com/zh/patterns/callback/">Callback</a> 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+<h2 id="介绍">介绍</h2>
+<p>回调（Callback）是一种设计模式，在这种模式中，一个可执行的代码被作为参数传递给其他代码，接收方的代码可以在适当的时候调用它。</p>
+<p>在真实世界的例子中，当我们需要在任务完成时被通知时，我们可以将一个回调方法传递给调用者，并等待它调用以通知我们。简单地说，回调是一个传递给调用者的方法，在定义的时刻被调用。</p>
+<p>维基百科说</p>
+<blockquote>
+<p>在计算机编程中，回调又被称为“稍后调用”函数，可以是任何可执行的代码用来作为参数传递给其他代码；其它代码被期望在给定时间内调用回调方法。</p>
+</blockquote>
+<h2 id="代码">代码</h2>
+<p>回调是一个只有一个方法的简单接口。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Callback</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">call</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>下面我们定义一个任务它将在任务执行完成后执行回调。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Task</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">final</span> <span class="kt">void</span> <span class="nf">executeWith</span><span class="o">(</span><span class="n">Callback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">execute</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="n">callback</span><span class="o">).</span><span class="na">ifPresent</span><span class="o">(</span><span class="n">Callback</span><span class="o">::</span><span class="n">call</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">SimpleTask</span> <span class="kd">extends</span> <span class="n">Task</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">getLogger</span><span class="o">(</span><span class="n">SimpleTask</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Perform some important activity and after call the callback method.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后这里是我们如何执行一个任务然后接收一个回调当它完成时。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">var</span> <span class="n">task</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleTask</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">task</span><span class="o">.</span><span class="na">executeWith</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;I&#39;m done now.&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><h2 id="类图">类图</h2>
+<p><img loading="lazy" src="https://java-design-patterns.com/assets/callback-a632b2a4.png" alt="alt text"  />
+</p>
+<h2 id="适用场景">适用场景</h2>
+<p>回调模式适用于以下场景：</p>
+<ol>
+<li>异步操作：当需要在异步操作完成后执行某些操作时，可以使用回调模式。例如，在网络请求中，可以传递一个回调函数，在请求完成后调用该函数处理响应数据。</li>
+<li>事件处理：当需要对事件进行响应和处理时，可以使用回调模式。例如，在图形界面开发中，可以注册某个控件的回调函数，以便在用户触发事件时执行相应的操作。</li>
+<li>插件扩展：当需要为应用程序提供扩展性，允许第三方插件在特定事件发生时进行自定义操作时，可以使用回调模式。例如，游戏引擎中的事件系统允许开发者注册回调函数以响应游戏中的特定事件。</li>
+<li>回调链：当需要按特定顺序执行多个回调函数，并将前一个回调函数的结果传递给下一个回调函数时，可以使用回调模式。这种情况下，回调函数形成了一个回调链。</li>
+<li>模板方法模式：回调模式常与模板方法模式结合使用。模板方法模式定义了一个算法的骨架，而具体的步骤由子类实现。可以使用回调模式将子类中的具体步骤作为回调函数传递给模板方法。</li>
+</ol>
+<p>总的来说，回调模式适用于需要在特定事件发生后执行某些操作的情况，以及需要实现解耦和灵活性的场景。它提供了一种在代码间通信的方式，使得代码可以更加模块化和可复用。</p>
+<h2 id="java例子">Java例子</h2>
+<ul>
+<li><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CyclicBarrier.html">CyclicBarrier</a> 构造函数可以接受回调，该回调将在每次障碍被触发时触发。</li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<h3 id="回调模式如何实现解耦和灵活性">回调模式如何实现解耦和灵活性？</h3>
+<p>回调模式通过将一个可执行的代码块（回调函数）作为参数传递给其他代码，实现了解耦和灵活性。</p>
+<ul>
+<li>
+<p>解耦性：回调模式可以将调用方与被调用方解耦，使它们之间的关系更加松散。调用方只需要知道回调函数的接口，而不需要了解具体的实现细节。被调用方在特定的时机调用回调函数，而不需要知道调用方的具体实现。这种解耦性使得系统中的不同部分可以独立地进行修改和扩展，而不会对彼此产生过多的依赖。</p>
+</li>
+<li>
+<p>灵活性：回调模式提供了一种灵活的扩展机制。通过传递不同的回调函数，可以改变程序的行为或逻辑，而不需要修改原有的代码。这种灵活性使得系统可以适应不同的需求和变化，而不需要进行大规模的修改或重构。同时，回调模式也允许在运行时动态地修改回调函数，从而实现更高级的动态行为。</p>
+</li>
+</ul>
+<p>通过使用回调模式，系统的不同部分可以相互独立地演化和扩展，而不会引入过多的紧耦合关系。这使得代码更加模块化、可复用和可维护。此外，回调模式还可以提高代码的可测试性，因为可以使用模拟或替代的回调函数来进行单元测试。</p>
+<p>总而言之，回调模式通过解耦和灵活性的特性，帮助提高了代码的可维护性、可扩展性和可测试性，使系统更加灵活和适应变化。</p>
+<h3 id="回调模式和事件驱动模式有什么区别">回调模式和事件驱动模式有什么区别？</h3>
+<p>回调模式和事件驱动模式是两种常见的设计模式，它们在某些方面有相似之处，但也存在一些区别。</p>
+<p>回调模式：</p>
+<ul>
+<li>在回调模式中，一个可执行的代码块（回调函数）被传递给其他代码，以便在特定事件发生时被调用。</li>
+<li>回调函数通常由调用方提供，用于定义在特定事件发生时应该执行的操作。</li>
+<li>回调模式用于实现解耦和灵活性，允许不同模块之间通过回调函数进行通信，但不依赖于具体的实现细节。</li>
+</ul>
+<p>事件驱动模式：</p>
+<ul>
+<li>事件驱动模式是一种编程范式，其中系统的行为和控制是由事件的发生和处理驱动的。</li>
+<li>在事件驱动模式中，组件（如控件、对象等）可以产生事件，并将其发送到事件处理程序进行处理。</li>
+<li>事件处理程序是事先定义好的，用于响应特定类型的事件。</li>
+<li>事件驱动模式通常涉及事件的发布、订阅和分发机制，以便将事件路由到正确的处理程序。</li>
+</ul>
+<p>区别：</p>
+<ol>
+<li>角色和通信方式：在回调模式中，回调函数是被调用方提供给调用方的，通过函数参数进行传递。而在事件驱动模式中，组件产生事件并将其发送给事件处理程序进行处理。</li>
+<li>控制流：在回调模式中，调用方主动调用回调函数来传递控制权，以响应特定事件。而在事件驱动模式中，控制流是由事件的发生和处理驱动的，事件处理程序被动地等待事件的发生。</li>
+<li>灵活性和扩展性：回调模式更加灵活，因为可以将不同的回调函数传递给相同的调用方，从而改变其行为。而事件驱动模式更加适用于大型系统，因为可以通过添加、移除或替换事件处理程序来扩展系统的功能。</li>
+<li>通信机制：回调模式通常使用函数参数进行通信，而事件驱动模式通常使用发布-订阅或观察者模式来实现事件的传递和处理。</li>
+</ol>
+<p>需要注意的是，回调模式和事件驱动模式并不是互斥的，它们可以同时存在于一个系统中，相互配合使用来实现不同的需求。</p>
+<h3 id="回调模式和观察者模式有什么区别">回调模式和观察者模式有什么区别？</h3>
+<p>回调模式和观察者模式是两种常见的设计模式，它们在某些方面有相似之处，但也存在一些区别。</p>
+<p>回调模式：</p>
+<ul>
+<li>在回调模式中，一个可执行的代码块（回调函数）被传递给其他代码，以便在特定事件发生时被调用。</li>
+<li>回调函数通常由调用方提供，用于定义在特定事件发生时应该执行的操作。</li>
+<li>回调模式用于实现解耦和灵活性，允许不同模块之间通过回调函数进行通信，但不依赖于具体的实现细节。</li>
+</ul>
+<p>观察者模式：</p>
+<ul>
+<li>观察者模式是一种发布-订阅模式，用于在对象之间建立一对多的依赖关系。当一个对象的状态发生变化时，它会通知所有依赖于它的观察者对象。</li>
+<li>观察者模式通常由一个主题（被观察者）和多个观察者组成。主题维护观察者列表，并在状态变化时通知观察者。</li>
+<li>观察者模式用于实现对象之间的松耦合，使得主题和观察者可以独立变化，而不会相互影响。</li>
+</ul>
+<p>区别：</p>
+<ol>
+<li>角色和通信方式：在回调模式中，回调函数是被调用方提供给调用方的，通过函数参数进行传递。而在观察者模式中，主题通常维护观察者列表，并通过通知方法将状态变化信息传递给观察者。</li>
+<li>控制流：在回调模式中，调用方主动调用回调函数来传递控制权，以响应特定事件。而在观察者模式中，主题对象在状态变化时被动地通知观察者，并由观察者决定如何处理通知。</li>
+<li>关注点：回调模式更关注于事件发生后的回调操作。观察者模式更关注于主题和观察者之间的状态变化通知和处理。</li>
+<li>依赖关系：在回调模式中，调用方和被调用方之间存在直接依赖关系，因为回调函数是由调用方提供的。而在观察者模式中，主题和观察者之间松耦合，它们只通过接口进行通信，不直接依赖于具体的实现。</li>
+</ol>
+<p>需要注意的是，回调模式和观察者模式可以根据具体的应用场景进行选择和组合使用。在某些情况下，它们可以互为补充，实现更灵活和可扩展的系统设计。</p>
+<h3 id="使用回调模式会存在内存泄露吗">使用回调模式，会存在内存泄露吗？</h3>
+<p>在Java中使用回调模式时，也存在潜在的内存泄漏问题。内存泄漏可能发生在以下情况下：</p>
+<ol>
+<li>长期持有回调对象：如果一个对象持有一个回调对象的引用，并且该回调对象的生命周期比持有对象更长，那么即使持有对象不再使用，回调对象仍然保持对其的引用，从而导致内存泄漏。</li>
+<li>匿名内部类回调：当使用匿名内部类作为回调对象时，如果匿名内部类引用了外部类的实例，且该实例的生命周期比回调对象更长，那么即使外部类实例不再需要，回调对象仍然保持对其的引用，导致内存泄漏。</li>
+</ol>
+<h3 id="使用回调模式如何避免内存泄露">使用回调模式，如何避免内存泄露？</h3>
+<p>以下是一些常见的方法来避免内存泄漏：</p>
+<ol>
+<li>及时释放对象引用：确保在不再需要对象时，显式地将其引用设置为null。这样可以使垃圾回收器能够回收对象所占用的内存。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SomeObject</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SomeObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用obj对象...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">obj</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// 不再需要obj对象时，将其引用设置为null
+</span></span></span></code></pre></div><ol start="2">
+<li>避免长期持有对象引用：当一个对象持有另一个对象的引用时，确保持有引用的对象的生命周期不比被引用对象更长。在不再需要持有对象时，及时将其引用设置为null。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Callback</span> <span class="n">callback</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setCallback</span><span class="o">(</span><span class="n">Callback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 使用callback对象...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">callback</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// 不再需要callback对象时，将其引用设置为null
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol start="3">
+<li>使用弱引用或软引用：对于某些情况下，当对象不再被强引用引用时，希望能够被垃圾回收，可以使用弱引用（WeakReference）或软引用（SoftReference）来持有对象。这样，在内存不足时，垃圾回收器可以回收这些对象。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SomeObject</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SomeObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">WeakReference</span><span class="o">&lt;</span><span class="n">SomeObject</span><span class="o">&gt;</span> <span class="n">weakRef</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WeakReference</span><span class="o">&lt;&gt;(</span><span class="n">obj</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用weakRef对象...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">obj</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// 不再需要obj对象时，将其引用设置为null
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 在适当的时机，检查弱引用是否还持有对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="o">(</span><span class="n">weakRef</span><span class="o">.</span><span class="na">get</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 对象已被垃圾回收
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><ol start="4">
+<li>避免匿名内部类引用外部对象：在使用匿名内部类时，避免在内部类中引用外部类的实例，或者使用静态内部类来避免该问题。如果匿名内部类引用了外部类实例，并且外部类实例的生命周期比内部类更长，就会导致内存泄漏。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">final</span> <span class="n">SomeObject</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SomeObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Runnable</span> <span class="n">runnable</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 使用obj对象...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">};</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 使用runnable对象...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上述示例中，匿名内部类引用了外部类的<code>SomeObject</code>实例<code>obj</code>。如果在<code>run()</code>方法中持续引用了<code>obj</code>，那么即使<code>doSomething()</code>方法执行完毕，<code>obj</code>仍然无法被垃圾回收。为避免该问题，可以将<code>SomeObject</code>声明为<code>final</code>，或者使用静态内部类。</p>
+<blockquote>
+<ul>
+<li>
+<p>1、在Java中，将<code>SomeObject</code>声明为<code>final</code>可以帮助避免匿名内部类引起的内存泄漏问题。</p>
+<p>当内部类引用外部类的实例时，如果外部类的实例不再需要，但内部类仍然持有对外部类实例的引用，就可能导致内存泄漏。</p>
+<p>当将<code>SomeObject</code>声明为<code>final</code>时，编译器会确保在匿名内部类中使用的外部类实例不可变。这意味着在编译时，编译器会将对外部类实例的引用复制给内部类的成员变量，并且该引用在整个内部类的生命周期中保持不变。</p>
+<p>由于引用是不可变的，因此不会出现外部类实例被内部类持有，从而导致外部类实例无法被垃圾回收的情况。一旦外部类实例不再被引用，即使匿名内部类仍然存在，外部类实例也可以被垃圾回收器回收。</p>
+<p>通过将<code>SomeObject</code>声明为<code>final</code>，可以确保在匿名内部类中对外部类实例的引用是安全的，不会导致内存泄漏问题。这是因为编译器在编译时会生成正确的代码，确保内部类不会持有外部类实例的引用超过其生命周期。</p>
+<p>需要注意的是，虽然使用<code>final</code>修饰外部类引用可以帮助避免内存泄漏问题，但这并不是解决所有可能导致内存泄漏的情况的通用解决方案。在处理回调或内部类时，还需要仔细考虑对象引用的生命周期，并采取适当的措施来避免潜在的内存泄漏。</p>
+</li>
+<li>
+<p>2、使用静态内部类可以帮助避免内部类引起的内存泄漏问题。</p>
+<p>静态内部类与外部类之间的引用是相互独立的，这意味着静态内部类不会隐式地持有对外部类实例的引用。</p>
+<p>当内部类是静态内部类时，它不会隐式地持有对外部类实例的引用。这意味着即使外部类实例不再被引用，静态内部类仍然可以独立存在，而不会阻止外部类实例被垃圾回收。</p>
+<p>由于静态内部类不持有对外部类实例的引用，因此在外部类实例不再需要时，可以安全地将其设置为null，并允许垃圾回收器回收内存。</p>
+<p>以下是使用静态内部类的示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SomeClass</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">CallbackImpl</span> <span class="kd">implements</span> <span class="n">Callback</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 实现回调接口的方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Callback</span> <span class="n">callback</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CallbackImpl</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 使用callback对象...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">callback</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// 不再需要callback对象时，将其引用设置为null
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上述示例中，<code>CallbackImpl</code>是静态内部类，它实现了<code>Callback</code>接口。在<code>doSomething()</code>方法中，我们创建了<code>CallbackImpl</code>的实例，并使用它进行回调操作。当不再需要<code>callback</code>对象时，将其引用设置为null，以允许垃圾回收器回收内存。</p>
+<p>使用静态内部类可以有效地避免内存泄漏问题，因为它们不会持有对外部类实例的引用，从而使得外部类实例可以在不再需要时被垃圾回收。这使得静态内部类成为一种常见的处理回调或复杂逻辑的有效方式。</p>
+</li>
+</ul>
+</blockquote>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>[译]Spring Boot3和Spring6中的新特性</title>
+      <link>https://blog.chensoul.com/posts/2023/10/13/new-features-in-spring-boot-3-and-spring-6/</link>
+      <pubDate>Fri, 13 Oct 2023 07:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/10/13/new-features-in-spring-boot-3-and-spring-6/</guid>
+      <description>Spring Boot 3.0 于 2022 年 11 月正式发布，包含一些新功能和改进。这是继大约 4.5 年前发布 Spring Boot 2.0 后 Spring Boot 的第一个主要版本。它也是第一个支持 Spring Framework 6.0 的 Spring Boot GA 版本。作为开</description>
+      <content:encoded><![CDATA[<p>Spring Boot 3.0 于 2022 年 11 月正式发布，包含一些新功能和改进。这是继大约 4.5 年前发布 Spring Boot 2.0 后 Spring Boot 的第一个主要版本。它也是第一个支持 Spring Framework 6.0 的 Spring Boot GA 版本。作为开发人员，我们需要了解这些更新，才能顺利使用 Spring Boot。毫无疑问，新版本中最大的转变之一是放弃了对旧版本 Java 的支持。</p>
+<p>在本文中，我们将讨论“Spring Boot 3 和 Spring 6 中的新功能”。</p>
+<h2 id="spring-30版本有哪些主要亮点">Spring 3.0版本有哪些主要亮点？</h2>
+<p>Spring 3.0 版本的亮点包括：</p>
+<ul>
+<li>Java 17 基线</li>
+<li>支持 Jakarta EE 10 和 EE 9 基线</li>
+<li>支持使用 GraalVM 生成本机映像，取代实验性 Spring Native 项目</li>
+<li>通过测微计和测微计追踪提高了可观测性</li>
+</ul>
+<h2 id="谁可以真正使用-spring-boot-3">谁可以真正使用 Spring Boot 3？</h2>
+<p>如前所述，Spring Boot 3.0 最大的转变是忽略了对旧版本 Java 的支持。是的，我们至少需要 Java 17 才能使用 Spring Boot 3.0。因此，在使用 Spring Boot 3.0 之前必须具备 JDK 17 环境。</p>
+<h2 id="spring-boot-3-和-spring-6-有哪些新功能">Spring Boot 3 和 Spring 6 有哪些新功能？</h2>
+<p>这里需要注意的重要一点是 Spring Boot 3.0 构建于 Spring Framework 6 之上并需要 Spring Framework 6。因此，如果您的 pom.xml 指向 Spring Boot 版本 3.0.0，它将自动下载 Spring Framework 6 所需的依赖项。因此，默认情况下，您在使用 Spring Boot 3.0 时将使用 Spring Framework 6。请访问单独的文章了解 Spring Framework 6.0 中的新功能。这里只讨论 Spring Boot 3 中的新功能。</p>
+<h3 id="java-17-基线和-java-19-支持">Java 17 基线和 Java 19 支持</h3>
+<p>我们需要 Java 17 作为最低版本才能与 Spring 3.0 配合使用。如果您当前使用的是 Java 8、Java 11 或 Java 14 等较低版本，则需要先将 JDK 升级到 JDK 17，然后再开始使用 Spring Boot 3.0 开发应用程序。目前Java的最新版本是JDK 19。不过，Spring Boot 3.0也运行良好，并且已经在JDK 19上进行了测试。</p>
+<p>您还可以阅读：<a href="https://javatechonline.com/java-17-features/">Java 17 特性</a>。</p>
+<h3 id="第三方库升级">第三方库升级</h3>
+<ol>
+<li>由于Java EE已更改为Jakarta EE，Spring Boot 3.0也将所有依赖项的API从Java EE迁移到Jakarta EE API。因此，以“javax”开头的包名称需要相应地更改为“jakarta”。</li>
+</ol>
+<p>例如，一些常用的包将被更改如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">javax.persistence.*   -&gt; jakarta.persistence.*
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">javax.validation.*    -&gt; jakarta.validation.*
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">javax.servlet.*       -&gt; jakarta.servlet.*
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">javax.annotation.*    -&gt; jakarta.annotation.*
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">javax.transaction.*   -&gt; jakarta.transaction.*
+</span></span></code></pre></div><p>注意：请注意，javax.sql.* 和 javax.crypto.* 等包不会更改为“jakarta.*”，因为它们是 Java 17 JDK 的一部分，而不是 Java EE 的一部分。只有属于 Java EE 的那些包才会更改为 Jakarta EE。</p>
+<p>只要有可能，我们都会选择 Jakarta EE 10 兼容的依赖项，包括：</p>
+<ul>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta Activation 2.1
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta JMS 3.1
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta JSON 2.1
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta JSON Bind 3.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta Mail 2.1
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta Persistence 3.1
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta Servlet 6.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta Servlet JSP JSTL 3.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta Transaction 2.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta Validation 3.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta WebSocket 2.1
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta WS RS 3.1
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta XML SOAP 3.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jakarta XML WS 4.0
+</span></span></code></pre></div></li>
+</ul>
+<ol start="2">
+<li>随着Spring框架升级到版本6，其他Spring项目也在这个版本中升级，它们是：</li>
+</ol>
+<ul>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring AMQP 3.0.
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring Batch 5.0.
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring Data 2022.0.
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring GraphQL 1.1.
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring HATEOAS 2.0.
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring Integration 6.0.
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring Kafka 3.0.
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring LDAP 3.0.
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring REST Docs 3.0.
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring Retry 2.0.
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring Security 6.0 (see also what’s new).
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring Session 3.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Spring WS 4.0.
+</span></span></code></pre></div></li>
+</ul>
+<ol start="3">
+<li>第三方jar的最新稳定版本也会尽可能升级。一些常用的依赖项升级包括：</li>
+</ol>
+<ul>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Couchbase Client 3.4
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Ehcache 3.10
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Elasticsearch Client 8.5
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Flyway 9
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Groovy 4.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Hibernate 6.1
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Hibernate Validator 8.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jackson 2.14
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jersey 3.1
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Jetty 11
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">jOOQ 3.16
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Kotlin 1.7.20
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Liquibase 4.13
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Lettuce 6.2
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Log4j 2.18
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Logback 1.4
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Micrometer 1.10
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Micrometer Tracing 1.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Neo4j Java Driver 5.2
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Netty 4.1.77.Final
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">OkHttp 4.10
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">R2DBC 1.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Reactor 2022.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SLF4J 2.0
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SnakeYAML 1.32
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Tomcat 10
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Thymeleaf 3.1.0.M2
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Undertow 2.2.20.Final
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="graalvm-本机映像支持">GraalVM 本机映像支持</h3>
+<p>GraalVM Native Images 提供了一种部署和运行 Java 应用程序的新方法。与 Java 虚拟机相比，本机映像可以以更小的内存占用和更快的启动时间运行。</p>
+<p>GraalVM 是一种高性能 JDK，旨在加快用 Java 和其他 JVM 语言编写的应用程序的执行速度，同时还为 JavaScript、Python 和许多其他流行语言提供运行时。 GraalVM 提供了两种运行 Java 应用程序的方法：在带有 Graal 即时 (JIT) 编译器的 HotSpot JVM 上或作为提前 (AOT) 编译的本机可执行文件。</p>
+<p>GraalVM 本机映像是独立的可执行文件，可以通过提前处理已编译的 Java 应用程序来生成。原生映像通常比 JVM 映像具有更小的内存占用并且启动速度更快。它们非常适合使用容器映像部署的应用程序。 GraalVM Native Image 是一个完整的、特定于平台的可执行文件。我们不需要提供 Java 虚拟机来运行本机映像。</p>
+<p>如果您想了解更多信息并尝试使用 GraalVM，您可以继续阅读有关“<a href="https://docs.spring.io/spring-boot/docs/3.0.0/reference/html/native-image.html#native-image">GraalVM Native Image Support</a>”的官方文档。</p>
+<h3 id="通过测微计和测微计追踪提高可观测性">通过测微计和测微计追踪提高可观测性</h3>
+<p>可观察性是从外部观察正在运行的系统的内部状态的能力。换句话说，“通过检查系统的输出，您可以在多大程度上了解系统的内部结构”。它由日志记录、指标和跟踪三大支柱组成。对于指标和跟踪，Spring Boot 使用 Micrometer Observation。要创建您自己的观察（这将产生指标和跟踪），您可以注入 ObservationRegistry。</p>
+<ol>
+<li>Spring Boot 3.0支持Micrometer 1.10中引入的新观察API。新的 ObservationRegistry 界面可用于创建观察结果，为指标和跟踪提供单一 API。 Spring Boot 现在会自动为您配置 ObservationRegistry 实例。下面的代码片段演示了 ObervationRegistry 的概念。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyCustomObservation</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">private</span> <span class="kd">final</span> <span class="n">ObservationRegistry</span> <span class="n">observationRegistry</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="nf">MyCustomObservation</span><span class="o">(</span><span class="n">ObservationRegistry</span> <span class="n">observationRegistry</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="o">.</span><span class="na">observationRegistry</span> <span class="o">=</span> <span class="n">observationRegistry</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Observation</span><span class="o">.</span><span class="na">createNotStarted</span><span class="o">(</span><span class="s">&#34;doSomething&#34;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">observationRegistry</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                 <span class="o">.</span><span class="na">lowCardinalityKeyValue</span><span class="o">(</span><span class="s">&#34;locale&#34;</span><span class="o">,</span> <span class="s">&#34;en-US&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                 <span class="o">.</span><span class="na">highCardinalityKeyValue</span><span class="o">(</span><span class="s">&#34;userId&#34;</span><span class="o">,</span> <span class="s">&#34;42&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                 <span class="o">.</span><span class="na">observe</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                       <span class="c1">// Execute business logic here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                 <span class="o">});</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol start="2">
+<li>Spring Boot 现在会自动为您配置 Micrometer Tracing。这包括对 Brave、OpenTelemetry、Zipkin 和 Wavefront 的支持。 Spring Cloud Sleuth 在新版本中被 Micrometer Tracing Framework 取代。</li>
+</ol>
+<h2 id="使用-spring-boot-30-的-spring-security-userdetailsservice-示例">使用 Spring Boot 3.0 的 Spring Security UserDetailsService 示例</h2>
+<p>此外，我们还有一篇单独的文章作为 <a href="https://javatechonline.com/spring-security-userdetailsservice-using-spring-boot-3/">Spring Security UserDetailsS​​ervice 使用 Spring Boot 3</a> 的示例，该文章完全使用 Spring Boot 3.0 并遵循 Spring 官方文档提供的分步指南进行开发。此外，您可以阅读《<a href="https://javatechonline.com/how-to-migrate-spring-boot-2-to-spring-boot-3/">Spring Boot 3.0 迁移指南</a>》来彻底了解迁移过程。</p>
+<p>这是目前的功能列表。显然，还有更多。我们将不时更新文章。</p>
+<p>有关 Spring Boot 的其他教程，您可以访问 <a href="https://javatechonline.com/spring-boot-tutorial/">Spring Boot 教程</a>页面。</p>
+<h2 id="spring-boot-3-和-spring-6-版本如何互连">Spring Boot 3 和 Spring 6 版本如何互连？</h2>
+<p>如上所述，Spring Boot 3.0 构建在 Spring Framework 6.0 之上。两者的发布之间有一周的间隔。 Spring Framework 6.0.0 比 Spring Boot 3.0 发布早一周发布。换句话说，Spring Framework 6.0.0 是 Spring Boot 3.0 的基础。此外，如果您的 pom.xml 指向 Spring Boot 版本 3.0.0，它将自动下载 Spring Framework 6 所需的依赖项。因此，默认情况下，您在使用 Spring Boot 3.0 时将使用 Spring Framework 6。</p>
+<p>虽然提前（AOT）和 GraalVM 是 Spring Framework 6.0 的新功能，但如果没有完整的 Spring Boot 堆栈，它们就没有用。它们在基于 Spring 的独立应用程序中还不够好。</p>
+<p>下一个版本 Spring Framework 6.1 GA 将于明年即 2023 年 11 月发布。另一方面，到 2023 年 11 月，Spring Boot 将有两个版本，即 Spring Boot 3.0 和 3.1。这意味着 Spring Framework 将有每年发布一个版本，而 Spring boot 每年发布两个版本，并支持最新的 JDK 版本。按照 JDK 的常规发布，JDK 21(LTS) 将于 2023 年 9 月发布，即 Spring Framework 6.1 GA 发布之前。</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="spring-boot-3-可以与-java-11-一起使用吗">Spring Boot 3 可以与 Java 11 一起使用吗？</h3>
+<p>一点也不。 Spring Boot 3.0.0 需要 JDK 17 作为最低版本才能使用。 Spring Boot 3.0发布文档中明确提到了这一点。如果您想使用低于 Java 17 的 Java 版本，则必须使用 Spring Boot 2.0。</p>
+<h3 id="spring-boot-3-支持-java-8-吗">Spring Boot 3 支持 Java 8 吗？</h3>
+<p>根本不需要。为了使用 Spring Boot 3，您的系统中必须至少安装 Java 17。不仅安装了，您的代码还必须使用 JDK 17 进行编译。使用 JDK 17 或更高版本编译的代码将仅被 Spring Boot 3 接受。</p>
+<p>原文链接：<a href="https://javatechonline.com/new-features-in-spring-boot-3-and-spring-6/">https://javatechonline.com/new-features-in-spring-boot-3-and-spring-6/</a></p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>[译]Spring Security 面试问题</title>
       <link>https://blog.chensoul.com/posts/2023/10/12/spring-security-interview-questions/</link>
@@ -424,8 +900,8 @@
       <pubDate>Mon, 25 Sep 2023 09:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/09/25/java-design-patterns-cahcing/</guid>
-      <description>本文主要介绍 Caching 业务委托模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 缓存模式（C</description>
-      <content:encoded><![CDATA[<p>本文主要介绍 <a href="https://java-design-patterns.com/zh/patterns/caching/">Caching</a> 业务委托模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+      <description>本文主要介绍 Caching 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 缓存模式（Cachi</description>
+      <content:encoded><![CDATA[<p>本文主要介绍 <a href="https://java-design-patterns.com/zh/patterns/caching/">Caching</a> 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
 <h2 id="介绍">介绍</h2>
 <p>缓存模式（Caching Pattern）是一种设计模式，旨在通过在资源使用后将其保留在某个快速访问的存储中，并在需要时重新使用资源，以避免昂贵的资源重新获取。</p>
 <p>缓存模式的目的是减少重复获取、初始化和释放同一资源所带来的不必要性能开销。通过将资源保留在缓存中，可以避免再次获取资源，从而提高系统的响应速度和性能。</p>
@@ -471,8 +947,8 @@
       <pubDate>Fri, 22 Sep 2023 09:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/09/22/java-design-patterns-bytecode/</guid>
-      <description>本文主要介绍 Bytecode 业务委托模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 字节码设计模</description>
-      <content:encoded><![CDATA[<p>本文主要介绍 <a href="https://java-design-patterns.com/zh/patterns/bytecode/">Bytecode</a> 业务委托模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+      <description>本文主要介绍 Bytecode 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 字节码设计模式是一种</description>
+      <content:encoded><![CDATA[<p>本文主要介绍 <a href="https://java-design-patterns.com/zh/patterns/bytecode/">Bytecode</a> 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a>  网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
 <h2 id="介绍">介绍</h2>
 <p>字节码设计模式是一种软件设计模式，它允许以数据驱动的方式定义和执行行为。在字节码设计模式中，行为被表示为一系列虚拟机指令，这些指令被编码为字节码，并在运行时执行。</p>
 <p>字节码设计模式的目的是将行为与代码分离，使得行为可以在不修改源代码的情况下进行动态调整和扩展。通过将行为以数据的形式表示，并使用字节码指令进行执行，可以实现更灵活和可配置的行为逻辑。</p>

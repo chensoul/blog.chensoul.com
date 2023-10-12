@@ -52,7 +52,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git config --global user.name   <span class="c1"># Prints &#39;lokeshgupta1981&#39; </span>
 </span></span><span class="line"><span class="cl">git config --global user.email    <span class="c1"># Prints &#39;howtodoinjava@gmail.com&#39;</span>
 </span></span></code></pre></div><h2 id="4-git-中的暂存区是什么意思">4. Git 中的“暂存区”是什么意思？</h2>
-<p>Git 中的“暂存区域”也称为“索引”，是一个中间区域，在将文件提交到 Git 存储库之前，在此区域准备对文件的更改。**</p>
+<p>Git 中的“暂存区域”也称为“索引”，是一个中间区域，在将文件提交到 Git 存储库之前，在此区域准备对文件的更改。</p>
 <p>当我们对项目文件进行更改时，Git 提供了一个两步过程来提交这些更改。暂存区域充当工作目录（进行修改的位置）和存储库（存储提交的位置 =&gt; .git 文件夹）之间的桥梁。</p>
 <p><img loading="lazy" src="https://howtodoinjava.com/wp-content/uploads/2023/07/StagingArea-1024x517.png" alt="img"  />
 </p>
@@ -141,11 +141,11 @@
 </span></span></code></pre></div><p>此命令从存储列表中删除特定存储，而不应用其更改。</p>
 <p>当我们正在处理某件事但需要切换到不同的任务或分支时，Git stash 非常有用。它允许我们暂时保存更改、切换上下文，然后返回到保存的状态以继续我们上次中断的地方。</p>
 <h2 id="7-git-fetch-和-git-pull-有什么区别">7. ‘git fetch’ 和 ‘git pull’ 有什么区别？</h2>
-<p><code>git *fetch*</code> 和 <code>git *pull*</code> 都用于从远程存储库获取更改并将其合并到本地存储库中。然而，它们在处理获取的更改和更新本地分支的方式上有所不同。</p>
+<p><code>git fetch</code> 和 <code>git pull</code> 都用于从远程存储库获取更改并将其合并到本地存储库中。然而，它们在处理获取的更改和更新本地分支的方式上有所不同。</p>
 <p>以下是 <code>git fetch</code> 和 <code>git pull</code> 之间的主要区别：</p>
 <h3 id="git-fetch-git-获取">git fetch git 获取</h3>
 <ul>
-<li>从远程存储库检索最新更改，包括新分支、提交和标签，而不自动将它们合并到当前分支中。**</li>
+<li>从远程存储库检索最新更改，包括新分支、提交和标签，而不自动将它们合并到当前分支中。</li>
 <li>更新远程跟踪分支（例如 <code>origin/master</code> ）以反映远程存储库的状态。</li>
 <li>不修改您的本地分支或工作目录。</li>
 <li>允许我们在手动合并之前检查和审查获取的更改，从而提供决定如何集成更改的机会。</li>
@@ -154,7 +154,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git fetch origin
 </span></span></code></pre></div><h3 id="git-pull">git pull</h3>
 <ul>
-<li>执行 <code>git fetch</code> ，然后将获取的更改自动合并到当前分支中。**</li>
+<li>执行 <code>git fetch</code> ，然后将获取的更改自动合并到当前分支中。</li>
 <li>更新远程跟踪分支和本地分支，合并获取的更改。</li>
 <li>如果当前分支有本地修改， <code>git pull</code> 会尝试自动合并更改。如果存在冲突，则需要手动解决。</li>
 <li>自动更新您的工作目录以反映合并的更改。</li>
@@ -205,7 +205,7 @@
 <li>此外， <code>git checkout -b &lt;new-branch-name&gt;</code> 创建一个新分支并在单个命令中切换到它。</li>
 </ul>
 <h3 id="git-rebase">git rebase</h3>
-<p><code>git rebase</code> 用于将一个分支的更改集成到另一个分支，通常用于将功能分支的更改合并到主分支中。**</p>
+<p><code>git rebase</code> 用于将一个分支的更改集成到另一个分支，通常用于将功能分支的更改合并到主分支中。</p>
 <p>假设我们有两个分支：源分支（我们称之为“feature”）和目标分支（通常是“master”或“main”）。 “feature”分支包含一些更改，我们希望将这些更改合并到“master”分支中。但是，我们不想执行标准合并，因为我们想维护线性提交历史记录。</p>
 <p>首先，您需要确保您位于目标分支（git checkout master）。在这种情况下，它将是 master，然后，启动 rebase 命令，指定要 rebase 到当前分支（目标分支）的源分支。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git rebase feature
@@ -318,7 +318,7 @@
 </tbody>
 </table>
 <h3 id="git-log">git log</h3>
-<p><code>*git log*</code> 命令提供存储库中按时间顺序提交的列表，显示提交哈希、作者、日期和提交消息等详细信息。默认情况下，它显示当前分支的提交历史记录，从最近的提交开始并按时间倒退。各种选项和标志允许自定义，例如按作者、日期范围或分支进行过滤。</p>
+<p><code>git log</code> 命令提供存储库中按时间顺序提交的列表，显示提交哈希、作者、日期和提交消息等详细信息。默认情况下，它显示当前分支的提交历史记录，从最近的提交开始并按时间倒退。各种选项和标志允许自定义，例如按作者、日期范围或分支进行过滤。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># To see the commit history for the current branch </span>
 </span></span><span class="line"><span class="cl">git log
 </span></span></code></pre></div><p>要以紧凑的一行格式显示提交历史记录，我们使用以下命令：</p>
@@ -331,13 +331,13 @@
 </span></span><span class="line"><span class="cl">git reflog
 </span></span></code></pre></div><p><img loading="lazy" src="https://howtodoinjava.com/wp-content/uploads/2023/09/Git-reflog-output-1024x138.jpg" alt="img"  />
 </p>
-<p>与 <code>***git log\***</code> 不同，引用日志记录影响提交历史记录的分支移动和操作，即使不创建新的提交也是如此。它是恢复丢失的提交或可能被意外删除或移动的分支的宝贵工具，在发生错误或不可预见的事件时充当安全网。</p>
+<p>与 <code>git log</code> 不同，引用日志记录影响提交历史记录的分支移动和操作，即使不创建新的提交也是如此。它是恢复丢失的提交或可能被意外删除或移动的分支的宝贵工具，在发生错误或不可预见的事件时充当安全网。</p>
 <h2 id="13git-bisect命令的用途是什么">13.“git bisect”命令的用途是什么？</h2>
 <p><code>git bisect</code> 命令通过提交历史记录执行二分搜索，以识别引入错误或导致回归的特定提交。它通过有效地缩小要调查的提交范围，有助于隔离和查明负责特定问题的提交。</p>
 <p>以下是 <code>git bisect</code> 工作原理的概述：</p>
 <ul>
 <li>识别已知的好的和坏的提交：首先识别项目历史记录中的两个提交：一个代表已知的良好状态（不存在错误或问题的提交），另一个代表已知的坏状态（不存在 bug 或问题的提交）存在错误或问题）。</li>
-<li>开始二等分过程：使用 <code>git bisect start</code> 开始二等分过程。使用 <code>**git bisect good &lt;commit&gt;**</code> 指定已知良好状态的提交哈希，使用 <code>**git bisect bad &lt;commit&gt;**</code> 指定已知不良状态的提交哈希。 Git 将在已知的好状态和坏状态之间创建一系列提交。</li>
+<li>开始二等分过程：使用 <code>git bisect start</code> 开始二等分过程。使用 <code>git bisect good &lt;commit&gt;</code> 指定已知良好状态的提交哈希，使用 <code>git bisect bad &lt;commit&gt;</code> 指定已知不良状态的提交哈希。 Git 将在已知的好状态和坏状态之间创建一系列提交。</li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git bisect start 
 </span></span><span class="line"><span class="cl">git bisect good &lt;good_commit_hash&gt; 
@@ -363,7 +363,7 @@
 </ul>
 <p>警告：压缩提交时要小心，因为它会重写历史。如果提交已经被推送到共享存储库并且其他人已经基于这些提交进行了工作，通常不建议压缩它们，因为这可能会导致其他团队成员发生冲突。</p>
 <h2 id="15如何判断某个分支是否已经合并到master中">15、如何判断某个分支是否已经合并到Master中？</h2>
-<p>要识别某个分支是否已合并到 Git 中的 <code>*master*</code> 分支中，我们可以运行以下命令：</p>
+<p>要识别某个分支是否已合并到 Git 中的 <code>master</code> 分支中，我们可以运行以下命令：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git checkout master
 </span></span></code></pre></div><p>然后运行以下命令，将 <code>&lt;branch_name&gt;</code> 替换为我们要检查的分支名称：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git branch --merged &lt;branch_name&gt;

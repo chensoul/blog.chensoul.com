@@ -413,6 +413,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">DATABASE_URL</span><span class="p">:</span><span class="w"> </span><span class="l">postgresql://umami:umami@pg@pgsql:5432/umami</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">DATABASE_TYPE</span><span class="p">:</span><span class="w"> </span><span class="l">postgresql</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">HASH_SALT</span><span class="p">:</span><span class="w"> </span><span class="l">vps@2023</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">TRACKER_SCRIPT_NAME</span><span class="p">:</span><span class="w"> </span><span class="l">random-string.js</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">custom</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
@@ -420,7 +421,12 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">custom</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span></code></pre></div><p>启动：</p>
+</span></span></span></code></pre></div><p>参考 <a href="https://eallion.com/umami/">https://eallion.com/umami/</a>，Umami 的默认跟踪代码是被大多数的广告插件屏蔽的，被屏蔽了你就统计不到访客信息了。如果需要反屏蔽，需要在 docker-compose.yml 文件中添加环境变量：TRACKER_SCRIPT_NAME，如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      TRACKER_SCRIPT_NAME: random-string.js
+</span></span></code></pre></div><p>然后获取到的跟踪代码的 src 会变成：</p>
+<pre tabindex="0"><code>srcipt.js =&gt; random-string.js
+</code></pre><p>启动：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f umami.yaml up -d
 </span></span></code></pre></div><p>3、设置自定义域名</p>
 <p>umami.chensoul.com</p>
@@ -448,6 +454,15 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:3000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Real-IP</span> <span class="nv">$remote_addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-For</span> <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-Proto</span> <span class="nv">$scheme</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">REMOTE-HOST</span> <span class="nv">$remote_addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">add_header</span> <span class="s">X-Cache</span> <span class="nv">$upstream_cache_status</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 缓存
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">add_header</span> <span class="s">Cache-Control</span> <span class="s">no-cache</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">expires</span> <span class="s">12h</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>5、添加网站</p>

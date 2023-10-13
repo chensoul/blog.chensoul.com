@@ -13,16 +13,21 @@
       <pubDate>Thu, 09 Sep 2021 18:14:34 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2021/09/09/mac-development-environment-setup/</guid>
-      <description>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是Mac开发环境，所以，这篇文章主要是基于Mac操作系</description>
-      <content:encoded><![CDATA[<p>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是Mac开发环境，所以，这篇文章主要是基于Mac操作系统，记录开发环境搭建过程。</p>
+      <description>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是 Mac 开发环境，所以，这篇文章主要是基于 Mac 操作系统，记录开发环境搭建过程。
+系统设置 dotfile 配置 下载 dotfile 文件：
+git clone git@github.com:chensoul/snippets.git 拷贝到用户目录：
+cd dotfiles sh bootstrap.sh macos 系统设置：
+. .macos 安装软件 安装 brew、nvs sh install.sh 安装 MySQL 安装 MySQL：
+# 搜索可以安装的版本 ➜ brew search mysql # 安装对应的版本 ➜ brew install mysql@5.7 # 写入环境变量 echo &amp;#39;export PATH=&amp;#34;/opt/homebrew/opt/mysql@5.7/bin:$PATH&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.zshrc # 为了让编译器找到 mysql@5.7 还需要写入 echo &amp;#39;export LDFLAGS=&amp;#34;-L/opt/homebrew/opt/mysql@5.7/lib&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.zshrc echo &amp;#39;export CPPFLAGS=&amp;#34;-I/opt/homebrew/opt/mysql@5.7/include&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.zshrc # 为了让 pkg-config 找到 mysql@5.7 还需要写入 echo &amp;#39;PKG_CONFIG_PATH=&amp;#34;/opt/homebrew/opt/mysql@5.</description>
+      <content:encoded><![CDATA[<p>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是 Mac 开发环境，所以，这篇文章主要是基于 Mac 操作系统，记录开发环境搭建过程。</p>
 <h2 id="系统设置">系统设置</h2>
-<h3 id="dotfile配置">dotfile配置</h3>
+<h3 id="dotfile-配置">dotfile 配置</h3>
 <p>下载 dotfile 文件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone git@github.com:chensoul/snippets.git
 </span></span></code></pre></div><p>拷贝到用户目录：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> dotfiles
 </span></span><span class="line"><span class="cl">sh bootstrap.sh
-</span></span></code></pre></div><p>macos系统设置：</p>
+</span></span></code></pre></div><p>macos 系统设置：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">. .macos
 </span></span></code></pre></div><h2 id="安装软件">安装软件</h2>
 <h3 id="安装-brewnvs">安装 brew、nvs</h3>

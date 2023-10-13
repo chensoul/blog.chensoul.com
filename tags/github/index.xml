@@ -13,9 +13,15 @@
       <pubDate>Mon, 22 May 2023 15:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/05/22/docker-continuous-integration/</guid>
-      <description>持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。 Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发</description>
-      <content:encoded><![CDATA[<p><img loading="lazy" src="https://files.realpython.com/media/UPDATE-Docker-in-Action-Fitter-Happier-More-Productive_Watermarked.479cfb791c17.jpg" alt="Build Robust Continuous Integration With Docker and Friends"  />
-</p>
+      <description>持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。
+Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发送每次提交的代码。
+在本教程中，您将学习如何使用 Docker 为 Flask Web 应用程序创建强大的持续集成管道。
+您将完成在本地开发和测试应用程序、将其容器化、使用 Docker Compose 编排容器以及使用 GitHub Actions 定义 CI 管道的步骤。
+在本教程结束时，您将能够为您的 Web 应用程序创建一个完全自动化的 CI 管道。
+在本教程中，您将：
+在 Docker 容器中本地运行 Redis 服务器 用 Docker 编排 Flask 编写的 Python Web 应用程序 构建 Docker 镜像并将它们推送到 Docker Hub 仓库 使用 Docker Compose 编排多容器应用程序 在任何地方复制类似生产的基础设施 使用 GitHub Actions 定义持续集成工作流 理想情况下，您应该具有使用 Python 进行 Web 开发、测试自动化、将 Redis 与 Python 结合使用以及使用 Git 和 GitHub 进行源代码版本控制的经验。以前接触过 Docker 会更好，但不是必需的。您还应该拥有一个 Git 客户端和一个 GitHub 帐户，以便跟随并复制本教程的步骤。</description>
+      <content:encoded><![CDATA[<p>
+  <img loading="lazy" src="https://files.realpython.com/media/UPDATE-Docker-in-Action-Fitter-Happier-More-Productive_Watermarked.479cfb791c17.jpg" alt="Build Robust Continuous Integration With Docker and Friends"  /></p>
 <p>持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。</p>
 <p>Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发送每次提交的代码。</p>
 <p>在本教程中，您将学习如何使用 Docker 为 Flask Web 应用程序创建强大的持续集成管道。</p>
@@ -42,8 +48,8 @@
 <h2 id="项目架构概览">项目架构概览</h2>
 <p>在本教程结束时，您将拥有一个 Flask Web 应用程序，用于跟踪持久存储在 Redis 数据存储中的页面视图。</p>
 <p>它将是一个由 Docker Compose 编排的多容器应用程序，您将能够在本地和云端构建和测试，为持续集成铺平道路：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/page_tracker_architecture.drawio_2.1c8cf20462ae.png" alt="The Architecture of the Page Tracker Application"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/page_tracker_architecture.drawio_2.1c8cf20462ae.png" alt="The Architecture of the Page Tracker Application"  /></p>
 <p>该应用程序由两个 Docker 容器组成。第一个容器将在 Gunicorn 之上运行一个 Flask 应用程序，响应 HTTP 请求并更新页面浏览量。</p>
 <p>第二个容器将运行一个 Redis 实例，用于将页面视图数据持久存储在主机上的本地卷中。</p>
 <p>Docker 是运行此应用程序所需的全部，您现在将对其进行设置。</p>
@@ -89,8 +95,8 @@
 <p>在开始使用 Docker 来帮助进行持续集成之前，您需要创建一个基本的 Web 应用程序。</p>
 <h2 id="在-flask-中开发页面视图跟踪器">在 Flask 中开发页面视图跟踪器</h2>
 <p>在接下来的几节中，您将使用 <a href="https://realpython.com/tutorials/flask/">Flask</a> 框架实现一个基本的 Web 应用程序。您的应用程序将跟踪页面浏览总数，并在每次请求时向用户显示该数字：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/screenshot-browser.5036973f0aae.png" alt="A web application for tracking page views"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/screenshot-browser.5036973f0aae.png" alt="A web application for tracking page views"  /></p>
 <p>应用程序的当前状态将保存在 <a href="https://redis.io/">Redis</a> 数据存储中，该存储通常用于缓存和其他类型的数据持久化。这样，停止您的网络服务器不会重置观看次数。您可以将 Redis 视为一种数据库。</p>
 <p>如果您对从头开始构建此应用程序不感兴趣，请随时通过单击下面的链接下载其完整源代码，然后跳到对您的 Flask Web 应用程序<a href="https://realpython.com/docker-continuous-integration/#dockerize-your-flask-web-application">进行 docker 化</a>：</p>
 <p>即使您打算自己编写代码，下载完成的项目并将其用作参考与您的实现进行比较仍然是个好主意，以防您遇到困难。</p>
@@ -112,7 +118,7 @@
 </span></span><span class="line"><span class="cl">$ python3 -m venv venv/ --prompt page-tracker
 </span></span><span class="line"><span class="cl">$ <span class="nb">source</span> venv/bin/activate
 </span></span><span class="line"><span class="cl"><span class="o">(</span>page-tracker<span class="o">)</span> $ python -m pip install --upgrade pip
-</span></span></code></pre></div><p>首先，创建一个名为 <code>page-tracker/</code> 的新目录，然后在其中创建一个名为 <code>venv/</code> 的Python 虚拟环境。为虚拟环境提供描述性提示，使其易于识别。最后，激活新建的虚拟环境后，将 <a href="https://realpython.com/what-is-pip/"><code>pip</code></a> 升级到最新版本，以免以后安装<a href="https://realpython.com/python-modules-packages/">Python包</a>时出现问题。</p>
+</span></span></code></pre></div><p>首先，创建一个名为 <code>page-tracker/</code> 的新目录，然后在其中创建一个名为 <code>venv/</code> 的 Python 虚拟环境。为虚拟环境提供描述性提示，使其易于识别。最后，激活新建的虚拟环境后，将 <a href="https://realpython.com/what-is-pip/"><code>pip</code></a> 升级到最新版本，以免以后安装<a href="https://realpython.com/python-modules-packages/">Python 包</a>时出现问题。</p>
 <blockquote>
 <p>注意：在 Windows 上，您可能需要先以管理员身份运行 <a href="https://realpython.com/python-coding-setup-windows/#discovering-the-windows-terminal">Windows Terminal</a> 并在创建虚拟环境之前<a href="https://realpython.com/python-coding-setup-windows/#loosening-your-execution-policy">放宽脚本执行策略</a>。</p>
 </blockquote>
@@ -192,7 +198,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ docker ps
 </span></span><span class="line"><span class="cl">CONTAINER ID   IMAGE   ...   STATUS              PORTS      NAMES
 </span></span><span class="line"><span class="cl">09b9842463c7   redis   ...   Up About a minute   6379/tcp   redis-server
-</span></span></code></pre></div><p>在这里，您可以看到一个 ID 前缀与您在运行 <code>docker run</code> 命令时获得的 ID 前缀匹配的容器从大约一分钟前开始启动。该容器基于 <code>redis</code> 镜像，已命名为 <code>redis-server</code> ，并使用TCP 端口号 <code>6379</code> ，这是Redis 的默认端口。</p>
+</span></span></code></pre></div><p>在这里，您可以看到一个 ID 前缀与您在运行 <code>docker run</code> 命令时获得的 ID 前缀匹配的容器从大约一分钟前开始启动。该容器基于 <code>redis</code> 镜像，已命名为 <code>redis-server</code> ，并使用 TCP 端口号 <code>6379</code> ，这是 Redis 的默认端口。</p>
 <p>接下来，您将尝试以各种方式连接到该 Redis 服务器。</p>
 <h3 id="测试与-redis-的连接">测试与 Redis 的连接</h3>
 <p>在 Docker Hub 上官方 Redis 镜像的概述页面上，您将找到有关如何连接到在 Docker 容器中运行的 Redis 服务器的说明。具体而言，此页面讨论了如何使用 Docker 镜像附带的专用交互式命令行界面 Redis CLI 。</p>
@@ -244,7 +250,7 @@
 </li>
 </ul>
 <p>Linux 上的 Docker Desktop 也是如此。另一方面，如果您使用 Docker 引擎或在 Windows 主机上运行 Windows 容器，那么您将能够通过它们的 IP 地址访问这些容器。</p>
-<p>因此，有时您可以直接从主机与 Redis 服务器通信。首先，找出对应的Docker容器的IP地址：</p>
+<p>因此，有时您可以直接从主机与 Redis 服务器通信。首先，找出对应的 Docker 容器的 IP 地址：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ docker inspect redis-server <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>  -f <span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{println}}{{end}}&#39;</span>
 </span></span><span class="line"><span class="cl">172.17.0.2
@@ -273,7 +279,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ docker stop redis-server
 </span></span><span class="line"><span class="cl">$ docker rm redis-server
 </span></span><span class="line"><span class="cl">$ docker run -d --name redis-server -p 6379:6379 redis
-</span></span></code></pre></div><p>冒号左边的数字（ <code>:</code> ）代表主机或你电脑上的端口号，而右边的数字代表即将运行的Docker容器内的映射端口。</p>
+</span></span></code></pre></div><p>冒号左边的数字（ <code>:</code> ）代表主机或你电脑上的端口号，而右边的数字代表即将运行的 Docker 容器内的映射端口。</p>
 <p>在两侧使用相同的端口号可以有效地转发它，这样您就可以连接到 Redis，就像它在您的计算机上本地运行一样：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ telnet localhost <span class="m">6379</span>
 </span></span><span class="line"><span class="cl">Trying 127.0.0.1...
@@ -1309,13 +1315,13 @@
 <p>为什么要使用 Docker Registry？</p>
 <p>好吧，您不必这样做，但它有助于在整个组织内共享 Docker 镜像或设置持续集成管道。例如，将提交推送到 GitHub 或其他源代码修订系统可以通过自动构建功能启动构建过程。反过来，注册中心会宣布新的 Docker 镜像已成功构建或使用 webhook 开始部署到远程环境以进行进一步测试。</p>
 <p>如果还没有，请立即在 Docker Hub 上注册一个帐户。请注意，除了电子邮件地址和密码外，您还需要提供唯一的用户名，就像在 GitHub 上一样：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/docker_hub.912fd6ac373d.png" alt="img"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/docker_hub.912fd6ac373d.png" alt="img"  /></p>
 <p>选择一个好记的用户名至关重要，因为它将成为您在 Docker Hub 上的独特句柄。为了避免不同用户拥有的镜像之间的名称冲突，Docker Hub 通过用户名和存储库名称的组合来识别每个存储库。</p>
 <p>例如，如果您的用户名是 <code>realpython</code> ，那么您的一个存储库可以由字符串 <code>realpython/page-tracker</code> 标识，它类似于 GitHub 上存储库的名称。</p>
 <p>在 Web 浏览器中注册并登录到您的新 Docker Hub 帐户后，您应该做的第一件事是为您的镜像创建一个存储库。单击“创建存储库”磁贴或转到顶部导航栏中的“存储库”选项卡，然后单击“创建存储库”按钮。然后，将您的存储库命名为 <code>page-tracker</code> ，如果需要，请为其提供有意义的描述，然后选择 Private 选项以使其仅对您可见：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/docker_hub2.359dd2359251.png" alt="img"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/docker_hub2.359dd2359251.png" alt="img"  /></p>
 <p>之后，您将看到带有终端命令的说明，这些命令将允许您将 Docker 镜像推送到您的存储库。但首先，您必须从命令行登录 Docker Hub，提供您的用户名和密码：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ docker login -u realpython
 </span></span><span class="line"><span class="cl">Password:
@@ -1339,8 +1345,8 @@
 </span></span><span class="line"><span class="cl">$ docker push realpython/page-tracker:latest
 </span></span></code></pre></div><p>不要担心发送相同的镜像两次。 Docker 足够聪明，可以知道您之前何时推送过镜像，如果它在注册表中检测到该镜像，则只会传输必要的元数据。</p>
 <p>当您在 Docker Hub 上刷新您的配置文件时，它应该反映您刚刚推送到存储库中的两个标签：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/docker_hub3.69a099d38e54.png" alt="Tagged Docker Images on Docker Hub"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/docker_hub3.69a099d38e54.png" alt="Tagged Docker Images on Docker Hub"  /></p>
 <p>现在，当您将协作者添加到您的私有存储库时，他们将能够推送或拉取镜像。请记住，这需要在 Docker Hub 上升级订阅计划。</p>
 <p>另一种方法是生成一个对所有存储库具有只读权限的访问令牌，或者创建一个公共存储库。</p>
 <p>好的。终于到了通过在 Docker 容器中运行您的 dockerized Flask web 应用程序的机会了。</p>
@@ -1421,7 +1427,7 @@
 </span></span></code></pre></div><p>您启动一个从 <code>page-tracker</code> 镜像派生的新容器，其中包含相当多的参数。以下是上述 <code>docker run</code> 命令中各个标志和选项的快速细分：</p>
 <ul>
 <li><code>-d</code> ：在后台运行容器，与终端分离。这意味着您将看不到 Flask 服务器的任何输出，并且您将无法再使用 Ctrl+C 或 Cmd+C 停止容器。</li>
-<li><code>-p 80:5000</code> ：将容器的端口 <code>5000</code> 暴露在主机的端口 <code>80</code> 上，这样你就可以通过本地主机访问你的web应用程序。</li>
+<li><code>-p 80:5000</code> ：将容器的端口 <code>5000</code> 暴露在主机的端口 <code>80</code> 上，这样你就可以通过本地主机访问你的 web 应用程序。</li>
 <li><code>-e REDIS_URL=...</code> : 将容器的环境变量设置为在同一网络上的另一个容器中运行的 Redis 服务器的地址。</li>
 <li><code>--network page-tracker-network</code> : 指定容器使用的虚拟网络。这将允许同一网络上的其他容器通过抽象名称而不是 IP 地址与该容器通信。</li>
 <li><code>--name web-service</code> : 为容器分配一个有意义的名称，这样更容易从 Docker 命令中引用容器。</li>
@@ -1543,7 +1549,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">redis-service</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis-volume</span><span class="p">:</span><span class="w">
@@ -1693,7 +1699,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;gunicorn page_tracker.app:app --bind 0.0.0.0:8000&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis-volume</span><span class="p">:</span><span class="w">
@@ -1740,7 +1746,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;gunicorn page_tracker.app:app --bind 0.0.0.0:8000&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis-volume</span><span class="p">:</span><span class="w">
@@ -1776,7 +1782,7 @@
 </span></span></code></pre></div><p>或者，您可以从同一网络上的另一个容器运行它，而不是在本地针对公开服务运行端到端测试。您可以手动制作这样的容器。</p>
 <p>然而，最近版本的 Docker Compose 提供了一个更优雅的解决方案，它允许您有条件地运行服务的子集。为此，您可以将所需的服务分配给可按需激活的自定义配置文件。</p>
 <p>首先，打开你的 <code>docker-compose.yml</code> 文件并从 Redis 中删除端口转发，因为你不想再将它暴露给外界。然后，基于您的旧 <code>Dockerfile.dev</code> 添加一个新服务，它捆绑了测试框架、测试装置和您的测试代码。您将使用相应的 Docker 镜像来执行端到端测试：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="w"> </span><span class="c"># docker-compose.yml</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># docker-compose.yml</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis-service</span><span class="p">:</span><span class="w">
@@ -1816,7 +1822,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="sd">      --flask-url $$FLASK_URL&#39;</span><span class="w">      
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis-volume</span><span class="p">:</span><span class="w">
@@ -2085,8 +2091,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.DOCKERHUB_TOKEN }}</span><span class="w">
 </span></span></span></code></pre></div><p>您有条件地运行此步骤，方法是使用包含在美元符号和双大括号中的 JavaScript 表达式从 <code>github</code> 上下文获取事件类型。然后，您通过另一个预定义的 <code>secrets</code> 上下文和您现在将要定义的两个自定义常量提供您的秘密 Docker Hub 凭据。</p>
 <p>通过单击顶部工具栏中带有齿轮图标的选项卡打开 GitHub 存储库的设置，找到并展开安全部分下的秘密和变量，然后单击操作。这将带您进入一个面板，您可以在该面板中为 GitHub Actions 运行器定义环境变量和加密机密。现在，指定您的 <code>DOCKERHUB_USERNAME</code> 和 <code>DOCKERHUB_TOKEN</code> 机密：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/secrets.b7e62f0e5830.png" alt="GitHub Actions Repository Secrets"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/secrets.b7e62f0e5830.png" alt="GitHub Actions Repository Secrets"  /></p>
 <p>请注意，这些秘密是加密的，GitHub 不会再次向您显示它们，因此请确保将它们保存在安全的地方。但是，如果您足够努力，那么您将能够恢复它们——例如，通过您工作流程中的 shell 命令。</p>
 <p>当您将功能分支合并到主线时，此操作也会有条件地运行。在 <code>with</code> 部分，您指定 Dockerfile 的路径，请求推送镜像的操作，并列出镜像的标签。请注意，您再次使用 <code>github</code> 上下文来获取当前提交的哈希值，尽管是长格式。</p>
 <blockquote>
@@ -2107,17 +2113,17 @@
 </span></span></code></pre></div><p>在下一节中，您将启用一些分支保护规则以防止任何人将他们的代码直接推送到 <code>master</code> 分支。因此，工作流中的 <code>push</code> 事件将仅适用于通过拉取请求将功能分支合并到主线中。</p>
 <h3 id="启用分支保护规则">启用分支保护规则</h3>
 <p>再次转到存储库的设置，单击代码和自动化部分下的分支，然后单击标记为添加分支保护规则的按钮。然后，在 Branch name pattern 字段中输入您的主线名称。如果您遵循本教程中使用的命名约定，则应在输入字段中键入 <code>master</code> ：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/rule_master.8167b2b061aa.png" alt="GitHub Repository&amp;rsquo;s Protected Branch"  />
-</p>
-<p>接下来，启用其正下方的一个选项，该选项显示 Require a pull request before merging。这将自动需要至少一位审阅者的批准。如果您在 GitHub 上没有其他帐户，您可以暂时取消选中此选项。否则，如果没有其他人批准，您将无法合并您的拉取请求：<img loading="lazy" src="https://files.realpython.com/media/rule_approvals.4cc8505f0715.png" alt="Require a Pull Request Before Merging"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/rule_master.8167b2b061aa.png" alt="GitHub Repository&amp;rsquo;s Protected Branch"  /></p>
+<p>接下来，启用其正下方的一个选项，该选项显示 Require a pull request before merging。这将自动需要至少一位审阅者的批准。如果您在 GitHub 上没有其他帐户，您可以暂时取消选中此选项。否则，如果没有其他人批准，您将无法合并您的拉取请求：
+  <img loading="lazy" src="https://files.realpython.com/media/rule_approvals.4cc8505f0715.png" alt="Require a Pull Request Before Merging"  /></p>
 <p>向下滚动一点后，您会看到一个选项，上面写着 Require status checks to pass before merging。选择它以显示更多选项。当你这样做时，检查另一个选项 Require branches to be update before merging，这将防止在你的 <code>master</code> 分支有新提交时关闭拉取请求。最后，在下面的搜索框中输入您的工作名称 <code>build</code> ：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/rule_status_check.6e4a5e464e77.png" alt="Require Status Checks to Pass Before Merging"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/rule_status_check.6e4a5e464e77.png" alt="Require Status Checks to Pass Before Merging"  /></p>
 <p>现在，每个拉取请求都需要在允许合并之前通过端到端测试。</p>
 <p>要在不允许管理员和其他具有提升权限的用户绕过这些规则的情况下强制执行这些规则，您可以在底部选择一个标记为不允许绕过上述设置的选项：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/rule_dont_allow.3a38d146c315.png" alt="Don&amp;rsquo;t Allow Bypassing the Above Settings"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/rule_dont_allow.3a38d146c315.png" alt="Don&amp;rsquo;t Allow Bypassing the Above Settings"  /></p>
 <p>好的。一切就绪！如何使用您的 Docker 应用程序来测试您的持续集成工作流程？</p>
 <h3 id="集成来自功能分支的更改">集成来自功能分支的更改</h3>
 <p>遵循本教程前面概述的基于 Docker 的持续集成管道。首先创建一个单独的功能分支，以破坏测试的方式修改代码，提交更改并将它们推送到 GitHub：</p>
@@ -2154,15 +2160,15 @@
 </span></span><span class="line"><span class="cl">⋮
 </span></span></code></pre></div><p>您创建并切换到一个名为 <code>feature/replace-emoji-face</code> 的新本地分支，然后将错误消息中的表情符号从沉思脸更改为思考脸，而不更新相应的单元测试。将分支提交并推送到 GitHub 后，您可以通过突出显示行中的链接从您的功能分支打开一个新的拉取请求到 <code>master</code> 。只要您这样做，您的持续集成工作流程就会启动。</p>
 <p>当 GitHub Actions 运行器完成其工作时，由于检查失败，您将无法合并您的分支：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/failed_pr2.e4e611e3f3cf.png" alt="GitHub Status Check Failed With a Conflict"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/failed_pr2.e4e611e3f3cf.png" alt="GitHub Status Check Failed With a Conflict"  /></p>
 <p>在这种情况下，您只有一个检查对应于工作流中的 <code>build</code> 作业，您在上一节中将其配置为分支保护规则之一。您可以单击右侧的 Details 链接来调查失败检查的日志，并且您可以选择以调试模式重新运行相应的作业以收集更多数据。</p>
 <p>此外，上面的屏幕截图描述了您的功能分支和目标主线之间的假设冲突。这表明其他人修改了与您相同的文件，并且他们在您修改表情符号时成功地将他们的更改与 <code>master</code> 分支集成。</p>
 <p>没有自动解决此类冲突的方法，因为它涉及理解代码的逻辑并做出关于保留哪些更改以及丢弃哪些更改的主观决定。</p>
 <p>解决此冲突的唯一方法是将更新后的主线合并到您本地的功能分支中，并手动整合冲突的更改。</p>
 <p>即使没有任何冲突，如果主线在您的功能分支之前有几个提交，那么无论测试结果如何，您仍然必须将 <code>master</code> 中的最新更改合并到您的分支中。这是因为您之前制定的另一个分支保护规则：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/pr_update2.f48575db3caa.png" alt="GitHub Status Check Passed With an Outdated Branch"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/pr_update2.f48575db3caa.png" alt="GitHub Status Check Passed With an Outdated Branch"  /></p>
 <p>合并拉取请求按钮将保持灰色和禁用状态，直到您采取措施解决所有这些问题。</p>
 <p>在现实生活中，您现在应该获取最新的 <code>master</code> 并将其合并到您的功能分支，必要时解决任何冲突。然后，您将更新代码以使所有测试再次通过。返回代码编辑器并使用预期的表情符号修复失败的单元测试：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"> # web/test/unit/test_app.py
@@ -2189,11 +2195,11 @@
 </span></span><span class="line"><span class="cl">$ git commit -m <span class="s2">&#34;Fix the failing unit test&#34;</span>
 </span></span><span class="line"><span class="cl">$ git push
 </span></span></code></pre></div><p>拉取请求应该接受您的更改并开始另一个 CI 构建。一旦满足所有保护规则，您最终可以通过单击绿色按钮将您的功能分支合并到受保护的主线中：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/pr_success.0d326c26e9ad.png" alt="GitHub Status Checks Passed"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/pr_success.0d326c26e9ad.png" alt="GitHub Status Checks Passed"  /></p>
 <p>请注意，合并将触发针对 <code>master</code> 分支的另一个 CI 构建，以测试您的更改是否与代码库的其余部分很好地集成。事情总是有可能出错。另一方面，如果 CI 构建成功，则工作流将标记并将镜像推送到您的 Docker Hub 存储库：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/docker_hub_push.93959f48b437.png" alt="Docker Image Tagged and Pushed By a GitHub Action"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/docker_hub_push.93959f48b437.png" alt="Docker Image Tagged and Pushed By a GitHub Action"  /></p>
 <p>每次 CI 工作流成功时，推送的 Docker 镜像都会被标记为当前 Git 提交哈希和标签 <code>latest</code> 。</p>
 <p>恭喜！关于使用 Docker 和朋友构建持续集成管道的整个教程到此结束。给自己当之无愧的表扬，因为这绝非易事！</p>
 <h2 id="后续步骤">后续步骤</h2>
@@ -2229,7 +2235,7 @@
 <p><strong>在本教程中，您已经：</strong></p>
 <ul>
 <li>在 Docker 容器中本地运行 Redis 服务器</li>
-<li>Docker编排 一个用 Flask 编写的 Python Web 应用程序</li>
+<li>Docker 编排 一个用 Flask 编写的 Python Web 应用程序</li>
 <li>构建 Docker 镜像并将它们推送到 Docker Hub 注册表</li>
 <li>使用 Docker Compose 编排多容器应用程序</li>
 <li>在任何地方复制类似生产的基础设施</li>
@@ -2249,40 +2255,52 @@
       <pubDate>Tue, 25 Apr 2023 08:30:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/04/25/weekly_review_16/</guid>
-      <description>前言 本篇是对 2023-04-17 到 2023-04-23 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周的工作，手上累积了三个迭代版本，因为临近五一</description>
+      <description>前言 本篇是对 2023-04-17 到 2023-04-23 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+这周的工作，手上累积了三个迭代版本，因为临近五一及其他原因，短期内无法发布上线。开发过程中，想着这些版本都会一个个上线，所以三个版本之间合并了代码，存在了依赖关系。以后，还是需要小版本迭代、上一个版本发布之后再从 main 分支合并代码。
+这周先后看了《灌篮高手》电影、《春山如笑》话剧，体验了两种艺术表现形式，都让人失望。
+利用空余时间，将 n8n 进行了调整，只将我在豆瓣、github、spotify、blog、strava 上的活动同步到 telegram，而直接不同步到 memos，单独创建一个 workflow 将 telegram 同步到 memos。这样 telegram 是一个对外分享的频道，而 memos 可以分享一些个人的心情或者说说。另外，为了减少对大家的干扰，不再将 rss 订阅内容同步到我的 telegram 频道。
+灌篮高手 4 月 20 日，灌篮高手国内上映，抽时间下班和老婆去看了这场电影。看完之后发了一个朋友圈：
+两个小时的电影，一场篮球比赛，尽是回忆，留下的是半亩良田半亩差评
+这就是我对这个电影的评价。因为情怀而去看了这部电影，却被情怀出卖了，这年头情怀不值钱了么？整部电影以宫城良田为视角，不停的回忆，四十分钟的比赛节奏不停的中断。很多片段都是动画里的内容，没有多少新内容。流川枫的刻画太少、樱木花道还是那样勇猛、晴子就没出现几次。。。
+看话剧 周六去中南剧场看了一个话剧《春山如笑》，这是第一次看话剧，第一次接触话剧这个艺术表现形式。相比较于电影，我还是更喜欢看电影。
+理财 这周总计支出 292.5 元，明细如下：
+4 月 21 日：59 元，和同事一起吃饭 4 月 22 日：232 元，周末买菜做饭，买水果 4 月 24 日：1.5 元，跑步小腿抽筋，骑共享单车回公司 四月累计支出共 2417 元，其中餐饮和购物占了一半。
+健身 每天走一万步，这周完成了目标。以后每天跑步的话，这个目标就很容易达成了，甚至这个目标会换成每天跑步。
+从 strava 的训练日志，可以看到本周运动记录如下：
+从 strava 的训练日历，可以看到截至 24 日，本月运动了 20 天，23 次，一共跑步了 100 公里。</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-01.png" alt="weekly-review-16-01"  />
-</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-01.png" alt="weekly-review-16-01"  /></p>
 <p>本篇是对 <code>2023-04-17</code> 到 <code>2023-04-23</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这周的工作，手上累积了三个迭代版本，因为临近五一及其他原因，短期内无法发布上线。开发过程中，想着这些版本都会一个个上线，所以三个版本之间合并了代码，存在了依赖关系。以后，还是需要小版本迭代、上一个版本发布之后再从 main 分支合并代码。</p>
 <p>这周先后看了《灌篮高手》电影、《春山如笑》话剧，体验了两种艺术表现形式，都让人失望。</p>
-<p>利用空余时间，将 n8n 进行了调整，只将我在豆瓣、github、spotify、blog、strava上的活动同步到telegram，而直接不同步到 memos，单独创建一个 workflow 将 telegram 同步到 memos。这样 telegram 是一个对外分享的频道，而 memos 可以分享一些个人的心情或者说说。另外，为了减少对大家的干扰，不再将 rss 订阅内容同步到我的 <a href="https://t.me/chensoul_share">telegram 频道</a>。</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-16.png" alt="weekly-review-16-16"  />
-</p>
+<p>利用空余时间，将 n8n 进行了调整，只将我在豆瓣、github、spotify、blog、strava 上的活动同步到 telegram，而直接不同步到 memos，单独创建一个 workflow 将 telegram 同步到 memos。这样 telegram 是一个对外分享的频道，而 memos 可以分享一些个人的心情或者说说。另外，为了减少对大家的干扰，不再将 rss 订阅内容同步到我的 <a href="https://t.me/chensoul_share">telegram 频道</a>。</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-16.png" alt="weekly-review-16-16"  /></p>
 <h2 id="灌篮高手">灌篮高手</h2>
-<p>4月20日，灌篮高手国内上映，抽时间下班和老婆去看了这场电影。看完之后发了一个朋友圈：</p>
+<p>4 月 20 日，灌篮高手国内上映，抽时间下班和老婆去看了这场电影。看完之后发了一个朋友圈：</p>
 <blockquote>
 <p>两个小时的电影，一场篮球比赛，尽是回忆，留下的是半亩良田半亩差评</p>
 </blockquote>
 <p>这就是我对这个电影的评价。因为情怀而去看了这部电影，却被情怀出卖了，这年头情怀不值钱了么？整部电影以宫城良田为视角，不停的回忆，四十分钟的比赛节奏不停的中断。很多片段都是动画里的内容，没有多少新内容。流川枫的刻画太少、樱木花道还是那样勇猛、晴子就没出现几次。。。</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-11.jpeg" alt="weekly-review-16-11"  />
-</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-12.jpeg" alt="weekly-review-16-12"  />
-</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-11.jpeg" alt="weekly-review-16-11"  /></p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-12.jpeg" alt="weekly-review-16-12"  /></p>
 <h2 id="看话剧">看话剧</h2>
 <p>周六去中南剧场看了一个话剧《春山如笑》，这是第一次看话剧，第一次接触话剧这个艺术表现形式。相比较于电影，我还是更喜欢看电影。</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-13.jpeg" alt="weekly-review-16-13"  />
-</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-14.jpeg" alt="weekly-review-16-14"  />
-</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-15.jpeg" alt="weekly-review-16-15"  />
-</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-13.jpeg" alt="weekly-review-16-13"  /></p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-14.jpeg" alt="weekly-review-16-14"  /></p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-15.jpeg" alt="weekly-review-16-15"  /></p>
 <h2 id="理财">理财</h2>
 <p>这周总计支出 292.5 元，明细如下：</p>
 <ul>
-<li>4月21日：59元，和同事一起吃饭</li>
-<li>4月22日：232元，周末买菜做饭，买水果</li>
-<li>4月24日：1.5元，跑步小腿抽筋，骑共享单车回公司</li>
+<li>4 月 21 日：59 元，和同事一起吃饭</li>
+<li>4 月 22 日：232 元，周末买菜做饭，买水果</li>
+<li>4 月 24 日：1.5 元，跑步小腿抽筋，骑共享单车回公司</li>
 </ul>
 <p>四月累计支出共 2417 元，其中餐饮和购物占了一半。</p>
 <img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-09.jpeg" alt="weekly-review-16-09" style="width:50%;" />
@@ -2290,23 +2308,23 @@
 <p>每天走一万步，这周完成了目标。以后每天跑步的话，这个目标就很容易达成了，甚至这个目标会换成每天跑步。</p>
 <img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-10.jpeg" alt="weekly-review-16-10" style="width:50%;" />
 <p>从 strava 的训练日志，可以看到本周运动记录如下：</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-07.png" alt="weekly-review-16-07"  />
-</p>
-<p>从 strava 的训练日历，可以看到截至24日，本月运动了20天，23次，一共跑步了100公里。</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-08.png" alt="weekly-review-16-08"  />
-</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-07.png" alt="weekly-review-16-07"  /></p>
+<p>从 strava 的训练日历，可以看到截至 24 日，本月运动了 20 天，23 次，一共跑步了 100 公里。</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-08.png" alt="weekly-review-16-08"  /></p>
 <h2 id="工作">工作</h2>
 <h3 id="effective-java-3-笔记">Effective Java 3 笔记</h3>
 <p>请参考《<a href="https://blog.chensoul.com/posts/2023/04/24/avoid-creating-unnecessary-objects/">《Effective Java 3》笔记：避免创建不必要的对象</a>》。</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-02.png" alt="weekly-review-16-02"  />
-</p>
-<p>上面这个图是使用 <a href="https://shots.so/">Shots</a>  制作的，它是免费的，可以制作好看的图片，强烈推荐使用。</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-02.png" alt="weekly-review-16-02"  /></p>
+<p>上面这个图是使用 <a href="https://shots.so/">Shots</a> 制作的，它是免费的，可以制作好看的图片，强烈推荐使用。</p>
 <h2 id="本周分享">本周分享</h2>
 <p>虽然大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道，不过还是挑选一部分在这里列举一下，感觉更像一个 newsletter 了。</p>
 <h3 id="一些文章">一些文章</h3>
 <ul>
 <li><a href="https://www.skyue.com/23042217.html">使用 Python 实现 RSS 转 Newsletter</a></li>
-<li><a href="https://www.bilibili.com/read/cv23249529">5种微服务注册中心该如何选型？</a></li>
+<li><a href="https://www.bilibili.com/read/cv23249529">5 种微服务注册中心该如何选型？</a></li>
 <li><a href="https://allisonseboldt.com/5-years-of-indie-hacking/">5 Years of Indie Hacking</a></li>
 <li><a href="https://feizhaojun.com/?p=3832">一个技术精致的网站：接口设计和图片加载</a></li>
 <li><a href="https://newzone.top/posts/2022-11-03-ffmpeg_screen_recording.html">抛弃又贵又难用的录屏软件，3 分钟入门 FFmpeg</a></li>
@@ -2316,39 +2334,39 @@
 <ul>
 <li>
 <p><a href="https://www.enhanceai.dev/">EnhanceAI</a> 使用一行代码为网站的输入框增加上 AI 能力。</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-03.png" alt="weekly-review-16-03"  />
-</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-03.png" alt="weekly-review-16-03"  /></p>
 </li>
 <li>
 <p><a href="https://avatarmaker.com/">Avatar Maker</a> 一款在线 2D 动漫头像生成器，效果比较偏美漫风格。针对于半身头像的一些特征，提供了丰富的选项。</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-04.png" alt="weekly-review-16-04"  />
-</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-04.png" alt="weekly-review-16-04"  /></p>
 </li>
 <li>
 <p><a href="https://markflow.app/">Markflow</a> 网页元素快速拷贝的工具，支持复制粘贴到 Figma，React，Html 里。这个网页中可以试用，Inspector 的效果还是很不错的。就是 Free Plan 每个月只能拷贝 5 个 elements 有点过于没诚意。</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-05.png" alt="weekly-review-16-05"  />
-</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-05.png" alt="weekly-review-16-05"  /></p>
 </li>
 <li>
 <p><a href="https://shots.so/">Shots</a> 一款在线 Mockup 工具，能非常快速的做出套壳的效果图，内置的模版很多，样式调整的颗粒度也很细。适合独立开发快速出图。</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-06.png" alt="weekly-review-16-06"  />
-</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-06.png" alt="weekly-review-16-06"  /></p>
 </li>
 </ul>
 <h3 id="本周嘀咕">本周嘀咕</h3>
 <p>其实，大部分有意思的内容会分享在 『<a href="https://t.me/chensoul_share">ChenSoul Share</a>』Telegram 频道或者我的 <a href="https://memos.chensoul.com/">memos</a> 中，如果有一个脚本可以读取 Telegram 或者 memos 接口获取上周的分享记录，则可以自动化生成分享内容了。于是，花了一点时间写了一个 python 脚本 <a href="https://github.com/chensoul/chensoul.github.io/blob/main/fetch_memos.py">fetch_memos.py</a> 来读取 memos 接口。</p>
 <p>获取到的内容如下：</p>
 <ul>
-<li><strong>2023-04-21 08:31:23</strong> 📺 看过灌篮高手 <code>#douban</code> <code>#watched</code>   <a href="http://movie.douban.com/subject/35315950/">查看链接</a></li>
-<li><strong>2023-04-18 20:33:47</strong> 📺 看过龙马精神 <code>#douban</code> <code>#watched</code>  <a href="http://movie.douban.com/subject/35595615/">查看链接</a></li>
-<li><strong>2023-04-18 20:33:47</strong> 📖 最近在读Rust权威指南 <code>#douban</code> <code>#reading</code>  <a href="https://book.douban.com/subject/35081743/">查看链接</a></li>
-<li><strong>2023-04-18 20:33:47</strong> 📖 最近在读Python编程 <code>#douban</code> <code>#reading</code>  <a href="https://book.douban.com/subject/35196328/">查看链接</a></li>
-<li><strong>2023-04-18 20:33:47</strong> 📖 最近在读Python工匠 <code>#douban</code> <code>#reading</code>  <a href="https://book.douban.com/subject/35723705/">查看链接</a></li>
-<li><strong>2023-04-18 18:40:50</strong> 📝 周报-15｜Umami升级到2.0、汉街蜡像馆、使用Strava跑步 <code>#blog</code>   <a href="https://blog.chensoul.com/posts/2023/04/18/weekly_review_15/">查看链接</a></li>
-<li><strong>2023-04-17 17:48:43</strong> 🌟 chensoul starred chensoul/chensoul.github.io <code>#github</code> <code>#star</code>  <a href="https://github.com/chensoul/chensoul.github.io">查看链接</a></li>
-<li><strong>2023-04-17 17:10:45</strong> 📝 《Effective Java 3》笔记：使用私有构造函数或枚举类型创建单例 <code>#blog</code>   <a href="https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/">查看链接</a></li>
+<li><strong>2023-04-21 08:31:23</strong> 📺 看过灌篮高手 <code>#douban</code> <code>#watched</code> <a href="http://movie.douban.com/subject/35315950/">查看链接</a></li>
+<li><strong>2023-04-18 20:33:47</strong> 📺 看过龙马精神 <code>#douban</code> <code>#watched</code> <a href="http://movie.douban.com/subject/35595615/">查看链接</a></li>
+<li><strong>2023-04-18 20:33:47</strong> 📖 最近在读 Rust 权威指南 <code>#douban</code> <code>#reading</code> <a href="https://book.douban.com/subject/35081743/">查看链接</a></li>
+<li><strong>2023-04-18 20:33:47</strong> 📖 最近在读 Python 编程 <code>#douban</code> <code>#reading</code> <a href="https://book.douban.com/subject/35196328/">查看链接</a></li>
+<li><strong>2023-04-18 20:33:47</strong> 📖 最近在读 Python 工匠 <code>#douban</code> <code>#reading</code> <a href="https://book.douban.com/subject/35723705/">查看链接</a></li>
+<li><strong>2023-04-18 18:40:50</strong> 📝 周报-15 ｜ Umami 升级到 2.0、汉街蜡像馆、使用 Strava 跑步 <code>#blog</code> <a href="https://blog.chensoul.com/posts/2023/04/18/weekly_review_15/">查看链接</a></li>
+<li><strong>2023-04-17 17:48:43</strong> 🌟 chensoul starred chensoul/chensoul.github.io <code>#github</code> <code>#star</code> <a href="https://github.com/chensoul/chensoul.github.io">查看链接</a></li>
+<li><strong>2023-04-17 17:10:45</strong> 📝 《Effective Java 3》笔记：使用私有构造函数或枚举类型创建单例 <code>#blog</code> <a href="https://blog.chensoul.com/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/">查看链接</a></li>
 </ul>
-<p>后续的想法：对上面内容进行分类，比如，将带有豆瓣、Github、Strava、Spotfy、Blog标签的内容，归纳为我最近的活动；将带有 tool、skill 等标签其他内容归纳为我的分享（技术相关）；将其他内容归纳为我发表的说说。</p>
+<p>后续的想法：对上面内容进行分类，比如，将带有豆瓣、Github、Strava、Spotfy、Blog 标签的内容，归纳为我最近的活动；将带有 tool、skill 等标签其他内容归纳为我的分享（技术相关）；将其他内容归纳为我发表的说说。</p>
 <p>以上。</p>
 ]]></content:encoded>
     </item>
@@ -2359,36 +2377,52 @@
       <pubDate>Mon, 27 Feb 2023 08:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/02/27/weekly_review_8/</guid>
-      <description>前言 本篇是对 2023-02-20 到 2023-02-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这篇周报又是在地铁上完成编写的。回顾这一周的工作</description>
+      <description>前言 本篇是对 2023-02-20 到 2023-02-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+这篇周报又是在地铁上完成编写的。回顾这一周的工作，还是项目测试、修复 bug 和准备上线发布。平静的工作节奏因为突如其来的裁员消息而变得内卷起来，大家下班的时间都纷纷往后移到了 20 点左右。周末的时候，还是练车，从汉口开车到新洲。刚开始有点不敢，后来还是鼓起勇气，平安的到达。
+工作 内存泄漏 这周线上环境，出现了告警，提示 jvm 出现了 full gc。于是赶紧 dump 内存进行分析查找原因。顺便整理了内存相关的知识。
+什么是内存泄漏？
+这个问题直接问 chatgpt：
+内存泄漏（Memory Leak）是指在程序中动态分配的内存由于某些原因程序未能释放或无法释放，导致系统内存的实际可用空间不断减少的现象。内存泄漏的发生会导致程序占用的内存越来越多，最终导致程序崩溃或系统变慢。
+在 Java 中，程序员通常使用 new 运算符在堆上分配内存，这些内存不再使用时必须释放，否则就会出现内存泄漏。下面是一些常见的 Java 内存泄漏的情况：
+对象持有过多的引用 当一个对象持有其他对象的引用时，这些对象就不能被垃圾收集器回收，导致内存泄漏。比如，一个静态集合（如 Map、List）持有了大量对象的引用，但是这些对象已经不再需要了，却因为集合中仍然持有这些对象的引用，导致这些对象无法被回收，造成内存泄漏。
+长时间持有对象锁 在 Java 中，如果一个线程获取了一个对象的锁，但是在释放锁之前发生了异常，那么这个锁就不会被释放，从而导致内存泄漏。这种情况特别容易发生在 synchronized 块中。
+不正确的缓存使用 如果程序员不正确地使用缓存，就会导致内存泄漏。比如，如果使用一个静态 Map 来缓存对象，但是不从 Map 中删除对象，那么这些对象就会一直存在于内存中，造成内存泄漏。
+大量创建临时对象 如果程序频繁地创建临时对象，而这些对象又没有被及时清除，就会导致内存泄漏。比如，在循环中创建大量的字符串对象，但是没有及时清除，就会导致内存泄漏。
+为了避免内存泄漏，Java 程序员可以使用一些技术来优化程序，比如使用缓存池、避免使用不必要的静态变量、使用 finalize()方法释放资源等等。
+如何排查内存泄漏？
+内存分析工具：内存分析工具可以帮助您找到哪些对象占用了大量的内存。一些常用的内存分析工具包括：Eclipse MAT、VisualVM 和 YourKit。这些工具可以帮助您分析内存快照、查找内存泄漏并确定导致内存泄漏的代码位置。
+堆转储文件：堆转储文件是一个包含了 JVM 堆中所有对象的快照。您可以使用以下命令生成一个堆转储文件：jmap -dump:format=b,file=heap.bin ，其中是您的 Java 应用程序的进程 ID。然后，您可以使用内存分析工具来分析该文件。
+代码审查：在编写代码时，您可以使用一些技巧来避免内存泄漏。例如，您应该确保正确地关闭流和数据库连接，避免在循环中创建对象，以及使用软引用或弱引用来存储缓存数据等。通过仔细审查代码并识别可能导致内存泄漏的部分，可以避免这些问题在运行时发生。
+监视工具：JVM 提供了一些监视工具，例如 jstat 和 jconsole，可以用于监视 JVM 的内存使用情况。通过监视这些指标，您可以识别是否存在内存泄漏的迹象。</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-02-20</code> 到 <code>2023-02-26</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
-<p>这篇周报又是在地铁上完成编写的。回顾这一周的工作，还是项目测试、修复 bug 和准备上线发布。平静的工作节奏因为突如其来的裁员消息而变得内卷起来，大家下班的时间都纷纷往后移到了20 点左右。周末的时候，还是练车，从汉口开车到新洲。刚开始有点不敢，后来还是鼓起勇气，平安的到达。</p>
+<p>这篇周报又是在地铁上完成编写的。回顾这一周的工作，还是项目测试、修复 bug 和准备上线发布。平静的工作节奏因为突如其来的裁员消息而变得内卷起来，大家下班的时间都纷纷往后移到了 20 点左右。周末的时候，还是练车，从汉口开车到新洲。刚开始有点不敢，后来还是鼓起勇气，平安的到达。</p>
 <h2 id="工作">工作</h2>
 <h3 id="内存泄漏">内存泄漏</h3>
 <p>这周线上环境，出现了告警，提示 jvm 出现了 full gc。于是赶紧 dump 内存进行分析查找原因。顺便整理了内存相关的知识。</p>
 <p><strong>什么是内存泄漏？</strong></p>
 <p>这个问题直接问 chatgpt：</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-08-01.png" alt="weekly-review-08-01"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-08-01.png" alt="weekly-review-08-01"  /></p>
 <p>内存泄漏（Memory Leak）是指在程序中动态分配的内存由于某些原因程序未能释放或无法释放，导致系统内存的实际可用空间不断减少的现象。内存泄漏的发生会导致程序占用的内存越来越多，最终导致程序崩溃或系统变慢。</p>
-<p>在Java中，程序员通常使用new运算符在堆上分配内存，这些内存不再使用时必须释放，否则就会出现内存泄漏。下面是一些常见的Java内存泄漏的情况：</p>
+<p>在 Java 中，程序员通常使用 new 运算符在堆上分配内存，这些内存不再使用时必须释放，否则就会出现内存泄漏。下面是一些常见的 Java 内存泄漏的情况：</p>
 <ol>
 <li>对象持有过多的引用</li>
 </ol>
-<p>当一个对象持有其他对象的引用时，这些对象就不能被垃圾收集器回收，导致内存泄漏。比如，一个静态集合（如Map、List）持有了大量对象的引用，但是这些对象已经不再需要了，却因为集合中仍然持有这些对象的引用，导致这些对象无法被回收，造成内存泄漏。</p>
+<p>当一个对象持有其他对象的引用时，这些对象就不能被垃圾收集器回收，导致内存泄漏。比如，一个静态集合（如 Map、List）持有了大量对象的引用，但是这些对象已经不再需要了，却因为集合中仍然持有这些对象的引用，导致这些对象无法被回收，造成内存泄漏。</p>
 <ol start="2">
 <li>长时间持有对象锁</li>
 </ol>
-<p>在Java中，如果一个线程获取了一个对象的锁，但是在释放锁之前发生了异常，那么这个锁就不会被释放，从而导致内存泄漏。这种情况特别容易发生在synchronized块中。</p>
+<p>在 Java 中，如果一个线程获取了一个对象的锁，但是在释放锁之前发生了异常，那么这个锁就不会被释放，从而导致内存泄漏。这种情况特别容易发生在 synchronized 块中。</p>
 <ol start="3">
 <li>不正确的缓存使用</li>
 </ol>
-<p>如果程序员不正确地使用缓存，就会导致内存泄漏。比如，如果使用一个静态Map来缓存对象，但是不从Map中删除对象，那么这些对象就会一直存在于内存中，造成内存泄漏。</p>
+<p>如果程序员不正确地使用缓存，就会导致内存泄漏。比如，如果使用一个静态 Map 来缓存对象，但是不从 Map 中删除对象，那么这些对象就会一直存在于内存中，造成内存泄漏。</p>
 <ol start="4">
 <li>大量创建临时对象</li>
 </ol>
 <p>如果程序频繁地创建临时对象，而这些对象又没有被及时清除，就会导致内存泄漏。比如，在循环中创建大量的字符串对象，但是没有及时清除，就会导致内存泄漏。</p>
-<p>为了避免内存泄漏，Java程序员可以使用一些技术来优化程序，比如使用缓存池、避免使用不必要的静态变量、使用finalize()方法释放资源等等。</p>
+<p>为了避免内存泄漏，Java 程序员可以使用一些技术来优化程序，比如使用缓存池、避免使用不必要的静态变量、使用 finalize()方法释放资源等等。</p>
 <p><strong>如何排查内存泄漏？</strong></p>
 <ul>
 <li>
@@ -2410,13 +2444,13 @@
 <p>参考文章</p>
 <ul>
 <li>
-<p><a href="https://www.cnblogs.com/rude3knife/p/13570423.html">一次完整的JVM堆外内存泄漏故障排查记录</a></p>
+<p><a href="https://www.cnblogs.com/rude3knife/p/13570423.html">一次完整的 JVM 堆外内存泄漏故障排查记录</a></p>
 </li>
 <li>
-<p><a href="https://droidyue.com/blog/2015/11/28/article-java-8-lambdas-a-peek-under-the-hood">深入探索Java 8 Lambda表达式</a></p>
+<p><a href="https://droidyue.com/blog/2015/11/28/article-java-8-lambdas-a-peek-under-the-hood">深入探索 Java 8 Lambda 表达式</a></p>
 </li>
 <li>
-<p><a href="https://blog.csdn.net/weixin_34722015/article/details/114815917">java lambda表达式内存泄露_浅谈Java内存泄露</a></p>
+<p><a href="https://blog.csdn.net/weixin_34722015/article/details/114815917">java lambda 表达式内存泄露_浅谈 Java 内存泄露</a></p>
 </li>
 </ul>
 <h3 id="裁员">裁员</h3>
@@ -2433,7 +2467,7 @@
 <p>在老婆的坐镇之下，顺利的从汉口开车六十公里到达新洲，路上没有违反交通规则。</p>
 <p>周六下午去看了一下潘塘花朝节，有点失望，没有想象中的热闹。可能因为这不是正宗的花朝节，正宗的应该是在旧街。</p>
 <p>逛了一圈，买了两百菜刀、一个砧板、两颗果树、一盆墨兰花。</p>
-<p>周六从新洲开回阳逻，周日又从阳逻开回老家去看父亲。买车后第一次回家，放了鞭炮🧨。</p>
+<p>周六从新洲开回阳逻，周日又从阳逻开回老家去看父亲。买车后第一次回家，放了鞭炮 🧨。</p>
 <p>中午包饺子，吃完饭就去菜园收割青菜。农村对于城市里上班族来说，一大好处是，每次回家，都可以装满青菜带回城市。</p>
 <p>下午，从老家驱车回阳逻再到汉口。在开车的过程中，发现和总结了一些问题。</p>
 <p>之前开车，总是盯着仪表盘，看车速达到了多少。车速一到 70 多就下意识地松油门和踩刹车。现在开始把眼睛注意力放到前方，不去可以在意车速，只是当导航提示我超速的时候，我白降低一点速度。</p>
@@ -2452,7 +2486,7 @@
 <p><a href="https://magickpen.com/">用 AI 写文章</a></p>
 </li>
 <li>
-<p><a href="https://blog.csdn.net/weixin_34722015/article/details/114815917">java lambda表达式内存泄露_浅谈Java内存泄露</a></p>
+<p><a href="https://blog.csdn.net/weixin_34722015/article/details/114815917">java lambda 表达式内存泄露_浅谈 Java 内存泄露</a></p>
 </li>
 <li>
 <p><a href="https://kenengba.com/post/3769.html">在家躺着拿工资，是挺过意不去的</a></p>
@@ -2466,9 +2500,9 @@
 </ul>
 <h3 id="一些工具">一些工具</h3>
 <h4 id="1raycasthttpswwwraycastcom">1、<a href="https://www.raycast.com/">Raycast</a></h4>
-<p>Raycast是一款想要取代 Spotlight 的快捷启动器，通过 Mac 上面的一些组合键来为让你完成在 Mac 上面的快捷启动，提高你日常当中在 Mac 上面的操作效率，如果以 macOS 系统版本风格来比喻的话，Alfred 的 UI 风格应该能匹配几年前的 macOS 吧，而 Raycast 却是能够驾驭 macOS Big Sur 全新的视觉风格。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-08-02.png" alt="weekly-review-08-02"  />
-</p>
+<p>Raycast 是一款想要取代 Spotlight 的快捷启动器，通过 Mac 上面的一些组合键来为让你完成在 Mac 上面的快捷启动，提高你日常当中在 Mac 上面的操作效率，如果以 macOS 系统版本风格来比喻的话，Alfred 的 UI 风格应该能匹配几年前的 macOS 吧，而 Raycast 却是能够驾驭 macOS Big Sur 全新的视觉风格。</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-08-02.png" alt="weekly-review-08-02"  /></p>
 <p>以上。</p>
 ]]></content:encoded>
     </item>
@@ -2479,15 +2513,33 @@
       <pubDate>Tue, 21 Feb 2023 00:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/02/21/weekly_review_7/</guid>
-      <description>前言 本篇是对 2023-02-13 到 2023-02-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 练车 这周末开始练车，周六是第一次开自己的车，简单</description>
+      <description>前言 本篇是对 2023-02-13 到 2023-02-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+练车 这周末开始练车，周六是第一次开自己的车，简单试驾了一样；周日则开了一百多公里，具体行程是从阳逻到新洲，从新洲单汉口，从汉口到光谷，从光谷回汉口。
+这途中走了江北快速公路、二环、二七长江大桥、东湖隧道，从白天开到晚上夜行，经历过堵车，路上看到车祸后的事故现场。
+一天下来，总共开车有五个多小时，感觉开车好累。作为新手，开车的过程中要全神贯注，铭记开车最重要的是慢这一原则，速度不敢过快。
+回顾这一天的练车过程，发现自己存在以下问题：
+对汽车不熟悉，不清楚车内每个按钮有什么作用。
+不敢开的太快，油门踩到六十公里之后，就下意识地松油门。整个行驶过程中，平均车速大概在二十多公里每小时。
+对交规不熟悉，第一次用高德地图，不知道什么时候改该变道、什么时候该走中间道路。要变道时候，不够果敢，打了灯光之后，没有快速变道，甚至还降速，等后面车子，而后面车子也在等我。
+对车距不敏感。行驶过程中，和左右车辆相隔距离多近，没有一个直观的感受。观察后视镜，后面车距多远，有时候也判断不准，导致自己变道犹豫不决，险些擦碰。
+变道、转弯，有时候忘记打灯。转弯时候，方向盘动得太早，没有等车过斑马线再打方向盘。左转弯时候，没有转大弯，导致车子有一次擦到了左边的石墩子，幸好不是很严重。
+倒车和侧方停车不够熟练。
+对上班路线不熟悉，不知道怎么进入公司楼下停车场。
+基于以上表现，接下来一周还是坐地铁上班。目前来说还是更喜欢坐地铁上班，可以看视频听音频，可以查看 RSS 订阅文章，可以写周报，可以闭目养神。
+老婆给我买的实习期贴牌到了，后面司机看到这么可爱的牌子，估计以为是个妹子在开车吧，应该会喇叭下留情了吧 😄。
+接下来的周末，还要继续练车，和车子培养感情，从内到外熟悉车子，熟悉上班路线和交通规则，提高行驶速度。加油 💪🏻！
+博客优化 这周重新对博客进行了优化，主要包括以下几个方面：
+1、优化页面加载速度 每次打开博客首页，感觉页面加载有点慢，故想加快博客打开速度，第一个想到的是减少博客加载资源的次数，也就是去掉一些飞必须的 css 和 javascript 引用；其次，是对 css 进行压缩。
+去掉对 font-awesome css 的引用。这个对博客来说可有可无，所以直接去掉。 去掉对 jquery、bootstrap js 的引用。同样也不是必须的，自定义的 javascript 直接使用原生的操作就行。 移除未使用的 css。想参考这篇文章 CleanCSS - 移除未使用的 CSS 代码，对 css 进行瘦身，无奈文章中的服务器出现故障，无法访问服务。故，暂时搁浅。 2、修改网站字体 参考这篇文章 字体漫谈-网站字体最佳实践 引入 open-sans 字体：
+&amp;lt;link rel=&amp;#34;preload&amp;#34; as=&amp;#34;font&amp;#34; type=&amp;#34;font/woff2&amp;#34; href=&amp;#34;/css/font/open-sans.css&amp;#34; /&amp;gt; &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; type=&amp;#34;text/css&amp;#34; href=&amp;#34;/css/font/open-sans.</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-02-13</code> 到 <code>2023-02-19</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <h2 id="练车">练车</h2>
 <p>这周末开始练车，周六是第一次开自己的车，简单试驾了一样；周日则开了一百多公里，具体行程是从阳逻到新洲，从新洲单汉口，从汉口到光谷，从光谷回汉口。</p>
 <p>这途中走了江北快速公路、二环、二七长江大桥、东湖隧道，从白天开到晚上夜行，经历过堵车，路上看到车祸后的事故现场。</p>
 <p>一天下来，总共开车有五个多小时，感觉开车好累。作为新手，开车的过程中要全神贯注，铭记开车最重要的是慢这一原则，速度不敢过快。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-06.webp" alt="weekly-review-06"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-06.webp" alt="weekly-review-06"  /></p>
 <p>回顾这一天的练车过程，发现自己存在以下问题：</p>
 <ul>
 <li>
@@ -2512,11 +2564,11 @@
 <p>对上班路线不熟悉，不知道怎么进入公司楼下停车场。</p>
 </li>
 </ul>
-<p>基于以上表现，接下来一周还是坐地铁上班。目前来说还是更喜欢坐地铁上班，可以看视频听音频，可以查看 RSS   订阅文章，可以写周报，可以闭目养神。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-07.png" alt="weekly-review-07"  />
-</p>
-<p>老婆给我买的实习期贴牌到了，后面司机看到这么可爱的牌子，估计以为是个妹子在开车吧，应该会喇叭下留情了吧😄。</p>
-<p>接下来的周末，还要继续练车，和车子培养感情，从内到外熟悉车子，熟悉上班路线和交通规则，提高行驶速度。加油💪🏻！</p>
+<p>基于以上表现，接下来一周还是坐地铁上班。目前来说还是更喜欢坐地铁上班，可以看视频听音频，可以查看 RSS 订阅文章，可以写周报，可以闭目养神。</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-07.png" alt="weekly-review-07"  /></p>
+<p>老婆给我买的实习期贴牌到了，后面司机看到这么可爱的牌子，估计以为是个妹子在开车吧，应该会喇叭下留情了吧 😄。</p>
+<p>接下来的周末，还要继续练车，和车子培养感情，从内到外熟悉车子，熟悉上班路线和交通规则，提高行驶速度。加油 💪🏻！</p>
 <h2 id="博客优化">博客优化</h2>
 <p>这周重新对博客进行了优化，主要包括以下几个方面：</p>
 <h3 id="1优化页面加载速度">1、优化页面加载速度</h3>
@@ -2528,12 +2580,23 @@
 </ul>
 <h3 id="2修改网站字体">2、修改网站字体</h3>
 <p>参考这篇文章 <a href="https://www.albertaz.com/blog/web-font-best-practice">字体漫谈-网站字体最佳实践</a> 引入 open-sans 字体：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;preload&#34;</span> <span class="na">as</span><span class="o">=</span><span class="s">&#34;font&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;font/woff2&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/css/font/open-sans.css&#34;</span> <span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span>  <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/css&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/css/font/open-sans.css&#34;</span>  <span class="na">media</span><span class="o">=</span><span class="s">&#34;print&#34;</span> <span class="na">onload</span><span class="o">=</span><span class="s">&#34;this.media=&#39;all&#39;&#34;</span> <span class="p">/&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span>
+</span></span><span class="line"><span class="cl">  <span class="na">rel</span><span class="o">=</span><span class="s">&#34;preload&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">as</span><span class="o">=</span><span class="s">&#34;font&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">type</span><span class="o">=</span><span class="s">&#34;font/woff2&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">href</span><span class="o">=</span><span class="s">&#34;/css/font/open-sans.css&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span>
+</span></span><span class="line"><span class="cl">  <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/css&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">href</span><span class="o">=</span><span class="s">&#34;/css/font/open-sans.css&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">media</span><span class="o">=</span><span class="s">&#34;print&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">onload</span><span class="o">=</span><span class="s">&#34;this.media=&#39;all&#39;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">/&gt;</span>
 </span></span></code></pre></div><p>并修改网站 font-family 如下：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">body</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">font-family</span><span class="p">:</span> <span class="n">Open</span> <span class="n">Sans</span><span class="p">,</span><span class="n">system-ui</span><span class="p">,</span><span class="o">-</span><span class="n">apple-system</span><span class="p">,</span><span class="n">Arial</span><span class="p">,</span><span class="kc">sans-serif</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">word-break</span><span class="p">:</span> <span class="kc">break-word</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">font-family</span><span class="p">:</span> <span class="n">Open</span> <span class="n">Sans</span><span class="p">,</span> <span class="n">system-ui</span><span class="p">,</span> <span class="o">-</span><span class="n">apple-system</span><span class="p">,</span> <span class="n">Arial</span><span class="p">,</span> <span class="kc">sans-serif</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">word-break</span><span class="p">:</span> <span class="kc">break-word</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h3 id="3修改关于页面内容">3、修改关于页面内容</h3>
 <p>参考这篇文章 <a href="https://rahuldkjain.github.io/gh-profile-readme-generator/">GitHub Profile README Generator</a>，对 GitHub <a href="https://github.com/chensoul/chensoul">首页</a> 进行改造，并通过 GitHub Action 同步到博客的 <a href="https://blog.chensoul.com/about/">关于</a> 页面。</p>
@@ -2541,16 +2604,16 @@
 <p>将 dns 解析从 AWS 迁移到 cloudflare，并开启 CDN 缓存。</p>
 <h3 id="5博客测速">5、博客测速</h3>
 <p>以上优化完成之后，在 <a href="https://pagespeed.web.dev/">PageSpeed Insights</a> 网站上对博客首页加载速度进行了测速。移动端测试结果为 93 分，如下图：</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-01.png" alt="weekly-review-07-01"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-01.png" alt="weekly-review-07-01"  /></p>
 <p>影响评分的原因在于：</p>
 <ul>
 <li>First Contentful Paint (3G)</li>
 <li>加载的 <a href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">bootstrap.min.css</a> 文件过大，包括了一些未使用的 CSS</li>
 </ul>
 <p>桌面端测试结果评分为 99 分：</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-02.png" alt="weekly-review-07-02"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-07-02.png" alt="weekly-review-07-02"  /></p>
 <p>另外，试了一下使用 chatgpt 来给出网站优化建议，回答如下：</p>
 <h2 id="n8n-调整">n8n 调整</h2>
 <p>新增了 3 个 workflow：</p>
@@ -2568,8 +2631,8 @@
 <p>修改了以下 workflow：</p>
 <ul>
 <li>将豆瓣最近动态同步到电报群组以及 <a href="https://memos.chensoul.com/">memos</a></li>
-<li>将 GitHub 最近动态同步到电报群组以及  <a href="https://memos.chensoul.com/">memos</a></li>
-<li>将 <a href="https://blog.chensoul.com/index.xml">博客 RSS</a> 同步到电报群组以及  <a href="https://memos.chensoul.com/">memos</a></li>
+<li>将 GitHub 最近动态同步到电报群组以及 <a href="https://memos.chensoul.com/">memos</a></li>
+<li>将 <a href="https://blog.chensoul.com/index.xml">博客 RSS</a> 同步到电报群组以及 <a href="https://memos.chensoul.com/">memos</a></li>
 </ul>
 <p>此外，在苹果手机上添加了两个捷径：</p>
 <ul>
@@ -2577,9 +2640,11 @@
 <li><a href="https://www.icloud.com/shortcuts/d990253f43e148469af5e85c296961cf">捷径二</a>：对网站通过 RSSBud 获取 RSS 订阅地址并发送到电报的 flowerrss 机器人进行订阅</li>
 </ul>
 <h2 id="chatgpt-注册账号">ChatGPT 注册账号</h2>
-<p>参考 <a href="https://sms-activate.org/cn/info/ChatGPT">注册ChatGPT详细指南</a> 注册账号，我在 sms-activate 网站是购买的巴西的手机号来接验证码。</p>
+<p>参考 <a href="https://sms-activate.org/cn/info/ChatGPT">注册 ChatGPT 详细指南</a> 注册账号，我在 sms-activate 网站是购买的巴西的手机号来接验证码。</p>
 <p>解决地区受限问题：在浏览器地址栏里输入 <code>javascript:</code>，然后粘贴下面代码：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="nx">i</span><span class="p">=&gt;</span><span class="nx">i</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">&#39;@@auth0spajs&#39;</span><span class="p">)))</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">).</span><span class="nx">find</span><span class="p">((</span><span class="nx">i</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">i</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s2">&#34;@@auth0spajs&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
 </span></span></code></pre></div><blockquote>
 <p>如果还是无效，则清理浏览器 cookie 和 session，再刷新页面。</p>
 </blockquote>
@@ -2629,9 +2694,9 @@
 <h3 id="一些工具">一些工具</h3>
 <h4 id="1亲戚关系计算器httpspasser-bycomrelationshipvue">1、<a href="https://passer-by.com/relationship/vue/#/">亲戚关系计算器</a></h4>
 <h4 id="2imageoptimhttpsimageoptimcommac">2、<a href="https://imageoptim.com/mac">ImageOptim</a></h4>
-<p>开源图片压缩软件：一款 Mac 小工具，可以方便的进行图片压缩，支持多格式、批量处理。值得注意的是，它压缩之后的图片会覆盖之前的图片。使用了这个工具之后，我就把  TinyPNG4Mac 卸载了。</p>
+<p>开源图片压缩软件：一款 Mac 小工具，可以方便的进行图片压缩，支持多格式、批量处理。值得注意的是，它压缩之后的图片会覆盖之前的图片。使用了这个工具之后，我就把 TinyPNG4Mac 卸载了。</p>
 <h4 id="3沉浸式双语网页翻译扩展--immersive-translatehttpsimmersive-translateowenyoungcom">3、<a href="https://immersive-translate.owenyoung.com/">沉浸式双语网页翻译扩展 – immersive-translate</a></h4>
-<p>强烈推荐这个网页翻译插件，和其他插件翻译整个页面相比，这个插件的优势是可以同时显示双语，中英文对照非常棒，是一个 <a href="https://github.com/immersive-translate/immersive-translate">开源</a> 的项目，完全免费使用。也支持 PDF，配合任何 <a href="https://epub-reader.online/">epub 在线阅读网站</a>对照翻译阅读书也非常方便。也支持了Deepl，腾讯翻译等等的翻译服务。开发者 <a href="https://twitter.com/OwenYoungZh">@OwenYoungZh</a></p>
+<p>强烈推荐这个网页翻译插件，和其他插件翻译整个页面相比，这个插件的优势是可以同时显示双语，中英文对照非常棒，是一个 <a href="https://github.com/immersive-translate/immersive-translate">开源</a> 的项目，完全免费使用。也支持 PDF，配合任何 <a href="https://epub-reader.online/">epub 在线阅读网站</a>对照翻译阅读书也非常方便。也支持了 Deepl，腾讯翻译等等的翻译服务。开发者 <a href="https://twitter.com/OwenYoungZh">@OwenYoungZh</a></p>
 <h4 id="4input-source-prohttpsinputsourceprozh-cn">4、<a href="https://inputsource.pro/zh-CN">Input Source Pro</a></h4>
 <p>Input Source Pro 可以根据应用或是网站自动切换输入法，并且在切换窗口的时候还会贴心的提示当前的输入法是什么，比如设置 VSCode、iTerm、Xcode 默认为英文输入法，而笔记软件和企业微信默认为中文输入法，切换软件时再也不需要按 shift 键了！</p>
 <p>以上。</p>
@@ -2644,16 +2709,24 @@
       <pubDate>Wed, 25 Jan 2023 09:47:03 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/01/25/weekly_review_3/</guid>
-      <description>前言 本篇是对 2023-01-16 到 2023-01-22 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是过年前的最后一周，上了三天班，请了两天假回去</description>
+      <description>前言 本篇是对 2023-01-16 到 2023-01-22 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制，也在我的 VPS 上通过 Docker 部署了一些服务。
+定制博客 基于 pseudoyu 的博客和主题定制博客，发现并修复了 bug，还做了一些改进，并在他的 github 提交 issue 和 merge request。
+接着在他博客主页留言，几个来回下来，收获不少。一是解决了我提出的问题，二是给我分享了一个搬瓦工的 the plan 优惠码。这时候去看了下我原来的 vps 刚好还有一天要到期，就立即花了 92 美元（原价是 99 美元）购买了一台 2G 内存托管在香港的服务器。
+缘分就是这么奇妙，如果我不主动和这个博主联系，就不会知道搬瓦工还有这个优惠，就不会帮助我解决了博客定制过程中遇到的疑惑。
+当你想要什的时候，先给出去，你就会收获更。有舍才有得。
+博客个人介绍 我的博客源文件托管在 gihub，在这个仓库可以看到我的一些个人介绍，当然，我的博客也有个人介绍（在关于页面），如果你仔细观察，可以发现他们基本上是一样的，这个是怎么实现的呢？
+首先，github 里面可以创建一个以 github 账号为名称的仓库，然后编辑好 README.md 文件，README.md 文件内容就会渲染成 html 显示到个人 github 主页。例如，我的 github 主页是 https://github.com/chensoul，我的个人仓库地址为 https://github.com/chensoul/chensoul，这个仓库是通过 github actions 来构建 README.md，构建文件查看仓库的 workflows 文件，主要有两个文件：
+build.yml：周期性的调用 build_readme.py 来生成 README.md 文件（包括：获取最近 5 篇博客文章、或者 豆瓣上最近 5 个电影书籍动态、获取 github 上发布的项目、显示 wakatime 报表） waketime.</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-16</code> 到 <code>2023-01-22</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制，也在我的 VPS 上通过 Docker 部署了一些服务。</p>
 <h2 id="定制博客">定制博客</h2>
-<p>基于 <a href="https://www.pseudoyu.com/">pseudoyu</a> 的博客和主题定制博客，发现并修复了bug，还做了一些改进，并在他的 github 提交 <a href="https://github.com/pseudoyu/pseudoyu/issues/2">issue</a> 和 merge request。</p>
+<p>基于 <a href="https://www.pseudoyu.com/">pseudoyu</a> 的博客和主题定制博客，发现并修复了 bug，还做了一些改进，并在他的 github 提交 <a href="https://github.com/pseudoyu/pseudoyu/issues/2">issue</a> 和 merge request。</p>
 <img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/github-issue-build-aboutme-py.png" alt="github-issue-build-aboutme-py" style="width: 80%"/>
-<p>接着在他博客主页留言，几个来回下来，收获不少。一是解决了我提出的问题，二是给我分享了一个搬瓦工的 the plan 优惠码。这时候去看了下我原来的 vps 刚好还有一天要到期，就立即花了92 美元（原价是 99 美元）购买了一台 2G 内存托管在香港的服务器。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-main-controlls.png" alt="vps-main-controlls"  />
-</p>
+<p>接着在他博客主页留言，几个来回下来，收获不少。一是解决了我提出的问题，二是给我分享了一个搬瓦工的 the plan 优惠码。这时候去看了下我原来的 vps 刚好还有一天要到期，就立即花了 92 美元（原价是 99 美元）购买了一台 2G 内存托管在香港的服务器。</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-main-controlls.png" alt="vps-main-controlls"  /></p>
 <p>缘分就是这么奇妙，如果我不主动和这个博主联系，就不会知道搬瓦工还有这个优惠，就不会帮助我解决了博客定制过程中遇到的疑惑。</p>
 <blockquote>
 <p>当你想要什的时候，先给出去，你就会收获更。有舍才有得。</p>
@@ -2677,11 +2750,11 @@
 <li>umami：一个简单易用、自托管的开源网站访问流量<em>统计</em>分析工具</li>
 <li>pgsql</li>
 <li>uptime-kuma：一个开源免费的监控工具</li>
-<li>rsshub：一个开源、简单易用、易于扩展的RSS 生成器，可以给任何奇奇怪怪的内容生成RSS 订阅源</li>
+<li>rsshub：一个开源、简单易用、易于扩展的 RSS 生成器，可以给任何奇奇怪怪的内容生成 RSS 订阅源</li>
 </ul>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-docker-service.png" alt="vps-docker-service"  />
-</p>
-<p>通过 Docker 部署这些服务非常简单，主要是需要注意的一点是：将这些服务部署到同一个网路，这样各个服务之间可以互相通信。比如：很多服务都需要依赖数据库 postgresql，可以使用 docker-compose 来编排服务。安装部署过程参考：<a href="/posts/2023/01/25/notes-about-deploy-services-in-vps/">我的VPS服务部署记录</a></p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-docker-service.png" alt="vps-docker-service"  /></p>
+<p>通过 Docker 部署这些服务非常简单，主要是需要注意的一点是：将这些服务部署到同一个网路，这样各个服务之间可以互相通信。比如：很多服务都需要依赖数据库 postgresql，可以使用 docker-compose 来编排服务。安装部署过程参考：<a href="/posts/2023/01/25/notes-about-deploy-services-in-vps/">我的 VPS 服务部署记录</a></p>
 <p>以上。</p>
 ]]></content:encoded>
     </item>
@@ -2692,21 +2765,33 @@
       <pubDate>Sun, 15 Jan 2023 09:47:03 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/01/15/weekly_review_2/</guid>
-      <description>前言 本篇是对 2023-01-09 到 2023-01-15 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是年前倒数第二个工作周，工作上主要是完成项目一</description>
+      <description>前言 本篇是对 2023-01-09 到 2023-01-15 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔记和个人的生活记录与思考，所以不会涉及具体的工作内容。
+周三晚上是部门年会，领导提出了 2023 年收入 6.2 亿的目标，比 2022 年收入增长 140%。从公司领导层这乐观的年度规划，看得出来公司的发展属于上升趋势，同时意味着 2023 年又是忙碌和压力巨大的一年。
+工作闲暇之余，看到了一些独立开发者的博客，并受他们博客文章的影响，立即决定重新捣鼓博客。于是，在一腔热情之下，花了三天时间重构了博客，也对博客以后的方向做了一些规划。
+周末是过小年，小年伊始，年味渐浓。周六晚上，堂哥家吃年饭。周日中午，自己家吃年饭。这是新婚后第一次两边的家人一起吃年饭。虽然很早就确定了年饭时间大家都有时间的周末、预定了可以坐下 20 多人的大桌，但还是遗憾人没有到齐。
+博客重构 博客主题 以前的博客主要是纯粹分享技术，很少有自己的思考，基本上就是代码比汉字要多不少。博客没有博主的思考，无法让读者认识、了解博主，并和博主产生深入的链接。这样的博客没有灵魂，就仅仅是一个纯分享的 wiki。
+这次重新开始写博客之后，规划的博客主题是分享技术、记录生活、启发思考。技术上的文章，要有深度；生活的点滴，要有复盘；思考的内容，要有共鸣。
+博客规划 以前博客文章的分类有 java、database、devops、web，在删了一些文章之后，将博客的分类调整为想法（Ideas）、笔记（Notes）两类，后面再根据实际情况添加或者调整分类。
+健康，爱情和使命，按照这个顺序，其它的都不重要
+文章链接 以前的博客链接格式是 posts/:slug，现在调整为 posts/:year/:month/:day/:slug。因为现在博客只有几篇文章，所以暂时不打算做原有链接路径到新路径的重定向工作。
+博客部署 目前有三种方案部署方案：
+github pages。国内访问速度受影响。 cloudflare pages。可以使用 cdn 加速。 Self hosted。需要购买云主机和手动运维。 目前，是倾向于使用第二种方案。源码保存到 github 上，github actions 编译和部署静态文件到 cf-pages 分支，通过 cloudflare pages 链接 github 仓库、自动化部署静态文件并设置自定义域名 blog.chensoul.com。
+发布流程 本地编写 markdown 文件，图片保存到公有云，通过 git 提交到 github 仓库，使用 github actions 通过 n8n 自动发布到多平台，比如：公众号，语雀等。</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-09</code> 到 <code>2023-01-15</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔记和个人的生活记录与思考，所以不会涉及具体的工作内容。</p>
 <p>周三晚上是部门年会，领导提出了 2023 年收入 6.2 亿的目标，比 2022 年收入增长 140%。从公司领导层这乐观的年度规划，看得出来公司的发展属于上升趋势，同时意味着 2023 年又是忙碌和压力巨大的一年。</p>
 <p>工作闲暇之余，看到了一些独立开发者的博客，并受他们博客文章的影响，立即决定重新捣鼓博客。于是，在一腔热情之下，花了三天时间重构了博客，也对博客以后的方向做了一些规划。</p>
 <p>周末是过小年，小年伊始，年味渐浓。周六晚上，堂哥家吃年饭。周日中午，自己家吃年饭。这是新婚后第一次两边的家人一起吃年饭。虽然很早就确定了年饭时间大家都有时间的周末、预定了可以坐下 20 多人的大桌，但还是遗憾人没有到齐。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/new-year-dinner-20230115.png" alt="new-year-dinner-20230115"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/new-year-dinner-20230115.png" alt="new-year-dinner-20230115"  /></p>
 <h2 id="博客重构">博客重构</h2>
 <h3 id="博客主题">博客主题</h3>
 <p>以前的博客主要是纯粹分享技术，很少有自己的思考，基本上就是代码比汉字要多不少。博客没有博主的思考，无法让读者认识、了解博主，并和博主产生深入的链接。这样的博客没有灵魂，就仅仅是一个纯分享的 wiki。</p>
 <p>这次重新开始写博客之后，规划的博客主题是分享技术、记录生活、启发思考。技术上的文章，要有深度；生活的点滴，要有复盘；思考的内容，要有共鸣。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/blog-homepage-den-theme.png" alt="blog-homepage-den-theme"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/blog-homepage-den-theme.png" alt="blog-homepage-den-theme"  /></p>
 <h3 id="博客规划">博客规划</h3>
 <p>以前博客文章的分类有 java、database、devops、web，在删了一些文章之后，将博客的分类调整为想法（Ideas）、笔记（Notes）两类，后面再根据实际情况添加或者调整分类。</p>
 <blockquote>
@@ -2737,8 +2822,8 @@
 <li><input disabled="" type="checkbox"> 域名 dns 解析迁移到 cloudflare</li>
 </ul>
 <p>以下是使用 kuma 监控我的 VPS 上的服务。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/chensoul-uptime.png" alt="chensoul-uptime"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/chensoul-uptime.png" alt="chensoul-uptime"  /></p>
 <p>以上。</p>
 ]]></content:encoded>
     </item>
@@ -2749,11 +2834,19 @@
       <pubDate>Sun, 08 Jan 2023 09:47:03 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/01/08/weekly_review_1/</guid>
-      <description>前言 本篇是对 2023-01-02 到 2023-01-08 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是 2023 年的第一周，元旦放了三天假之后，就用投入了</description>
+      <description>前言 本篇是对 2023-01-02 到 2023-01-08 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+这是 2023 年的第一周，元旦放了三天假之后，就用投入了工作之中。元旦已过，过年就没多远了，很多公司也开始准备年会了。因为疫情，这个年注定不好过。现在疫情放开，不知道有多少公司能够熬过这个年，进入百废待兴的节奏。
+最近把 rss 阅读器又用起来，每天阅读订阅的未读文章，关注到好几个独立开发者。他们每周都在坚持写博客、分享技术文章。从他们的分享里面，可以看到他们有在做自己的 side projects，也有在开源项目提交代码。看着他们的 github 主页每天都有提交代码，再看看我的 github 主页很久没有提交过代码，顿感惭愧。目前，公司使用的是自建的 gitlab 仓库托管代码，很多代码不方便公开分享，自己夜很少花时间写一些小项目公开分享到 github。干脆就清理一些 github 长期没有维护的仓库，取关了一些好友，更新了 github 主页，最后看了一下粉丝还有 574 人，相对而言也是少的可怜 🥺。
+开始写周报 前段时间，开始尝试在 语雀 上每天写日记，写了几天之后，没有坚持下来。
+总结了一下，没有坚持下来的原因主要是在于每天没有积累足够的分享内容，也就是输入不够；另外，输出之后的反馈不够，这和观众流量有关。作为一个程序员，更喜欢自动化工作的快感和满足感。哟还是更倾向于将博客以 markdown 文件保存到本地或者 git 仓库，然后通过自动化脚本编译部署到多平台。在关注了一些独立开发者的博客之后，更是坚定了这种想法。于是有了这篇写周报的文章，以周为单位记录每一周的所看所思所感。
+关于写博客的流程，电脑上使用 typora 编辑器有着很好的用户体验。如果也能在手机上用 markdown 写文章并提交到 github 上就更完美了。刚开始我使用的是 mweb 这个 app，最近在 ios 上又发现了 metion 这个 app 就可以支持和 git 同步。
+这篇文章就是通过 metion 编写和提交的。图片是本地上传的，图片名称应该是一串随机数，待文章发布之后，需要将图片重命名为有意义的名称，这样方便在图床里查阅和管理。
+关于图片的宽度设置，特别是竖形图，建议将宽度设置为一半。设置方法是：在 md 文件里使用 img 标签引入图片，这样就可以添加一个 sytle=&amp;quot;width: 50%&amp;quot; 来设置宽度。例如，上面图片就是这样设置的。
+&amp;lt;img src=&amp;#34;http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/ios-app-metion.png&amp;#34; alt=&amp;#34;ios-app-metion&amp;#34; style=&amp;#34;width: 50%&amp;#34; /&amp;gt; 内观冥想 这个月参加了一个内观冥想 21 天训练营，每天早上 7 点到 8 点是上课时间，正好也是我上班时间。在听了几天课程并打卡之后，就放弃了。</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-02</code> 到 <code>2023-01-08</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这是 2023 年的第一周，元旦放了三天假之后，就用投入了工作之中。元旦已过，过年就没多远了，很多公司也开始准备年会了。因为疫情，这个年注定不好过。现在疫情放开，不知道有多少公司能够熬过这个年，进入百废待兴的节奏。</p>
-<p>最近把 rss 阅读器又用起来，每天阅读订阅的未读文章，关注到好几个独立开发者。他们每周都在坚持写博客、分享技术文章。从他们的分享里面，可以看到他们有在做自己的 side projects，也有在开源项目提交代码。看着他们的 github 主页每天都有提交代码，再看看我的 github 主页很久没有提交过代码，顿感惭愧。目前，公司使用的是自建的 gitlab 仓库托管代码，很多代码不方便公开分享，自己夜很少花时间写一些小项目公开分享到 github。干脆就清理一些 github 长期没有维护的仓库，取关了一些好友，更新了 github 主页，最后看了一下粉丝还有 574 人，相对而言也是少的可怜🥺。</p>
+<p>最近把 rss 阅读器又用起来，每天阅读订阅的未读文章，关注到好几个独立开发者。他们每周都在坚持写博客、分享技术文章。从他们的分享里面，可以看到他们有在做自己的 side projects，也有在开源项目提交代码。看着他们的 github 主页每天都有提交代码，再看看我的 github 主页很久没有提交过代码，顿感惭愧。目前，公司使用的是自建的 gitlab 仓库托管代码，很多代码不方便公开分享，自己夜很少花时间写一些小项目公开分享到 github。干脆就清理一些 github 长期没有维护的仓库，取关了一些好友，更新了 github 主页，最后看了一下粉丝还有 574 人，相对而言也是少的可怜 🥺。</p>
 <h2 id="开始写周报">开始写周报</h2>
 <p>前段时间，开始尝试在 <a href="https://www.yuque.com/chensoul">语雀</a> 上每天写日记，写了几天之后，没有坚持下来。</p>
 <img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/yuque-life-note.png" alt="yuque-life-note" style="width: 50%"/>
@@ -2763,7 +2856,11 @@
 <p>这篇文章就是通过 metion 编写和提交的。图片是本地上传的，图片名称应该是一串随机数，待文章发布之后，需要将图片重命名为有意义的名称，这样方便在图床里查阅和管理。</p>
 <img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/metion-writing-first-blog.png" alt="metion-writing-first-blog" style="width: 50%"/>
 <p>关于图片的宽度设置，特别是竖形图，建议将宽度设置为一半。设置方法是：在 md 文件里使用 <code>img</code> 标签引入图片，这样就可以添加一个 <code>sytle=&quot;width: 50%&quot;</code> 来设置宽度。例如，上面图片就是这样设置的。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/ios-app-metion.png&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;ios-app-metion&#34;</span> <span class="na">style</span><span class="o">=</span><span class="s">&#34;width: 50%&#34;</span><span class="p">&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">img</span>
+</span></span><span class="line"><span class="cl">  <span class="na">src</span><span class="o">=</span><span class="s">&#34;http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/ios-app-metion.png&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">alt</span><span class="o">=</span><span class="s">&#34;ios-app-metion&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">style</span><span class="o">=</span><span class="s">&#34;width: 50%&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">/&gt;</span>
 </span></span></code></pre></div><h2 id="内观冥想">内观冥想</h2>
 <p>这个月参加了一个内观冥想 21 天训练营，每天早上 7 点到 8 点是上课时间，正好也是我上班时间。在听了几天课程并打卡之后，就放弃了。</p>
 <p>21 天课程内容，每天的主题分别是：</p>
@@ -2826,15 +2923,27 @@
       <pubDate>Thu, 09 Sep 2021 18:14:34 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2021/09/09/build-personal-blog-from-zero/</guid>
-      <description>从零开始搭建博客，包括注册域名、购买服务器、部署程序及网站配置和优化。 域名 搭建一个博客或者网站，需要有一个域名。那什么是域名呢？看看百度百科</description>
+      <description>从零开始搭建博客，包括注册域名、购买服务器、部署程序及网站配置和优化。
+域名 搭建一个博客或者网站，需要有一个域名。那什么是域名呢？看看百度百科上的解释：
+域名（英语：Domain Name），又称网域，是由一串用点分隔的名字组成的Internet上某一台计算机或计算机组的名称，用于在数据传输时对计算机的定位标识（有时也指地理位置）。
+由于IP 地址具有不方便记忆并且不能显示地址组织的名称和性质等缺点，人们设计出了域名，并通过网域名称系统（DNS，Domain Name System）来将域名和IP 地址相互映射，使人更方便地访问互联网，而不用去记住能够被机器直接读取的IP 地址数串。
+简单来说，IP 地址可以标识一台计算机，但是不容易记忆，所以，设计出了域名。而域名就是标识因特网上的一台计算机，由网域名称系统 DNS 来完成域名和 IP 之间的映射。
+如何注册域名？有很多网站提供域名注册服务，比如国内的：
+阿里云 腾讯云 华为云 国外的：
+GoDaddy Namecheap Amazon 注册域名的建议：
+1、建议在正规、出名的网站注册域名，防止网站跑路。我曾经在一个小网站注册了一个域名，使用了几年之后，续期的时候，联系不上对方，导致无法使用该域名，甚至该域名被别人抢注册了。 2、在国内网站注册域名，都需要备案。如果不想备案，请在国外网站注册域名。我的域名 chensoul.com 就是在亚马逊上注册的。一是不想备案，二是对比了上面几个网站，发现亚马逊上的 com 域名价格相对便宜，所以一次性购买了 5 年。 3、建议优先注册 com 域名，域名尽可能的简短并且方便记忆。 我曾经注册过的域名：
+javachen.com、javachen.space、javachen.xyz huaiu.com 服务器 注册了域名之后，需要一台服务器运行程序。服务器可以是一台物理机，比如你可以使用自己的电脑作为服务器；也可以是一台虚拟的云服务器，比如在云服务提供商购买一台独立的服务器；也可以使用第三方提供的服务器空间，比如 Github 上可以部署静态程序。不管哪种方式，服务器都需要有一个公网 IP，这样才能在因特网上访问你服务器上部署的程序。有了服务器之后，就可以给服务器公网 IP 设置域名解析。
+我的服务器是在搬瓦工购买的，一年 49.99 美元。
+程序 安装 Hugo 在 Mac 下安装 Hugo：
+brew install hugo 新建站点 hugo new site chensoul.github.io -y yaml 上述命令会生成一个名为 chensoul.github.io 的文件夹，下面对文件夹结构做个说明：</description>
       <content:encoded><![CDATA[<p>从零开始搭建博客，包括注册域名、购买服务器、部署程序及网站配置和优化。</p>
 <h2 id="域名">域名</h2>
 <p>搭建一个博客或者网站，需要有一个域名。那什么是域名呢？看看百度百科上的解释：</p>
 <blockquote>
 <p><strong>域名</strong>（英语：<strong>Domain Name</strong>），又称<strong>网域</strong>，是由一串用点分隔的名字组成的<a href="https://baike.baidu.com/item/Internet">Internet</a>上某一台<a href="https://baike.baidu.com/item/%E8%AE%A1%E7%AE%97%E6%9C%BA/140338">计算机</a>或计算机组的名称，用于在数据传输时对计算机的定位标识（有时也指地理位置）。</p>
-<p>由于<a href="https://baike.baidu.com/item/IP%E5%9C%B0%E5%9D%80/150859">IP地址</a>具有不方便记忆并且不能显示地址组织的名称和性质等缺点，人们设计出了域名，并通过网域名称系统（<a href="https://baike.baidu.com/item/DNS">DNS</a>，Domain Name System）来将域名和<a href="https://baike.baidu.com/item/IP%E5%9C%B0%E5%9D%80">IP地址</a>相互<a href="https://baike.baidu.com/item/%E6%98%A0%E5%B0%84/20402621">映射</a>，使人更方便地访问<a href="https://baike.baidu.com/item/%E4%BA%92%E8%81%94%E7%BD%91/199186">互联网</a>，而不用去记住能够被机器直接读取的<a href="https://baike.baidu.com/item/IP%E5%9C%B0%E5%9D%80">IP地址</a>数串。</p>
+<p>由于<a href="https://baike.baidu.com/item/IP%E5%9C%B0%E5%9D%80/150859">IP 地址</a>具有不方便记忆并且不能显示地址组织的名称和性质等缺点，人们设计出了域名，并通过网域名称系统（<a href="https://baike.baidu.com/item/DNS">DNS</a>，Domain Name System）来将域名和<a href="https://baike.baidu.com/item/IP%E5%9C%B0%E5%9D%80">IP 地址</a>相互<a href="https://baike.baidu.com/item/%E6%98%A0%E5%B0%84/20402621">映射</a>，使人更方便地访问<a href="https://baike.baidu.com/item/%E4%BA%92%E8%81%94%E7%BD%91/199186">互联网</a>，而不用去记住能够被机器直接读取的<a href="https://baike.baidu.com/item/IP%E5%9C%B0%E5%9D%80">IP 地址</a>数串。</p>
 </blockquote>
-<p>简单来说，IP地址可以标识一台计算机，但是不容易记忆，所以，设计出了域名。而域名就是标识因特网上的一台计算机，由网域名称系统DNS来完成域名和IP之间的映射。</p>
+<p>简单来说，IP 地址可以标识一台计算机，但是不容易记忆，所以，设计出了域名。而域名就是标识因特网上的一台计算机，由网域名称系统 DNS 来完成域名和 IP 之间的映射。</p>
 <p>如何注册域名？有很多网站提供域名注册服务，比如国内的：</p>
 <ul>
 <li><a href="https://www.alibabacloud.com/zh/domain">阿里云</a></li>
@@ -2850,8 +2959,8 @@
 <p>注册域名的建议：</p>
 <ul>
 <li>1、建议在正规、出名的网站注册域名，防止网站跑路。我曾经在一个小网站注册了一个域名，使用了几年之后，续期的时候，联系不上对方，导致无法使用该域名，甚至该域名被别人抢注册了。</li>
-<li>2、在国内网站注册域名，都需要备案。如果不想备案，请在国外网站注册域名。我的域名 chensoul.com 就是在亚马逊上注册的。一是不想备案，二是对比了上面几个网站，发现亚马逊上的com域名价格相对便宜，所以一次性购买了5年。</li>
-<li>3、建议优先注册com域名，域名尽可能的简短并且方便记忆。</li>
+<li>2、在国内网站注册域名，都需要备案。如果不想备案，请在国外网站注册域名。我的域名 chensoul.com 就是在亚马逊上注册的。一是不想备案，二是对比了上面几个网站，发现亚马逊上的 com 域名价格相对便宜，所以一次性购买了 5 年。</li>
+<li>3、建议优先注册 com 域名，域名尽可能的简短并且方便记忆。</li>
 </ul>
 <p>我曾经注册过的域名：</p>
 <ul>
@@ -2859,14 +2968,14 @@
 <li>huaiu.com</li>
 </ul>
 <h2 id="服务器">服务器</h2>
-<p>注册了域名之后，需要一台服务器运行程序。服务器可以是一台物理机，比如你可以使用自己的电脑作为服务器；也可以是一台虚拟的云服务器，比如在云服务提供商购买一台独立的服务器；也可以使用第三方提供的服务器空间，比如Github上可以部署静态程序。不管哪种方式，服务器都需要有一个公网IP，这样才能在因特网上访问你服务器上部署的程序。有了服务器之后，就可以给服务器公网IP设置域名解析。</p>
-<p>我的服务器是在<a href="https://bandwagonhost.com/aff.php?aff=58710">搬瓦工</a>购买的，一年49.99美元。</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/bwg-plan.png" alt="bwg-plan"  />
-</p>
+<p>注册了域名之后，需要一台服务器运行程序。服务器可以是一台物理机，比如你可以使用自己的电脑作为服务器；也可以是一台虚拟的云服务器，比如在云服务提供商购买一台独立的服务器；也可以使用第三方提供的服务器空间，比如 Github 上可以部署静态程序。不管哪种方式，服务器都需要有一个公网 IP，这样才能在因特网上访问你服务器上部署的程序。有了服务器之后，就可以给服务器公网 IP 设置域名解析。</p>
+<p>我的服务器是在<a href="https://bandwagonhost.com/aff.php?aff=58710">搬瓦工</a>购买的，一年 49.99 美元。</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/bwg-plan.png" alt="bwg-plan"  /></p>
 <h2 id="程序">程序</h2>
-<h3 id="安装hugo">安装Hugo</h3>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/hugo-logo.svg" alt="使用 Hugo 搭建博客"  />
-</p>
+<h3 id="安装-hugo">安装 Hugo</h3>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/hugo-logo.svg" alt="使用 Hugo 搭建博客"  /></p>
 <p>在 Mac 下安装 Hugo：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install hugo
 </span></span></code></pre></div><h3 id="新建站点">新建站点</h3>
@@ -3043,9 +3152,9 @@
 </span></span><span class="line"><span class="cl">          identifier: chensoul-analytics
 </span></span><span class="line"><span class="cl">          url: https://data.chensoul.com/share/8YKX7FUa/pseudoyu-blog
 </span></span></code></pre></div><h2 id="部署">部署</h2>
-<h3 id="github-actions部署">GitHub Actions部署</h3>
-<p><strong>1、首先在github里创建一个仓库：chensoul.github.io</strong></p>
-<p><strong>2、将本地文件提交到github</strong></p>
+<h3 id="github-actions-部署">GitHub Actions 部署</h3>
+<p><strong>1、首先在 github 里创建一个仓库：chensoul.github.io</strong></p>
+<p><strong>2、将本地文件提交到 github</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> chensoul.github.io
 </span></span><span class="line"><span class="cl">git init .
 </span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;# chensoul.github.io&#34;</span> &gt;&gt; README.md
@@ -3056,7 +3165,7 @@
 </span></span></code></pre></div><p><strong>4、创建 GitHub Actions 的 workflow</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir -p .github/workflows
 </span></span><span class="line"><span class="cl">touch .github/workflows/gh-page.yml
-</span></span></code></pre></div><p>gh-page.yml内容如下：</p>
+</span></span></code></pre></div><p>gh-page.yml 内容如下：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">github pages</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
@@ -3073,8 +3182,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Checkout</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">submodules</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">  </span><span class="c"># Fetch Hugo themes (true OR recursive)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">    </span><span class="c"># Fetch all history for .GitInfo and .Lastmod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">submodules</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="c"># Fetch Hugo themes (true OR recursive)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="c"># Fetch all history for .GitInfo and .Lastmod</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Setup hugo</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">peaceiris/actions-hugo@v2</span><span class="w">
@@ -3091,7 +3200,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">github_token</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.GITHUB_TOKEN }}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">publish_branch</span><span class="p">:</span><span class="w"> </span><span class="l">gh-pages</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">publish_dir</span><span class="p">:</span><span class="w"> </span><span class="l">./public</span><span class="w">
-</span></span></span></code></pre></div><p>上面的工作流是在 gh-pages 分支上触发，当有代码提交时候，会运行 hugo 命令生成静态文件（public目录），并且将他们推送到main分支。</p>
+</span></span></span></code></pre></div><p>上面的工作流是在 gh-pages 分支上触发，当有代码提交时候，会运行 hugo 命令生成静态文件（public 目录），并且将他们推送到 main 分支。</p>
 <p>所以，我们需要基于当前分支创建一个新分支 gh-pages ，并且推送到远程仓库：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git branch gh-pages
 </span></span><span class="line"><span class="cl">git checkout gh-pages
@@ -3101,12 +3210,12 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git push origin gh-pages
 </span></span></code></pre></div><p><strong>7、设置自定义域名</strong></p>
 <p>参考<a href="https://docs.github.com/cn/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain">管理 GitHub Pages 站点的自定义域</a>，添加一个自定义域名：blog.chensoul.com：</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/github-page-settings.png" alt="github-page-settings"  />
-</p>
-<p>或者，在仓库的 static 目录创建一个CNAME文件，内容为：blog.chensoul.com，然后，保存提交，Github Actions会将该文件推送到main分支。</p>
-<p>然后，在亚马逊网站添加 <a href="https://console.aws.amazon.com/route53/v2/hostedzones#">CNAME记录</a>：</p>
-<p><img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/amazon-dns-settings.png" alt="amazon-dns-settings"  />
-</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/github-page-settings.png" alt="github-page-settings"  /></p>
+<p>或者，在仓库的 static 目录创建一个 CNAME 文件，内容为：blog.chensoul.com，然后，保存提交，Github Actions 会将该文件推送到 main 分支。</p>
+<p>然后，在亚马逊网站添加 <a href="https://console.aws.amazon.com/route53/v2/hostedzones#">CNAME 记录</a>：</p>
+<p>
+  <img loading="lazy" src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/amazon-dns-settings.png" alt="amazon-dns-settings"  /></p>
 <p>8、部署到 CloudFlare Pages</p>
 <p>参考 <a href="https://hee.ink/p/%E4%BB%8E-github-pages-%E8%BF%81%E7%A7%BB%E5%88%B0-cloudflare-pages-%E7%9A%84%E4%BD%93%E9%AA%8C%E4%B8%8E%E8%B8%A9%E5%9D%91%E5%B0%8F%E8%AE%B0/">从 GitHub Pages 迁移到 CloudFlare Pages 的体验与踩坑小记</a></p>
 ]]></content:encoded>

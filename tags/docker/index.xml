@@ -13,7 +13,14 @@
       <pubDate>Wed, 16 Aug 2023 14:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/08/16/spring-boot-docker/</guid>
-      <description>容器已成为打包具有所有软件和操作系统依赖项的应用程序，然后将其传送到不同环境的首选方式。 本文着眼于容器化 Spring Boot 应用程序的不同方法： 使用 Docker 文件构</description>
+      <description>容器已成为打包具有所有软件和操作系统依赖项的应用程序，然后将其传送到不同环境的首选方式。
+本文着眼于容器化 Spring Boot 应用程序的不同方法：
+使用 Docker 文件构建 Docker 镜像， 使用 Cloud-Native Buildpack 从源代码构建 OCI 映像， 通过使用分层工具将 JAR 的各个部分拆分为不同的层，在运行时优化映像。 示例代码 本文附有 GitHub 上的工作代码示例。
+容器术语 我们将从整篇文章中使用的容器术语开始：
+Container image: 具有特定格式的文件。我们通过运行构建工具将应用程序转换为容器映像。 Container: 容器镜像的运行时实例。 Container engine: t 负责运行 Container 的守护进程。 Container host: 容器引擎运行的主机。 Container registry: 用于发布和分发容器映像的共享位置。 OCI Standard: 开放容器倡议 (OCI) 是在 Linux 基金会下形成的一个轻量级、开放的治理结构。 OCI 镜像规范定义了容器镜像格式和运行时的行业标准，以确保所有容器引擎都可以运行任何构建工具生成的容器镜像。 为了容器化应用程序，我们将应用程序封装在容器映像中，并将该映像发布到共享注册表。容器运行时从注册表中提取该映像，解压该映像，然后在其中运行应用程序。
+Spring Boot 2.3 版本提供了用于构建 OCI 映像的插件。
+Docker 恰好是最常用的容器实现，并且我们在示例中使用 Docker，因此本文中所有后续对容器的引用都将指 Docker。
+以传统方式构建容器镜像 通过向 Docker 文件添加一些指令，可以非常轻松地创建 Spring Boot 应用程序的 Docker 镜像。</description>
       <content:encoded><![CDATA[<p>容器已成为打包具有所有软件和操作系统依赖项的应用程序，然后将其传送到不同环境的首选方式。</p>
 <p>本文着眼于容器化 Spring Boot 应用程序的不同方法：</p>
 <ul>
@@ -28,7 +35,7 @@
 <ul>
 <li><strong>Container image</strong>: 具有特定格式的文件。我们通过运行构建工具将应用程序转换为容器映像。</li>
 <li><strong>Container</strong>: 容器镜像的运行时实例。</li>
-<li><strong>Container engine</strong>: t负责运行Container的守护进程。</li>
+<li><strong>Container engine</strong>: t 负责运行 Container 的守护进程。</li>
 <li><strong>Container host</strong>: 容器引擎运行的主机。</li>
 <li><strong>Container registry</strong>: 用于发布和分发容器映像的共享位置。</li>
 <li><strong>OCI Standard</strong>: 开放容器倡议 (OCI) 是在 Linux 基金会下形成的一个轻量级、开放的治理结构。 OCI 镜像规范定义了容器镜像格式和运行时的行业标准，以确保所有容器引擎都可以运行任何构建工具生成的容器镜像。</li>
@@ -56,7 +63,7 @@
 <p>接下来，我们通过从包含之前创建的 Docker 文件的根项目目录运行 <code>docker build</code> 命令，将此可执行 JAR 放入 Docker 映像中：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker build  -t usersignup:v1 .
 </span></span></code></pre></div><p>我们可以看到使用以下命令列出的图像：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">docker images 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">docker images
 </span></span></code></pre></div><p>上述命令的输出包括我们的映像 <code>usersignup</code> 以及 Docker 文件中指定的基础映像 <code>adoptopenjdk</code> 。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">REPOSITORY          TAG                 SIZE
 </span></span><span class="line"><span class="cl">usersignup          v1                  249MB
@@ -65,13 +72,13 @@
 <p>让我们看看图像内的图层堆栈。我们将使用 <a href="https://github.com/wagoodman/dive">dive tool</a> 来查看这些图层：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">dive usersignup:v1
 </span></span></code></pre></div><p>以下是运行 Dive 命令的部分输出：</p>
-<p><img loading="lazy" src="https://reflectoring.io/images/posts/springboot-docker-image/dive1_hubcbf0cf5b8016db6aaa4ee18f24f07bd_217954_995x0_resize_box_3.png" alt="dive screenshot"  />
-</p>
+<p>
+  <img loading="lazy" src="https://reflectoring.io/images/posts/springboot-docker-image/dive1_hubcbf0cf5b8016db6aaa4ee18f24f07bd_217954_995x0_resize_box_3.png" alt="dive screenshot"  /></p>
 <p>正如我们所看到的，应用层构成了图像大小的重要组成部分。作为优化的一部分，我们的目标是在以下部分中减小该层的大小。</p>
 <h2 id="使用-buildpack-构建容器镜像">使用 Buildpack 构建容器镜像</h2>
 <p>Buildpacks 是各种平台即服务 (PAAS) 产品使用的通用术语，用于从源代码构建容器映像。它由 Heroku 于 2011 年发起，此后已被 Cloud Foundry、Google App Engine、Gitlab、Knative 等采用。</p>
-<p><img loading="lazy" src="https://reflectoring.io/images/posts/springboot-docker-image/Docker_buildpack_hub141f56b152735f30f93b4dac67d723e_39179_522x0_resize_box_3.png" alt="dive screenshot"  />
-</p>
+<p>
+  <img loading="lazy" src="https://reflectoring.io/images/posts/springboot-docker-image/Docker_buildpack_hub141f56b152735f30f93b4dac67d723e_39179_522x0_resize_box_3.png" alt="dive screenshot"  /></p>
 <h3 id="云原生-buildpack-的优势">云原生 Buildpack 的优势</h3>
 <p>使用 Buildpack 构建映像的一个主要优点是，可以在集中位置（构建器）管理对映像配置的更改，并将其传播到使用该构建器的所有应用程序。</p>
 <p>Buildpack 与平台紧密耦合。云原生 Buildpack 通过支持 OCI 映像格式实现跨平台标准化，确保映像可以由 Docker 引擎运行。</p>
@@ -92,17 +99,17 @@
 </span></span></code></pre></div><p>运行此命令将产生类似于以下内容的输出：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span> --- spring-boot-maven-plugin:2.3.3.RELEASE:build-image <span class="o">(</span>default-cli<span class="o">)</span> @ usersignup ---
 </span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span> Building image <span class="s1">&#39;docker.io/pratikdas/usersignup:v1&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span> 
+</span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span>
 </span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span>  &gt; Pulling builder image <span class="s1">&#39;gcr.io/paketo-buildpacks/builder:base-platform-api-0.3&#39;</span> 0%
 </span></span><span class="line"><span class="cl">.
 </span></span><span class="line"><span class="cl">.
 </span></span><span class="line"><span class="cl">.. <span class="o">[</span>creator<span class="o">]</span>     Adding label <span class="s1">&#39;org.springframework.boot.version&#39;</span>
 </span></span><span class="line"><span class="cl">.. <span class="o">[</span>creator<span class="o">]</span>     *** Images <span class="o">(</span>c311fe74ec73<span class="o">)</span>:
 </span></span><span class="line"><span class="cl">.. <span class="o">[</span>creator<span class="o">]</span>           docker.io/pratikdas/usersignup:v1
-</span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span> 
+</span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span>
 </span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span> Successfully built image <span class="s1">&#39;docker.io/pratikdas/usersignup:v1&#39;</span>
 </span></span></code></pre></div><p>从输出中，我们可以看到 <code>paketo Cloud-Native buildpack</code> 被用来构建可运行的 OCI 映像。正如我们之前所做的那样，我们可以通过运行以下命令来查看列为 Docker 映像的映像：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker images 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker images
 </span></span></code></pre></div><p>输出：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">REPOSITORY                             SIZE
 </span></span><span class="line"><span class="cl">paketobuildpacks/run                  84.3MB
@@ -110,7 +117,7 @@
 </span></span><span class="line"><span class="cl">pratikdas/usersignup                  257MB
 </span></span></code></pre></div><h2 id="使用-jib-构建容器镜像">使用 Jib 构建容器镜像</h2>
 <p>Jib 是 Google 的一个镜像构建器插件，提供了一种从源代码构建容器镜像的替代方法。</p>
-<p>我们在pom.xml中配置 <code>jib-maven-plugin</code> ：</p>
+<p>我们在 pom.xml 中配置 <code>jib-maven-plugin</code> ：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">      <span class="nt">&lt;plugin&gt;</span>
 </span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>com.google.cloud.tools<span class="nt">&lt;/groupId&gt;</span>
 </span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>jib-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
@@ -123,7 +130,7 @@
 </span></span><span class="line"><span class="cl">.
 </span></span><span class="line"><span class="cl">.
 </span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span> Container entrypoint <span class="nb">set</span> to <span class="o">[</span>java, -cp, /app/resources:/app/classes:/app/libs/*, io.pratik.users.UsersignupApplication<span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span> 
+</span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span>
 </span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span> Built and pushed image as pratikdas/usersignup:v1
 </span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span> Executing tasks:
 </span></span><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span> <span class="o">[==============================]</span> 100.0% <span class="nb">complete</span>
@@ -134,13 +141,13 @@
 <li>性能：在容器编排系统中，容器镜像从镜像仓库拉取到运行容器引擎的主机上。这个过程称为调度。从注册表中提取大型映像会导致容器编排系统中的调度时间较长以及 CI 管道中的构建时间较长。</li>
 <li>安全性：大尺寸图像也有更大的漏洞表面积。</li>
 </ul>
-<p>Docker 镜像由一堆层组成，每个层代表 Dockerfile 中的一条指令。每一层都是底层变化的增量。当我们从注册中心拉取Docker镜像时，它是被分层拉取并缓存在主机中的。</p>
+<p>Docker 镜像由一堆层组成，每个层代表 Dockerfile 中的一条指令。每一层都是底层变化的增量。当我们从注册中心拉取 Docker 镜像时，它是被分层拉取并缓存在主机中的。</p>
 <p>Spring Boot 使用“fat JAR”作为其默认打包格式。当我们检查 fat JAR 时，我们可以看到该应用程序只占整个 JAR 的很小一部分。这是变化最频繁的部分。其余部分由 Spring 框架依赖项组成。</p>
 <p>优化公式的核心是将应用程序与 Spring 框架依赖项隔离到一个单独的层中。</p>
 <p>构成 fat JAR 大部分的依赖项层仅下载一次并缓存在主机系统中。</p>
 <p>在应用程序更新和容器调度期间，仅拉取应用程序的薄层，如下图所示：</p>
-<p><img loading="lazy" src="https://reflectoring.io/images/posts/springboot-docker-image/Docker_optimized_hu7e3f87c1ee5c9089319f5b74bf96dc0e_337860_521x0_resize_box_3.png" alt="dive screenshot"  />
-</p>
+<p>
+  <img loading="lazy" src="https://reflectoring.io/images/posts/springboot-docker-image/Docker_optimized_hu7e3f87c1ee5c9089319f5b74bf96dc0e_337860_521x0_resize_box_3.png" alt="dive screenshot"  /></p>
 <p>让我们在接下来的部分中了解如何为 Spring Boot 应用程序构建这些优化的映像。</p>
 <h2 id="使用-buildpack-为-spring-boot-应用程序构建优化的容器映像">使用 Buildpack 为 Spring Boot 应用程序构建优化的容器映像</h2>
 <p>Spring Boot 2.3 通过将 fat JAR 的各个部分提取到单独的层中来支持分层。分层功能默认关闭，需要使用 Spring Boot Maven 插件显式启用：</p>
@@ -151,14 +158,14 @@
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;layers&gt;</span>
 </span></span><span class="line"><span class="cl">      <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;/layers&gt;</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/configuration&gt;</span> 
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/configuration&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
 </span></span></code></pre></div><p>我们将使用此配置首先使用 Buildpack 生成容器映像，然后在以下部分中使用 Docker 生成容器映像。</p>
 <p>让我们运行 Maven <code>build-image</code> 目标来创建容器映像：images/stock/-1200x628-branded.jpg</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mvn spring-boot:build-image
 </span></span></code></pre></div><p>如果我们运行 Dive 来查看生成图像中的各层，我们可以看到应用程序层（以红色圈出）在千字节范围内比我们使用 fat JAR 格式获得的要小得多：</p>
-<p><img loading="lazy" src="https://reflectoring.io/images/posts/springboot-docker-image/dive-buildpack-layer_hue5f4a8721d8f8ee948ce4b161834cbfd_180286_774x0_resize_box_3.png" alt="dive screenshot"  />
-</p>
+<p>
+  <img loading="lazy" src="https://reflectoring.io/images/posts/springboot-docker-image/dive-buildpack-layer_hue5f4a8721d8f8ee948ce4b161834cbfd_180286_774x0_resize_box_3.png" alt="dive screenshot"  /></p>
 <h2 id="使用-docker-为-spring-boot-应用程序构建优化的容器映像">使用 Docker 为 Spring Boot 应用程序构建优化的容器映像</h2>
 <p>我们还可以使用 Docker 文件创建分层的 JAR Docker 镜像，而不是使用 Maven 或 Gradle 插件。</p>
 <p>当我们使用 Docker 时，我们需要执行两个额外的步骤来提取层并将其复制到最终映像中。</p>
@@ -250,23 +257,23 @@
 <p>最后，我们像以前一样运行 Dive 命令来检查生成的 Docker 镜像内的层。我们可以指定图像 ID 或标签作为 Dive 命令的输入：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dive userssignup:v1
 </span></span></code></pre></div><p>正如我们在输出中看到的，包含应用程序的层现在只有 11 kB，依赖项缓存在单独的层中。</p>
-<p><img loading="lazy" src="https://reflectoring.io/images/posts/springboot-docker-image/dive2_hu3bbff09746513aa7b18660495606ffa4_412354_816x0_resize_box_3.png" alt="dive screenshot"  />
-</p>
+<p>
+  <img loading="lazy" src="https://reflectoring.io/images/posts/springboot-docker-image/dive2_hu3bbff09746513aa7b18660495606ffa4_412354_816x0_resize_box_3.png" alt="dive screenshot"  /></p>
 <h3 id="提取不同层中的内部依赖关系">提取不同层中的内部依赖关系</h3>
 <p>我们可以通过在单独的层中提取任何自定义依赖项来进一步减小应用程序层的大小，而不是通过在名为 <code>layers.idx</code> 的 <code>yml</code> 类似文件中声明它们来将它们与应用程序一起打包：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">- &#34;dependencies&#34;:
-</span></span><span class="line"><span class="cl">  - &#34;BOOT-INF/lib/&#34;
-</span></span><span class="line"><span class="cl">- &#34;spring-boot-loader&#34;:
-</span></span><span class="line"><span class="cl">  - &#34;org/&#34;
-</span></span><span class="line"><span class="cl">- &#34;snapshot-dependencies&#34;:
-</span></span><span class="line"><span class="cl">- &#34;custom-dependencies&#34;:
-</span></span><span class="line"><span class="cl">  - &#34;io/myorg/&#34;
-</span></span><span class="line"><span class="cl">- &#34;application&#34;:
-</span></span><span class="line"><span class="cl">  - &#34;BOOT-INF/classes/&#34;
-</span></span><span class="line"><span class="cl">  - &#34;BOOT-INF/classpath.idx&#34;
-</span></span><span class="line"><span class="cl">  - &#34;BOOT-INF/layers.idx&#34;
-</span></span><span class="line"><span class="cl">  - &#34;META-INF/&#34;
-</span></span></code></pre></div><p>在此文件中 - <code>layers.idx</code> 我们添加了一个名为 <code>io.myorg</code> 的自定义依赖项，其中包含从共享存储库中提取的组织依赖项。</p>
+<pre tabindex="0"><code class="language-layers.idx" data-lang="layers.idx">- &#34;dependencies&#34;:
+  - &#34;BOOT-INF/lib/&#34;
+- &#34;spring-boot-loader&#34;:
+  - &#34;org/&#34;
+- &#34;snapshot-dependencies&#34;:
+- &#34;custom-dependencies&#34;:
+  - &#34;io/myorg/&#34;
+- &#34;application&#34;:
+  - &#34;BOOT-INF/classes/&#34;
+  - &#34;BOOT-INF/classpath.idx&#34;
+  - &#34;BOOT-INF/layers.idx&#34;
+  - &#34;META-INF/&#34;
+</code></pre><p>在此文件中 - <code>layers.idx</code> 我们添加了一个名为 <code>io.myorg</code> 的自定义依赖项，其中包含从共享存储库中提取的组织依赖项。</p>
 <h2 id="结论">结论</h2>
 <p>在本文中，我们研究了使用云原生 Buildpack 直接从源代码创建容器映像。这是使用 Docker 构建容器映像的传统方式的替代方案，首先构建 fat 可执行 JAR，然后通过在 Dockerfile 中指定指令将其打包到容器映像中。</p>
 <p>我们还考虑通过启用分层功能来优化我们的容器，该功能提取缓存在主机中的单独层中的依赖项，并在容器运行时引擎的调度期间下载应用程序的薄层。</p>
@@ -282,8 +289,8 @@
 </span></span></code></pre></div><p>查看依赖关系层。在构建应用程序 JAR 之前，确保在 spring-boot-maven-plugin 中启用分层功能：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">java -Djarmode=layertools -jar application.jar list
 </span></span></code></pre></div><p>提取依赖层。在构建应用程序 JAR 之前，确保在 spring-boot-maven-plugin 中启用分层功能：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> java -Djarmode=layertools -jar application.jar extract
-</span></span></code></pre></div><p>查看容器镜像列表</p>
+<pre tabindex="0"><code> java -Djarmode=layertools -jar application.jar extract
+</code></pre><p>查看容器镜像列表</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">docker images
 </span></span></code></pre></div><p>查看容器镜像内的层（确保已安装 dive tool 工具）：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">dive &lt;image ID or image tag&gt;
@@ -297,9 +304,15 @@
       <pubDate>Mon, 22 May 2023 15:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/05/22/docker-continuous-integration/</guid>
-      <description>持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。 Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发</description>
-      <content:encoded><![CDATA[<p><img loading="lazy" src="https://files.realpython.com/media/UPDATE-Docker-in-Action-Fitter-Happier-More-Productive_Watermarked.479cfb791c17.jpg" alt="Build Robust Continuous Integration With Docker and Friends"  />
-</p>
+      <description>持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。
+Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发送每次提交的代码。
+在本教程中，您将学习如何使用 Docker 为 Flask Web 应用程序创建强大的持续集成管道。
+您将完成在本地开发和测试应用程序、将其容器化、使用 Docker Compose 编排容器以及使用 GitHub Actions 定义 CI 管道的步骤。
+在本教程结束时，您将能够为您的 Web 应用程序创建一个完全自动化的 CI 管道。
+在本教程中，您将：
+在 Docker 容器中本地运行 Redis 服务器 用 Docker 编排 Flask 编写的 Python Web 应用程序 构建 Docker 镜像并将它们推送到 Docker Hub 仓库 使用 Docker Compose 编排多容器应用程序 在任何地方复制类似生产的基础设施 使用 GitHub Actions 定义持续集成工作流 理想情况下，您应该具有使用 Python 进行 Web 开发、测试自动化、将 Redis 与 Python 结合使用以及使用 Git 和 GitHub 进行源代码版本控制的经验。以前接触过 Docker 会更好，但不是必需的。您还应该拥有一个 Git 客户端和一个 GitHub 帐户，以便跟随并复制本教程的步骤。</description>
+      <content:encoded><![CDATA[<p>
+  <img loading="lazy" src="https://files.realpython.com/media/UPDATE-Docker-in-Action-Fitter-Happier-More-Productive_Watermarked.479cfb791c17.jpg" alt="Build Robust Continuous Integration With Docker and Friends"  /></p>
 <p>持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。</p>
 <p>Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发送每次提交的代码。</p>
 <p>在本教程中，您将学习如何使用 Docker 为 Flask Web 应用程序创建强大的持续集成管道。</p>
@@ -326,8 +339,8 @@
 <h2 id="项目架构概览">项目架构概览</h2>
 <p>在本教程结束时，您将拥有一个 Flask Web 应用程序，用于跟踪持久存储在 Redis 数据存储中的页面视图。</p>
 <p>它将是一个由 Docker Compose 编排的多容器应用程序，您将能够在本地和云端构建和测试，为持续集成铺平道路：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/page_tracker_architecture.drawio_2.1c8cf20462ae.png" alt="The Architecture of the Page Tracker Application"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/page_tracker_architecture.drawio_2.1c8cf20462ae.png" alt="The Architecture of the Page Tracker Application"  /></p>
 <p>该应用程序由两个 Docker 容器组成。第一个容器将在 Gunicorn 之上运行一个 Flask 应用程序，响应 HTTP 请求并更新页面浏览量。</p>
 <p>第二个容器将运行一个 Redis 实例，用于将页面视图数据持久存储在主机上的本地卷中。</p>
 <p>Docker 是运行此应用程序所需的全部，您现在将对其进行设置。</p>
@@ -373,8 +386,8 @@
 <p>在开始使用 Docker 来帮助进行持续集成之前，您需要创建一个基本的 Web 应用程序。</p>
 <h2 id="在-flask-中开发页面视图跟踪器">在 Flask 中开发页面视图跟踪器</h2>
 <p>在接下来的几节中，您将使用 <a href="https://realpython.com/tutorials/flask/">Flask</a> 框架实现一个基本的 Web 应用程序。您的应用程序将跟踪页面浏览总数，并在每次请求时向用户显示该数字：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/screenshot-browser.5036973f0aae.png" alt="A web application for tracking page views"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/screenshot-browser.5036973f0aae.png" alt="A web application for tracking page views"  /></p>
 <p>应用程序的当前状态将保存在 <a href="https://redis.io/">Redis</a> 数据存储中，该存储通常用于缓存和其他类型的数据持久化。这样，停止您的网络服务器不会重置观看次数。您可以将 Redis 视为一种数据库。</p>
 <p>如果您对从头开始构建此应用程序不感兴趣，请随时通过单击下面的链接下载其完整源代码，然后跳到对您的 Flask Web 应用程序<a href="https://realpython.com/docker-continuous-integration/#dockerize-your-flask-web-application">进行 docker 化</a>：</p>
 <p>即使您打算自己编写代码，下载完成的项目并将其用作参考与您的实现进行比较仍然是个好主意，以防您遇到困难。</p>
@@ -396,7 +409,7 @@
 </span></span><span class="line"><span class="cl">$ python3 -m venv venv/ --prompt page-tracker
 </span></span><span class="line"><span class="cl">$ <span class="nb">source</span> venv/bin/activate
 </span></span><span class="line"><span class="cl"><span class="o">(</span>page-tracker<span class="o">)</span> $ python -m pip install --upgrade pip
-</span></span></code></pre></div><p>首先，创建一个名为 <code>page-tracker/</code> 的新目录，然后在其中创建一个名为 <code>venv/</code> 的Python 虚拟环境。为虚拟环境提供描述性提示，使其易于识别。最后，激活新建的虚拟环境后，将 <a href="https://realpython.com/what-is-pip/"><code>pip</code></a> 升级到最新版本，以免以后安装<a href="https://realpython.com/python-modules-packages/">Python包</a>时出现问题。</p>
+</span></span></code></pre></div><p>首先，创建一个名为 <code>page-tracker/</code> 的新目录，然后在其中创建一个名为 <code>venv/</code> 的 Python 虚拟环境。为虚拟环境提供描述性提示，使其易于识别。最后，激活新建的虚拟环境后，将 <a href="https://realpython.com/what-is-pip/"><code>pip</code></a> 升级到最新版本，以免以后安装<a href="https://realpython.com/python-modules-packages/">Python 包</a>时出现问题。</p>
 <blockquote>
 <p>注意：在 Windows 上，您可能需要先以管理员身份运行 <a href="https://realpython.com/python-coding-setup-windows/#discovering-the-windows-terminal">Windows Terminal</a> 并在创建虚拟环境之前<a href="https://realpython.com/python-coding-setup-windows/#loosening-your-execution-policy">放宽脚本执行策略</a>。</p>
 </blockquote>
@@ -476,7 +489,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ docker ps
 </span></span><span class="line"><span class="cl">CONTAINER ID   IMAGE   ...   STATUS              PORTS      NAMES
 </span></span><span class="line"><span class="cl">09b9842463c7   redis   ...   Up About a minute   6379/tcp   redis-server
-</span></span></code></pre></div><p>在这里，您可以看到一个 ID 前缀与您在运行 <code>docker run</code> 命令时获得的 ID 前缀匹配的容器从大约一分钟前开始启动。该容器基于 <code>redis</code> 镜像，已命名为 <code>redis-server</code> ，并使用TCP 端口号 <code>6379</code> ，这是Redis 的默认端口。</p>
+</span></span></code></pre></div><p>在这里，您可以看到一个 ID 前缀与您在运行 <code>docker run</code> 命令时获得的 ID 前缀匹配的容器从大约一分钟前开始启动。该容器基于 <code>redis</code> 镜像，已命名为 <code>redis-server</code> ，并使用 TCP 端口号 <code>6379</code> ，这是 Redis 的默认端口。</p>
 <p>接下来，您将尝试以各种方式连接到该 Redis 服务器。</p>
 <h3 id="测试与-redis-的连接">测试与 Redis 的连接</h3>
 <p>在 Docker Hub 上官方 Redis 镜像的概述页面上，您将找到有关如何连接到在 Docker 容器中运行的 Redis 服务器的说明。具体而言，此页面讨论了如何使用 Docker 镜像附带的专用交互式命令行界面 Redis CLI 。</p>
@@ -528,7 +541,7 @@
 </li>
 </ul>
 <p>Linux 上的 Docker Desktop 也是如此。另一方面，如果您使用 Docker 引擎或在 Windows 主机上运行 Windows 容器，那么您将能够通过它们的 IP 地址访问这些容器。</p>
-<p>因此，有时您可以直接从主机与 Redis 服务器通信。首先，找出对应的Docker容器的IP地址：</p>
+<p>因此，有时您可以直接从主机与 Redis 服务器通信。首先，找出对应的 Docker 容器的 IP 地址：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ docker inspect redis-server <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>  -f <span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{println}}{{end}}&#39;</span>
 </span></span><span class="line"><span class="cl">172.17.0.2
@@ -557,7 +570,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ docker stop redis-server
 </span></span><span class="line"><span class="cl">$ docker rm redis-server
 </span></span><span class="line"><span class="cl">$ docker run -d --name redis-server -p 6379:6379 redis
-</span></span></code></pre></div><p>冒号左边的数字（ <code>:</code> ）代表主机或你电脑上的端口号，而右边的数字代表即将运行的Docker容器内的映射端口。</p>
+</span></span></code></pre></div><p>冒号左边的数字（ <code>:</code> ）代表主机或你电脑上的端口号，而右边的数字代表即将运行的 Docker 容器内的映射端口。</p>
 <p>在两侧使用相同的端口号可以有效地转发它，这样您就可以连接到 Redis，就像它在您的计算机上本地运行一样：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ telnet localhost <span class="m">6379</span>
 </span></span><span class="line"><span class="cl">Trying 127.0.0.1...
@@ -1593,13 +1606,13 @@
 <p>为什么要使用 Docker Registry？</p>
 <p>好吧，您不必这样做，但它有助于在整个组织内共享 Docker 镜像或设置持续集成管道。例如，将提交推送到 GitHub 或其他源代码修订系统可以通过自动构建功能启动构建过程。反过来，注册中心会宣布新的 Docker 镜像已成功构建或使用 webhook 开始部署到远程环境以进行进一步测试。</p>
 <p>如果还没有，请立即在 Docker Hub 上注册一个帐户。请注意，除了电子邮件地址和密码外，您还需要提供唯一的用户名，就像在 GitHub 上一样：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/docker_hub.912fd6ac373d.png" alt="img"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/docker_hub.912fd6ac373d.png" alt="img"  /></p>
 <p>选择一个好记的用户名至关重要，因为它将成为您在 Docker Hub 上的独特句柄。为了避免不同用户拥有的镜像之间的名称冲突，Docker Hub 通过用户名和存储库名称的组合来识别每个存储库。</p>
 <p>例如，如果您的用户名是 <code>realpython</code> ，那么您的一个存储库可以由字符串 <code>realpython/page-tracker</code> 标识，它类似于 GitHub 上存储库的名称。</p>
 <p>在 Web 浏览器中注册并登录到您的新 Docker Hub 帐户后，您应该做的第一件事是为您的镜像创建一个存储库。单击“创建存储库”磁贴或转到顶部导航栏中的“存储库”选项卡，然后单击“创建存储库”按钮。然后，将您的存储库命名为 <code>page-tracker</code> ，如果需要，请为其提供有意义的描述，然后选择 Private 选项以使其仅对您可见：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/docker_hub2.359dd2359251.png" alt="img"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/docker_hub2.359dd2359251.png" alt="img"  /></p>
 <p>之后，您将看到带有终端命令的说明，这些命令将允许您将 Docker 镜像推送到您的存储库。但首先，您必须从命令行登录 Docker Hub，提供您的用户名和密码：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ docker login -u realpython
 </span></span><span class="line"><span class="cl">Password:
@@ -1623,8 +1636,8 @@
 </span></span><span class="line"><span class="cl">$ docker push realpython/page-tracker:latest
 </span></span></code></pre></div><p>不要担心发送相同的镜像两次。 Docker 足够聪明，可以知道您之前何时推送过镜像，如果它在注册表中检测到该镜像，则只会传输必要的元数据。</p>
 <p>当您在 Docker Hub 上刷新您的配置文件时，它应该反映您刚刚推送到存储库中的两个标签：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/docker_hub3.69a099d38e54.png" alt="Tagged Docker Images on Docker Hub"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/docker_hub3.69a099d38e54.png" alt="Tagged Docker Images on Docker Hub"  /></p>
 <p>现在，当您将协作者添加到您的私有存储库时，他们将能够推送或拉取镜像。请记住，这需要在 Docker Hub 上升级订阅计划。</p>
 <p>另一种方法是生成一个对所有存储库具有只读权限的访问令牌，或者创建一个公共存储库。</p>
 <p>好的。终于到了通过在 Docker 容器中运行您的 dockerized Flask web 应用程序的机会了。</p>
@@ -1705,7 +1718,7 @@
 </span></span></code></pre></div><p>您启动一个从 <code>page-tracker</code> 镜像派生的新容器，其中包含相当多的参数。以下是上述 <code>docker run</code> 命令中各个标志和选项的快速细分：</p>
 <ul>
 <li><code>-d</code> ：在后台运行容器，与终端分离。这意味着您将看不到 Flask 服务器的任何输出，并且您将无法再使用 Ctrl+C 或 Cmd+C 停止容器。</li>
-<li><code>-p 80:5000</code> ：将容器的端口 <code>5000</code> 暴露在主机的端口 <code>80</code> 上，这样你就可以通过本地主机访问你的web应用程序。</li>
+<li><code>-p 80:5000</code> ：将容器的端口 <code>5000</code> 暴露在主机的端口 <code>80</code> 上，这样你就可以通过本地主机访问你的 web 应用程序。</li>
 <li><code>-e REDIS_URL=...</code> : 将容器的环境变量设置为在同一网络上的另一个容器中运行的 Redis 服务器的地址。</li>
 <li><code>--network page-tracker-network</code> : 指定容器使用的虚拟网络。这将允许同一网络上的其他容器通过抽象名称而不是 IP 地址与该容器通信。</li>
 <li><code>--name web-service</code> : 为容器分配一个有意义的名称，这样更容易从 Docker 命令中引用容器。</li>
@@ -1827,7 +1840,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">redis-service</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis-volume</span><span class="p">:</span><span class="w">
@@ -1977,7 +1990,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;gunicorn page_tracker.app:app --bind 0.0.0.0:8000&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis-volume</span><span class="p">:</span><span class="w">
@@ -2024,7 +2037,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;gunicorn page_tracker.app:app --bind 0.0.0.0:8000&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis-volume</span><span class="p">:</span><span class="w">
@@ -2060,7 +2073,7 @@
 </span></span></code></pre></div><p>或者，您可以从同一网络上的另一个容器运行它，而不是在本地针对公开服务运行端到端测试。您可以手动制作这样的容器。</p>
 <p>然而，最近版本的 Docker Compose 提供了一个更优雅的解决方案，它允许您有条件地运行服务的子集。为此，您可以将所需的服务分配给可按需激活的自定义配置文件。</p>
 <p>首先，打开你的 <code>docker-compose.yml</code> 文件并从 Redis 中删除端口转发，因为你不想再将它暴露给外界。然后，基于您的旧 <code>Dockerfile.dev</code> 添加一个新服务，它捆绑了测试框架、测试装置和您的测试代码。您将使用相应的 Docker 镜像来执行端到端测试：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="w"> </span><span class="c"># docker-compose.yml</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># docker-compose.yml</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis-service</span><span class="p">:</span><span class="w">
@@ -2100,7 +2113,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="sd">      --flask-url $$FLASK_URL&#39;</span><span class="w">      
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">backend-network</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis-volume</span><span class="p">:</span><span class="w">
@@ -2369,8 +2382,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.DOCKERHUB_TOKEN }}</span><span class="w">
 </span></span></span></code></pre></div><p>您有条件地运行此步骤，方法是使用包含在美元符号和双大括号中的 JavaScript 表达式从 <code>github</code> 上下文获取事件类型。然后，您通过另一个预定义的 <code>secrets</code> 上下文和您现在将要定义的两个自定义常量提供您的秘密 Docker Hub 凭据。</p>
 <p>通过单击顶部工具栏中带有齿轮图标的选项卡打开 GitHub 存储库的设置，找到并展开安全部分下的秘密和变量，然后单击操作。这将带您进入一个面板，您可以在该面板中为 GitHub Actions 运行器定义环境变量和加密机密。现在，指定您的 <code>DOCKERHUB_USERNAME</code> 和 <code>DOCKERHUB_TOKEN</code> 机密：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/secrets.b7e62f0e5830.png" alt="GitHub Actions Repository Secrets"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/secrets.b7e62f0e5830.png" alt="GitHub Actions Repository Secrets"  /></p>
 <p>请注意，这些秘密是加密的，GitHub 不会再次向您显示它们，因此请确保将它们保存在安全的地方。但是，如果您足够努力，那么您将能够恢复它们——例如，通过您工作流程中的 shell 命令。</p>
 <p>当您将功能分支合并到主线时，此操作也会有条件地运行。在 <code>with</code> 部分，您指定 Dockerfile 的路径，请求推送镜像的操作，并列出镜像的标签。请注意，您再次使用 <code>github</code> 上下文来获取当前提交的哈希值，尽管是长格式。</p>
 <blockquote>
@@ -2391,17 +2404,17 @@
 </span></span></code></pre></div><p>在下一节中，您将启用一些分支保护规则以防止任何人将他们的代码直接推送到 <code>master</code> 分支。因此，工作流中的 <code>push</code> 事件将仅适用于通过拉取请求将功能分支合并到主线中。</p>
 <h3 id="启用分支保护规则">启用分支保护规则</h3>
 <p>再次转到存储库的设置，单击代码和自动化部分下的分支，然后单击标记为添加分支保护规则的按钮。然后，在 Branch name pattern 字段中输入您的主线名称。如果您遵循本教程中使用的命名约定，则应在输入字段中键入 <code>master</code> ：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/rule_master.8167b2b061aa.png" alt="GitHub Repository&amp;rsquo;s Protected Branch"  />
-</p>
-<p>接下来，启用其正下方的一个选项，该选项显示 Require a pull request before merging。这将自动需要至少一位审阅者的批准。如果您在 GitHub 上没有其他帐户，您可以暂时取消选中此选项。否则，如果没有其他人批准，您将无法合并您的拉取请求：<img loading="lazy" src="https://files.realpython.com/media/rule_approvals.4cc8505f0715.png" alt="Require a Pull Request Before Merging"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/rule_master.8167b2b061aa.png" alt="GitHub Repository&amp;rsquo;s Protected Branch"  /></p>
+<p>接下来，启用其正下方的一个选项，该选项显示 Require a pull request before merging。这将自动需要至少一位审阅者的批准。如果您在 GitHub 上没有其他帐户，您可以暂时取消选中此选项。否则，如果没有其他人批准，您将无法合并您的拉取请求：
+  <img loading="lazy" src="https://files.realpython.com/media/rule_approvals.4cc8505f0715.png" alt="Require a Pull Request Before Merging"  /></p>
 <p>向下滚动一点后，您会看到一个选项，上面写着 Require status checks to pass before merging。选择它以显示更多选项。当你这样做时，检查另一个选项 Require branches to be update before merging，这将防止在你的 <code>master</code> 分支有新提交时关闭拉取请求。最后，在下面的搜索框中输入您的工作名称 <code>build</code> ：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/rule_status_check.6e4a5e464e77.png" alt="Require Status Checks to Pass Before Merging"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/rule_status_check.6e4a5e464e77.png" alt="Require Status Checks to Pass Before Merging"  /></p>
 <p>现在，每个拉取请求都需要在允许合并之前通过端到端测试。</p>
 <p>要在不允许管理员和其他具有提升权限的用户绕过这些规则的情况下强制执行这些规则，您可以在底部选择一个标记为不允许绕过上述设置的选项：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/rule_dont_allow.3a38d146c315.png" alt="Don&amp;rsquo;t Allow Bypassing the Above Settings"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/rule_dont_allow.3a38d146c315.png" alt="Don&amp;rsquo;t Allow Bypassing the Above Settings"  /></p>
 <p>好的。一切就绪！如何使用您的 Docker 应用程序来测试您的持续集成工作流程？</p>
 <h3 id="集成来自功能分支的更改">集成来自功能分支的更改</h3>
 <p>遵循本教程前面概述的基于 Docker 的持续集成管道。首先创建一个单独的功能分支，以破坏测试的方式修改代码，提交更改并将它们推送到 GitHub：</p>
@@ -2438,15 +2451,15 @@
 </span></span><span class="line"><span class="cl">⋮
 </span></span></code></pre></div><p>您创建并切换到一个名为 <code>feature/replace-emoji-face</code> 的新本地分支，然后将错误消息中的表情符号从沉思脸更改为思考脸，而不更新相应的单元测试。将分支提交并推送到 GitHub 后，您可以通过突出显示行中的链接从您的功能分支打开一个新的拉取请求到 <code>master</code> 。只要您这样做，您的持续集成工作流程就会启动。</p>
 <p>当 GitHub Actions 运行器完成其工作时，由于检查失败，您将无法合并您的分支：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/failed_pr2.e4e611e3f3cf.png" alt="GitHub Status Check Failed With a Conflict"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/failed_pr2.e4e611e3f3cf.png" alt="GitHub Status Check Failed With a Conflict"  /></p>
 <p>在这种情况下，您只有一个检查对应于工作流中的 <code>build</code> 作业，您在上一节中将其配置为分支保护规则之一。您可以单击右侧的 Details 链接来调查失败检查的日志，并且您可以选择以调试模式重新运行相应的作业以收集更多数据。</p>
 <p>此外，上面的屏幕截图描述了您的功能分支和目标主线之间的假设冲突。这表明其他人修改了与您相同的文件，并且他们在您修改表情符号时成功地将他们的更改与 <code>master</code> 分支集成。</p>
 <p>没有自动解决此类冲突的方法，因为它涉及理解代码的逻辑并做出关于保留哪些更改以及丢弃哪些更改的主观决定。</p>
 <p>解决此冲突的唯一方法是将更新后的主线合并到您本地的功能分支中，并手动整合冲突的更改。</p>
 <p>即使没有任何冲突，如果主线在您的功能分支之前有几个提交，那么无论测试结果如何，您仍然必须将 <code>master</code> 中的最新更改合并到您的分支中。这是因为您之前制定的另一个分支保护规则：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/pr_update2.f48575db3caa.png" alt="GitHub Status Check Passed With an Outdated Branch"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/pr_update2.f48575db3caa.png" alt="GitHub Status Check Passed With an Outdated Branch"  /></p>
 <p>合并拉取请求按钮将保持灰色和禁用状态，直到您采取措施解决所有这些问题。</p>
 <p>在现实生活中，您现在应该获取最新的 <code>master</code> 并将其合并到您的功能分支，必要时解决任何冲突。然后，您将更新代码以使所有测试再次通过。返回代码编辑器并使用预期的表情符号修复失败的单元测试：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"> # web/test/unit/test_app.py
@@ -2473,11 +2486,11 @@
 </span></span><span class="line"><span class="cl">$ git commit -m <span class="s2">&#34;Fix the failing unit test&#34;</span>
 </span></span><span class="line"><span class="cl">$ git push
 </span></span></code></pre></div><p>拉取请求应该接受您的更改并开始另一个 CI 构建。一旦满足所有保护规则，您最终可以通过单击绿色按钮将您的功能分支合并到受保护的主线中：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/pr_success.0d326c26e9ad.png" alt="GitHub Status Checks Passed"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/pr_success.0d326c26e9ad.png" alt="GitHub Status Checks Passed"  /></p>
 <p>请注意，合并将触发针对 <code>master</code> 分支的另一个 CI 构建，以测试您的更改是否与代码库的其余部分很好地集成。事情总是有可能出错。另一方面，如果 CI 构建成功，则工作流将标记并将镜像推送到您的 Docker Hub 存储库：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/docker_hub_push.93959f48b437.png" alt="Docker Image Tagged and Pushed By a GitHub Action"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/docker_hub_push.93959f48b437.png" alt="Docker Image Tagged and Pushed By a GitHub Action"  /></p>
 <p>每次 CI 工作流成功时，推送的 Docker 镜像都会被标记为当前 Git 提交哈希和标签 <code>latest</code> 。</p>
 <p>恭喜！关于使用 Docker 和朋友构建持续集成管道的整个教程到此结束。给自己当之无愧的表扬，因为这绝非易事！</p>
 <h2 id="后续步骤">后续步骤</h2>
@@ -2513,7 +2526,7 @@
 <p><strong>在本教程中，您已经：</strong></p>
 <ul>
 <li>在 Docker 容器中本地运行 Redis 服务器</li>
-<li>Docker编排 一个用 Flask 编写的 Python Web 应用程序</li>
+<li>Docker 编排 一个用 Flask 编写的 Python Web 应用程序</li>
 <li>构建 Docker 镜像并将它们推送到 Docker Hub 注册表</li>
 <li>使用 Docker Compose 编排多容器应用程序</li>
 <li>在任何地方复制类似生产的基础设施</li>
@@ -2533,7 +2546,9 @@
       <pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid>
-      <description>服务器设置 [可选] 设置系统 Swap 交换分区 因为 vps 服务器的运行内存很小，所以这里先设置下 Swap # 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap</description>
+      <description>服务器设置 [可选] 设置系统 Swap 交换分区
+因为 vps 服务器的运行内存很小，所以这里先设置下 Swap
+# 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap /swapfile &amp;amp;&amp;amp; \ sudo swapon /swapfile &amp;amp;&amp;amp; \ echo &amp;#34;/swapfile swap swap defaults 0 0&amp;#34; | sudo tee -a /etc/fstab &amp;amp;&amp;amp; \ sudo swapon --show &amp;amp;&amp;amp; \ sudo free -h 安装并生成证书 curl https://get.</description>
       <content:encoded><![CDATA[<h2 id="服务器设置">服务器设置</h2>
 <p><strong>[可选] 设置系统 Swap 交换分区</strong></p>
 <p>因为 vps 服务器的运行内存很小，所以这里先设置下 Swap</p>
@@ -2595,7 +2610,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">custom</span><span class="w">
 </span></span></span></code></pre></div><h2 id="服务部署">服务部署</h2>
 <h3 id="postgresql">Postgresql</h3>
-<p>1、参考 <a href="/posts/2022/08/19/postgresql-install-deploy/">PostgreSql安装和部署</a> ，通过 docker-compose 安装，创建
+<p>1、参考 <a href="/posts/2022/08/19/postgresql-install-deploy/">PostgreSql 安装和部署</a> ，通过 docker-compose 安装，创建
 postgresql.yaml：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
@@ -2650,7 +2665,7 @@ postgresql.yaml：</p>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h3 id="uptime-kuma">Uptime Kuma</h3>
 <p>参考 <a href="https://uptime.kuma.pet/">kuma</a>，使用 docker compose 部署，创建 uptime.yaml：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.3&#39;</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">uptime-kuma</span><span class="p">:</span><span class="w">
@@ -2659,7 +2674,7 @@ postgresql.yaml：</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">~/.uptime-kuma:/app/data</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">3001</span><span class="p">:</span><span class="m">3001</span><span class="w">  </span><span class="c"># &lt;Host Port&gt;:&lt;Container Port&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">3001</span><span class="p">:</span><span class="m">3001</span><span class="w"> </span><span class="c"># &lt;Host Port&gt;:&lt;Container Port&gt;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
 </span></span></span></code></pre></div><p>启动：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f uptime.yaml up -d
@@ -2697,7 +2712,7 @@ postgresql.yaml：</p>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>升级</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f uptime.yaml down 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f uptime.yaml down
 </span></span><span class="line"><span class="cl">docker pull louislam/uptime-kuma:1
 </span></span><span class="line"><span class="cl">docker-compose -f uptime.yaml up -d
 </span></span></code></pre></div><h3 id="umami">Umami</h3>
@@ -2708,13 +2723,13 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE DATABASE umami owner=umami;&#34;</span>
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;GRANT ALL privileges ON DATABASE umami TO umami;&#34;</span>
 </span></span></code></pre></div><p>然后，初始化数 umami 数据。先进入容器：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">docker exec -it pgsql bash
-</span></span></code></pre></div><p>进入 umami 数据库：</p>
+<pre tabindex="0"><code>docker exec -it pgsql bash
+</code></pre><p>进入 umami 数据库：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">psql -U umami -d umami
 </span></span><span class="line"><span class="cl"><span class="nv">umami</span><span class="o">=</span>&gt;
 </span></span></code></pre></div><p>执行 <a href="https://github.com/umami-software/umami/blob/master/sql/schema.postgresql.sql"><strong>schema.postgresql.sql</strong></a> 文件内容。</p>
 <p>2、通过 docker-compose 安装，创建 umami.yaml：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3&#39;</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">umami</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">ghcr.io/umami-software/umami:postgresql-latest</span><span class="w">
@@ -2765,7 +2780,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></code></pre></div><p>5、添加网站</p>
 <p>访问 <a href="https://umami.chensoul.com/">https://umami.chensoul.com/</a>，默认用户名和密码为 admin/umami。登陆之后，修改密码，并添加网站。</p>
 <p>6、升级</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f umami.yaml down 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f umami.yaml down
 </span></span><span class="line"><span class="cl">docker pull ghcr.io/umami-software/umami:postgresql-latest
 </span></span><span class="line"><span class="cl">docker-compose -f umami.yaml up -d
 </span></span></code></pre></div><h3 id="cusdis">Cusdis</h3>
@@ -2777,7 +2792,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE DATABASE cusdis owner=cusdis;&#34;</span>
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;GRANT ALL privileges ON DATABASE cusdis TO cusdis;&#34;</span>
 </span></span></code></pre></div><p>2、通过 docker-compose 安装，创建 cusdis.yaml：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3&#39;</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cusdis</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">djyde/cusdis:latest</span><span class="w">
@@ -2846,7 +2861,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>5、部署一个 Telegram 机器人，参考 <a href="https://cusdis.chensoul.com/doc#/advanced/webhook?id=official-telegram-bot">Official Telegram bot</a>。</p>
 <p>6、升级</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f cusdis.yaml down 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f cusdis.yaml down
 </span></span><span class="line"><span class="cl">docker pull djyde/cusdis:latest
 </span></span><span class="line"><span class="cl">docker-compose -f cusdis.yaml up -d
 </span></span></code></pre></div><h3 id="memos">memos</h3>
@@ -2889,7 +2904,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>升级</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f memos.yaml down 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f memos.yaml down
 </span></span><span class="line"><span class="cl">docker pull neosmemo/memos:latest
 </span></span><span class="line"><span class="cl">docker-compose -f memos.yaml up -d
 </span></span></code></pre></div><h3 id="n8n">n8n</h3>
@@ -2916,7 +2931,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></span><span class="line"><span class="cl"><span class="se"></span> docker.n8n.io/n8nio/n8n <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span> n8n start<span class="err">
 </span></span></span></code></pre></div><p>通过 docker-compose 安装，创建 n8n.yaml：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.8&#39;</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.8&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">n8n</span><span class="p">:</span><span class="w">
@@ -2982,8 +2997,8 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></code></pre></div><p>这里面的转发配置不对的话，会导致直接访问 5678 端口正常，但是访问 nginx 的话，workflow 会一直处于执行。</p>
 <p>5、添加 workflow</p>
 <p>参考这篇文章 <a href="http://stiles.cc/archives/237/">http://stiles.cc/archives/237/</a> ，目前我配置了以下 workflows，实现了 github、douban、rss、memos 同步到 Telegram。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-n8n-workflows.png" alt="my-n8n-workflows"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-n8n-workflows.png" alt="my-n8n-workflows"  /></p>
 <p>workflows 参考：</p>
 <ul>
 <li><a href="https://reorx.com/blog/sharing-my-footprints-automation/">Reorx</a></li>
@@ -2992,7 +3007,7 @@ umami:postgresql-latest 来安装 umami。</p>
 <li><a href="https://zeabur.com/docs/marketplace/n8n">Zeabur</a></li>
 </ul>
 <p>6、升级</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f n8n.yaml down 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f n8n.yaml down
 </span></span><span class="line"><span class="cl">docker pull n8nio/n8n
 </span></span><span class="line"><span class="cl">docker-compose -f n8n.yaml up -d
 </span></span></code></pre></div><p>7、备份</p>

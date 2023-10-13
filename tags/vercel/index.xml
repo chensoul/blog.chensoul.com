@@ -13,16 +13,28 @@
       <pubDate>Mon, 13 Mar 2023 11:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/03/13/weekly_review_10/</guid>
-      <description>前言 本篇是对 2023-03-06 到 2023-03-12 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周发现 VPS 上 某些使用 docker 部署的服务（cusdis、</description>
+      <description>前言 本篇是对 2023-03-06 到 2023-03-12 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+这周发现 VPS 上 某些使用 docker 部署的服务（cusdis、umami、uptime、n8n、rsshub、memos）国内用户无法访问了，于是就折腾了一下使用 Cloudflare Tunnel 来代理这些服务。配置成功之后，又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。
+这周工作忙完之后，就开始着手通知系统的重构改造服务，想着 chatgpt 这么火，于是就试试让它来写代码。在不断地修改需求的情况下，chatgpt 写出来的代码稍加调整逐渐可以使用了。
+周六从汉口开车去白沙洲湖北财税职业学院，全程 20 公里，回来的时候不小心把路边的面包车擦碰了一下。于是一脸懵的经历了一次保险定损维修。
+周六开始使用 格志 APP 写日志，选择它来记录日志的原因是它支持批量导出 mardkown、pdf、图片等。唯一有个小遗憾的是，这个应用没有图床，导出的 markdown 文件里面图片的链接不是 http 协议。
+周日去新荣龙湖天耀天街售房部看了一下房子。107 平三室两厅两卫，单价 2 万 5 带精装修，公积金贷款 90 万，商业贷款 30 年，每个月房贷 6000。目前来说，买不起这里的房子，但是，作为一个买房目标还是可以的，加油！
+开车总结 最近刷视频，总结的一些开车经验如下：
+提前预判，前面车子刹车，不管是正前方，还是左右前方，这时候也要刹车
+前面有大货车，不要从右边超车
+会车时，看路宽
+不要连续变道，变道时既要看后视镜，又要看窗边
+红灯路口右转时，要看地面或者路边是否有禁止右转标识
+通过 Cloudflare Tunnel 访问服务 以下内容参考 初探 Cloudflare 零信任 - 通过 Cloudflare Tunnel 访问服务。</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-00.jpeg" alt="weekly-review-10-00"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-00.jpeg" alt="weekly-review-10-00"  /></p>
 <p>本篇是对 <code>2023-03-06</code> 到 <code>2023-03-12</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这周发现 VPS 上 <a href="https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/">某些使用 docker 部署的服务</a>（cusdis、umami、uptime、n8n、rsshub、memos）国内用户无法访问了，于是就折腾了一下使用 Cloudflare Tunnel 来代理这些服务。配置成功之后，又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。</p>
 <p>这周工作忙完之后，就开始着手通知系统的重构改造服务，想着 chatgpt 这么火，于是就试试让它来写代码。在不断地修改需求的情况下，chatgpt 写出来的代码稍加调整逐渐可以使用了。</p>
 <p>周六从汉口开车去白沙洲湖北财税职业学院，全程 20 公里，回来的时候不小心把路边的面包车擦碰了一下。于是一脸懵的经历了一次保险定损维修。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-07.jpeg" alt="weekly-review-10-07"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-07.jpeg" alt="weekly-review-10-07"  /></p>
 <p>周六开始使用 格志 APP 写日志，选择它来记录日志的原因是它支持批量导出 mardkown、pdf、图片等。唯一有个小遗憾的是，这个应用没有图床，导出的 markdown 文件里面图片的链接不是 http 协议。</p>
 <img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-08.png" alt="weekly-review-10-08" style="width:67%;" />
 <p>周日去新荣龙湖天耀天街售房部看了一下房子。107 平三室两厅两卫，单价 2 万 5 带精装修，公积金贷款 90 万，商业贷款 30 年，每个月房贷 6000。目前来说，买不起这里的房子，但是，作为一个买房目标还是可以的，加油！</p>
@@ -49,14 +61,14 @@
 <p>以下内容参考 <a href="https://dejavu.moe/posts/cloudflare-tunnel-access-uptime/">初探 Cloudflare 零信任 - 通过 Cloudflare Tunnel 访问服务</a>。</p>
 <h3 id="1创建-cloudflare-tunnel">1、创建 Cloudflare Tunnel</h3>
 <p>登录 <a href="https://one.dash.cloudflare.com/">Cloudflare Zero Trust</a> 控制台，选择左侧导航栏的 Access 菜单，进入 Tunnels 配置，点击 Create a tunnel 创建一个 Tunnel，输入 Tunnel 隧道名称</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-01.png" alt="weekly-review-10-01"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-01.png" alt="weekly-review-10-01"  /></p>
 <p>选择服务器的操作系统和平台架构：</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-02.webp" alt="weekly-review-10-02"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-02.webp" alt="weekly-review-10-02"  /></p>
 <p>可以看到安装命令：</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-03.png" alt="weekly-review-10-03"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-03.png" alt="weekly-review-10-03"  /></p>
 <p>复制左边命令粘贴到 SSH 会话里安装 Cloudflared（注意保护 Refresh Token 不要泄漏）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install cloudflare/cloudflare/cloudflared <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">
@@ -67,12 +79,12 @@
 <li>cusdis.chensoul.com</li>
 <li>umami.chensoul.com</li>
 </ul>
-<h3 id="3在--cloudflare-tunnel-添加-hostname">3、在  Cloudflare Tunnel 添加 hostname</h3>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-04.png" alt="weekly-review-10-04"  />
-</p>
+<h3 id="3在-cloudflare-tunnel-添加-hostname">3、在 Cloudflare Tunnel 添加 hostname</h3>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-04.png" alt="weekly-review-10-04"  /></p>
 <p>如果需要对 ssh 服务开启代理，请参考：<a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/use_cases/ssh/">Connect with SSH through Cloudflare Tunnel</a>。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-05.png" alt="weekly-review-10-05"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-05.png" alt="weekly-review-10-05"  /></p>
 <p>关键步骤是：</p>
 <ul>
 <li>

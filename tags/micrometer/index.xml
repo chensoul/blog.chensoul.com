@@ -13,12 +13,20 @@
       <pubDate>Mon, 30 Jan 2023 09:47:03 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/01/30/weekly_review_4/</guid>
-      <description>前言 本篇是对 2023-01-23 到 2023-01-29 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 过年 这周处于过年吃喝拜年模式，除了腊月二十九和正</description>
+      <description>前言 本篇是对 2023-01-23 到 2023-01-29 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+过年 这周处于过年吃喝拜年模式，除了腊月二十九和正月初一，其他时间都是和老婆在路上。因为是结婚第一个新年，需要带着老婆去各个亲戚家拜年。因为是第一次在新房过年，就把老爸从农村接过来一起过年。因为年前没有来得及买车，去哪里都不方便，都要需要滴滴打车。为此，打车花了不少钱，当然，给红包也给了不少钱。趁初一不用拜年的缝隙时间，带老婆和老爸去看了两场电影《无名》和《交换人生》。老爸很少去看电影院看电影，听到要去看电影，像个小孩似的，饭还吃完，就跑去电梯门口等电梯。这两场电影，看的我瞌睡来了，倒是初二晚上看《满江红》睡意全无。
+总结下来，这个年过的不轻松，身体忙碌，心里幸福 🥰。
+向上管理 年前，部门领导找我谈 2022 年绩效结果时候，提到我可以 “向上管理” 他。最近从 杜屹东 的博客 这一年我在阿里学到的 也看到了他在阿里工作一年后悟到对向上管理的理解。
+及时和老板表达想法 让老板知道你在忙什么 主动帮老板做一些脏活累活 前两条是老板知道你的想法，后面一条是帮老板解决问题。此外，还可以帮老板规避风险。
+本周工作 这是年后的第一周，主要是处理年前没有完成的项目迭代。
+Feign 集成 Micometer OpenFeign 官方提供了 feign-micrometer 来支持 feign 集成 micrometer。
+GitHub github = Feign.builder() .addCapability(new MicrometerCapability()) .target(GitHub.class, &amp;#34;https://api.github.com&amp;#34;); 其本质是对 feign 拦截器、client、encoder、decoder 进行封装，测试过程中在没有获取到指标。故，改为使用 z 自定义拦截器和 ErrorCoder 来记录请求次数和失败次数。
+@Bean public GitHub gihhub(MetricsInterceptor metricsInterceptor){ GitHub github = Feign.builder() .requestInterceptor(metricsInterceptor) .errorDecoder(new MetricsErrorDecoder()) .target(GitHub.class, &amp;#34;https://api.github.com&amp;#34;); } MetricsInterceptor 代码如下：</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-23</code> 到 <code>2023-01-29</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <h2 id="过年">过年</h2>
 <p>这周处于过年吃喝拜年模式，除了腊月二十九和正月初一，其他时间都是和老婆在路上。因为是结婚第一个新年，需要带着老婆去各个亲戚家拜年。因为是第一次在新房过年，就把老爸从农村接过来一起过年。因为年前没有来得及买车，去哪里都不方便，都要需要滴滴打车。为此，打车花了不少钱，当然，给红包也给了不少钱。趁初一不用拜年的缝隙时间，带老婆和老爸去看了两场电影《无名》和《交换人生》。老爸很少去看电影院看电影，听到要去看电影，像个小孩似的，饭还吃完，就跑去电梯门口等电梯。这两场电影，看的我瞌睡来了，倒是初二晚上看《满江红》睡意全无。</p>
-<p>总结下来，这个年过的不轻松，身体忙碌，心里幸福🥰。</p>
+<p>总结下来，这个年过的不轻松，身体忙碌，心里幸福 🥰。</p>
 <h2 id="向上管理">向上管理</h2>
 <p>年前，部门领导找我谈 2022 年绩效结果时候，提到我可以 “向上管理” 他。最近从 <a href="https://www.duyidong.com/">杜屹东</a> 的博客 <a href="https://www.duyidong.com/2020/01/01/2019-learn-from-alibaba/">这一年我在阿里学到的</a> 也看到了他在阿里工作一年后悟到对向上管理的理解。</p>
 <ul>
@@ -34,7 +42,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">GitHub</span> <span class="n">github</span> <span class="o">=</span> <span class="n">Feign</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
 </span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">addCapability</span><span class="o">(</span><span class="k">new</span> <span class="n">MicrometerCapability</span><span class="o">())</span>
 </span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">target</span><span class="o">(</span><span class="n">GitHub</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;https://api.github.com&#34;</span><span class="o">);</span>
-</span></span></code></pre></div><p>其本质是对 feign 拦截器、client、encoder、decoder 进行封装，测试过程中在没有获取到指标。故，改为使用z自定义拦截器和 ErrorCoder 来记录请求次数和失败次数。</p>
+</span></span></code></pre></div><p>其本质是对 feign 拦截器、client、encoder、decoder 进行封装，测试过程中在没有获取到指标。故，改为使用 z 自定义拦截器和 ErrorCoder 来记录请求次数和失败次数。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">GitHub</span> <span class="nf">gihhub</span><span class="o">(</span><span class="n">MetricsInterceptor</span> <span class="n">metricsInterceptor</span><span class="o">){</span>
 </span></span><span class="line"><span class="cl">  <span class="n">GitHub</span> <span class="n">github</span> <span class="o">=</span> <span class="n">Feign</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
@@ -88,13 +96,13 @@
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><h3 id="sentry-集成飞书通知">Sentry 集成飞书通知</h3>
-<p>参考 <a href="https://www.ytjia.xyz/blog/2022/05/20/sentry-webhook.html">通过Webhook实现Sentry错误自动化飞书机器人报警</a> 这篇文章，使用 fastapi 部署一个 http 服务将 sentry 的回调转发到飞书群的机器人。由于，fastapi 需要在服务器上安装 python3，为了不污染我的 vps，我创建一个 docker 镜像 <a href="https://github.com/chensoul/dockerfiles/tree/master/sentry-feishu-hook">sentry-feishu-hook</a>，修改了 python 脚本中的编译错误，并在 vps 上通过 docker 启动该服务。</p>
+<p>参考 <a href="https://www.ytjia.xyz/blog/2022/05/20/sentry-webhook.html">通过 Webhook 实现 Sentry 错误自动化飞书机器人报警</a> 这篇文章，使用 fastapi 部署一个 http 服务将 sentry 的回调转发到飞书群的机器人。由于，fastapi 需要在服务器上安装 python3，为了不污染我的 vps，我创建一个 docker 镜像 <a href="https://github.com/chensoul/dockerfiles/tree/master/sentry-feishu-hook">sentry-feishu-hook</a>，修改了 python 脚本中的编译错误，并在 vps 上通过 docker 启动该服务。</p>
 <p>先编译镜像，再运行：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker build -t sentry-feishu-hook .
 </span></span><span class="line"><span class="cl">docker run -d --name sentry-feishu-hook -p 3080:3080 sentry-feishu-hook
 </span></span></code></pre></div><p>接下来在 sentry 项目的 WebHooks 里添加 http://ip:3080/hook</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/sentry-feishu-webhooks-test.png" alt="sentry-feishu-webhooks-test"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/sentry-feishu-webhooks-test.png" alt="sentry-feishu-webhooks-test"  /></p>
 <p>点击 Test Plugin，飞书群组可以收到消息：</p>
 <img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/sentry-feishu-webhooks-test-message.png" alt="sentry-feishu-webhooks-test-message" style="width: 60%"/>
 <h2 id="好物分享">好物分享</h2>

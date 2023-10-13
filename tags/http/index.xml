@@ -13,19 +13,27 @@
       <pubDate>Thu, 12 Oct 2023 13:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/10/12/http-in-depth/</guid>
-      <description>HTTP 是每个 Web 开发人员都应该了解的协议，因为它为整个 Web 提供动力。了解 HTTP 当然可以帮助您开发更好的应用程序。 在本文中，我将讨论 HTTP 是什么、它是如何产生</description>
+      <description>HTTP 是每个 Web 开发人员都应该了解的协议，因为它为整个 Web 提供动力。了解 HTTP 当然可以帮助您开发更好的应用程序。
+在本文中，我将讨论 HTTP 是什么、它是如何产生的、它今天的状况以及我们是如何走到这一步的
+什么是 HTTP？ 首先，什么是 HTTP？ HTTP 是基于 TCP/IP 的应用层通信协议，它标准化了客户端和服务器之间的通信方式。它定义了如何通过互联网请求和传输内容。通过应用层协议，我的意思是它只是一个标准化主机（客户端和服务器）通信方式的抽象层。 HTTP 本身依赖于 TCP/IP 来获取客户端和服务器之间的请求和响应。
+默认情况下，使用 TCP 端口 80，但也可以使用其他端口。然而，HTTPS 使用端口 443。
+HTTP/0.9 - One Liner (1991) HTTP 的第一个有记录的版本是 1991 年提出的 HTTP/0.9。它是有史以来最简单的协议；有一个名为 GET 的方法。如果客户端必须访问服务器上的某个网页，它会发出如下所示的简单请求
+GET /index.html 服务器的响应如下所示
+(response body) (connection closed) 也就是说，服务器将收到请求，回复 HTML 作为响应，一旦内容传输完毕，连接就会关闭。有
+无标题 GET 是唯一允许的方法 响应必须是 HTML 正如您所看到的，该协议实际上只不过是未来的踏脚石。
+HTTP/1.0 - 1996 1996 年，HTTP 的下一个版本（即 HTTP/1.0）得到了发展，比原始版本有了很大的改进。与仅针对 HTML 响应设计的 HTTP/0.9 不同，HTTP/1.0 现在也可以处理其他响应格式，即图像、视频文件、纯文本或任何其他内容类型。它添加了更多方法（即 POST 和 HEAD）、更改了请求/响应格式、将 HTTP 标头添加到请求和响应中、添加了状态代码来标识响应、引入了字符集支持、多部分类型、授权、缓存、内容编码等都包括在内。</description>
       <content:encoded><![CDATA[<p>HTTP 是每个 Web 开发人员都应该了解的协议，因为它为整个 Web 提供动力。了解 HTTP 当然可以帮助您开发更好的应用程序。</p>
 <p>在本文中，我将讨论 HTTP 是什么、它是如何产生的、它今天的状况以及我们是如何走到这一步的</p>
 <h2 id="什么是-http">什么是 HTTP？</h2>
-<p>首先，什么是HTTP？ HTTP 是基于 TCP/IP 的应用层通信协议，它标准化了客户端和服务器之间的通信方式。它定义了如何通过互联网请求和传输内容。通过应用层协议，我的意思是它只是一个标准化主机（客户端和服务器）通信方式的抽象层。 HTTP 本身依赖于 TCP/IP 来获取客户端和服务器之间的请求和响应。</p>
+<p>首先，什么是 HTTP？ HTTP 是基于 TCP/IP 的应用层通信协议，它标准化了客户端和服务器之间的通信方式。它定义了如何通过互联网请求和传输内容。通过应用层协议，我的意思是它只是一个标准化主机（客户端和服务器）通信方式的抽象层。 HTTP 本身依赖于 TCP/IP 来获取客户端和服务器之间的请求和响应。</p>
 <p>默认情况下，使用 TCP 端口 80，但也可以使用其他端口。然而，HTTPS 使用端口 443。</p>
 <h2 id="http09---one-liner-1991">HTTP/0.9 - One Liner (1991)</h2>
 <p>HTTP 的第一个有记录的版本是 1991 年提出的 <a href="HTTP/0.9">HTTP/0.9</a>。它是有史以来最简单的协议；有一个名为 GET 的方法。如果客户端必须访问服务器上的某个网页，它会发出如下所示的简单请求</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">GET /index.html
-</span></span></code></pre></div><p>服务器的响应如下所示</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">(response body)
-</span></span><span class="line"><span class="cl">(connection closed)
-</span></span></code></pre></div><p>也就是说，服务器将收到请求，回复 HTML 作为响应，一旦内容传输完毕，连接就会关闭。有</p>
+<pre tabindex="0"><code>GET /index.html
+</code></pre><p>服务器的响应如下所示</p>
+<pre tabindex="0"><code>(response body)
+(connection closed)
+</code></pre><p>也就是说，服务器将收到请求，回复 HTML 作为响应，一旦内容传输完毕，连接就会关闭。有</p>
 <ul>
 <li>无标题</li>
 <li><code>GET</code> 是唯一允许的方法</li>
@@ -35,22 +43,22 @@
 <h2 id="http10---1996">HTTP/1.0 - 1996</h2>
 <p>1996 年，HTTP 的下一个版本（即 HTTP/1.0）得到了发展，比原始版本有了很大的改进。与仅针对 HTML 响应设计的 HTTP/0.9 不同，HTTP/1.0 现在也可以处理其他响应格式，即图像、视频文件、纯文本或任何其他内容类型。它添加了更多方法（即 POST 和 HEAD）、更改了请求/响应格式、将 HTTP 标头添加到请求和响应中、添加了状态代码来标识响应、引入了字符集支持、多部分类型、授权、缓存、内容编码等都包括在内。</p>
 <p>以下是示例 HTTP/1.0 请求和响应的样子：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">GET / HTTP/1.0
-</span></span><span class="line"><span class="cl">Host: cs.fyi
-</span></span><span class="line"><span class="cl">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5)
-</span></span><span class="line"><span class="cl">Accept: */*
-</span></span></code></pre></div><p>正如您所看到的，除了请求之外，客户端还发送了它的个人信息、所需的响应类型等。而在 HTTP/0.9 中，客户端永远无法发送此类信息，因为没有标头。</p>
+<pre tabindex="0"><code>GET / HTTP/1.0
+Host: cs.fyi
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5)
+Accept: */*
+</code></pre><p>正如您所看到的，除了请求之外，客户端还发送了它的个人信息、所需的响应类型等。而在 HTTP/0.9 中，客户端永远无法发送此类信息，因为没有标头。</p>
 <p>对上述请求的响应示例可能如下所示</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">HTTP/1.0 200 OK 
-</span></span><span class="line"><span class="cl">Content-Type: text/plain
-</span></span><span class="line"><span class="cl">Content-Length: 137582
-</span></span><span class="line"><span class="cl">Expires: Thu, 05 Dec 1997 16:00:00 GMT
-</span></span><span class="line"><span class="cl">Last-Modified: Wed, 5 August 1996 15:55:28 GMT
-</span></span><span class="line"><span class="cl">Server: Apache 0.84
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">(response body)
-</span></span><span class="line"><span class="cl">(connection closed)
-</span></span></code></pre></div><p>响应的开头是 HTTP/1.0（HTTP 后跟版本号），然后是状态代码 200，后跟原因短语（或者状态代码的描述，如果您愿意的话）。</p>
+<pre tabindex="0"><code>HTTP/1.0 200 OK
+Content-Type: text/plain
+Content-Length: 137582
+Expires: Thu, 05 Dec 1997 16:00:00 GMT
+Last-Modified: Wed, 5 August 1996 15:55:28 GMT
+Server: Apache 0.84
+
+(response body)
+(connection closed)
+</code></pre><p>响应的开头是 HTTP/1.0（HTTP 后跟版本号），然后是状态代码 200，后跟原因短语（或者状态代码的描述，如果您愿意的话）。</p>
 <p>在此较新版本中，请求和响应标头仍保留为 ASCII 编码，但响应正文可以是任何类型，即图像、视频、HTML、纯文本或任何其他内容类型。因此，现在服务器可以向客户端发送任何内容类型；推出后不久，HTTP 中的“超文本”一词就变得用词不当。 HMTP 或超媒体传输协议可能更有意义，但我想，我们终生都坚持这个名字。</p>
 <p>HTTP/1.0 的主要缺点之一是每个连接不能有多个请求。也就是说，每当客户端需要从服务器获取某些内容时，它都必须打开一个新的 TCP 连接，并且在满足该单个请求后，连接将被关闭。对于任何下一个要求，都必须建立在新的连接上。为什么不好？</p>
 <p>好吧，假设您访问的网页包含 10 个图像、5 个样式表和 5 个 JavaScript 文件，总共有 20 个项目需要在向该网页发出请求时获取。由于服务器在满足请求后立即关闭连接，因此将存在一系列 20 个单独的连接，其中每个项目都将在其单独的连接上一个接一个地提供服务。</p>
@@ -63,8 +71,8 @@
 <li>ACK - 客户端递增从服务器接收到的数字 y，并发送回带有数字 y+1 的 ACK 数据包</li>
 </ul>
 <p>一旦三向握手完成，客户端和服务器之间的数据共享就可以开始。应该注意的是，客户端可以在发送最后一个 ACK​​ 数据包后立即开始发送应用程序数据，但服务器仍然必须等待收到 ACK 数据包才能满足请求。</p>
-<p><img loading="lazy" src="https://i.imgur.com/ohZthqB.png" alt="3 way handshake"  />
-</p>
+<p>
+  <img loading="lazy" src="https://i.imgur.com/ohZthqB.png" alt="3 way handshake"  /></p>
 <p>然而，HTTP/1.0 的一些实现试图通过引入一个名为 Connection: keep-alive 的新标头来克服这个问题，该标头旨在告诉服务器“嘿服务器，不要关闭此连接，我再次需要它”。但它仍然没有得到广泛的支持，问题仍然存在。</p>
 <p>除了无连接之外，HTTP 也是一种无状态协议，即服务器不维护有关客户端的信息，因此每个请求都必须具有服务器自己完成请求所需的信息，而不与任何旧协议有任何关联。要求。因此，这火上浇油，即除了客户端必须打开大量连接之外，它还必须在线路上发送一些冗余数据，从而导致带宽使用量增加。</p>
 <h2 id="http11---1997">HTTP/1.1 - 1997</h2>
@@ -86,8 +94,8 @@
 </li>
 </ul>
 <blockquote>
-<p>应该注意的是，为了从持久连接或管道中受益，Content-Length标头必须在响应上可用，因为这会让客户端知道传输何时完成并且可以发送下一个请求（以正常的顺序方式）发送请求）或开始等待下一个响应（当启用管道时）。</p>
-<p>但这种方法仍然存在一个问题。也就是说，如果数据是动态的并且服务器无法事先找到内容长度怎么办？那么在这种情况下，您真的无法从持久连接中受益，不是吗？！为了解决这个问题，HTTP/1.1引入了分块编码。在这种情况下，服务器可能会省略内容长度以支持分块编码（稍后会详细介绍）。但是，如果它们都不可用，则必须在请求结束时关闭连接。</p>
+<p>应该注意的是，为了从持久连接或管道中受益，Content-Length 标头必须在响应上可用，因为这会让客户端知道传输何时完成并且可以发送下一个请求（以正常的顺序方式）发送请求）或开始等待下一个响应（当启用管道时）。</p>
+<p>但这种方法仍然存在一个问题。也就是说，如果数据是动态的并且服务器无法事先找到内容长度怎么办？那么在这种情况下，您真的无法从持久连接中受益，不是吗？！为了解决这个问题，HTTP/1.1 引入了分块编码。在这种情况下，服务器可能会省略内容长度以支持分块编码（稍后会详细介绍）。但是，如果它们都不可用，则必须在请求结束时关闭连接。</p>
 </blockquote>
 <ul>
 <li>
@@ -110,7 +118,7 @@
 <p>语言谈判</p>
 </li>
 <li>
-<p>客户端cookie</p>
+<p>客户端 cookie</p>
 </li>
 <li>
 <p>增强的压缩支持</p>
@@ -123,7 +131,7 @@
 </li>
 </ul>
 <p>我不会在这篇文章中详细介绍 HTTP/1.1 的所有功能，因为它本身就是一个主题，您已经可以找到很多相关内容。我建议您阅读的这样一份文档是 HTTP/1.0 和 HTTP/1.1 之间的关键差异，这里是优秀者的原始 RFC 链接。</p>
-<p>HTTP/1.1 于 1999 年推出，多年来一直是一个标准。尽管如此，它比它的前身有了很大的改进；随着网络每天都在变化，它开始显示出它的年龄。如今加载网页比以往更加消耗资源。如今，一个简单的网页必须打开 30 多个连接。那么HTTP/1.1有持久连接，那为什么有这么多连接呢？你说！原因是，在 HTTP/1.1 中，任何时刻只能有一个未完成的连接。</p>
+<p>HTTP/1.1 于 1999 年推出，多年来一直是一个标准。尽管如此，它比它的前身有了很大的改进；随着网络每天都在变化，它开始显示出它的年龄。如今加载网页比以往更加消耗资源。如今，一个简单的网页必须打开 30 多个连接。那么 HTTP/1.1 有持久连接，那为什么有这么多连接呢？你说！原因是，在 HTTP/1.1 中，任何时刻只能有一个未完成的连接。</p>
 <p>HTTP/1.1 试图通过引入管道来解决这个问题，但它并没有完全解决这个问题，因为队头阻塞，缓慢或繁重的请求可能会阻塞后面的请求，一旦请求卡在管道中，它就会被阻塞。必须等待下一个请求得到满足。</p>
 <p>为了克服 HTTP/1.1 的这些缺点，开发人员开始实施解决方法，例如使用 spritesheet、CSS 中的编码图像、单个庞大的 CSS/Javascript 文件、域分片等。</p>
 <h2 id="spdy-2009">SPDY-2009</h2>
@@ -135,7 +143,7 @@
 <blockquote>
 <p>对于那些不知道区别的人来说，延迟是延迟，即数据在源和目的地之间传输所需的时间（以毫秒为单位），而带宽是每秒传输的数据量（每秒比特数）。</p>
 </blockquote>
-<p>SPDY 的功能包括多路复用、压缩、优先级、安全性等。我不打算详细介绍 SPDY，因为当我们在下一节中深入了解 HTTP/2 的本质时，您就会明白了。据说HTTP/2主要是受到SPDY的启发。</p>
+<p>SPDY 的功能包括多路复用、压缩、优先级、安全性等。我不打算详细介绍 SPDY，因为当我们在下一节中深入了解 HTTP/2 的本质时，您就会明白了。据说 HTTP/2 主要是受到 SPDY 的启发。</p>
 <p>SPDY 并没有真正尝试取代 HTTP；而是它是 HTTP 上的转换层，存在于应用程序层并在将请求发送到线路之前对其进行修改。它开始成为事实上的标准，大多数浏览器开始实现它。</p>
 <p>2015 年，在 Google，他们不想有两个相互竞争的标准，因此决定将其合并到 HTTP 中，同时诞生了 HTTP/2 并弃用了 SPDY。</p>
 <h2 id="http2---2015">HTTP/2 - 2015</h2>
@@ -148,13 +156,13 @@
 <li>请求优先级</li>
 <li>安全</li>
 </ul>
-<p><img loading="lazy" src="https://i.imgur.com/X1BT5eX.png" alt="img"  />
-</p>
+<p>
+  <img loading="lazy" src="https://i.imgur.com/X1BT5eX.png" alt="img"  /></p>
 <h3 id="1-二进制协议">1. 二进制协议</h3>
 <p>HTTP/2 倾向于通过使其成为二进制协议来解决 HTTP/1.x 中存在的延迟增加的问题。作为一种二进制协议，它更容易解析，但与 HTTP/1.x 不同，它不再是人眼可读的。 HTTP/2 的主要构建块是帧和流</p>
 <h4 id="帧和流">帧和流</h4>
 <p>HTTP 消息现在由一个或多个帧组成。有一个用于元数据的 HEADERS 帧和用于有效负载的 DATA 帧，并且存在多种其他类型的帧（HEADERS、DATA、RST_STREAM、SETTINGS、PRIORITY 等），您可以通过 HTTP/2 规范进行检查。</p>
-<p>每个 HTTP/2 请求和响应都会被赋予一个唯一的流 ID，并被分为帧。帧只不过是二进制数据。帧的集合称为流。每个帧都有一个流 ID，用于标识其所属的流，并且每个帧都有一个公共标头。另外，除了流ID是唯一的之外，值得一提的是，客户端发起的任何请求都使用奇数，而服务器响应的流ID则为偶数。</p>
+<p>每个 HTTP/2 请求和响应都会被赋予一个唯一的流 ID，并被分为帧。帧只不过是二进制数据。帧的集合称为流。每个帧都有一个流 ID，用于标识其所属的流，并且每个帧都有一个公共标头。另外，除了流 ID 是唯一的之外，值得一提的是，客户端发起的任何请求都使用奇数，而服务器响应的流 ID 则为偶数。</p>
 <p>除了 HEADERS 和 DATA 之外，我认为这里值得一提的另一种帧类型是 RST_STREAM，它是一种特殊的帧类型，用于中止某些流，即客户端可以发送此帧以让服务器知道我不需要此流不再了。在 HTTP/1.1 中，使服务器停止向客户端发送响应的唯一方法是关闭连接，这会导致延迟增加，因为必须为任何连续请求打开新连接。</p>
 <p>在 HTTP/2 中，客户端可以使用 RST_STREAM 并停止接收特定流，同时连接仍处于打开状态并且其他流仍将在播放中。</p>
 <h3 id="2-多路复用">2. 多路复用</h3>

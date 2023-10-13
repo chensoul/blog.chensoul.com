@@ -13,20 +13,30 @@
       <pubDate>Sun, 25 Jun 2023 09:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/06/25/developing-with-bottle/</guid>
-      <description>我喜欢 bottle。它是一个简单、快速且功能强大的 Python 微框架，非常适合小型 Web 应用程序和快速原型设计。对于那些刚刚开始 Web 开发的人来说，它也是一个</description>
-      <content:encoded><![CDATA[<p><img loading="lazy" src="https://files.realpython.com/media/bottle-logo.4c5ab3d2ae78.png" alt="Bottle logo"  />
-</p>
+      <description>我喜欢 bottle。它是一个简单、快速且功能强大的 Python 微框架，非常适合小型 Web 应用程序和快速原型设计。对于那些刚刚开始 Web 开发的人来说，它也是一个出色的学习工具。
+让我们看一个简单的例子。
+注意：本教程假设您正在运行基于 Unix 的环境 - 例如 Mac OS X、Linux 版本或通过虚拟机支持的 Linux 版本。
+06/13/2015 更新：更新了代码示例和解释。
+启动 首先，让我们创建一个工作目录：
+$ mkdir bottle &amp;amp;&amp;amp; cd bottle 接下来，您需要安装 pip、virtualenv 和 git。
+virtualenv 是一个 Python 工具，可以轻松管理特定项目所需的 Python 包；它可以防止一个项目中的包与其他项目中的包发生冲突。同时，pip 是一个包管理器，用于管理 Python 包的安装。
+如需在 Unix 环境中安装 pip（及其依赖项）的帮助，请按照 此 Gist 中的说明进行操作。如果您使用的是 Windows 环境，请观看此视频以获取帮助。
+安装 pip 后，运行以下命令来安装 virtualenv：
+$ pip install virtualenv==12.0.7 现在我们可以轻松设置本地环境：
+$ virtualenv venv $ source venv/bin/activate 安装 bottle：</description>
+      <content:encoded><![CDATA[<p>
+  <img loading="lazy" src="https://files.realpython.com/media/bottle-logo.4c5ab3d2ae78.png" alt="Bottle logo"  /></p>
 <p>我喜欢 <a href="http://bottlepy.org/docs/stable/">bottle</a>。它是一个简单、快速且功能强大的 Python 微框架，非常适合小型 Web 应用程序和快速原型设计。对于那些刚刚开始 Web 开发的人来说，它也是一个出色的学习工具。</p>
 <p>让我们看一个简单的例子。</p>
 <blockquote>
 <p>注意：本教程假设您正在运行基于 Unix 的环境 - 例如 Mac OS X、Linux 版本或通过虚拟机支持的 Linux 版本。</p>
 </blockquote>
-<p><strong>06/13/2015更新</strong>：更新了代码示例和解释。</p>
+<p><strong>06/13/2015 更新</strong>：更新了代码示例和解释。</p>
 <h2 id="启动">启动</h2>
 <p>首先，让我们创建一个工作目录：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ mkdir bottle <span class="o">&amp;&amp;</span> <span class="nb">cd</span> bottle
 </span></span></code></pre></div><p>接下来，您需要安装 <a href="https://realpython.com/what-is-pip/">pip</a>、virtualenv 和 git。</p>
-<p><a href="https://pypi.python.org/pypi/virtualenv">virtualenv</a> 是一个 Python 工具，可以<a href="https://realpython.com/python-virtual-environments-a-primer/">轻松管理特定项目所需的Python包</a>；它可以防止一个项目中的包与其他项目中的包发生冲突。同时，pip 是一个包管理器，用于管理 Python <a href="https://realpython.com/python-modules-packages/">包的安装</a>。</p>
+<p><a href="https://pypi.python.org/pypi/virtualenv">virtualenv</a> 是一个 Python 工具，可以<a href="https://realpython.com/python-virtual-environments-a-primer/">轻松管理特定项目所需的 Python 包</a>；它可以防止一个项目中的包与其他项目中的包发生冲突。同时，pip 是一个包管理器，用于管理 Python <a href="https://realpython.com/python-modules-packages/">包的安装</a>。</p>
 <p>如需在 Unix 环境中安装 pip（及其依赖项）的帮助，请按照 <a href="https://gist.github.com/mjhea0/5692708">此 Gist</a> 中的说明进行操作。如果您使用的是 Windows 环境，请观看此视频以获取帮助。</p>
 <p>安装 <a href="https://realpython.com/courses/what-is-pip/">pip</a> 后，运行以下命令来安装 virtualenv：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pip install <span class="nv">virtualenv</span><span class="o">==</span>12.0.7
@@ -62,11 +72,11 @@
 <p>现在您可以在本地运行您的应用程序：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ python app.py
 </span></span></code></pre></div><p>您应该能够连接到 <a href="http://localhost:8080/">http://localhost:8080/</a> 并看到您的应用程序正在运行！</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">My first web app! By RealPython.
-</span></span></code></pre></div><p>因此， <code>@route</code> <a href="https://realpython.com/primer-on-python-decorators/">装饰器</a>将一个函数绑定到路由。在第一个路由 <code>/</code> 中， <code>index()</code> 函数绑定到该路由，该路由渲染 <code>index_html</code> 模板并传入<a href="https://realpython.com/python-variables/">变量</a> <code>author</code> 作为关键字参数。然后可以在模板中访问该变量。</p>
+<pre tabindex="0"><code>My first web app! By RealPython.
+</code></pre><p>因此， <code>@route</code> <a href="https://realpython.com/primer-on-python-decorators/">装饰器</a>将一个函数绑定到路由。在第一个路由 <code>/</code> 中， <code>index()</code> 函数绑定到该路由，该路由渲染 <code>index_html</code> 模板并传入<a href="https://realpython.com/python-variables/">变量</a> <code>author</code> 作为关键字参数。然后可以在模板中访问该变量。</p>
 <p>现在导航到下一条路由，确保在路由末尾添加您的名字 - 即 http://localhost:8080/name/Michael。您应该看到类似以下内容：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">My first web app! By Michael.
-</span></span></code></pre></div><p><strong>这是怎么回事？</strong></p>
+<pre tabindex="0"><code>My first web app! By Michael.
+</code></pre><p><strong>这是怎么回事？</strong></p>
 <ul>
 <li>
 <p>同样， <code>@route</code> 装饰器将一个函数绑定到路由。在本例中，我们使用包含通配符 <code>&lt;name&gt;</code> 的动态路由。</p>
@@ -135,21 +145,21 @@
 <p>首先从第 1 部分下载此 <a href="https://gist.github.com/mjhea0/5784132">Gist</a>，然后使用以下命令运行它：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ bash bottle.sh
 </span></span></code></pre></div><p>这将创建一个基本的项目结构：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">├── app.py
-</span></span><span class="line"><span class="cl">├── requirements.txt
-</span></span><span class="line"><span class="cl">└── testenv
-</span></span></code></pre></div><p>激活虚拟环境：</p>
+<pre tabindex="0"><code>├── app.py
+├── requirements.txt
+└── testenv
+</code></pre><p>激活虚拟环境：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">cd</span> bottle
 </span></span><span class="line"><span class="cl">$ <span class="nb">source</span> testenv/bin/activate
 </span></span></code></pre></div><p>安装要求：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pip install -r requirements.txt
 </span></span></code></pre></div><p>导航到 <a href="https://www.plot.ly/api">https://www.plot.ly/api</a>，注册一个新帐户，登录，然后创建一个新的 API 密钥：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/plotly-api-credentials.03a477bfd4d1.png" alt="Plotly API credentials"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/plotly-api-credentials.03a477bfd4d1.png" alt="Plotly API credentials"  /></p>
 <p>复制该密钥。</p>
-<p>安装plot.ly：</p>
+<p>安装 plot.ly：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pip install <span class="nv">plotly</span><span class="o">==</span>1.2.6
-</span></span></code></pre></div><p>接下来更新app.py中的代码：</p>
+</span></span></code></pre></div><p>接下来更新 app.py 中的代码：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">bottle</span> <span class="kn">import</span> <span class="n">run</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">get</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">request</span>
 </span></span><span class="line"><span class="cl">
@@ -211,13 +221,13 @@
 </span></span></code></pre></div><p>这里发生了什么？</p>
 <ul>
 <li>第一个函数 <code>form()</code> 创建一个 HTML 表单，用于捕获制作简单条形图所需的数据。</li>
-<li>与此同时，第二个函数 <code>submit()</code> 抓取表单输入，将它们分配给变量，然后调用plot.ly API，传递我们的凭据和数据，以生成新图表。确保将我的用户名和 API 密钥替换为您自己的凭据。不要使用我的。不起作用。</li>
+<li>与此同时，第二个函数 <code>submit()</code> 抓取表单输入，将它们分配给变量，然后调用 plot.ly API，传递我们的凭据和数据，以生成新图表。确保将我的用户名和 API 密钥替换为您自己的凭据。不要使用我的。不起作用。</li>
 </ul>
 <h3 id="测试">测试</h3>
 <p>在本地运行您的应用程序， <code>python app.py</code> ，并将浏览器指向 <a href="http://localhost:8080/plot">http://localhost:8080/plot</a>。</p>
 <p>输入三个人的姓名及其各自的年龄。按“提交”，如果一切顺利，您应该会看到一条祝贺消息和一个 URL。单击 URL 查看您的图表：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/plotly-ages-barplot.c0b4b77d41cf.png" alt="Plotly ages bar plot"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/plotly-ages-barplot.c0b4b77d41cf.png" alt="Plotly ages bar plot"  /></p>
 <p>如果您收到此消息的 500 错误 - <code>Aw, snap! Looks like you supplied the wrong API key. Want to try again? You can always view your key at https://plot.ly/api/key. When you display your key at https://plot.ly/api/key, make sure that you're logged in as realpython.</code> - 您需要更新您的 API 密钥。</p>
 <blockquote>
 <p>另外，如果这是一个真正的、面向客户端的应用程序，您会希望比这更优雅地处理错误。仅供参考。</p>
@@ -423,10 +433,14 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;utf-8&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;utf-8&#34;</span> <span class="p">/&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>{{ title }}<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;viewport&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;width=device-width, initial-scale=1.0&#34;</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&#34;</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">media</span><span class="o">=</span><span class="s">&#34;screen&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;viewport&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;width=device-width, initial-scale=1.0&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">link</span>
+</span></span><span class="line"><span class="cl">      <span class="na">href</span><span class="o">=</span><span class="s">&#34;http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">media</span><span class="o">=</span><span class="s">&#34;screen&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">/&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">      <span class="nt">body</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">padding</span><span class="p">:</span> <span class="mi">60</span><span class="kt">px</span> <span class="mi">0</span><span class="kt">px</span><span class="p">;</span>
@@ -436,10 +450,17 @@
 </span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;container&#34;</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Graph via Plot.ly<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
 </span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/plot&#34;</span><span class="p">&gt;&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;btn btn-default&#34;</span><span class="p">&gt;</span>Back<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;igraph&#34;</span> <span class="na">src</span><span class="o">=</span><span class="s">{{plot_url}}</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;900&#34;</span> <span class="na">height</span><span class="o">=</span><span class="s">&#34;450&#34;</span> <span class="na">seamless</span><span class="o">=</span><span class="s">&#34;seamless&#34;</span> <span class="na">scrolling</span><span class="o">=</span><span class="s">&#34;no&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">iframe</span>
+</span></span><span class="line"><span class="cl">        <span class="na">id</span><span class="o">=</span><span class="s">&#34;igraph&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">src</span><span class="o">=</span><span class="s">&#34;{{plot_url}}&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">width</span><span class="o">=</span><span class="s">&#34;900&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">height</span><span class="o">=</span><span class="s">&#34;450&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">seamless</span><span class="o">=</span><span class="s">&#34;seamless&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">scrolling</span><span class="o">=</span><span class="s">&#34;no&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&gt;&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;http://code.jquery.com/jquery-1.10.2.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
@@ -447,8 +468,8 @@
 </span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </span></span></code></pre></div><p>因此，iframe 允许我们更新表单，然后显示实际内容/图表以及更新后的更改。换句话说，我们不必离开站点即可查看图表。</p>
 <p>运行。将值添加到表单中。然后提交。您的图表现在应如下所示：</p>
-<p><img loading="lazy" src="https://files.realpython.com/media/plotly-final-graph.4c43b1ac0563.png" alt="Plotly example final graph"  />
-</p>
+<p>
+  <img loading="lazy" src="https://files.realpython.com/media/plotly-final-graph.4c43b1ac0563.png" alt="Plotly example final graph"  /></p>
 <h2 id="结论">结论</h2>
 <p>您可以从此<a href="https://github.com/mjhea0/bottle-plotly-python">存储库</a>中获取所有文件。</p>
 <p>下次见！</p>

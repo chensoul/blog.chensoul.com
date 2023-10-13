@@ -13,16 +13,28 @@
       <pubDate>Mon, 13 Mar 2023 11:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/03/13/weekly_review_10/</guid>
-      <description>前言 本篇是对 2023-03-06 到 2023-03-12 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周发现 VPS 上 某些使用 docker 部署的服务（cusdis、</description>
+      <description>前言 本篇是对 2023-03-06 到 2023-03-12 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+这周发现 VPS 上 某些使用 docker 部署的服务（cusdis、umami、uptime、n8n、rsshub、memos）国内用户无法访问了，于是就折腾了一下使用 Cloudflare Tunnel 来代理这些服务。配置成功之后，又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。
+这周工作忙完之后，就开始着手通知系统的重构改造服务，想着 chatgpt 这么火，于是就试试让它来写代码。在不断地修改需求的情况下，chatgpt 写出来的代码稍加调整逐渐可以使用了。
+周六从汉口开车去白沙洲湖北财税职业学院，全程 20 公里，回来的时候不小心把路边的面包车擦碰了一下。于是一脸懵的经历了一次保险定损维修。
+周六开始使用 格志 APP 写日志，选择它来记录日志的原因是它支持批量导出 mardkown、pdf、图片等。唯一有个小遗憾的是，这个应用没有图床，导出的 markdown 文件里面图片的链接不是 http 协议。
+周日去新荣龙湖天耀天街售房部看了一下房子。107 平三室两厅两卫，单价 2 万 5 带精装修，公积金贷款 90 万，商业贷款 30 年，每个月房贷 6000。目前来说，买不起这里的房子，但是，作为一个买房目标还是可以的，加油！
+开车总结 最近刷视频，总结的一些开车经验如下：
+提前预判，前面车子刹车，不管是正前方，还是左右前方，这时候也要刹车
+前面有大货车，不要从右边超车
+会车时，看路宽
+不要连续变道，变道时既要看后视镜，又要看窗边
+红灯路口右转时，要看地面或者路边是否有禁止右转标识
+通过 Cloudflare Tunnel 访问服务 以下内容参考 初探 Cloudflare 零信任 - 通过 Cloudflare Tunnel 访问服务。</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-00.jpeg" alt="weekly-review-10-00"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-00.jpeg" alt="weekly-review-10-00"  /></p>
 <p>本篇是对 <code>2023-03-06</code> 到 <code>2023-03-12</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这周发现 VPS 上 <a href="https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/">某些使用 docker 部署的服务</a>（cusdis、umami、uptime、n8n、rsshub、memos）国内用户无法访问了，于是就折腾了一下使用 Cloudflare Tunnel 来代理这些服务。配置成功之后，又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。</p>
 <p>这周工作忙完之后，就开始着手通知系统的重构改造服务，想着 chatgpt 这么火，于是就试试让它来写代码。在不断地修改需求的情况下，chatgpt 写出来的代码稍加调整逐渐可以使用了。</p>
 <p>周六从汉口开车去白沙洲湖北财税职业学院，全程 20 公里，回来的时候不小心把路边的面包车擦碰了一下。于是一脸懵的经历了一次保险定损维修。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-07.jpeg" alt="weekly-review-10-07"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-07.jpeg" alt="weekly-review-10-07"  /></p>
 <p>周六开始使用 格志 APP 写日志，选择它来记录日志的原因是它支持批量导出 mardkown、pdf、图片等。唯一有个小遗憾的是，这个应用没有图床，导出的 markdown 文件里面图片的链接不是 http 协议。</p>
 <img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-08.png" alt="weekly-review-10-08" style="width:67%;" />
 <p>周日去新荣龙湖天耀天街售房部看了一下房子。107 平三室两厅两卫，单价 2 万 5 带精装修，公积金贷款 90 万，商业贷款 30 年，每个月房贷 6000。目前来说，买不起这里的房子，但是，作为一个买房目标还是可以的，加油！</p>
@@ -49,14 +61,14 @@
 <p>以下内容参考 <a href="https://dejavu.moe/posts/cloudflare-tunnel-access-uptime/">初探 Cloudflare 零信任 - 通过 Cloudflare Tunnel 访问服务</a>。</p>
 <h3 id="1创建-cloudflare-tunnel">1、创建 Cloudflare Tunnel</h3>
 <p>登录 <a href="https://one.dash.cloudflare.com/">Cloudflare Zero Trust</a> 控制台，选择左侧导航栏的 Access 菜单，进入 Tunnels 配置，点击 Create a tunnel 创建一个 Tunnel，输入 Tunnel 隧道名称</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-01.png" alt="weekly-review-10-01"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-01.png" alt="weekly-review-10-01"  /></p>
 <p>选择服务器的操作系统和平台架构：</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-02.webp" alt="weekly-review-10-02"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-02.webp" alt="weekly-review-10-02"  /></p>
 <p>可以看到安装命令：</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-03.png" alt="weekly-review-10-03"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-03.png" alt="weekly-review-10-03"  /></p>
 <p>复制左边命令粘贴到 SSH 会话里安装 Cloudflared（注意保护 Refresh Token 不要泄漏）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install cloudflare/cloudflare/cloudflared <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">
@@ -67,12 +79,12 @@
 <li>cusdis.chensoul.com</li>
 <li>umami.chensoul.com</li>
 </ul>
-<h3 id="3在--cloudflare-tunnel-添加-hostname">3、在  Cloudflare Tunnel 添加 hostname</h3>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-04.png" alt="weekly-review-10-04"  />
-</p>
+<h3 id="3在-cloudflare-tunnel-添加-hostname">3、在 Cloudflare Tunnel 添加 hostname</h3>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-04.png" alt="weekly-review-10-04"  /></p>
 <p>如果需要对 ssh 服务开启代理，请参考：<a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/use_cases/ssh/">Connect with SSH through Cloudflare Tunnel</a>。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-05.png" alt="weekly-review-10-05"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-05.png" alt="weekly-review-10-05"  /></p>
 <p>关键步骤是：</p>
 <ul>
 <li>
@@ -175,7 +187,9 @@
       <pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid>
-      <description>服务器设置 [可选] 设置系统 Swap 交换分区 因为 vps 服务器的运行内存很小，所以这里先设置下 Swap # 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap</description>
+      <description>服务器设置 [可选] 设置系统 Swap 交换分区
+因为 vps 服务器的运行内存很小，所以这里先设置下 Swap
+# 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap /swapfile &amp;amp;&amp;amp; \ sudo swapon /swapfile &amp;amp;&amp;amp; \ echo &amp;#34;/swapfile swap swap defaults 0 0&amp;#34; | sudo tee -a /etc/fstab &amp;amp;&amp;amp; \ sudo swapon --show &amp;amp;&amp;amp; \ sudo free -h 安装并生成证书 curl https://get.</description>
       <content:encoded><![CDATA[<h2 id="服务器设置">服务器设置</h2>
 <p><strong>[可选] 设置系统 Swap 交换分区</strong></p>
 <p>因为 vps 服务器的运行内存很小，所以这里先设置下 Swap</p>
@@ -237,7 +251,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">custom</span><span class="w">
 </span></span></span></code></pre></div><h2 id="服务部署">服务部署</h2>
 <h3 id="postgresql">Postgresql</h3>
-<p>1、参考 <a href="/posts/2022/08/19/postgresql-install-deploy/">PostgreSql安装和部署</a> ，通过 docker-compose 安装，创建
+<p>1、参考 <a href="/posts/2022/08/19/postgresql-install-deploy/">PostgreSql 安装和部署</a> ，通过 docker-compose 安装，创建
 postgresql.yaml：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
@@ -292,7 +306,7 @@ postgresql.yaml：</p>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h3 id="uptime-kuma">Uptime Kuma</h3>
 <p>参考 <a href="https://uptime.kuma.pet/">kuma</a>，使用 docker compose 部署，创建 uptime.yaml：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.3&#39;</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">uptime-kuma</span><span class="p">:</span><span class="w">
@@ -301,7 +315,7 @@ postgresql.yaml：</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">~/.uptime-kuma:/app/data</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">3001</span><span class="p">:</span><span class="m">3001</span><span class="w">  </span><span class="c"># &lt;Host Port&gt;:&lt;Container Port&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">3001</span><span class="p">:</span><span class="m">3001</span><span class="w"> </span><span class="c"># &lt;Host Port&gt;:&lt;Container Port&gt;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
 </span></span></span></code></pre></div><p>启动：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose -f uptime.yaml up -d
@@ -339,7 +353,7 @@ postgresql.yaml：</p>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>升级</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f uptime.yaml down 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f uptime.yaml down
 </span></span><span class="line"><span class="cl">docker pull louislam/uptime-kuma:1
 </span></span><span class="line"><span class="cl">docker-compose -f uptime.yaml up -d
 </span></span></code></pre></div><h3 id="umami">Umami</h3>
@@ -350,13 +364,13 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE DATABASE umami owner=umami;&#34;</span>
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;GRANT ALL privileges ON DATABASE umami TO umami;&#34;</span>
 </span></span></code></pre></div><p>然后，初始化数 umami 数据。先进入容器：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">docker exec -it pgsql bash
-</span></span></code></pre></div><p>进入 umami 数据库：</p>
+<pre tabindex="0"><code>docker exec -it pgsql bash
+</code></pre><p>进入 umami 数据库：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">psql -U umami -d umami
 </span></span><span class="line"><span class="cl"><span class="nv">umami</span><span class="o">=</span>&gt;
 </span></span></code></pre></div><p>执行 <a href="https://github.com/umami-software/umami/blob/master/sql/schema.postgresql.sql"><strong>schema.postgresql.sql</strong></a> 文件内容。</p>
 <p>2、通过 docker-compose 安装，创建 umami.yaml：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3&#39;</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">umami</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">ghcr.io/umami-software/umami:postgresql-latest</span><span class="w">
@@ -407,7 +421,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></code></pre></div><p>5、添加网站</p>
 <p>访问 <a href="https://umami.chensoul.com/">https://umami.chensoul.com/</a>，默认用户名和密码为 admin/umami。登陆之后，修改密码，并添加网站。</p>
 <p>6、升级</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f umami.yaml down 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f umami.yaml down
 </span></span><span class="line"><span class="cl">docker pull ghcr.io/umami-software/umami:postgresql-latest
 </span></span><span class="line"><span class="cl">docker-compose -f umami.yaml up -d
 </span></span></code></pre></div><h3 id="cusdis">Cusdis</h3>
@@ -419,7 +433,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;CREATE DATABASE cusdis owner=cusdis;&#34;</span>
 </span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it pgsql psql -U postgres -c <span class="s2">&#34;GRANT ALL privileges ON DATABASE cusdis TO cusdis;&#34;</span>
 </span></span></code></pre></div><p>2、通过 docker-compose 安装，创建 cusdis.yaml：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3&#39;</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cusdis</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">djyde/cusdis:latest</span><span class="w">
@@ -488,7 +502,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>5、部署一个 Telegram 机器人，参考 <a href="https://cusdis.chensoul.com/doc#/advanced/webhook?id=official-telegram-bot">Official Telegram bot</a>。</p>
 <p>6、升级</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f cusdis.yaml down 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f cusdis.yaml down
 </span></span><span class="line"><span class="cl">docker pull djyde/cusdis:latest
 </span></span><span class="line"><span class="cl">docker-compose -f cusdis.yaml up -d
 </span></span></code></pre></div><h3 id="memos">memos</h3>
@@ -531,7 +545,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>升级</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f memos.yaml down 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f memos.yaml down
 </span></span><span class="line"><span class="cl">docker pull neosmemo/memos:latest
 </span></span><span class="line"><span class="cl">docker-compose -f memos.yaml up -d
 </span></span></code></pre></div><h3 id="n8n">n8n</h3>
@@ -558,7 +572,7 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></span><span class="line"><span class="cl"><span class="se"></span> docker.n8n.io/n8nio/n8n <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span> n8n start<span class="err">
 </span></span></span></code></pre></div><p>通过 docker-compose 安装，创建 n8n.yaml：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.8&#39;</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.8&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">n8n</span><span class="p">:</span><span class="w">
@@ -624,8 +638,8 @@ umami:postgresql-latest 来安装 umami。</p>
 </span></span></code></pre></div><p>这里面的转发配置不对的话，会导致直接访问 5678 端口正常，但是访问 nginx 的话，workflow 会一直处于执行。</p>
 <p>5、添加 workflow</p>
 <p>参考这篇文章 <a href="http://stiles.cc/archives/237/">http://stiles.cc/archives/237/</a> ，目前我配置了以下 workflows，实现了 github、douban、rss、memos 同步到 Telegram。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-n8n-workflows.png" alt="my-n8n-workflows"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-n8n-workflows.png" alt="my-n8n-workflows"  /></p>
 <p>workflows 参考：</p>
 <ul>
 <li><a href="https://reorx.com/blog/sharing-my-footprints-automation/">Reorx</a></li>
@@ -634,7 +648,7 @@ umami:postgresql-latest 来安装 umami。</p>
 <li><a href="https://zeabur.com/docs/marketplace/n8n">Zeabur</a></li>
 </ul>
 <p>6、升级</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f n8n.yaml down 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f n8n.yaml down
 </span></span><span class="line"><span class="cl">docker pull n8nio/n8n
 </span></span><span class="line"><span class="cl">docker-compose -f n8n.yaml up -d
 </span></span></code></pre></div><p>7、备份</p>
@@ -662,16 +676,24 @@ umami:postgresql-latest 来安装 umami。</p>
       <pubDate>Wed, 25 Jan 2023 09:47:03 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/01/25/weekly_review_3/</guid>
-      <description>前言 本篇是对 2023-01-16 到 2023-01-22 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是过年前的最后一周，上了三天班，请了两天假回去</description>
+      <description>前言 本篇是对 2023-01-16 到 2023-01-22 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制，也在我的 VPS 上通过 Docker 部署了一些服务。
+定制博客 基于 pseudoyu 的博客和主题定制博客，发现并修复了 bug，还做了一些改进，并在他的 github 提交 issue 和 merge request。
+接着在他博客主页留言，几个来回下来，收获不少。一是解决了我提出的问题，二是给我分享了一个搬瓦工的 the plan 优惠码。这时候去看了下我原来的 vps 刚好还有一天要到期，就立即花了 92 美元（原价是 99 美元）购买了一台 2G 内存托管在香港的服务器。
+缘分就是这么奇妙，如果我不主动和这个博主联系，就不会知道搬瓦工还有这个优惠，就不会帮助我解决了博客定制过程中遇到的疑惑。
+当你想要什的时候，先给出去，你就会收获更。有舍才有得。
+博客个人介绍 我的博客源文件托管在 gihub，在这个仓库可以看到我的一些个人介绍，当然，我的博客也有个人介绍（在关于页面），如果你仔细观察，可以发现他们基本上是一样的，这个是怎么实现的呢？
+首先，github 里面可以创建一个以 github 账号为名称的仓库，然后编辑好 README.md 文件，README.md 文件内容就会渲染成 html 显示到个人 github 主页。例如，我的 github 主页是 https://github.com/chensoul，我的个人仓库地址为 https://github.com/chensoul/chensoul，这个仓库是通过 github actions 来构建 README.md，构建文件查看仓库的 workflows 文件，主要有两个文件：
+build.yml：周期性的调用 build_readme.py 来生成 README.md 文件（包括：获取最近 5 篇博客文章、或者 豆瓣上最近 5 个电影书籍动态、获取 github 上发布的项目、显示 wakatime 报表） waketime.</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-16</code> 到 <code>2023-01-22</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制，也在我的 VPS 上通过 Docker 部署了一些服务。</p>
 <h2 id="定制博客">定制博客</h2>
-<p>基于 <a href="https://www.pseudoyu.com/">pseudoyu</a> 的博客和主题定制博客，发现并修复了bug，还做了一些改进，并在他的 github 提交 <a href="https://github.com/pseudoyu/pseudoyu/issues/2">issue</a> 和 merge request。</p>
+<p>基于 <a href="https://www.pseudoyu.com/">pseudoyu</a> 的博客和主题定制博客，发现并修复了 bug，还做了一些改进，并在他的 github 提交 <a href="https://github.com/pseudoyu/pseudoyu/issues/2">issue</a> 和 merge request。</p>
 <img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/github-issue-build-aboutme-py.png" alt="github-issue-build-aboutme-py" style="width: 80%"/>
-<p>接着在他博客主页留言，几个来回下来，收获不少。一是解决了我提出的问题，二是给我分享了一个搬瓦工的 the plan 优惠码。这时候去看了下我原来的 vps 刚好还有一天要到期，就立即花了92 美元（原价是 99 美元）购买了一台 2G 内存托管在香港的服务器。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-main-controlls.png" alt="vps-main-controlls"  />
-</p>
+<p>接着在他博客主页留言，几个来回下来，收获不少。一是解决了我提出的问题，二是给我分享了一个搬瓦工的 the plan 优惠码。这时候去看了下我原来的 vps 刚好还有一天要到期，就立即花了 92 美元（原价是 99 美元）购买了一台 2G 内存托管在香港的服务器。</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-main-controlls.png" alt="vps-main-controlls"  /></p>
 <p>缘分就是这么奇妙，如果我不主动和这个博主联系，就不会知道搬瓦工还有这个优惠，就不会帮助我解决了博客定制过程中遇到的疑惑。</p>
 <blockquote>
 <p>当你想要什的时候，先给出去，你就会收获更。有舍才有得。</p>
@@ -695,11 +717,11 @@ umami:postgresql-latest 来安装 umami。</p>
 <li>umami：一个简单易用、自托管的开源网站访问流量<em>统计</em>分析工具</li>
 <li>pgsql</li>
 <li>uptime-kuma：一个开源免费的监控工具</li>
-<li>rsshub：一个开源、简单易用、易于扩展的RSS 生成器，可以给任何奇奇怪怪的内容生成RSS 订阅源</li>
+<li>rsshub：一个开源、简单易用、易于扩展的 RSS 生成器，可以给任何奇奇怪怪的内容生成 RSS 订阅源</li>
 </ul>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-docker-service.png" alt="vps-docker-service"  />
-</p>
-<p>通过 Docker 部署这些服务非常简单，主要是需要注意的一点是：将这些服务部署到同一个网路，这样各个服务之间可以互相通信。比如：很多服务都需要依赖数据库 postgresql，可以使用 docker-compose 来编排服务。安装部署过程参考：<a href="/posts/2023/01/25/notes-about-deploy-services-in-vps/">我的VPS服务部署记录</a></p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/vps-docker-service.png" alt="vps-docker-service"  /></p>
+<p>通过 Docker 部署这些服务非常简单，主要是需要注意的一点是：将这些服务部署到同一个网路，这样各个服务之间可以互相通信。比如：很多服务都需要依赖数据库 postgresql，可以使用 docker-compose 来编排服务。安装部署过程参考：<a href="/posts/2023/01/25/notes-about-deploy-services-in-vps/">我的 VPS 服务部署记录</a></p>
 <p>以上。</p>
 ]]></content:encoded>
     </item>
@@ -710,21 +732,33 @@ umami:postgresql-latest 来安装 umami。</p>
       <pubDate>Sun, 15 Jan 2023 09:47:03 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/01/15/weekly_review_2/</guid>
-      <description>前言 本篇是对 2023-01-09 到 2023-01-15 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是年前倒数第二个工作周，工作上主要是完成项目一</description>
+      <description>前言 本篇是对 2023-01-09 到 2023-01-15 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔记和个人的生活记录与思考，所以不会涉及具体的工作内容。
+周三晚上是部门年会，领导提出了 2023 年收入 6.2 亿的目标，比 2022 年收入增长 140%。从公司领导层这乐观的年度规划，看得出来公司的发展属于上升趋势，同时意味着 2023 年又是忙碌和压力巨大的一年。
+工作闲暇之余，看到了一些独立开发者的博客，并受他们博客文章的影响，立即决定重新捣鼓博客。于是，在一腔热情之下，花了三天时间重构了博客，也对博客以后的方向做了一些规划。
+周末是过小年，小年伊始，年味渐浓。周六晚上，堂哥家吃年饭。周日中午，自己家吃年饭。这是新婚后第一次两边的家人一起吃年饭。虽然很早就确定了年饭时间大家都有时间的周末、预定了可以坐下 20 多人的大桌，但还是遗憾人没有到齐。
+博客重构 博客主题 以前的博客主要是纯粹分享技术，很少有自己的思考，基本上就是代码比汉字要多不少。博客没有博主的思考，无法让读者认识、了解博主，并和博主产生深入的链接。这样的博客没有灵魂，就仅仅是一个纯分享的 wiki。
+这次重新开始写博客之后，规划的博客主题是分享技术、记录生活、启发思考。技术上的文章，要有深度；生活的点滴，要有复盘；思考的内容，要有共鸣。
+博客规划 以前博客文章的分类有 java、database、devops、web，在删了一些文章之后，将博客的分类调整为想法（Ideas）、笔记（Notes）两类，后面再根据实际情况添加或者调整分类。
+健康，爱情和使命，按照这个顺序，其它的都不重要
+文章链接 以前的博客链接格式是 posts/:slug，现在调整为 posts/:year/:month/:day/:slug。因为现在博客只有几篇文章，所以暂时不打算做原有链接路径到新路径的重定向工作。
+博客部署 目前有三种方案部署方案：
+github pages。国内访问速度受影响。 cloudflare pages。可以使用 cdn 加速。 Self hosted。需要购买云主机和手动运维。 目前，是倾向于使用第二种方案。源码保存到 github 上，github actions 编译和部署静态文件到 cf-pages 分支，通过 cloudflare pages 链接 github 仓库、自动化部署静态文件并设置自定义域名 blog.chensoul.com。
+发布流程 本地编写 markdown 文件，图片保存到公有云，通过 git 提交到 github 仓库，使用 github actions 通过 n8n 自动发布到多平台，比如：公众号，语雀等。</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-09</code> 到 <code>2023-01-15</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔记和个人的生活记录与思考，所以不会涉及具体的工作内容。</p>
 <p>周三晚上是部门年会，领导提出了 2023 年收入 6.2 亿的目标，比 2022 年收入增长 140%。从公司领导层这乐观的年度规划，看得出来公司的发展属于上升趋势，同时意味着 2023 年又是忙碌和压力巨大的一年。</p>
 <p>工作闲暇之余，看到了一些独立开发者的博客，并受他们博客文章的影响，立即决定重新捣鼓博客。于是，在一腔热情之下，花了三天时间重构了博客，也对博客以后的方向做了一些规划。</p>
 <p>周末是过小年，小年伊始，年味渐浓。周六晚上，堂哥家吃年饭。周日中午，自己家吃年饭。这是新婚后第一次两边的家人一起吃年饭。虽然很早就确定了年饭时间大家都有时间的周末、预定了可以坐下 20 多人的大桌，但还是遗憾人没有到齐。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/new-year-dinner-20230115.png" alt="new-year-dinner-20230115"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/new-year-dinner-20230115.png" alt="new-year-dinner-20230115"  /></p>
 <h2 id="博客重构">博客重构</h2>
 <h3 id="博客主题">博客主题</h3>
 <p>以前的博客主要是纯粹分享技术，很少有自己的思考，基本上就是代码比汉字要多不少。博客没有博主的思考，无法让读者认识、了解博主，并和博主产生深入的链接。这样的博客没有灵魂，就仅仅是一个纯分享的 wiki。</p>
 <p>这次重新开始写博客之后，规划的博客主题是分享技术、记录生活、启发思考。技术上的文章，要有深度；生活的点滴，要有复盘；思考的内容，要有共鸣。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/blog-homepage-den-theme.png" alt="blog-homepage-den-theme"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/blog-homepage-den-theme.png" alt="blog-homepage-den-theme"  /></p>
 <h3 id="博客规划">博客规划</h3>
 <p>以前博客文章的分类有 java、database、devops、web，在删了一些文章之后，将博客的分类调整为想法（Ideas）、笔记（Notes）两类，后面再根据实际情况添加或者调整分类。</p>
 <blockquote>
@@ -755,8 +789,8 @@ umami:postgresql-latest 来安装 umami。</p>
 <li><input disabled="" type="checkbox"> 域名 dns 解析迁移到 cloudflare</li>
 </ul>
 <p>以下是使用 kuma 监控我的 VPS 上的服务。</p>
-<p><img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/chensoul-uptime.png" alt="chensoul-uptime"  />
-</p>
+<p>
+  <img loading="lazy" src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/chensoul-uptime.png" alt="chensoul-uptime"  /></p>
 <p>以上。</p>
 ]]></content:encoded>
     </item>

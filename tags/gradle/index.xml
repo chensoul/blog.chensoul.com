@@ -13,14 +13,21 @@
       <pubDate>Wed, 26 Jul 2023 07:05:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/07/26/spring-boot-info-endpoint/</guid>
-      <description>在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。 Spring Boot Actuator帮助我们监控</description>
+      <description>在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。
+Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。
+在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。
+示例代码 本文附有 GitHub 上的工作代码示例。
+启用 Spring Boot 执行器 Spring Boot Actuator 是 Spring Boot 的一个子项目。在本节中，我们将快速了解如何引导示例项目并启用 /info 端点。如果您想了解更多有关 Spring Boot Actuator 的信息，已经有一个很棒的教程了。
+让我们使用 Spring Initializr 快速创建一个 Spring Boot 项目。我们将需要以下依赖项：
+依赖性 目的 Spring Boot Actuator 公开应用程序管理端点，例如 info 。 Spring Web 启用 Web 应用程序行为。 如果有帮助，这里是 Maven 和 Gradle 中预填充项目的链接。
+项目构建后，我们将通过 HTTP 公开内置的 /info 端点。默认情况下， /info Web 端点处于禁用状态。我们可以通过在 application.properties 配置中添加 management.</description>
       <content:encoded><![CDATA[<p>在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。</p>
-<p>Spring Boot Actuator帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。</p>
+<p>Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。</p>
 <p>在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。</p>
 <h2 id="示例代码">示例代码</h2>
 <p>本文附有 GitHub 上的工作<a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/spring-boot-app-info">代码示例</a>。</p>
 <h2 id="启用-spring-boot-执行器">启用 Spring Boot 执行器</h2>
-<p>Spring Boot Actuator是Spring Boot的一个子项目。在本节中，我们将快速了解如何引导示例项目并启用 <code>/info</code> 端点。如果您想了解更多有关 Spring Boot Actuator 的信息，已经有一个很棒的<a href="https://reflectoring.io/exploring-a-spring-boot-app-with-actuator-and-jq/">教程</a>了。</p>
+<p>Spring Boot Actuator 是 Spring Boot 的一个子项目。在本节中，我们将快速了解如何引导示例项目并启用 <code>/info</code> 端点。如果您想了解更多有关 Spring Boot Actuator 的信息，已经有一个很棒的<a href="https://reflectoring.io/exploring-a-spring-boot-app-with-actuator-and-jq/">教程</a>了。</p>
 <p>让我们使用 <a href="https://start.spring.io/">Spring Initializr</a> 快速创建一个 Spring Boot 项目。我们将需要以下依赖项：</p>
 <table>
 <thead>
@@ -48,7 +55,7 @@
 <h4 id="保护端点">保护端点</h4>
 <p>如果您公开公开端点，请确保适当<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.security">保护</a>它们。我们不应在不知情的情况下泄露任何敏感信息。</p>
 </blockquote>
-<h2 id="spring-boot应用程序信息">Spring Boot应用程序信息</h2>
+<h2 id="spring-boot-应用程序信息">Spring Boot 应用程序信息</h2>
 <p>Spring 从应用程序上下文中定义的各种 <a href="https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/actuate/info/InfoContributor.html">InfoContributor</a> bean 收集有用的应用程序信息。下面是默认 <code>InfoContributor</code> beans 的摘要：</p>
 <table>
 <thead>
@@ -237,7 +244,7 @@
 </span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>pl.project13.maven<span class="nt">&lt;/groupId&gt;</span>
 </span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>git-commit-id-plugin<span class="nt">&lt;/artifactId&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
-</span></span></code></pre></div><p>如果我们运行该项目并在浏览器中打开 <code>/actuator/info</code> 端点，它将返回Git相关信息：</p>
+</span></span></code></pre></div><p>如果我们运行该项目并在浏览器中打开 <code>/actuator/info</code> 端点，它将返回 Git 相关信息：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="nt">&#34;git&#34;</span><span class="p">:</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;branch&#34;</span><span class="p">:</span> <span class="s2">&#34;main&#34;</span><span class="p">,</span>

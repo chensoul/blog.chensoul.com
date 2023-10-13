@@ -2599,7 +2599,7 @@ Docker 容器通过提供一致的环境帮助促进持续集成过程，您可�
 </span></span><span class="line"><span class="cl">  <span class="k">word-break</span><span class="p">:</span> <span class="kc">break-word</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h3 id="3修改关于页面内容">3、修改关于页面内容</h3>
-<p>参考这篇文章 <a href="https://rahuldkjain.github.io/gh-profile-readme-generator/">GitHub Profile README Generator</a>，对 GitHub <a href="https://github.com/chensoul/chensoul">首页</a> 进行改造，并通过 GitHub Action 同步到博客的 <a href="https://blog.chensoul.com/about/">关于</a> 页面。</p>
+<p>参考这篇文章 <a href="https://rahuldkjain.github.io/gh-profile-readme-generator/">GitHub Profile README Generator</a>，对 GitHub <a href="https://github.com/chensoul/chensoul">首页</a> 进行改造。</p>
 <h3 id="4dns-解析迁移到-cloudflare">4、dns 解析迁移到 cloudflare</h3>
 <p>将 dns 解析从 AWS 迁移到 cloudflare，并开启 CDN 缓存。</p>
 <h3 id="5博客测速">5、博客测速</h3>
@@ -2715,9 +2715,9 @@ Docker 容器通过提供一致的环境帮助促进持续集成过程，您可�
 接着在他博客主页留言，几个来回下来，收获不少。一是解决了我提出的问题，二是给我分享了一个搬瓦工的 the plan 优惠码。这时候去看了下我原来的 vps 刚好还有一天要到期，就立即花了 92 美元（原价是 99 美元）购买了一台 2G 内存托管在香港的服务器。
 缘分就是这么奇妙，如果我不主动和这个博主联系，就不会知道搬瓦工还有这个优惠，就不会帮助我解决了博客定制过程中遇到的疑惑。
 当你想要什的时候，先给出去，你就会收获更。有舍才有得。
-博客个人介绍 我的博客源文件托管在 gihub，在这个仓库可以看到我的一些个人介绍，当然，我的博客也有个人介绍（在关于页面），如果你仔细观察，可以发现他们基本上是一样的，这个是怎么实现的呢？
-首先，github 里面可以创建一个以 github 账号为名称的仓库，然后编辑好 README.md 文件，README.md 文件内容就会渲染成 html 显示到个人 github 主页。例如，我的 github 主页是 https://github.com/chensoul，我的个人仓库地址为 https://github.com/chensoul/chensoul，这个仓库是通过 github actions 来构建 README.md，构建文件查看仓库的 workflows 文件，主要有两个文件：
-build.yml：周期性的调用 build_readme.py 来生成 README.md 文件（包括：获取最近 5 篇博客文章、或者 豆瓣上最近 5 个电影书籍动态、获取 github 上发布的项目、显示 wakatime 报表） waketime.</description>
+博客个人介绍 我的博客源文件托管在 gihub，在这个仓库可以看到我的一些个人介绍。
+vps 上服务部署 购买了新的 VPS 之后，就将原来的 VPS 导出镜像，然后导入到新的 VPS，最后再安装了以下服务：
+flowerss-bot：一个支持应用内阅读的 Telegram RSS Bot。 n8n：一款开源的自动工作流服务，类似 IFTTT、Zapier，可以互联互通包括 GitHub、Dropbox、Google、NextCLoud、RSS、Slack、Telegram 在内的几十款在线服务。 memos：一个开源且免费的自托管知识库 cusdis：一个界面清爽、注重隐私的轻量级 (~5kb gzip) 评论系统，可以很方便地与 React、Vue 或其他博客系统结合，并且还提供了一个后台来管理所有的评论 umami：一个简单易用、自托管的开源网站访问流量统计分析工具 pgsql uptime-kuma：一个开源免费的监控工具 rsshub：一个开源、简单易用、易于扩展的 RSS 生成器，可以给任何奇奇怪怪的内容生成 RSS 订阅源 通过 Docker 部署这些服务非常简单，主要是需要注意的一点是：将这些服务部署到同一个网路，这样各个服务之间可以互相通信。比如：很多服务都需要依赖数据库 postgresql，可以使用 docker-compose 来编排服务。安装部署过程参考：我的 VPS 服务部署记录</description>
       <content:encoded><![CDATA[<h2 id="前言">前言</h2>
 <p>本篇是对 <code>2023-01-16</code> 到 <code>2023-01-22</code> 这周生活的记录与思考。首发在我的个人 <a href="https://blog.chensoul.com/">博客</a>，你可以移步了解更多或者给我留言。</p>
 <p>这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制，也在我的 VPS 上通过 Docker 部署了一些服务。</p>
@@ -2732,14 +2732,7 @@ build.yml：周期性的调用 build_readme.py 来生成 README.md 文件（包�
 <p>当你想要什的时候，先给出去，你就会收获更。有舍才有得。</p>
 </blockquote>
 <h2 id="博客个人介绍">博客个人介绍</h2>
-<p>我的博客源文件托管在 <a href="https://github.com/chensoul/chensoul.github.io">gihub</a>，在这个仓库可以看到我的一些个人介绍，当然，我的博客也有个人介绍（在<a href="https://blog.chensoul.com/about/">关于</a>页面），如果你仔细观察，可以发现他们基本上是一样的，这个是怎么实现的呢？</p>
-<img src="http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/chensoul-github-io-readme.png" alt="chensoul-github-io-readme" style="width: 80%"/>
-<p>首先，github 里面可以创建一个以 github 账号为名称的仓库，然后编辑好 README.md 文件，README.md 文件内容就会渲染成 html 显示到个人 github 主页。例如，我的 github 主页是 <a href="https://github.com/chensoul">https://github.com/chensoul</a>，我的个人仓库地址为 <a href="https://github.com/chensoul/chensoul">https://github.com/chensoul/chensoul</a>，这个仓库是通过 github actions 来构建 README.md，构建文件查看仓库的 workflows 文件，主要有两个文件：</p>
-<ul>
-<li>build.yml：周期性的调用 <a href="https://github.com/chensoul/chensoul/blob/main/build_readme.py">build_readme.py</a> 来生成 README.md 文件（包括：获取最近 5 篇博客文章、或者 豆瓣上最近 5 个电影书籍动态、获取 github 上发布的项目、显示 wakatime 报表）</li>
-<li>waketime.yml：生成 wakatime-charts</li>
-</ul>
-<p>当 README.md 生成之后，只需要将该文件内容同步到博客的 about.md 文件即可。怎么实现呢？参考博客源文件里的 <a href="https://github.com/chensoul/chensoul.github.io/blob/main/build_about.py">build_about.py</a>。这样就可以实现一个自我介绍同步到多个平台（除了博客，还可以通过 api 接口同步到语雀等其他平台）。</p>
+<p>我的博客源文件托管在 <a href="https://github.com/chensoul/chensoul.github.io">gihub</a>，在这个仓库可以看到我的一些个人介绍。</p>
 <h2 id="vps-上服务部署">vps 上服务部署</h2>
 <p>购买了新的 VPS 之后，就将原来的 VPS 导出镜像，然后导入到新的 VPS，最后再安装了以下服务：</p>
 <ul>

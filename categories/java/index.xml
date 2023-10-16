@@ -6,7 +6,180 @@
     <description>Recent content in Java on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 13 Oct 2023 07:30:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 16 Oct 2023 04:30:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java设计模式：Chain</title>
+      <link>https://blog.chensoul.com/posts/2023/10/16/java-design-patterns-chain/</link>
+      <pubDate>Mon, 16 Oct 2023 04:30:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/10/16/java-design-patterns-chain/</guid>
+      <description>本文主要介绍 Chain 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。
+目的 通过给多个对象一个处理请求的机会，避免请求的发送者和它的接收者耦合。串联接收对象并在链条中传递请求直到一个对象处理它。
+介绍 责任链模式（Chain of Responsibility Pattern）是一种行为型设计模式，它允许多个对象按照顺序处理请求，直到其中一个对象能够处理该请求为止。该模式将请求发送者和接收者解耦，使多个对象都有机会处理请求，同时避免请求发送者与接收者之间的直接耦合。
+在责任链模式中，通常会构建一个处理请求的链条，链条上的每个对象都有一个指向下一个对象的引用。当请求到达链条的起点时，它会依次经过链条上的每个对象，直到找到能够处理请求的对象为止。每个对象都可以决定是否处理请求，或者将请求传递给下一个对象。
+以下是责任链模式的几个关键角色：
+抽象处理器（Handler）：定义处理请求的接口，并包含一个指向下一个处理器的引用。通常会提供一个处理请求的方法。 具体处理器（ConcreteHandler）：实现抽象处理器的接口，具体处理请求的逻辑。如果自己无法处理请求，则将请求传递给下一个处理器。 客户端（Client）：创建责任链，并将请求发送给链条的起点。 下面是一个示例，说明如何使用责任链模式处理请求：
+// 抽象处理器 public abstract class Handler { protected Handler nextHandler; public void setNextHandler(Handler nextHandler) { this.nextHandler = nextHandler; } public abstract void handleRequest(Request request); } // 具体处理器 public class ConcreteHandler1 extends Handler { @Override public void handleRequest(Request request) { if (满足处理条件) { // 处理请求的逻辑 } else if (nextHandler != null) { // 将请求传递给下一个处理器 nextHandler.</description>
+      <content:encoded><![CDATA[<p>本文主要介绍 <a href="https://java-design-patterns.com/zh/patterns/chain/">Chain</a> 模式，在 <a href="https://java-design-patterns.com/">Java Design Patterns</a> 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p>
+<h2 id="目的">目的</h2>
+<p>通过给多个对象一个处理请求的机会，避免请求的发送者和它的接收者耦合。串联接收对象并在链条中传递请求直到一个对象处理它。</p>
+<h2 id="介绍">介绍</h2>
+<p>责任链模式（Chain of Responsibility Pattern）是一种行为型设计模式，它允许多个对象按照顺序处理请求，直到其中一个对象能够处理该请求为止。该模式将请求发送者和接收者解耦，使多个对象都有机会处理请求，同时避免请求发送者与接收者之间的直接耦合。</p>
+<p>在责任链模式中，通常会构建一个处理请求的链条，链条上的每个对象都有一个指向下一个对象的引用。当请求到达链条的起点时，它会依次经过链条上的每个对象，直到找到能够处理请求的对象为止。每个对象都可以决定是否处理请求，或者将请求传递给下一个对象。</p>
+<p>以下是责任链模式的几个关键角色：</p>
+<ol>
+<li>抽象处理器（Handler）：定义处理请求的接口，并包含一个指向下一个处理器的引用。通常会提供一个处理请求的方法。</li>
+<li>具体处理器（ConcreteHandler）：实现抽象处理器的接口，具体处理请求的逻辑。如果自己无法处理请求，则将请求传递给下一个处理器。</li>
+<li>客户端（Client）：创建责任链，并将请求发送给链条的起点。</li>
+</ol>
+<p>下面是一个示例，说明如何使用责任链模式处理请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// 抽象处理器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Handler</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="n">Handler</span> <span class="n">nextHandler</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setNextHandler</span><span class="o">(</span><span class="n">Handler</span> <span class="n">nextHandler</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">nextHandler</span> <span class="o">=</span> <span class="n">nextHandler</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">handleRequest</span><span class="o">(</span><span class="n">Request</span> <span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 具体处理器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConcreteHandler1</span> <span class="kd">extends</span> <span class="n">Handler</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleRequest</span><span class="o">(</span><span class="n">Request</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">满足处理条件</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 处理请求的逻辑
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">nextHandler</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 将请求传递给下一个处理器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">nextHandler</span><span class="o">.</span><span class="na">handleRequest</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 具体处理器2和具体处理器3的定义与具体处理器1类似
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 客户端
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Client</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Handler</span> <span class="n">handler1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcreteHandler1</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Handler</span> <span class="n">handler2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcreteHandler2</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Handler</span> <span class="n">handler3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcreteHandler3</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 构建责任链
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">handler1</span><span class="o">.</span><span class="na">setNextHandler</span><span class="o">(</span><span class="n">handler2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">handler2</span><span class="o">.</span><span class="na">setNextHandler</span><span class="o">(</span><span class="n">handler3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 创建请求
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 发送请求给责任链的起点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">handler1</span><span class="o">.</span><span class="na">handleRequest</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上述示例中，抽象处理器（Handler）定义了处理请求的接口，并包含一个指向下一个处理器的引用。具体处理器（ConcreteHandler）继承自抽象处理器，实现了处理请求的逻辑，如果自己无法处理请求，则将请求传递给下一个处理器。客户端（Client）创建了具体处理器的实例，并构建了责任链，然后将请求发送给责任链的起点。</p>
+<p>责任链模式的优点包括：</p>
+<ul>
+<li>解耦请求发送者和接收者，让多个对象都有机会处理请求。</li>
+<li>灵活性高，可以动态地改变责任链的结构和顺序。</li>
+<li>可以简化对象之间的交互，每个对象只需要关注自己的处理逻辑。</li>
+</ul>
+<p>然而，责任链模式也有一些注意事项：</p>
+<ul>
+<li>需要注意链条的构建顺序，确保请求可以被正确地处理。</li>
+<li>如果责任链过长或处理逻辑复杂，可能会影响性能。</li>
+<li>请求可能无法被处理，需要在设计中考虑默认处理或异常处理机制。</li>
+</ul>
+<h2 id="适用场景">适用场景</h2>
+<p>责任链模式在以下几种应用场景中经常被使用：</p>
+<ol>
+<li>请求处理链：当一个请求需要经过多个处理器进行处理，并且每个处理器都有可能处理该请求或将其传递给下一个处理器时，可以使用责任链模式。例如，Web开发中的请求处理、日志记录系统中的日志处理等。</li>
+<li>异常处理：在处理异常时，可以使用责任链模式来处理不同类型的异常。每个处理器负责处理一种类型的异常，如果无法处理，则将异常传递给下一个处理器。这样可以实现异常处理的灵活性和可扩展性。</li>
+<li>权限验证：在一个系统中，可以使用责任链模式来进行权限验证。每个处理器可以验证某个特定权限，如果无法验证，则将验证请求传递给下一个处理器。这样可以实现权限验证的灵活组合和动态调整。</li>
+<li>日志记录：在日志记录系统中，可以使用责任链模式来处理不同级别的日志信息。每个处理器负责记录特定级别的日志，如果无法处理，则将日志传递给下一个处理器。这样可以实现日志记录的分级和灵活配置。</li>
+<li>缓存处理：在缓存系统中，可以使用责任链模式来处理缓存读取请求。每个处理器可以根据一定的策略判断是否命中缓存，如果未命中则将请求传递给下一个处理器。这样可以实现缓存的层级和灵活的缓存策略。</li>
+<li>数据验证器（Data Validator）：在数据验证过程中，可以使用责任链模式来对数据进行不同类型的验证。每个验证器负责验证特定的数据规则，如果无法验证，则将验证请求传递给下一个验证器。这样可以实现数据验证的分步处理和灵活的验证规则组合。</li>
+</ol>
+<p>需要注意的是，责任链模式适用于处理请求的场景，其中每个处理器都有可能处理请求或将其传递给下一个处理器。在选择使用责任链模式时，需确保请求能够被正确处理，并且链条的构建顺序是合理的，避免出现死循环或请求无法被处理的情况。</p>
+<h2 id="举例">举例</h2>
+<p>这段代码展示了一个简单的泛型责任链模式实现，其中包括<code>Handler</code>接口和<code>Pipeline</code>类。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Handler</span><span class="o">&lt;</span><span class="n">I</span><span class="o">,</span> <span class="n">O</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">O</span> <span class="nf">process</span><span class="o">(</span><span class="n">I</span> <span class="n">input</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Pipeline</span><span class="o">&lt;</span><span class="n">I</span><span class="o">,</span> <span class="n">O</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Handler</span><span class="o">&lt;</span><span class="n">I</span><span class="o">,</span> <span class="n">O</span><span class="o">&gt;</span> <span class="n">currentHandler</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Pipeline</span><span class="o">(</span><span class="n">Handler</span><span class="o">&lt;</span><span class="n">I</span><span class="o">,</span> <span class="n">O</span><span class="o">&gt;</span> <span class="n">currentHandler</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">currentHandler</span> <span class="o">=</span> <span class="n">currentHandler</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="o">&lt;</span><span class="n">K</span><span class="o">&gt;</span> <span class="n">Pipeline</span><span class="o">&lt;</span><span class="n">I</span><span class="o">,</span> <span class="n">K</span><span class="o">&gt;</span> <span class="nf">addHandler</span><span class="o">(</span><span class="n">Handler</span><span class="o">&lt;</span><span class="n">O</span><span class="o">,</span> <span class="n">K</span><span class="o">&gt;</span> <span class="n">newHandler</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Pipeline</span><span class="o">&lt;&gt;(</span><span class="n">input</span> <span class="o">-&gt;</span> <span class="n">newHandler</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">currentHandler</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">input</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">O</span> <span class="nf">execute</span><span class="o">(</span><span class="n">I</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">currentHandler</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上述代码中，<code>Handler</code>接口定义了一个处理输入类型为<code>I</code>，输出类型为<code>O</code>的操作。它包含一个<code>process</code>方法，用于执行处理逻辑。</p>
+<p><code>Pipeline</code>类是一个泛型类，它接受输入类型<code>I</code>和输出类型<code>O</code>。在构造函数中，通过传入一个初始的<code>currentHandler</code>，创建一个责任链的起点。</p>
+<p><code>Pipeline</code>类提供了<code>addHandler</code>方法，用于添加新的处理器到责任链中。该方法接受一个实现了<code>Handler</code>接口的<code>newHandler</code>，并返回一个新的<code>Pipeline</code>对象，新的责任链包括之前的处理器和新的处理器。</p>
+<p><code>execute</code>方法用于执行整个责任链。它接受输入参数<code>input</code>，并通过调用当前处理器的<code>process</code>方法，依次执行责任链中的每个处理器，并返回最终的输出结果。</p>
+<p>使用这个简单的泛型责任链模式，你可以根据具体的业务需求创建不同类型的处理器，并通过<code>addHandler</code>方法将它们连接在一起，形成一个处理流程。然后，你可以使用<code>execute</code>方法将输入数据传入责任链中，依次经过每个处理器进行处理，最终得到输出结果。</p>
+<p>假设我们有一个处理器链，用于处理字符串的转换操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">StringToUpperHandler</span> <span class="kd">implements</span> <span class="n">Handler</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">process</span><span class="o">(</span><span class="n">String</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">input</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">StringTrimHandler</span> <span class="kd">implements</span> <span class="n">Handler</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">process</span><span class="o">(</span><span class="n">String</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">input</span><span class="o">.</span><span class="na">trim</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">StringReverseHandler</span> <span class="kd">implements</span> <span class="n">Handler</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">process</span><span class="o">(</span><span class="n">String</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">(</span><span class="n">input</span><span class="o">).</span><span class="na">reverse</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，我们可以使用这些处理器来创建一个处理流程，并执行输入字符串的转换操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 创建处理器和处理流程
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Handler</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">toUpperHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringToUpperHandler</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Handler</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">trimHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringTrimHandler</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Handler</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">reverseHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringReverseHandler</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Pipeline</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Pipeline</span><span class="o">&lt;&gt;(</span><span class="n">toUpperHandler</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">addHandler</span><span class="o">(</span><span class="n">trimHandler</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">addHandler</span><span class="o">(</span><span class="n">reverseHandler</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 执行处理流程
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">String</span> <span class="n">input</span> <span class="o">=</span> <span class="s">&#34;  Hello, World!  &#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">output</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Output: &#34;</span> <span class="o">+</span> <span class="n">output</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上述示例中，我们创建了三个处理器：<code>StringToUpperHandler</code>、<code>StringTrimHandler</code>和<code>StringReverseHandler</code>，它们分别用于将字符串转换为大写、去除空格和反转字符串。</p>
+<p>然后，我们使用这些处理器创建了一个处理流程，通过调用<code>addHandler</code>方法将它们逐步链接在一起，形成一个处理器链。</p>
+<p>最后，我们执行处理流程，将输入字符串<code>&quot;  Hello, World!  &quot;</code>传入<code>execute</code>方法中。该输入字符串首先经过<code>toUpperHandler</code>处理器处理，然后传递给<code>trimHandler</code>进行处理，最后传递给<code>reverseHandler</code>进行处理。处理完成后，得到最终的输出结果。</p>
+<p>在本例中，输出结果为<code>&quot;!DLROW ,OLLEH&quot;</code>，这是通过依次应用处理器链中的每个处理器对输入字符串进行转换而得到的。</p>
+<h2 id="java中的例子">Java中的例子</h2>
+<ul>
+<li><a href="http://docs.oracle.com/javase/8/docs/api/java/util/logging/Logger.html#log">java.util.logging.Logger#log()</a></li>
+<li><a href="https://commons.apache.org/proper/commons-chain/index.html">Apache Commons Chain</a></li>
+<li><a href="http://docs.oracle.com/javaee/7/api/javax/servlet/Filter.html#doFilter-javax.servlet.ServletRequest-javax.servlet.ServletResponse-javax.servlet.FilterChain-">javax.servlet.Filter#doFilter()</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>Java设计模式：Callback</title>
       <link>https://blog.chensoul.com/posts/2023/10/13/java-design-patterns-callback/</link>

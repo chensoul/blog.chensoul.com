@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>jhipster on ChenSoul</title>
+    <link>https://blog.chensoul.com/tags/jhipster/</link>
+    <description>Recent content in jhipster on ChenSoul</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 02 Nov 2023 14:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/tags/jhipster/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JHipster安装和介绍</title>
+      <link>https://blog.chensoul.com/posts/2023/11/02/jhipster-intro/</link>
+      <pubDate>Thu, 02 Nov 2023 14:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.com/posts/2023/11/02/jhipster-intro/</guid>
+      <description>JHipster 是一个开发平台，可以快速生成，开发和部署现代Web应用程序+微服务架构。
+JHipster 或者称 Java Hipster，是一个应用代码产生器，能够创建 Spring Boot/Spring Cloud + React/VueJs/AngularJS 的应用。使用 JHipster，首先你要配置好 Java 、Git 以及 Maven 或者 Gradle 的环境，然后通过 NodeJs 管理工具安装 JHipster 。
+介绍 JHipster 官网： https://www.jhipster.tech/ ，截止本文发布时，最新版本为 8.0.0 。
+JHipster 客户端使用到的技术栈有：
+服务端使用的技术栈有：
+支持以下部署方式：
+JHipster 提供了一个 CLI 工具 generator-jhipster 和在线网站 https://start.jhipster.tech/ ，来创建应用。generator-jhipster 支持本地安装和 docker 安装两种方式。另外，还有一个轻量级的定制工具 jhipseter-lite 可以更细力度的定制。
+JHipster Pro 是一个 JHipster 国内落地方案，符合国情的代码生成器解决方案，支持 MyBatis、SMS、OSS。当前最新版本对应 JHipster 官方版本：v7.1.0，网站最近一次跟新是在 2021 年 8 月份。
+安装 generator-jhipster 前提条件安装 Java 和 NodeJs，然后通过 npm 或者 yarn 安装 generator-jhipster。以下是通过 npm 安装：</description>
+      <content:encoded><![CDATA[<p>JHipster 是一个开发平台，可以快速生成，开发和部署现代Web应用程序+微服务架构。</p>
+<p>JHipster 或者称 Java Hipster，是一个应用代码产生器，能够创建 Spring Boot/Spring Cloud + React/VueJs/AngularJS 的应用。使用 JHipster，首先你要配置好 Java 、Git 以及 Maven 或者 Gradle 的环境，然后通过 NodeJs 管理工具安装 JHipster 。</p>
+<h2 id="介绍">介绍</h2>
+<p>JHipster 官网： <a href="https://www.jhipster.tech/">https://www.jhipster.tech/</a> ，截止本文发布时，最新版本为 8.0.0 。</p>
+<p>JHipster 客户端使用到的技术栈有：</p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/jhipster-client-side-options.png" alt="jhipster-client-side-options" style="width:80%;" />
+<p>服务端使用的技术栈有：</p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/jhipster-server-side-options.png" alt="jhipster-server-side-options" style="width:80%;" />
+<p>支持以下部署方式：</p>
+<img src="https://chensoul.oss-cn-hangzhou.aliyuncs.com/jhipster-deploy-options.png" alt="jhipster-deploy-options" style="width:80%;" />
+<p>JHipster 提供了一个 CLI 工具 <a href="https://www.jhipster.tech/installation/">generator-jhipster</a> 和在线网站 <a href="https://start.jhipster.tech/">https://start.jhipster.tech/</a> ，来创建应用。generator-jhipster 支持本地安装和 docker 安装两种方式。另外，还有一个轻量级的定制工具 <a href="https://www.jhipster.tech/jhipster-lite/">jhipseter-lite</a> 可以更细力度的定制。</p>
+<p><a href="http://www.jhipster.pro/index-cn">JHipster Pro</a> 是一个 JHipster 国内落地方案，符合国情的代码生成器解决方案，支持 MyBatis、SMS、OSS。当前最新版本对应 JHipster 官方版本：v7.1.0，网站最近一次跟新是在 2021 年 8 月份。</p>
+<h2 id="安装-generator-jhipster">安装 generator-jhipster</h2>
+<p>前提条件安装 Java 和 NodeJs，然后通过 npm 或者 yarn 安装 generator-jhipster。以下是通过 npm 安装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install -g generator-jhipster
+</span></span></code></pre></div><p>查看版本：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ npx jhipster --version
+</span></span><span class="line"><span class="cl">8.0.0-rc.1
+</span></span></code></pre></div><p>另外，可以在 docker 里面安装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker image pull jhipster/jhipster
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker container run --name jhipster -v ~/jhipster:/home/jhipster/app -v ~/.m2:/home/jhipster/.m2 -p 8080:8080 -p 9000:9000 -p 3001:3001 -d -t jhipster/jhipster
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker container <span class="nb">exec</span> -it jhipster bash
+</span></span></code></pre></div><h2 id="创建应用">创建应用</h2>
+<p>为了方便研究代码，可以使用不同技术分多次创建应用。</p>
+<p>首先，创建一个最小化的简单应用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir jhipster-simple-demo
+</span></span></code></pre></div><p>转到该目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> jhipster-simple-demo/
+</span></span></code></pre></div><p>要生成您的应用程序，请输入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">jhipster
+</span></span></code></pre></div><p>接下来根据你的需求来进行选择，比如，我需要创建一个最小化的单体应用，则选择如下：</p>
+<ul>
+<li>单体应用</li>
+<li>使用 Gatling 测试框架</li>
+<li>不使用 Spring WebFlux</li>
+<li>使用 HTTP Session Authentication 认证</li>
+<li>不使用数据库</li>
+<li>不使用缓存</li>
+<li>使用 Maven</li>
+<li>使用 OpenAPI-generator</li>
+<li>不生成前端客户端</li>
+<li>使用国际化</li>
+</ul>
+<p>对应使用 maven 的项目，如下方式启动应用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./mvnw
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#或者</span>
+</span></span><span class="line"><span class="cl">./mvnw spring-boot:run
+</span></span></code></pre></div><p>不出意外的话，就可以看到项目顺利的跑起来了。可以在浏览器中输入 <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a> 查看应用的运行情况。 默认的登录用户名和密码都是 admin。</p>
+<p>如果你选择了数据库或者缓存，则需要使用 docker 启动容器。</p>
+<p>比如，启动 mysql：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f src/main/docker/mysql.yml up -d
+</span></span></code></pre></div><p>启动 redis：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f src/main/docker/redis.yml up -d
+</span></span></code></pre></div><h2 id="maven插件">Maven插件</h2>
+<h3 id="1maven离线编译方法">1、Maven离线编译方法</h3>
+<p>参考文章 <a href="https://xdcsy.github.io/Text/Section0038.xhtml"> https://xdcsy.github.io/Text/Section0038.xhtml</a> 。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./mvnw dependency:go-offline
+</span></span></code></pre></div><h3 id="2jib-maven-plugin">2、jib-maven-plugin</h3>
+<p><a href="https://github.com/GoogleContainerTools/jib">jib-maven-plugin</a>  是一个用于构建和推送 Docker 镜像的 Maven 插件。它可以简化将应用程序打包为 Docker 镜像并将其推送到容器注册表的过程。</p>
+<p>相关示例，可以参考 <a href="https://github.com/GoogleContainerTools/jib/tree/master/examples">https://github.com/GoogleContainerTools/jib/tree/master/examples</a> 。</p>
+<h3 id="3spring-boot-maven-plugin">3、spring-boot-maven-plugin</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>${spring-boot.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>repackage<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;mainClass&gt;</span>${start-class}<span class="nt">&lt;/mainClass&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="c">&lt;!--
+</span></span></span><span class="line"><span class="cl"><span class="c">        Enable the line below to have remote debugging of your application on port 5005
+</span></span></span><span class="line"><span class="cl"><span class="c">        &lt;jvmArguments&gt;-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005&lt;/jvmArguments&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c">        --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>运行命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./mvnw -Dspring-boot.run.jvmArguments<span class="o">=</span><span class="s2">&#34;-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000&#34;</span>
+</span></span></code></pre></div><h3 id="4maven-javadoc-plugin">4、maven-javadoc-plugin</h3>
+<p><code>maven-javadoc-plugin</code> 是一个用于生成 Java 代码的 Javadoc 文档的 Maven 插件。它可以根据代码中的注释自动生成详细的 API 文档，并支持定制化配置。</p>
+<p>批处理模式下生成Java文档：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./mvnw  javadoc:javadoc -B
+</span></span></code></pre></div><p>解释一下每个部分的含义：</p>
+<ul>
+<li><code>./mvnw</code>：这是Maven Wrapper的脚本，它允许你在没有全局Maven安装的情况下运行Maven命令。<code>./mvnw</code>是用于Unix/Linux系统的脚本，如果你在Windows系统上运行，请使用<code>mvnw</code>（无前缀的点和斜杠）。</li>
+<li><code>-ntp</code>：这是<code>--no-transfer-progress</code>的缩写，它禁用传输进度的显示。这样做可以减少输出，使命令执行过程更加简洁。</li>
+<li><code>javadoc:javadoc</code>：这是Maven插件的目标，用于生成Javadoc文档。通过执行此目标，Maven将处理项目源代码并生成相应的Javadoc文档。</li>
+<li><code>--batch-mode</code>：这是指定Maven在批处理模式下运行的选项。批处理模式禁用交互式模式，使得Maven命令不会要求用户输入。</li>
+</ul>
+<h3 id="5maven-enforcer-plugin">5、maven-enforcer-plugin</h3>
+<p><code>maven-enforcer-plugin</code> 是一个用于强制执行 Maven 构建规则的插件。它可以帮助团队确保项目的构建符合特定的要求和规范。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>maven-enforcer-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.4.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;id&gt;</span>enforce-versions<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>enforce<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;id&gt;</span>enforce-dependencyConvergence<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;rules&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;DependencyConvergence/&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/rules&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;fail&gt;</span>false<span class="nt">&lt;/fail&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>enforce<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;rules&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;requireMavenVersion&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;message&gt;</span>You are running an older version of Maven. JHipster requires at least Maven 3.2.5<span class="nt">&lt;/message&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;version&gt;</span>[3.2.5,)<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/requireMavenVersion&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;requireJavaVersion&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;message&gt;</span>You are running an incompatible version of Java. JHipster supports JDK 17 to 21.<span class="nt">&lt;/message&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;version&gt;</span>[17,18),[18,19),[19,20),[20,21),[21,22)<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/requireJavaVersion&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/rules&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><h3 id="6spotless-maven-plugin">6、spotless-maven-plugin</h3>
+<p><code>spotless-maven-plugin</code> 是一个用于在 Maven 构建过程中执行代码格式化的插件。它可以帮助团队保持一致的代码风格，并自动修复格式错误。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.diffplug.spotless<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spotless-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.40.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;java&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="c">&lt;!-- &lt;removeUnusedImports/&gt; --&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/java&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;id&gt;</span>spotless<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;phase&gt;</span>process-sources<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>apply<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><h3 id="7modernizer-maven-plugin">7、modernizer-maven-plugin</h3>
+<p><code>modernizer-maven-plugin</code> 是一个用于在 Maven 构建过程中执行代码现代化分析的插件。它可以帮助团队识别过时的代码和使用不推荐的 API，以便进行更新和修复。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.gaul<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>modernizer-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.7.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;id&gt;</span>modernizer<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;phase&gt;</span>package<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>modernizer<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;javaVersion&gt;</span>17<span class="nt">&lt;/javaVersion&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><h3 id="8sonar-maven-plugin">8、sonar-maven-plugin</h3>
+<p><code>sonar-maven-plugin</code> 是一个用于与 SonarQube 集成的 Maven 插件。SonarQube 是一个用于静态代码分析、代码质量管理和持续集成的开源平台。<code>sonar-maven-plugin</code> 可以将 Maven 项目的代码和分析结果上传到 SonarQube 服务器，并生成详细的代码质量报告。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;groupId&gt;</span>org.sonarsource.scanner.maven<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;artifactId&gt;</span>sonar-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;version&gt;</span>3.10.0.2594<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>启动 docker 容器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose -f src/main/docker/sonar.yml up -d
+</span></span></code></pre></div><p>运行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./mvnw -Pprod clean verify sonar:sonar -Dsonar.login<span class="o">=</span>admin -Dsonar.password<span class="o">=</span>admin
+</span></span></code></pre></div><p>再次运行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./mvnw initialize sonar:sonar -Dsonar.login<span class="o">=</span>admin -Dsonar.password<span class="o">=</span>admin
+</span></span></code></pre></div><p>Sonar 的配置文件 sonar-project.properties 是通过 maven 插件加载的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.codehaus.mojo<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>properties-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>${properties-maven-plugin.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;phase&gt;</span>initialize<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>read-project-properties<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;files&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;file&gt;</span>sonar-project.properties<span class="nt">&lt;/file&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/files&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><h3 id="9jacoco-maven-plugin">9、jacoco-maven-plugin</h3>
+<p><code>jacoco-maven-plugin</code> 是一个用于在 Maven 项目中生成代码覆盖率报告的插件。它使用 JaCoCo（Java Code Coverage）工具来分析项目的测试覆盖率，并生成详细的报告，帮助开发团队评估测试的有效性和代码质量。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;groupId&gt;</span>org.jacoco<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;artifactId&gt;</span>jacoco-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;version&gt;</span>${jacoco-maven-plugin.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;id&gt;</span>pre-unit-tests<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                  <span class="nt">&lt;goal&gt;</span>prepare-agent<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="c">&lt;!-- Ensures that the code coverage report for unit tests is created after unit tests have been run --&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;id&gt;</span>post-unit-test<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;phase&gt;</span>test<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                  <span class="nt">&lt;goal&gt;</span>report<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;id&gt;</span>pre-integration-tests<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                  <span class="nt">&lt;goal&gt;</span>prepare-agent-integration<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="c">&lt;!-- Ensures that the code coverage report for integration tests is created after integration tests have been run --&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;id&gt;</span>post-integration-tests<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;phase&gt;</span>post-integration-test<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                  <span class="nt">&lt;goal&gt;</span>report-integration<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><h3 id="10openapi-generator-maven-plugin">10、openapi-generator-maven-plugin</h3>
+<p>用于根据 OpenAPI 规范（以前称为 Swagger 规范）生成客户端代码或服务器端框架。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!--
+</span></span></span><span class="line"><span class="cl"><span class="c">        Plugin that provides API-first development using openapi-generator-cli to
+</span></span></span><span class="line"><span class="cl"><span class="c">        generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition file
+</span></span></span><span class="line"><span class="cl"><span class="c">    --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.openapitools<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>openapi-generator-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>${openapi-generator-maven-plugin.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>generate<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;inputSpec&gt;</span>${project.basedir}/src/main/resources/swagger/api.yml<span class="nt">&lt;/inputSpec&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;generatorName&gt;</span>spring<span class="nt">&lt;/generatorName&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;apiPackage&gt;</span>com.mycompany.myapp.web.api<span class="nt">&lt;/apiPackage&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;modelPackage&gt;</span>com.mycompany.myapp.service.api.dto<span class="nt">&lt;/modelPackage&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;supportingFilesToGenerate&gt;</span>ApiUtil.java<span class="nt">&lt;/supportingFilesToGenerate&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;skipValidateSpec&gt;</span>false<span class="nt">&lt;/skipValidateSpec&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;configOptions&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;delegatePattern&gt;</span>true<span class="nt">&lt;/delegatePattern&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;title&gt;</span>jhipster-sample-application<span class="nt">&lt;/title&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;useSpringBoot3&gt;</span>true<span class="nt">&lt;/useSpringBoot3&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/configOptions&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><h3 id="11frontend-maven-plugin">11、frontend-maven-plugin</h3>
+<p><code>frontend-maven-plugin</code> 是一个 Maven 插件，用于在构建过程中执行前端相关的任务，例如安装依赖、运行构建脚本、打包前端资源等。它可以将前端开发与后端构建过程无缝集成，简化了多模块项目的构建和部署。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.github.eirslett<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>frontend-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>${frontend-maven-plugin.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;installDirectory&gt;</span>target<span class="nt">&lt;/installDirectory&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;nodeVersion&gt;</span>${node.version}<span class="nt">&lt;/nodeVersion&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;npmVersion&gt;</span>${npm.version}<span class="nt">&lt;/npmVersion&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><h3 id="12git-commit-id-maven-plugin">12、git-commit-id-maven-plugin</h3>
+<p><code>git-commit-id-maven-plugin</code> 是一个 Maven 插件，用于从 Git 代码库中获取当前构建的 Git 提交信息，并将其注入到构建过程中，例如生成的类文件或资源文件中。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>io.github.git-commit-id<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>git-commit-id-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>${git-commit-id-maven-plugin.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>revision<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;failOnNoGitDirectory&gt;</span>false<span class="nt">&lt;/failOnNoGitDirectory&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;failOnUnableToExtractRepoInfo&gt;</span>false<span class="nt">&lt;/failOnUnableToExtractRepoInfo&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;generateGitPropertiesFile&gt;</span>true<span class="nt">&lt;/generateGitPropertiesFile&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;includeOnlyProperties&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;includeOnlyProperty&gt;</span>^git.commit.id.abbrev$<span class="nt">&lt;/includeOnlyProperty&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;includeOnlyProperty&gt;</span>^git.commit.id.describe$<span class="nt">&lt;/includeOnlyProperty&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;includeOnlyProperty&gt;</span>^git.branch$<span class="nt">&lt;/includeOnlyProperty&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/includeOnlyProperties&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>spring boot 加载 git.properties 文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">class</span> <span class="nc">GitInfoConfiguration</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nd">@Bean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="n">PropertySourcesPlaceholderConfigurer</span><span class="w"> </span><span class="nf">placeholderConfigurer</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">PropertySourcesPlaceholderConfigurer</span><span class="w"> </span><span class="n">propsConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PropertySourcesPlaceholderConfigurer</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">propsConfig</span><span class="p">.</span><span class="na">setLocation</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ClassPathResource</span><span class="p">(</span><span class="s">&#34;git.properties&#34;</span><span class="p">));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">propsConfig</span><span class="p">.</span><span class="na">setIgnoreResourceNotFound</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">propsConfig</span><span class="p">.</span><span class="na">setIgnoreUnresolvablePlaceholders</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">propsConfig</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><h3 id="13maven-checkstyle-plugin">13、maven-checkstyle-plugin</h3>
+<p><code>maven-checkstyle-plugin</code> 是一个用于在 Maven 项目中执行代码风格检查的插件。它可以帮助团队在开发过程中维持一致的代码风格，并提供静态代码分析的功能。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>maven-checkstyle-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;version&gt;</span>${maven-checkstyle-plugin.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configLocation&gt;</span>checkstyle.xml<span class="nt">&lt;/configLocation&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;includeTestSourceDirectory&gt;</span>true<span class="nt">&lt;/includeTestSourceDirectory&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;consoleOutput&gt;</span>true<span class="nt">&lt;/consoleOutput&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;failsOnError&gt;</span>true<span class="nt">&lt;/failsOnError&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;id&gt;</span>validate<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;phase&gt;</span>validate<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;goal&gt;</span>check<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>生成 site：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;reporting&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;plugins&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;artifactId&gt;</span>maven-checkstyle-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/plugins&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/reporting&gt;</span>
+</span></span></code></pre></div><h3 id="13maven-failsafe-plugin">13、maven-failsafe-plugin</h3>
+<p><code>maven-failsafe-plugin</code> 是一个用于在 Maven 项目中运行集成测试的插件。它提供了一种便捷的方式来执行和验证项目中的集成测试。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>maven-failsafe-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;version&gt;</span>${failsafe-plugin.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- Due to spring-boot repackage, without adding this property test classes are not found
+</span></span></span><span class="line"><span class="cl"><span class="c">         See https://github.com/spring-projects/spring-boot/issues/6254 --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;classesDirectory&gt;</span>${project.build.outputDirectory}<span class="nt">&lt;/classesDirectory&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- Force alphabetical order to have a reproducible build --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;runOrder&gt;</span>alphabetical<span class="nt">&lt;/runOrder&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;includes&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;include&gt;</span>**/*IT*<span class="nt">&lt;/include&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;include&gt;</span>**/*CucumberTest*<span class="nt">&lt;/include&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/includes&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;id&gt;</span>integration-test<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;goal&gt;</span>integration-test<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;id&gt;</span>verify<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;goal&gt;</span>verify<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><h3 id="14maven-surefire-plugin">14、maven-surefire-plugin</h3>
+<p><code>maven-surefire-plugin</code> 是一个用于在 Maven 项目中运行单元测试的插件。它提供了执行和管理单元测试的功能，并生成测试报告。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;version&gt;</span>${surefire-plugin.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- Force alphabetical order to have a reproducible build --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;runOrder&gt;</span>alphabetical<span class="nt">&lt;/runOrder&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;excludes&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;exclude&gt;</span>**/*IT*<span class="nt">&lt;/exclude&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;exclude&gt;</span>**/*CucumberTest*<span class="nt">&lt;/exclude&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/excludes&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><h2 id="docker">Docker</h2>
+<p>src/main/docker 中有一些常见应用的 docker-compoe 编排文件。这些文件有以下特点：</p>
+<ul>
+<li>有的提供了健康检查</li>
+<li>容器端口只映射到 127.0.0.1</li>
+</ul>
+<h3 id="mysql">mysql</h3>
+<p>mysql.yml</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="c"># This configuration is intended for development purpose, it&#39;s **your** responsibility to harden it for production</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">jhipstersampleapplication</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">mysql</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">mysql:8.1.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">./config/mysql:/etc/mysql/conf.d</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c">#   - ~/volumes/jhipster/jhipsterSampleApplication/mysql/:/var/lib/mysql/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">MYSQL_ALLOW_EMPTY_PASSWORD=yes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">MYSQL_DATABASE=jhipstersampleapplication</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># If you want to expose these ports outside your dev PC,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># remove the &#34;127.0.0.1:&#34; prefix</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">127.0.0.1</span><span class="p">:</span><span class="m">3306</span><span class="p">:</span><span class="m">3306</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;CMD&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;mysql&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-e&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;SHOW DATABASES;&#39;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l">5s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l">5s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span></span></span></code></pre></div><h3 id="postgresql">postgresql</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="c"># This configuration is intended for development purpose, it&#39;s **your** responsibility to harden it for production</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">jhipstersampleapplication</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">postgresql</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:16.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># volumes:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c">#   - ~/volumes/jhipster/jhipsterSampleApplication/postgresql/:/var/lib/postgresql/data/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_USER=jhipsterSampleApplication</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_PASSWORD=</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTGRES_HOST_AUTH_METHOD=trust</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;CMD-SHELL&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;pg_isready -U $${POSTGRES_USER}&#39;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l">5s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l">5s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># If you want to expose these ports outside your dev PC,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># remove the &#34;127.0.0.1:&#34; prefix</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">127.0.0.1</span><span class="p">:</span><span class="m">5432</span><span class="p">:</span><span class="m">5432</span><span class="w">
+</span></span></span></code></pre></div><h3 id="redis">redis</h3>
+<p>redis.yml</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="c"># This configuration is intended for development purpose, it&#39;s **your** responsibility to harden it for production</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">jhipstersampleapplication</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">redis:7.2.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># If you want to expose these ports outside your dev PC,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># remove the &#34;127.0.0.1:&#34; prefix</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">127.0.0.1</span><span class="p">:</span><span class="m">6379</span><span class="p">:</span><span class="m">6379</span><span class="w">
+</span></span></span></code></pre></div><h3 id="sonar">sonar</h3>
+<p>sonar.yml</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="c"># This configuration is intended for development purpose, it&#39;s **your** responsibility to harden it for production</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">jhipstersampleapplication</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">sonar</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">sonarqube</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">sonarqube:10.2.1-community</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">linux/x86_64</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># Forced authentication redirect for UI is turned off for out of the box experience while trying out SonarQube</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># For real use cases delete SONAR_FORCEAUTHENTICATION variable or set SONAR_FORCEAUTHENTICATION=true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">SONAR_FORCEAUTHENTICATION=false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># If you want to expose these ports outside your dev PC,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># remove the &#34;127.0.0.1:&#34; prefix</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">127.0.0.1</span><span class="p">:</span><span class="m">9001</span><span class="p">:</span><span class="m">9000</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">127.0.0.1</span><span class="p">:</span><span class="m">9000</span><span class="p">:</span><span class="m">9000</span><span class="w">
+</span></span></span></code></pre></div><h3 id="swagger-editor">swagger-editor</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="c"># This configuration is intended for development purpose, it&#39;s **your** responsibility to harden it for production</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">jhipstersampleapplication</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">swagger-editor</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">swaggerapi/swagger-editor:latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">127.0.0.1</span><span class="p">:</span><span class="m">7742</span><span class="p">:</span><span class="m">8080</span><span class="w">
+</span></span></span></code></pre></div>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

@@ -438,9 +438,9 @@ Health Export 提供了一个 web 网站 可以解析传苹果手机导出的健
 </span></span><span class="line"><span class="cl"><span class="na">flexyPool.metric.prometheus.port</span><span class="o">=</span><span class="s">9090</span>
 </span></span></code></pre></div><p>在这个配置中，我们首先配置了 HikariCP 连接池的参数，然后配置了 FlexyPool 的参数。这些参数包括度量工厂、日志和度量记录的级别、度量记录的间隔、是否启用 Prometheus 集成等等。</p>
 <p>3、在应用程序启动时，将 FlexyPool 的代理对象添加到连接池中：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DataSource</span> <span class="n">dataSource</span> <span class="o">=</span> <span class="o">...;</span> <span class="c1">// 获取连接池对象
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">FlexyPoolDataSource</span> <span class="n">flexyPoolDataSource</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FlexyPoolDataSource</span><span class="o">&lt;&gt;(</span><span class="n">dataSource</span><span class="o">);</span>
-</span></span></code></pre></div><p>在这个代码中，我们首先获取 HikariCP 连接池对象，然后将其包装成 FlexyPool 的代理对象。这样，所有的数据库操作都将通过 FlexyPool 进行代理和监控。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DataSource</span><span class="w"> </span><span class="n">dataSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"> </span><span class="c1">// 获取连接池对象</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FlexyPoolDataSource</span><span class="w"> </span><span class="n">flexyPoolDataSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FlexyPoolDataSource</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">dataSource</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>在这个代码中，我们首先获取 HikariCP 连接池对象，然后将其包装成 FlexyPool 的代理对象。这样，所有的数据库操作都将通过 FlexyPool 进行代理和监控。</p>
 <p>Baeldung 网站上有一篇介绍 Spring Boot 中如何使用 FlexyPool 连接池监控工具的教程，名为 <a href="https://www.baeldung.com/spring-flexypool-guide">A Guide to FlexyPool in Spring Boot</a>。</p>
 <p>这篇文章首先介绍了 FlexyPool 工具的作用，以及如何将其集成到 Spring Boot 应用程序中。FlexyPool 可以监控和报告连接池的使用情况、性能和瓶颈，以及自动调整连接池的大小和行为，以提高性能和减少资源消耗。</p>
 <p>然后，文章介绍了如何在 Spring Boot 应用程序中使用 FlexyPool。具体步骤包括：</p>

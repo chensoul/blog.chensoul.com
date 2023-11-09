@@ -16,7 +16,18 @@
 内存分析工具：内存分析工具可以帮助您找到哪些对象占用了大量的内存。一些常用的内存分析工具包括：Eclipse MAT、VisualVM 和 YourKit。这些工具可以帮助您分析内存快照、查找内存泄漏并确定导致内存泄漏的代码位置。
 堆转储文件：堆转储文件是一个包含了 JVM 堆中所有对象的快照。您可以使用以下命令生成一个堆转储文件：jmap -dump:format=b,file=heap.bin ，其中是您的 Java 应用程序的进程 ID。然后，您可以使用内存分析工具来分析该文件。
 代码审查：在编写代码时，您可以使用一些技巧来避免内存泄漏。例如，您应该确保正确地关闭流和数据库连接，避免在循环中创建对象，以及使用软引用或弱引用来存储缓存数据等。通过仔细审查代码并识别可能导致内存泄漏的部分，可以避免这些问题在运行时发生。
-监视工具：JVM 提供了一些监视工具，例如 jstat 和 jconsole，可以用于监视 JVM 的内存使用情况。通过监视这些指标，您可以识别是否存在内存泄漏的迹象。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg><span>2023-02-27</span></span><span class=meta-item>
+监视工具：JVM 提供了一些监视工具，例如 jstat 和 jconsole，可以用于监视 JVM 的内存使用情况。通过监视这些指标，您可以识别是否存在内存泄漏的迹象。
+代码注入：在您的应用程序中，您可以注入一些代码，例如使用 JMX、AOP 等，以便您可以实时监视内存使用情况，并记录任何内存泄漏迹象。
+参考文章
+一次完整的 JVM 堆外内存泄漏故障排查记录
+深入探索 Java 8 Lambda 表达式
+java lambda 表达式内存泄露_浅谈 Java 内存泄露
+裁员 去年公司就在裁员，陆陆续续裁了几次，每次都是裁两三个，动作都不大，但是很高效。因为部门人数就在五十左右，所以谁没来上班，都能很快察觉。
+公司要在六月份上市，上市之前要使财报好看，就要开源节流、降本增效。节约成本的一个方式就是裁员，据说这次裁员动作比以前都大都迅速，今天提出裁员人数，明天就要给出名单，月底就要走人。
+现在还只是二月份，离六月还有三个月。谁也不知道，后面还会有什么更大的裁员动作。说不定哪天就空出一个工位，说不定哪天领导就换了人，说不定哪天部门就被拆散了。
+互联网公司最大的变化就是变化。之前在阿里工作，公司的价值观里有一条就是拥抱变化。
+拥抱变化的最好方式就是积极面对，主动加班，提高工作效率，增加工作产出。
+生活 练车 这是买车之后的第二周，还是没有开车去上班。一是因为开车不过熟练，胆子小，不敢开得太快；二是公司楼下的停车位还没有办好。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg><span>2023-02-27</span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg><span class=post-tags><a href=https://blog.chensoul.com/tags/review/>review</a><a href=https://blog.chensoul.com/tags/java/>java</a><a href=https://blog.chensoul.com/tags/github/>github</a><a href=https://blog.chensoul.com/tags/jvm/>jvm</a><a href=https://blog.chensoul.com/tags/chatgpt/>chatgpt</a></span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><span>1 min</span></span></footer><a class=entry-link aria-label="post link to 周报-8｜内存泄漏、公司裁员、练车" href=https://blog.chensoul.com/posts/2023/02/27/weekly_review_8/></a></article></main><footer class=footer><span>&copy; 2023 <a href=https://blog.chensoul.com/>ChenSoul</a></span><span style=display:inline-block;margin-left:1em>
 <a href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA</a>

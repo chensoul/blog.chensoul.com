@@ -251,7 +251,7 @@ a ≤ a (reflexivity) for all a in X 注意，全序性蕴含自反性；因此�
 我们想要实现的目标：可扩展性和其他好的东西 从我看来，一切都始于处理规模的需求。
 在小规模下，大多数事情都是微不足道的，而同样的问题一旦超过一定的大小、容量或其他物理限制，就会变得更加困难。举起一块巧克力很容易，但举起一座山就很困难。数一下房间里有多少人很容易，但数一下国家里有多少人就很难。
 所以一切都始于规模——可扩展性。非正式地说，在一个可扩展的系统中，当我们从小规模向大规模过渡时，事情不应该逐渐变得更糟。以下是另一种定义：
-可扩展性是指系统、网络或过程处理不断增长的工作负载的能力，或者说它能够被扩大以适应这种增长的能力。
+可扩展性是指系统、网络或进程处理不断增长的工作负载的能力，或者说它能够被扩大以适应这种增长的能力。
 什么是在增长呢？嗯，你可以用几乎任何方式来衡量增长（人数、用电量等）。但有三个特别有趣的方面值得关注：
 规模可扩展性：增加更多节点应该使系统线性加快；增加数据集的大小不应增加延迟。 地理可扩展性：应该可以利用多个数据中心来缩短响应用户查询所需的时间，同时以某种合理的方式处理跨数据中心的延迟。 管理可扩展性：添加更多节点不应增加系统的管理成本（例如管理员与机器的比率）。 当然，在真实的系统中，增长同时发生在多个不同的轴上；每个指标仅反映增长的某些方面。
 可扩展的系统是一种随着规模的增加而持续满足用户需求的系统。有两个特别相关的方面——性能和可用性——可以通过多种方式来衡量。
@@ -274,13 +274,13 @@ result = query(all data in the system) 那么，对延迟来说重要的不是�
 可用性是指系统处于正常运行状态的时间比例。如果用户无法访问系统，则称系统不可用。
 分布式系统使我们能够实现在单一系统上很难实现的理想特性。例如，单个机器无法容忍任何故障，因为它要么发生故障，要么正常运行。
 分布式系统可以采用一堆不可靠的组件，并在它们之上构建一个可靠的系统。
-**没有冗余的系统只能达到其底层组件的可用性。而具备冗余的系统可以容忍部分故障，从而提高可用性。**值得注意的是，“冗余”可以在不同层面上有不同的含义，比如组件、服务器、数据中心等。
+没有冗余的系统只能达到其底层组件的可用性。而具备冗余的系统可以容忍部分故障，从而提高可用性。 值得注意的是，“冗余”可以在不同层面上有不同的含义，比如组件、服务器、数据中心等。
 从公式上讲，可用性为： Availability = uptime / (uptime + downtime) 。
 从技术角度来看，可用性主要与容错性有关。因为故障发生的概率随着组件数量的增加而增加，系统应该能够进行补偿，以确保随着组件数量的增加，系统的可靠性不会降低。
 例如：
 可用性 ％ 90%（“一个九”） 一个多月了 99%（“两个九”） 少于 4 天 99.9%（“三个九”） 不到 9 小时 99....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg><span>2023-11-10</span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg><span class=post-tags><a href=https://blog.chensoul.com/tags/distributed/>distributed</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]《分布式系统：为了乐趣和利益》1.高层分布式系统" href=https://blog.chensoul.com/posts/2023/11/10/distributed-systems-01/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]《分布式系统：为了乐趣和利益》介绍</h2></header><section class=entry-content><p>《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者Mikito Takada撰写，介绍了构建分布式系统的基本概念、原则和挑战。
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><span>1 min</span></span></footer><a class=entry-link aria-label="post link to [译]《分布式系统：为了乐趣和利益》1.高层分布式系统" href=https://blog.chensoul.com/posts/2023/11/10/distributed-systems-01/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]《分布式系统：为了乐趣和利益》介绍</h2></header><section class=entry-content><p>《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者Mikito Takada撰写，介绍了构建分布式系统的基本概念、原则和挑战。
 这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。
 在整本书中，作者提供了各种实际案例和案例研究，以说明分布式系统的实际应用和实践方面。它还强调了构建分布式系统涉及的权衡和设计考虑，帮助读者全面理解这个主题。
 《分布式系统：为了乐趣和利益》作为开源资源，可以免费在线获取，非常适合任何对学习分布式系统感兴趣的人。

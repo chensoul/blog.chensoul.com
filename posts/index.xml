@@ -8,13 +8,13 @@
     <language>zh-cn</language>
     <lastBuildDate>Tue, 05 Dec 2023 09:30:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>分布式ID生成器</title>
+      <title>如何设计一个分布式ID生成器保证ID按时间有序？</title>
       <link>https://blog.chensoul.com/posts/2023/12/05/distributed-id-generator/</link>
       <pubDate>Tue, 05 Dec 2023 09:30:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/12/05/distributed-id-generator/</guid>
-      <description>如何设计一个分布式ID生成器，并保证ID按时间粗略有序？ 很多业务有生成唯一 ID 并作为数据库主键的需求。数据库会在这个字段上建立聚集索引（参考 MySQL InnoDB），即该字段会影响各条数据再物理存储上的顺序。
-ID还要尽可能短，节省内存，让数据库索引效率更高。基本上64位整数能够满足绝大多数的场景，但是如果能做到比64位更短那就更好了。需要根据具体业务进行分析，预估出ID的最大值，这个最 …</description>
+      <description>很多业务有生成唯一 ID 并作为数据库主键的需求。数据库会在这个字段上建立聚集索引（参考 MySQL InnoDB），即该字段会影响各条数据再物理存储上的顺序。
+ID还要尽可能短，节省内存，让数据库索引效率更高。基本上64位整数能够满足绝大多数的场景，但是如果能做到比64位更短那就更好了。需要根据具体业务进行分析，预估出ID的最大值，这个最大值通常比64位整数的上限小很多，于是我们可以用更少 …</description>
     </item>
     
     <item>

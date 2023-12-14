@@ -36,9 +36,12 @@ Docker 容器通过提供一致的环境帮助促进持续集成过程，您可�
       <pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate>
       
       <guid>https://blog.chensoul.com/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid>
-      <description>服务器设置 [可选] 设置系统 Swap 交换分区
+      <description>我的VPS使用的是 centos 服务器，所以以下操作都是基于 centos 系统。
+服务器设置 更新 yum 源：
+yum update 安装常用软件：
+yum install wget curl git vim -y [可选] 设置系统 Swap 交换分区
 因为 vps 服务器的运行内存很小，所以这里先设置下 Swap
-# 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo …</description>
+# 1GB RAM with 2GB Swap sudo …</description>
     </item>
     
   </channel>

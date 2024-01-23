@@ -74,7 +74,7 @@ yum install wget curl git vim -y 设置时区为
 </span></span></span></code></pre></div><h2 id=服务部署>服务部署</h2><h3 id=mysql>MySQL</h3><p>1、使用 docker-compose 安装</p><p>mysql.yaml</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>version</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;3&#34;</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>services</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>mysql</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>mysql:8.2.0</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>mysql:8</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>container_name</span><span class=p>:</span><span class=w> </span><span class=l>mysql</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>platform</span><span class=p>:</span><span class=w> </span><span class=l>linux/amd64</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>restart</span><span class=p>:</span><span class=w> </span><span class=l>unless-stopped</span><span class=w>
@@ -174,7 +174,7 @@ yum install wget curl git vim -y 设置时区为
 </span></span><span class=line><span class=cl>docker pull louislam/uptime-kuma:1
 </span></span><span class=line><span class=cl>docker-compose -f uptime.yaml up -d
 </span></span></code></pre></div><h3 id=umami>Umami</h3><p>1、在 mysql 容器创建 umami 数据库和用户：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>docker <span class=nb>exec</span> -it mysql bash
-</span></span><span class=line><span class=cl>mysql -uroot -p
+</span></span><span class=line><span class=cl>mysql -uroot -padmin@mysql!
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>CREATE USER <span class=s1>&#39;umami&#39;</span>@<span class=s1>&#39;%&#39;</span> IDENTIFIED BY <span class=s1>&#39;umami@mysql!&#39;</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>CREATE DATABASE umami<span class=p>;</span>

@@ -1,0 +1,390 @@
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>2024-02-05｜Spring Cloud Config使用本地文件和Git仓库作为配置中心 | ChenSoul</title>
+<meta name=keywords content="spring-cloud"><meta name=description content="今天做了什么：
+创建项目 spring-cloud-examples，测试 spring cloud config 使用本地文件和 git 仓库作为配置中心 Spring Cloud Config使用本地文件和Git仓库作为配置中心 spring cloud config是一个基于http协议的远程配置实现方式。通过统一的配置管理服务器进行配置管理，客户端通过http协议主动的拉取服务的的配置信息，完成配置获取。
+Spring Cloud Config 支持以下几种存储方式：
+Git 仓库 本地文件 Vault JDBC 数据库 本地文件 服务端应用 使用 spring cli 创建一个 maven 项目
+mkdir spring-cloud-examples cd spring-cloud-examples mkdir config cd config spring init \ --boot-version=3.2.2 \ --type=maven-project \ --java-version=8 \ --name=config-server-file \ --package-name=com.chensoul.springcloud \ --groupId=com.chensoul.springcloud \ --dependencies=cloud-config-server,actuator \ config-server-file ​	将 spring-boot-starter-parent 版本改为 2.7.18，对应的将 spring-cloud.version 改为 2021.0.9
+添加 @EnableConfigServer 注解
+@EnableConfigServer @SpringBootApplication public class ConfigServerFileApplication { public static void main(final String[] args) { SpringApplication.run(ConfigServerFileApplication.class, args); } } 修改配置文件
+server: port: 8888 spring.application.name: config-server-file spring.profiles.active: native # default value: classpath:/, classpath:/config, file:."><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/posts/2024/02/05/til/><link crossorigin=anonymous href=/assets/css/stylesheet.min.d6db7ab468e55ea6647d68be426a17bae21ff1cddbf1741e547ed2086d010444.css integrity="sha256-1tt6tGjlXqZkfWi+QmoXuuIf8c3b8XQeVH7SCG0BBEQ=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><meta name=twitter:title content="2024-02-05｜Spring Cloud Config使用本地文件和Git仓库作为配置中心 | ChenSoul"><meta name=twitter:description content="今天做了什么：
+创建项目 spring-cloud-examples，测试 spring cloud config 使用本地文件和 git 仓库作为配置中心 Spring Cloud Config使用本地文件和Git仓库作为配置中心 spring cloud config是一个基于http协议的远程配置实现方式。通过统一的配置管理服务器进行配置管理，客户端通过http协议主动的拉取服务的的配置信息，完成配置获取。
+Spring Cloud Config 支持以下几种存储方式：
+Git 仓库 本地文件 Vault JDBC 数据库 本地文件 服务端应用 使用 spring cli 创建一个 maven 项目
+mkdir spring-cloud-examples cd spring-cloud-examples mkdir config cd config spring init \ --boot-version=3.2.2 \ --type=maven-project \ --java-version=8 \ --name=config-server-file \ --package-name=com.chensoul.springcloud \ --groupId=com.chensoul.springcloud \ --dependencies=cloud-config-server,actuator \ config-server-file ​	将 spring-boot-starter-parent 版本改为 2.7.18，对应的将 spring-cloud.version 改为 2021.0.9
+添加 @EnableConfigServer 注解
+@EnableConfigServer @SpringBootApplication public class ConfigServerFileApplication { public static void main(final String[] args) { SpringApplication.run(ConfigServerFileApplication.class, args); } } 修改配置文件
+server: port: 8888 spring.application.name: config-server-file spring.profiles.active: native # default value: classpath:/, classpath:/config, file:."><meta property="og:title" content="2024-02-05｜Spring Cloud Config使用本地文件和Git仓库作为配置中心 | ChenSoul"><meta property="og:description" content="今天做了什么：
+创建项目 spring-cloud-examples，测试 spring cloud config 使用本地文件和 git 仓库作为配置中心 Spring Cloud Config使用本地文件和Git仓库作为配置中心 spring cloud config是一个基于http协议的远程配置实现方式。通过统一的配置管理服务器进行配置管理，客户端通过http协议主动的拉取服务的的配置信息，完成配置获取。
+Spring Cloud Config 支持以下几种存储方式：
+Git 仓库 本地文件 Vault JDBC 数据库 本地文件 服务端应用 使用 spring cli 创建一个 maven 项目
+mkdir spring-cloud-examples cd spring-cloud-examples mkdir config cd config spring init \ --boot-version=3.2.2 \ --type=maven-project \ --java-version=8 \ --name=config-server-file \ --package-name=com.chensoul.springcloud \ --groupId=com.chensoul.springcloud \ --dependencies=cloud-config-server,actuator \ config-server-file ​	将 spring-boot-starter-parent 版本改为 2.7.18，对应的将 spring-cloud.version 改为 2021.0.9
+添加 @EnableConfigServer 注解
+@EnableConfigServer @SpringBootApplication public class ConfigServerFileApplication { public static void main(final String[] args) { SpringApplication.run(ConfigServerFileApplication.class, args); } } 修改配置文件
+server: port: 8888 spring.application.name: config-server-file spring.profiles.active: native # default value: classpath:/, classpath:/config, file:."><meta property="og:type" content="article"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/02/05/til/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-02-05T07:00:00+08:00"><meta property="article:modified_time" content="2024-02-05T07:00:00+08:00"><meta property="og:site_name" content="ChenSoul"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://blog.chensoul.cc/posts/"},{"@type":"ListItem","position":3,"name":"2024-02-05｜Spring Cloud Config使用本地文件和Git仓库作为配置中心","item":"https://blog.chensoul.cc/posts/2024/02/05/til/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"2024-02-05｜Spring Cloud Config使用本地文件和Git仓库作为配置中心 | ChenSoul","name":"2024-02-05｜Spring Cloud Config使用本地文件和Git仓库作为配置中心","description":"今天做了什么：\n创建项目 spring-cloud-examples，测试 spring cloud config 使用本地文件和 git 仓库作为配置中心 Spring Cloud Config使用本地文件和Git仓库作为配置中心 spring cloud config是一个基于http协议的远程配置实现方式。通过统一的配置管理服务器进行配置管理，客户端通过http协议主动的拉取服务的的配置信息，完成配置获取。\nSpring Cloud Config 支持以下几种存储方式：\nGit 仓库 本地文件 Vault JDBC 数据库 本地文件 服务端应用 使用 spring cli 创建一个 maven 项目\nmkdir spring-cloud-examples cd spring-cloud-examples mkdir config cd config spring init \\ --boot-version=3.2.2 \\ --type=maven-project \\ --java-version=8 \\ --name=config-server-file \\ --package-name=com.chensoul.springcloud \\ --groupId=com.chensoul.springcloud \\ --dependencies=cloud-config-server,actuator \\ config-server-file ​\t将 spring-boot-starter-parent 版本改为 2.7.18，对应的将 spring-cloud.version 改为 2021.0.9\n添加 @EnableConfigServer 注解\n@EnableConfigServer @SpringBootApplication public class ConfigServerFileApplication { public static void main(final String[] args) { SpringApplication.run(ConfigServerFileApplication.class, args); } } 修改配置文件\nserver: port: 8888 spring.application.name: config-server-file spring.profiles.active: native # default value: classpath:/, classpath:/config, file:.","keywords":["spring-cloud"],"wordCount":"1042","inLanguage":"en","datePublished":"2024-02-05T07:00:00+08:00","dateModified":"2024-02-05T07:00:00+08:00","author":[{"@type":"Person","name":"chensoul"}],"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/02/05/til/"},"publisher":{"@type":"Organization","name":"ChenSoul","logo":{"@type":"ImageObject","url":"https://blog.chensoul.cc/favicon.ico"}}}</script><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary-bg:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list-page{background:var(--theme)}.list-page:not(.dark)::-webkit-scrollbar-track{background:0 0}.list-page:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript></head><body class="type-posts kind-page layout-" id=top><script data-no-instant>function switchTheme(e){switch(e){case"light":document.body.classList.remove("dark");break;case"dark":document.body.classList.add("dark");break;default:window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")}}function isDarkTheme(){return document.body.className.includes("dark")}function getPrefTheme(){return localStorage.getItem("pref-theme")}function setPrefTheme(e){switchTheme(e),localStorage.setItem("pref-theme",e)}const toggleThemeCallbacks={};toggleThemeCallbacks.main=e=>{setPrefTheme(e?"light":"dark")},window.addEventListener("toggle-theme",function(){const e=isDarkTheme();for(const t in toggleThemeCallbacks)toggleThemeCallbacks[t](e)});function toggleThemeListener(){window.dispatchEvent(new CustomEvent("toggle-theme"))}</script><script>(function(){const t="auto",e=getPrefTheme(),n=e||t;switchTheme(n)})()</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories/review/ title=总结>总结</a></li><li><a href=https://blog.chensoul.cc/categories/ title=分类>分类</a></li><li><a href=https://blog.chensoul.cc/tags/ title=标签>标签</a></li><li><a href=https://github.com/chensoul/ title=关于 target=_blank>关于<span class=external-link><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7H6A2 2 0 004 9v9a2 2 0 002 2h9a2 2 0 002-2v-5"/><line x1="10" y1="14" x2="20" y2="4"/><polyline points="15 4 20 4 20 9"/></svg></span></a></li></ul></nav></header><main class="main post"><article class=post-single><header class=post-header><h1 class=post-title>2024-02-05｜Spring Cloud Config使用本地文件和Git仓库作为配置中心</h1><div class=post-meta><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-02-05</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/spring-cloud/>spring-cloud</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>5 min</span></span></div></header><div class="toc side right"><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#spring-cloud-config%e4%bd%bf%e7%94%a8%e6%9c%ac%e5%9c%b0%e6%96%87%e4%bb%b6%e5%92%8cgit%e4%bb%93%e5%ba%93%e4%bd%9c%e4%b8%ba%e9%85%8d%e7%bd%ae%e4%b8%ad%e5%bf%83 aria-label="Spring Cloud Config使用本地文件和Git仓库作为配置中心">Spring Cloud Config使用本地文件和Git仓库作为配置中心</a><ul><li><a href=#%e6%9c%ac%e5%9c%b0%e6%96%87%e4%bb%b6 aria-label=本地文件>本地文件</a><ul><li><a href=#%e6%9c%8d%e5%8a%a1%e7%ab%af%e5%ba%94%e7%94%a8 aria-label=服务端应用>服务端应用</a></li><li><a href=#%e5%ae%a2%e6%88%b7%e7%ab%af%e5%ba%94%e7%94%a8 aria-label=客户端应用>客户端应用</a></li></ul></li><li><a href=#git-%e4%bb%93%e5%ba%93 aria-label="Git 仓库">Git 仓库</a><ul><li><a href=#%e6%9c%8d%e5%8a%a1%e7%ab%af%e5%ba%94%e7%94%a8-1 aria-label=服务端应用>服务端应用</a></li><li><a href=#%e5%ae%a2%e6%88%b7%e7%ab%af%e5%ba%94%e7%94%a8-1 aria-label=客户端应用>客户端应用</a></li></ul></li></ul></li></ul></div></details></div><div class=post-content><p>今天做了什么：</p><ol><li>创建项目 <a href=https://github.com/chensoul/spring-cloud-examples>spring-cloud-examples</a>，测试 spring cloud config 使用本地文件和 git 仓库作为配置中心</li></ol><h2 id=spring-cloud-config使用本地文件和git仓库作为配置中心>Spring Cloud Config使用本地文件和Git仓库作为配置中心</h2><p>spring cloud config是一个基于http协议的远程配置实现方式。通过统一的配置管理服务器进行配置管理，客户端通过http协议主动的拉取服务的的配置信息，完成配置获取。</p><p><em>Spring Cloud</em> Config 支持以下几种存储方式：</p><ul><li>Git 仓库</li><li>本地文件</li><li>Vault</li><li>JDBC 数据库</li></ul><h3 id=本地文件>本地文件</h3><h4 id=服务端应用>服务端应用</h4><ol><li><p>使用 spring cli 创建一个 maven 项目</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mkdir spring-cloud-examples
+</span></span><span class=line><span class=cl><span class=nb>cd</span> spring-cloud-examples
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>mkdir config
+</span></span><span class=line><span class=cl><span class=nb>cd</span> config
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>spring init <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--boot-version<span class=o>=</span>3.2.2 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--type<span class=o>=</span>maven-project <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--java-version<span class=o>=</span><span class=m>8</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--name<span class=o>=</span>config-server-file <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--package-name<span class=o>=</span>com.chensoul.springcloud <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--groupId<span class=o>=</span>com.chensoul.springcloud <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--dependencies<span class=o>=</span>cloud-config-server,actuator <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>config-server-file
+</span></span></code></pre></div></li></ol><p>​ 将 spring-boot-starter-parent 版本改为 2.7.18，对应的将 spring-cloud.version 改为 2021.0.9</p><ol start=2><li><p>添加 @EnableConfigServer 注解</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@EnableConfigServer</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootApplication</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>ConfigServerFileApplication</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>	</span><span class=kd>public</span><span class=w> </span><span class=kd>static</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>main</span><span class=p>(</span><span class=kd>final</span><span class=w> </span><span class=n>String</span><span class=o>[]</span><span class=w> </span><span class=n>args</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>		</span><span class=n>SpringApplication</span><span class=p>.</span><span class=na>run</span><span class=p>(</span><span class=n>ConfigServerFileApplication</span><span class=p>.</span><span class=na>class</span><span class=p>,</span><span class=w> </span><span class=n>args</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>	</span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></div></li><li><p>修改配置文件</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>server</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class=m>8888</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.application.name</span><span class=p>:</span><span class=w> </span><span class=l>config-server-file</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.profiles.active</span><span class=p>:</span><span class=w> </span><span class=l>native</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># default value: classpath:/, classpath:/config, file:./, file:./config</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.cloud.config.server.native.search-locations</span><span class=p>:</span><span class=w> </span><span class=l>file://${PWD}/config-repo</span><span class=w>
+</span></span></span></code></pre></div><p>创建 config-repo 目录：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mkdir config-repo
+</span></span></code></pre></div><p>创建一个测试文件 foo.yml：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>foo: hello world
+</span></span></code></pre></div></li><li><p>启动应用</p><p>spring cloud config server 暴露以下几个端点：</p><ul><li><code>/actuator</code></li><li><code>/encrypt</code> 和 <code>/decrypt</code></li><li><code>/{application}/{profile}[/{label}]</code></li><li><code>/{application}-{profile}.yml</code></li><li><code>/{label}/{application}-{profile}.yml</code></li><li><code>/{application}-{profile}.properties</code></li><li><code>/{label}/{application}-{profile}.properties</code></li></ul><p>说明：</p><ul><li><code>application</code>：应用名称</li><li><code>profile</code>：spring 的 profile</li><li><code>label</code>：git 仓库的分支名称</li></ul><p>针对当前项目，可以访问的路径有：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>curl localhost:8888/foo/native
+</span></span><span class=line><span class=cl>curl localhost:8888/foo-native.yml
+</span></span><span class=line><span class=cl>curl localhost:8888/foo-native.yaml
+</span></span><span class=line><span class=cl>curl localhost:8888/foo-native.properties
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#如果是git仓库保存配置文件，则可以访问以下路径</span>
+</span></span><span class=line><span class=cl><span class=c1>#curl localhost:8888/foo/native/master</span>
+</span></span><span class=line><span class=cl><span class=c1>#curl localhost:8888/foo/native,default/master</span>
+</span></span><span class=line><span class=cl><span class=c1>#curl localhost:8888/master/foo-native.properties</span>
+</span></span></code></pre></div><p>例如，访问 localhost:8888/foo/native :</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl -s localhost:8888/foo/native <span class=p>|</span> jq
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;name&#34;</span>: <span class=s2>&#34;foo&#34;</span>,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;profiles&#34;</span>: <span class=o>[</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;native&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=o>]</span>,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;label&#34;</span>: null,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;version&#34;</span>: null,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;state&#34;</span>: null,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;propertySources&#34;</span>: <span class=o>[</span>
+</span></span><span class=line><span class=cl>    <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;name&#34;</span>: <span class=s2>&#34;file:/Users/chensoul/workspace/IdeaProjects/spring-cloud-examples/config-repo/foo.yml&#34;</span>,
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;source&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;foo&#34;</span>: <span class=s2>&#34;hello world&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>  <span class=o>]</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></div><p>访问 http://localhost:8888/actuator/env 可以查看所有 propertySources 配置：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl -s localhost:8080/actuator/env <span class=p>|</span> jq
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;activeProfiles&#34;</span>: <span class=o>[</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;native&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=o>]</span>,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;propertySources&#34;</span>: <span class=o>[</span>
+</span></span><span class=line><span class=cl>    <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;name&#34;</span>: <span class=s2>&#34;server.ports&#34;</span>,
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;properties&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;local.server.port&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;value&#34;</span>: <span class=m>8888</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>,
+</span></span><span class=line><span class=cl>    <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;name&#34;</span>: <span class=s2>&#34;servletContextInitParams&#34;</span>,
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;properties&#34;</span>: <span class=o>{}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>,
+</span></span><span class=line><span class=cl>    <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;name&#34;</span>: <span class=s2>&#34;systemProperties&#34;</span>,
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;properties&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>,
+</span></span><span class=line><span class=cl>    <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;name&#34;</span>: <span class=s2>&#34;systemEnvironment&#34;</span>,
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;properties&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>,
+</span></span><span class=line><span class=cl>    <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;name&#34;</span>: <span class=s2>&#34;configServerClient&#34;</span>,
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;properties&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;spring.cloud.config.enabled&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;value&#34;</span>: <span class=s2>&#34;false&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>,
+</span></span><span class=line><span class=cl>    <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;name&#34;</span>: <span class=s2>&#34;springCloudClientHostInfo&#34;</span>,
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;properties&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;spring.cloud.client.hostname&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;value&#34;</span>: <span class=s2>&#34;192.168.3.214&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>,
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;spring.cloud.client.ip-address&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;value&#34;</span>: <span class=s2>&#34;192.168.3.214&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>,
+</span></span><span class=line><span class=cl>    <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;name&#34;</span>: <span class=s2>&#34;Config resource &#39;class path resource [application.yml]&#39; via location &#39;optional:classpath:/&#39;&#34;</span>,
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;properties&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;server.port&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;value&#34;</span>: 8888,
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;origin&#34;</span>: <span class=s2>&#34;class path resource [application.yml] - 2:9&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>,
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;spring.profiles.active&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;value&#34;</span>: <span class=s2>&#34;native&#34;</span>,
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;origin&#34;</span>: <span class=s2>&#34;class path resource [application.yml] - 6:13&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>,
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;spring.cloud.config.server.native.search-locations&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;value&#34;</span>: <span class=s2>&#34;file:/Users/chensoul/workspace/IdeaProjects/spring-cloud-examples/config-repo&#34;</span>,
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;origin&#34;</span>: <span class=s2>&#34;class path resource [application.yml] - 9:53&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>,
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;management.endpoints.web.exposure.include&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;value&#34;</span>: <span class=s2>&#34;*&#34;</span>,
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;origin&#34;</span>: <span class=s2>&#34;class path resource [application.yml] - 15:18&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>,
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;management.endpoint.env.post.enabled&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;value&#34;</span>: true,
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;origin&#34;</span>: <span class=s2>&#34;class path resource [application.yml] - 19:18&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>  <span class=o>]</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></div><p>propertySources 包括：</p><ul><li>server.ports</li><li>servletContextInitParams</li><li>systemProperties</li><li>systemEnvironment</li><li>configServerClient</li><li>springCloudClientHostInfo</li><li>&lsquo;optional:classpath:/&rsquo; 中的 application.yml</li></ul></li><li><p>开启 Security</p><p>添加 security 依赖：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;dependency&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;groupId&gt;</span>org.springframework.boot<span class=nt>&lt;/groupId&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;artifactId&gt;</span>spring-boot-starter-security<span class=nt>&lt;/artifactId&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>修改配置文件，设置用户名和密码：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>spring.security.user.name</span><span class=p>:</span><span class=w> </span><span class=l>${SPRING_SECURITY_USER_NAME:root}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.security.user.password</span><span class=p>:</span><span class=w> </span><span class=l>${SPRING_SECURITY_USER_PASSWORD:123456}</span><span class=w>
+</span></span></span></code></pre></div><p>或者通过环境变量 <code>SPRING_SECURITY_USER_NAME</code>、<code>SPRING_SECURITY_USER_PASSWORD</code> 进行设置</p><p>重启应用，查看 foo.yml 文件内容：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl http://root:123456@localhost:8888/foo/native -s <span class=p>|</span> jq 
+</span></span><span class=line><span class=cl>test: hello world
+</span></span></code></pre></div></li><li><p>加密解密敏感信息</p><p>支持两种配置方式：</p><ul><li><p>第一种，对称加密。配置加密 key 和 salt</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=nt>encrypt</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>key</span><span class=p>:</span><span class=w> </span><span class=m>123456</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>salt</span><span class=p>:</span><span class=w> </span><span class=l>deadbeef</span><span class=w>
+</span></span></span></code></pre></div><p>或者通过环境变量 <code>ENCRYPT_KEY</code> 进行设置</p></li><li><p>第二种，分对称加密。</p><p>生成 keystore 文件：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>cd</span> config-server-file/src/main/resources
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>keytool -genkeypair -alias mytestkey -storetype PKCS12 -keyalg RSA -dname <span class=s2>&#34;CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=US&#34;</span> -keypass changeme -keystore server.jks -storepass changeme
+</span></span></code></pre></div><p>添加配置：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=nt>encrypt</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>key-store</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>location</span><span class=p>:</span><span class=w> </span><span class=l>classpath:server.jks</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>password</span><span class=p>:</span><span class=w> </span><span class=l>changeme</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>alias</span><span class=p>:</span><span class=w> </span><span class=l>mytestkey</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>secret</span><span class=p>:</span><span class=w> </span><span class=l>changeme</span><span class=w>
+</span></span></span></code></pre></div></li></ul><p>使用第一种配置方式，重启应用，然后测试。加密 &ldquo;hello world&rdquo;：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl -s http://root:123456@localhost:8888/encrypt --data-urlencode <span class=s2>&#34;hello world&#34;</span>
+</span></span><span class=line><span class=cl>1245fd945d0a14e529a0cafe0b6367206d69cad381d4d733ba21d348a303865e                    
+</span></span></code></pre></div><p>解密：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl -s http://root:123456@localhost:8888/decrypt -d 1245fd945d0a14e529a0cafe0b6367206d69cad381d4d733ba21d348a303865e
+</span></span><span class=line><span class=cl>hello world
+</span></span></code></pre></div><p>在配置文件使用加密字符串。修改 foo.yml 中 test 的值为上面生成的加密字符串：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>foo</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;{cipher}1245fd945d0a14e529a0cafe0b6367206d69cad381d4d733ba21d348a303865e&#39;</span><span class=w>
+</span></span></span></code></pre></div><p>重启应用，查看 foo.yml 文件内容：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl http://root:123456@localhost:8888/foo/native -s <span class=p>|</span> jq 
+</span></span><span class=line><span class=cl>foo: hello world
+</span></span></code></pre></div></li><li><p>配置高可用</p><p>有两种方式：</p><ul><li><code>spring.cloud.config.uri</code> 配置多个地址，使用逗号分隔</li><li>注册到注册中心，部署多实例</li></ul></li></ol><h4 id=客户端应用>客户端应用</h4><ol><li><p>使用 spring cli 创建一个 maven 项目</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>spring init <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--boot-version<span class=o>=</span>3.2.2 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--type<span class=o>=</span>maven-project <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--java-version<span class=o>=</span><span class=m>8</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--name<span class=o>=</span>config-server-file-client <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--package-name<span class=o>=</span>com.chensoul.springcloud <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--groupId<span class=o>=</span>com.chensoul.springcloud <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--dependencies<span class=o>=</span>cloud-config-client,web,actuator <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>config-client
+</span></span></code></pre></div><p>将 spring-boot-starter-parent 版本改为 2.7.18，对应的将 spring-cloud.version 改为 2021.0.9</p></li><li><p>修改配置文件</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=c># 1. 默认从 http://localhost:8888 获取配置</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 2. 如果没有配置 optional: 则 Config Client 连接不到 Config Server 时就会失败</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 3. import 配置优先于 uri 配置</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 4. 配置了后就不需要 bootstrap 引导文件</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.config.import</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;optional:configserver:&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.application.name</span><span class=p>:</span><span class=w> </span><span class=l>config-client</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>cloud</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  	</span><span class=nt>config</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    	</span><span class=nt>uri</span><span class=p>:</span><span class=w> </span><span class=l>http://localhost:8888</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># WARNING: Exposing all management endpoints over http should only be used during development, must be locked down in production!</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>management.endpoint.health.show-details</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;ALWAYS&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>management.endpoints.web.exposure.include</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;*&#34;</span><span class=w>
+</span></span></span></code></pre></div></li><li><p>在 config-repo 目录添加客户端配置文件 config-client.yml</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=nt>test</span><span class=p>:</span><span class=w> </span><span class=l>hello world</span><span class=w>
+</span></span></span></code></pre></div></li><li><p>添加一个 controller：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@RefreshScope</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@RestController</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootApplication</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>ConfigClientApplication</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@Value</span><span class=p>(</span><span class=s>&#34;${test}&#34;</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>private</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=n>test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@GetMapping</span><span class=p>(</span><span class=s>&#34;/test&#34;</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=nf>test</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>return</span><span class=w> </span><span class=k>this</span><span class=p>.</span><span class=na>test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kd>static</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>main</span><span class=p>(</span><span class=kd>final</span><span class=w> </span><span class=n>String</span><span class=o>[]</span><span class=w> </span><span class=n>args</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>SpringApplication</span><span class=p>.</span><span class=na>run</span><span class=p>(</span><span class=n>ConfigFileClientApplication</span><span class=p>.</span><span class=na>class</span><span class=p>,</span><span class=w> </span><span class=n>args</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></div></li><li><p>启动应用，查看 test 的值</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl http://localhost:8080/test
+</span></span><span class=line><span class=cl>hello world
+</span></span></code></pre></div></li><li><p>配置重试</p><p>添加 spring-retry 依赖：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;dependency&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;groupId&gt;</span>org.springframework.retry<span class=nt>&lt;/groupId&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;artifactId&gt;</span>spring-retry<span class=nt>&lt;/artifactId&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/dependency&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nt>&lt;dependency&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;groupId&gt;</span>org.springframework.boot<span class=nt>&lt;/groupId&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;artifactId&gt;</span>spring-boot-starter-aop<span class=nt>&lt;/artifactId&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>修改配置添加重试参数：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=c># 1. 默认从 http://localhost:8888 获取配置</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 2. 如果没有配置 optional: 则 Config Client 连接不到 Config Server 时就会失败</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 3. import 配置优先于 uri 配置</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 4. 配置了后就不需要 bootstrap 引导文件</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.config.import</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;optional:configserver:&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.application.name</span><span class=p>:</span><span class=w> </span><span class=l>config-client</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>cloud</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  	</span><span class=nt>config</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 配置重试，需要引入 spring-retry</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>retry</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>initialInterval</span><span class=p>:</span><span class=w> </span><span class=m>1000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>multiplier</span><span class=p>:</span><span class=w> </span><span class=m>1.1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>maxInterval</span><span class=p>:</span><span class=w> </span><span class=m>10000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>maxAttempts</span><span class=p>:</span><span class=w> </span><span class=m>6</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>uri</span><span class=p>:</span><span class=w> </span><span class=l>http://localhost:8888</span><span class=w>
+</span></span></span></code></pre></div><p>注意：重试参数也可以添加到 url 后面：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=nt>spring.config.import</span><span class=p>:</span><span class=w> </span><span class=l>configserver:http://configserver.example.com?fail-fast=true&amp;max-attempts=10&amp;max-interval=1500&amp;multiplier=1.2&amp;initial-interval=1100&#34;</span><span class=w>
+</span></span></span></code></pre></div></li><li><p>配置其他参数</p><p>配置客户端快速失败和连接超时：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=c># 1. 默认从 http://localhost:8888 获取配置</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 2. 如果没有配置 optional: 则 Config Client 连接不到 Config Server 时就会失败</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 3. import 配置优先于 uri 配置</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 4. 配置了后就不需要 bootstrap 引导文件</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.config.import</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;optional:configserver:&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.application.name</span><span class=p>:</span><span class=w> </span><span class=l>config-client</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>cloud</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  	</span><span class=nt>config</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 客户端配置快速失败</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>fail-fast</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 配置重试，需要引入 spring-retry</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>retry</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>initialInterval</span><span class=p>:</span><span class=w> </span><span class=m>1000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>multiplier</span><span class=p>:</span><span class=w> </span><span class=m>1.1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>maxInterval</span><span class=p>:</span><span class=w> </span><span class=m>10000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>maxAttempts</span><span class=p>:</span><span class=w> </span><span class=m>6</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>uri</span><span class=p>:</span><span class=w> </span><span class=l>http://localhost:8888</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>request-connect-timeout</span><span class=p>:</span><span class=w> </span><span class=m>3000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>request-read-timeout</span><span class=p>:</span><span class=w> </span><span class=m>3000</span><span class=w>
+</span></span></span></code></pre></div></li><li><p>开启 Security</p><p>添加 security 依赖：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;dependency&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;groupId&gt;</span>org.springframework.boot<span class=nt>&lt;/groupId&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;artifactId&gt;</span>spring-boot-starter-security<span class=nt>&lt;/artifactId&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>修改配置文件，添加 用户名和密码：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=nt>spring.security.user.name</span><span class=p>:</span><span class=w> </span><span class=l>${SPRING_SECURITY_USER_NAME:root}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.security.user.password</span><span class=p>:</span><span class=w> </span><span class=l>${SPRING_SECURITY_USER_PASSWORD:123456}</span><span class=w>
+</span></span></span></code></pre></div><p>再次查看 test 的值，需要设置用户名和密码：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl http://root:123456@localhost:8080/test
+</span></span><span class=line><span class=cl>hello world
+</span></span></code></pre></div></li></ol><h3 id=git-仓库>Git 仓库</h3><h4 id=服务端应用-1>服务端应用</h4><ol><li><p>使用 spring cli 创建一个 maven 项目</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>cd</span> config
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>spring init <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--boot-version<span class=o>=</span>3.2.2 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--type<span class=o>=</span>maven-project <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--java-version<span class=o>=</span><span class=m>8</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--name<span class=o>=</span>config-server-git <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--package-name<span class=o>=</span>com.chensoul.springcloud <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--groupId<span class=o>=</span>com.chensoul.springcloud <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>--dependencies<span class=o>=</span>cloud-config-server,actuator,security <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>config-server-git
+</span></span></code></pre></div></li></ol><p>​ 将 spring-boot-starter-parent 版本改为 2.7.18，对应的将 spring-cloud.version 改为 2021.0.9</p><ol start=2><li><p>添加 @EnableConfigServer 注解</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@EnableConfigServer</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootApplication</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>ConfigServerGitApplication</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>	</span><span class=kd>public</span><span class=w> </span><span class=kd>static</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>main</span><span class=p>(</span><span class=kd>final</span><span class=w> </span><span class=n>String</span><span class=o>[]</span><span class=w> </span><span class=n>args</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>		</span><span class=n>SpringApplication</span><span class=p>.</span><span class=na>run</span><span class=p>(</span><span class=n>ConfigServerGitApplication</span><span class=p>.</span><span class=na>class</span><span class=p>,</span><span class=w> </span><span class=n>args</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>	</span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></div></li><li><p>修改配置文件</p><p>将 application.properties 重命名为 application.yml，并添加如下配置</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>server</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class=m>8888</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.application.name</span><span class=p>:</span><span class=w> </span><span class=l>config-server-git</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.cloud.config.server.git.uri</span><span class=p>:</span><span class=w> </span><span class=l>https://github.com/chensoul/spring-cloud-examples</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.cloud.config.server.git.search-paths</span><span class=p>:</span><span class=w> </span><span class=l>config-repo</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.cloud.config.server.git.default-label</span><span class=p>:</span><span class=w> </span><span class=l>cloud-config</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.security.user.name</span><span class=p>:</span><span class=w> </span><span class=l>${SPRING_SECURITY_USER_NAME:root}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.security.user.password</span><span class=p>:</span><span class=w> </span><span class=l>${SPRING_SECURITY_USER_PASSWORD:123456}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>encrypt</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>key</span><span class=p>:</span><span class=w> </span><span class=m>123456</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># WARNING: Exposing all management endpoints over http should only be used during development, must be locked down in production!</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>management.endpoint.health.show-details</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;ALWAYS&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>management.endpoints.web.exposure.include</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;*&#34;</span><span class=w>
+</span></span></span></code></pre></div></li><li><p>配置认证</p><p>如果是私有仓库，则需要配置认证。</p><p>可以使用用户名密码的方式：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=nt>spring.cloud.config.server.git.username</span><span class=p>:</span><span class=w> </span><span class=l>username</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.cloud.config.server.git.password</span><span class=p>:</span><span class=w> </span><span class=l>password</span><span class=w>
+</span></span></span></code></pre></div><p>或者使用 ssh 私钥，配置方式，请参考 <a href=https://docs.spring.io/spring-cloud-config/docs/3.1.9/reference/html/#_git_ssh_configuration_using_properties>Git SSH configuration using properties</a>。</p></li><li><p>其他配置参数</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>spring</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>cloud</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>config</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>server</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>git</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>uri</span><span class=p>:</span><span class=w> </span><span class=l>file:${PWD}/config-repo</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>skipSslValidation</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>timeout</span><span class=p>:</span><span class=w> </span><span class=m>4</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>force-pull</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>deleteUntrackedBranches</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>refreshRate</span><span class=p>:</span><span class=w> </span><span class=m>0</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>defaultLabel</span><span class=p>:</span><span class=w> </span><span class=l>main</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>tryMasterBranch</span><span class=p>:</span><span class=w> </span><span class=kc>false</span><span class=w>
+</span></span></span></code></pre></div></li><li><p>启动应用</p></li></ol><h4 id=客户端应用-1>客户端应用</h4><ol><li><p>在 config-client 项目基础上，修改配置文件</p><p>因为服务端配置文件是在 cloud-config 分区（<code>spring.cloud.config.server.git.default-label: cloud-config</code>），故客户端也应该设置分区 <code>spring.cloud.config.label: cloud-config</code>：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=c># 1. 默认从 http://localhost:8888 获取配置</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 2. 如果没有配置 optional: 则 Config Client 连接不到 Config Server 时就会失败</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 3. import 配置优先于 uri 配置</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 4. 配置了后就不需要 bootstrap 引导文件</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.config.import</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;optional:configserver:&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.application.name</span><span class=p>:</span><span class=w> </span><span class=l>config-client</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>cloud</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>config</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 客户端配置快速失败</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>fail-fast</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 配置重试，需要引入 spring-retry</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>retry</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>initialInterval</span><span class=p>:</span><span class=w> </span><span class=m>1000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>multiplier</span><span class=p>:</span><span class=w> </span><span class=m>1.1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>maxInterval</span><span class=p>:</span><span class=w> </span><span class=m>10000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>maxAttempts</span><span class=p>:</span><span class=w> </span><span class=m>6</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>uri</span><span class=p>:</span><span class=w> </span><span class=l>http://localhost:8888</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>label</span><span class=p>:</span><span class=w> </span><span class=l>cloud-config</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.security.user.name</span><span class=p>:</span><span class=w> </span><span class=l>${SPRING_SECURITY_USER_NAME:root}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.security.user.password</span><span class=p>:</span><span class=w> </span><span class=l>${SPRING_SECURITY_USER_PASSWORD:123456}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># WARNING: Exposing all management endpoints over http should only be used during development, must be locked down in production!</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>management.endpoint.health.show-details</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;ALWAYS&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>management.endpoints.web.exposure.include</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;*&#34;</span><span class=w>
+</span></span></span></code></pre></div></li><li><p>重启应用，查看 test 的值</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl http://root:123456@localhost:8080/test
+</span></span><span class=line><span class=cl>hello world
+</span></span></code></pre></div></li><li><p>修改 config-client.yml 文件中 test 的值为 &ldquo;hello world 1111&rdquo;，并提交到 git 仓库。然后，再次查看 test 的值：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl http://root:123456@localhost:8080/test
+</span></span><span class=line><span class=cl>hello world
+</span></span></code></pre></div><p>发现 test 值并没有更新，这时候需要手动更新</p></li><li><p>手动更新配置</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>curl -X POST http://localhost:8080/actuator/refresh
+</span></span></code></pre></div><p>再次访问，发现 test 值已修改为 &ldquo;hello world 1111&rdquo;：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl http://root:123456@localhost:8080/test
+</span></span><span class=line><span class=cl>hello world <span class=m>1111</span>
+</span></span></code></pre></div></li></ol></div><footer class=post-footer><nav class=paginav><a class=next href=https://blog.chensoul.cc/posts/2024/02/04/til/><span class=title>Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select:text"><line x1="5" y1="12" x2="19" y2="12" style="user-select:text"/><polyline points="12 5 19 12 12 19" style="user-select:text"/></svg></span><br><span>2024-02-04｜foodie-cloud集成Resilience4j</span></a></nav></footer><div class=comments-separator></div></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc>ChenSoul</a></span><span style=display:inline-block;margin-left:1em>
+<a href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA</a>
+</span><span style=display:inline-block;margin-left:1em>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+    <a href=https://github.com/reorx/hugo-PaperModX/ rel=noopener target=_blank>PaperModX</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a><script async src=https://umami.chensoul.cc/random-string.js data-website-id=821c25f8-a31a-4607-92d7-91ee76843d00></script><script>(function(){const t=""=="1";if(t)return;let e=document.getElementById("theme-toggle");e.removeEventListener("click",toggleThemeListener),e.addEventListener("click",toggleThemeListener)})()</script><script>(function(){let e=document.getElementById("menu");e&&(e.scrollLeft=localStorage.getItem("menu-scroll-position"),e.onscroll=function(){localStorage.setItem("menu-scroll-position",e.scrollLeft)});const t=""=="1",n="1"=="1";if(window.matchMedia("(prefers-reduced-motion: reduce)").matches||t||n)return;document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})})()</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>if(window.scrollListeners)for(const e of scrollListeners)window.removeEventListener("scroll",e);window.scrollListeners=[]</script><script src=/js/medium-zoom.min.js data-no-instant></script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerText="copy";function s(){t.innerText="copied!",setTimeout(()=>{t.innerText="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script><script>(function(){const a="1"=="1";if(!a)return;if(!document.querySelector(".toc")){console.log("no toc found, ignore toc scroll");return}const r=window.scrollListeners,t=document.querySelectorAll("h1[id],h2[id],h3[id],h4[id],h5[id]"),n="active";let e=t[0];o(e).classList.add(n);const c=()=>{const s=[];for(const e of t)if(l(e)<5)s.push(e);else break;s.length>0?newActiveHeading=s[s.length-1]:newActiveHeading=t[0],e!=newActiveHeading&&(o(e).classList.remove(n),e=newActiveHeading,o(e).classList.add(n))};let s=null;const i=()=>{s!==null&&clearTimeout(s),s=setTimeout(c,50)};window.addEventListener("scroll",i,!1),r.push(i);function o(e){const t=encodeURI(e.getAttribute("id")).toLowerCase();return document.querySelector(`.toc ul li a[href="#${t}"]`)}function l(e){if(!e.getClientRects().length)return 0;let t=e.getBoundingClientRect();return t.top}})()</script><script>mediumZoom(".entry-cover img"),mediumZoom(".post-content img:not([no-zoom])")</script><script src=/js/instantclick.min.js data-no-instant></script><script data-no-instant>InstantClick.init()</script></body></html>

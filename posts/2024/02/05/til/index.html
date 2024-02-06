@@ -365,7 +365,7 @@ mkdir config cd config spring init \ --boot-version=3.2.2 \ --type=maven-project
 </span></span></span><span class=line><span class=cl><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.cloud.config.server.git.uri</span><span class=p>:</span><span class=w> </span><span class=l>https://github.com/chensoul/spring-cloud-examples</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.cloud.config.server.git.search-paths</span><span class=p>:</span><span class=w> </span><span class=l>config-repo </span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.cloud.config.server.git.default-label</span><span class=p>:</span><span class=w> </span><span class=l>cloud-config</span><span class=w> </span><span class=c># 使用 cloud-config 分支</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.cloud.config.server.git.default-label</span><span class=p>:</span><span class=w> </span><span class=l>config</span><span class=w> </span><span class=c># 使用 config 分支</span><span class=w>
 </span></span></span></code></pre></div><blockquote><p>说明：</p><ul><li>search-paths：搜索路径，可以是多个，使用逗号连接，支持 * 匹配</li><li>default-label：指定默认分支</li></ul></blockquote><h4 id=4-配置参数>4. 配置参数</h4><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>spring</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>cloud</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>config</span><span class=p>:</span><span class=w>
@@ -393,7 +393,7 @@ mkdir config cd config spring init \ --boot-version=3.2.2 \ --type=maven-project
 </span></span><span class=line><span class=cl>foo: hello world
 </span></span></code></pre></div><p>查看 config-client 应用的配置：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl http://root:123456@localhost:8888/config-client.yml
 </span></span><span class=line><span class=cl>test: hello world
-</span></span></code></pre></div><h3 id=客户端应用-1>客户端应用</h3><h4 id=1-创建应用>1. 创建应用</h4><p>在 config-client 项目基础上，修改配置文件</p><p>因为服务端配置文件是在 cloud-config 分支（<code>spring.cloud.config.server.git.default-label: cloud-config</code>），故客户端也应该设置分支 <code>spring.cloud.config.label: cloud-config</code>：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=w>
+</span></span></code></pre></div><h3 id=客户端应用-1>客户端应用</h3><h4 id=1-创建应用>1. 创建应用</h4><p>在 config-client 项目基础上，修改配置文件</p><p>因为服务端配置文件是在 config 分支（<code>spring.cloud.config.server.git.default-label: config</code>），故客户端也应该设置分支 <code>spring.cloud.config.label: config</code>：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=line><span class=cl><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spring.application.name</span><span class=p>:</span><span class=w> </span><span class=l>config-client</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>management.endpoint.health.show-details</span><span class=p>:</span><span class=w> </span><span class=l>ALWAYS</span><span class=w>
@@ -409,7 +409,7 @@ mkdir config cd config spring init \ --boot-version=3.2.2 \ --type=maven-project
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>cloud</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>config</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    	</span><span class=nt>uri</span><span class=p>:</span><span class=w> </span><span class=l>http://localhost:8888</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    	</span><span class=nt>label</span><span class=p>:</span><span class=w> </span><span class=l>cloud-config</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    	</span><span class=nt>label</span><span class=p>:</span><span class=w> </span><span class=l>config</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 客户端配置快速失败</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>fail-fast</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 配置重试，需要引入 spring-retry</span><span class=w>
@@ -424,7 +424,7 @@ mkdir config cd config spring init \ --boot-version=3.2.2 \ --type=maven-project
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>cloud</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>config</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>uri</span><span class=p>:</span><span class=w> </span><span class=l>http://localhost:8888</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>label</span><span class=p>:</span><span class=w> </span><span class=l>cloud-config</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>label</span><span class=p>:</span><span class=w> </span><span class=l>config</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>username</span><span class=p>:</span><span class=w> </span><span class=l>${SPRING_SECURITY_USER_NAME:root}</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>password</span><span class=p>:</span><span class=w> </span><span class=l>${SPRING_SECURITY_USER_PASSWORD:123456}</span><span class=w>
 </span></span></span></code></pre></div><p>重启之后，再次查看 test 的值：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl http://localhost:8080/test
@@ -475,7 +475,7 @@ mkdir config cd config spring init \ --boot-version=3.2.2 \ --type=maven-project
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>Fetching config from server at : http://localhost:8888
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>Located environment: <span class=nv>name</span><span class=o>=</span>config-client, <span class=nv>profiles</span><span class=o>=[</span>default<span class=o>]</span>, <span class=nv>label</span><span class=o>=</span>cloud-config, <span class=nv>version</span><span class=o>=</span>cfcb38e6d396ce6b85e0aa0e8839f38538b7f221, <span class=nv>state</span><span class=o>=</span>null
+</span></span><span class=line><span class=cl>Located environment: <span class=nv>name</span><span class=o>=</span>config-client, <span class=nv>profiles</span><span class=o>=[</span>default<span class=o>]</span>, <span class=nv>label</span><span class=o>=</span>config, <span class=nv>version</span><span class=o>=</span>cfcb38e6d396ce6b85e0aa0e8839f38538b7f221, <span class=nv>state</span><span class=o>=</span>null
 </span></span><span class=line><span class=cl>Keys refreshed <span class=o>[</span>config.client.version, test<span class=o>]</span>
 </span></span></code></pre></div><p>再次查看，可以看到 test 属性的值已经刷新。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl http://localhost:8080/test
 </span></span><span class=line><span class=cl>hello world 3333% 

@@ -8,6 +8,117 @@
     <language>zh-cn</language>
     <lastBuildDate>Fri, 10 May 2024 16:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>在Kubernetes集群上安装Rancher</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/10/install-rancher/</link>
+      <pubDate>Fri, 10 May 2024 14:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/05/10/install-rancher/</guid>
+      <description>前提条件 Kubernetes 集群：可以使用 RKE、RKE2、K3S 等工具安装集群 Ingress Controller：对于 RKE、RKE2 和 K3s，你不需要手动安装 Ingress Controller，因为它是默认安装的。 CLI 工具：安装 kubectl 和 helm 使用 docker 安装 Rancher mkdir -p /data/rancher docker run …</description>
+    </item>
+    
+    <item>
+      <title>K8s安装Cert Manager</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/</link>
+      <pubDate>Fri, 10 May 2024 07:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/</guid>
+      <description>cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。
+cert-manager 可以从各种证书颁发机构获取证书，包括： Let&amp;rsquo;s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。
+使用 cert-manager 的证书资源，私钥和证书存储在 Kubernetes …</description>
+    </item>
+    
+    <item>
+      <title>All things about Drone</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-drone/</link>
+      <pubDate>Thu, 09 May 2024 12:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-drone/</guid>
+      <description>Drone实践 Docker 容器环境下的持续集成最佳实践：构建基于 Drone + GitFlow + K8s 的云原生语义化 CI 工作流 容器环境持续集成优化，Drone CI 提速 500% 在Kubernetes上执行Drone CI/CD 玩转 Drone CI 基于 gogs/gitlab 和 drone 搭建的 CI/CD 平台 基于drone构建CI/CD系统,对接k8s 使 …</description>
+    </item>
+    
+    <item>
+      <title>通过k3sup安装k3s</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</link>
+      <pubDate>Thu, 09 May 2024 11:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</guid>
+      <description>k3sup是一个支持在PC、虚拟机、ARM设备上安装k3s的工具，官方网站：https://k3sup.dev/
+安装k3sup 在线安装：
+curl -sLS https://get.k3sup.dev | sh sudo install k3sup /usr/local/bin/ 离线安装，下载地址：https://github.com/alexellis/k3sup/releases …</description>
+    </item>
+    
+    <item>
+      <title>安装k3s</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s/</link>
+      <pubDate>Thu, 09 May 2024 10:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s/</guid>
+      <description>K3s 是轻量级的 Kubernetes。K3s 易于安装，仅需要 Kubernetes 内存的一半，所有组件都在一个小于 100 MB 的二进制文件中。
+k3s 文档：https://docs.rancher.cn/docs/k3s/_index
+K3s介绍 什么是 K3s？ K3s 是一个完全兼容的 Kubernetes 发行版，具有以下增强功能：
+打包为单个二进制文件。 …</description>
+    </item>
+    
+    <item>
+      <title>通过k3d安装k3s</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3d/</link>
+      <pubDate>Thu, 09 May 2024 10:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3d/</guid>
+      <description>k3d是什么 k3d 是一个轻量级包装器，用于在 docker 中运行k3s（Rancher Lab 的最小 Kubernetes 发行版）。
+k3d 使得在 docker 中创建单节点和多节点k3s集群变得非常容易，例如用于 Kubernetes 上的本地开发。
+注意： k3d 是一个社区驱动的项目，但它不是官方 Rancher (SUSE) 产品。
+k3d安装 通过脚本安装：
+wget -q …</description>
+    </item>
+    
+    <item>
+      <title>All things about Spring Modulith</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-spring-modulith/</link>
+      <pubDate>Thu, 09 May 2024 08:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-spring-modulith/</guid>
+      <description>VMware 推出了一个实验性的项目Spring Modulith，以便于通过模块和事件更好地组织 Spring Boot 3 应用。该项目引入了新的类和注解，但并不会生成代码。它的模块没有使用 Java Platform Module System（JPMS），而是映射到了普通的 Java 包。模块有 API，但是 Spring Modulith 鼓励使用 Spring 应用事件作为“主要的交互 …</description>
+    </item>
+    
+    <item>
+      <title>[译]探索 http2（第 2 部分）：使用 node-http2 核心和 hapijs</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-2-overview/</link>
+      <pubDate>Wed, 08 May 2024 11:34:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-2-overview/</guid>
+      <description>原文链接：https://noobj.medium.com/exploring-http2-part-2-with-node-http2-core-and-hapijs-74e3df14249
+来源：https://www.thewebmaster.com/
+先决条件：了解 javascript、客户端-服务器架构。
+完整的代码可以在github上找到。
+第 1 部分：概述（http2 的原因、内 …</description>
+    </item>
+    
+    <item>
+      <title>[译]探索 http2（第 1 部分）：概述</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-1-overview/</link>
+      <pubDate>Wed, 08 May 2024 11:30:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-1-overview/</guid>
+      <description>原文链接：https://noobj.medium.com/exploring-http2-part-1-overview-dc3e9b53968f
+让我们来谈谈 http2 的内容、原因、时间和方式
+完整的代码可以在github上找到。
+第 1 部分：概述 第 2 部分：使用 node-http2 核心和 hapijs 进行探索
+什么是http2？ **http2*是自 1999 年以来使用 …</description>
+    </item>
+    
+    <item>
+      <title>[译]比较 Socket.IO 和 HTTP：主要区别和用例</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/08/socketio-vs-http/</link>
+      <pubDate>Wed, 08 May 2024 11:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/05/08/socketio-vs-http/</guid>
+      <description>原文链接：https://ably.com/topic/socketio-vs-http
+在规划实时应用程序时，您应该仔细考虑要使用哪些技术。本文对Socket.IO实时库和HTTP协议进行了比较。下面您将了解每种解决方案的功能、每种解决方案的优缺点以及何时使用它们。
+什么是Socket.IO？ Socket.IO 是一个创建于 2010 年的库，提供客户端和服务器之间的实时双向通信。它允许管理连 …</description>
+    </item>
+    
+    <item>
       <title>[译]什么是 HTTP？</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/http/</link>
       <pubDate>Tue, 07 May 2024 14:00:00 +0800</pubDate>

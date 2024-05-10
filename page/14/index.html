@@ -1,229 +1,148 @@
-<!doctype html><html lang=en dir=auto><head><meta name=generator content="Hugo 0.125.6"><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>ChenSoul</title>
+<!doctype html><html lang=en dir=auto><head><meta name=generator content="Hugo 0.125.7"><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>ChenSoul</title>
 <meta name=keywords content="java,python,go"><meta name=description content><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/><link crossorigin=anonymous href=/assets/css/stylesheet.min.d6db7ab468e55ea6647d68be426a17bae21ff1cddbf1741e547ed2086d010444.css integrity="sha256-1tt6tGjlXqZkfWi+QmoXuuIf8c3b8XQeVH7SCG0BBEQ=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=alternate type=application/rss+xml href=https://blog.chensoul.cc/index.xml><link rel=alternate type=application/json href=https://blog.chensoul.cc/index.json><link rel=alternate hreflang=en href=https://blog.chensoul.cc/><meta name=twitter:title content="ChenSoul"><meta name=twitter:description content><meta property="og:title" content="ChenSoul"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://blog.chensoul.cc/"><meta property="og:site_name" content="ChenSoul"><script type=application/ld+json>{"@context":"https://schema.org","@type":"Organization","name":"ChenSoul","url":"https://blog.chensoul.cc/","description":"","thumbnailUrl":"https://blog.chensoul.cc/favicon.ico","sameAs":[]}</script><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary-bg:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list-page{background:var(--theme)}.list-page:not(.dark)::-webkit-scrollbar-track{background:0 0}.list-page:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript></head><body class="list-page type-page kind-home layout-" id=top><script data-no-instant>function switchTheme(e){switch(e){case"light":document.body.classList.remove("dark");break;case"dark":document.body.classList.add("dark");break;default:window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")}}function isDarkTheme(){return document.body.className.includes("dark")}function getPrefTheme(){return localStorage.getItem("pref-theme")}function setPrefTheme(e){switchTheme(e),localStorage.setItem("pref-theme",e)}const toggleThemeCallbacks={};toggleThemeCallbacks.main=e=>{setPrefTheme(e?"light":"dark")},window.addEventListener("toggle-theme",function(){const e=isDarkTheme();for(const t in toggleThemeCallbacks)toggleThemeCallbacks[t](e)});function toggleThemeListener(){window.dispatchEvent(new CustomEvent("toggle-theme"))}</script><script>(function(){const t="auto",e=getPrefTheme(),n=e||t;switchTheme(n)})()</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a>
-<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories/review/ title=总结>总结</a></li><li><a href=https://blog.chensoul.cc/categories/ title=分类>分类</a></li><li><a href=https://blog.chensoul.cc/tags/ title=标签>标签</a></li><li><a href=https://github.com/chensoul/ title=关于 target=_blank>关于<span class=external-link><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7H6A2 2 0 004 9v9a2 2 0 002 2h9a2 2 0 002-2v-5"/><line x1="10" y1="14" x2="20" y2="4"/><polyline points="15 4 20 4 20 9"/></svg></span></a></li></ul></nav></header><main class=main><article class=post-entry><header class=entry-header><h2>[译]在 Spring 中实现 OAuth2：第 1 部分</h2></header><section class=entry-content><p>OAuth2 是一组规范，主要提供对 Rest API 的安全访问的方法。 OAuth 的主要目的是允许通过使用令牌来执行身份验证和授权，而不必为每个操作提供凭据。由于本文的重点是实现，并且为了不重新发明轮子，可以查看 OAuth RFC 或维基百科以获取更多理论背景。在这篇文章中，我们将深入探讨 Spring 中的 OAuth2 实现以及如何使用不同的授权类型，但在此之前值得提供一些重要概念的简要定义。
-访问令牌和刷新令牌 身份验证成功后将提供访问令牌以及刷新令牌。访问令牌有一个有限的有效期（标准为 1 小时），之后需要刷新令牌才能获取新的访问令牌和新的刷新令牌。 Referesh 令牌通常会在使用后过期。
-资源服务器和授权服务器 OAuth 引入了授权服务器的概念，授权服务器是发出访问和刷新令牌的实体，并在每个操作中进行咨询以查看令牌是否有效。资源服务器只是由不同客户端应用程序（前端应用程序、移动设备、其他后端服务……）访问的实际 Rest API。资源服务器和授权服务器可以是不同的实体，也可以是同一实体。
-授权类型 OAuth 中最常用的授权有：客户端凭据、密码、授权码和隐式授权。每项资助都有特定的流程和用例，但由于本文的重点不是理论，因此我们将重点关注其实施。有关授权及其用途的更多详细信息，请参阅 OAuth RFC。
-实现 在实现方面，我们将使用 Spring Boot 来利用其自动配置和引导功能，并更多地关注我们的核心主题。
-资源服务器： 我们有一个资源服务器，其中包含我们希望保护的以下端点：
-@RestController("/") public class ResourceController { @GetMapping("/hello") public String hello(){ return "hello"; } @GetMapping("/foo") public String foo(){ return "foo"; } @GetMapping("/bar") public String bar(){ return "bar"; } @GetMapping("/test") public String test(){ return "test"; } } 为此，我们需要配置一个用 @EnableResourceServer 注释的 ResourceServerConfigurerAdapter bean：
-@Configuration @EnableResourceServer public class ResourceSecurityConfiguration extends ResourceServerConfigurerAdapter { @Override public void configure(ResourceServerSecurityConfigurer resources) throws Exception { resources.resourceId("resource"); } @Override public void configure(HttpSecurity http) throws Exception { http ....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories/review/ title=总结>总结</a></li><li><a href=https://blog.chensoul.cc/categories/ title=分类>分类</a></li><li><a href=https://blog.chensoul.cc/tags/ title=标签>标签</a></li><li><a href=https://github.com/chensoul/ title=关于 target=_blank>关于<span class=external-link><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7H6A2 2 0 004 9v9a2 2 0 002 2h9a2 2 0 002-2v-5"/><line x1="10" y1="14" x2="20" y2="4"/><polyline points="15 4 20 4 20 9"/></svg></span></a></li></ul></nav></header><main class=main><article class=post-entry><header class=entry-header><h2>Java设计模式：Async Method Invocation</h2></header><section class=entry-content><p>本文主要介绍 Async Method Invocation 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。
+介绍 Async Method Invocation（异步方法调用）是一种编程模式，用于处理异步操作和并发执行。它允许在执行某个操作时不阻塞主线程，而是将操作委托给另一个线程或处理程序，并在操作完成后获取结果或执行回调。
+异步方法调用的主要目的是提高应用程序的性能和响应能力。通过将耗时的操作（如网络请求、文件读写、数据库查询等）置于后台线程或异步任务中，可以使主线程能够继续执行其他任务，而不会被阻塞。
+异步方法调用可以在不同的编程语言和框架中以不同的方式实现，包括以下几种常见的形式：
+回调函数（Callback）：通过定义回调函数，将异步操作的结果传递给调用方。当异步操作完成时，回调函数会被调用并处理结果。 Future/Promise（Future/Deferred）：通过 Future 或 Promise 对象表示异步操作的结果，调用方可以在需要时获取结果或添加回调函数来处理结果。 异步/await：异步/await 是一种语法糖，用于简化异步代码的编写和理解。它允许以同步的方式编写异步操作，使代码更具可读性。 观察者模式（Observer）：通过定义观察者对象，异步操作的结果可以被观察者订阅。当结果可用时，观察者会被通知并执行相应的操作。 使用异步方法调用可以提高应用程序的并发性能和用户体验。它可以在后台执行耗时的操作，使主线程保持响应，并允许应用程序同时处理多个并发请求。然而，对于并发操作的正确处理和管理资源的安全性仍然需要仔细考虑和实施。
+举例 AsyncResult（用于异步评估值的中间容器），AsyncCallback（可以在任务完成时被执行）和AsyncExecutor（用于管理异步任务的执行）。
+public interface AsyncResult&lt;T> { boolean isCompleted(); T getValue() throws ExecutionException; void await() throws InterruptedException; } public interface AsyncCallback&lt;T> { void onComplete(T value, Optional&lt;Exception> ex); } public interface AsyncExecutor { &lt;T> AsyncResult&lt;T> startProcess(Callable&lt;T> task); &lt;T> AsyncResult&lt;T> startProcess(Callable&lt;T> task, AsyncCallback&lt;T> callback); &lt;T> T endProcess(AsyncResult&lt;T> asyncResult) throws ExecutionException, InterruptedException; } ThreadAsyncExecutor是AsyncExecutor的实现。 接下来将突出显示其一些关键部分。
+public class ThreadAsyncExecutor implements AsyncExecutor { @Override public &lt;T> AsyncResult&lt;T> startProcess(Callable&lt;T> task) { return startProcess(task, null); } @Override public &lt;T> AsyncResult&lt;T> startProcess(Callable&lt;T> task, AsyncCallback&lt;T> callback) { var result = new CompletableResult&lt;>(callback); new Thread( () -> { try { result....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-08-14</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>3 min</span></span></footer><a class=entry-link aria-label="post link to Java设计模式：Async Method Invocation" href=https://blog.chensoul.cc/posts/2023/08/14/java-design-patterns-async-method-invocation/></a></article><article class=post-entry><header class=entry-header><h2>Java设计模式：API Gateway</h2></header><section class=entry-content><p>本文主要介绍 API Gateway 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。
+目的 API 网关设计模式旨在将所有对微服务的调用聚合到一起。客户端通过调用 API 网关来实现对多个微服务的访问，而不是直接调用每个微服务。这种模式的目的是解决以下问题：
+减少客户端的网络请求：如果客户端直接调用每个微服务，会导致额外的网络请求，增加加载时间。通过使用 API 网关，客户端只需要进行一次调用，而不是多次调用。 解耦客户端和微服务：如果客户端直接与每个微服务进行通信，客户端与微服务之间的耦合度很高。当微服务的实现发生变化或位置发生变化时，需要更新所有客户端。使用 API 网关可以将客户端与具体的微服务解耦，客户端只需要与 API 网关通信。 提供集中化的功能和服务：API 网关可以实现一些通用的功能和服务，例如限流、认证、授权、安全性等。这样可以避免每个微服务都实现这些功能，减少重复代码。 解释 在实际应用中，API 网关通常包括一个转换引擎，用于实时地编排和修改请求和响应。它还可以提供收集分析数据和提供缓存等功能。另外，API 网关还可以支持身份验证、授权、安全性、审计和法规遵从性等功能。
+假设你正在开发一个电子商务平台，其中包含多个微服务，如用户服务、产品服务、图片服务、订单服务和支付服务等。每个微服务都有自己的 API 和数据库。
+在这种情况下，你可以引入一个 API 网关来处理对这些微服务的访问。API 网关作为一个入口点，接收来自客户端的请求，并将请求转发到适当的微服务。
+例如，当一个客户端需要获取某个产品的详细信息时，他们可以发送一个 HTTP 请求到 API 网关的特定端点。API 网关会验证请求并将其转发到产品服务。产品服务将查询数据库获取产品信息，并将响应返回给 API 网关。然后，API 网关将产品信息返回给客户端。
+API 网关可以实现以下功能：
+认证和授权：API 网关可以验证客户端的身份和权限，确保只有经过授权的用户能够访问特定的微服务。 请求转发和路由：API 网关根据请求的路径和参数将请求转发到适当的微服务。它可以执行负载均衡和路由策略，确保请求被正确地分发到相应的微服务实例。 响应聚合：如果一个请求需要从多个微服务获取数据，API 网关可以将这些请求发送给相应的微服务，并将它们的响应聚合到一个响应中返回给客户端。 缓存和性能优化：API 网关可以缓存常用的请求和响应，以提高性能并减轻后端微服务的负载。 安全性和监控：API 网关可以实施安全策略，例如防止恶意请求和 DDoS 攻击。它还可以监控请求和响应，收集应用程序的指标和日志数据。 程序示例
+此实现展示了电子商务站点的 API 网关模式。 ApiGateway分别使用 ImageClientImpl和 PriceClientImpl来调用 Image 和 Price 微服务。 在桌面设备上查看该网站的客户可以看到价格信息和产品图片，因此 ApiGateway会调用这两种微服务并在DesktopProduct模型中汇总数据。 但是，移动用户只能看到价格信息。 他们看不到产品图片。 对于移动用户，ApiGateway仅检索价格信息，并将其用于填充MobileProduct模型。
+这个是图像微服务的实现。
+public interface ImageClient { String getImagePath(); } public class ImageClientImpl implements ImageClient { @Override public String getImagePath() { var httpClient = HttpClient.newHttpClient(); var httpGet = HttpRequest.newBuilder() ....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-08-13</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>2 min</span></span></footer><a class=entry-link aria-label="post link to Java设计模式：API Gateway " href=https://blog.chensoul.cc/posts/2023/08/13/java-design-patterns-api-gateway/></a></article><article class=post-entry><header class=entry-header><h2>Java设计模式：Arrange/Act/Assert</h2></header><section class=entry-content><p>本文主要介绍 Arrange/Act/Assert 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。
+介绍 Arrange/Act/Assert（安排/执行/断言）又称 Given/When/Then，是一种测试设计模式，用于组织和编写单元测试的结构。它提供了一种清晰的测试布局，使得测试代码易于理解和维护。
+该模式的三个阶段如下：
+Arrange（安排）：在这个阶段，你准备测试环境和设置测试数据。这包括创建对象、设置输入参数、模拟依赖项等。你的目标是为将要进行的测试创建一个合适的环境。 Act（执行）：在这个阶段，你执行要测试的操作或调用要测试的方法。这是你对被测试代码进行实际调用的地方。 Assert（断言）：在这个阶段，你验证测试的结果是否符合预期。你会检查实际的输出、状态变化或异常情况，并使用断言语句来断言测试的期望结果。 这种测试结构的优势在于它提供了清晰的分离和组织测试代码的方式，并使得测试的目的和预期结果更容易理解。它也有助于减少测试代码中的重复和冗余。
+以下是一个使用 Arrange/Act/Assert 模式编写的示例测试方法的伪代码：
+public void testCalculateTotalPrice() { // Arrange ShoppingCart cart = new ShoppingCart(); cart.addItem(new Item("Item 1", 10.0)); cart.addItem(new Item("Item 2", 15.0)); // Act double totalPrice = cart.calculateTotalPrice(); // Assert assertEquals(25.0, totalPrice, 0.01); } 在上述示例中，首先在 Arrange 阶段创建了一个购物车对象，并添加了两个商品。然后，在 Act 阶段调用了calculateTotalPrice()方法来计算总价格。最后，在 Assert 阶段使用断言语句来验证计算的结果是否等于预期的总价格。
+适用性 Arrange/Act/Assert（安排/执行/断言）设计模式适用于编写单元测试，特别是针对函数、方法或类的单元测试。它在以下情况下特别有用：
+单元测试：Arrange/Act/Assert 模式适用于对单个函数或方法进行测试。它帮助你组织测试代码，使其结构清晰，并确保每个测试只关注一个特定的功能或行为。 易于理解和维护：这种模式提供了一种一致的测试结构，使得测试代码易于理解和维护。通过明确的安排、执行和断言阶段，你可以更清楚地了解测试的目的和预期结果。 测试代码可读性：Arrange/Act/Assert 模式可以使测试代码更具可读性。通过按照统一的结构组织测试代码，使得测试逻辑更加清晰可见，易于他人理解和参与。 提高可维护性：使用这种模式可以减少测试代码中的重复和冗余，使得测试代码更易于维护。在 Arrange 阶段设置测试环境和准备数据，可以减少在每个测试中重复的代码。 测试结果验证：Arrange/Act/Assert 模式明确了测试结果的验证过程。在 Assert 阶段使用断言语句来验证实际结果与预期结果的一致性，帮助你确保被测试代码的正确性。 需要注意的是，Arrange/Act/Assert 模式主要适用于单元测试，而对于集成测试或端到端测试等更大范围的测试，可能需要使用其他测试设计模式或框架来进行组织和管理测试代码。
+除了 Arrange/Act/Assert 模式，以下是一些适用于集成测试或端到端测试的设计模式或框架：
+Page Object 模式：Page Object 模式是一种用于管理用户界面元素和操作的设计模式。它将页面的元素和操作封装到可重用的对象中，使得测试代码更具可读性和可维护性。Page Object 模式特别适用于 Web 应用程序的端到端测试。 数据构建器模式：数据构建器模式用于生成测试数据，以便在集成测试或端到端测试中使用。它提供了一种灵活的方式来创建测试数据，包括复杂的数据结构和关联关系。 数据准备和清理模式：在集成测试或端到端测试中，通常需要准备测试数据和环境，并在测试完成后进行清理。数据准备和清理模式提供了一种结构化的方法来管理这些操作，确保测试的一致性和可重复性。 Mock 对象模式：Mock 对象模式用于模拟或替代外部依赖项，以便进行集成测试或端到端测试。通过使用 Mock 对象，你可以隔离被测试代码与外部系统的交互，使得测试更加可控和独立。 BDD（行为驱动开发）框架：BDD 框架（如 Cucumber、SpecFlow 等）提供了一种以自然语言编写测试用例和规范的方式。它将测试用例描述为可读性强的场景和步骤，帮助开发人员、测试人员和业务利益相关者之间的沟通和理解。 参考 Arrange, Act, Assert: What is AAA Testing?...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-08-13</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>1 min</span></span></footer><a class=entry-link aria-label="post link to Java设计模式：Arrange/Act/Assert" href=https://blog.chensoul.cc/posts/2023/08/13/java-design-patterns-arrange-act-assert/></a></article><article class=post-entry><header class=entry-header><h2>周报-28｜技术文档范例</h2></header><section class=entry-content><p>前言 本篇是对 2023-07-10 到 2023-07-16 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+读书、健身、投资、帮朋友、陪家人。
+这是我的第 27 篇周报，由于工作的原因，前两周的周报是一起发布的，所以第 27 篇周报被跳过去了。
+技术文档范例 以下是一个使用中文标题的技术文档范例：
+一、介绍 1.1 目的 1.2 范围 1.3 受众 1.4 定义、缩略语和术语 二、概述 2.1 系统架构 2.2 主要功能 2.3 系统要求 三、入门指南 3.1 安装 3.2 配置 3.3 第一步操作 四、用户指南 4.1 用户界面 4.2 导航 4.3 功能 五、管理指南 5.1 系统配置 5.2 用户管理 5.3 安全性 六、故障排除 6.1 常见问题 6.2 错误消息 七、附录 7.1 发行说明 7.2 术语表 7.3 参考文献 以下是一个使用数字标题的 Spring Cloud Gateway 教程示例：
+1. 介绍 1.1 目的 1.2 范围 1.3 受众 1.4 术语和定义 2. 概述 2.1 什么是 Spring Cloud Gateway 2.2 Spring Cloud Gateway 的优势 3. 快速入门 3.1 环境配置 3.2 创建Spring Cloud Gateway项目 3.3 配置路由规则 3....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-07-27</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/review/>Review</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>2 min</span></span></footer><a class=entry-link aria-label="post link to 周报-28｜技术文档范例" href=https://blog.chensoul.cc/posts/2023/07/27/weekly_review_28/></a></article><article class=post-entry><header class=entry-header><h2>[译]Spring Boot授权服务器 - 使用 Java 的资源服务器和客户端凭证示例</h2></header><section class=entry-content><p>概述 在本文中，我们将创建一个授权服务器，为任何客户端生成 access_token。这称为 OAuth2 的 client_credentials 流程。它主要用于服务间通信。
+我们将使用 spring boot oauth2 授权服务器依赖项来创建身份验证服务器。我们还将创建一个资源服务器和客户端来对其进行端到端测试。
+Spring 授权服务器 我们首先创建授权服务器。
+依赖项： 让我们将以下依赖项添加到我们的项目中。
+implementation 'org.springframework.security:spring-security-oauth2-authorization-server:1.0.0' implementation 'org.springframework.boot:spring-boot-starter-security' implementation 'org.springframework.boot:spring-boot-starter-web' testImplementation 'org.springframework.boot:spring-boot-starter-test' testImplementation 'org.springframework.security:spring-security-test' 我们正在使用 spring oauth2 依赖项的最新（当时）稳定版本。
+Java 实现： 让我们创建一个名为 AuthorizationServerConfig 的配置类，并向该类添加 @Configuration 注解。现在让我们创建以下 bean 来完成配置：
+SecurityFilterChain @Bean @Order(Ordered.HIGHEST_PRECEDENCE) public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception { OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http); return http.build(); } 我们将把 bean 的顺序设置为最高，因为我们想首先执行它。
+RegisteredClientRepository @Bean public RegisteredClientRepository registeredClientRepository() { RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString()) .clientId("oauth-client") .clientSecret("{noop}oauth-secret") .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC) .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS) .scope(OidcScopes.OPENID) .scope("articles.read") .build(); return new InMemoryRegisteredClientRepository(registeredClient); } 现在让我们使用内存存储库对内容进行硬编码。我们可以根据我们的需要更新这些。
+JwtDecoder @Bean public JwtDecoder jwtDecoder(JWKSource&lt;SecurityContext> jwkSource) { return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource); } 我们将使用它来解码令牌以进行验证。
+JWKSource @Bean public JWKSource&lt;SecurityContext> jwkSource() throws NoSuchAlgorithmException { RSAKey rsaKey = generateRsa(); JWKSet jwkSet = new JWKSet(rsaKey); return (jwkSelector, securityContext) -> jwkSelector....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-07-26</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a><a href=https://blog.chensoul.cc/tags/spring/>Spring</a><a href=https://blog.chensoul.cc/tags/spring-boot/>Spring-Boot</a><a href=https://blog.chensoul.cc/tags/spring-security/>Spring-Security</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]Spring Boot授权服务器 - 使用 Java 的资源服务器和客户端凭证示例" href=https://blog.chensoul.cc/posts/2023/07/26/spring-boot-authorization-server/></a></article><article class=post-entry><header class=entry-header><h2>[译]Spring Boot异常处理完整指南</h2></header><section class=entry-content><p>处理异常是构建健壮应用程序的重要部分。 Spring Boot 提供了不止一种方法。
+本文将探讨这些方法，并提供一些关于何时某种给定方法可能优于另一种方法的指导。
+示例代码 本文附有 GitHub 上的工作代码示例。
+介绍 Spring Boot 为我们提供了处理异常的工具，而不仅仅是简单的“try-catch”块。为了使用这些工具，我们应用了一些注释，使我们能够将异常处理视为横切关注点：
+@ResponseStatus @ExceptionHandler @ControllerAdvice 在深入了解这些注释之前，我们将首先了解 Spring 如何处理 Web 控制器抛出的异常——这是捕获异常的最后一道防线。
+我们还将查看 Spring Boot 提供的一些配置来修改默认行为。
+我们将确定这样做时面临的挑战，然后我们将尝试使用这些注释来克服这些挑战。
+Spring Boot 默认的异常处理机制 假设我们有一个名为 ProductController 的控制器，当未找到具有给定 id 的 Product 时，其 getProduct(...) 方法会抛出 NoSuchElementFoundException 运行时异常：
+@RestController @RequestMapping("/product") public class ProductController { private final ProductService productService; //constructor omitted for brevity... @GetMapping("/{id}") public Response getProduct(@PathVariable String id){ // this method throws a "NoSuchElementFoundException" exception return productService.getProduct(id); } } 如果我们使用无效的 id 调用 /product API，服务将抛出 NoSuchElementFoundException 运行时异常，我们将得到以下响应：
+{ "timestamp": "2020-11-28T13:24:02.239+00:00", "status": 500, "error": "Internal Server Error", "message": "", "path": "/product/1" } 我们可以看到，除了格式良好的错误响应之外，有效负载没有为我们提供任何有用的信息。甚至 message 字段也是空的，我们可能希望包含“未找到 id 1 的项目”之类的内容。
+让我们从修复错误消息问题开始。
+Spring Boot 提供了一些属性，我们可以使用它们添加异常消息、异常类，甚至堆栈跟踪作为响应负载的一部分：...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-07-26</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a><a href=https://blog.chensoul.cc/tags/spring-boot/>Spring-Boot</a><a href=https://blog.chensoul.cc/tags/spring/>Spring</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>5 min</span></span></footer><a class=entry-link aria-label="post link to [译]Spring Boot异常处理完整指南" href=https://blog.chensoul.cc/posts/2023/07/26/spring-boot-exception-handling/></a></article><article class=post-entry><header class=entry-header><h2>[译]使用 Spring 的 Null-Safety 注解保护您的代码免受 NullPointerExceptions 的影响</h2></header><section class=entry-content><p>NullPointerExceptions （通常缩写为“NPE”）对于每个 Java 程序员来说都是一场噩梦。
+我们可以在互联网上找到大量解释如何编写空安全代码的文章。空安全确保我们在代码中添加了适当的检查，以保证对象引用不能为空，或者毕竟在对象为空时采取可能的安全措施。
+由于 NullPointerException 是一个运行时异常，因此在代码编译过程中很难找出这种情况。 Java 的类型系统没有办法快速消除危险的空对象引用。
+幸运的是，Spring 框架提供了一些注释来解决这个问题。在本文中，我们将学习如何使用这些注释通过 Spring Boot 编写空安全代码。
+示例代码 本文附有 GitHub 上的工作代码示例。
+Spring 中的空安全注解 在 Spring 核心包 org.springframework.lang 下，有 4 个这样的注解：
+@NonNull, @NonNull ， @NonNullFields, @NonNullFields ， @Nullable, @NonNullApi. Eclipse 和 IntelliJ IDEA 等流行的 IDE 可以理解这些注释。它们可以在编译期间警告开发人员潜在的问题。
+我们将在本教程中使用 IntelliJ IDEA。让我们通过一些代码示例来了解更多信息。
+要创建基础项目，我们可以使用 Spring Initializr。 Spring Boot 启动器就是我们所需要的，不需要添加任何额外的依赖项。
+IDE 配置 请注意，并非所有开发工具都可以显示这些编译警告。如果您没有看到相关警告，请检查 IDE 中的编译器设置。
+IntelliJ 对于 IntelliJ，我们可以在“Build, Execution, Deployment -> Compiler”下激活注释检查：
+Eclipse 对于 Eclipse，我们可以在“Java -> Compiler -> Errors/Warnings”下找到设置：
+示例代码 让我们使用一个简单的 Employee 类来理解注释：
+package io.reflectoring.nullsafety; // imports class Employee { String id; String name; LocalDate joiningDate; String pastEmployment; // standard constructor, getters, setters } @NonNull 大多数情况下， id 字段（在 Employee 类中）将是一个不可为 null 的值。因此，为了避免任何潜在的 NullPointerException 我们可以将此字段标记为 @NonNull ：...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-07-26</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a><a href=https://blog.chensoul.cc/tags/spring-boot/>Spring-Boot</a><a href=https://blog.chensoul.cc/tags/spring/>Spring</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]使用 Spring 的 Null-Safety 注解保护您的代码免受 NullPointerExceptions 的影响" href=https://blog.chensoul.cc/posts/2023/07/26/spring-boot-null-safety-annotations/></a></article><article class=post-entry><header class=entry-header><h2>[译]使用 Spring Boot 和 Spring Security 配置 CORS</h2></header><section class=entry-content><p>跨源资源共享 (CORS) 是一种基于 HTTP 标头的机制，允许服务器显式将某些源列入白名单，并帮助绕过同源策略。
+这是必需的，因为浏览器默认应用同源策略以确保安全。通过在 Web 应用程序中实施 CORS，网页可以请求额外的资源并从其他域加载到浏览器中。
+本文将重点介绍在基于 Spring 的应用程序中实现 CORS 的各种方式。要详细了解 CORS 的工作原理，请参阅这篇优秀的介绍性文章。
+示例代码 本文附有 GitHub 上的工作代码示例。
+CORS 特定 HTTP 响应标头概述 CORS 规范定义了服务器返回的一组响应标头，这将是后续部分的重点。
+响应头 描述 Access-Control-Allow-Origin 以逗号分隔的白名单来源列表或“*”。 Access-Control-Allow-Methods Web 服务器允许跨源请求的 HTTP 方法的逗号分隔列表。 Access-Control-Allow-Headers Web 服务器允许跨源请求的 HTTP 标头的逗号分隔列表。 Access-Control-Expose-Headers 客户端脚本认为可以安全显示的以逗号分隔的 HTTP 标头列表。 Access-Control-Allow-Credentials 如果浏览器通过传递凭据（以 cookie 或授权标头的形式）向服务器发出请求，则其值设置为 true 。 Access-Control-Max-Age 指示预检请求的结果可以缓存多长时间。 设置示例客户端应用程序 我们将使用一个简单的角度应用程序来调用 REST 端点，我们可以使用浏览器开发人员工具检查这些端点。您可以在 GitHub 上查看源代码。
+ng serve --open 我们应该能够成功启动客户端应用程序。
+设置示例服务器应用程序 我们将使用一个基于 Spring 的示例应用程序，其中包含客户端应用程序可以调用的 GET 和 POST 请求。请注意，您会发现两个独立的应用程序：一个使用 Spring MVC (REST)，另一个使用 Spring Reactive 堆栈。
+为简单起见，两个应用程序之间的 CORS 配置相同，并且定义了相同的端点。两台服务器都从不同的端口 8091 和 8092 启动。
+与应用程序捆绑在一起的 Maven Wrapper 将用于启动服务。您可以查看 Spring REST 源代码和 Spring Reactive 源代码。
+mvnw clean verify spring-boot:run (for Windows) ./mvnw clean verify spring-boot:run (for Linux) 一旦 Spring 应用程序成功启动，客户端应用程序应该能够成功从服务器加载数据。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-07-26</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a><a href=https://blog.chensoul.cc/tags/spring/>Spring</a><a href=https://blog.chensoul.cc/tags/spring-boot/>Spring-Boot</a><a href=https://blog.chensoul.cc/tags/spring-security/>Spring-Security</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>5 min</span></span></footer><a class=entry-link aria-label="post link to [译]使用 Spring Boot 和 Spring Security 配置 CORS" href=https://blog.chensoul.cc/posts/2023/07/26/spring-cors/></a></article><article class=post-entry><header class=entry-header><h2>[译]使用Spring Boot Actuator公开有用的信息端点</h2></header><section class=entry-content><p>在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。
+Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。
+在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。
+示例代码 本文附有 GitHub 上的工作代码示例。
+启用 Spring Boot 执行器 Spring Boot Actuator 是 Spring Boot 的一个子项目。在本节中，我们将快速了解如何引导示例项目并启用 /info 端点。如果您想了解更多有关 Spring Boot Actuator 的信息，已经有一个很棒的教程了。
+让我们使用 Spring Initializr 快速创建一个 Spring Boot 项目。我们将需要以下依赖项：
+依赖性 目的 Spring Boot Actuator 公开应用程序管理端点，例如 info 。 Spring Web 启用 Web 应用程序行为。 如果有帮助，这里是 Maven 和 Gradle 中预填充项目的链接。
+项目构建后，我们将通过 HTTP 公开内置的 /info 端点。默认情况下， /info Web 端点处于禁用状态。我们可以通过在 application.properties 配置中添加 management.endpoints.web.exposure.include 属性来简单地启用它：
+management.endpoints.web.exposure.include=health,info 让我们运行 Spring Boot 应用程序并在浏览器中打开 URL http://localhost:8080/actuator/info 。目前还看不到任何有用的东西，因为我们仍然需要进行一些配置更改。在下一节中，我们将了解如何在此响应中添加信息丰富的构建信息。
+保护端点 如果您公开公开端点，请确保适当保护它们。我们不应在不知情的情况下泄露任何敏感信息。
+Spring Boot 应用程序信息 Spring 从应用程序上下文中定义的各种 InfoContributor bean 收集有用的应用程序信息。下面是默认 InfoContributor beans 的摘要：
+ID Bean Name 用法 build BuildInfoContributor 公开构建信息。 env EnvironmentInfoContributor 公开 Environment 中名称以 info....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-07-26</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a><a href=https://blog.chensoul.cc/tags/spring/>Spring</a><a href=https://blog.chensoul.cc/tags/maven/>Maven</a><a href=https://blog.chensoul.cc/tags/gradle/>Gradle</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]使用Spring Boot Actuator公开有用的信息端点" href=https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/></a></article><article class=post-entry><header class=entry-header><h2>[译]在 Spring 中实现 OAuth2：使用范围（第 2 部分）</h2></header><section class=entry-content><p>我们在上一篇文章中了解了基本的 OAuth2 概念以及如何在 Spring 中实现和执行不同的授权。在这篇文章中，我们将介绍 OAuth2 的另一个重要概念：范围。
+OAuth 范围 保护对应用程序的访问通常分两个步骤进行：身份验证和授权。要理解这两个概念，假设您在绝密政府大楼工作。在开始之前，你会得到一张卡片，可以让你进入建筑物。 OAuth 令牌可以看作是允许您访问的卡片。
+一旦你进去，你决定去三楼见你的一位同事，在尝试使用你的卡打开三楼的门后，你听到一声嘟嘟声，告诉你你没有被授权。在 OAuth 中，范围是一种定义令牌可以访问哪些资源以及不能访问哪些资源的方法。范围允许访问控制，并且可以被视为相当于传统身份验证中的用户角色。
+实现 为了演示范围，我们将使用第 1 部分中的示例。
+在资源服务器的控制器中，我们有以下端点：
+@RestController("/") public class ResourceController { @GetMapping("/hello") public String hello(){ return "hello"; } @GetMapping("/foo") public String foo(){ return "foo"; } @PostMapping("/bar") public String bar(){ return "bar"; } @DeleteMapping("/test") public String test(){ return "test"; } } 第一步是使用所需的范围配置授权服务器：
+clients.inMemory().withClient("my-trusted-client") .authorizedGrantTypes("password", "refresh_token", "implicit", "client_credentials", "authorization_code") .authorities("CLIENT") .scopes("read", "write", "trust") .accessTokenValiditySeconds(60) .redirectUris("http://localhost:8081/test.html") .resourceIds("resource") .secret("mysecret"); 要在资源服务器中启用范围检查，我们有两个选项：使用安全配置或使用方法安全性。
+使用安全配置： @Override public void configure(HttpSecurity http) throws Exception { http .authorizeRequests() .antMatchers(HttpMethod.GET,"/hello").access("#oauth2.hasScope('read')") .antMatchers(HttpMethod.GET,"/foo").access("#oauth2.hasScope('read')") .antMatchers(HttpMethod.POST,"/bar").access("#oauth2.hasScope('write')") .antMatchers(HttpMethod.DELETE,"/test").access("#oauth2.hasScope('trust')") .anyRequest().authenticated(). and().csrf().disable(); } 使用方法安全性： @PreAuthorize("#oauth2.hasScope('read')") @GetMapping("/hello") public String hello(){ return "hello"; } @PreAuthorize("#oauth2.hasScope('read')") @GetMapping("/foo") public String foo(){ return "foo"; } @PreAuthorize("#oauth2....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
 <span>2023-07-26</span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
 <span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a><a href=https://blog.chensoul.cc/tags/spring/>Spring</a><a href=https://blog.chensoul.cc/tags/spring-boot/>Spring-Boot</a><a href=https://blog.chensoul.cc/tags/spring-security/>Spring-Security</a><a href=https://blog.chensoul.cc/tags/oauth2/>Oauth2</a></span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]在 Spring 中实现 OAuth2：第 1 部分" href=https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring/></a></article><article class=post-entry><header class=entry-header><h2>[译]使用Spring Boot2和Spring Security 5以及JDBC令牌存储进行Oauth2集中授权</h2></header><section class=entry-content><p>在这篇文章中，我们将了解如何使用 Spring Boot 2 和 Spring Security 5 OAuth2 来实现集中授权的授权服务器以及如何通过 GUI 对其进行管理，还将提供资源服务器演示以及 github 下的整个项目。
-很多示例涵盖了基于早期版本的 Spring boot 2 和 Spring Security 5 使用内存令牌实现 Oauth2，因此想法是使用 MySql 数据库作为令牌存储。
-为了深入探讨这个主题，我们必须：
-配置 Spring 安全。 配置数据库。 创建授权服务器。 创建资源服务器。 使用 curl 客户端使用访问令牌获取安全资源。 什么是 Oauth 2？ OAuth 2.0 是行业标准授权协议。 OAuth 2.0 取代了 2006 年创建的原始 OAuth 协议上所做的工作。OAuth 2.0 注重客户端开发人员的简单性，同时为 Web 应用程序、桌面应用程序、移动电话和客厅设备提供特定的授权流程。
-该规范及其扩展正在 IETF OAuth 工作组内开发。
-Oauth 2 角色 OAuth2 定义了 4 个角色：
-资源所有者：通常是您自己。
-资源服务器：托管受保护数据的服务器（例如 Google 托管您的个人资料和个人信息）。
-客户端：请求访问资源服务器的应用程序（网站、Javascript 应用程序或移动应用程序……）。
-授权服务器：向客户端颁发访问令牌的服务器。该令牌将用于客户端请求资源服务器。该服务器可以与资源服务器相同（相同的物理服务器和相同的应用程序），而且经常是这种情况。
-下图说明了角色流程：
-授权类型 OAuth 2 为不同的用例提供了多种“授权类型”。定义的授权类型型有：
-授权码：授权码授予是使用您的 Facebook 或 Google 帐户登录应用程序的功能。 密码：旨在用于基于用户代理的客户端。其次，授权服务器不会像授权代码授予那样返回授权代码来交换访问令牌，而是返回访问令牌。 客户端凭据：客户端可以仅使用其客户端凭据（或其他支持的身份验证方式）请求访问令牌，当客户端请求访问其下的受保护资源控制权，或先前已被其他资源所有者控制的与授权服务器安排。 隐式授权：隐式授权是一种简化的授权代码流，针对使用 JavaScript 等脚本语言在浏览器中实现的客户端进行了优化。在隐式流程中，而不是向客户端发出授权代码，直接向客户端颁发访问令牌。 示范 让我们动手吧
-业务层 为简单起见，我们的主要业务应用程序将是使用一个实体的产品 API，我们的访问规则将是：
-PRODUCT_CREATE PRODUCT_UPDATE PRODUCT_DISPLAY PRODUCT_ADMIN OAuth2 客户端设置 要设置 Oauth 2 客户端，我们需要创建下表 [有关更多详细信息，请参阅链接]...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-07-14</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a><a href=https://blog.chensoul.cc/tags/spring/>Spring</a><a href=https://blog.chensoul.cc/tags/spring-boot/>Spring-Boot</a><a href=https://blog.chensoul.cc/tags/spring-security/>Spring-Security</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>4 min</span></span></footer><a class=entry-link aria-label="post link to [译]使用Spring Boot2和Spring Security 5以及JDBC令牌存储进行Oauth2集中授权" href=https://blog.chensoul.cc/posts/2023/07/14/oauth-2-centralized-authorization-with-spring-boot-2-and-spring-security-5-and-jdbc-token-store/></a></article><article class=post-entry><header class=entry-header><h2>周报-26｜上半年的绩效总结</h2></header><section class=entry-content><p>前言 本篇是对 2023-06-26 到 2023-07-09 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-读书、健身、投资、帮朋友、陪家人。
-这两周主要是忙于工作，Wekatime 上统计的上周每天平均编程时间达到了 6 hrs 52 mins，基本上每天都是早七晚七的上班节奏。于是，学习的时间都被工作占用了。工作的内容主要是整合多个系统实现 sso 登录，用到的技术有 SpringCloud、Spring Security Oauth2 等等。
-另外，本周完成了上半年的绩效总结，回顾了这半年的工作内容。
-绩效总结 1、项目方面的成果：
-a、完成了智能安防多个项目的迭代开发和上线，包括用户切换租户、报表发送到飞书、华为车牌识别、夜收模块拆分、巡检场景功能优化等。同时，也完成了通知模块重构、大屏报表支持多租户和门店、Dmallai 导航等需求的开发。这些工作的完成，为系统的稳定性和功能扩展提供了有力的支持。
-b、共发布了 32 次版本，其中 7 次为功能迭代，25 次为 bug 修复。平均每月完成了 1 次项目迭代和 4 次 bug 修复，做到了及时响应和快速解决问题，提升了用户的使用体验和满意度，提高了系统的稳定性，降低系统的故障率和用户的投诉率，没有出现 P3 级别以上故障。
-2、技术方面的成果：
-利用空余时间学习新技术和框架，如 Pyhon、Rust、React，每周写周报和学习总结，总计输出 66 篇文章。
-不断优化和迭代 Rose 框架，并将 Rose 合并到 Cocktail cloud，方便代码管理和维护。同时，Cocktail cloud 还增加了一些新的功能和特性，如国际化、日志打印、华为云接口封装等。
-利用设计模式重构通知模块，提升代码质量，同时系统扩展性和并发也得到很大的提升。
-3、个人发展方面的成果：
-通过不断学习和实践，提高了自己的沟通能力和时间管理的能力。每天早上 7 点到公司学习，提高了个人工作效率和执行力。
-4、团队合作方面的成果：
-加强了和同事之间的沟通和协作，及时讨论项目需求和进度，保障项目按时上线。
-读书 健身 我跑过了一些地方，希望随着时间推移，地图点亮的地方越来越多。2 年里我跑过 2 个省份 2 个城市。更多跑步数据在我的 跑步 主页。
-理财 这周总计支出 1483 元，明细如下：
-7 月 2 日：1276 元，其中 1000 元加油
-7 月 1 日：32 元
-6 月 30 日：35 元
-6 月 29 日：15 元
-6 月 28 日：41 元...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-07-11</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/review/>Review</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>2 min</span></span></footer><a class=entry-link aria-label="post link to 周报-26｜上半年的绩效总结" href=https://blog.chensoul.cc/posts/2023/07/11/weekly_review_26/></a></article><article class=post-entry><header class=entry-header><h2>Python学习7：输入和输出</h2></header><section class=entry-content><p>在 Python 中，可以使用 input() 函数从标准输入读取用户输入的数据，并使用 print() 函数将数据输出到标准输出。下面是一些常用的输入输出方法：
-1、使用 input() 函数读取用户输入
-input() 函数会从标准输入读取用户输入的数据，并返回一个字符串类型的值。例如：
-name = input("What's your name? ") print("Hello, " + name + "!") 在上面的例子中，使用 input() 函数读取用户输入的姓名，并使用 print() 函数输出问候语。
-2、使用 print() 函数输出字符串
-print() 函数可以将字符串输出到标准输出。可以使用加号（+）将多个字符串连接起来，并使用逗号（,）将多个参数输出到同一行。例如：
-print("Hello, World!") print("The answer is", 42) 在上面的例子中，使用 print() 函数输出了两个字符串，第二个字符串包含了一个数字。
-3、使用格式化字符串输出数据
-可以使用格式化字符串将变量的值插入到字符串中。可以使用花括号（{}）表示变量的位置，并使用 format() 方法将变量的值插入到花括号中。例如：
-name = "Alice" age = 25 print("My name is {} and I'm {} years old.".format(name, age)) 在上面的例子中，使用 format() 方法将变量 name 和 age 的值插入到字符串中。
-4、使用 f-字符串输出数据
-在 Python 3.6 及以后的版本中，可以使用 f-字符串来格式化字符串。f-字符串是一种特殊的字符串，以字母 f 或 F 开头，并以花括号表示变量的位置。在花括号中可以直接使用变量名，也可以使用表达式计算变量的值。例如：
-name = "Bob" age = 32 print(f"My name is {name.upper()} and I'm {age * 2} years old.") 在上面的例子中，使用 f-字符串将变量 name 的值转换为大写字母，并将变量 age 的值乘以 2。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-07-08</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/python/>Python</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>5 min</span></span></footer><a class=entry-link aria-label="post link to Python学习7：输入和输出" href=https://blog.chensoul.cc/posts/2023/07/08/python-input-and-output/></a></article><article class=post-entry><header class=entry-header><h2>Python学习6：模块和包</h2></header><section class=entry-content><p>在 Python 中，模块（module）是指一个包含 Python 代码的文件，而包（package）则是指一个包含多个模块的文件夹。模块和包可以用来组织和管理 Python 代码，使得代码更加易于维护和扩展。
-以下是一些有关 Python 模块和包的基本知识：
-1、导入模块
-使用 import 语句可以导入一个模块（或包）中的代码。例如，要导入名为 “math” 的模块，可以使用以下语句：
-import math 这会将 math 模块中的所有函数和变量导入到当前 Python 脚本中，您就可以在脚本中使用 math 模块中的函数和变量了。
-2、导入特定函数或变量
-有时候您只需要使用模块中的某个函数或变量，而不需要导入整个模块。在这种情况下，可以使用 from…import 语句，例如：
-from math import sqrt 这会将 math 模块中的 sqrt 函数导入到当前 Python 脚本中，您就可以直接使用 sqrt 函数了。
-3、导入多个函数或变量
-如果您需要导入多个函数或变量，可以使用逗号分隔它们，例如：
-from math import sqrt, floor 这会将 math 模块中的 sqrt 函数和 floor 函数导入到当前 Python 脚本中，您就可以直接使用这两个函数了。
-4、导入所有函数和变量
-有时候，您可能需要导入模块中的所有函数和变量。在这种情况下，可以使用以下语句：
-from math import * 这会将 math 模块中的所有函数和变量导入到当前 Python 脚本中。但是，这种导入方式可能会导致命名冲突和代码可读性降低，因此最好只在一些小型程序中使用。
-5、创建包
-要创建一个包，您需要创建一个包含 init.py 文件的文件夹，并在该文件夹中添加其他 Python 模块。init.py 文件可以是一个空文件，或者包含一些初始化代码。
-例如，如果您想创建一个名为 “my_package” 的包，可以按照以下方式组织代码：
-my_package/ __init__.py module1.py module2.py 这个包包含了 init.py 文件和两个模块（module1.py 和 module2.py）。您可以使用 import 语句来导入这个包中的模块，例如：
-import my_package.module1 这会将 my_package 包中的 module1.py 文件导入到当前 Python 脚本中，您就可以使用其中定义的函数和变量了。
-6、导入自定义模块...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-07-06</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/python/>Python</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>3 min</span></span></footer><a class=entry-link aria-label="post link to Python学习6：模块和包" href=https://blog.chensoul.cc/posts/2023/07/06/python-module-package/></a></article><article class=post-entry><header class=entry-header><h2>Java设计模式：Ambassador</h2></header><section class=entry-content><p>本文主要介绍 Ambassador 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。
-Java Design Patterns 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。
-Java Design Patterns 网站提供了多种设计模式分类方式，包括创建型模式（Creational Patterns）、结构型模式（Structural Patterns）和行为型模式（Behavioral Patterns），以及其他一些常见的模式。
-对于每个设计模式，该网站提供了详细的介绍、示例代码和用例说明，并且提供了一些常见的使用场景和注意事项。开发人员可以根据自己的需求选择适合自己的设计模式，并且可以参考示例代码和用例说明来理解和应用该模式。
-此外，Java Design Patterns 网站还提供了一些其他资源，如设计模式的 UML 图、设计模式的优缺点、设计模式的比较等。这些资源可以帮助开发人员更好地理解和应用设计模式。
-中文网站：https://java-design-patterns.com/zh/
-Github 上源码仓库（非官方）：https://github.com/iluwatar/java-design-patterns
-目的 在客户端上提供帮助程序服务实例，并从共享资源上转移常用功能。
-Ambassador 设计模式的主要目的是将客户端应用程序与远程服务器之间的通信细节隔离开来，从而使客户端应用程序可以专注于自己的业务逻辑，而不必关注网络通信细节和错误处理。
-在传统的客户端应用程序中，通常需要处理大量的网络通信细节和错误处理，这会使代码变得复杂且难以维护。而使用 Ambassador 设计模式可以将这些细节和处理逻辑集中在一个单独的类中，从而使客户端应用程序的代码更加简洁、易于维护和扩展。
-此外，使用 Ambassador 设计模式还可以提高客户端应用程序与远程服务器之间的通信安全性和可靠性。例如，Ambassador 类可以负责统一处理所有的网络通信，从而可以更轻松地实现安全性和可靠性控制。
-解释 假设有一个旧版的远程服务，该服务提供了许多客户端访问的功能，但由于用户的大量请求，导致连接问题变得普遍。此外，新的请求频率规则需要同时实现延迟检测和客户端日志功能。为了解决这些问题，可以使用 Ambassador 设计模式。
-微软文档 做了如下阐述
-可以将大使服务视为与客户端位于同一位置的进程外代理。 此模式对于以语言不可知的方式减轻常见的客户端连接任务（例如监视，日志记录，路由，安全性（如 TLS）和弹性模式）的工作很有用。 它通常与旧版应用程序或其他难以修改的应用程序一起使用，以扩展其网络功能。 它还可以使专业团队实现这些功能。
-在该模式中，可以创建一个 Ambassador 类来充当客户端应用程序和远程服务之间的代理。Ambassador 类负责处理所有的网络通信细节和错误处理，并实现新的请求频率规则，包括延迟检测和客户端日志功能。
-具体来说，Ambassador 类可以实现以下功能：
-延迟检测：在请求到达远程服务之前，Ambassador 类可以检测请求的时间戳，并计算出请求的延迟时间。如果请求的延迟时间超过了预设的阈值，Ambassador 类可以将请求拒绝。 客户端日志功能：Ambassador 类可以记录请求的时间戳、请求的内容和响应的内容，并将这些信息保存到客户端的日志文件中。这样可以帮助客户端应用程序进行调试和故障排除。 连接问题处理：Ambassador 类可以监控远程服务的连接状态，并在连接出现问题时进行自动重试。同时，Ambassador 类还可以实现一些优化策略，例如使用连接池等，以提高连接的可靠性和性能。 程序示例
-有了上面的介绍我们将在这个例子中模仿功能。我们有一个用远程服务实现的接口，同时也是大使服务。
-interface RemoteServiceInterface { long doRemoteFunction(int value) throws Exception; } 表示为单例的远程服务。
-public class RemoteService implements RemoteServiceInterface { private static final Logger LOGGER = LoggerFactory.getLogger(RemoteService.class); private static RemoteService service = null; static synchronized RemoteService getRemoteService() { if (service == null) { service = new RemoteService(); } return service; } private RemoteService() {} @Override public long doRemoteFunction(int value) { long waitTime = (long) Math....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-07-06</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a><a href=https://blog.chensoul.cc/tags/spring/>Spring</a><a href=https://blog.chensoul.cc/tags/aop/>Aop</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>14 min</span></span></footer><a class=entry-link aria-label="post link to Java设计模式：Ambassador" href=https://blog.chensoul.cc/posts/2023/07/06/java-design-patterns-ambassador/></a></article><article class=post-entry><header class=entry-header><h2>周报-25｜端午安康</h2></header><section class=entry-content><p>前言 本篇是对 2023-06-19 到 2023-06-25 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-读书、健身、投资、帮朋友、陪家人。
-这周因为端午节，只上三天班，放三天假。祝愿所有父母端午安康！
-读书 本周阅读时长 15 分钟，主要是阅读《Java 高并发核心编程：多线程、锁、JVM、JUC、高并发设计模式》。
-健身 我跑过了一些地方，希望随着时间推移，地图点亮的地方越来越多。2 年里我跑过 2 个省份 2 个城市。更多跑步数据在我的 跑步 主页。
-本周尚未跑步。最近上班没有带饭，每天中午吃饭都超标了，每天也没有测量体重，严重怀疑体重又涨了几斤。这个月也快结束了，下个月继续减肥。
-理财 这周总计支出 1027 元，明细如下：
-6 月 25 日：30 元
-6 月 24 日：133 元
-6 月 23 日：462 元
-6 月 22 日：69 元
-6 月 21 日：147 元
-6 月 20 日：159 元
-6 月 19 日：27 元
-陪家人 农历 5 月 4 日，六舅走了。端午节的三天假期，主要是回去奔丧，送六舅最后一程。
-算了下日子，老爸来阳逻快一个月了，老婆放下手上的工作回来照顾老爸也有两周时间了。看得出来，老婆有效疲惫了。老爸现在可以走，但是走的不够利索。希望老爸恢复得再快些，让老婆回去上班。如有可能，下周末把老爸送回老家，让老爸自己在家照顾自己。农村的空气好些，不会憋得慌。但还是担心天气太热，老爸照顾不好自己。在照顾老爸的事情，除了能够依靠老婆，其他谁都靠不上。但是，老婆也有工作要处理，我的工作又不能辞掉。这大抵算是八零后的压力吧，父亲在买房买车结婚上没有帮上忙，反而还会因为自己不好好照顾自己而给子女增加负担。总是跟老爸说这该做那不该做，老爸就像个孩子似的，一点都不听话。
-周六，在黄石开牙医院的表哥的女儿考上墨尔本的研究生在老家办酒。也许是上了年纪的缘故，也许是老爸喜欢凑热闹，老爸想去喝酒。于是，成全了老爸的心愿。老爸年纪大了，尽可能的满足老爸的一些想法和心愿，尽可能的带老爸体验"新鲜"的事物，比如，看电影，旅游。于是，周四带老爸去看了电影《消失的她》。还有什么事情可以做呢？这样一想，老爸年纪越来越大了，腿脚越来越不利索，能够做的事情越来越少了。趁光阴还在，多陪陪父母，常回家看看。
-工作 最近在学习的内容清单：
-Effective Java（第 3 版） Java Design Patterns (中文) Real Python 本周完成五篇博客：
-[译]微服务设计模式 Java 设计模式：Aggregator Microservices Python 学习 5：函数 [译]Python 模块和包-简介 [译]用 Bottle 开发 本周分享 大部分有意思的内容会分享在 『ChenSoul Share』Telegram 频道或者我的 Memos 中。我写了一个 Python 脚本从 Memos 读取最近一周带有 #memos 标签的记录，分享到这里。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-06-28</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/review/>Review</a><a href=https://blog.chensoul.cc/tags/java/>Java</a><a href=https://blog.chensoul.cc/tags/python/>Python</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>2 min</span></span></footer><a class=entry-link aria-label="post link to 周报-25｜端午安康" href=https://blog.chensoul.cc/posts/2023/06/28/weekly_review_25/></a></article><article class=post-entry><header class=entry-header><h2>[译]微服务设计模式</h2></header><section class=entry-content><p>基于微服务的应用程序的主要特征在 微服务、单体和 NoOps 中定义。它们是功能分解或领域驱动设计、定义良好的接口、明确发布的接口、单一责任原则和潜在的多语言。每项服务都是完全自主和全栈的。
-因此，更改服务实现不会影响其他服务，因为它们使用定义良好的接口进行通信。这种应用程序有几个优点，但它不是 免费的午餐，需要在 NoOps 方面付出大量努力。
-但是假设您了解构建此类应用程序所需的工作或至少其中的一部分，并且愿意跳槽。你做什么工作？您构建此类应用程序的方法是什么？
-是否有任何关于这些微服务如何相互协作的设计模式？
-应用程序和团队的功能分解是构建成功的微服务架构的关键。
-这允许您实现松耦合（REST 接口）和高内聚（多个服务可以相互组合以定义更高级别的服务或应用程序）。
-应用程序的动词（例如 Checkout）或名词（Product）是实现现有应用程序分解的有效方法之一。
-例如，产品、目录和结帐可以是三个独立的微服务，然后相互协作以提供完整的购物车体验。
-功能分解提供了敏捷性、灵活性、可扩展性和其他能力，但业务目标仍然是创建应用程序。因此，一旦识别出不同的微服务，您如何组合它们以提供应用程序的功能？
-本博客将讨论一些关于如何将微服务组合在一起的推荐模式。
-聚合微服务设计模式 第一个，也可能是最常见的，是聚合器微服务设计模式。
-在其最简单的形式中，聚合器将是一个简单的网页，它调用多个服务来实现应用程序所需的功能。由于每个服务（服务 A、服务 B 和服务 C）都使用轻量级 REST 机制公开，因此网页可以检索数据并相应地处理/显示数据。如果需要某种处理，比如将业务逻辑应用于从各个服务接收的数据，那么您可能有一个 CDI bean 可以转换数据，以便网页可以显示它。
-聚合器的另一个选择是不需要显示，它只是一个更高级别的复合微服务，可以被其他服务使用。
-在这种情况下，聚合器只需从每个单独的微服务收集数据，对其应用业务逻辑，然后将其进一步发布为 REST 端点。然后可以由需要它的其他服务使用。
-这种设计模式遵循 DRY 原则。
-如果有多个服务需要访问服务 A、B 和 C，那么建议将该逻辑抽象为一个复合微服务，并将该逻辑聚合到一个服务中。在此级别进行抽象的一个优点是各个服务，即服务 A、B 和 C，并且可以独立发展，业务需求仍然由组合微服务提供。
-请注意，每个单独的微服务都有自己的（可选）缓存和数据库。如果聚合器是一个复合微服务，那么它也可能有自己的缓存和数据库层。
-聚合器也可以在 X 轴和 Z 轴上独立缩放。因此，如果它是一个网页，那么您可以启动额外的 Web 服务器，或者如果它是一个使用 Java EE 的复合微服务，那么您可以启动额外的 WildFly 实例来满足不断增长的需求。
-代理微服务设计模式 代理微服务设计模式是聚合器的一种变体。在这种情况下，客户端不需要进行聚合，但可以根据业务需要调用不同的微服务。
-就像 Aggregator 一样，Proxy 也可以在 X 轴和 Z 轴上独立扩展。您可能喜欢这样做，因为每个单独的服务都不需要向消费者公开，而是应该通过一个界面。
-代理可能是一个哑代理，在这种情况下，它只是将请求委托给其中一项服务。或者，它可能是一个智能代理，在将响应提供给客户端之前应用一些数据转换。一个很好的例子就是可以将不同设备的表示层封装在智能代理中。
-链式微服务设计模式 链式微服务设计模式对请求产生单一的综合响应。在这种情况下，来自客户端的请求由服务 A 接收，然后服务 A 与服务 B 通信，而服务 B 又可能与服务 C 通信。
-所有服务都可能使用同步 HTTP 请求/响应消息传递。
-要记住的关键部分是客户端被阻塞，直到完成请求/响应链，即服务&lt;->服务 B 和服务 B&lt;->服务 C，完成。从服务 B 到服务 C 的请求可能看起来与从服务 A 到服务 B 的请求完全不同。
-同样，服务 B 对服务 A 的响应可能看起来与服务 C 对服务 B 的响应完全不同。无论如何，这就是不同服务增加其业务价值的全部要点。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-06-26</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>1 min</span></span></footer><a class=entry-link aria-label="post link to [译]微服务设计模式" href=https://blog.chensoul.cc/posts/2023/06/26/microservice-design-patterns/></a></article><article class=post-entry><header class=entry-header><h2>Java设计模式：Aggregator Microservices</h2></header><section class=entry-content><p>本文主要介绍 Aggregator Microservices 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。
-Java Design Patterns 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。
-Java Design Patterns 网站提供了多种设计模式分类方式，包括创建型模式（Creational Patterns）、结构型模式（Structural Patterns）和行为型模式（Behavioral Patterns），以及其他一些常见的模式。
-对于每个设计模式，该网站提供了详细的介绍、示例代码和用例说明，并且提供了一些常见的使用场景和注意事项。开发人员可以根据自己的需求选择适合自己的设计模式，并且可以参考示例代码和用例说明来理解和应用该模式。
-此外，Java Design Patterns 网站还提供了一些其他资源，如设计模式的 UML 图、设计模式的优缺点、设计模式的比较等。这些资源可以帮助开发人员更好地理解和应用设计模式。
-中文网站：https://java-design-patterns.com/zh/
-Github 上源码仓库（非官方）：https://github.com/iluwatar/java-design-patterns
-意图 用户对聚合器服务进行一次调用，然后聚合器将调用每个相关的微服务。
-Aggregator Microservices 是一种微服务架构模式，用于解决大型分布式系统中的数据聚合问题。该模式通常用于有多个数据源的场景，例如电子商务网站中的产品列表页面，其中需要从多个服务中获取产品信息并组合在一起显示。
-Aggregator Microservices 模式包括一个聚合器服务和多个后端服务。聚合器服务负责从多个后端服务中收集数据，并将数据组合成一个聚合的响应。后端服务则负责提供特定的数据源，例如产品信息、库存信息、价格信息等。
-解释 真实世界例子
-我们的网络市场需要有关产品及其当前库存的信息。 它调用聚合服务，聚合服务依次调用产品信息微服务和产品库存微服务，返回组合信息。
-通俗地说
-聚合器微服务从各种微服务中收集数据，并返回一个聚合数据以进行处理。
-Stack Overflow 上说
-聚合器微服务调用多个服务以实现应用程序所需的功能。
-程序示例
-让我们从数据模型开始。 这是我们的产品。
-public class Product { private String title; private int productInventories; // getters and setters -> ... } 接下来，我们将介绍我们的聚合器微服务。 它包含用于调用相应微服务的客户端ProductInformationClient和 ProductInventoryClient。
-@RestController public class Aggregator { @Resource private ProductInformationClient informationClient; @Resource private ProductInventoryClient inventoryClient; @RequestMapping(path = "/product", method = RequestMethod.GET) public Product getProduct() { var product = new Product(); var productTitle = informationClient....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-06-26</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>3 min</span></span></footer><a class=entry-link aria-label="post link to Java设计模式：Aggregator Microservices" href=https://blog.chensoul.cc/posts/2023/06/26/java-design-patterns-aggregator-microservices/></a></article><article class=post-entry><header class=entry-header><h2>[译]Python模块和包-简介</h2></header><section class=entry-content><p>本文探讨了 Python 模块和 Python 包，这两种机制有助于模块化编程。
-模块化编程是指将大型、笨重的编程任务分解为单独的、更小的、更易于管理的子任务或模块的过程。然后可以像构建块一样将各个模块拼凑在一起以创建更大的应用程序。
-在大型应用程序中模块化代码有几个优点：
-简单性：模块通常不会专注于手头的整个问题，而是专注于问题的一个相对较小的部分。如果您正在处理单个模块，那么您将有一个较小的问题域来解决问题。这使得开发更容易并且更不容易出错。
-可维护性：模块通常设计为在不同问题域之间强制执行逻辑边界。如果模块是以最小化相互依赖的方式编写的，那么对单个模块的修改对程序的其他部分产生影响的可能性就会降低。（您甚至可以在不了解该模块之外的应用程序的情况下对该模块进行更改。）这使得由许多程序员组成的团队在大型应用程序上协同工作变得更加可行。
-可重用性：在单个模块中定义的功能可以很容易地被应用程序的其他部分重用（通过适当定义的接口）。这消除了重复代码的需要。
-作用域：模块通常定义一个单独的名称空间，这有助于避免程序不同区域中标识符之间的冲突。 （Python 之禅的信条之一是命名空间是一个非常棒的想法——让我们做更多这样的事情吧！）
-函数、模块和包都是 Python 中促进代码模块化的构造。
-Python 模块：概述 在 Python 中实际上有三种不同的方式来定义模块：
-模块可以用 Python 本身编写。
-模块可以用 C 语言编写并在运行时动态加载，例如 re （正则表达式）模块。
-内置模块本质上包含在解释器中，例如 itertools 模块。
-在所有三种情况下，模块的内容都以相同的方式访问：使用 import 语句。
-在这里，重点将主要放在用 Python 编写的模块上。用 Python 编写的模块的妙处在于它们的构建非常简单。
-您需要做的就是创建一个包含合法 Python 代码的文件，然后为该文件指定一个带有 .py 扩展名的名称。就是这样！不需要特殊的语法或巫术。
-例如，假设您创建了一个名为 mod.py 的文件，其中包含以下内容：
-mod.py
-s = "If Comrade Napoleon says it, it must be right." a = [100, 200, 300] def foo(arg): print(f'arg = {arg}') class Foo: pass mod.py 中定义了几个对象：
-s （字符串） a （列表） foo() （函数） Foo （类） 假设 mod.py 位于适当的位置（您很快就会了解更多信息），可以通过导入模块来访问这些对象，如下所示：
->>> import mod >>> print(mod.s) If Comrade Napoleon says it, it must be right....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-06-25</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/python/>Python</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>9 min</span></span></footer><a class=entry-link aria-label="post link to [译]Python模块和包-简介" href=https://blog.chensoul.cc/posts/2023/06/25/python-modules-packages/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://blog.chensoul.cc/page/13/>« Prev Page</a>
+<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]在 Spring 中实现 OAuth2：使用范围（第 2 部分）" href=https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring-scopes/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://blog.chensoul.cc/page/13/>« Prev Page</a>
 <a class=next href=https://blog.chensoul.cc/page/15/>Next Page »</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span><span style=display:inline-block;margin-left:1em>
 <a href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA</a>
 </span><span style=display:inline-block;margin-left:1em>Powered by

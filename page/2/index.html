@@ -1,187 +1,237 @@
-<!doctype html><html lang=en dir=auto><head><meta name=generator content="Hugo 0.125.6"><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>ChenSoul</title>
+<!doctype html><html lang=en dir=auto><head><meta name=generator content="Hugo 0.125.7"><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>ChenSoul</title>
 <meta name=keywords content="java,python,go"><meta name=description content><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/><link crossorigin=anonymous href=/assets/css/stylesheet.min.d6db7ab468e55ea6647d68be426a17bae21ff1cddbf1741e547ed2086d010444.css integrity="sha256-1tt6tGjlXqZkfWi+QmoXuuIf8c3b8XQeVH7SCG0BBEQ=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=alternate type=application/rss+xml href=https://blog.chensoul.cc/index.xml><link rel=alternate type=application/json href=https://blog.chensoul.cc/index.json><link rel=alternate hreflang=en href=https://blog.chensoul.cc/><meta name=twitter:title content="ChenSoul"><meta name=twitter:description content><meta property="og:title" content="ChenSoul"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://blog.chensoul.cc/"><meta property="og:site_name" content="ChenSoul"><script type=application/ld+json>{"@context":"https://schema.org","@type":"Organization","name":"ChenSoul","url":"https://blog.chensoul.cc/","description":"","thumbnailUrl":"https://blog.chensoul.cc/favicon.ico","sameAs":[]}</script><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary-bg:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list-page{background:var(--theme)}.list-page:not(.dark)::-webkit-scrollbar-track{background:0 0}.list-page:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript></head><body class="list-page type-page kind-home layout-" id=top><script data-no-instant>function switchTheme(e){switch(e){case"light":document.body.classList.remove("dark");break;case"dark":document.body.classList.add("dark");break;default:window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")}}function isDarkTheme(){return document.body.className.includes("dark")}function getPrefTheme(){return localStorage.getItem("pref-theme")}function setPrefTheme(e){switchTheme(e),localStorage.setItem("pref-theme",e)}const toggleThemeCallbacks={};toggleThemeCallbacks.main=e=>{setPrefTheme(e?"light":"dark")},window.addEventListener("toggle-theme",function(){const e=isDarkTheme();for(const t in toggleThemeCallbacks)toggleThemeCallbacks[t](e)});function toggleThemeListener(){window.dispatchEvent(new CustomEvent("toggle-theme"))}</script><script>(function(){const t="auto",e=getPrefTheme(),n=e||t;switchTheme(n)})()</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a>
-<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories/review/ title=总结>总结</a></li><li><a href=https://blog.chensoul.cc/categories/ title=分类>分类</a></li><li><a href=https://blog.chensoul.cc/tags/ title=标签>标签</a></li><li><a href=https://github.com/chensoul/ title=关于 target=_blank>关于<span class=external-link><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7H6A2 2 0 004 9v9a2 2 0 002 2h9a2 2 0 002-2v-5"/><line x1="10" y1="14" x2="20" y2="4"/><polyline points="15 4 20 4 20 9"/></svg></span></a></li></ul></nav></header><main class=main><article class=post-entry><header class=entry-header><h2>[译]如何通过 WebSocket 将 Kafka 消息流式传输到面向互联网的客户端</h2></header><section class=entry-content><p>原文链接：https://ably.com/topic/websockets-kafka
-Apache Kafka 是目前最强大的异步消息传递技术之一。 Kafka 由 Jay Kreps、Jun Rao 和 Neha Narkhede 等团队于 2010 年在 LinkedIn 设计，并于 2011 年初开源。如今，该工具被众多公司（包括科技巨头，例如 Slack、Airbnb 或 Netflix 使用）为其实时数据流管道提供支持。
-由于 Kafka 如此受欢迎，我很好奇是否可以使用它通过互联网和 WebSockets 将实时数据直接流式传输给最终用户。毕竟，Kafka 具有一系列特征，似乎使其成为一个值得注意的选择，例如：
-高通量 低延迟 高并发 容错能力 持久性（持久性） 用于将 Kafka 消息流式传输到面向互联网的客户端的现有解决方案 我开始研究实时开发社区对这个用例的看法。我很快发现 Kafka 最初设计用于安全网络内进行机器对机器通信。这让我想到，如果您想通过 WebSocket 将数据从 Kafka 流式传输到面向互联网的用户，您可能需要使用某种中间件。
-我继续研究，希望找到一些可以充当中间件的开源解决方案。我发现了其中的几个，理论上可以用作 Kafka 和通过互联网连接数据流的客户端之间的中介：
-transfers_websockets_service kafka-websocket kafka-proxy-ws 不幸的是，上面列出的所有解决方案都只是概念证明，仅此而已。它们的功能集有限，并且尚未做好生产准备（尤其是大规模生产）。
-然后我研究了成熟的科技公司如何解决这个 Kafka 用例；看来他们确实在使用某种中间件。例如，Trello 开发了WebSocket 协议的简化版本，仅支持订阅和取消订阅命令。 Slack 提供了另一个例子。该公司构建了一个名为Flannel的代理，它本质上是部署到边缘存在点的应用程序级缓存服务。
-当然，像 Trello 或 Slack 这样的公司有能力投资所需的资源来构建此类解决方案。然而，开发自己的中间件并不总是一个可行的选择——这是一项非常复杂的任务，需要大量的资源和时间。另一种选择（最方便、最常见的一种）是使用已建立的第三方解决方案。
-正如我们所看到的，普遍的共识似乎是 Kafka 本身不适合通过互联网进行最后一英里交付；您需要将它与另一个组件结合使用：面向互联网的实时消息传递服务。
-在 Ably，我们的许多客户都通过我们面向互联网的 pub/sub 实时消息服务传输 Kafka消息。为了演示它是多么简单，下面是如何从 Kafka 消费数据并将其发布到 Ably 的示例：
-const kafka = require('kafka-node'); const Ably = require('ably'); const ably = new Ably.Realtime({{ABLY_API_KEY}}); const ablyChannel = ably.channels.get('kafka-example'); const Consumer = kafka.Consumer; const client = new kafka....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories/review/ title=总结>总结</a></li><li><a href=https://blog.chensoul.cc/categories/ title=分类>分类</a></li><li><a href=https://blog.chensoul.cc/tags/ title=标签>标签</a></li><li><a href=https://github.com/chensoul/ title=关于 target=_blank>关于<span class=external-link><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7H6A2 2 0 004 9v9a2 2 0 002 2h9a2 2 0 002-2v-5"/><line x1="10" y1="14" x2="20" y2="4"/><polyline points="15 4 20 4 20 9"/></svg></span></a></li></ul></nav></header><main class=main><article class=post-entry><header class=entry-header><h2>[译]什么是 HTTP？</h2></header><section class=entry-content><p>原文链接：https://www.pubnub.com/guides/http/
+HTTP 概述 HTTP，即超文本传输协议，是互联网通信的基础。它在客户端-服务器模型上运行，其中前端客户端（例如网络浏览器）通过向服务器发送HTTP请求消息来发起请求，例如请求网页（例如搜索引擎）。然后，服务器使用包含所请求资源的 HTTP 响应消息进行响应，如果资源不可用，则使用错误消息进行响应。
+HTTP 是一种无状态协议，这意味着每个请求都是独立的，与之前或将来的请求无关。这允许客户端和服务器之间进行有效的通信。
+HTTP 于 1991 年首次引入，作为 Tim Berners-Lee 创建的万维网项目的一部分，并由互联网工程任务组 (IETF)进行标准化。 IETF 负责开发和维护 HTTP、TCP/IP、DNS 等协议，以及他们在 RFC 或“征求意见”中记录的许多其他协议。
+早期，需要一种标准化协议来促进不同计算机和服务器之间的通信。这导致了各种协议的发展，包括 HTTP。
+HTTP 0.9，该协议的第一个版本，是一个简单且有限的系统，仅支持超文本文档的检索。它不支持标头，只允许传输纯文本数据。
+1996 年，HTTP 1.0 发布，引入了至今仍在使用的几个重要功能。它增加了对多种媒体类型的支持，允许传输图像、视频和其他文件格式。它还引入了使用标头来实现更高级的功能，例如缓存和身份验证。
+1999 年发布的 HTTP 1.1 进一步改进了该协议。它引入了持久连接，允许通过单个 TCP 连接发送多个请求和响应。这极大地提高了客户端和服务器之间通信的效率和速度。
+近年来，人们致力于增强和优化HTTP协议。这导致了HTTP/2的开发，并于 2015 年发布。HTTP/2 带来了多项改进，包括多路复用、标头压缩和服务器推送，以减少延迟并提高性能。
+最后是 HTTP/3。HTTP/3也称为 HTTP over QUIC（快速 UDP Internet 连接），是最新的 HTTP 协议版本，旨在解决以前版本的一些限制并提高性能。
+HTTP/3 构建在 QUIC 传输协议之上，该协议使用用户数据报协议 (UDP)而不是 TCP。与 TCP 相比，UDP 具有多种优势，例如减少延迟和改进拥塞控制。 HTTP/3 使用 UDP，旨在提供更快、更可靠、更安全的连接。
+HTTP/3 的关键特性之一是它支持多路复用和流多路复用的能力。这允许通过单个连接同时发送多个请求和响应，从而提高效率并减少延迟。此外，HTTP/3 还包含零 RTT 连接建立、改进的拥塞控制以及通过加密提高安全性等功能。
+HTTP 和服务器 服务器对于处理 HTTP 请求和提供相应的响应至关重要。以下是HTTP与服务器关系的几个要点：
+请求-响应模型：如前所述，HTTP 遵循请求-响应模型。客户端向服务器发送 HTTP 请求，指定所需的操作，例如检索网页或提交表单数据。服务器处理请求并发回 HTTP 响应，其中包括状态代码、标头和请求的内容（如果适用）。 Web 服务器：Web 服务器是处理 HTTP 请求的软件应用程序或程序。它们侦听特定网络端口（通常为 HTTP 的端口 80）上的传入请求，并将它们路由到适当的资源或应用程序。流行的 Web 服务器软件包括 Apache、Nginx和 Microsoft IIS。 路由和资源处理：在 HTTP 服务器中，路由确定传入请求如何映射到特定资源或端点处理程序。例如，当接收到针对特定 URL 或路径的请求时，服务器使用路由规则来确定哪个代码或资源应处理该请求并生成适当的响应。 处理和生成响应：当 HTTP 请求到达服务器时，它会触发与所请求的资源关联的代码或资源处理程序的执行。这些处理程序可以从数据库检索数据、与外部服务交互或生成动态内容。服务器根据请求处理这些数据，并生成带有必要标头和内容的 HTTP 响应。 状态代码：HTTP 响应包括指示请求结果的状态代码。这些状态代码的范围从信息性 (1xx) 到成功 (2xx)、重定向 (3xx)、客户端错误 (4xx) 和服务器错误 (5xx)。常见状态代码包括 200（正常）、404（未找到）和 500（内部服务器错误）。 无状态：HTTP 是一种无状态协议，这意味着每个请求/响应交互都是独立的，并且不保留有关先前请求的信息。为了维护用户会话或跟踪用户交互，服务器通常使用 cookie 或会话管理技术。 HTTP 是如何工作的？ 当客户端想要从服务器检索网页或新资源时，它会发起 HTTP 请求。该请求由几个部分组成：...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
 <span>2024-05-07</span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/websocket/>Websocket</a><a href=https://blog.chensoul.cc/tags/kafka/>Kafka</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/http/>Http</a></span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]如何通过 WebSocket 将 Kafka 消息流式传输到面向互联网的客户端" href=https://blog.chensoul.cc/posts/2024/05/07/websockets-kafka/></a></article><article class=post-entry><header class=entry-header><h2>[译]Apache Kafka、RabbitMQ 与 AWS SNSSQS：哪个消息代理最好？</h2></header><section class=entry-content><p>原文链接：https://ably.com/topic/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs
-将消息从一个组件获取到另一个组件是微服务架构中最重要的部分之一。每个服务必须能够与任何其他服务异步、可靠且大规模地通信。
-这就是消息代理的用武之地。消息代理（例如 Apache Kafka、RabbitMQ 和AWS SNS/SQS）为您提供一个通用接口和一组保证，而不是手动协调可能数千个微服务之间的通信。这简化了集成并更容易推理您的系统。
-然而，比较消息代理可能很棘手，因为每个消息代理都采用不同的方法来完成工作。那么，您如何决定哪个消息代理最适合您的用例？
-在本文中，您将找到有关业界最受欢迎的三个消息代理如何适用于不同用例的指南。我们将研究诸如它们的扩展方法、它们支持的消息传递模式以及它们如何处理性能和智能消息路由之间的权衡等特征。
-比较消息代理：您应该寻找什么？ 消息代理是一个广泛的类别。虽然我们正在考虑的三个选项中的每一个都在更大系统中的组件之间移动数据，但在它们之间做出决定取决于它们如何做到这一点。
-因此，我们需要检查每个消息代理的特征，根据它们如何影响其移动数据的能力以及它的工作方式。我们将研究以下六个因素以及它们如何应用于 Apache Kafka、RabbitMQ 和 AWS SNS/SQS：
-**消息传递模式：**消息代理组织和分发消息的方式（例如发布/订阅或请求回复）比其他架构和用例更适合某些架构和用例。 **消息路由：**消息代理能否根据消息的内容和其他标准来路由消息？ **可扩展性：**并非每种情况都需要每秒处理数百万条消息。确保消息代理可以扩展到您需要的吞吐量级别，同时牢记这将如何影响设置和操作的复杂性。 **可靠性：**消息代理如何处理故障？它会保留消息还是仅通过系统传递消息？ **安全性：**数据是否加密？消息代理是否提供审核日志？它如何处理身份验证和访问控制？是否经过 HIPAA 和 PCI DSS 等行业标准认证？ **成本和许可：**消息代理是开源的吗？需要哪些云或服务器资源？是否持续收取许可费？您的团队需要花费多少时间来运行它？ 介绍 Apache Kafka、RabbitMQ 以及 AWS SNS 和 SQS 在详细进行比较之前，我们先来谈谈为什么我们关注这三种解决方案。原因之一是它们是您可能遇到的最常见的消息代理解决方案之一。研究表明，全球有近 50,000 家公司使用 RabbitMQ，而超过60,000 家公司正在使用 Apache Kafka。尽管 AWS SQS 的用户群似乎较小，但只有超过 24,000 家公司，但它在更广泛的 Amazon Web Services 生态系统中发挥着重要作用。这种广泛的部署使得您可以更轻松地招募经验丰富的员工、与现有技术堆栈集成，以及当您需要时寻求支持。但还有另一个考虑因素。我们正在研究的每个消息代理都从不同的角度解决该问题。 Apache Kafka 专为吞吐量而设计，而 RabbitMQ 更关注复杂的消息路由。与 RabbitMQ 一样，SNS 和 SQS 这两种 AWS 解决方案更关注路由而不是吞吐量，我们在这里考虑它们是因为 AWS 生态系统的重要性。
-阿帕奇·卡夫卡 Apache Kafka 是一个实时流平台，旨在构建可扩展、容错的分布式应用程序。它专门以非常高的吞吐量传输数据，通常用于操作数据，例如日志记录和指标。
-拥有如此庞大的安装基础，有一些工具可以将 Apache Kafka 连接到几乎任何其他正在运行的系统。尽管 Apache Kafka 专注于高吞吐量，但它也可以处理传输中的数据，例如触发操作和转换数据。然而，这种灵活性和强大功能是有代价的，因为 Apache Kafka 比某些替代方案更难设置和操作。
-RabbitMQ 与 Apache Kafka 专注于流数据不同，RabbitMQ 是一个开源分布式消息代理，支持多种不同的消息传递模式，例如发布/订阅和生产者/消费者。尽管它确实拥有高吞吐量，但它的重点更多地是根据消息内容、一天中的时间、发送者和其他标准智能地路由数据，这使得它非常适合事件驱动的架构。
-与 Apache Kafka 一样，RabbitMQ 得到了广泛的支持，具有丰富的集成生态系统。
-AWS SNS 和 SQS Amazon Web Services (AWS) 提供了两种适合消息代理旗帜的产品。 AWS Simple Notification Service (SNS) 是一种高吞吐量消息传递服务，它使用发布/订阅模型在微服务或分发应用程序的组件之间传递消息。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]什么是 HTTP？" href=https://blog.chensoul.cc/posts/2024/05/07/http/></a></article><article class=post-entry><header class=entry-header><h2>[译]什么是 OAuth？</h2></header><section class=entry-content><p>原文链接：https://www.pubnub.com/guides/oauth/
+什么是 OAuth？ OAuth（开放授权）是一种开放标准授权框架，允许第三方应用程序访问用户数据，而无需用户共享其登录凭据。它为用户提供了一种安全且标准化的方式，将其在一个网站上的资源的访问权限授予另一个网站或应用程序，而无需暴露其密码。
+简单来说，OAuth 充当最终用户和他们想要授予访问权限的应用程序之间的中间人。用户不会直接向 Web 应用程序提供用户名和密码，而是会被重定向到授权服务器（例如 Google、Facebook 或 Twitter），在那里他们可以安全地验证自己的身份。经过身份验证后，用户可以授予或拒绝对其想要使用的应用程序上的数据的访问权限。
+OAuth 是如何工作的？ OAuth 为用户提供了一种安全且标准化的方式来授权应用程序从各种来源（例如社交媒体平台或在线服务）访问其数据。
+OAuth工作流程涉及三个主要方：用户、应用程序和服务提供商（也称为OAuth 服务器）。以下是 OAuth 流程的高级概述：
+用户启动该过程：用户想要使用需要访问服务提供商上受保护资源的应用程序。用户首先向应用程序请求访问权限。 应用程序请求授权：应用程序将用户重定向到服务提供商的授权端点，以及必要的参数，例如应用程序的客户端 ID 和请求的访问范围。 用户授予授权：服务提供商在授权端点向用户显示登录屏幕。用户输入其凭据，如果有效，则系统会要求授予或拒绝应用程序访问其资源的请求。 服务提供商发出授权代码：如果用户授予授权，服务提供商会生成授权代码并将用户重定向回应用程序指定的重定向 URI。授权码是一个临时令牌，代表用户的同意。 应用程序用授权代码交换访问令牌：现在拥有授权代码的应用程序向服务提供商发送请求，以用代码交换访问令牌。该请求包括代码、应用程序的客户端 ID 和客户端密钥，它们用于向服务提供商验证应用程序的身份。 服务提供商验证授权代码：服务提供商对其进行验证并检查它是否与之前为用户生成的授权代码相匹配。如果代码有效，服务提供商将向应用程序颁发访问令牌。 应用程序使用访问令牌来访问受保护的资源：通过从服务提供商获得的访问令牌，应用程序现在可以代表用户发出请求以访问其受保护的资源。这些请求通常是向服务提供商的 API 端点发出的。 访问令牌过期和刷新：访问令牌的生命周期有限，过期后就会过期。要继续访问用户的资源，应用程序可以使用刷新令牌（如果提供）来获取新的访问令牌，而无需用户的参与。 使用 OAuth 有什么好处？ 这种广泛采用的协议为构建实时聊天和消息应用程序的开发人员提供了多种好处：
+增强的安全性： OAuth 消除了应用程序需要存储用户凭据的情况，从而降低了未经授权访问的风险。通过利用 OAuth，开发人员可以对用户进行身份验证和授权，而无需处理用户的敏感信息（例如密码）。这显着降低了数据泄露的可能性并增强了整体应用程序的安全性。
+简化的用户体验： OAuth 使用户能够向第三方应用程序授予权限而无需共享其凭据，从而提供无缝且用户友好的体验。这消除了为每个应用程序创建和管理单独帐户的麻烦，从而提高了便利性和用户采用率。
+可扩展性和互操作性： OAuth 使开发人员能够构建集成多个平台和服务的应用程序。通过利用 OAuth，开发人员可以轻松地验证和访问来自不同提供商的资源，从而允许他们的聊天和消息应用程序与其他系统无缝交互。这增强了可扩展性，并使开发人员能够利用不同平台的现有用户群。
+细粒度的访问控制： OAuth 允许开发人员为其聊天和消息应用程序实施细粒度的访问控制。可以为每个资源授予权限，确保第三方应用程序只能访问所需的资源。这种对访问的精细控制有助于维护数据隐私和控制，降低未经授权的数据泄露的风险。
+开发人员友好： OAuth 提供了一个简单、开发人员友好的框架，用于在聊天和消息传递应用程序中实现身份验证和授权。该协议有详细的文档记录，并受到各种库和 SDK 的支持，使开发人员可以轻松地将 OAuth 集成到他们的应用程序中。此外，OAuth 通过内置的令牌过期和撤销机制简化了访问令牌的管理。这简化了开发流程并降低了处理用户身份验证和授权的复杂性。
+使用 OAuth 有哪些缺点？ 虽然 OAuth 对于构建实时聊天和消息应用程序的开发人员来说具有众多优势，但也存在一些缺点。这些缺点包括：
+**复杂性：**实施 OAuth 可能很复杂，尤其是对于不熟悉该协议的开发人员而言。该过程涉及多个步骤，包括注册应用程序、获取客户端凭据和处理授权流程。与多个身份提供商集成或处理刷新令牌时，复杂性可能会进一步增加。开发人员需要投入时间和精力来正确理解和实施 OAuth。
+对第三方提供商的依赖： OAuth 依赖第三方身份提供商来对用户进行身份验证和授权。这种依赖性引入了潜在的单点故障。如果身份提供商遇到中断或更改其 API，则可能会中断聊天和消息传递应用程序的身份验证和授权过程。开发人员需要考虑所选身份提供商的可靠性和寿命。
+用户隐私问题： OAuth 提供了一种安全的身份验证和授权机制，但一些用户可能担心与第三方应用程序共享其个人信息。尽管 OAuth 不会公开密码等敏感信息，但用户仍然需要授予访问其数据的权限。某些用户可能会犹豫是否授予这些权限，尤其是对于鲜为人知或不太受信任的应用程序。
+**缺乏标准化：**尽管 OAuth 被广泛采用，但不同提供商和平台的实施可能存在差异。缺乏标准化可能会导致与多个系统集成时出现不一致和兼容性问题。开发人员可能需要额外的努力来处理这些变化并确保不同平台和提供商之间的兼容性。
+**安全漏洞：**虽然 OAuth 的设计是安全的，但也存在发现和利用漏洞的情况。这些漏洞可能导致未经授权的用户数据访问或冒充攻击。开发人员必须及时了解最新的安全最佳实践，并定期修补 OAuth 实施中的任何漏洞。
+OAuth 与 OpenID OAuth 和OpenID是广泛使用的身份验证和授权协议，但用途不同。
+OAuth 主要是一种授权协议，允许应用程序访问另一个系统上的用户资源，而无需共享其凭据。它通常用于委托授权场景，即用户向第三方应用程序授予访问其在特定网站或服务上的数据的权限。例如，当您使用 Google 帐户登录第三方应用程序时，OAuth 通常用于授予该应用程序访问您的 Google 云端硬盘或 Gmail 数据的权限。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
 <span>2024-05-07</span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/kafka/>Kafka</a><a href=https://blog.chensoul.cc/tags/rabbitmq/>Rabbitmq</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/oauth2/>Oauth2</a></span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]Apache Kafka、RabbitMQ 与 AWS SNSSQS：哪个消息代理最好？" href=https://blog.chensoul.cc/posts/2024/05/07/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs/></a></article><article class=post-entry><header class=entry-header><h2>[译]Java和WebSockets：构建可靠的实时应用程序</h2></header><section class=entry-content><p>原文：https://ably.com/topic/websockets-java
-在全球范围内，人们对实时传输数据的需求不断增长，WebSocket可能是此类用例中最流行的传输协议。在 WebSocket 出现之前，“实时”网络已经存在，但它很难实现，通常速度较慢，并且是通过破解现有的网络技术来实现的，而这些技术并不是为实时应用程序设计的。 WebSocket 协议为真正的实时网络铺平了道路。
-Java是一种流行的编程语言和计算语言。它是 Android 智能手机应用程序的核心编程语言之一，是构建实时系统的可靠选择。 WebSockets 成为 Java 标准版 SDK 的一部分已经有一段时间了。WebSocket 协议最初是在 2013 年作为JSR 356的一部分提出的，目前已作为javax.websocket包的一部分包含在 Java SDK 中。
-由于对实时数据的需求正在稳步增长，并且 Java 已成为一种成熟且广泛使用的语言/平台，因此我认为值得考虑为Java 客户端应用程序实现可靠的 WebSocket 解决方案所面临的众多挑战。
-现状——简要概述 基本或原始的 WebSocket 实现很少能够满足为未知（但可能非常多）数量的用户提供服务的实时应用程序的需求。大多数时候，您需要考虑扩展 Java 客户端 WebSocket 实现的功能。
-为此，您可以使用nv-websocket-client等开源库，其中包含一些附加功能，例如代理支持。这是使用 nv-websocket-client 创建 WebSocket 实例的方法：
-// Create a WebSocket. The scheme part can be one of the following: // 'ws', 'wss', 'http' and 'https' (case-insensitive). The user info // part, if any, is interpreted as expected. If a raw socket failed // to be created, an IOException is thrown. WebSocket ws = new WebSocketFactory().createSocket("ws://localhost/endpoint"); 创建 WebSocket 实例后，下一步是注册侦听器以接收 WebSocket 事件：
-// Register a listener to receive WebSocket events....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]什么是 OAuth？" href=https://blog.chensoul.cc/posts/2024/05/07/oauth/></a></article><article class=post-entry><header class=entry-header><h2>[译]什么是HTTP/3？</h2></header><section class=entry-content><p>原文链接：https://www.pubnub.com/guides/http-3/
+什么是 HTTP/3？ HTTP/3（或 HTTP-over-QUIC）是超文本传输协议 ( HTTP ) 的第三个主要版本。它是用于 Web 浏览器和服务器之间通信的应用层协议。 HTTP/3 旨在提高 Web 通信的性能和安全性。
+HTTP/3的主要功能之一是它构建在用户数据报协议 (UDP)之上，而不是建立在 HTTP 早期版本中使用的传输控制协议(TCP) 之上。 UDP 是一种无连接协议，可为实时应用程序提供更低的延迟和更好的性能。
+HTTP/3 还引入了一种新的传输协议，称为QUIC（快速 UDP 互联网连接）。与 TCP 相比，QUIC 具有多种优势，包括减少延迟、提高可靠性和更好的拥塞控制。它还包括内置加密，增强网页和通信安全性。
+HTTP/3 的另一个重要特性是它对多路复用的支持。这意味着可以通过单个连接同时发送和接收多个请求和响应，从而提高数据传输效率。
+HTTP/3 还包括其他优化以提高性能，例如标头压缩和流优先级。这些优化有助于减少开销并提高 Web 通信的整体速度。
+总体而言，HTTP/3 在性能和安全性方面比其前身 HTTP/2 显着改进了功能。它对于构建实时聊天和消息传递应用程序的开发人员特别有利，因为它提供更低的延迟和更高的可靠性，使其成为需要快速交付实时数据的用例的理想选择。
+让我们退一步看看这一切从第一个 HTTP 版本开始。
+HTTP 简史 HTTP（超文本传输协议）协议有着长达数十年的丰富历史。它于 20 世纪 90 年代初首次推出，作为万维网上客户端和服务器之间的通信方式。
+HTTP 最初是由Tim Berners-Lee和他在CERN（欧洲核研究组织）的团队开发的，旨在促进超文本文档的交换。第一个版本 HTTP/0.9 是一个简单的协议，仅支持用于检索 HTML 文档的 GET 请求。
+1996 年，HTTP/1.0 协议由互联网工程任务组(IETF)标准化。该版本引入了几个重要的功能，包括对 POST 请求、响应状态代码和标头的支持。 HTTP/1.0 还允许传输不同的媒体类型，例如图像和视频以及 HTML 文档。
+然而，随着网络变得更加复杂和交互，HTTP/1.0 的局限性变得明显。它是围绕请求-响应模型设计的，其中每个请求都需要与服务器的单独连接。这导致了高延迟和网络资源的低效使用。
+HTTP/1.1 协议解决了这些问题。
+HTTP/1.1 HTTP/1.1 是超文本传输协议 (HTTP) 的第二个主要版本，于 1999 年推出，如今在互联网上广泛使用。
+HTTP/1.1 的关键功能之一是支持持久连接，也称为保持活动连接。在以前版本的 HTTP 中，必须为每个请求和响应建立一个新的 TCP 连接，这导致延迟和开销增加。使用 HTTP/1.1，可以通过单个连接发送多个请求和响应，从而减少建立新连接的需要并提高性能。
+HTTP/1.1 的另一个重要特性是它对管道的支持。流水线允许发送多个请求而无需等待相应的响应，这有助于减少延迟并提高数据传输效率。
+HTTP/1.1还引入了缓存的概念。缓存允许 Web 浏览器存储和重用以前访问的资源，例如图像和样式表，这可以显着缩短页面加载时间并减少带宽使用。
+然而，尽管有这些改进，HTTP/1.1 仍然存在一些局限性。同时处理多个请求和响应可能效率低下，因为它需要严格的消息排序。这可能会导致性能问题，特别是对于需要低延迟和高并发的实时应用程序。
+此外，HTTP/1.1 不支持标头压缩，这可能会导致开销增加和数据传输速度变慢。
+HTTP/2 HTTP/2 是超文本传输协议 (HTTP)的最新主要版本，于 2015 年推出，作为对之前 HTTP/1....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-05-07</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/http/>Http</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]什么是HTTP/3？" href=https://blog.chensoul.cc/posts/2024/05/07/http3/></a></article><article class=post-entry><header class=entry-header><h2>[译]什么是HTTP流式传输？</h2></header><section class=entry-content><p>原文链接：https://www.pubnub.com/guides/http-streaming/
+什么是 HTTP 流式传输？ HTTP 流，也称为基于 HTTP 的流或 HTTP 实时流，是一种用于通过 Internet 传送实时多媒体内容（例如音频或视频）的技术。该协议允许从服务器到客户端设备的连续数据传输，使用户能够消费媒体内容而无需完整的文件下载。
+与传统的文件下载方法不同，在开始播放之前需要下载整个文件，HTTP 流允许立即播放媒体内容。它的工作原理是将媒体文件分成更小的片段或块，然后将其连续传送到客户端设备。
+HTTP 流利用超文本传输协议 (HTTP)作为其通信协议。它利用现有的 Web 基础设施并使用 HTTP 服务器的可扩展性、缓存和负载平衡功能。这使其成为向许多用户提供实时内容的高效且灵活的解决方案。
+HTTP 流如何工作？ 从较高层面来看，HTTP 流式传输的工作原理是将媒体文件分成小块并通过 HTTP 连接将其传输到客户端。客户端（通常是网络浏览器或媒体播放器）不断请求和接收这些块，从而实现媒体的无缝播放。
+HTTP 流式传输有两种主要方法：渐进式下载和自适应流式传输。
+1.渐进式下载：
+渐进式下载缺乏自适应流媒体提供的适应性。在客户端开始播放之前，会通过渐进式下载来下载整个媒体文件。这意味着，如果在下载过程中出现任何 Wi-Fi 网络中断或带宽波动，用户可能会遇到播放缓冲或延迟的情况。这可能会让用户感到沮丧，并可能导致糟糕的用户体验。
+2.[自适应流媒体](https://www.cloudflare.com/learning/video/what-is-adaptive-bitrate-streaming/#:~:text=Adaptive bitrate streaming adjusts video,%2C location%2C or Internet speed.)：
+自适应流媒体对于开发人员构建实时聊天和消息传递应用程序（提供视频或音频等媒体文件）来说是一项至关重要的技术。它确保无论用户的网络条件如何，媒体内容都可以流畅、高效地传输。这在当今的数字环境中尤其重要，用户期望高质量、不间断的媒体播放，但有时具有不同的互联网速度。
+自适应流式传输通常涉及以下步骤：
+内容编码：媒体文件被编码为具有不同比特率和质量级别的多种变体。这些变化存储在服务器上。 清单文件：创建一个清单文件，其中包含有关可用变体及其相应 URL 的信息。 初始请求：客户端向服务器请求清单文件，该文件提供有关媒体文件的可用变体的信息。 变体选择：客户端根据网络条件和设备功能选择所需的变体。然后它从服务器请求相应的媒体块。 块传送：服务器通过 HTTP 连接将分块媒体传送到客户端。客户端不断请求并接收这些块，并在必要时调整播放质量。 比特率适应：在播放期间，客户端监视网络状况并根据可用带宽动态调整所选变体。如果网络变得拥塞，它可能会切换到较低的比特率变体，或者如果网络状况改善，它可能会切换到较高的比特率变体。 无缝播放：通过连续接收和播放媒体块，自适应流媒体提供无缝播放体验，使用户能够在没有中断或缓冲的情况下享受内容。 HTTP 流有什么好处？ HTTP 流式传输为构建实时聊天和消息传递应用程序的开发人员提供了多种好处：
+实时数据传送：HTTP流可以实现数据的实时传送，允许用户即时发送和接收消息。这确保用户可以进行实时对话，而不会出现任何明显的延迟。 可扩展性：HTTP 流具有高度可扩展性，能够处理许多并发连接并向多个用户实时传送消息。这对于支持不断增长的用户群和处理大量消息的应用程序至关重要。 减少网络开销：使用 HTTP 流式传输，当有新信息可用时，仅通过网络发送必要的数据，从而减少网络开销。这与轮询等其他方法形成鲜明对比，即使不存在新数据，也会不断发出请求。 高效的资源利用：HTTP 流可以有效地利用服务器资源，因为它消除了频繁的轮询请求。这可以减少服务器负载并提高性能，特别是在具有许多活跃用户的应用程序中。 更好的用户体验：HTTP 流通过提供实时更新和即时消息传递，增强了聊天和消息传递应用程序的用户体验。用户可以进行更具互动性和吸引力的对话，而不会因延迟或错过消息而感到沮丧。 安全性：HTTP 流可以利用 HTTPS 等现有安全措施提供安全的通信通道。这可确保敏感的用户数据和对话免受未经授权的访问和窃听。 使用 HTTP 流有哪些缺点？ 使用 HTTP 流进行实时聊天和消息传递应用程序有几个缺点：
+延迟： HTTP 流媒体依赖于客户端和服务器之间的持续连接。这可能会引入延迟，因为服务器需要维持开放连接并以块的形式发送数据。因此，向用户发送实时消息可能会出现延迟，从而影响用户体验。
+可扩展性： HTTP 流对于客户端和服务器来说可能是资源密集型的。维护大量打开的连接会给服务器带来压力并限制其可扩展性。此外，客户端需要处理传入的数据流，这也可能对其资源提出要求。
+**兼容性：**所有设备或网络可能不支持 HTTP 流。某些防火墙或代理可能会阻止或干扰流连接，从而导致通信问题。这可能会将聊天应用程序的可用性限制为部分用户。
+**可靠性：**由于 HTTP 流媒体依赖于长期连接，因此中断或网络故障可能会破坏流媒体过程。如果连接丢失，客户端可能需要重新建立连接，这可能会导致消息丢失或重复。
+安全性： HTTP 流本身并不为数据传输提供加密或安全措施。如果没有额外的安全层，通过聊天应用程序交换的敏感信息可能容易遭到窃听或未经授权的访问。
+**电池消耗：**连续连接和数据流会快速耗尽移动设备的电池。这可能是实时聊天应用程序的用户所关心的问题，尤其是在长时间使用这些应用程序时。
+开发人员在选择实时聊天和消息应用程序技术时需要考虑这些缺点。虽然 HTTP 流提供了一些好处，例如利用现有的安全措施，但开发人员应该权衡这些优点与潜在的缺点，并评估它们是否符合其特定的用例和要求。
+HTTP 流式传输有哪些替代方案？ HTTP 流的一些替代方案包括：...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-05-07</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/http/>Http</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>5 min</span></span></footer><a class=entry-link aria-label="post link to [译]什么是HTTP流式传输？" href=https://blog.chensoul.cc/posts/2024/05/07/http-streaming/></a></article><article class=post-entry><header class=entry-header><h2>[译]什么是Socket.IO？</h2></header><section class=entry-content><p>原文链接：https://www.pubnub.com/guides/socket-io/
+什么是Socket.IO？ Socket.IO是一个开源的跨平台库，它提供客户端和服务器之间基于事件的全双工双向通信。它基于 WebSocket 协议构建，提供附加功能，例如自动重新连接以及在无法使用 WebSocket时回退到HTTP 长轮询。
+Socket.IO 客户端由客户端和服务器端库组成。虽然最初在服务器上支持NodeJS ，在客户端支持JavaScript，但现在它支持各种服务器和客户端技术，包括Java、Python、Swift和Kotlin，它们都是官方代码库的一部分，由活跃社区贡献。
+Socket.io 有何用途？ Socket.IO 允许您实现依赖于消息交换的各种应用程序，例如即时消息传递、多用户协作、实时分析、文件共享和通知。
+Socket.io 适合实时应用程序吗？ 是的，Socket.IO 是构建实时 Web 应用程序的不错选择，因为它提供了许多对开发人员有用的开箱即用功能，包括：
+房间和命名空间支持允许您将客户端分组到可以接收广播或多播消息的房间中。 自动重连意味着您无需担心客户端上线或离线。 二进制数据支持，使您不仅可以交换聊天消息，还可以交换图像或其他媒体。 Socket.io 是 API 吗？ Socket.IO不是传统意义上的API。它是一个库或框架，抽象了底层传输机制，并提供了一组用于在客户端和服务器之间构建实时双向通信的工具和实用程序。
+Socket.IO 包含客户端和服务器组件，每个组件都公开其 API。
+Socket.io是TCP还是UDP，有什么区别？ Socket.IO可以使用TCP和UDP作为底层传输协议，但它主要使用TCP。
+TCP（传输控制协议）是一种可靠的、面向连接的协议，可确保数据按顺序且无错误地传送。
+另一方面，UDP（用户数据报协议）是一种无连接、不可靠的协议，它发送数据时不检查数据是否已成功接收。
+UDP 比 TCP 更轻量级，因为只有后者在客户端和服务器之间建立连接，但它只能由能够抵御丢失消息的应用程序使用。
+Socket.io 与 Web Sockets 虽然 Socket.IO 明确不是WebSocket实现，但有一些相似之处。两者都是基于事件的，这意味着您可以“侦听”连接、断开连接或 new_message 等事件，并且都允许您发送JSON 对象等结构化数据。
+您可以将 Socket.IO 视为底层传输协议之上的抽象层。除了底层通信层之外，该库还实现了其他功能，例如自动重新连接、数据包缓冲和消息确认，以及在 WebSocket 不可用时回退到 HTTP 长轮询，从而增加了鲁棒性。
+Socket.io 示例：客户端/服务器 JavaScript 中 Socket.IO 的 Hello World 客户端/服务器实现将编写如下，摘自4.x Socket.IO 文档：
+Socket.io 服务器示例：
+Socket.io 客户端示例：
+Socket.IO 是如何工作的？ 该库支持两种传输方法：HTTP 长轮询和 WebSockets。首先建立 HTTP 长轮询连接，然后在可能的情况下升级为 WebSocket 连接。 WebSocket 不能在任何地方运行，例如，它们被许多公司代理和防火墙阻止，因此首先发起 HTTP 长轮询，因为它更有可能成功。 HTTP 长轮询连接建立后，会在对最终用户完全透明的过程中“升级”为 WebSocket 连接。
+Socket.IO的架构是怎样的？ Socket.IO 由两个不同的层组成，分别存在于客户端和服务器上：
+底层管道由一个名为Engine.IO的单独库提供 Socket.IO 提供的高级 API 作为开发人员或用户，您通常不会直接与 Engine.IO 交互，但它在幕后运行以建立连接、协商传输机制并检测任何断开连接。将 Engine.IO 与 WebSocket 进行比较时，两者在功能上非常相似，只是 Engine....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-05-07</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/socketio/>Socketio</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>1 min</span></span></footer><a class=entry-link aria-label="post link to [译]什么是Socket.IO？" href=https://blog.chensoul.cc/posts/2024/05/07/socket-io/></a></article><article class=post-entry><header class=entry-header><h2>[译]什么是WebSocket？</h2></header><section class=entry-content><p>原文链接：https://www.pubnub.com/guides/websockets/
+什么是 WebSocket？ WebSocket 是一种通过单个TCP连接提供全双工通信通道的通信协议。它支持客户端和服务器之间的实时、事件驱动的连接。
+与遵循请求-响应模型的传统 HTTP 软件不同，WebSocket 允许双向（双向）通信。这意味着客户端和服务器可以随时向对方发送数据，而无需持续轮询。
+WebSocket 有何用途？ WebSocket 用于客户端和服务器之间的实时、事件驱动的通信。它们对于构建需要即时更新的软件应用程序特别有用，例如实时聊天、消息传递和多人游戏。
+在传统的 HTTP 中，客户端向服务器发送请求，服务器用请求的数据进行响应。这种请求-响应模型需要从客户端到服务器进行连续轮询，这可能会导致延迟增加和效率降低。
+另一方面，WebSockets 在客户端和服务器之间建立持久连接。这意味着一旦建立连接，客户端和服务器就可以随时向对方发送数据，而无需不断轮询请求。这允许实时通信，可以立即发送和接收更新。
+例如，当用户在聊天应用程序中发送消息时，该消息可以立即传递给所有其他用户，而无需刷新页面或发出频繁的 HTTP 请求。这将带来更加无缝和高效的用户体验。
+此外，Web Sockets 还允许双向通信，这意味着客户端和服务器都可以相互发送数据。这为更具交互性和吸引力的应用程序提供了可能性，其中服务器可以处理向客户端推送更新或通知，而无需客户端明确请求它们。
+Web 套接字的缺点 WebSocket 的缺点包括：
+浏览器支持：虽然大多数现代浏览器支持 WebSocket，但一些旧浏览器不支持。这可能会限制应用程序的范围，并且需要针对旧版浏览器的额外后备机制。 代理和防火墙限制：某些代理服务器和防火墙可能会阻止或干扰 WebSocket 连接。这可能会导致连接问题，尤其是在安全的公司或受限的网络环境中。 可扩展性：Web Sockets 在客户端和服务器之间维护持久连接，这在处理许多并发连接时可能会导致服务器资源紧张。必须实施适当的负载平衡和资源管理技术以确保可扩展性。像 Socket.io 这样的开源资源不适合大规模运营或快速增长。 有状态性：与无状态的传统 HTTP 不同，WebSocket 是有状态的。这意味着服务器需要维护每个客户端的连接状态，从而导致内存使用量增加和潜在的可扩展性挑战。 安全注意事项：通过 WebSocket 建立持久连接，需要采取适当的安全措施来防止潜在的漏洞，例如跨站点脚本 (XSS) 和跨站点请求伪造(CSRF)。应实施使用SSL/TLS加密的安全 WebSocket 连接 (wss://)，以确保数据隐私和完整性。 如果通过 Web 套接字的连接丢失，则不包含负载平衡或重新连接机制。 在可能不支持 Web Sockets 的环境中，仍然需要有后备选项，例如HTTP 流或长轮询。 像Presence这样的功能在 WebSocket 连接上不能很好地工作，因为断开连接很难检测到。 WebSockets、HTTP、Web 服务器、轮询 HTTP 连接与 WebSockets 要了解WebSocket API，了解其构建基础 — HTTP（超文本传输协议）及其请求/响应模型也很重要。 HTTP 是一种应用层协议，是所有基于 Web 的通信和数据传输的基础。
+使用 HTTP 时，客户端（例如 Web 浏览器）向服务器发送请求，然后服务器发回消息（称为响应）。我们今天所知道的网络是建立在这种基本的客户端-服务器循环之上的，尽管对 HTTP 进行了许多添加和更新以使其更具交互性。当前有一些可行且受支持的 HTTP 版本（HTTP/1.1 和 HTTP/2）以及称为 HTTPS 的安全版本。
+基本 HTTP 请求适用于许多用例，例如当有人需要在网页上搜索并接收相关的、非时间敏感的信息时。然而，它并不总是最适合需要实时通信或需要以最小延迟快速更新的数据的 Web 应用程序。
+每当客户端发出新的 HTTP 服务器请求时，默认行为是打开新的 HTTP 连接。这是低效的，因为它使用循环非有效负载数据的带宽并增加了数据传输之间的延迟。
+此外，HTTP 请求只能从客户端向一个方向流动。传统上没有服务器发起与客户端通信的机制。除非服务器首先请求数据，否则服务器无法向客户端发送数据。这可能会给需要从服务器端实时发出消息的用例带来问题。
+短轮询与 WebSockets HTTP 轮询是接收定期数据更新的第一个解决方案。轮询是一种客户端重复向服务器发送请求直到服务器更新的技术。例如，所有现代 Web 浏览器都提供对 XMLHttpRequest 的支持，这是轮询服务器的原始方法之一。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-05-07</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/websocket/>Websocket</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]什么是WebSocket？" href=https://blog.chensoul.cc/posts/2024/05/07/websockets/></a></article><article class=post-entry><header class=entry-header><h2>[译]什么是长轮询？</h2></header><section class=entry-content><p>原文链接：https://www.pubnub.com/guides/long-polling/
+什么是长轮询？ 长轮询用于实时 Web 应用程序，以实现客户端和 Web 服务器之间近乎即时的通信。它在实时更新至关重要的聊天和消息应用程序中特别有用。
+在传统的HTTP通信中，客户端向服务器发送新请求并等待响应。这称为短轮询。然而，在实时场景中，短轮询可能效率不高，因为它需要频繁向服务器请求，导致不必要的网络开销和增加延迟。
+另一方面，长轮询通过在新数据可用之前保持请求长时间打开来提高效率。服务器保持请求打开并等待，直到有新信息发送回客户端。一旦服务器有新数据，它就会响应客户端，然后客户端可以处理数据并发起新的长轮询请求。
+通过维持客户端和服务器之间的长期连接，长轮询减少了请求数量，最大限度地减少了延迟，并提高了实时通信。这使得它非常适合需要有效技术来构建可扩展和响应式聊天和消息传递应用程序以及其他利用游戏等实时数据的应用程序的用例。
+长轮询如何工作？ 长轮询是一种用于实时通信的技术，用于在客户端和服务器之间实现近乎即时的消息传递。它在构建低延迟和实时更新至关重要的聊天和消息传递应用程序时特别有用。
+传统上，Web 浏览器使用基于拉取的方法从服务器获取数据。客户端向服务器发送请求，服务器以请求的数据进行响应。这种方法称为短轮询，可能会造成通信延迟，因为客户端必须重复发送请求来检查更新。
+另一方面，长轮询是一种基于推送的方法，允许服务器在更新可用时立即向客户端发送更新。它的工作原理如下：
+客户端向服务器发起请求，通常通过 HTTP 请求。 服务器不会立即响应，而是将请求保持打开状态，从而保持连接处于活动状态。 如果没有新数据可用，服务器将等待，直到有数据要发回。 一旦服务器有新的数据或者发生预定义的超时，它就会用最新的信息响应客户端。 客户端收到响应后，立即向服务器发送另一个请求以维持连接。 这种发送请求和接收响应的循环持续进行，确保实时更新。 长轮询通过长时间保持请求-响应周期打开来有效地模拟客户端和服务器之间的实时连接。它允许服务器在更新可用时立即将更新推送到客户端，并且无需客户端重复检查更新。
+使用什么技术来实现长轮询？ 长轮询是一种实现客户端和服务器之间实时通信的技术。它通常用于即时更新至关重要的聊天和消息传递应用程序。可以使用多种技术来实现长轮询，每种技术都有优点和注意事项。让我们探讨一些用于实现长轮询的常用技术。
+HTTP 长轮询：
+这是实现长轮询的最基本、最广泛使用的方法。它利用 HTTP 协议建立并维护客户端和服务器之间的长期连接。客户端向服务器发送请求，服务器将请求保持打开状态，直到有新数据可用或达到某个超时。一旦有新数据可用，服务器就会用更新的信息进行响应，客户端立即发送另一个请求以继续循环。这种方法易于实现，不需要特殊的服务器端技术。
+网络套接字：
+WebSocket 是一种全双工通信协议，可通过单个长期连接在客户端和服务器之间实现实时通信。它提供了比长轮询更高效、低延迟的替代方案。 WebSocket 支持双向数据流，允许客户端和服务器异步发送消息。它消除了频繁的 HTTP 请求并减少了网络开销。 WebSocket 非常适合需要即时更新和实时交互的应用程序。
+服务器发送的事件 (SSE)：
+SSE 是一种单向通信技术，允许服务器通过单个长期 HTTP 连接将数据推送到客户端。通过SSE，服务器可以向客户端发送多个更新，而不需要客户端不断地发出请求。服务器启动连接并以一系列事件的形式发送数据。客户端接收这些事件并可以根据需要进行处理。
+在选择在应用程序中实现长轮询的技术时，需要考虑以下几个因素：
+可扩展性：确保所选技术可以处理大量并发连接，并且可以随着用户群的增长而扩展。 WebSocket 和 SSE 通常比基于 HTTP 的长轮询更具可扩展性，因为它们允许更有效地使用服务器资源。 安全性：考虑所选技术的安全影响。 WebSocket 和 SSE 可以使用SSL/TLS等加密协议进行保护，从而确保数据隐私和完整性。基于 HTTP 的长轮询也可以得到保护，但可能需要额外的身份验证和访问控制措施。 浏览器支持：检查所选技术的浏览器兼容性。 WebSocket 和 SSE 比基于 HTTP 的长轮询具有更好的浏览器支持，这可能需要额外的技术或针对旧浏览器的后备选项。 实施复杂性：评估所选技术的实施和维护难易程度。基于 HTTP 的长轮询相对简单，而 WebSocket 和 SSE 可能需要更高级的知识和基础设施。考虑开发团队可用的专业知识水平以及实施和维护所选技术所需的资源。 长轮询与 WebSockets 长轮询和 WebSocket是在客户端（例如 Web 浏览器）和服务器之间实现实时连接的技术。尽管它们的目的相似，但两者存在显着差异。
+长轮询是一种技术，客户端向 Web 服务器发出请求，服务器保持连接打开，直到有新数据要发回。如果服务器有新数据可用，则可以立即响应，或者在发送空响应之前等待指定的超时时间。无论哪种情况，客户端一旦收到响应，就会立即向服务器发出另一个请求以建立新连接。此过程不断重复，允许服务器在更新可用时立即将更新推送到客户端。
+另一方面，WebSockets 在客户端和服务器之间提供持久的双向通信通道。与长轮询不同的是，长轮询会为每个请求建立一个新连接，而 WebSocket 连接只会建立一次并无限期地保持打开状态。这允许双向实时、低延迟通信。服务器可以随时向客户端推送数据，客户端也可以不等待响应就向服务器发送数据。
+长轮询和 Web Sockets 之间的相似之处： 1.实时更新：长轮询和WebSockets都可以实现服务器和客户端之间的实时通信，允许即时更新，无需连续轮询或刷新。
+减少服务器负载：这两种技术都通过仅在数据可用时发送数据来最大程度地减少不必要的请求，从而减少服务器负载并提高可扩展性。 广泛的语言和框架支持：许多流行的编程语言和框架都支持长轮询和WebSocket，使不同生态系统的开发人员都可以使用它们。 长轮询和 Web Sockets 之间的区别： 1.延迟：长轮询会引入延迟，因为服务器发送响应和客户端接收响应之间存在延迟。 WebSocket 提供双向、低延迟通信，从而实现更快的实时功能。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-05-07</span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/http/>Http</a></span></span><span class=meta-item>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>1 min</span></span></footer><a class=entry-link aria-label="post link to [译]什么是长轮询？" href=https://blog.chensoul.cc/posts/2024/05/07/long-polling/></a></article><article class=post-entry><header class=entry-header><h2>[译]2024年最好的WebSocket替代品</h2></header><section class=entry-content><p>原文链接：https://ably.com/topic/websocket-alternatives
+什么是 WebSocket？ 简而言之，WebSocket 是一种实时 Web 技术，可通过持久连接在客户端和服务器之间实现双向、全双工通信。 WebSocket 连接会根据需要保持活动状态（理论上，它可以永远持续），从而允许服务器和客户端以最小的开销随意发送数据。
+了解更多：
+什么是 WebSocket？ WebSocket 是如何工作的？ 什么时候应该考虑使用 WebSocket 替代方案？ 对于实时或近实时发送和使用数据至关重要（或至少是理想的）的用例，WebSocket 是一个绝佳的选择。示例包括聊天应用程序、多人协作体验以及广播实时路况更新。
+了解有关 WebSocket 用例的更多信息
+然而，很少有一种放之四海而皆准的协议：不同的协议比其他协议更好地服务于不同的目的。例如，如果您的应用程序严重依赖 CRUD 操作，并且用户不需要快速对更改做出反应，那么 HTTP 是比 WebSockets 更好的选择。另一个例子 - 如果您想传输音频和视频数据，WebRTC 是比 WebSockets 更好的选择。
+我们要提到的最后一个例子：如果您只需要将文本（字符串）数据推送到浏览器客户端，并且您从不期望需要双向通信，那么您可以使用服务器发送事件（SSE）之类的东西。与 WebSocket 相比，SSE 的复杂性和要求较低，并且更易于扩展。
+了解 WebSocket 的优点和缺点
+WebSocket 协议的五种替代方案 现在，我们将研究 WebSocket 协议的五种替代方案 - 您可以使用这些技术来构建实时应用程序，这些技术有些类似。
+服务器发送的事件 服务器发送事件 (SSE)是一种 HTTP 服务器推送技术。这个想法很简单：浏览器客户端可以订阅服务器生成的事件流，并在新事件发生时接收更新。
+服务器发送事件的优点
+内置对重新连接的支持。 所有现代浏览器都支持。 轻量级协议。 服务器发送事件的缺点
+它是单向的；只有服务器可以将数据推送到客户端。 每个浏览器在同一时间只能有六个并发 SSE 连接。 仅支持UTF-8文本数据； SSE 无法处理二进制数据。 对于不需要双向消息传递的场景（例如实时比分更新），SSE 是一个不错的选择。对于需要双向通信的用例，WebSocket 是更好的选择。
+查看 SSE 与 WebSocket 的比较
+长轮询 长轮询是一种客户端拉取技术，它采用 HTTP 请求/响应轮询并使其更加高效。在长轮询中，服务器选择尽可能长时间地保持客户端连接打开，并在新数据可用或达到超时阈值时发送响应。
+长轮询的优点
+长轮询是在XMLHttpRequest的基础上实现的，它几乎受到设备的普遍支持，因此通常不需要实现任何后备。 在必须处理异常的情况下，或者可以查询服务器以获取新数据但不支持长轮询（更不用说其他更现代的技术标准）时，基本轮询有时仍然具有有限的用途，并且可以使用XMLHttpRequest，或通过简单的 HTML 脚本标记通过 JSONP。 长轮询的缺点
+与 WebSocket 相比，长轮询在服务器上消耗更多资源。 长轮询可能会带来延迟开销，因为它需要在服务器和设备之间进行多次跳跃。 可靠的消息排序可能是一个问题。 长轮询是 WebSocket 的早期先驱。当谈到构建高性能、低延迟的实时应用程序时，WebSocket 几乎在各个方面都是一个优越的选择。这并不是说长轮询已经过时；而是说长轮询已经过时。在某些环境中，例如带有代理服务器的公司网络会阻止 WebSocket 连接。在这种情况下，长轮询作为 WebSocket 的后备机制非常有用。
+查看轮询与 WebSocket 相比需要多长时间...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
 <span>2024-05-07</span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
 <span class=post-tags><a href=https://blog.chensoul.cc/tags/websocket/>Websocket</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]Java和WebSockets：构建可靠的实时应用程序" href=https://blog.chensoul.cc/posts/2024/05/07/websockets-java/></a></article><article class=post-entry><header class=entry-header><h2>[译]WebSocket API和协议说明</h2></header><section class=entry-content><p>原文地址：https://ably.com/topic/websockets
-WebSocket 标志着 Web 开发的转折点。 WebSocket 技术旨在以事件为驱动，并针对低延迟进行了优化，已成为许多寻求构建交互式实时数字体验以提供令人愉悦的用户体验的组织和开发人员的首选。本文探讨了与 WebSocket 相关的关键主题：
-WebSocket 协议和 API 解释
-WebSockets 是如何工作的？
-WebSockets的优缺点是什么？
-WebSockets 是否可扩展？
-WebSocket 的用途是什么？
-WebSockets 的最佳替代品是什么？
-如何开始使用 WebSockets 构建实时体验
-WebSocket 常见问题解答
-WebSocket：协议和 API 解释 WebSocket 是一种实时技术，可通过持久的单套接字连接在客户端和服务器之间实现双向全双工通信。只要需要，WebSocket 连接就会保持活动状态（理论上，它可以永远持续下去），允许服务器和客户端随意发送数据，开销最小。
-WebSocket 技术由两个核心构建块组成：
-WebSocket 协议。 WebSocket API。 WebSocket的历史是什么？ 第一个实时 Web 应用程序开始出现在 2000 年代，试图提供响应迅速、动态和交互式的最终用户体验。然而，在那个时候，实时网络很难实现，而且比我们现在习惯的要慢;它是通过入侵现有的基于HTTP的技术（AJAX和Comet）来实现的，这些技术不是为实时应用程序设计和优化的。很明显，需要一个更好的替代方案。
-在 2008 年，开发人员 Michael Carter 和 Ian Hickson 特别敏锐地感受到了在实现任何类似实时的东西时使用 AJAX 和 Comet 的痛苦和局限性。通过在 IRC 和 W3C 邮件列表上的合作，他们提出了一个计划，为网络上的现代、真正的实时通信引入一个新标准。因此，“WebSocket”这个名字被创造出来。
-什么是 WebSocket 协议？ WebSocket 协议支持 Web 客户端和 Web 服务器之间通过基础 TCP 连接进行持续的全双工双向通信。该协议旨在允许客户端和服务器实时通信，从而在 Web 应用程序中实现高效且响应迅速的数据传输。
-2011 年 12 月，互联网工程任务组 （IETF） 通过 RFC 6455 对 WebSocket 协议进行了标准化。互联网号码分配机构 （IANA） 与 IETF 协调维护 WebSocket 协议注册管理机构，该注册管理机构定义了协议使用的许多代码和参数标识符。
-什么是 WebSocket API？ WebSocket API 包含在 HTML Living Standard 中，是一个编程接口，用于创建 WebSocket 连接并管理 Web 应用程序中客户端和服务器之间的数据交换。它为开发人员提供了一种简单且标准化的方法，可以在其应用程序中使用 WebSocket 协议。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]2024年最好的WebSocket替代品" href=https://blog.chensoul.cc/posts/2024/05/07/websocket-alternatives/></a></article><article class=post-entry><header class=entry-header><h2>[译]HTTP 的演变 – HTTP2 深入探讨</h2></header><section class=entry-content><p>原文链接：https://ably.com/topic/http2
+可以毫不夸张地说，超文本传输协议 (HTTP) 造就了我们所熟知的互联网。 HTTP 最初是由万维网的发明者蒂姆·伯纳斯·李 (Tim Berners-Lee) 于 1989 年提出的应用程序协议。第一个记录版本 HTTP/0.9 被称为单行协议。鉴于它催生了万维网，它现在可以被描述为有史以来最伟大的俏皮话。
+随着我们对互联网的需求不断增长，HTTP 作为网络协议也必须不断发展才能提供可接受的性能。 HTTP/2 标志着一次重大改革，是自 1997 年 HTTP/1.1 ( RFC 2068 ) 提供以来第一个新的标准化。本文介绍了 HTTP/2 如何设计来克服 HTTP/1.1 的限制、新协议的实现、HTTP/2 的工作原理以及其自身的限制。
+通过单个 TCP 连接的 HTTP/2 客户端-服务器。
+出身卑微——HTTP 简史 HTTP/0.9 的“单行协议”由请求组成：方法GET后跟文档地址、可选端口地址，并以回车符和换行符结束。由一串 ASCII 字符组成的请求。只能传输 HTML 文件。没有 HTTP 标头、状态代码或错误代码。
+进化的第一阶段必须很快到来。
+HTTP/1.0 – 突破限制 为了克服 HTTP/0.9 的严重限制，浏览器和服务器独立修改了协议。一些关键的协议更改：
+请求允许包含多个由换行符分隔的标头字段。 服务器发送了包含单个状态行的响应。 响应中添加了一个标头字段。响应标头对象由由换行符分隔的标头字段组成。 服务器可以使用 HTML 以外的文件进行响应。 这些修改没有以有序或商定的方式完成，导致 HTTP/0.9 的不同风格，进而导致互操作性问题。为了解决这些问题，HTTP 工作组成立，并于 1996 年发布了 HTTP/1.0（RFC 1945）。它是一个信息性 RFC，仅记录当时的所有用法。因此，HTTP/1.0 不被视为正式规范或互联网标准。
+HTTP/1.0 请求/响应的代码示例 来自客户端的使用 GET 方法的请求
+GET /contact HTTP/1.0 Host: www.ably.io User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0) Accept: text/*, text/html, text/html;level=1, */*Accept-Language: en-us 客户端通过 POST 方法发出请求
+POST /contact HTTP/1.0 Host: www.ably.io User-Agent: Mozilla/4....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
 <span>2024-05-07</span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/websocket/>Websocket</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/http/>Http</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>5 min</span></span></footer><a class=entry-link aria-label="post link to [译]WebSocket API和协议说明" href=https://blog.chensoul.cc/posts/2024/05/07/the-websocket-api-and-protocol-explained/></a></article><article class=post-entry><header class=entry-header><h2>[译]WebSocket与REST</h2></header><section class=entry-content><p>原文链接：https://ably.com/topic/websocket-vs-rest
-无论您是将客户端连接到服务器、将微服务相互连接，还是将应用程序的一部分连接到外部服务，在通信方法方面，您几乎都会有多种选择。不过，有两个比较突出：WebSocket 和 REST。
-好消息是，尽管为应用程序选择核心技术是一项严肃的责任，但由于 WebSocket 和 REST 不同的架构选择、性能特征和实现考虑因素，在 WebSocket 和 REST 之间进行选择相对简单。这意味着双方都可以解决对方可能遇到的问题。
-在本文中，我们将阐明 REST 与 WebSocket，涵盖：
-回顾一下 REST 和 WebSocket 是什么 他们的技术权衡，包括 WebSocket 与 REST 性能 何时应该使用 REST 以及何时 WebSocket 是更好的选择 如果您使用任一协议，则需要填补一些空白。 但如果您正在寻找快速摘要，那么您需要了解以下内容：
-当您需要轻松扩展的基础架构来进行无状态 CRUD 操作并且您希望坚持使用标准 Web 工具时，REST 是理想的选择。例如，如果您正在构建一个 API 来将更新发布到社交网络 当您需要客户端和服务器之间进行实时、双向、低延迟通信时，WebSocket 是正确的选择。例如，如果您正在构建聊天应用程序。 什么是REST？ 表述性状态传输 (REST) 是一组原则，定义了通过 HTTP 构建 API 的一种方法。这很容易被忽视，但 REST 不是一种协议，这意味着您可以非常灵活地根据您的需求来塑造它。它的流行很大程度上是由于它的简单性以及它重用了已经用于网络的方法和技术。这在很大程度上定义了它表现良好的用例以及您需要寻找替代方案的用例。
-让我们快速了解一下 REST 与其他方法的区别。
-REST 的主要特征 **无状态：**对 REST API 发出的每个请求都是独立且自包含的。这使得扩展变得更加简单。当流量增加时，您可以在负载均衡器后面添加更多服务器，因为特定客户端不需要每次都连接到同一台服务器。尽管 HTTP 和 REST 是无状态的，但您可以通过使用客户端 cookie 来跟踪会话和登录状态来维护长时间运行的会话。 **CRUD：**每个 REST 请求都使用标准 HTTP 动词（GET、POST、PUT、PATCH 和 DELETE），与创建、读取、更新、删除操作对齐。 有效负载格式： REST 通常使用 JSON 或 XML 等标准化消息格式进行数据交换。但是您可以使用任何您喜欢的数据格式，只要您设置正确的Content-Type标头即可。 **可缓存：**您可以选择允许客户端和中间基础设施缓存响应。这有助于扩展和响应时间。 同步： REST 所依赖的 HTTP 请求-响应周期最适合短暂、简单的事务，其中客户端在继续下一个任务之前等待响应。 什么是 WebSocket？ REST 适用于短暂、无状态的通信，而 WebSocket 则提供持续、低延迟的双向通信通道。这意味着您与 WebSocket 交互的方式是不同的。因此，您无需使用特定端点构建“WebSocket API”，而是打开一个连接，双方可以在需要时交换消息。这使其成为实时应用程序的理想选择，例如聊天、体育或金融数据的实时流媒体，以及 Figma、Miro 和 Google Docs 等交互式实时协作环境。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2024-05-07</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/websocket/>Websocket</a><a href=https://blog.chensoul.cc/tags/rest/>Rest</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]WebSocket与REST" href=https://blog.chensoul.cc/posts/2024/05/07/websocket-vs-rest/></a></article><article class=post-entry><header class=entry-header><h2>ThingsBoard的领域模型</h2></header><section class=entry-content><p>ThingsBoard是一个开源的物联网平台，用于管理和监控物联网设备和数据。它提供了一个可扩展的架构，可以连接各种设备，并实时收集、处理和分析设备生成的数据。
-领域模型 在ThingsBoard中，领域模型是一个关键概念，用于描述物联网系统中的物理实体、属性和行为。以下是ThingsBoard中的主要领域模型组件：
-租户（Tenant）：租户是ThingsBoard中的顶级组织单位。它代表了一个独立的实体，可以是一个用户、组织或公司。租户拥有和管理自己的设备、客户、规则和仪表板等资源。租户之间的数据和配置是相互隔离的，每个租户都有自己的独立环境。租户由系统管理员创建和管理。
-租户配置（TenantProfile）：用于定义租户级别的配置和属性。
-客户（Customer）：客户是租户下的子级实体，代表了物联网系统中的用户或组织。一个租户可以包含多个客户，每个客户都有自己的访问权限和角色。客户可以访问和监控租户下的设备和数据。客户可以有自己的设备、规则和仪表板等资源，但这些资源受到租户级别的限制。客户由租户管理员创建和管理。
-用户（User）：保存用户的基本信息
-用户的角色（Authority）：SYS_ADMIN、TENANT_ADMIN、CUSTOMER_USER、REFRESH_TOKEN、PRE_VERIFICATION_TOKEN 用户凭证（UserCredentials）：保存用户的密码、激活用户 Token、重置密码 Token、密码使用历史 用户认证设置（UserAuthSettings）：保存用户 2FA 认证设置 用户设置（UserSettings）：保存用户的设置，包括：通用设置、通知、访问过的仪表盘等等 系统设置（AdminSettings）：是用于配置和管理整个系统的全局设置和参数，包括：通用设置、邮件、JWT、连接设置等等。
-审计日志（AuditLog）
-资产（Asset）：指在系统中表示和管理的物理或虚拟实体。资产可以是设备、传感器、设施、车辆、建筑物、人员或其他实体，其状态、属性和行为可以被监测、控制和管理。
-资产配置（AssetProfile）：配置资产使用的默认规则链、队列、移动端仪表盘
-设备（Device）：
-遥测数据（TsKV）： 最新遥测数据： 属性（AttributeKvEntry）：属性类型分为客户端、服务端、共享 远程调用（Rpc） 设备凭证（DeviceCredentials）： OTA： 设备配置（DeviceProfile）：配置设备使用的默认规则链、队列、移动端仪表盘、边缘网关默认规则链、分配的固件、分配的软件、传输方式、告警规则、设置预配置
-告警（Alarm）：包括字段：租户、客户、类型、明细、发起者、告警级别（严重、重要、次要、警告、不确定）、是否应答、是否清除、受理人、开始时间、结束时间、应答时间、清除时间、受理时间、是否传播、是否传播给所有者、是否传播给租户
-告警评论（AlarmComment）：
-实体告警（EntityAlarm）：
-事件（Event）：分为异常事件、组件生命周期事件、规则链调试事件、规则节点事件、统计事件
-通知（Notification）:
-通知请求（NotificationRequest） 通知模版（NotificationTemplate）： 通知规则（NotificationRule） 通知对象（NotificationTarget） 流程 上报遥测数据 设备配置启用告警规则。温度大于 20 时，产生告警。温度小于 20 时，清除告警。
-创建一个设备，设备凭证使用 AccessToken
-使用 http api 发送遥测数据
-curl -v -X POST http://localhost:8080/api/v1/gs76dj5m47yd3lm1wurd/telemetry --header Content-Type:application/json --data "{temperature:25}" 查看告警
-再次发送遥测数据，可以清除告警
-源码分析：
-使用 http api 发送数据，入口类在 common/transport/http 模块下的 DeviceApiController 类。这个类提供了以下几个接口：
-GET /api/v1/{deviceToken}/attributes POST /api/v1/{deviceToken}/attributes GET /api/v1/{deviceToken}/telemetry POST /api/v1/{deviceToken}/telemetry GET /api/v1/{deviceToken}/rpc POST /api/v1/{deviceToken}/rpc POST /api/v1/{deviceToken}/rpc/{requestId} POST /api/v1/{deviceToken}/claim GET /api/v1/{deviceToken}/firmware POST /api/v1/{deviceToken}/firmware GET /api/v1/{deviceToken}/software POST /api/v1/{deviceToken}/software POST /api/v1/provision POST /api/v1/{deviceToken}/telemetry 处理逻辑：
-HttpTransportContext TransportService DefaultTransportService TbQueueProducer&lt;TbProtoQueueMsg&lt;ToRuleEngineMsg>> ruleEngineMsgProducer TbRuleEngineQueueConsumerManager TbRuleEngineConsumerContext ActorSystemContext TbActorRef TbActorMailbox AppActor TenantActor RuleChainActor RuleChainActorMessageProcessor RuleNodeActor RuleNodeActorMessageProcessor TbDeviceProfileNode DeviceState AlarmState DefaultTbContext DefaultTbClusterService TbRuleEngineProducerProvider TbQueueProducer&lt;TbProtoQueueMsg&lt;ToRuleEngineMsg>> toRuleEngine 这里面用到了 Transport 、Queue、Actor ，调用链非常长。</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>5 min</span></span></footer><a class=entry-link aria-label="post link to [译]HTTP 的演变 – HTTP2 深入探讨" href=https://blog.chensoul.cc/posts/2024/05/07/http2/></a></article><article class=post-entry><header class=entry-header><h2>[译]WebSocket与HTTP：2024年为您的项目选择哪一个</h2></header><section class=entry-content><p>原文链接：https://ably.com/topic/websockets-vs-http
+当谈到 WebSocket 与 HTTP 时，决定使用哪一种并不总是那么明确。哪一个更好？您的应用程序应该使用哪一款？
+但问题的答案不一定是其中之一 - 开发人员经常根据场景在同一个应用程序中同时使用 WebSocket 和 HTTP。更重要的问题是 - 我如何确定 WebSockets 还是 HTTP 是特定类型通信的正确通信协议？
+这是您需要了解的一切。
+WebSocket 与 HTTP 概览 在此页面上，我们将探讨这些技术的工作原理、它们在实现实时通信方面的表现如何，并就在哪些场景中使用哪些技术提供具体指导。
+如果您正在寻找高级比较，以下是主要差异一目了然：
+请继续阅读以详细了解这两种流行协议的比较。
+HTTP协议 什么是 HTTP？ 从根本上讲，HTTP 是一种通信协议，使客户端（例如 Web 浏览器）和服务器能够共享信息。
+例如，HTML 文档、图像、应用程序数据 (JSON) 等。
+很难想出比您现在正在阅读的此页面更好的 HTTP 实际示例。
+当您加载此页面时，您的浏览器会发出 HTTP 请求，服务器会使用您当前正在阅读的 HTML 文档来响应该请求。
+HTTP 是如何工作的？ HTTP 遵循请求-响应消息传递模式，其中客户端发出请求，Web 服务器发送响应，该响应不仅包括请求的内容，还包括有关请求的相关信息。
+在底层，每个请求都会打开一个与服务器的短暂连接，然后关闭。
+HTTP 示例
+网页浏览。 下载图像、视频或二进制文件，例如桌面应用程序。 使用 JavaScript 中的 fetch 函数向 API 发出异步请求。 由于每个 HTTP 请求都包含处理它所需的所有信息，因此服务器无需跟踪连接和请求。
+这种无状态设计是有利的，因为它使得可以部署额外的服务器来处理请求，而不需要在服务器之间同步状态逻辑。
+此外，由于每个请求都是独立的，因此通过代理路由消息以执行缓存、加密和压缩等增值功能变得非常简单。
+这种无状态方法的缺点是客户端打开一个临时连接并为每个请求发送元数据，从而产生少量开销。
+当加载网页或下载文件时，这种开销可以忽略不计。但是，如果您发送负载较小的高频请求，它可能会对应用程序的性能产生显着影响。
+通过 HTTP 进行实时更新 这种模式（客户端发出请求，服务器发出响应）非常适合网页、文件或应用程序数据等静态资源。
+但是，请考虑这样一种情况：客户不知道新信息何时可用。
+例如，假设您正在为 BBC 实施突发新闻功能。
+在这种情况下，客户不知道故事的下一次更新何时会发生。
+现在，您可以对客户端进行编码，以频繁地发出 HTTP 请求，以防万一发生某些情况，并且对于少数客户端来说，这可能工作得足够好。
+但是假设您有成百上千个客户端（在 BBC 的情况下有数十万个）向服务器发送请求，而这些请求在更新之间没有产生任何新内容。
+这不仅浪费带宽和服务器资源，而且在最近的请求完成后不久更新就会中断 - 可能需要几秒钟才能发送下一个请求并且用户获得更新。一般来说，这种方法称为HTTP 轮询，它既不高效也不实时！
+相反，如果服务器能够在新信息可用时将数据推送到客户端，那就更好了，但这从根本上违背了请求-响应模式的原则。
+或者确实如此？
+HTTP 流式传输 尽管 HTTP 从根本上遵循请求-响应模式，但有一种解决方法可用于实现实时更新。
+服务器不是发出完整的响应，而是发出部分 HTTP 响应并保持底层连接打开。
+基于上一节的突发新闻示例，通过 HTTP 流，服务器可以在每次新闻更新中断时将部分响应（如果您愿意，可以是块）附加到响应流 - 连接无限期保持打开状态，使服务器能够推送当新信息可用时，以最短的延迟向客户端提供新信息。...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
 <span>2024-05-07</span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
 <span class=post-tags><a href=https://blog.chensoul.cc/tags/thingsboard/>Thingsboard</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>1 min</span></span></footer><a class=entry-link aria-label="post link to ThingsBoard的领域模型" href=https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/></a></article><article class=post-entry><header class=entry-header><h2>All things about ThingsBoard</h2></header><section class=entry-content><p>thingsboard 是一款乌克兰团队基于java语言研发的开源物联网框架，开源的是ce版，企业版需要购买授权且无源码。
-官方网站：
-Thingsboard 官网：https://thingsboard.io/
-Thingsboard社区免费版本：https://demo.thingsboard.io/
-Thingsboard 企业付费版本：https://thingsboard.cloud/
-Thingsboard 源码：https://github.com/thingsboard/thingsboard
-TBMQ 源码：https://github.com/thingsboard/tbmq
-中文网：http://www.ithingsboard.com/
-ThingsBoard 中文社区：https://www.thingsboard.club/
-博客：
-What is ThingsBoard? An Overview of ThingsBoard in 2024
-How to access MQTT data with ThingsBoard | EMQ
-分享｜五分钟学会使用 ThingsBoard 规则链
-分享｜五分钟了解 ThingsBoard 物联网平台多种部署场景
-分享｜五分钟快速学会 ThingsBoard 打包镜像和 Docker 部署
-分享｜五分钟快速学会 ThingsBoard 对接物联网网关
-分享｜五分钟快速学会 ThingsBoard DashBoard 基本操作
-分享｜五分钟学会 ThingsBoard 本地编译运行和 Linux 部署
-分享｜五分钟熟悉 ThingsBoard 前端二次开发。
-https://www.cnblogs.com/east196/tag/ThingsBoard/
-物联网技术学习指南 https://iot.mushuwei.cn/
-物联网开源框架Thingsboard使用总结
-https://www.weishadian.com/index.php/tag/thingsboard/page/5/
-thingskit博客
-ThingsBoard二次开发之源码分析1- 基础知识
-源码分析：
-ThingsBoard 源码分析 thingsboard源码解析 精尽thingsboard源码解析 https://github.com/blackstar-baba/how-2-use-thingsboard https://chenzhifu.xyz/categories/thingsboard IOT 平台：
-http://iot.bctools.cn/ ThingsKit 分布式规则引擎系统，重构于开源IOT项目thingboard</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2024-04-29</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/thingsboard/>Thingsboard</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>1 min</span></span></footer><a class=entry-link aria-label="post link to All things about ThingsBoard" href=https://blog.chensoul.cc/posts/2024/04/29/all-things-about-thingsboard/></a></article><article class=post-entry><header class=entry-header><h2>TBMQ测试和源码分析</h2></header><section class=entry-content><p>启动 TBMQ 程序，浏览器访问 http://localhost:8083，创建一个 Application，Credentials Type 为 BASIC，客户端 ID、用户名和密码均设置为 tbmq_app
-使用 mosquitto 测试订阅消息
-mosquitto_sub -d -q 1 -h localhost -p 1883 -t tbmq/demo/+ -i 'tbmq_app' -u 'tbmq_app' -P 'tbmq_app' -c -v Debug 调试 MqttSessionHandler 类的 channelRead(ChannelHandlerContext ctx, Object msg) 方法
-第一次连接，消息类型是 CONNECT
-消息：
-固定头：MqttFixedHeader[messageType=CONNECT, isDup=false, qosLevel=AT_MOST_ONCE, isRetain=false, remainingLength=40]
-变量头：MqttConnectVariableHeader[name=MQTT, version=4, hasUserName=true, hasPassword=true, isWillRetain=false, isWillFlag=false, isCleanSession=false, keepAliveTimeSeconds=60]
-负载：MqttConnectPayload[clientIdentifier=tbmq_app, willTopic=null, willMessage=null, userName=tbmq_app, password=[116, 98, 109, 113, 95, 97, 112, 112]]
-address 为空，故从 ChannelHandlerContext 获取客户端地址，并将地址保持到客户端 Session 上下文 ClientSessionCtx
-初始化 Session：获取 clientI、mqtt 版本，调用 ClientMqttActorManager 初始化 session：创建 clientActorRef，发送一个 SessionInitMsg 消息
-调用 ClientMqttActorManager connect 方法，发送一个 MqttConnectMsg 消息
-第二次连接，消息类型是 SUBSCRIBE
-MqttSubscribeMessage[fixedHeader=MqttFixedHeader[messageType=SUBSCRIBE, isDup=false, qosLevel=AT_LEAST_ONCE, isRetain=false, remainingLength=16], variableHeader=MqttMessageIdAndPropertiesVariableHeader[messageId=1, properties=io....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2024-04-28</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/thingsboard/>Thingsboard</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>2 min</span></span></footer><a class=entry-link aria-label="post link to TBMQ测试和源码分析" href=https://blog.chensoul.cc/posts/2024/04/28/thingsboard-tbmq-test/></a></article><article class=post-entry><header class=entry-header><h2>ThingsBoard TBMQ本地和通过Docker运行</h2></header><section class=entry-content><p>docker-compose 运行 参考：https://thingsboard.io/docs/mqtt-broker/install/cluster/docker-compose-setup/
-下载源代码
-git clone -b release-1.3.0 https://github.com/thingsboard/tbmq.git cd tbmq/docker 创建逻辑卷并执行安装程序
-./scripts/docker-create-volumes.sh ./scripts/docker-install-tbmq.sh 运行服务
-./scripts/docker-start-services.sh 浏览器访问：http://localhost:8083，用户名/密码：sysadmin@thingsboard.org / sysadmin
-查看 HaProxy 日志，发现出现异常：Error: Specified qdisc kind is unknown. 。
-目前，尚未找到解决办法，只能不使用 HaProxy 而是直接访问 tbmq1，修改 docker-compose.yml ，暴露容器端口 8083 到本地的 8083：
-tbmq1: restart: always container_name: "${TBMQ_1_NAME}" image: "${DOCKER_REPO}/${DOCKER_NAME}:${TBMQ_VERSION}" ports: - "1883" - "8083:8083" #修改这里 - "8084" 然后，通过浏览器访问 浏览器访问：http://localhost:8081
-源码编译并运行 安装好 JDK 17+ 和 Maven3.6.3+
-下载源代码
-git clone -b release-1.3.0 https://github.com/thingsboard/tbmq.git cd tbmq 编译代码
-mvn clean install -DskipTests 通过 docker-compose 本地安装 postgres、kafka、redis
-参考 docker 目录下的文件新建 docker-compose.postgres.yml 文件：
-version: '3.0' services: postgres: restart: always image: postgres:15 ports: - "5432:5432" environment: POSTGRES_DB: thingsboard_mqtt_broker POSTGRES_PASSWORD: postgres volumes: - postgres-data:/var/lib/postgresql/data volumes: postgres-data: 新建 docker-compose....</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2024-04-17</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/thingsboard/>Thingsboard</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>1 min</span></span></footer><a class=entry-link aria-label="post link to ThingsBoard TBMQ本地和通过Docker运行" href=https://blog.chensoul.cc/posts/2024/04/17/thingsboard-tbmq-local-docker-run/></a></article><article class=post-entry><header class=entry-header><h2>2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构</h2></header><section class=entry-content><p>今天做了什么：
-ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能
-@Aspect @Component public class RateLimitAspect { private final RedisTemplate&lt;String, Object> redisTemplate; private final Logger logger = LoggerFactory.getLogger(RateLimitAspect.class); private final int maxRequests; // Maximum number of requests private final int timeWindow; // Time window in seconds @Autowired public RateLimitAspect(RedisTemplate&lt;String, Object> redisTemplate) { this.redisTemplate = redisTemplate; this.maxRequests = 100; // Default maximum number of requests is 100 this.timeWindow = 60; // Default time window is 60 seconds } @Before("@annotation(getMapping)") public void applyRateLimit(JoinPoint joinPoint, GetMapping getMapping) { HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); if (request != null && HttpMethod.GET.matches(request.getMethod())) { String username = request.getUserPrincipal().getName(); // Get the username if (username !...</p></section><footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2024-02-20</span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/spring-cloud/>Spring-Cloud</a></span></span><span class=meta-item>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>2 min</span></span></footer><a class=entry-link aria-label="post link to 2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构" href=https://blog.chensoul.cc/posts/2024/02/20/til/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://blog.chensoul.cc/>« Prev Page</a>
+<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]WebSocket与HTTP：2024年为您的项目选择哪一个" href=https://blog.chensoul.cc/posts/2024/05/07/websockets-vs-http/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://blog.chensoul.cc/>« Prev Page</a>
 <a class=next href=https://blog.chensoul.cc/page/3/>Next Page »</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span><span style=display:inline-block;margin-left:1em>
 <a href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA</a>
 </span><span style=display:inline-block;margin-left:1em>Powered by

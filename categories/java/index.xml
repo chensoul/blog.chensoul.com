@@ -6,7 +6,73 @@
     <description>Recent content in Java on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 05 Jun 2024 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Jun 2024 12:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>All things about OAuth</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/06/all-things-about-oauth/</link>
+      <pubDate>Thu, 06 Jun 2024 12:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/06/06/all-things-about-oauth/</guid>
+      <description>OAuth 是一种开放协议，允许通过网络、移动和桌面应用程序以简单、标准的方式进行安全授权。
+OAuth 2 入门 以下是一些 OAuth 2.0 指南，涵盖了理解和实现客户端和服务器所需的许多主题。
+OAuth 2.0 简化版 由 Aaron Parecki 编写的*《OAuth 2.0 Simplified*》是一份专注于编写客户端的 OAuth 2.0 指南，它在入门级别上清晰地概述了规范。 …</description>
+    </item>
+    
+    <item>
+      <title>Spring Boot项目创建docker镜像</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/06/spring-boot-docker-image/</link>
+      <pubDate>Thu, 06 Jun 2024 12:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/06/06/spring-boot-docker-image/</guid>
+      <description>手动创建 Dockerfile 添加 Dockerfile
+在您的 Spring Boot 项目根目录下创建一个名为 Dockerfile 的文件，并添加以下内容:
+# 使用 OpenJDK 11 作为基础镜像 FROM openjdk:11 # 设置工作目录 WORKDIR /app # 将 JAR 文件复制到容器中 COPY target/*.jar app.jar # 暴露 8080 …</description>
+    </item>
+    
+    <item>
+      <title>JWT</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/06/jwt/</link>
+      <pubDate>Thu, 06 Jun 2024 08:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/06/06/jwt/</guid>
+      <description>什么是 JWT？ JWT（JSON Web Token）是一种开放标准(RFC 7519)，用于在网络应用程序之间安全地传输信息。它被设计用于在两方之间传输声明，这些声明可以是身份验证和授权信息，也可以是任何其他类型的信息。
+设计目的：不需要服务器端存储状态，安全地传递非敏感信息。
+JWT 特点 可扩展性：可以在 payload 中携带任意的 JSON 数据 自包含性：所有用户相关信息都在 JWT …</description>
+    </item>
+    
+    <item>
+      <title>OAuth2和OIDC区别</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/06/oauth2-oidc/</link>
+      <pubDate>Thu, 06 Jun 2024 07:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/06/06/oauth2-oidc/</guid>
+      <description>认证和授权 认证 (Authentication)：
+认证是验证用户、设备或系统身份的过程。 常见的认证方式包括用户名/密码、生物特征(如指纹、人脸)、单点登录(SSO)等。 认证确保只有被授权的实体才能访问系统或资源。 授权 (Authorization)：
+授权是确定已认证的实体被允许执行哪些操作或访问哪些资源的过程。 授权通常基于预定义的策略和规则，如角色、权限、访问控制列表(ACL)等。  …</description>
+    </item>
+    
+    <item>
+      <title>[译]OAuth2.0服务器</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-server/</link>
+      <pubDate>Wed, 05 Jun 2024 14:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-server/</guid>
+      <description>背景 前言 作者：Aaron Parecki
+我第一次接触 OAuth 是在 2010 年，当时我正在构建一个 API，我知道我希望第三方开发人员能够在其基础上构建应用程序。当时，OAuth 看起来令人生畏。OAuth 1 的实现只有少数几个，而 OAuth 2.0 仍是一个草稿。一天晚上，我决定坐下来，拿着精酿啤酒和最新草案的纸质副本，从头到尾阅读它，直到我理解它。
+在仔细阅读了长达 44 页的 …</description>
+    </item>
+    
+    <item>
+      <title>[译]OAuth2简化版</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth-2-simplified/</link>
+      <pubDate>Wed, 05 Jun 2024 13:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth-2-simplified/</guid>
+      <description>这篇文章以简化的格式描述了 OAuth 2.0，以帮助开发人员和服务提供商实现该协议。
+OAuth 2 规范读起来可能有点混乱，所以我写了这篇文章来帮助以简化的格式描述术语。核心规范将许多决策留给实现者，通常基于实现的安全权衡。这篇文章没有描述成功实施 OAuth 2 所需的所有可能决策，而是做出适用于大多数实现的决策。
+注意：本文已根据 OAuth 2.0 的当前最佳实践从原始 2012 版本更 …</description>
+    </item>
+    
     <item>
       <title>RFC6749 | OAuth2.0授权框架中文版</title>
       <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2/</link>

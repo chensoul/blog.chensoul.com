@@ -8,12 +8,22 @@
     <language>zh-cn</language>
     <lastBuildDate>Wed, 26 Jun 2024 16:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>使用Docker安装和部署Jenkins</title>
+      <title>使用Docker安装和配置Gitlab</title>
       <link>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</link>
       <pubDate>Wed, 26 Jun 2024 16:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</guid>
-      <description>使用 Docker 安装 $ docker volume create --name jenkins_data $ docker run -p 8080:8080 -p 50000:50000 -v jenkins_data:/var/jenkins_home jenkins/jenkins:lts-jdk8 第一次启动 Jenkins 时，Docker 日志将包含如下消息：
+      <description>使用 Docker Compose 安装 如果要使用 gitlab 自带的 nginx，compose 文件参考 https://github.com/hutchgrant/gitlab-docker-local/blob/master/docker-compose.yml。
+在 192.168.1.107 服务器上安装 gitlab，并配置不使用 Gitlab 内置的 Nginx. …</description>
+    </item>
+    
+    <item>
+      <title>使用Docker安装和配置Jenkins</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</link>
+      <pubDate>Wed, 26 Jun 2024 16:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</guid>
+      <description>使用 Docker 安装 $ docker volume create --name jenkins_data $ docker run -p 8080:8080 -p 50000:50000 -v jenkins_data:/var/jenkins_home jenkins/jenkins:jdk21 第一次启动 Jenkins 时，Docker 日志将包含如下消息：
 Jenkins …</description>
     </item>
     

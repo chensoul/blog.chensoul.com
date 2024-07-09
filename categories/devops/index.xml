@@ -6,7 +6,27 @@
     <description>Recent content in Devops on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 08 Jul 2024 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/categories/devops/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Jul 2024 16:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/categories/devops/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用 Docker 容器化并运行 Spring Boot 应用程序</title>
+      <link>https://blog.chensoul.cc/posts/2024/07/09/docker-for-spring-boot/</link>
+      <pubDate>Tue, 09 Jul 2024 16:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/07/09/docker-for-spring-boot/</guid>
+      <description>本文翻译自 Docker 官方网站的《Java language-specific guide》文章，并做了一些改动。
+Java 入门指南教您如何使用 Docker 创建容器化的 Spring Boot 应用程序。在本模块中，您将学习如何：
+使用 Maven 容器化并运行 Spring Boot 应用程序 设置本地开发环境以将数据库连接到容器，配置调试器，并使用 Compose Watch 进行实 …</description>
+    </item>
+    
+    <item>
+      <title>Docker安装和配置</title>
+      <link>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</link>
+      <pubDate>Tue, 09 Jul 2024 15:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</guid>
+      <description>Centos7安装Docker 配置宿主机网卡转发 ## 配置网卡转发，看值是否为1 $ sysctl -a |grep -w net.ipv4.ip_forward net.ipv4.ip_forward = 1 ## 若未配置，需要执行如下 $ cat &amp;lt;&amp;lt;EOF &amp;gt; /etc/sysctl.d/docker.conf …</description>
+    </item>
+    
     <item>
       <title>[译]Minikube 中的 Minions - 面向 Java 开发人员的 Kubernetes 简介</title>
       <link>https://blog.chensoul.cc/posts/2024/07/08/minions-in-minikube-a-kubernetes-intro-for-java-de/</link>
@@ -86,6 +106,17 @@ Jenkins …</description>
       <guid>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</guid>
       <description>安装 Artifactory 官方下载安装地址：https://jfrog.com/community/download-artifactory-oss/ ，支持三种安装方式：
 Windows Installer Linux Installers tar.gz RPM Debian Docker Compose Docker Helm …</description>
+    </item>
+    
+    <item>
+      <title>Spring Boot项目创建Docker镜像并运行应用</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/06/spring-boot-docker-image/</link>
+      <pubDate>Thu, 06 Jun 2024 12:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/06/06/spring-boot-docker-image/</guid>
+      <description>手动创建 Dockerfile 添加 Dockerfile
+在您的 Spring Boot 项目根目录下创建一个名为 Dockerfile 的文件，并添加以下内容:
+# 使用 OpenJDK 11 作为基础镜像 FROM openjdk:11 # 设置工作目录 WORKDIR /app # 将 JAR 文件复制到容器中 COPY target/*.jar app.jar # 暴露 8080 …</description>
     </item>
     
     <item>

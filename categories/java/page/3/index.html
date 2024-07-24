@@ -1,6 +1,85 @@
 <!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Java | ChenSoul</title>
 <meta name=keywords content><meta name=description content><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/categories/java/><link crossorigin=anonymous href=/assets/css/stylesheet.min.d6db7ab468e55ea6647d68be426a17bae21ff1cddbf1741e547ed2086d010444.css integrity="sha256-1tt6tGjlXqZkfWi+QmoXuuIf8c3b8XQeVH7SCG0BBEQ=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=alternate type=application/rss+xml href=https://blog.chensoul.cc/categories/java/index.xml><link rel=alternate hreflang=en href=https://blog.chensoul.cc/categories/java/><meta name=twitter:title content="Java | ChenSoul"><meta name=twitter:description content><meta property="og:title" content="Java | ChenSoul"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://blog.chensoul.cc/categories/java/"><meta property="og:site_name" content="ChenSoul"><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary-bg:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list-page{background:var(--theme)}.list-page:not(.dark)::-webkit-scrollbar-track{background:0 0}.list-page:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript></head><body class="list-page type-categories kind-term layout-" id=top><script data-no-instant>function switchTheme(e){switch(e){case"light":document.body.classList.remove("dark");break;case"dark":document.body.classList.add("dark");break;default:window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")}}function isDarkTheme(){return document.body.className.includes("dark")}function getPrefTheme(){return localStorage.getItem("pref-theme")}function setPrefTheme(e){switchTheme(e),localStorage.setItem("pref-theme",e)}const toggleThemeCallbacks={};toggleThemeCallbacks.main=e=>{setPrefTheme(e?"light":"dark")},window.addEventListener("toggle-theme",function(){const e=isDarkTheme();for(const t in toggleThemeCallbacks)toggleThemeCallbacks[t](e)});function toggleThemeListener(){window.dispatchEvent(new CustomEvent("toggle-theme"))}</script><script>(function(){const t="auto",e=getPrefTheme(),n=e||t;switchTheme(n)})()</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a>
-<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories/review/ title=总结>总结</a></li><li><a href=https://blog.chensoul.cc/categories/ title=分类 class=active>分类</a></li><li><a href=https://blog.chensoul.cc/tags/ title=标签>标签</a></li><li><a href=https://github.com/chensoul/ title=关于 target=_blank>关于<span class=external-link><svg class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7H6A2 2 0 004 9v9a2 2 0 002 2h9a2 2 0 002-2v-5"/><line x1="10" y1="14" x2="20" y2="4"/><polyline points="15 4 20 4 20 9"/></svg></span></a></li></ul></nav></header><main class=main><header class=page-header><h1>category: Java</h1><div class=inline-links><span><a href=https://blog.chensoul.cc/categories/java/index.xml target=_blank>RSS</a></span></div></header><article class="post-entry tag-entry"><header class=entry-header><h2>[译]OAuth2 with Spring 第4部分：Spring授权客户端与Google授权服务器的社交登录演示</h2></header><section class=entry-content><p>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-4-spring-authorization-client-social-login-demo-with-google-be6097ec18a5
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories/review/ title=总结>总结</a></li><li><a href=https://blog.chensoul.cc/categories/ title=分类 class=active>分类</a></li><li><a href=https://blog.chensoul.cc/tags/ title=标签>标签</a></li><li><a href=https://github.com/chensoul/ title=关于 target=_blank>关于<span class=external-link><svg class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7H6A2 2 0 004 9v9a2 2 0 002 2h9a2 2 0 002-2v-5"/><line x1="10" y1="14" x2="20" y2="4"/><polyline points="15 4 20 4 20 9"/></svg></span></a></li></ul></nav></header><main class=main><header class=page-header><h1>category: Java</h1><div class=inline-links><span><a href=https://blog.chensoul.cc/categories/java/index.xml target=_blank>RSS</a></span></div></header><article class="post-entry tag-entry"><header class=entry-header><h2>[译]OAuth2.0服务器</h2></header><section class=entry-content><p>背景 前言 作者：Aaron Parecki
+我第一次接触 OAuth 是在 2010 年，当时我正在构建一个 API，我知道我希望第三方开发人员能够在其基础上构建应用程序。当时，OAuth 看起来令人生畏。OAuth 1 的实现只有少数几个，而 OAuth 2.0 仍是一个草稿。一天晚上，我决定坐下来，拿着精酿啤酒和最新草案的纸质副本，从头到尾阅读它，直到我理解它。
+在仔细阅读了长达 44 页的规范后，我学到了以下几点：阅读规范并不是了解 OAuth 工作原理的最佳方式，而且 OAuth 2.0 远没有我最初想象的那么复杂。我开始撰写一份简化的规范概述，当我第一次学习这个规范时，我希望它就存在。我将其作为一篇名为“OAuth 2.0 简化版”的博客文章发布在我的网站上。现在，这篇文章每年的阅读量达到数十万次。很明显，人们知道 OAuth 2.0 是保护其 API 的正确选择，并且正在寻找资源来帮助理解它。
+我一直想将这篇博文扩展为更全面的 OAuth 服务器指南，2016 年，我与 Okta 取得了联系，我们在oauth.com上发布了这个新 OAuth 指南的第一个版本。2017 年，我们合作出版了这本书的印刷版，并于 2018 年和 2020 年出版了修订版。
+我希望这本书能让 OAuth 2.0 更加平易近人，并为您在继续使用 Web 技术时提供坚实的知识基础。
+背景 在 OAuth 出现之前，向第三方应用授予您帐户访问权限的常见模式是简单地向其提供您的密码并允许其以您的身份行事。我们经常在 Twitter 应用中看到这种情况，这些应用会要求您提供 Twitter 密码，以便向您提供一些帐户统计数据，或者要求能够从您的帐户发送推文以换取一些有价值的东西。
+这种应用程序获取用户密码的模式显然存在许多问题。由于应用程序需要以用户身份登录服务，因此这些应用程序通常会以纯文本形式存储用户的密码，这使它们成为密码窃取的目标。一旦应用程序获得了用户的密码，它就可以完全访问用户的帐户，包括访问更改用户密码等功能！另一个问题是，在向应用程序提供密码后，您能够撤销该访问权限的唯一方法是更改密码，而用户通常不愿意这样做。
+自然，许多服务很快意识到了这种模式的问题和局限性，并寻求快速解决。许多服务实现了类似于 OAuth 1.0 的东西。Flickr 的 API 使用了所谓的“FlickrAuth”，它使用了“frobs”和“tokens”。谷歌创建了“AuthSub”。Facebook 选择向每个应用程序发布一个秘密，并要求应用程序使用该秘密的 md5 哈希对每个请求进行签名。雅虎创建了“BBAuth”（基于浏览器的身份验证）。结果产生了各种各样的解决方案，彼此完全不兼容，并且经常无法解决某些安全问题。
+2006 年 11 月左右，Twitter 首席架构师布莱恩·库克 (Blaine Cook) 正在寻找一种更好的 Twitter API 身份验证方法，这种方法不需要用户向第三方应用程序透露他们的 Twitter 密码。
+我们想要类似 Flickr Auth / Google AuthSub / Yahoo! BBAuth 的东西，但以开放标准的形式发布，具有通用的服务器和客户端库等。
+– 布莱恩·库克，2007 年 4 月 5 日
+2007 年，一群致力于 OpenID 开发的人员聚在一起，创建了一个邮件列表，旨在制定 API 访问控制标准提案，该提案可供任何系统使用，无论其是否使用 OpenID。最初的这个小组包括 Blaine Cook、Kellen Elliott-McCrea、Larry Halff、Tara Hunt、Ian McKeller、Chris Messina 和其他一些人。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-06-05</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/oauth2/>Oauth2</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>30 min</span></span></footer><a class=entry-link aria-label="post link to [译]OAuth2.0服务器" href=https://blog.chensoul.cc/posts/2024/06/05/oauth2-server/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]OAuth2简化版</h2></header><section class=entry-content><p>这篇文章以简化的格式描述了 OAuth 2.0，以帮助开发人员和服务提供商实现该协议。
+OAuth 2 规范读起来可能有点混乱，所以我写了这篇文章来帮助以简化的格式描述术语。核心规范将许多决策留给实现者，通常基于实现的安全权衡。这篇文章没有描述成功实施 OAuth 2 所需的所有可能决策，而是做出适用于大多数实现的决策。
+注意：本文已根据 OAuth 2.0 的当前最佳实践从原始 2012 版本更新而来。原始版本可以在这里找到。
+角色 第三方应用程序：“客户端” 客户端是尝试访问用户帐户的应用程序。它需要先获得用户的许可，然后才能执行此操作。
+API：“资源服务器” 资源服务器是用于访问用户信息的 API 服务器。
+授权服务器 这是提供用户批准或拒绝请求的接口的服务器。在较小的实现中，这可能与 API 服务器是同一台服务器，但更大规模的部署通常会将其构建为单独的组件。
+用户：“资源所有者” 资源所有者是授予访问其帐户某些部分的权限的人员。
+创建应用程序 在开始 OAuth 过程之前，必须先向服务注册新应用。注册新应用时，通常会注册应用名称、网站、徽标等基本信息。此外，还必须注册一个重定向 URI，用于将用户重定向到 Web 服务器、基于浏览器的应用程序或移动应用程序。
+重定向 URI 该服务只会将用户重定向到已注册的 URI，这有助于防止某些攻击。任何 HTTP 重定向 URI 都必须通过 HTTPS 提供。这有助于防止令牌在授权过程中被截获。本机应用可能会使用应用程序的自定义 URL 方案注册重定向 URI，这可能类似于 demoapp://redirect .
+客户端 ID 和密码 注册应用后，你将收到一个客户端 ID 和一个（可选）的客户端密码。客户端 ID 被视为公共信息，用于构建登录 URL，或包含在页面上的 Javascript 源代码中。客户端密码必须保密。如果已部署的应用无法对机密保密，例如单页 Javascript 应用或本机应用，则不会使用该密钥，理想情况下，该服务首先不应向这些类型的应用发布机密。
+授权 OAuth 2 的第一步是从用户那里获得授权。对于基于浏览器或移动的应用程序，这通常是通过向用户显示服务提供的界面来实现的。
+OAuth 2 为不同的用例提供了几种“授权类型”。定义的授权类型包括：
+Authorization Code 在 Web 服务器、基于浏览器的应用程序和移动应用程序上运行的应用程序的授权代码
+Password 使用用户名和密码登录的密码（仅适用于第一方应用）
+Client credentials 在没有用户在场的情况下进行应用程序访问的客户端凭据
+Implicit 隐式以前被推荐给没有秘密的客户端，但已被使用授权代码授予与PKCE取代。
+下面将详细介绍每个用例。
+Web 服务器应用程序 Web 服务器应用程序是您在处理 OAuth 服务器时遇到的最常见的应用程序类型。Web 应用程序是用服务器端语言编写的，并在应用程序源代码不向公众开放的服务器上运行。这意味着应用程序在与授权服务器通信时能够使用其客户端密钥，这有助于避免许多攻击媒介。
+授权 创建一个“登录”链接，将用户发送到：
+https://authorization-server.com/auth?response_type=code& client_id=CLIENT_ID&amp;redirect_uri=REDIRECT_URI&amp;scope=photos&amp;state=1234zyx response_type=code 指示您的服务器希望收到授权代码 client_id 首次创建应用程序时收到的客户端 ID redirect_uri 示授权完成后要将用户返回到的 URI scope 一个或多个范围值，指示您希望访问用户帐户的哪些部分 state 应用程序生成的随机字符串，稍后将对其进行验证 用户看到授权提示...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-06-05</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/oauth/>Oauth</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]OAuth2简化版" href=https://blog.chensoul.cc/posts/2024/06/05/oauth-2-simplified/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>RFC6749 | OAuth2.0授权框架中文版</h2></header><section class=entry-content><p>前言 摘要 OAuth2.0 授权框架允许第三方应用获取对 HTTP 服务的有限的访问权限，既可以以资源所有者名义在资源所有者和 HTTP 服务之间进行允许的交互，也可以允许第三方应用以自己的名义进行访问。本规范取代并淘汰 RFC 5849 中描述的 OAuth 1.0 协议。
+本备忘录状态 这是一个互联网标准化过程文档。
+本文档是互联网工程任务组（IETF）的作品。它代表了 IETF 社区的一致看法。它已接受公开审阅并由互联网工程指导小组（IESG）批准公布。有关互联网标准的进一步信息可在 RFC 5741 的第 2 节找到。
+有关本文档的当前状态、勘误表以及如何对它提供反馈可参见 http://www.rfc-editor.org/info/rfc6749。
+版权声明 IETF 信托及标识为本文档的作者的个人版权所有（c）2012。保留所有权利。
+本文档受 BCP78 和 IETF 信托有关 IETF 文档的法律条款 (http://trustee.ietf.org/license-info)的约束，自本文档发布之日起生效。请仔细查阅这些文件，因为它们描述了与本文档有关的权利和限制。从本文档中提取的代码片段必须按信托法律条款 4.e 节所述包括简化 BSD 许可证文本；并且按简化 BSD 许可证中所述不附带质量保证。
+目录 [toc]
+1. 简介 在传统的客户端-服务器身份验证模式中，客户端请求服务器上限制访问的资源（受保护资源）时，需要使用资源所有者的凭据在服务器上进行身份验证。资源所有者为了给第三方应用提供受限资源的访问，需要与第三方共享它的凭据。 这造成一些问题和局限：
+需要第三方应用存储资源所有者的凭据，以供将来使用，通常是明文密码。 需要服务器支持密码身份认证，尽管密码认证天生就有安全缺陷。 第三方应用获得的资源所有者的受保护资源的访问权限过于宽泛，从而导致资源所有者失去对资源使用时限或使用范围的控制。 资源所有者不能在不撤销对所有第三方的访问权限的情况下撤销对单个第三方的访问权限，而且必须通过更改第三方的密码来这样做。 与任何第三方应用的让步导致对终端用户的密码及该密码所保护的所有数据的让步。 OAuth 通过引入授权层以及分离客户端角色和资源所有者角色来解决这些问题。在 OAuth 中，客户端在请求受资源所有者控制并托管在资源服务器上的资源的访问权限时，将被颁发一组不同于资源所有者所拥有凭据的凭据。
+客户端获得一个访问令牌（一个代表特定作用域、生命期以及其他访问属性的字符串），用以代替使用资源所有者的凭据来访问受保护资源。访问令牌由授权服务器在资源所有者认可的情况下颁发给第三方客户端。客户端使用访问令牌访问托管在资源服务器的受保护资源。
+例如，终端用户（资源所有者）可以授权一个打印服务（客户端）访问她存储在图片分享服务（资源服务器）上的受保护图片，而无需与打印服务分享自己的用户名和密码。反之，她直接与图片分享服务信任的服务器（授权服务器）进行身份验证，该服务器颁发给打印服务具体委托凭据（访问令牌）。
+本规范是为 HTTP（[RFC2616]）协议定制。在任何非 HTTP 协议上使用 OAuth 不在本规范的范围之内。
+OAuth 1.0 协议（[RFC5849]）作为一个指导性文档发布，是一个小社区的工作成果。本标准化规范在 OAuth 1.0 的部署经验之上构建，也包括其他使用案例以及从更广泛的 IETF 社区收集到的可扩展性需求。OAuth 2.0 协议不向后兼容 OAuth 1.0。这两个版本可以在网络上共存，实现者可以选择同时支持他们。然而，本规范的用意是新的实现支持按本文档指定的 Auth 2.0，OAuth 1.0 仅用于支持现有的部署。OAuth 2.0 协议与 OAuth 1.0 协议实现细节没有太多关联。熟悉 OAuth 1.0 的实现者应该学习本文档，而不对有关 OAuth 2.0 的结构和细节做任何假设。
+1.1. 角色 OAuth 定义了四种角色：
+资源所有者
+能够授予对受保护资源访问权限的实体。当资源所有者是一个人时，它被称为终端用户。
+资源服务器...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-06-05</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/oauth2/>Oauth2</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>19 min</span></span></footer><a class=entry-link aria-label="post link to RFC6749 | OAuth2.0授权框架中文版" href=https://blog.chensoul.cc/posts/2024/06/05/oauth2/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译][译]OAuth2 with Spring 第5部分：使用PKCE保护您的Spring Boot应用程序以增强安全性</h2></header><section class=entry-content><p>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-5-securing-your-spring-boot-application-with-pkce-for-enhanced-security-d8025cd08769
+免责声明：本文技术性很强，需要清楚了解本系列前几篇文章，特别是第 1 部分和第 3 部分。
+带有代码交换证明密钥 (PKCE) 的授权代码流用于无法存储客户端机密的应用程序。此类应用程序包括：
+原生应用程序——可以反编译并检索客户端凭证的移动应用程序。 单页应用 — 整个源代码可在浏览器中使用。因此，无法安全地存储客户端机密。 怎么运行的 Spring Boot OAuth2 与 PKCE
+希望这张图已经足够清晰易懂了。因此，我将直接进入演示。
+对于此演示，我们有 3 台服务器。
+授权服务器：在端口 9001 上运行。 资源服务器：在端口8090上运行。 社交登录客户端（BFF）：在端口 8080 上运行。 让我们看一下代码。
+授权服务器 一、pom.xml
+授权服务器的 pom.xml 中没有太多需要解释的变化
+application.yml.yml
+application.yml文件有很多更改，特别是删除了客户端注册。当前版本的application.yml非常简短，如下所示。
+server: port: 9001 logging: level: org: springframework: security: trace 三. SecurityConfig 类
+所有的安全配置以及客户端和用户详细信息注册、JWT token 解码都放在此类中
+@Configuration public class SecurityConfig { // This first SecurityFilterChain Bean is only specific to authorization server specific configurations // More on this can be found in this stackoverflow question answers: // https://stackoverflow.com/questions/69126874/why-two-formlogin-configured-in-spring-authorization-server-sample-code @Bean @Order(1) public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception { OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http); http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(withDefaults()); return http .exceptionHandling(e -> e ....</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-06-05</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/oauth2/>Oauth2</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>5 min</span></span></footer><a class=entry-link aria-label="post link to [译][译]OAuth2 with Spring 第5部分：使用PKCE保护您的Spring Boot应用程序以增强安全性" href=https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-5-securing-your-spring-boot-application-with-pkce-for-enhanced-security/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]OAuth2 with Spring 第4部分：Spring授权客户端与Google授权服务器的社交登录演示</h2></header><section class=entry-content><p>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-4-spring-authorization-client-social-login-demo-with-google-be6097ec18a5
 在之前的文章中，我们学习了如何使用 OIDC 连接到我们自己的授权服务器。我们在自托管授权服务器中定义了我们自己的客户端应用程序。在今天的文章中，我们将使用 Google 和 GitHub 作为我们的授权服务器，并将我们的授权客户端应用程序连接到这些授权服务器并从它们接收令牌。应用程序登录屏幕将如下所示。
 为了实现这一点，我们需要将我们的授权客户端应用程序注册为 Google 授权服务器中的客户端，并使用客户端应用程序中的客户端凭据以及可用范围。
 Google 授权服务器中的客户端注册 我们需要在 Google 开发者控制台中创建一个应用程序并配置必要的内容。
@@ -124,102 +203,7 @@ src ├── main │ ├── java │ │ └── com │ │ └── ap
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
 <span class=post-tags><a href=https://blog.chensoul.cc/tags/ddd/>Ddd</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
 <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]如何组织代码" href=https://blog.chensoul.cc/posts/2024/05/30/how-to-structure-our-code/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>All things about WebSocket</h2></header><section class=entry-content><p>Wikipedia：WebSocket
-WebSocket - Web APIs | MDN
-PubNub：什么是 WebSocket？
-What are WebSockets?
-websocket protocol - RFC6455 - tools.ietf.org
-WebSocket
-Ably：What are WebSockets used for? Pusher：What are WebSockets?
-WebSocket vs. HTTP communication protocols
-What are WebSockets? | Web Security Academy
-Educative：What is WebSocket?
-Spring：WebSocket
-Writing a WebSocket server in Java - Web APIs
-Baeldung：A Guide to the Java API for WebSocket
-Baeldung：A Java Client for a WebSockets API
-WebSocket Implementation with Spring Boot and STOMP
-ApiFox：WebSocket协议入门到精通
-JSR 356, Java API for WebSocket
-WebSocket 协议解析 [RFC 6455]
-WebSocket原理及技术简介
-【NO.23】一篇文章彻底搞懂websocket协议的原理与应用（一）
-WebSocket 协议详解
-WebSocket 协议（RFC 6455 中文版）
-用JAVA分别实现WebSocket客户端与服务端
-WebSocket Programming with Java
-MQTT Websocket Client</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2024-05-10</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a><a href=https://blog.chensoul.cc/tags/websocket/>Websocket</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>1 min</span></span></footer><a class=entry-link aria-label="post link to All things about WebSocket" href=https://blog.chensoul.cc/posts/2024/05/10/all-things-about-websocket/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>All things about Spring Modulith</h2></header><section class=entry-content><p>VMware 推出了一个实验性的项目Spring Modulith，以便于通过模块和事件更好地组织 Spring Boot 3 应用。该项目引入了新的类和注解，但并不会生成代码。它的模块没有使用 Java Platform Module System（JPMS），而是映射到了普通的 Java 包。模块有 API，但是 Spring Modulith 鼓励使用 Spring 应用事件作为“主要的交互方式”。这些事件可以自动持久化到事件日志中。Spring Modulith 还简化了模块和事件的测试。
-2022 年 11 月推出的Spring Boot 3会是 Spring Modulith 的基础。所以它的基线是 Spring Framework 6、Java 17 和 Jakarta EE 9。Spring Modulith 是Moduliths（其名字有个“s”后缀）项目的继承者。该项目使用 Spring Boot 2.7，目前已经退役，只接收缺陷修正，直至 2023 年 11 月份。
-https://spring.io/blog/2022/10/21/introducing-spring-modulith
-https://www.baeldung.com/spring-modulith
-https://www.baeldung.com/spring-modulith-event-externalization
-https://piotrminkowski.com/2023/10/13/guide-to-modulith-with-spring-boot/
-https://springdoc.cn/guide-to-modulith-with-spring-boot/
-https://medium.com/andamp/event-sourcing-with-spring-modulith-2b35b0569dbb
-https://www.geeksforgeeks.org/what-is-spring-modulith/
-https://github.com/xsreality/spring-modulith-with-ddd
-https://riteshshergill.medium.com/the-spring-modulith-monolithic-but-manageable-ca1532a1e585
-https://www.infoq.com/news/2022/11/spring-modulith-launch/
-https://dzone.com/articles/architecture-style-modulith-vs-microservices
-https://speakerdeck.com/olivergierke/spring-modulith-a-deep-dive
-https://www.jappware.com/proffesional-activity/make-monolithic-apps-great-again-with-spring-modulith-coffeejug/
-https://blog.worldline.tech/2024/01/23/modulith.html
-https://springdoc.cn/spring-modulith-intro/
-https://dimitri.codes/checking-out-spring-modulith/
-https://www.lefer.cn/posts/29752/
-https://www.jdon.com/63003.html
-https://blog.csdn.net/cfy_banq/article/details/132185951
-https://www.zhihu.com/question/567053421</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2024-05-09</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/spring/>Spring</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>1 min</span></span></footer><a class=entry-link aria-label="post link to All things about Spring Modulith" href=https://blog.chensoul.cc/posts/2024/05/09/all-things-about-spring-modulith/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]探索 http2（第 2 部分）：使用 node-http2 核心和 hapijs</h2></header><section class=entry-content><p>原文链接：https://noobj.medium.com/exploring-http2-part-2-with-node-http2-core-and-hapijs-74e3df14249
-来源：https://www.thewebmaster.com/
-先决条件：了解 javascript、客户端-服务器架构。
-完整的代码可以在github上找到。
-第 1 部分：概述（http2 的原因、内容、时间、方式）第 2 部分：使用 node-http2 核心和 hapijs 进行探索
-免责声明：本文将使用node@v9+附带的http2模块。这里列出了其他几个 http2 客户端-服务器库实现。
-让我们开始创建一个具有单一路由的简单 http1.1 服务器。
-mkdir hapijs-http2 && \ cd hapijs-http2 && \ npm init -y && \ npm i hapi@^16.6 -s && \ touch http1Server.js 将下面的代码复制到此处或从此处http1Server.js克隆整个存储库。
-const Hapi = require('hapi'); const server = new Hapi.Server(); // define server config server.connection({ port: '8000' }); // define route config server.route([{ method: 'GET', path: '/ping', handler: (request, reply) => { reply('pong'); } }]); // start server server.start(err => { if (err) console.error(err) console.log(`Started ${server.connections.length} connections`) }); 现在，让我们进行健全性检查。
-启动服务器，node http1Server.js
-⇒ http://127.0.0.1:8000/ping pong 凉爽的！如果我们得到 pong 的 ping，让我们尝试将http2集成到我们的 hapijs 服务器中。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2024-05-08</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/http/>Http</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]探索 http2（第 2 部分）：使用 node-http2 核心和 hapijs" href=https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-2-overview/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]探索 http2（第 1 部分）：概述</h2></header><section class=entry-content><p>原文链接：https://noobj.medium.com/exploring-http2-part-1-overview-dc3e9b53968f
-让我们来谈谈 http2 的内容、原因、时间和方式
-完整的代码可以在github上找到。
-第 1 部分：概述 第 2 部分：使用 node-http2 核心和 hapijs 进行探索
-什么是http2？ **http2*是自 1999 年以来使用的http1.1***之后的最新更新
-http2协议注重性能；具体来说，最终用户感知的延迟、网络和服务器资源的使用情况。 （在此处阅读有关规格的信息*）*
-为什么是http2？ 换句话说http1.1有什么问题
-加载网页是一项资源密集型工作，因为 HTTP/1.1 只允许每个 TCP 连接有一个未完成的请求。网络需要进行更新，以提高效率、安全性和速度。
-http2如何解决性能问题？
-http2 带来的改进：
-**单一连接：**仅使用一个与服务器的连接来加载网站，并且只要网站打开，该连接就保持打开状态。这减少了建立多个 TCP 连接所需的往返次数。（更多信息在这里） **多路复用：**同一连接上同时允许多个请求。以前，在 HTTP/1.1 中，每个传输都必须等待其他传输完成。（更多信息在这里） **服务器推送：**可以将其他资源发送到客户端以供将来使用。（更多信息在这里） **优先级：**请求被分配依赖级别，服务器可以使用它来更快地交付更高优先级的资源。（更多信息在这里） **二进制：**使 HTTP/2 更易于服务器解析、更紧凑且不易出错。将信息从文本转换为二进制不会浪费额外的时间。（更多信息在这里） 标头压缩： HTTP/2 使用HPACK压缩，从而减少开销。在 HTTP/1.1 中，每个请求中的许多标头都使用相同的值发送。（更多信息在这里） 我们什么时候可以开始使用http2？ 现在！
-这是时间线，
-来源：https://www.polyglotdeveloper.com/
-是的，从 1999 年到今天，我们（大多数）都在使用同样好的旧 http1.1； 15年！
-如何开始使用http2？ 以下是各种语言的 http2 库实现列表。
-根据Can I Use的统计，大约 83% 的在线浏览器已经支持 http2
-查看实际情况，http1.1 与 http2（网络节流：快速 3g）
-http1.1（左）与http2（右）；让我们在下一节中构建它
-在下一部分中，我们将构建一个支持 http2 的简单服务器；具有http1.1向后兼容性；一步一步使用http2-node core 和hapi js。
-第 1 部分：概述 第 2 部分：使用 node-http2 核心和 hapijs 进行探索
-完整的代码可以在github上找到。</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2024-05-08</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/http/>Http</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>1 min</span></span></footer><a class=entry-link aria-label="post link to [译]探索 http2（第 1 部分）：概述" href=https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-1-overview/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://blog.chensoul.cc/categories/java/page/2/>« Prev Page</a>
+<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]如何组织代码" href=https://blog.chensoul.cc/posts/2024/05/30/how-to-structure-our-code/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://blog.chensoul.cc/categories/java/page/2/>« Prev Page</a>
 <a class=next href=https://blog.chensoul.cc/categories/java/page/4/>Next Page »</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span><span style=display:inline-block;margin-left:1em>
 <a href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA</a>
 </span><span style=display:inline-block;margin-left:1em>Powered by

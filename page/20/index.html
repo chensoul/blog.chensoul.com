@@ -1,6 +1,92 @@
 <!doctype html><html lang=en dir=auto><head><meta name=generator content="Hugo 0.129.0"><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>ChenSoul</title>
 <meta name=keywords content="java,python,go"><meta name=description content><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/><link crossorigin=anonymous href=/assets/css/stylesheet.min.d6db7ab468e55ea6647d68be426a17bae21ff1cddbf1741e547ed2086d010444.css integrity="sha256-1tt6tGjlXqZkfWi+QmoXuuIf8c3b8XQeVH7SCG0BBEQ=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=alternate type=application/rss+xml href=https://blog.chensoul.cc/index.xml><link rel=alternate type=application/json href=https://blog.chensoul.cc/index.json><link rel=alternate hreflang=en href=https://blog.chensoul.cc/><meta name=twitter:title content="ChenSoul"><meta name=twitter:description content><meta property="og:title" content="ChenSoul"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://blog.chensoul.cc/"><meta property="og:site_name" content="ChenSoul"><script type=application/ld+json>{"@context":"https://schema.org","@type":"Organization","name":"ChenSoul","url":"https://blog.chensoul.cc/","description":"","thumbnailUrl":"https://blog.chensoul.cc/favicon.ico","sameAs":[]}</script><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary-bg:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list-page{background:var(--theme)}.list-page:not(.dark)::-webkit-scrollbar-track{background:0 0}.list-page:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript></head><body class="list-page type-page kind-home layout-" id=top><script data-no-instant>function switchTheme(e){switch(e){case"light":document.body.classList.remove("dark");break;case"dark":document.body.classList.add("dark");break;default:window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")}}function isDarkTheme(){return document.body.className.includes("dark")}function getPrefTheme(){return localStorage.getItem("pref-theme")}function setPrefTheme(e){switchTheme(e),localStorage.setItem("pref-theme",e)}const toggleThemeCallbacks={};toggleThemeCallbacks.main=e=>{setPrefTheme(e?"light":"dark")},window.addEventListener("toggle-theme",function(){const e=isDarkTheme();for(const t in toggleThemeCallbacks)toggleThemeCallbacks[t](e)});function toggleThemeListener(){window.dispatchEvent(new CustomEvent("toggle-theme"))}</script><script>(function(){const t="auto",e=getPrefTheme(),n=e||t;switchTheme(n)})()</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a>
-<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories/review/ title=总结>总结</a></li><li><a href=https://blog.chensoul.cc/categories/ title=分类>分类</a></li><li><a href=https://blog.chensoul.cc/tags/ title=标签>标签</a></li><li><a href=https://github.com/chensoul/ title=关于 target=_blank>关于<span class=external-link><svg class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7H6A2 2 0 004 9v9a2 2 0 002 2h9a2 2 0 002-2v-5"/><line x1="10" y1="14" x2="20" y2="4"/><polyline points="15 4 20 4 20 9"/></svg></span></a></li></ul></nav></header><main class=main><article class=post-entry><header class=entry-header><h2>Java设计模式：Ambassador</h2></header><section class=entry-content><p>本文主要介绍 Ambassador 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories/review/ title=总结>总结</a></li><li><a href=https://blog.chensoul.cc/categories/ title=分类>分类</a></li><li><a href=https://blog.chensoul.cc/tags/ title=标签>标签</a></li><li><a href=https://github.com/chensoul/ title=关于 target=_blank>关于<span class=external-link><svg class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7H6A2 2 0 004 9v9a2 2 0 002 2h9a2 2 0 002-2v-5"/><line x1="10" y1="14" x2="20" y2="4"/><polyline points="15 4 20 4 20 9"/></svg></span></a></li></ul></nav></header><main class=main><article class=post-entry><header class=entry-header><h2>[译]使用Spring Boot2和Spring Security 5以及JDBC令牌存储进行Oauth2集中授权</h2></header><section class=entry-content><p>在这篇文章中，我们将了解如何使用 Spring Boot 2 和 Spring Security 5 OAuth2 来实现集中授权的授权服务器以及如何通过 GUI 对其进行管理，还将提供资源服务器演示以及 github 下的整个项目。
+很多示例涵盖了基于早期版本的 Spring boot 2 和 Spring Security 5 使用内存令牌实现 Oauth2，因此想法是使用 MySql 数据库作为令牌存储。
+为了深入探讨这个主题，我们必须：
+配置 Spring 安全。 配置数据库。 创建授权服务器。 创建资源服务器。 使用 curl 客户端使用访问令牌获取安全资源。 什么是 Oauth 2？ OAuth 2.0 是行业标准授权协议。 OAuth 2.0 取代了 2006 年创建的原始 OAuth 协议上所做的工作。OAuth 2.0 注重客户端开发人员的简单性，同时为 Web 应用程序、桌面应用程序、移动电话和客厅设备提供特定的授权流程。
+该规范及其扩展正在 IETF OAuth 工作组内开发。
+Oauth 2 角色 OAuth2 定义了 4 个角色：
+资源所有者：通常是您自己。
+资源服务器：托管受保护数据的服务器（例如 Google 托管您的个人资料和个人信息）。
+客户端：请求访问资源服务器的应用程序（网站、Javascript 应用程序或移动应用程序……）。
+授权服务器：向客户端颁发访问令牌的服务器。该令牌将用于客户端请求资源服务器。该服务器可以与资源服务器相同（相同的物理服务器和相同的应用程序），而且经常是这种情况。
+下图说明了角色流程：
+授权类型 OAuth 2 为不同的用例提供了多种“授权类型”。定义的授权类型型有：
+授权码：授权码授予是使用您的 Facebook 或 Google 帐户登录应用程序的功能。 密码：旨在用于基于用户代理的客户端。其次，授权服务器不会像授权代码授予那样返回授权代码来交换访问令牌，而是返回访问令牌。 客户端凭据：客户端可以仅使用其客户端凭据（或其他支持的身份验证方式）请求访问令牌，当客户端请求访问其下的受保护资源控制权，或先前已被其他资源所有者控制的与授权服务器安排。 隐式授权：隐式授权是一种简化的授权代码流，针对使用 JavaScript 等脚本语言在浏览器中实现的客户端进行了优化。在隐式流程中，而不是向客户端发出授权代码，直接向客户端颁发访问令牌。 示范 让我们动手吧
+业务层 为简单起见，我们的主要业务应用程序将是使用一个实体的产品 API，我们的访问规则将是：
+PRODUCT_CREATE PRODUCT_UPDATE PRODUCT_DISPLAY PRODUCT_ADMIN OAuth2 客户端设置 要设置 Oauth 2 客户端，我们需要创建下表 [有关更多详细信息，请参阅链接]...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-07-14</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/java/>Java</a><a href=https://blog.chensoul.cc/tags/spring/>Spring</a><a href=https://blog.chensoul.cc/tags/spring-boot/>Spring-Boot</a><a href=https://blog.chensoul.cc/tags/spring-security/>Spring-Security</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>4 min</span></span></footer><a class=entry-link aria-label="post link to [译]使用Spring Boot2和Spring Security 5以及JDBC令牌存储进行Oauth2集中授权" href=https://blog.chensoul.cc/posts/2023/07/14/oauth-2-centralized-authorization-with-spring-boot-2-and-spring-security-5-and-jdbc-token-store/></a></article><article class=post-entry><header class=entry-header><h2>周报-26｜上半年的绩效总结</h2></header><section class=entry-content><p>前言 本篇是对 2023-06-26 到 2023-07-09 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
+读书、健身、投资、帮朋友、陪家人。
+这两周主要是忙于工作，Wekatime 上统计的上周每天平均编程时间达到了 6 hrs 52 mins，基本上每天都是早七晚七的上班节奏。于是，学习的时间都被工作占用了。工作的内容主要是整合多个系统实现 sso 登录，用到的技术有 SpringCloud、Spring Security Oauth2 等等。
+另外，本周完成了上半年的绩效总结，回顾了这半年的工作内容。
+绩效总结 1、项目方面的成果：
+a、完成了智能安防多个项目的迭代开发和上线，包括用户切换租户、报表发送到飞书、华为车牌识别、夜收模块拆分、巡检场景功能优化等。同时，也完成了通知模块重构、大屏报表支持多租户和门店、Dmallai 导航等需求的开发。这些工作的完成，为系统的稳定性和功能扩展提供了有力的支持。
+b、共发布了 32 次版本，其中 7 次为功能迭代，25 次为 bug 修复。平均每月完成了 1 次项目迭代和 4 次 bug 修复，做到了及时响应和快速解决问题，提升了用户的使用体验和满意度，提高了系统的稳定性，降低系统的故障率和用户的投诉率，没有出现 P3 级别以上故障。
+2、技术方面的成果：
+利用空余时间学习新技术和框架，如 Pyhon、Rust、React，每周写周报和学习总结，总计输出 66 篇文章。
+不断优化和迭代 Rose 框架，并将 Rose 合并到 Cocktail cloud，方便代码管理和维护。同时，Cocktail cloud 还增加了一些新的功能和特性，如国际化、日志打印、华为云接口封装等。
+利用设计模式重构通知模块，提升代码质量，同时系统扩展性和并发也得到很大的提升。
+3、个人发展方面的成果：
+通过不断学习和实践，提高了自己的沟通能力和时间管理的能力。每天早上 7 点到公司学习，提高了个人工作效率和执行力。
+4、团队合作方面的成果：
+加强了和同事之间的沟通和协作，及时讨论项目需求和进度，保障项目按时上线。
+读书 健身 我跑过了一些地方，希望随着时间推移，地图点亮的地方越来越多。2 年里我跑过 2 个省份 2 个城市。更多跑步数据在我的 跑步 主页。
+理财 这周总计支出 1483 元，明细如下：
+7 月 2 日：1276 元，其中 1000 元加油
+7 月 1 日：32 元
+6 月 30 日：35 元
+6 月 29 日：15 元
+6 月 28 日：41 元...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-07-11</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/review/>Review</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>2 min</span></span></footer><a class=entry-link aria-label="post link to 周报-26｜上半年的绩效总结" href=https://blog.chensoul.cc/posts/2023/07/11/weekly_review_26/></a></article><article class=post-entry><header class=entry-header><h2>Python学习7：输入和输出</h2></header><section class=entry-content><p>在 Python 中，可以使用 input() 函数从标准输入读取用户输入的数据，并使用 print() 函数将数据输出到标准输出。下面是一些常用的输入输出方法：
+1、使用 input() 函数读取用户输入
+input() 函数会从标准输入读取用户输入的数据，并返回一个字符串类型的值。例如：
+name = input("What's your name? ") print("Hello, " + name + "!") 在上面的例子中，使用 input() 函数读取用户输入的姓名，并使用 print() 函数输出问候语。
+2、使用 print() 函数输出字符串
+print() 函数可以将字符串输出到标准输出。可以使用加号（+）将多个字符串连接起来，并使用逗号（,）将多个参数输出到同一行。例如：
+print("Hello, World!") print("The answer is", 42) 在上面的例子中，使用 print() 函数输出了两个字符串，第二个字符串包含了一个数字。
+3、使用格式化字符串输出数据
+可以使用格式化字符串将变量的值插入到字符串中。可以使用花括号（{}）表示变量的位置，并使用 format() 方法将变量的值插入到花括号中。例如：
+name = "Alice" age = 25 print("My name is {} and I'm {} years old.".format(name, age)) 在上面的例子中，使用 format() 方法将变量 name 和 age 的值插入到字符串中。
+4、使用 f-字符串输出数据
+在 Python 3.6 及以后的版本中，可以使用 f-字符串来格式化字符串。f-字符串是一种特殊的字符串，以字母 f 或 F 开头，并以花括号表示变量的位置。在花括号中可以直接使用变量名，也可以使用表达式计算变量的值。例如：
+name = "Bob" age = 32 print(f"My name is {name.upper()} and I'm {age * 2} years old.") 在上面的例子中，使用 f-字符串将变量 name 的值转换为大写字母，并将变量 age 的值乘以 2。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-07-08</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/python/>Python</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>5 min</span></span></footer><a class=entry-link aria-label="post link to Python学习7：输入和输出" href=https://blog.chensoul.cc/posts/2023/07/08/python-input-and-output/></a></article><article class=post-entry><header class=entry-header><h2>Python学习6：模块和包</h2></header><section class=entry-content><p>在 Python 中，模块（module）是指一个包含 Python 代码的文件，而包（package）则是指一个包含多个模块的文件夹。模块和包可以用来组织和管理 Python 代码，使得代码更加易于维护和扩展。
+以下是一些有关 Python 模块和包的基本知识：
+1、导入模块
+使用 import 语句可以导入一个模块（或包）中的代码。例如，要导入名为 “math” 的模块，可以使用以下语句：
+import math 这会将 math 模块中的所有函数和变量导入到当前 Python 脚本中，您就可以在脚本中使用 math 模块中的函数和变量了。
+2、导入特定函数或变量
+有时候您只需要使用模块中的某个函数或变量，而不需要导入整个模块。在这种情况下，可以使用 from…import 语句，例如：
+from math import sqrt 这会将 math 模块中的 sqrt 函数导入到当前 Python 脚本中，您就可以直接使用 sqrt 函数了。
+3、导入多个函数或变量
+如果您需要导入多个函数或变量，可以使用逗号分隔它们，例如：
+from math import sqrt, floor 这会将 math 模块中的 sqrt 函数和 floor 函数导入到当前 Python 脚本中，您就可以直接使用这两个函数了。
+4、导入所有函数和变量
+有时候，您可能需要导入模块中的所有函数和变量。在这种情况下，可以使用以下语句：
+from math import * 这会将 math 模块中的所有函数和变量导入到当前 Python 脚本中。但是，这种导入方式可能会导致命名冲突和代码可读性降低，因此最好只在一些小型程序中使用。
+5、创建包
+要创建一个包，您需要创建一个包含 init.py 文件的文件夹，并在该文件夹中添加其他 Python 模块。init.py 文件可以是一个空文件，或者包含一些初始化代码。
+例如，如果您想创建一个名为 “my_package” 的包，可以按照以下方式组织代码：
+my_package/ __init__.py module1.py module2.py 这个包包含了 init.py 文件和两个模块（module1.py 和 module2.py）。您可以使用 import 语句来导入这个包中的模块，例如：
+import my_package.module1 这会将 my_package 包中的 module1.py 文件导入到当前 Python 脚本中，您就可以使用其中定义的函数和变量了。
+6、导入自定义模块...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2023-07-06</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/python/>Python</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>3 min</span></span></footer><a class=entry-link aria-label="post link to Python学习6：模块和包" href=https://blog.chensoul.cc/posts/2023/07/06/python-module-package/></a></article><article class=post-entry><header class=entry-header><h2>Java设计模式：Ambassador</h2></header><section class=entry-content><p>本文主要介绍 Ambassador 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。
 Java Design Patterns 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。
 Java Design Patterns 网站提供了多种设计模式分类方式，包括创建型模式（Creational Patterns）、结构型模式（Structural Patterns）和行为型模式（Behavioral Patterns），以及其他一些常见的模式。
 对于每个设计模式，该网站提供了详细的介绍、示例代码和用例说明，并且提供了一些常见的使用场景和注意事项。开发人员可以根据自己的需求选择适合自己的设计模式，并且可以参考示例代码和用例说明来理解和应用该模式。
@@ -136,73 +222,7 @@ def fib(n): # write Fibonacci series up to n """Print a Fibonacci series up to n
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
 <span class=post-tags><a href=https://blog.chensoul.cc/tags/python/>Python</a></span></span><span class=meta-item>
 <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>5 min</span></span></footer><a class=entry-link aria-label="post link to Python学习5：函数" href=https://blog.chensoul.cc/posts/2023/06/25/python-function/></a></article><article class=post-entry><header class=entry-header><h2>[译]用 Bottle 开发</h2></header><section class=entry-content><p>我喜欢 bottle。它是一个简单、快速且功能强大的 Python 微框架，非常适合小型 Web 应用程序和快速原型设计。对于那些刚刚开始 Web 开发的人来说，它也是一个出色的学习工具。
-让我们看一个简单的例子。
-注意：本教程假设您正在运行基于 Unix 的环境 - 例如 Mac OS X、Linux 版本或通过虚拟机支持的 Linux 版本。
-06/13/2015 更新：更新了代码示例和解释。
-启动 首先，让我们创建一个工作目录：
-$ mkdir bottle && cd bottle 接下来，您需要安装 pip、virtualenv 和 git。
-virtualenv 是一个 Python 工具，可以轻松管理特定项目所需的 Python 包；它可以防止一个项目中的包与其他项目中的包发生冲突。同时，pip 是一个包管理器，用于管理 Python 包的安装。
-如需在 Unix 环境中安装 pip（及其依赖项）的帮助，请按照 此 Gist 中的说明进行操作。如果您使用的是 Windows 环境，请观看此视频以获取帮助。
-安装 pip 后，运行以下命令来安装 virtualenv：
-$ pip install virtualenv==12.0.7 现在我们可以轻松设置本地环境：
-$ virtualenv venv $ source venv/bin/activate 安装 bottle：
-$ pip install bottle==0.12.8 $ pip freeze > requirements.txt 最后，让我们使用 Git 将我们的应用程序置于版本控制之下。有关 Git 的更多信息，请 查看本文，其中还包括安装说明。
-编写你的应用程序 我们准备好编写我们的瓶子应用程序了。打开 Sublime Text 3 或您选择的文本编辑器。创建您的应用程序文件 app.py，它将保存我们第一个应用程序的全部内容：
-import os from bottle import route, run, template index_html = '''My first web app!...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-06-25</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/python/>Python</a><a href=https://blog.chensoul.cc/tags/bottle/>Bottle</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>6 min</span></span></footer><a class=entry-link aria-label="post link to [译]用 Bottle 开发" href=https://blog.chensoul.cc/posts/2023/06/25/developing-with-bottle/></a></article><article class=post-entry><header class=entry-header><h2>周报-24｜如果没有疼痛</h2></header><section class=entry-content><p>前言 本篇是对 2023-06-12 到 2023-06-18 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-读书、健身、投资、帮朋友、陪家人。
-读书 本周尚未读书。
-健身 我跑过了一些地方，希望随着时间推移，地图点亮的地方越来越多。2 年里我跑过 2 个省份 2 个城市。更多跑步数据在我的 跑步 主页。
-本周尚未跑步。
-理财 这周总计支出 1264 元，明细如下：
-6 月 18 日：338 元
-6 月 17 日：508 元
-6 月 16 日：262 元
-6 月 15 日：27 元
-6 月 14 日：41 元
-6 月 13 日：40 元
-6 月 12 日：48 元
-陪家人 本周因为老爸出院后需要人照料，所以我每天早晚往返于家（阳逻）和公司（光谷）之间。每天早上五点多就醒了，然后煮粥、招呼老爸吃饭喝药，六点半出门开车走三环去上班。这周请婶娘白天帮忙照顾老爸，主要是中午和晚上老爸要吃饭和喝药。我早上出门晚、晚上下班回来再照顾老爸。老爸胃溃疡，需要修养一个多月，另外最近痛风发作，身体多处关节疼痛。因为吃西药和打针都会伤胃，所以只能吃中药。中药见效慢，需要时间。而婶娘身上也有病，不能长期照顾，如果老爸这周痛风不能恢复，那下周只能老婆放下手上工作回来照顾老爸。老婆工作也是非常忙碌，也不能照顾太久，估计也就一个星期。如果过了一个星期，老爸还是不能恢复、不能生活自理，真不知道该怎么办了！很久之前就想到老爸可能会成为我的负担，影响我的工作，没有想到会来的这么快。有时候想抱怨，但抱怨有什么用？面对眼前的这一切，只能迎难面对。造成眼前这样的现状，我自己有一部分责任。都只怪我平时没有关心老爸，没有叮嘱老爸不要喝酒，在老爸身边陪伴的时间太少了。
-周六去给岳父岳母送端午节，周日回去看望癌症转移到全身的六舅。六舅是乳腺癌，在经历了去年新冠疫情之后，癌细胞转移到肺部。年后没有引起足够的重视，直到痛的不行的时候才去医院做手术，错过了最佳治疗时机。上一次见到六舅还是四月份的时候，我开车带老婆一起回去看望老爸。那时候六舅还在菜园里面朝黄土背朝天，六舅给了我一些莴笋、包菜，老婆给六舅 3 百块钱，六舅硬是不要，拉扯了半天。走之前，六舅还叫何舅塞了 20 多个鸡蛋给我们。这次，再见六舅，六舅躺在床上全身疼痛，只能吃些流食，意识模糊，知道谁来看望她，却不能说话。每次开车上下班的时候，想起六舅这样子，心里就很难受，眼泪直打转。面对生老病死，成年人的崩溃只在一瞬间。昨日还在你面前混蹦乱跳的人，明天可能就不在了。为了不留遗憾，要善待身边的每一位亲人，常回家看看。感谢老婆总是提醒我要回家看望老爸，正是因为这个，每次回家看望老爸的时候，我都会去看下六舅。
-如果没有疼痛，老爸和六舅就不会痛苦了，身边的人也就不会心痛。
-工作 最近在学习的内容清单：
-Effective Java（第 3 版） Java Design Patterns (中文) Real Python 本周完成四篇博客：
-[译]为恐龙解释现代 CSS
-[译]为恐龙解释现代 HTML
-[译]为恐龙解释现代 JavaScript
-《Effective Java 3》笔记 15：尽量减少类和成员的可访问性
-本周分享 大部分有意思的内容会分享在 『ChenSoul Share』Telegram 频道或者我的 Memos 中。我写了一个 Python 脚本从 Memos 读取最近一周带有 #memos 标签的记录，分享到这里。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-06-21</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/review/>Review</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>1 min</span></span></footer><a class=entry-link aria-label="post link to 周报-24｜如果没有疼痛" href=https://blog.chensoul.cc/posts/2023/06/21/weekly_review_24/></a></article><article class=post-entry><header class=entry-header><h2>[译]为恐龙解释现代CSS</h2></header><section class=entry-content><p>奇怪的是，CSS 被认为是作为 Web 开发人员最容易学习和最难学习的语言之一。开始使用它当然很容易 - 您可以定义样式属性和值以应用于特定元素，然后……这几乎就是您开始所需的一切！但是，对于大型项目，以有意义的方式组织 CSS 会变得纠结和复杂。更改任何一行 CSS 以设置一个页面上元素的样式通常会导致其他页面上的元素发生意外更改。
-为了处理 CSS 固有的复杂性，已经建立了各种不同的最佳实践。问题在于，对于哪些最佳实践实际上是最好的，没有任何强烈的共识，其中许多似乎完全相互矛盾。如果你是第一次尝试学习 CSS，至少可以说这可能会让人迷失方向。
-本文的目的是提供一个历史背景，说明 CSS 方法和工具如何在 2018 年发展到今天的样子。通过了解这段历史，将更容易理解每种方法以及如何使用它们来为您带来好处。让我们开始吧！
-更新：我制作了本文的新视频课程版本，该版本更深入地介绍了材料，请在此处查看： https://firstclass.actualize.co/p/modern-css-explained-for-dinosaurs
-使用 CSS 进行基本样式设置 让我们从一个基本网站开始，仅使用一个简单的 index.html 文件链接到一个单独的 index.css 文件：
-&lt;!DOCTYPE html> &lt;html lang="en"> &lt;head> &lt;meta charset="UTF-8" /> &lt;title>Modern CSS&lt;/title> &lt;link rel="stylesheet" href="index.css" /> &lt;/head> &lt;body> &lt;header>This is the header.&lt;/header> &lt;main> &lt;h1>This is the main content.&lt;/h1> &lt;p>...&lt;/p> &lt;/main> &lt;nav> &lt;h4>This is the navigation section.&lt;/h4> &lt;p>...&lt;/p> &lt;/nav> &lt;aside> &lt;h4>This is an aside section.&lt;/h4> &lt;p>...&lt;/p> &lt;/aside> &lt;footer>This is the footer.&lt;/footer> &lt;/body> &lt;/html> 现在我们在 HTML 中没有使用任何类或 ID，只是 语义标签。没有任何 CSS，网站看起来像这样（使用占位符文本）：
-功能齐全，但不是很漂亮。我们可以添加 CSS 来改进 index.css 中的基本排版：
-/* BASIC TYPOGRAPHY */ /* from https://github.com/oxalorg/sakura */ html { font-size: 62....</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-06-21</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/css/>Css</a><a href=https://blog.chensoul.cc/tags/html/>Html</a><a href=https://blog.chensoul.cc/tags/javascript/>Javascript</a><a href=https://blog.chensoul.cc/tags/less/>Less</a><a href=https://blog.chensoul.cc/tags/sass/>Sass</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>7 min</span></span></footer><a class=entry-link aria-label="post link to [译]为恐龙解释现代CSS" href=https://blog.chensoul.cc/posts/2023/06/21/modern-css-explained-for-dinosaurs/></a></article><article class=post-entry><header class=entry-header><h2>[译]为恐龙解释现代HTML</h2></header><section class=entry-content><p>在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似：
-&lt;!DOCTYPE html> &lt;html> &lt;head> &lt;meta charset="utf-8" /> &lt;title>My test page&lt;/title> &lt;/head> &lt;body> &lt;h1>Hello there!&lt;/h1> &lt;/body> &lt;/html> 你有带有标签和内容的元素，带有属性的标签——除了第一行的简化文档类型外，没有太大变化！然而，多年来，Web 开发已经发生了巨大的转变，从创建静态网站（专注于内容）到创建动态 Web 应用程序（专注于交互）——这是 Web 最初设计的目的。创建仍然语义和可访问的自定义用户界面，使用属性和工具提高性能，组织代码以进行重用和可维护性 - 现在有一组全新的问题在起作用。
-本文的目的是提供一个历史背景，说明 HTML 如何在 2018 年演变成今天的语言。我们将从结构良好且易于访问的 HTML 的基础知识开始，就像古代的恐龙一样。然后，我们将介绍不同的技术来提高性能、响应能力和可维护性。CSS 和 JavaScript 将不可避免地进入这个对话；出于本文的目的，将从它们如何影响 HTML 本身编写的角度来介绍它们。通过了解这段历史，您将能够充分利用该语言经常被忽视的新旧功能。让我们开始吧！
-使用语义元素编写内容 让我们向前面的 HTML 示例添加更多内容。现在，我们将创建一个基本网站，其中包含一个带有链接和搜索输入的导航部分，一个用于显示一般网站信息的大型展示部分（通常称为英雄部分或 巨型屏幕 ），文章的三列部分和一个版权信息的页脚部分。
-&lt;!DOCTYPE html> &lt;html> &lt;head> &lt;meta charset="utf-8" /> &lt;title>My test page&lt;/title> &lt;/head> &lt;body> &lt;div class="navbar"> &lt;ul> &lt;li> &lt;a href="#">Home&lt;/a> &lt;/li> &lt;li> &lt;a href="#">Info&lt;/a> &lt;/li> &lt;li> &lt;a href="#">About&lt;/a> &lt;/li> &lt;/ul> &lt;form> &lt;input type="text" placeholder="Search" /> &lt;button type="submit">Search&lt;/button> &lt;/form> &lt;/div> &lt;div class="main"> &lt;div class="hero"> &lt;h1>Hello there!&lt;/h1> &lt;p>General info about the page goes here&lt;/p> &lt;p>&lt;a href="#">Learn more&lt;/a>&lt;/p> &lt;/div> &lt;div class="grid"> &lt;div class="column"> &lt;h2>First Heading&lt;/h2> &lt;p>Article content goes here&lt;/p> &lt;p>&lt;a href="#">View details&lt;/a>&lt;/p> &lt;/div> &lt;div class="column"> &lt;h2>Second Heading&lt;/h2> &lt;p>Article content goes here&lt;/p> &lt;p>&lt;a href="#">View details&lt;/a>&lt;/p> &lt;/div> &lt;div class="column"> &lt;h2>Third Heading&lt;/h2> &lt;p>Article content goes here&lt;/p> &lt;p>&lt;a href="#">View details&lt;/a>&lt;/p> &lt;/div> &lt;/div> &lt;/div> &lt;div class="footer"> &lt;p>Copyright info goes here&lt;/p> &lt;/div> &lt;/body> &lt;/html> 在这里，我们使用带有 &lt;div> 、 &lt;h1> 、 &lt;h2> 、 &lt;p> 等标签的基本元素来标记内容。这里的 HTML 是有效的，但它不是完全语义的——也就是说，标签不能尽可能地传达内容的含义。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-06-20</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/css/>Css</a><a href=https://blog.chensoul.cc/tags/html/>Html</a><a href=https://blog.chensoul.cc/tags/javascript/>Javascript</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>16 min</span></span></footer><a class=entry-link aria-label="post link to [译]为恐龙解释现代HTML" href=https://blog.chensoul.cc/posts/2023/06/20/modern-html-explained-for-dinosaurs/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://blog.chensoul.cc/page/19/>« Prev Page</a>
+<span>5 min</span></span></footer><a class=entry-link aria-label="post link to Python学习5：函数" href=https://blog.chensoul.cc/posts/2023/06/25/python-function/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://blog.chensoul.cc/page/19/>« Prev Page</a>
 <a class=next href=https://blog.chensoul.cc/page/21/>Next Page »</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span><span style=display:inline-block;margin-left:1em>
 <a href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA</a>
 </span><span style=display:inline-block;margin-left:1em>Powered by

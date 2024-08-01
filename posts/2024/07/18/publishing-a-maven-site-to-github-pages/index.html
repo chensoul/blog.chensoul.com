@@ -248,7 +248,7 @@ git checkout --orphan gh-pages rm .git/index ; git clean -fdx echo "It works" > 
 </span></span><span class=line><span class=cl>        run: <span class=p>|</span>
 </span></span><span class=line><span class=cl>          git config --global user.email <span class=s2>&#34;github-actions[bot]@users.noreply.github.com&#34;</span>
 </span></span><span class=line><span class=cl>          git config --global user.name <span class=s2>&#34;github-actions[bot]&#34;</span>
-</span></span><span class=line><span class=cl>          mvn --ntp --batch-mode --update-snapshots clean site scm-publish:publish-scm -Dscmpublish.serverId<span class=o>=</span>github
+</span></span><span class=line><span class=cl>          mvn -ntp -B -U clean site scm-publish:publish-scm -Dscmpublish.serverId<span class=o>=</span>github
 </span></span><span class=line><span class=cl>        env:
 </span></span><span class=line><span class=cl>          GITHUB_ACTOR: <span class=si>${</span><span class=p>{ secrets.GITHUB_ACTOR </span><span class=si>}</span><span class=o>}</span>
 </span></span><span class=line><span class=cl>          GITHUB_TOKEN: <span class=si>${</span><span class=p>{ secrets.GITHUB_TOKEN </span><span class=si>}</span><span class=o>}</span>

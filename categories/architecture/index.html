@@ -1,6 +1,215 @@
 <!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Architecture | ChenSoul</title>
 <meta name=keywords content><meta name=description content><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/categories/architecture/><link crossorigin=anonymous href=/assets/css/stylesheet.min.d6db7ab468e55ea6647d68be426a17bae21ff1cddbf1741e547ed2086d010444.css integrity="sha256-1tt6tGjlXqZkfWi+QmoXuuIf8c3b8XQeVH7SCG0BBEQ=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=alternate type=application/rss+xml href=https://blog.chensoul.cc/categories/architecture/index.xml><link rel=alternate hreflang=en href=https://blog.chensoul.cc/categories/architecture/><meta name=twitter:title content="Architecture | ChenSoul"><meta name=twitter:description content><meta property="og:title" content="Architecture | ChenSoul"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://blog.chensoul.cc/categories/architecture/"><meta property="og:site_name" content="ChenSoul"><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary-bg:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list-page{background:var(--theme)}.list-page:not(.dark)::-webkit-scrollbar-track{background:0 0}.list-page:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript></head><body class="list-page type-categories kind-term layout-" id=top><script data-no-instant>function switchTheme(e){switch(e){case"light":document.body.classList.remove("dark");break;case"dark":document.body.classList.add("dark");break;default:window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")}}function isDarkTheme(){return document.body.className.includes("dark")}function getPrefTheme(){return localStorage.getItem("pref-theme")}function setPrefTheme(e){switchTheme(e),localStorage.setItem("pref-theme",e)}const toggleThemeCallbacks={};toggleThemeCallbacks.main=e=>{setPrefTheme(e?"light":"dark")},window.addEventListener("toggle-theme",function(){const e=isDarkTheme();for(const t in toggleThemeCallbacks)toggleThemeCallbacks[t](e)});function toggleThemeListener(){window.dispatchEvent(new CustomEvent("toggle-theme"))}</script><script>(function(){const t="auto",e=getPrefTheme(),n=e||t;switchTheme(n)})()</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a>
-<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories/review/ title=总结>总结</a></li><li><a href=https://blog.chensoul.cc/categories/ title=分类 class=active>分类</a></li><li><a href=https://blog.chensoul.cc/tags/ title=标签>标签</a></li><li><a href=https://github.com/chensoul/ title=关于 target=_blank>关于<span class=external-link><svg class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7H6A2 2 0 004 9v9a2 2 0 002 2h9a2 2 0 002-2v-5"/><line x1="10" y1="14" x2="20" y2="4"/><polyline points="15 4 20 4 20 9"/></svg></span></a></li></ul></nav></header><main class=main><header class=page-header><h1>category: Architecture</h1><div class=inline-links><span><a href=https://blog.chensoul.cc/categories/architecture/index.xml target=_blank>RSS</a></span></div></header><article class="post-entry tag-entry"><header class=entry-header><h2>Redis安装和部署</h2></header><section class=entry-content><p>单机安装 通过 yum 安装 在 CentOS 7 上通过 yum 安装 Redis，可以按照以下步骤进行操作：
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories/review/ title=总结>总结</a></li><li><a href=https://blog.chensoul.cc/categories/ title=分类 class=active>分类</a></li><li><a href=https://blog.chensoul.cc/tags/ title=标签>标签</a></li><li><a href=https://github.com/chensoul/ title=关于 target=_blank>关于<span class=external-link><svg class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7H6A2 2 0 004 9v9a2 2 0 002 2h9a2 2 0 002-2v-5"/><line x1="10" y1="14" x2="20" y2="4"/><polyline points="15 4 20 4 20 9"/></svg></span></a></li></ul></nav></header><main class=main><header class=page-header><h1>category: Architecture</h1><div class=inline-links><span><a href=https://blog.chensoul.cc/categories/architecture/index.xml target=_blank>RSS</a></span></div></header><article class="post-entry tag-entry"><header class=entry-header><h2>[译]数据库分片速成课程</h2></header><section class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-in-database-sharding
+随着应用程序越来越受欢迎，它会吸引更多活跃用户并加入更多功能。这种增长导致每日数据生成量增加，从业务角度来看，这是一个积极的指标。
+然而，它也给应用程序的架构带来挑战，特别是在数据库可扩展性方面。
+数据库是任何应用程序的关键组件，但它也是最难水平扩展的组件之一。当应用程序的流量和数据量增加时，数据库可能会成为性能瓶颈，影响用户体验。
+分片是一种解决数据库横向扩展难题的技术。它涉及将数据库划分为更小、更易于管理的单元（称为分片）。
+在这篇文章中，我们将介绍数据库分片的基础知识，探讨其各种方法、技术考虑因素，以及展示公司如何实施分片来扩展其数据库的真实案例研究。
+什么是分片？ 分片是一种架构模式，用于解决管理和查询数据库中大型数据集的难题。它涉及将大型数据库拆分为更小、更易于管理的部分（称为分片）。
+共享建立在水平分区的概念之上，水平分区涉及根据分区键将表的行分成多个表。这些表称为分区。跨分区分布数据可减少查询和操作数据所需的工作量。
+下图说明了水平分区的一个例子。
+数据库分片将水平分区提升到了一个新的水平。分区将所有数据组存储在同一台计算机中，而分片则将它们分布在不同的计算机或节点上。这种方法通过利用多台机器的资源来实现更好的可扩展性和性能。
+值得注意的是，不同数据库使用的分片术语有所不同。
+在 MongoDB 中，分区称为分片 (shard)。 Couchbase 使用术语 vBucket 来表示分片。 Cassandra 将分片称为 vNode。 尽管术语存在差异，但其基本概念保持不变：将数据分成更小、更易于管理的单元，以提高查询性能和可扩展性。
+数据库分片的好处 数据库分片有几个主要优点：
+可扩展性： 分片的主要动机是实现可扩展性。通过将大型数据集分布在多个分片上，查询负载可以分散到多个节点上。对于对单个分片进行操作的查询，每个节点都可以独立执行针对其分配数据的查询。此外，可以在运行时动态添加新分片，而无需关闭应用程序进行维护。 性能提升： 从单个大型数据库中检索数据可能非常耗时。查询需要搜索大量行才能找到所需数据。相比之下，与整个数据库相比，分片包含的行子集更小。由于查询需要处理的行更少，因此搜索空间的减少可加快数据检索速度。 可用性： 在单片数据库架构中，如果托管数据库的节点发生故障，依赖该数据库的应用程序也会停机。数据库分片通过将数据分布在多个节点上来降低这种风险。如果发生节点故障，应用程序可以使用剩余的分片继续运行。 分片和复制 分片通常与复制一起使用，以实现分布式数据库系统中的高可用性和容错能力。
+复制涉及创建数据的多个副本并将其存储在不同的节点上。在主从复制模型中，一个节点充当主节点并处理写入操作，而从节点复制主节点的数据并处理读取操作。
+通过在多个节点上复制每个分片，系统可确保即使个别节点发生故障，数据仍可访问。一个节点可以存储多个分片，每个分片在主从复制模型中可以是主分片或从分片。
+下图说明了一种安排，其中每个分片的领导者被分配给一个节点，而其追随者分布在其他节点上：
+在此设置中，一个节点可以同时充当某些分区的领导者和其他分区的追随者。这种分布式架构允许系统在发生节点故障或网络中断时保持数据可用性和弹性。
+分片类型 数据库分片的主要目标是在多个节点上均匀分布数据和查询负载。
+然而，如果数据分区不平衡，一些分片最终可能会处理比其他分片多得多的数据或查询。这种情况称为倾斜分片，它会削弱分片的优势。
+在极端情况下，设计不良的分片策略可能导致单个分片承担全部负载，而其余分片保持空闲状态。
+这种情况称为热点，其中一个节点因过高的负载而变得不堪重负。
+为了减轻分片倾斜和热点的风险，选择适当的分片策略以确保数据和查询在分片之间均匀分布至关重要。
+我们来了解一些常用的分片策略：
+基于范围的分片 基于范围的分片是一种根据一系列值拆分数据库行的技术。
+在这种方法中，每个分片都会分配一个连续的键范围，从最小值到最大值。每个分片内的键都按排序顺序维护，以实现高效的范围扫描。
+为了说明这个概念，让我们考虑一个存储产品信息的产品数据库。
+可以应用基于范围的分片，根据产品的价格范围将数据库拆分为不同的分片。例如，一个分片可以存储价格范围在 0 美元到 75 美元之间的所有产品，而另一个分片可以包含价格范围在 76 美元到 150 美元之间的产品。
+需要注意的是，键的范围不一定需要均匀分布。在实际应用中，数据分布可能不均匀，可以相应地调整键范围，以实现分片间数据分布的平衡。
+然而，基于范围的分片有一个潜在的缺点。 某些访问模式可能会导致热点的形成。例如，如果数据库中很大一部分产品属于特定价格范围，则负责存储该范围的分片可能会承受不成比例的高负载，而其他分片仍未得到充分利用。
+基于键或哈希的分片 基于密钥的分片（也称为基于哈希的分片）是一种使用哈希函数将特定密钥分配给分片的技术。
+精心设计的哈希函数对于实现密钥的均衡分布起着至关重要的作用。基于哈希的分片不会为每个分片分配一系列密钥，而是为每个分片分配一系列哈希。一致性哈希是一种常用于实现基于哈希的分片的技术。
+下图说明了基于键或哈希的分片的基本概念：
+基于哈希的分片的主要优势之一是它能够在分片之间公平分配密钥。通过对密钥应用哈希函数，该技术有助于降低热点风险。
+但是，基于哈希的分片也存在弊端。通过使用键的哈希而不是键本身，我们失去了执行高效范围查询的能力。这是因为相邻的键可能分散在不同的分区中，并且在此过程中会丢失它们的自然排序顺序。
+需要注意的是，基于哈希的分片虽然有助于减少热点，但无法消除热点。在所有读取和写入都集中在单个键上的极端情况下，所有请求仍可能被路由到同一分区。例如，在社交媒体网站上，名人用户可以发布对同一键产生大量写入的内容。
+基于目录的分片 基于目录的分片是一种依赖查找表来确定分片间记录分布的方法。
+查找表充当目录或地址簿，映射数据与其所在的特定分片之间的关系。此表与分片本身分开存储。
+下图说明了基于目录的分片的概念，使用“位置”字段作为分片键：
+与其他分片策略相比，基于目录的分片的主要优势之一是灵活性。它允许更好地控制分片间数据的放置，因为数据和分片之间的映射在查找表中明确定义。
+然而，基于目录的分片也有一个明显的缺点：它严重依赖查找表。与查找表相关的任何问题或故障都可能影响数据库的整体性能和可用性。
+选择分片键时要考虑的因素 选择合适的分片键对于实施有效的分片策略至关重要。数据库设计人员在做出此决定时应考虑几个关键因素：
+基数 基数是指分片键可以具有的可能值的数量。它决定了可以创建的最大分片数量。
+例如，如果选择布尔数据字段作为分片键，则系统将仅限于两个分片。
+为了最大限度地发挥水平扩展的优势，通常建议选择具有高基数的分片键。
+频率 分片键的频率表示特定分片键值在数据集中出现的频率。
+如果大部分记录仅包含可能的分片键值的子集，则负责存储该子集的分片可能会成为热点。
+例如，如果健身网站的数据库使用年龄作为分片键，则大多数记录可能最终会出现在包含 30 至 45 岁之间的订阅者的分片中，从而导致数据分布不均匀。
+单调变化 单调变化是指对于给定的记录，分片键值随着时间的推移而增加或减少。
+如果分片键基于单调增加或减少的值，则可能导致分片不平衡。
+考虑存储用户评论的数据库的分片方案。
+分片A存储评论少于10条的用户的数据。 分片B存储有11-20条评论的用户的数据。 分片 C 存储了评论超过 30 条的用户的数据。 随着用户随着时间的推移不断添加评论，他们会逐渐迁移到分片 C，这使得它比分片 A 和 B 更加不平衡。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-08-05</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/database/>Database</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]数据库分片速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-in-database-sharding/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]数据库扩展策略速成课程</h2></header><section class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-in-database-scaling
+数据库是现代应用程序开发的支柱。它们在存储、管理和检索数据方面发挥着至关重要的作用，使应用程序和服务能够有效运行。
+随着应用程序越来越受欢迎并吸引越来越多的用户群，数据库面临着处理不断增加的数据量、并发用户和复杂查询的挑战。
+有效地扩展数据库以确保最佳性能和良好的用户体验变得至关重要。
+数据库扩展是调整和扩展数据库基础架构以适应增长并在负载增加的情况下保持性能的过程。它涉及采用各种技术和策略来有效地分配数据，优化查询执行并明智地利用硬件资源。
+组织和开发人员必须了解并实施正确的数据库扩展策略。针对特定情况选择错误的策略可能会弊大于利。
+在这篇文章中，我们将详细介绍最流行的数据库扩展策略，讨论它们的优点和权衡。
+索引 索引是增强数据库可扩展性和性能的基础技术之一。
+索引可以看作是数据库的“目录”。它包含对主数据库表中特定数据位置的引用，以便快速搜索和检索。
+通过创建单独的数据结构（例如索引），数据库可以快速定位和检索特定数据，而无需扫描主表中的每个记录。
+索引本身是数据的一个子集，以针对高效查询进行优化的方式组织。
+为了更清楚地理解这个概念，我们假设有一个名为“客户”的数据库表，其中包含“ID”、“姓名”、“电子邮件”和“城市”等列。如果经常需要根据客户的电子邮件地址搜索客户，则在“电子邮件”列上创建索引可以提高搜索性能。
+如果没有索引，通过电子邮件搜索客户将需要数据库扫描“客户”表中的每一行，直到找到匹配的记录。这个过程可能非常耗时，尤其是当表的大小增加时，这会导致查询响应时间变慢。
+但是，通过在“电子邮件”列上创建索引，数据库可以使用索引数据结构快速查找所需的电子邮件地址并直接检索相应的行。这样就无需进行全表扫描，从而加快了搜索操作。
+请参阅下图中的“电子邮件”列的示例索引：
+索引的好处 索引提供了几个显著的好处，在处理大型数据库时这些好处变得越来越重要：
+提高查询性能： 随着数据量的增长，如果数据库必须扫描大量记录，查询性能可能会下降。创建正确的索引可使数据库快速定位和检索特定的数据子集，而无需进行全表扫描。 减少资源消耗： 索引允许数据库有效地定位数据子集，从而最大限度地减少所需的磁盘 I/O 量和内存使用量。 提高并发性： 借助索引，数据库可以处理更多查询并容纳更多并发用户。这种改进的并发性在数据库必须扩展以支持大量用户的情况下尤其有益。 与索引的权衡 值得注意的是，索引会带来多重权衡。
+当在列上创建索引时（例如我们示例中的电子邮件地址列），数据库会将索引数据与主表分开存储。这意味着对于每个索引列，都有一个额外的数据结构占用磁盘空间。 需要考虑的另一个权衡是索引对写入操作的潜在影响。在表中插入、更新或删除数据时，应更新相应的索引以保持准确性和一致性。这个额外的步骤增加了写入操作的开销，随着表上索引数量的增加，这种开销会变得更加明显。 为了达到正确的平衡，根据特定的查询模式和应用程序的性能要求仔细选择要索引的列非常重要。
+物化视图 物化视图是一个数据库对象，它将查询结果存储为单独的、预先计算的结果集。
+它源自一个或多个基表或视图，并且独立于底层数据源进行维护。
+为了解释物化视图的概念，我们来考虑一个电子商务应用程序，它有一个包含数百万条记录的大型“订单”表。该应用程序经常生成每个产品类别的总销售收入报告。
+如果没有物化视图，每次生成报告都需要扫描整个“订单”表，将其与“产品”表连接以获取类别信息，并执行聚合以计算每个类别的总收入。随着数据的增长，此查询会变得更慢且占用大量资源。
+通过创建存储预先聚合的数据（例如每个产品类别的总收入）的物化视图，可以加快报告生成过程。
+请参见下图，其中显示了存储每个产品类别的总收入的物化视图。
+物化视图可以定期刷新，例如每天或每小时刷新一次，以确保数据保持最新状态。然后，可以直接从物化视图执行销售报告查询，提供即时结果，而无需处理整个“订单”表。
+物化视图的好处 物化视图可以通过多种方式极大地增强数据库的可扩展性：
+改进的查询性能： 物化视图存储预先计算的结果，无需重复执行复杂且耗时的查询。 减少基表的负载： 通过将计算成本高的查询结果存储在物化视图中，可以减少基表的负载。 与物化视图的权衡 虽然物化视图提供了显着的可伸缩性提升，但仍需要牢记一些权衡：
+物化视图会消耗额外的存储空间，因为它们存储了结果集的单独副本。 刷新物化视图可能很耗时，尤其是对于大型数据集而言。 物化视图最终与源数据一致。换句话说，物化视图可以在短时间内包含陈旧数据。 反规范化 在规范化数据库设计中，数据被组织到单独的表中，以最大限度地减少冗余并确保数据完整性。每个表代表一个实体或概念，并使用外键建立表关系。这种方法遵循规范化的原则，旨在减少数据重复并保持数据一致性。
+然而，严格遵守规范化规则有时会导致性能挑战，特别是在处理涉及跨表的多个连接的复杂查询时。
+这就是非规范化发挥作用的地方。
+非规范化是一种放宽严格规范化规则并允许受控数据冗余的技术。它涉及在多个表中策略性地复制数据以优化查询性能。目标是减少检索数据所需的连接和计算次数，从而提高查询速度和可扩展性。
+为了理解非规范化的概念，请考虑一个包含“产品”表和“订单”表的电子商务应用程序。
+在规范化设计中，“订单”表将仅存储对“产品”表的外键引用。需要将两个表连接起来才能检索带有订单信息的产品详细信息。
+但随着订单数量的增长，如果应用程序经常需要在订单详情旁边显示产品名称和价格，那么连接操作可能会成为性能瓶颈。在这种情况下，可以应用非规范化来提高查询性能。
+下图显示了在“订单”表上应用非规范化的示例：
+通过对数据库进行非规范化并将产品名称和价格直接存储在“订单”表中，查询订单详细信息以及产品信息变得更简单、更快捷。冗余数据消除了连接的需求，使数据库在高查询负载下具有更好的扩展性。
+非规范化如何帮助提高可扩展性？ 非规范化可以通过多种方式提高数据库的可伸缩性：
+更快的查询执行： 消除或减少连接可以显著加快查询执行速度，尤其是对于经常访问或性能至关重要的查询。换句话说，数据库可以处理大量并发查询，从而提高整体可扩展性。 减少数据检索开销： 由于派生数据与主数据一起存储在同一张表中，因此无需执行昂贵的即时计算。 提高读取性能： 非规范化对于扩展读取密集型工作负载特别有益，因为查询无需连接多个表即可访问信息。 与非规范化的权衡 虽然非规范化可以提高查询性能和可伸缩性，但它也有一些缺点：
+非规范化会引入数据冗余，从而增加存储需求。 非规范化使数据修改操作（插入、更新、删除）变得更加复杂和缓慢，因为冗余数据需要在多个表之间保持同步。 如果实施不当，非规范化可能会损害数据一致性。 垂直扩展 垂直扩展，也称为“向上扩展”，是一种通过增加单个服务器的硬件资源来提高数据库性能和可扩展性的技术。
+这种方法侧重于通过为单个服务器分配更多资源来增强其功能。
+垂直扩展的过程可能涉及几个关键升级：
+用更快或多核处理器替换现有的 CPU，以提高处理能力并实现更快的查询执行。 向服务器添加更多 RAM 以增加内存容量，从而改善缓存。 升级到更快的存储设备，例如固态硬盘 (SSD)。 为了了解垂直扩展的好处，我们来考虑一个在购物旺季流量激增的电子商务应用程序。随着数据库服务器上的负载增加，查询响应时间可能会受到影响，从而导致用户体验不佳。
+为了解决这一可扩展性挑战，应用程序所有者决定垂直扩展数据库服务器。他们使用更强大的 CPU 升级服务器，将 RAM 容量增加一倍，并用 SSD 替换硬盘驱动器 (HDD)。
+这些硬件增强功能显著提高了数据库服务器的性能。更快的 CPU 和更大的内存可实现更快的查询执行和高效的缓存，而 SSD 则可提供更快的数据检索和写入速度。
+因此，数据库服务器可以处理更多并发用户并提供更高的性能。
+垂直扩展与数据库可扩展性的优势 垂直扩展可以通过多种方式提高数据库的可扩展性：...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-08-05</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/database/>Database</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>1 min</span></span></footer><a class=entry-link aria-label="post link to [译]数据库扩展策略速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-in-database-scaling/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]关系数据库设计速成课程</h2></header><section class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-on-relational-database
+在当今数据驱动的世界中，高效存储和管理信息是各种规模的企业和组织的关键要求。
+关系数据库提供了一个强大的框架，用于根据实体之间明确定义的关系来存储和检索数据。它们提供了一种结构化的数据管理方法，使用户能够：
+定义表 建立关系 执行复杂查询以从存储的信息中提取有意义的见解 然而，仅仅使用关系数据库还不足以获得其好处。
+有效的数据库设计对于优化性能、确保数据完整性和促进高效的数据检索至关重要。数据库设计原则（例如规范化、索引、连接和关系）在创建结构良好且性能良好的数据库中起着至关重要的作用。
+在这篇文章中，我们将研究关系数据库的基础知识，探讨其关键概念、管理系统以及有效数据库设计的基础原则。
+什么是关系数据库？ 关系数据库是一种将数据组织成结构化表格（也称为关系）的数据库。这些表格由行（记录）和列（字段）组成，形成表格结构，可实现高效的数据存储和检索。
+关系数据库的强大之处在于它能够在多个表之间建立关系。
+通过定义相关表之间的连接，可以链接和组合信息。这允许跨多个表进行复杂的查询和数据检索操作，使您能够以各种方式访问和分析数据。
+为了有效地使用关系数据库，我们需要一个关系数据库管理系统 (RDBMS)。
+RDBMS 是一种用于创建、管理和与关系数据库交互的软件应用程序。
+RDBMS 提供的一些关键功能包括：
+数据定义： 定义数据库的结构，包括表、列、数据类型和约束。 数据操作： 对数据库中存储的数据执行各种操作。包括插入新记录、更新现有记录、删除记录等。 数据完整性： RDBMS 强制执行数据完整性规则来维护数据的准确性和一致性。 数据安全： RDBMS 还通过定义用户角色、权限和身份验证措施来提供控制数据库访问的机制。 查询优化： RDBMS 优化复杂查询的执行，以高效检索数据。它采用各种技术，例如索引和查询优化算法。 市场上有多种 RDBMS，每种都具有一组特性和功能。以下是一些示例：
+MySQL： 一种开源 RDBMS，以其简单性、可靠性和广泛采用而闻名。 PostgreSQL： 一个强大的开源 RDBMS，具有高级功能和对数据完整性的强大支持。 Oracle 数据库： 一种功能全面、丰富的 RDBMS，常用于企业环境。 SQL：关系数据库语言 SQL（结构化查询语言）是用于与关系数据库交互的标准编程语言。
+其主要优势之一是通用性。在 MySQL、PostgreSQL、Oracle 等上工作时，语法基本保持不变。
+这种可移植性使开发人员能够以最小的学习曲线从一个 RDBMS 切换到另一个 RDBMS。
+SQL 提供了一套全面的命令和语法，允许开发人员和数据库管理员对数据库中存储的数据执行各种操作。
+SQL 支持四种基本的数据操作，通常称为 CRUD：
+创建： 将新记录插入数据库表，有效地创建新的数据条目。 读取： 根据特定条件从一个或多个表中检索数据。 更新： 修改数据库中现有的记录。 删除： 从数据库表中删除不再需要或满足特定删除条件的记录。 除了数据操作之外，SQL 还提供定义和修改数据库结构的命令。
+基本 RDBMS 概念 使用关系数据库时，了解基本概念和术语至关重要。
+让我们探讨一些关键术语：
+表： 按行和列组织的相关数据的结构化集合。每个表代表一个特定的实体或概念，例如客户、订单或产品。 行： 行，也称为记录或元组，表示表中的单个实例或条目。例如，在“客户”表中，每一行都属于具有某些属性的单个客户。 列： 列，也称为字段或属性，表示表中特定记录的特定特征或属性。列用于组织和分类表中的数据。 主键： 主键是一列或多列的组合，用作表中每条记录的唯一标识符。它通过防止主键列中的重复值或空值来确保数据的唯一性和完整性。 外键： 外键是表中引用另一个表的主键的列或列组合。它建立两个表之间的关系，并有助于加强引用完整性和数据一致性。 连接： 连接是一种根据相关列将两个或多个表中的行组合在一起的操作。通过指定组合表的条件，可以从多个表中检索数据。 索引： 索引是一种数据结构，可提高数据库中数据检索操作的性能。它根据一个或多个列创建表中数据的排序表示。 视图： 视图是从一个或多个基础表动态生成的虚拟表。它提供数据的自定义和简化表示。视图可用于安全性、简化或数据抽象目的。 关系数据库中的键 键是关系数据库设计中的基本组件，在数据完整性和建立表间关系方面发挥着至关重要的作用。
+它们作为记录的唯一标识符，使数据检索和处理更加高效。
+让我们看看不同类型的键及其在关系数据库设计中的意义。
+主键和索引 主键是唯一标识表中每条记录的一列或多列的组合。
+它确保每条记录都是唯一的，并且可以在表中轻松找到。主键约束强制主键列的唯一性和非空性。
+下面的示例显示如何将表中的某一列定义为主键：
+CREATE TABLE books ( book_id INT PRIMARY KEY, title VARCHAR(100), author VARCHAR(100), isbn VARCHAR(20) UNIQUE, publication_year INT, genre VARCHAR(50) ); 通过指定 book_id INT PRIMARY KEY，我们将 book_id 列声明为“books”表的主键。换句话说，book_id 列中的每个值都必须是唯一的，并且不能为空。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-08-05</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/database/>Database</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>4 min</span></span></footer><a class=entry-link aria-label="post link to [译]关系数据库设计速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-relational-database/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]分布式系统速成课程</h2></header><section class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-on-distributed-systems
+分布式系统是多台计算机（也称为节点）的集合，它们协作执行特定任务或提供服务。
+这些节点在物理上是分开的，并通过网络传递消息相互通信。分布式系统可以跨越地理边界，使其能够利用来自不同位置的资源。
+分布式系统有几个区别于传统集中式系统的特点：
+分布式系统中的计算机在物理上是分开的，并通过网络连接。它们不共享内存或公共时钟。 从外部视角来看，分布式系统对于最终用户来说是一个单一、统一的实体。 分布式系统提供了在系统中添加或删除计算机的灵活性。 分布式系统中的节点需要相互协调并达成一致才能一致地执行操作。 分布式系统中的节点可能独立发生故障，并且消息可能会在网络上丢失或延迟。 分布式系统在我们的日常生活中无处不在。例如 Google 搜索等大型 Web 应用程序、在线银行系统、多人游戏等。这些系统利用多台计算机协同工作，提供无缝且响应迅速的用户体验。
+在本文中，我们将探讨分布式系统的优势和挑战。我们还将讨论用于解决这些挑战并确保分布式系统可靠运行的常用方法和技术。
+理解分布式系统 “分布式系统”这个术语有时会让开发人员感到困惑。
+一些常见的混淆是关于分散系统和并行系统。
+让我们在分布式系统的背景下了解这些术语的含义以及它们有何异同。
+分散式系统与分布式系统 “分散式系统”和“分布式系统”等术语经常互换使用，但它们有一个关键的区别。
+虽然这两种类型的系统都涉及多个组件协同工作，但决策过程却使它们有所区别。
+在去中心化系统中，这也是一种分布式系统，没有任何一个组件能够完全控制决策过程。相反，每个组件都拥有决策的一部分，但不拥有做出独立决策所需的完整信息。
+并行系统与分布式系统 与分布式系统密切相关的另一个术语是并行系统。
+分布式和并行系统都旨在扩大计算能力，但它们使用不同的方法实现这一目标。
+在并行计算中，一台机器内的多个处理器同时执行多个任务。这些处理器通常可以访问共享内存，从而可以交换数据并高效地协调其活动。
+另一方面，分布式系统由多台不共享内存的自主机器组成。这些机器通过网络传递消息来通信和协调其操作。每台机器独立运行，通过执行分配的任务为整体计算做出贡献。
+分布式系统的主要优点 虽然设计和构建分布式系统比传统的集中式系统更复杂，但它们的优势使得付出的努力值得。
+让我们探索分布式系统的一些主要优势：
+可扩展性：垂直扩展涉及增加单台机器的硬件资源，通常受到物理约束的限制。例如，单台机器可以添加的处理器核心数量是有限的。相比之下，分布式系统支持水平扩展，可以将其他商用机器添加到系统中。这样可以通过添加相对便宜的硬件来扩展系统。 可靠性：与集中式系统相比，分布式系统对故障的恢复能力更强。由于数据在多个节点上复制，因此单个节点或部分节点的故障不一定会导致整个系统崩溃。其余节点可以继续运行，尽管容量会降低，但可以确保整个系统保持正常运行。 性能：分布式计算通常涉及将复杂的工作负载分解为更小、更易于管理的部分，这些部分可以在多台机器上同时处理。这种并行处理能力可以提高计算密集型任务（例如矩阵乘法或大规模数据处理）的性能。 分布式系统的挑战 分布式系统在操作方面也面临多重挑战。
+了解这些挑战和克服这些挑战的技术是利用分布式系统的关键。
+让我们探讨分布式系统的主要挑战以及处理这些挑战的技术。
+沟通 在分布式系统中，节点需要通过网络相互通信和协调，以作为一个有凝聚力的单元发挥作用。
+然而，由于底层网络基础设施不可靠，这种通信具有挑战性。
+负责在节点之间传递数据包的互联网协议 (IP) 仅提供“尽力而为”的服务。这意味着网络无法保证数据包的可靠传递。
+数据包传输过程中可能会出现几个问题：
+数据包丢失：由于网络拥塞、硬件故障或其他因素，数据包可能在传输过程中丢失或丢弃。 数据包重复：在某些情况下，数据包可能会被重复，导致同一数据包的多个副本被传送到目标节点。 数据包损坏：数据包在传输过程中可能会损坏。损坏的数据包可能包含无效或不正确的数据，从而导致通信错误。 无序传送：数据包到达目标节点的顺序可能与发送时的顺序不同。 在这个不可靠的基础上建立可靠的沟通是一项重大挑战。
+分布式系统处理这些问题的一些关键技术如下：
+1 - 使用 TCP 进行可靠通信 传输控制协议 (TCP) 是一种基础协议，它提供了一种强大的机制来确保进程之间字节流的可靠、按序传输，使其成为分布式系统中可靠数据传输的基石。
+它采用了几种关键机制来克服网络固有的不可靠性：
+TCP 将字节流分割成更小的、有序的数据包（称为段）。 它要求接收方在收到数据包后向发送方发送确认（ACK）。 TCP 使用校验和来验证传输数据的完整性。 TCP 实现流量控制以防止发送方用大量数据淹没接收方。 最后，TCP 采用拥塞控制机制来适应可用的网络带宽。 下图显示了客户端和服务器之间建立连接的 TCP 三次握手过程。
+2 - 使用 TLS 确保通信安全 尽管 TCP 能够确保在不可靠的网络上进行可靠通信，但它并未解决数据传输的安全问题。这时，传输层安全性 (TLS) 协议便应运而生。
+TLS 是一种加密协议，为 TCP 建立的通信通道添加加密、身份验证和完整性。
+TLS 使用多种机制来保护节点之间的通信：
+TLS 使用非对称和对称加密的组合来保护数据的机密性。 TLS 依靠数字证书来验证通信方的身份。 为了确保传输数据的完整性，TLS 在每条消息中都包含校验和或消息认证码。 3 - 使用 DNS 进行服务发现 在分布式系统中，节点需要一种机制来发现彼此并相互通信。这就是域名系统 (DNS) 发挥作用的地方，它解决了服务发现问题。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-08-05</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/distributed/>Distributed</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]分布式系统速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-distributed-systems/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]领域驱动设计速成课程</h2></header><section class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-on-domain-driven-design
+为复杂领域开发软件是一项具有挑战性的任务。
+随着问题领域的复杂性不断增长，创建准确表示业务概念、规则和流程的软件变得越来越困难。设计不良的软件很快就会变成难以理解、难以维护和扩展的混乱代码。
+领域驱动设计（DDD）为这个问题提供了解决方案。
+DDD 是一种软件开发方法，它通过强调对核心领域和业务逻辑进行建模的重要性并使用这些模型作为软件设计的基础来解决领域复杂性。
+领域驱动设计的核心是：
+将主要焦点放在核心领域上。 基于领域模型的复杂设计 建立技术专家和领域专家之间的协作。 近年来，领域驱动设计的需求愈发迫切。基于微服务和云计算的架构已导致系统由众多以复杂方式交互的小组件组成。如果没有清晰且定义明确的领域模型来指导其设计，此类系统很快就会变成“一团泥球”。
+在本文中，我们将了解领域驱动设计的基础知识及其关键概念，这些概念可以帮助我们构建与核心领域和业务逻辑一致的更易于维护和扩展的系统。
+领域驱动设计的核心原则 领域驱动设计 (DDD) 专注于创建与底层业务领域紧密结合的软件系统。
+它旨在通过将领域模型置于开发过程的中心来弥合技术实现和业务需求之间的差距。
+DDD 有三个核心原则：
+根据领域专家的输入创建丰富的领域模型 使用基于领域模型的通用语言 从领域模型驱动软件设计 让我们更详细地探讨每个原则。
+创建丰富的领域模型 DDD 的基础在于创建一个丰富的领域模型，该模型可以准确捕捉问题领域的关键概念、关系和业务规则。该模型不是由开发团队单独创建的，而是通过与对业务有深入了解的领域专家密切合作而产生的。
+将领域知识提炼为可用模型的过程称为知识消化。
+在此过程中，开发团队与领域专家密切合作，以确定和完善与问题最相关的概念和规则。这种协作工作通常包括集思广益、试验不同的模型设计，以及根据开发过程中获得的反馈和见解进行迭代改进。
+例如，在银行系统中，与财务部门领域专家进行的知识会议将重点了解账户、客户、交易和利息计算等核心概念。
+目标是创建一个模型来捕捉这些基本概念及其关系，这些模型可以被领域专家理解，并可作为软件系统的实践基础。
+使用通用语言 随着领域模型的成型，开发团队和领域专家会形成一种共同语言。DDD 将此称为通用语言，因为它渗透到项目的各个方面。
+通用语言直接基于领域模型。
+代码中的类、方法和变量的名称均源自模型概念。同样，在讨论和文档中，团队使用通用语言的术语和短语，以确保清晰的沟通并避免歧义。
+通过一致使用通用语言，代码直接反映模型，使得模型更容易理解和修改。
+例如，如果银行领域模型包含“帐户”、“存款”和“取款”等概念，那么这些相同的术语将在代码、开发人员和领域专家之间的讨论以及项目文档中一致使用。当每个人都使用相同的语言时，任何理解上的歧义或不一致之处都会很快显现出来。
+这是一个简单的代码示例，演示了在编写类及其方法时如何使用通用语言。
+public class Account { private String accountNumber; private double balance; public void deposit(double amount) { // Perform deposit logic balance += amount; } public void withdraw(double amount) { // Perform withdrawal logic if (balance >= amount) { balance -= amount; } else { throw new InsufficientFundsException("Insufficient funds for withdrawal"); } } } 领域模型到软件设计 在 DDD 中，领域模型不仅仅是一个概念工具。它是软件设计的基础。软件的结构和行为反映了模型的结构和行为。
+这种方法称为模型驱动设计。
+在实践中，这意味着代码中的类、关系和行为直接对应于领域模型中的概念、关系和规则。设计不是由技术考虑或基础设施细节驱动，而是由有效表达领域模型的需求驱动。
+例如，如果银行领域模型定义了一个“帐户”概念，其中包含“存款”和“取款”等行为，那么软件设计将包括一个“帐户”类，其中包含“存款”和“取款”方法。这些方法如何工作的实现细节将由模型中捕获的规则和要求指导。我们已经在上一节中看到了这一点。
+构建领域模型的关键模式 构建领域模型是领域驱动设计中最重要的方面。然而，一些关键的模式和实践可以帮助我们实现最佳结果。
+让我们详细了解一下其中的主要内容。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-08-05</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/ddd/>Ddd</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]领域驱动设计速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-domain-driven-design/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>Redis安装和部署</h2></header><section class=entry-content><p>单机安装 通过 yum 安装 在 CentOS 7 上通过 yum 安装 Redis，可以按照以下步骤进行操作：
 更新系统软件包：
 sudo yum update 安装 Redis：
 sudo yum install redis 可以看到默认安装的 redis 版本是 3.2.12-2.el7
@@ -66,59 +275,7 @@ Functional Requirements:...</p></section><footer class=entry-footer><span class=
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
 <span class=post-tags><a href=https://blog.chensoul.cc/tags/architecture/>Architecture</a></span></span><span class=meta-item>
 <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>16 min</span></span></footer><a class=entry-link aria-label="post link to [译]《Grokking the System Design Interview》设计Facebook Messenger" href=https://blog.chensoul.cc/posts/2023/11/24/designing-facebook-messenger/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]《Grokking the System Design Interview》设计Instagram</h2></header><section class=entry-content><p>这是一篇双语翻译的文章，原文出自 grok_system_design_interview.pdf 的一篇文章《Designing Instagram》设计 Instagram。
-Let’s design a photo-sharing service like Instagram, where users can upload photos to share them with other users. Similar Services: Flickr, Picasa Difficulty Level: Medium
-让我们设计一个像 Instagram 这样的照片共享服务，用户可以上传照片与其他用户共享。类似服务：Flickr、Picasa 难度级别：中
-1. What is Instagram? 1.Instagram是什么？
-Instagram is a social networking service which enables its users to upload and share their photos and videos with other users. Instagram users can choose to share information either publicly or privately. Anything shared publicly can be seen by any other user, whereas privately shared content can only be accessed by a specified set of people. Instagram also enables its users to share through many other social networking platforms, such as Facebook, Twitter, Flickr, and Tumblr....</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-11-24</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/architecture/>Architecture</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>16 min</span></span></footer><a class=entry-link aria-label="post link to [译]《Grokking the System Design Interview》设计Instagram" href=https://blog.chensoul.cc/posts/2023/11/24/designing-instagram/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]《Grokking the System Design Interview》设计Pastebin</h2></header><section class=entry-content><p>这是一篇双语翻译的文章，原文出自 grok_system_design_interview.pdf 的一篇文章《Designing Pastebin》设计 Pastebin。
-Let’s design a Pastebin like web service, where users can store plain text. Users of the service will enter a piece of text and get a randomly generated URL to access it. Similar Services: pastebin.com, pasted.co, chopapp.com Difficulty Level: Easy
-让我们设计一个类似 Pastebin 的 Web 服务，用户可以在其中存储纯文本。该服务的用户将输入一段文本并获得一个随机生成的 URL 来访问它。类似服务：pastebin.com、pasted.co、hopapp.com 难度级别：简单
-1. What is Pastebin? 1.Pastebin是什么？
-Pastebin like services enable users to store plain text or images over the network (typically the Internet) and generate unique URLs to access the uploaded data. Such services are also used to share data over the network quickly, as users would just need to pass the URL to let other users see it....</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-11-24</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/architecture/>Architecture</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>10 min</span></span></footer><a class=entry-link aria-label="post link to [译]《Grokking the System Design Interview》设计Pastebin" href=https://blog.chensoul.cc/posts/2023/11/24/designing-pastebin/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]《Grokking the System Design Interview》域名系统</h2></header><section class=entry-content><p>这是一篇双语翻译的文章，原文出自《Grokking the System Design Interview》教程的 Domain Name System 这篇章节。
-Introduction to Domain Name System (DNS) 域名系统 (DNS) 简介
-The origins of DNS DNS 的起源
-Let’s consider the example of a mobile phone where a unique number is associated with each user. To make calls to friends, we can initially try to memorize some of the phone numbers. However, as the number of contacts grows, we’ll have to use a phone book to keep track of all our contacts. This way, whenever we need to make a call, we’ll refer to the phone book and dial the number we need.
-让我们考虑一个移动电话的示例，其中每个用户都有一个唯一的号码。为了给朋友打电话，我们首先可以尝试记住一些电话号码。然而，随着联系人数量的增加，我们将不得不使用电话簿来跟踪所有联系人。这样，每当我们需要打电话时，我们都会查阅电话簿并拨打我们需要的号码。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-11-17</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/architecture/>Architecture</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>14 min</span></span></footer><a class=entry-link aria-label="post link to [译]《Grokking the System Design Interview》域名系统" href=https://blog.chensoul.cc/posts/2023/11/17/dns/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>如何设计一个短网址服务</h2></header><section class=entry-content><p>如何生成一个短网址服务，参考 Design a URL Shortening Service / TinyURL 和 Designing a URL Shortening service like TinyURL 两篇文章，整理如下笔记。
-其中主要包括以下内容：
-设计一个系统有哪些步骤 需求 预估 设计 高层次设计 API 设计 细节设计 评估 设计一个短网址服务的细节 设计步骤 Requirements 需求
-功能性需求 短 URL 生成：我们的服务应该能够为给定 URL 生成唯一的较短别名。 重定向：给定一个短链接，我们的系统应该能够将用户重定向到原始 URL。 自定义短链接：用户应该能够使用我们的系统为其 URL 生成自定义短链接。 删除：在赋予权限的情况下，用户应该能够删除我们系统生成的短链接。 更新：如果有适当的权限，用户应该能够更新与短链接关联的长 URL。 过期时间：短链接必须有一个默认的过期时间，但用户应该可以根据自己的需求设置过期时间。 分功能性需求：可用性、可靠性、扩展性、可维护性、容错性 可用性：我们的系统应该具有高可用性，因为即使是第二次停机的一小部分也会导致 URL 重定向失败。由于我们系统的域位于 URL 中，因此我们没有停机时间的优势，并且我们的设计必须灌输容错条件。 可扩展性：我们的系统应该能够随着需求的增加而水平扩展。 可读性：我们的系统生成的短链接应该易于阅读、区分和输入。 延迟：系统应以低延迟执行，以便为用户提供流畅的体验。 不可预测性：从安全角度来看，我们的系统生成的短链接应该是高度不可预测的。这确保了下一个短 URL 不会连续生成，从而消除了有人猜测我们的系统已经生成或将生成的所有短 URL 的可能性。 Estimation 估计
-流量 读写比：1:100 每月请求数：2 亿 单条记录占用空间：500B 记录保存多长时间：5 年 每日活跃用户 (DAU) ：1 亿 存储 5 年记录数：2 亿 x 5 x 12 =120 亿 总存储：120 亿 x 500B= 120 亿 x 0.5KB=6TB 带宽 每秒写请求：2 亿 / 30 /24 /60 /60 = 77次/s 写入带宽：77 x 500B =38KB/s 读带宽：38 x 100 =3....</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-11-17</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/architecture/>Architecture</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>2 min</span></span></footer><a class=entry-link aria-label="post link to 如何设计一个短网址服务" href=https://blog.chensoul.cc/posts/2023/11/17/designing-a-url-shortening-service/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]《Grokking the System Design Interview》系统设计主模板</h2></header><section class=entry-content><p>这是一篇双语翻译的文章，原文出自《Grokking the System Design Interview》教程的 System Design Master Template 这篇章节。
-System design interviews are unstructured by design. In these interviews, you are asked to take on an open-ended design problem that doesn’t have a standard solution.
-系统设计面试在设计上是非结构化的。在这些面试中，您被要求解决一个没有标准解决方案的开放式设计问题。
-The two biggest challenges of answering a system design interview question are:
-回答系统设计面试问题的两个最大挑战是：
-To know where to start.
-知道从哪里开始。
-To know if you have talked about all the important parts of the system.
-了解您是否已经讨论过系统的所有重要部分。
-To simplify this process, the course offers a comprehensive system design template that can effectively guide you in addressing any system design interview question.
-为了简化这个过程，本课程提供了一个全面的系统设计模板，可以有效地指导您解决任何系统设计面试问题。
-Have a look at the following image to understand the major components that could be part of any system design and how these components interact with each other....</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2023-11-16</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/architecture/>Architecture</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>15 min</span></span></footer><a class=entry-link aria-label="post link to [译]《Grokking the System Design Interview》系统设计主模板" href=https://blog.chensoul.cc/posts/2023/11/16/system-design-master-template/></a></article><footer class=page-footer><nav class=pagination><a class=next href=https://blog.chensoul.cc/categories/architecture/page/2/>Next Page »</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span><span style=display:inline-block;margin-left:1em>
+<span>16 min</span></span></footer><a class=entry-link aria-label="post link to [译]《Grokking the System Design Interview》设计Facebook Messenger" href=https://blog.chensoul.cc/posts/2023/11/24/designing-facebook-messenger/></a></article><footer class=page-footer><nav class=pagination><a class=next href=https://blog.chensoul.cc/categories/architecture/page/2/>Next Page »</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span><span style=display:inline-block;margin-left:1em>
 <a href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA</a>
 </span><span style=display:inline-block;margin-left:1em>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &

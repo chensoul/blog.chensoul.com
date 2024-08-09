@@ -56,7 +56,31 @@ OAuth2 和 OIDC OAuth 2.0 和 OpenID Connect (OIDC) 是两个不同但相关的�
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
 <span class=post-tags><a href=https://blog.chensoul.cc/tags/oauth2/>Oauth2</a></span></span><span class=meta-item>
 <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>30 min</span></span></footer><a class=entry-link aria-label="post link to [译]OAuth2.0服务器" href=https://blog.chensoul.cc/posts/2024/06/05/oauth2-server/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>RFC6749 | OAuth2.0授权框架中文版</h2></header><section class=entry-content><p>前言 摘要 OAuth2.0 授权框架允许第三方应用获取对 HTTP 服务的有限的访问权限，既可以以资源所有者名义在资源所有者和 HTTP 服务之间进行允许的交互，也可以允许第三方应用以自己的名义进行访问。本规范取代并淘汰 RFC 5849 中描述的 OAuth 1.0 协议。
+<span>30 min</span></span></footer><a class=entry-link aria-label="post link to [译]OAuth2.0服务器" href=https://blog.chensoul.cc/posts/2024/06/05/oauth2-server/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]OAuth2简化版</h2></header><section class=entry-content><p>这篇文章以简化的格式描述了 OAuth 2.0，以帮助开发人员和服务提供商实现该协议。
+OAuth 2 规范读起来可能有点混乱，所以我写了这篇文章来帮助以简化的格式描述术语。核心规范将许多决策留给实现者，通常基于实现的安全权衡。这篇文章没有描述成功实施 OAuth 2 所需的所有可能决策，而是做出适用于大多数实现的决策。
+注意：本文已根据 OAuth 2.0 的当前最佳实践从原始 2012 版本更新而来。原始版本可以在这里找到。
+角色 第三方应用程序：“客户端” 客户端是尝试访问用户帐户的应用程序。它需要先获得用户的许可，然后才能执行此操作。
+API：“资源服务器” 资源服务器是用于访问用户信息的 API 服务器。
+授权服务器 这是提供用户批准或拒绝请求的接口的服务器。在较小的实现中，这可能与 API 服务器是同一台服务器，但更大规模的部署通常会将其构建为单独的组件。
+用户：“资源所有者” 资源所有者是授予访问其帐户某些部分的权限的人员。
+创建应用程序 在开始 OAuth 过程之前，必须先向服务注册新应用。注册新应用时，通常会注册应用名称、网站、徽标等基本信息。此外，还必须注册一个重定向 URI，用于将用户重定向到 Web 服务器、基于浏览器的应用程序或移动应用程序。
+重定向 URI 该服务只会将用户重定向到已注册的 URI，这有助于防止某些攻击。任何 HTTP 重定向 URI 都必须通过 HTTPS 提供。这有助于防止令牌在授权过程中被截获。本机应用可能会使用应用程序的自定义 URL 方案注册重定向 URI，这可能类似于 demoapp://redirect .
+客户端 ID 和密码 注册应用后，你将收到一个客户端 ID 和一个（可选）的客户端密码。客户端 ID 被视为公共信息，用于构建登录 URL，或包含在页面上的 Javascript 源代码中。客户端密码必须保密。如果已部署的应用无法对机密保密，例如单页 Javascript 应用或本机应用，则不会使用该密钥，理想情况下，该服务首先不应向这些类型的应用发布机密。
+授权 OAuth 2 的第一步是从用户那里获得授权。对于基于浏览器或移动的应用程序，这通常是通过向用户显示服务提供的界面来实现的。
+OAuth 2 为不同的用例提供了几种“授权类型”。定义的授权类型包括：
+Authorization Code 在 Web 服务器、基于浏览器的应用程序和移动应用程序上运行的应用程序的授权代码
+Password 使用用户名和密码登录的密码（仅适用于第一方应用）
+Client credentials 在没有用户在场的情况下进行应用程序访问的客户端凭据
+Implicit 隐式以前被推荐给没有秘密的客户端，但已被使用授权代码授予与PKCE取代。
+下面将详细介绍每个用例。
+Web 服务器应用程序 Web 服务器应用程序是您在处理 OAuth 服务器时遇到的最常见的应用程序类型。Web 应用程序是用服务器端语言编写的，并在应用程序源代码不向公众开放的服务器上运行。这意味着应用程序在与授权服务器通信时能够使用其客户端密钥，这有助于避免许多攻击媒介。
+授权 创建一个“登录”链接，将用户发送到：
+https://authorization-server.com/auth?response_type=code& client_id=CLIENT_ID&amp;redirect_uri=REDIRECT_URI&amp;scope=photos&amp;state=1234zyx response_type=code 指示您的服务器希望收到授权代码 client_id 首次创建应用程序时收到的客户端 ID redirect_uri 示授权完成后要将用户返回到的 URI scope 一个或多个范围值，指示您希望访问用户帐户的哪些部分 state 应用程序生成的随机字符串，稍后将对其进行验证 用户看到授权提示...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
+<span>2024-06-05</span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
+<span class=post-tags><a href=https://blog.chensoul.cc/tags/oauth2/>Oauth2</a></span></span><span class=meta-item>
+<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]OAuth2简化版" href=https://blog.chensoul.cc/posts/2024/06/05/oauth-2-simplified/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>RFC6749 | OAuth2.0授权框架中文版</h2></header><section class=entry-content><p>前言 摘要 OAuth2.0 授权框架允许第三方应用获取对 HTTP 服务的有限的访问权限，既可以以资源所有者名义在资源所有者和 HTTP 服务之间进行允许的交互，也可以允许第三方应用以自己的名义进行访问。本规范取代并淘汰 RFC 5849 中描述的 OAuth 1.0 协议。
 本备忘录状态 这是一个互联网标准化过程文档。
 本文档是互联网工程任务组（IETF）的作品。它代表了 IETF 社区的一致看法。它已接受公开审阅并由互联网工程指导小组（IESG）批准公布。有关互联网标准的进一步信息可在 RFC 5741 的第 2 节找到。
 有关本文档的当前状态、勘误表以及如何对它提供反馈可参见 http://www.rfc-editor.org/info/rfc6749。
@@ -186,30 +210,7 @@ OAuth2 有几种授权类型来请求访问令牌。授权类型的唯一目的�
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
 <span class=post-tags><a href=https://blog.chensoul.cc/tags/oauth2/>Oauth2</a><a href=https://blog.chensoul.cc/tags/java/>Java</a></span></span><span class=meta-item>
 <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>1 min</span></span></footer><a class=entry-link aria-label="post link to [译]OAuth2 with Spring 第1部分：了解基本概念" href=https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-1-knowing-the-basic-concepts/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]什么是 OAuth？</h2></header><section class=entry-content><p>原文链接：https://www.pubnub.com/guides/oauth/
-什么是 OAuth？ OAuth（开放授权）是一种开放标准授权框架，允许第三方应用程序访问用户数据，而无需用户共享其登录凭据。它为用户提供了一种安全且标准化的方式，将其在一个网站上的资源的访问权限授予另一个网站或应用程序，而无需暴露其密码。
-简单来说，OAuth 充当最终用户和他们想要授予访问权限的应用程序之间的中间人。用户不会直接向 Web 应用程序提供用户名和密码，而是会被重定向到授权服务器（例如 Google、Facebook 或 Twitter），在那里他们可以安全地验证自己的身份。经过身份验证后，用户可以授予或拒绝对其想要使用的应用程序上的数据的访问权限。
-OAuth 是如何工作的？ OAuth 为用户提供了一种安全且标准化的方式来授权应用程序从各种来源（例如社交媒体平台或在线服务）访问其数据。
-OAuth工作流程涉及三个主要方：用户、应用程序和服务提供商（也称为OAuth 服务器）。以下是 OAuth 流程的高级概述：
-用户启动该过程：用户想要使用需要访问服务提供商上受保护资源的应用程序。用户首先向应用程序请求访问权限。 应用程序请求授权：应用程序将用户重定向到服务提供商的授权端点，以及必要的参数，例如应用程序的客户端 ID 和请求的访问范围。 用户授予授权：服务提供商在授权端点向用户显示登录屏幕。用户输入其凭据，如果有效，则系统会要求授予或拒绝应用程序访问其资源的请求。 服务提供商发出授权代码：如果用户授予授权，服务提供商会生成授权代码并将用户重定向回应用程序指定的重定向 URI。授权码是一个临时令牌，代表用户的同意。 应用程序用授权代码交换访问令牌：现在拥有授权代码的应用程序向服务提供商发送请求，以用代码交换访问令牌。该请求包括代码、应用程序的客户端 ID 和客户端密钥，它们用于向服务提供商验证应用程序的身份。 服务提供商验证授权代码：服务提供商对其进行验证并检查它是否与之前为用户生成的授权代码相匹配。如果代码有效，服务提供商将向应用程序颁发访问令牌。 应用程序使用访问令牌来访问受保护的资源：通过从服务提供商获得的访问令牌，应用程序现在可以代表用户发出请求以访问其受保护的资源。这些请求通常是向服务提供商的 API 端点发出的。 访问令牌过期和刷新：访问令牌的生命周期有限，过期后就会过期。要继续访问用户的资源，应用程序可以使用刷新令牌（如果提供）来获取新的访问令牌，而无需用户的参与。 使用 OAuth 有什么好处？ 这种广泛采用的协议为构建实时聊天和消息应用程序的开发人员提供了多种好处：
-增强的安全性： OAuth 消除了应用程序需要存储用户凭据的情况，从而降低了未经授权访问的风险。通过利用 OAuth，开发人员可以对用户进行身份验证和授权，而无需处理用户的敏感信息（例如密码）。这显着降低了数据泄露的可能性并增强了整体应用程序的安全性。
-简化的用户体验： OAuth 使用户能够向第三方应用程序授予权限而无需共享其凭据，从而提供无缝且用户友好的体验。这消除了为每个应用程序创建和管理单独帐户的麻烦，从而提高了便利性和用户采用率。
-可扩展性和互操作性： OAuth 使开发人员能够构建集成多个平台和服务的应用程序。通过利用 OAuth，开发人员可以轻松地验证和访问来自不同提供商的资源，从而允许他们的聊天和消息应用程序与其他系统无缝交互。这增强了可扩展性，并使开发人员能够利用不同平台的现有用户群。
-细粒度的访问控制： OAuth 允许开发人员为其聊天和消息应用程序实施细粒度的访问控制。可以为每个资源授予权限，确保第三方应用程序只能访问所需的资源。这种对访问的精细控制有助于维护数据隐私和控制，降低未经授权的数据泄露的风险。
-开发人员友好： OAuth 提供了一个简单、开发人员友好的框架，用于在聊天和消息传递应用程序中实现身份验证和授权。该协议有详细的文档记录，并受到各种库和 SDK 的支持，使开发人员可以轻松地将 OAuth 集成到他们的应用程序中。此外，OAuth 通过内置的令牌过期和撤销机制简化了访问令牌的管理。这简化了开发流程并降低了处理用户身份验证和授权的复杂性。
-使用 OAuth 有哪些缺点？ 虽然 OAuth 对于构建实时聊天和消息应用程序的开发人员来说具有众多优势，但也存在一些缺点。这些缺点包括：
-**复杂性：**实施 OAuth 可能很复杂，尤其是对于不熟悉该协议的开发人员而言。该过程涉及多个步骤，包括注册应用程序、获取客户端凭据和处理授权流程。与多个身份提供商集成或处理刷新令牌时，复杂性可能会进一步增加。开发人员需要投入时间和精力来正确理解和实施 OAuth。
-对第三方提供商的依赖： OAuth 依赖第三方身份提供商来对用户进行身份验证和授权。这种依赖性引入了潜在的单点故障。如果身份提供商遇到中断或更改其 API，则可能会中断聊天和消息传递应用程序的身份验证和授权过程。开发人员需要考虑所选身份提供商的可靠性和寿命。
-用户隐私问题： OAuth 提供了一种安全的身份验证和授权机制，但一些用户可能担心与第三方应用程序共享其个人信息。尽管 OAuth 不会公开密码等敏感信息，但用户仍然需要授予访问其数据的权限。某些用户可能会犹豫是否授予这些权限，尤其是对于鲜为人知或不太受信任的应用程序。
-**缺乏标准化：**尽管 OAuth 被广泛采用，但不同提供商和平台的实施可能存在差异。缺乏标准化可能会导致与多个系统集成时出现不一致和兼容性问题。开发人员可能需要额外的努力来处理这些变化并确保不同平台和提供商之间的兼容性。
-**安全漏洞：**虽然 OAuth 的设计是安全的，但也存在发现和利用漏洞的情况。这些漏洞可能导致未经授权的用户数据访问或冒充攻击。开发人员必须及时了解最新的安全最佳实践，并定期修补 OAuth 实施中的任何漏洞。
-OAuth 与 OpenID OAuth 和OpenID是广泛使用的身份验证和授权协议，但用途不同。
-OAuth 主要是一种授权协议，允许应用程序访问另一个系统上的用户资源，而无需共享其凭据。它通常用于委托授权场景，即用户向第三方应用程序授予访问其在特定网站或服务上的数据的权限。例如，当您使用 Google 帐户登录第三方应用程序时，OAuth 通常用于授予该应用程序访问您的 Google 云端硬盘或 Gmail 数据的权限。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>2024-05-07</span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
-<span class=post-tags><a href=https://blog.chensoul.cc/tags/oauth2/>Oauth2</a></span></span><span class=meta-item>
-<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>3 min</span></span></footer><a class=entry-link aria-label="post link to [译]什么是 OAuth？" href=https://blog.chensoul.cc/posts/2024/05/07/oauth/></a></article><footer class=page-footer><nav class=pagination><a class=next href=https://blog.chensoul.cc/tags/oauth2/page/2/>Next Page »</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span><span style=display:inline-block;margin-left:1em>
+<span>1 min</span></span></footer><a class=entry-link aria-label="post link to [译]OAuth2 with Spring 第1部分：了解基本概念" href=https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-1-knowing-the-basic-concepts/></a></article><footer class=page-footer><nav class=pagination><a class=next href=https://blog.chensoul.cc/tags/oauth2/page/2/>Next Page »</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span><span style=display:inline-block;margin-left:1em>
 <a href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA</a>
 </span><span style=display:inline-block;margin-left:1em>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &

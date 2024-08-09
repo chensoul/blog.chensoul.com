@@ -6,14 +6,27 @@
     <description>Recent content in Java on ChenSoul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 01 Aug 2024 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 09 Aug 2024 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ActiveMQ源码本地调试运行</title>
+      <link>https://blog.chensoul.cc/posts/2024/08/09/debug-activemq-source-code/</link>
+      <pubDate>Fri, 09 Aug 2024 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.chensoul.cc/posts/2024/08/09/debug-activemq-source-code/</guid>
+      <description>源码构建 1、从 https://github.com/apache/activemq 下载源码
+git clone https://github.com/apache/activemq 2、切换至 activemq-5.18.x 分支
+cd activemq git checkout activemq-5.18.x 3、构建源码
+mvn package -DskipTests 构建成功之后， …</description>
+    </item>
+    
     <item>
       <title>Github Action 发布 Jar 到 Maven 中央仓库</title>
       <link>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</link>
       <pubDate>Thu, 01 Aug 2024 08:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</guid>
-      <description>前提条件 在 Github 创建一个 Maven 项目 安装 gpg 并创建 gpg 秘钥和公钥，参考 How to Publish Artifacts to Maven Central 创建 OSSRH 账号，参考 Generate a Token on OSSRH Sonatype Nexus Repository Manager servers 创建 Maven 项目 首先在Github上面 …</description>
+      <description>作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。
+在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action  …</description>
     </item>
     
     <item>
@@ -144,9 +157,8 @@ JMS 优先级示例 在下面的例子中，具有不同优先级的消息被发
       <guid>https://blog.chensoul.cc/posts/2024/07/23/jms-message-model/</guid>
       <description>消息是 JMS 的核心，无论是事件还是业务数据。消息由标头、自定义属性和正文组成。这是您将在 JMS 消息模型（JMS 消息剖析）中学习的内容。
 JMS 消息由 Header、Properties 和 Body（Payload）组成。我们将在下面详细讨论它们。
-消息 头是有关消息的元数据。消息头有两种类型：开发人员设置的头和 JMS 提供商设置的头。
-消息属性
-是用于向消息添加可选标头字段的附加标 …</description>
+消息头是有关消息的元数据。消息头有两种类型：开发人员设置的头和 JMS 提供商设置的头。
+消息属性是用于向消息添加可选标头字段的附加标头字 …</description>
     </item>
     
     <item>
@@ -176,7 +188,7 @@ JMS 消息由 Header、Properties 和 Body（Payload）组成。我们将在下�
       <pubDate>Tue, 23 Jul 2024 14:00:00 +0800</pubDate>
       
       <guid>https://blog.chensoul.cc/posts/2024/07/23/jms-introduction-java-message-service/</guid>
-      <description>MS 代表 Java 消息服务，它是 Java 中访问消息中间件服务器的标准。这是一个 JMS 介绍教程，为您提供消息传递和 JMS 的简要概述。您将了解使用 JMS 的优势以及 JMS 中的不同消息传递模型。
+      <description>JMS 代表 Java 消息服务，它是 Java 中访问消息中间件服务器的标准。这是一个 JMS 介绍教程，为您提供消息传递和 JMS 的简要概述。您将了解使用 JMS 的优势以及 JMS 中的不同消息传递模型。
 什么是消息传递？ 消息传递是跨各种应用程序或服务交换业务数据的过程。消息通常是其他应用程序或服务使用的异步请求、响应、报告或事件。这些消息包含重要信息。
 消息传递为微服务架构提供了可扩展 …</description>
     </item>

@@ -10,13 +10,12 @@ package lab01.message.model; import labxx.common.settings.CommonSettings; import
 <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
 <span>2 min</span></span></footer><a class=entry-link aria-label="post link to [译]JMS 消息优先级" href=https://blog.chensoul.cc/posts/2024/07/23/jms-prioritize-messages/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]JMS 消息模型</h2></header><section class=entry-content><p>消息是 JMS 的核心，无论是事件还是业务数据。消息由标头、自定义属性和正文组成。这是您将在 JMS 消息模型（JMS 消息剖析）中学习的内容。
 JMS 消息由 Header、Properties 和 Body（Payload）组成。我们将在下面详细讨论它们。
-消息 头是有关消息的元数据。消息头有两种类型：开发人员设置的头和 JMS 提供商设置的头。
-消息属性
-是用于向消息添加可选标头字段的附加标头字段。属性字段基本上有 3 种类型。
+消息头是有关消息的元数据。消息头有两种类型：开发人员设置的头和 JMS 提供商设置的头。
+消息属性是用于向消息添加可选标头字段的附加标头字段。属性字段基本上有 3 种类型。
 应用程序特定属性 - 允许设置应用程序特定的自定义标题。 标准属性 – JMS 定义的标准属性。 JMS-Provider 特定属性。 消息主体是发送到目的地的有效负载。JMS 支持多种类型（格式）的有效负载。
 1. 消息头字段 一些消息头由程序员设置，一些由 JMS 提供商内部设置。消息头是 JMS 消息模型中首先要探讨的内容。
 1.1. JMS 目标 此标头包含消息发送的目的地。收到消息时，目的地必须与分配的值相等。
-javax.jms.Message#setJMSDestination(Destination) javax.jms.Message#getJMSDestination() 1.2. JMS交付模式 JMS 支持PERSISTENT和 NON_PERSISTENT 消息传输模式。此标头表示传递模式。
+javax.jms.Message#setJMSDestination(Destination) javax.jms.Message#getJMSDestination() 1.2. JMS交付模式 JMS 支持 PERSISTEN T和 NON_PERSISTENT 消息传输模式。此标头表示传递模式。
 javax.jms.Message#setJMSDeliveryMode（int） javax.jms.Message#getJMSDeliveryMode() javax.jms.DeliveryMode 1.3. JMS消息ID 此标头字段值唯一标识提供商发送的每个消息。它是一个字符串值。程序员不需要处理它。
 javax.jms.Message#getJMSMessageID() javax.jms.Message#setJMSMessageID(String) javax.jms.MessageProducer#setDisableMessageID(boolean) 1.4. JMS时间戳 消息被交给提供商处理的时间戳。
 javax.jms.Message#setJMSTimestamp(long) javax.jms.MessageProducer#setDisableMessageTimestamp(boolean) 1.5. JMS重新交付 当客户端收到带有此标头的消息时，很可能该消息已在过去送达，但未收到确认。程序员无法更改此值。
@@ -46,22 +45,22 @@ sh startserv如果您使用的是 Mac 或 Linux，请从终端运行。或者，
 步骤 4，创建 JMS 目标资源 默认情况下，Glassfish 管理控制台上不会列出任何目标资源。请记住，您需要先创建这些资源，然后编写代码以通过这些资源发送或接收消息。
 点击新建按钮添加新的目标资源，我们将创建 2 个Queue和一个Topic供示例工作，如下所示。
 创建队列 1，其 JNDI 名称为jms/PTPQueue，目标名称为PTPQueue。 创建队列2，其JNDI名称为jms/ReplyQueue，目标名称为ReplyQueue。 然后，创建 pub-sub 主题，其 JNDI 名称为jms/PubSubTopic，目标名称为PubSubTopic。 理想情况下，目标资源和 ConnectionFactory 由服务器管理员创建。作为开发人员，您无需在现实世界中创建它们。但出于开发或测试目的，您需要在本地计算机上创建它们。
-只是重申上面的引述。无论您使用哪个 JMS 提供程序，它们始终需要提供ConnectionFactory和Destination 。这意味着在我们编写 Java 代码之前，需要在 JMS 提供程序中配置它们。您将在本教程的后半部分详细了解它们。有一些例外，例如 ActiveMQ，允许在运行时创建Destination。
+无论您使用哪个 JMS 提供程序，它们始终需要提供 ConnectionFactory 和 Destination 。这意味着在我们编写 Java 代码之前，需要在 JMS 提供程序中配置它们。您将在本教程的后半部分详细了解它们。有一些例外，例如 ActiveMQ，允许在运行时创建Destination。
 一旦创建目标资源，JMS 目标资源将如下面的屏幕截图所示。
-配置 IDE 的步骤 所有代码示例均可在 GitHub 上下载。或者，您可以按照以下步骤创建一个具有下面列出的依赖项的 Maven 项目。
+配置 IDE 的步骤 ​ 所有代码示例均可在 GitHub 上下载。或者，您可以按照以下步骤创建一个具有下面列出的依赖项的 Maven 项目。
 步骤 1，创建一个 Maven 项目 在你的 IDE（Eclipse、STS 或 IntelliJ）中创建一个 maven 项目&lt;packaging>jar&lt;/packaging> 打开pom....</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
 <span>2024-07-23</span></span><span class=meta-item>
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select:text"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" style="user-select:text"/><line x1="7" y1="7" x2="7" y2="7" style="user-select:text"/></svg>
 <span class=post-tags><a href=https://blog.chensoul.cc/tags/jms/>Jms</a></span></span><span class=meta-item>
 <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>1 min</span></span></footer><a class=entry-link aria-label="post link to [译]为 JMS 安装和设置 Glassfish" href=https://blog.chensoul.cc/posts/2024/07/23/install-and-setup-glassfish-for-jms/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]JMS介绍 – Java消息服务</h2></header><section class=entry-content><p>MS 代表 Java 消息服务，它是 Java 中访问消息中间件服务器的标准。这是一个 JMS 介绍教程，为您提供消息传递和 JMS 的简要概述。您将了解使用 JMS 的优势以及 JMS 中的不同消息传递模型。
+<span>1 min</span></span></footer><a class=entry-link aria-label="post link to [译]为 JMS 安装和设置 Glassfish" href=https://blog.chensoul.cc/posts/2024/07/23/install-and-setup-glassfish-for-jms/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>[译]JMS介绍 – Java消息服务</h2></header><section class=entry-content><p>JMS 代表 Java 消息服务，它是 Java 中访问消息中间件服务器的标准。这是一个 JMS 介绍教程，为您提供消息传递和 JMS 的简要概述。您将了解使用 JMS 的优势以及 JMS 中的不同消息传递模型。
 什么是消息传递？ 消息传递是跨各种应用程序或服务交换业务数据的过程。消息通常是其他应用程序或服务使用的异步请求、响应、报告或事件。这些消息包含重要信息。
 消息传递为微服务架构提供了可扩展性。消息传递也传统上用于面向服务的架构，以在它们之间建立异步且可靠的通信。
-消息系统也称为面向消息的中间件产品。目前有多种消息中间件可供选择，例如 ActiveMQ、RabbitMQ、ActiveMQ Artemis、Apache Kafka、应用服务器（Glassfish、Wildfly、WebsphereMQ）等。
-使用消息中间件的优点 可靠性– 消息中间件保证交付。如果消费者因某种原因宕机，消息系统会存储消息，直到其再次启动。 异步– JMS 是异步的，发送者和接收者不需要互相等待。 易于集成– 多个应用程序可以用不同的编程语言编写或运行在不同的服务器上。只要它们使用相同的协议，就可以使用消息中间件在它们之间建立通信。 可扩展性——消息传递有助于向多个接收者广播，从而有助于实现可扩展性。 灵活性——您可以为不同的消息分配不同的协议，这使您在设计架构时具有很大的灵活性。 什么是 JMS（Java 消息服务）？ 目前有几种企业消息中间件（面向消息的中间件）产品，如 TIBCO MQ、Apache ActiveMQ、Apache Kafka、RabbitMQ、ActiveMQ Artemis、IBM MQ 等。
+消息系统也称为面向消息的中间件产品。目前有多种消息中间件可供选择，例如 ActiveMQ、RabbitMQ、ActiveMQ Artemis、Apache Kafka、应用服务器（Glassfish、Wildfly、Websphere MQ）等。
+使用消息中间件的优点 可靠性– 消息中间件保证交付。如果消费者因某种原因宕机，消息系统会存储消息，直到其再次启动。 异步– JMS 是异步的，发送者和接收者不需要互相等待。 易于集成– 多个应用程序可以用不同的编程语言编写或运行在不同的服务器上。只要它们使用相同的协议，就可以使用消息中间件在它们之间建立通信。 可扩展性——消息传递有助于向多个接收者广播，从而有助于实现可扩展性。 灵活性——您可以为不同的消息分配不同的协议，这使您在设计架构时具有很大的灵活性。 什么是 JMS？ 目前有几种企业消息中间件（面向消息的中间件）产品，如 TIBCO MQ、Apache ActiveMQ、Apache Kafka、RabbitMQ、ActiveMQ Artemis、IBM MQ 等。
 JMS 提供了标准的 Java API，这意味着 Java 程序可以创建、发送、接收和读取企业消息系统的消息。我们将探讨 JMS 1.x 和 2.0 API 标准。
 并非所有企业消息中间件都实现 JMS 标准。实现 JMS 标准的中间件称为 JMS 提供程序。其中包括 Apache ActiveMQ、Apache ActiveMQ Artem、Oracle WebLogic Server、Glassfish、IBM MQ、Jboss Wildfly、Apache Qpid 等。无论您使用哪种实现，如果您坚持 JMS 标准，切换供应商都很简单。
-JMS 不可互操作，这意味着它主要用于用 Java 或 JVM 语言编写的应用程序。如果您想使用具有更好互操作性支持的消息传递协议（可以在 NodeJS、Python、C# 等中工作），请查看AMQP（高级消息队列协议），例如RabbitMQ。
+JMS 不可互操作，这意味着它主要用于用 Java 或 JVM 语言编写的应用程序。如果您想使用具有更好互操作性支持的消息传递协议（可以在 NodeJS、Python、C# 等中工作），请查看AMQP（高级消息队列协议），例如 RabbitMQ。
 JMS 标准的局限性 JMS 标准不包括以下功能，因为 JMS 仅用于发送和接收消息。
 负载平衡/容错 错误/建议通知 JMS 提供程序的管理 API 安全 没有消息类型存储库定义 JMS 中的消息传递模型 JMS 支持两种主要的消息传递样式，如下所示。作为 JMS 介绍的一部分，我们在此仅讨论这些类型，本教程的后面部分将通过几个示例介绍每种类型。...</p></section><footer class=entry-footer><span class=meta-item><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
 <span>2024-07-23</span></span><span class=meta-item>

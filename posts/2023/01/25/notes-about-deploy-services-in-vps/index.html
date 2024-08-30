@@ -21,7 +21,7 @@
 </span></span></span><span class=line><span class=cl><span class=se></span><span class=nb>echo</span> <span class=s2>&#34;/swapfile swap swap defaults 0 0&#34;</span> <span class=p>|</span> sudo tee -a /etc/fstab <span class=o>&amp;&amp;</span> <span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>sudo swapon --show <span class=o>&amp;&amp;</span> <span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>sudo free -h
-</span></span></code></pre></td></tr></table></div></div><h2 id=安装-nginx>安装 Nginx<a hidden class=anchor aria-hidden=true href=#安装-nginx>#</a></h2><p>参考 <a href=https://qizhanming.com/blog/2018/08/06/how-to-install-nginx-on-centos-7>CentOS 7 下 yum 安装和配置 Nginx</a> ，使用 yum 安装：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></code></pre></td></tr></table></div></div><h2 id=安装-nginx>安装 Nginx<a hidden class=anchor aria-hidden=true href=#安装-nginx>#</a></h2><p>参考 <a href=https://qizhanming.com/blog/2018/08/06/how-to-install-nginx-on-centos-7 target=_blank>CentOS 7 下 yum 安装和配置 Nginx</a> ，使用 yum 安装：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
@@ -41,7 +41,7 @@
 </span></span><span class=line><span class=cl>firewall-cmd --reload
 </span></span></code></pre></td></tr></table></div></div><p>使用反向代理需要打开网络访问权限</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>setsebool -P httpd_can_network_connect on
-</span></span></code></pre></td></tr></table></div></div><h2 id=安装并生成证书>安装并生成证书<a hidden class=anchor aria-hidden=true href=#安装并生成证书>#</a></h2><p>域名托管在 CloudFlare，可以参考 <a href=https://github.com/acmesh-official/acme.sh/wiki/dnsapi#dns_cf>文章</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><h2 id=安装并生成证书>安装并生成证书<a hidden class=anchor aria-hidden=true href=#安装并生成证书>#</a></h2><p>域名托管在 CloudFlare，可以参考 <a href=https://github.com/acmesh-official/acme.sh/wiki/dnsapi#dns_cf target=_blank>文章</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -75,7 +75,7 @@
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>curl -L <span class=s2>&#34;https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-</span><span class=k>$(</span>uname -s<span class=k>)</span><span class=s2>-</span><span class=k>$(</span>uname -m<span class=k>)</span><span class=s2>&#34;</span> -o /usr/local/bin/docker-compose
 </span></span></code></pre></td></tr></table></div></div><p>设置执行权限：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>chmod +x /usr/local/bin/docker-compose
-</span></span></code></pre></td></tr></table></div></div><p>参考 <a href=https://nginxproxymanager.com/advanced-config/#best-practice-use-a-docker-network>Best Practice: Use a Docker network </a>，创建一个自定义的网络：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></code></pre></td></tr></table></div></div><p>参考 <a href=https://nginxproxymanager.com/advanced-config/#best-practice-use-a-docker-network target=_blank>Best Practice: Use a Docker network </a>，创建一个自定义的网络：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>docker network create custom
 </span></span></code></pre></td></tr></table></div></div><p>查看 docker 网络：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
@@ -155,7 +155,7 @@
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>networks</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>custom</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>external</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><blockquote><p>注意：<a href=https://www.cnblogs.com/atuotuo/p/9402132.html>修改 Docker-MySQL 容器的 默认用户加密规则</a></p></blockquote><p>2、启动</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></span></code></pre></td></tr></table></div></div><blockquote><p>注意：<a href=https://www.cnblogs.com/atuotuo/p/9402132.html target=_blank>修改 Docker-MySQL 容器的 默认用户加密规则</a></p></blockquote><p>2、启动</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>docker-compose -f mysql.yaml up -d
 </span></span></code></pre></td></tr></table></div></div><p>3、进入容器：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>docker exec -it mysql bash
@@ -211,7 +211,7 @@
 </span></span><span class=line><span class=cl>        <span class=kn>proxy_pass</span> <span class=s>http://127.0.0.1:1200</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=uptime-kuma>Uptime Kuma<a hidden class=anchor aria-hidden=true href=#uptime-kuma>#</a></h3><p>参考 <a href=https://uptime.kuma.pet/>kuma</a>，使用 docker compose 部署，创建 uptime.yaml：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><h3 id=uptime-kuma>Uptime Kuma<a hidden class=anchor aria-hidden=true href=#uptime-kuma>#</a></h3><p>参考 <a href=https://uptime.kuma.pet/ target=_blank>kuma</a>，使用 docker compose 部署，创建 uptime.yaml：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -321,7 +321,7 @@
 </span></span><span class=line><span class=cl>GRANT ALL ON umami.* TO <span class=s1>&#39;umami&#39;</span>@<span class=s1>&#39;%&#39;</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>ALTER USER <span class=s1>&#39;umami&#39;</span> IDENTIFIED WITH caching_sha2_password BY <span class=s1>&#39;umami@mysql!&#39;</span><span class=p>;</span>
-</span></span></code></pre></td></tr></table></div></div><blockquote><p>参考：<a href="https://support.hcltechsw.com/csm?id=kb_article&amp;sysparm_article=KB0102948">HCL SafeLinx Server with MySQL 8.0 causes &ldquo;Authentication plugin &lsquo;caching_sha2_password&rsquo; reported error: Authentication requires secure connection.&rdquo;</a></p></blockquote><p>2、通过 docker-compose 安装，创建 umami.yaml：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>参考：<a href="https://support.hcltechsw.com/csm?id=kb_article&amp;sysparm_article=KB0102948" target=_blank>HCL SafeLinx Server with MySQL 8.0 causes &ldquo;Authentication plugin &lsquo;caching_sha2_password&rsquo; reported error: Authentication requires secure connection.&rdquo;</a></p></blockquote><p>2、通过 docker-compose 安装，创建 umami.yaml：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -359,7 +359,7 @@
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>networks</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>custom</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>external</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>参考 <a href=https://eallion.com/umami/>https://eallion.com/umami/</a>，Umami 的默认跟踪代码是被大多数的广告插件屏蔽的，被屏蔽了你就统计不到访客信息了。如果需要反屏蔽，需要在 docker-compose.yml 文件中添加环境变量：TRACKER_SCRIPT_NAME，如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></span></code></pre></td></tr></table></div></div><p>参考 <a href=https://eallion.com/umami/ target=_blank>https://eallion.com/umami/</a>，Umami 的默认跟踪代码是被大多数的广告插件屏蔽的，被屏蔽了你就统计不到访客信息了。如果需要反屏蔽，需要在 docker-compose.yml 文件中添加环境变量：TRACKER_SCRIPT_NAME，如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>    environment:
 </span></span><span class=line><span class=cl>      TRACKER_SCRIPT_NAME: random-string.js
@@ -435,13 +435,13 @@
 </span></span><span class=line><span class=cl>        <span class=kn>expires</span> <span class=s>12h</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>5、添加网站</p><p>访问 <a href=https://umami.chensoul.cc/>https://umami.chensoul.cc/</a>，默认用户名和密码为 admin/umami。登陆之后，修改密码，并添加网站。</p><p>6、升级</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></code></pre></td></tr></table></div></div><p>5、添加网站</p><p>访问 <a href=https://umami.chensoul.cc/ target=_blank>https://umami.chensoul.cc/</a>，默认用户名和密码为 admin/umami。登陆之后，修改密码，并添加网站。</p><p>6、升级</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>docker compose -f umami.yaml down
 </span></span><span class=line><span class=cl>docker pull ghcr.io/umami-software/umami:mysql-latest
 </span></span><span class=line><span class=cl>docker-compose -f umami.yaml up -d
-</span></span></code></pre></td></tr></table></div></div><h3 id=cusdis>Cusdis<a hidden class=anchor aria-hidden=true href=#cusdis>#</a></h3><blockquote><p>VPS IP 可能被墙，所以可以使用三方云服务部署，具体参考<a href=https://www.pseudoyu.com/zh/2022/05/24/free_and_lightweight_blog_comment_system_using_cusdis_and_railway/>轻量级开源免费博客评论系统解决方案 （Cusdis + Railway）</a></p></blockquote><p>1、在 mysql 容器创建 cusdis 数据库和用户：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></code></pre></td></tr></table></div></div><h3 id=cusdis>Cusdis<a hidden class=anchor aria-hidden=true href=#cusdis>#</a></h3><blockquote><p>VPS IP 可能被墙，所以可以使用三方云服务部署，具体参考<a href=https://www.pseudoyu.com/zh/2022/05/24/free_and_lightweight_blog_comment_system_using_cusdis_and_railway/ target=_blank>轻量级开源免费博客评论系统解决方案 （Cusdis + Railway）</a></p></blockquote><p>1、在 mysql 容器创建 cusdis 数据库和用户：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
@@ -501,7 +501,7 @@
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>networks</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>custom</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>external</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>以下配置为 EMAIL 配置可选，下面是使用 <a href="https://cusdis.com/doc#/features/notification?id=gmail">Gmail</a>
+</span></span></span></code></pre></td></tr></table></div></div><p>以下配置为 EMAIL 配置可选，下面是使用 <a href="https://cusdis.com/doc#/features/notification?id=gmail" target=_blank>Gmail</a>
 进行配置，需要首先开启两阶段验证并创建一个应用密码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
@@ -584,7 +584,7 @@
 </span></span></span><span class=line><span class=cl><span class=c1></span>    	<span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>5、部署一个 Telegram 机器人，参考 <a href="https://cusdis.chensoul.cc/doc#/advanced/webhook?id=official-telegram-bot">Official Telegram bot</a>。</p><p>6、升级</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></code></pre></td></tr></table></div></div><p>5、部署一个 Telegram 机器人，参考 <a href="https://cusdis.chensoul.cc/doc#/advanced/webhook?id=official-telegram-bot" target=_blank>Official Telegram bot</a>。</p><p>6、升级</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>docker compose -f cusdis.yaml down
@@ -838,7 +838,7 @@
 </span></span><span class=line><span class=cl>    		<span class=kn>proxy_set_header</span> <span class=s>Connection</span> <span class=s>&#34;Upgrade&#34;</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>这里面的转发配置不对的话，会导致直接访问 5678 端口正常，但是访问 nginx 的话，workflow 会一直处于执行。</p><p>5、添加 workflow</p><p>参考这篇文章 <a href=http://stiles.cc/archives/237/>http://stiles.cc/archives/237/</a> ，目前我配置了以下 workflows，实现了 github、douban、rss、memos 同步到 Telegram。</p><p><img loading=lazy src=http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-n8n-workflows.png alt=my-n8n-workflows></p><p>workflows 参考：</p><ul><li><a href=https://reorx.com/blog/sharing-my-footprints-automation/>Reorx</a></li><li><a href=https://www.pseudoyu.com/zh/2022/09/19/weekly_review_20220919/>Pseudoyu</a></li><li><a href=https://raye.xlog.app/gou-jian-ge-xing-hua-de-shu-zi-ri-ji--zi-dong-hua-gong-zuo-liu-shi-xian-xin-xi-ju-he>raye</a></li><li><a href=https://zeabur.com/docs/marketplace/n8n>Zeabur</a></li></ul><p>6、升级</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></code></pre></td></tr></table></div></div><p>这里面的转发配置不对的话，会导致直接访问 5678 端口正常，但是访问 nginx 的话，workflow 会一直处于执行。</p><p>5、添加 workflow</p><p>参考这篇文章 <a href=http://stiles.cc/archives/237/ target=_blank>http://stiles.cc/archives/237/</a> ，目前我配置了以下 workflows，实现了 github、douban、rss、memos 同步到 Telegram。</p><p><img loading=lazy src=http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/my-n8n-workflows.png alt=my-n8n-workflows></p><p>workflows 参考：</p><ul><li><a href=https://reorx.com/blog/sharing-my-footprints-automation/ target=_blank>Reorx</a></li><li><a href=https://www.pseudoyu.com/zh/2022/09/19/weekly_review_20220919/ target=_blank>Pseudoyu</a></li><li><a href=https://raye.xlog.app/gou-jian-ge-xing-hua-de-shu-zi-ri-ji--zi-dong-hua-gong-zuo-liu-shi-xian-xin-xi-ju-he target=_blank>raye</a></li><li><a href=https://zeabur.com/docs/marketplace/n8n target=_blank>Zeabur</a></li></ul><p>6、升级</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>docker compose -f n8n.yaml down

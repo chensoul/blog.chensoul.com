@@ -6,12 +6,12 @@
     <description>Recent content in Database on ChenSoul</description>
     <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 05 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Aug 2024 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/database/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[译]关系数据库设计速成课程</title>
       <link>https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-relational-database/</link>
-      <pubDate>Mon, 05 Aug 2024 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 05 Aug 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-relational-database/</guid>
       <description>原文链接：https://blog.bytebytego.com/p/a-crash-course-on-relational-database
 在当今数据驱动的世界中，高效存储和管理信息是各种规模的企业和组织的关键要求。
@@ -45,7 +45,7 @@ CREATE TABLE books ( book_id INT PRIMARY KEY, title VARCHAR(100), author VARCHAR
     <item>
       <title>[译]数据库分片速成课程</title>
       <link>https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-in-database-sharding/</link>
-      <pubDate>Mon, 05 Aug 2024 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 05 Aug 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-in-database-sharding/</guid>
       <description>原文链接：https://blog.bytebytego.com/p/a-crash-course-in-database-sharding
 随着应用程序越来越受欢迎，它会吸引更多活跃用户并加入更多功能。这种增长导致每日数据生成量增加，从业务角度来看，这是一个积极的指标。
@@ -103,7 +103,7 @@ CREATE TABLE books ( book_id INT PRIMARY KEY, title VARCHAR(100), author VARCHAR
     <item>
       <title>[译]数据库扩展策略速成课程</title>
       <link>https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-in-database-scaling/</link>
-      <pubDate>Mon, 05 Aug 2024 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 05 Aug 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-in-database-scaling/</guid>
       <description>原文链接：https://blog.bytebytego.com/p/a-crash-course-in-database-scaling
 数据库是现代应用程序开发的支柱。它们在存储、管理和检索数据方面发挥着至关重要的作用，使应用程序和服务能够有效运行。
@@ -155,7 +155,7 @@ CREATE TABLE books ( book_id INT PRIMARY KEY, title VARCHAR(100), author VARCHAR
     <item>
       <title>数据库如何设计树形结构</title>
       <link>https://blog.chensoul.cc/posts/2023/08/15/tree-structure-in-database/</link>
-      <pubDate>Tue, 15 Aug 2023 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 15 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/15/tree-structure-in-database/</guid>
       <description>在 MySQL 中，设计树形结构的区域表有多种方式。以下是一些常见的方案：
 父子关系（Parent-Child Relationship）模型：在这种模型中，每个行记录包含一个指向其父级的引用。可以使用一个额外的列来存储父级 ID，或者使用自连接表来表示关系。这种模型简单直观，易于理解和管理。 路径（Path）模型：在这种模型中，每个行记录都包含一个代表其完整路径的字段。路径可以是以某种分隔符（如斜杠）分隔的字符串，例如：/地区/国家/城市。通过解析和处理路径字段，可以轻松地查询父级、子级和兄弟节点。 嵌套集模型（Nested Set Model）：这是一种基于左右值的模型，通过预先计算每个节点的左右值，可以高效地查询树形结构。每个节点都有一个左值和一个右值，用于表示其在树中的位置。这种模型适用于大型树结构，但需要特殊的操作来维护左右值。 物化路径（Materialized Path）模型：这是路径模型的一种改进版本，它使用额外的列来存储节点的层级关系。除了路径字段外，还可以添加一个表示节点级别的字段。这样可以更高效地进行查询，并且可以轻松地获取节点的父级、子级和兄弟节点。 父子关系（Parent-Child Relationship）模型 父子关系（Parent-Child Relationship）模型是一种在 MySQL 中设计树形结构的方式。在该模型中，每个区域记录包含一个指向其父级区域的引用。通过这种父子关系，可以建立区域之间的层级结构。

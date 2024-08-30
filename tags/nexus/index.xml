@@ -6,12 +6,12 @@
     <description>Recent content in Nexus on ChenSoul</description>
     <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 25 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 25 Jun 2024 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/nexus/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>搭建本地Maven仓库Nexus</title>
       <link>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</link>
-      <pubDate>Tue, 25 Jun 2024 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 25 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</guid>
       <description>使用 Docker 安装 $ docker volume create --name nexus_data $ docker run -d -p 8081:8081--name nexus -v nexus_data:/nexus-data sonatype/nexus3 8081 是 Nexus UI 端口 使用 Docker Compose 安装 services: nexus: image: sonatype/nexus3 platform: linux/amd64 ports: - &amp;#34;8081:8081&amp;#34; volumes: - nexus_data:/nexus-data - /etc/localtime:/etc/localtime:ro volumes: nexus_data: 访问并配置 Nexus 访问 http://127.0.0.1:8081/ 或者是 http://&amp;lt;your IP&amp;gt;:8081，用户名为 admin ，初始密码在容器里的 /nexus-data/admin.password 文件
 docker ps # docker-nexus-1 为容器名称 docker exec -it docker-nexus-1 cat /nexus-data/admin.password 登录之后，将密码修改为自己的密码，比如：admin。

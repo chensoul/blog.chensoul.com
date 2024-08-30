@@ -4,44 +4,46 @@
     <title>K3s on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/k3s/</link>
     <description>Recent content in K3s on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 09 May 2024 11:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/k3s/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 May 2024 11:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/k3s/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>通过k3sup安装k3s</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</link>
       <pubDate>Thu, 09 May 2024 11:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</guid>
       <description>k3sup是一个支持在PC、虚拟机、ARM设备上安装k3s的工具，官方网站：https://k3sup.dev/
 安装k3sup 在线安装：
-curl -sLS https://get.k3sup.dev | sh sudo install k3sup /usr/local/bin/ 离线安装，下载地址：https://github.com/alexellis/k3sup/releases …</description>
+curl -sLS https://get.k3sup.dev | sh sudo install k3sup /usr/local/bin/ 离线安装，下载地址：https://github.com/alexellis/k3sup/releases
+wget https://github.com/alexellis/k3sup/releases/download/0.13.5/k3sup mv k3sup /usr/local/bin/ chmod +x /usr/local/bin/k3sup 查看版本：
+$ k3sup version _ _____ | | _|___ / ___ _ _ _ __ | |/ / |_ \/ __| | | | &amp;#39;_ \ | &amp;lt; ___) \__ \ |_| | |_) | |_|\_\____/|___/\__,_| .__/ |_| bootstrap K3s over SSH in &amp;lt; 60s 🚀 🚀 Speed up GitHub Actions/GitLab CI + reduce costs: https://actuated.dev Version: 0.13.5 Git Commit: d952d6df22b06147806ca1030b8ba3a4bb9e0c0c 创建k3s集群 创建一个本地集群 k3sup install \ --local \ --context localk3s \ --k3s-channel stable \ --k3s-extra-args &amp;#39;--docker&amp;#39; 查看集群状态：
+$ k3sup ready --context localk3s --kubeconfig .</description>
     </item>
-    
     <item>
       <title>安装k3s</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s/</link>
       <pubDate>Thu, 09 May 2024 10:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s/</guid>
       <description>K3s 是轻量级的 Kubernetes。K3s 易于安装，仅需要 Kubernetes 内存的一半，所有组件都在一个小于 100 MB 的二进制文件中。
 k3s 文档：https://docs.rancher.cn/docs/k3s/_index
 K3s介绍 什么是 K3s？ K3s 是一个完全兼容的 Kubernetes 发行版，具有以下增强功能：
-打包为单个二进制文件。 …</description>
+打包为单个二进制文件。 使用基于 sqlite3 作为默认存储机制的轻量级存储后端。同时支持使用 etcd3、MySQL 和 Postgres。 封装在简单的启动程序中，可以处理很多复杂的 TLS 和选项。 默认情况下是安全的，对轻量级环境有合理的默认值。 添加了简单但强大的 batteries-included 功能，例如： 本地存储提供程序 service load balancer Helm controller Traefik ingress controller 所有 Kubernetes control plane 组件的操作都封装在单个二进制文件和进程中。因此，K3s 支持自动化和管理复杂的集群操作（例如证书分发等）。 最大程度减轻了外部依赖性，K3s 仅需要现代内核和 cgroup 挂载。K3s 打包了所需的依赖，包括： containerd Flannel (CNI) CoreDNS Traefik (Ingress) Klipper-lb (Service LB) 嵌入式网络策略控制器 嵌入式 local-path-provisioner 主机实用程序（iptables、socat 等） 为什么叫 K3s? 我们希望安装的 Kubernetes 只占用一半的内存。Kubernetes 是一个 10 个字母的单词，简写为 K8s。Kubernetes 的一半就是一个 5 个字母的单词，因此简写为 K3s。K3s 没有全称，也没有官方的发音。
+适用场景 K3s 适用于以下场景：
+边缘计算-Edge 物联网-IoT CI Development ARM 嵌入 K8s 由于运行 K3s 所需的资源相对较少，所以 K3s 也适用于开发和测试场景。在这些场景中，如果开发或测试人员需要对某些功能进行验证，或对某些问题进行重现，那么使用 K3s 不仅能够缩短启动集群的时间，还能够减少集群需要消耗的资源。与此同时，Rancher 中国团队推出了一款针对 K3s 的效率提升工具：AutoK3s。只需要输入一行命令，即可快速创建 K3s 集群并添加指定数量的 master 节点和 worker 节点。如需详细了解 AutoK3s，请参考AutoK3s 功能介绍。</description>
     </item>
-    
     <item>
       <title>通过k3d安装k3s</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3d/</link>
       <pubDate>Thu, 09 May 2024 10:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3d/</guid>
       <description>k3d是什么 k3d 是一个轻量级包装器，用于在 docker 中运行k3s（Rancher Lab 的最小 Kubernetes 发行版）。
 k3d 使得在 docker 中创建单节点和多节点k3s集群变得非常容易，例如用于 Kubernetes 上的本地开发。
 注意： k3d 是一个社区驱动的项目，但它不是官方 Rancher (SUSE) 产品。
 k3d安装 通过脚本安装：
-wget -q …</description>
+wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash macos 上通过homebrew安装：
+brew install k3d 查看帮助文档：
+$ k3d -h https://k3d.io/ k3d is a wrapper CLI that helps you to easily create k3s clusters inside docker. Nodes of a k3d cluster are docker containers running a k3s image. All Nodes of a k3d cluster are part of the same docker network. Usage: k3d [flags] k3d [command] Available Commands: cluster Manage cluster(s) completion Generate completion scripts for [bash, zsh, fish, powershell | psh] config Work with config file(s) help Help about any command image Handle container images.</description>
     </item>
-    
   </channel>
 </rss>

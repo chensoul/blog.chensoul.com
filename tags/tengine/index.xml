@@ -4,17 +4,27 @@
     <title>Tengine on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/tengine/</link>
     <description>Recent content in Tengine on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 26 Jun 2024 07:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/tengine/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 26 Jun 2024 07:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/tengine/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Tengine动态裁剪图片</title>
       <link>https://blog.chensoul.cc/posts/2024/06/26/install-cert-manager/</link>
       <pubDate>Wed, 26 Jun 2024 07:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/06/26/install-cert-manager/</guid>
-      <description>软件列表 Tengine：https://github.com/alibaba/tengine Lua：http://www.lua.org/ftp/ ，这里使用 lua-5.3.1.tar.gz LuaJIT：http://luajit.org/download.html ，这里使用 LuaJIT-2.0.4.tar.gz …</description>
+      <description>软件列表 Tengine：https://github.com/alibaba/tengine Lua：http://www.lua.org/ftp/ ，这里使用 lua-5.3.1.tar.gz LuaJIT：http://luajit.org/download.html ，这里使用 LuaJIT-2.0.4.tar.gz GraphicdMagick：https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/ ，这里使用 GraphicsMagick-1.3.18.tar.gz 安装Lua 先安装依赖：
+yum install readline readline-devel -y 解压文件
+tar -zxvf lua-5.3.1.tar.gz 进入目录，执行：
+cd lua-5.3.1 make linux &amp;amp;&amp;amp; make install 验证安装成功:
+lua -v 安装luaJIT 解压文件
+tar -zxvf LuaJIT-2.0.4.tar.gz 进入目录，执行：
+cd LuaJIT-2.0.4 make &amp;amp;&amp;amp; make install 安装tengine 安装依赖：
+yum -y install pcre-devel openssl openssl-devel 解压文件：
+unzip tengine-master.zip 进入目录，执行：
+cd tengine-master ./configure --prefix=/usr/local/Tengine --dso-path=/usr/local/Tengine/modules --with-http_realip_module --with-http_gzip_static_module \ --with-http_stub_status_module --with-http_concat_module \ --with-http_lua_module --http-proxy-temp-path=/var/tmp/Tengine/proxy_temp \ --http-fastcgi-temp-path=/var/tmp/Tengine/fastcgi_temp \ --http-uwsgi-temp-path=/var/tmp/Tengine/uwsgi_temp \ --http-scgi-temp-path=/var/tmp/Tengine/cgi_temp \ --http-client-body-temp-path=/var/tmp/Tengine/client_body_temp \ --http-log-path=/var/log/Tengine/access.log \ --error-log-path=/var/log/Tengine/error.log 再执行：
+make &amp;amp;&amp;amp; make install 验证安装成功:
+$ /usr/local/Tengine/sbin/nginx /usr/local/Tengine/sbin/nginx: error while loading shared libraries: libluajit-5.1.so.2: cannot open shared object file: No such file or directory 提示找不到文件，配置一个软连接：</description>
     </item>
-    
   </channel>
 </rss>

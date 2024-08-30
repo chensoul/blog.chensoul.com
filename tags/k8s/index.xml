@@ -4,38 +4,46 @@
     <title>K8s on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/k8s/</link>
     <description>Recent content in K8s on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 11 May 2024 12:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 May 2024 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Argo CD安装和部署</title>
       <link>https://blog.chensoul.cc/posts/2024/05/11/argocd/</link>
       <pubDate>Sat, 11 May 2024 12:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/05/11/argocd/</guid>
       <description>安装 ArgoCD 安装：
-$ kubectl create namespace argocd $ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml 查看安装是否成功，当argocd命名空间下Pod状态都为Running时表示安装成 …</description>
+$ kubectl create namespace argocd $ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml 查看安装是否成功，当argocd命名空间下Pod状态都为Running时表示安装成功。
+kubectl get pod -A 执行如下命令，将名为argocd-server的Service类型修改为NodePort。
+$ kubectl patch svc argocd-server -n argocd -p &amp;#39;{&amp;#34;spec&amp;#34;: {&amp;#34;type&amp;#34;: &amp;#34;NodePort&amp;#34;}}&amp;#39; service/argocd-server patched 查看修改结果。
+$ kubectl -n argocd get svc NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE argocd-applicationset-controller ClusterIP 10.43.184.106 &amp;lt;none&amp;gt; 7000/TCP,8080/TCP 24h argocd-dex-server ClusterIP 10.43.99.202 &amp;lt;none&amp;gt; 5556/TCP,5557/TCP,5558/TCP 24h argocd-metrics ClusterIP 10.43.47.99 &amp;lt;none&amp;gt; 8082/TCP 24h argocd-notifications-controller-metrics ClusterIP 10.43.58.49 &amp;lt;none&amp;gt; 9001/TCP 24h argocd-redis ClusterIP 10.43.70.36 &amp;lt;none&amp;gt; 6379/TCP 24h argocd-repo-server ClusterIP 10.43.40.224 &amp;lt;none&amp;gt; 8081/TCP,8084/TCP 24h argocd-server NodePort 10.43.180.135 &amp;lt;none&amp;gt; 80:31912/TCP,443:32728/TCP 24h argocd-server-metrics ClusterIP 10.43.5.195 &amp;lt;none&amp;gt; 8083/TCP 24h 通过 argocd-server Service访问Argo CD，直接使用节点IP:端口号访问即可。例如本示例中，端口号为32728。
+登录用户名为admin，密码可使用如下命令获取。</description>
     </item>
-    
     <item>
       <title>Rancher安装和部署-使用K8s </title>
       <link>https://blog.chensoul.cc/posts/2024/05/10/install-rancher/</link>
       <pubDate>Fri, 10 May 2024 14:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/05/10/install-rancher/</guid>
-      <description>前提条件 Kubernetes 集群：可以使用 RKE、RKE2、K3S 等工具安装集群 Ingress Controller：对于 RKE、RKE2 和 K3s，你不需要手动安装 Ingress Controller，因为它是默认安装的。 CLI 工具：安装 kubectl 和 helm 使用 docker 安装 Rancher mkdir -p /data/rancher docker run …</description>
+      <description>前提条件 Kubernetes 集群：可以使用 RKE、RKE2、K3S 等工具安装集群 Ingress Controller：对于 RKE、RKE2 和 K3s，你不需要手动安装 Ingress Controller，因为它是默认安装的。 CLI 工具：安装 kubectl 和 helm 使用 docker 安装 Rancher mkdir -p /data/rancher docker run --name rancher --privileged -d --restart=unless-stopped -p 80:80 -p 443:443 -v /data/rancher:/var/lib/rancher/ rancher/rancher:stable docker logs -f rancher 使用 helm 安装 Rancher 参考：在 Kubernetes 集群上安装/升级 Rancher
+添加 Helm Chart 仓库，安装 cert-manager helm repo add rancher-stable https://releases.rancher.com/server-charts/stable helm repo add jetstack https://charts.jetstack.io helm repo update helm install cert-manager jetstack/cert-manager \ --namespace cert-manager \ --create-namespace \ --version v1.14.5 \ --set installCRDs=true kubectl get pods --namespace cert-manager 不同的证书配置需要使用不同的 Rancher 安装命令。 先创建命名空间：
+kubectl create namespace cattle-system 默认情况是使用 Rancher 生成 CA，并使用 cert-manager 颁发用于访问 Rancher Server 接口的证书。</description>
     </item>
-    
     <item>
       <title>K8s安装Cert Manager</title>
       <link>https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/</link>
       <pubDate>Fri, 10 May 2024 07:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/</guid>
       <description>cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。
 cert-manager 可以从各种证书颁发机构获取证书，包括： Let&amp;rsquo;s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。
-使用 cert-manager 的证书资源，私钥和证书存储在 Kubernetes …</description>
+使用 cert-manager 的证书资源，私钥和证书存储在 Kubernetes Secret 中，该 Secret 由应用程序 Pod 挂载或由 Ingress 控制器使用。使用csi-driver、csi-driver-spiffe或istio-csr，私钥是在应用程序启动之前按需生成的；私钥永远不会离开节点，并且不会存储在 Kubernetes Secret 中。
+安装 参考官方文档：https://cert-manager.io/docs/installation/
+使用kubectl安装 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml 查看：
+$ kubectl get pods --namespace cert-manager 使用helm安装 添加 repo：
+helm repo add jetstack https://charts.jetstack.io --force-update helm repo update 安装 cert-manager：
+helm install cert-manager jetstack/cert-manager \ --namespace cert-manager \ --create-namespace \ --version v1.14.5 \ --set installCRDs=true 更多配置参数，参考：https://artifacthub.io/packages/helm/cert-manager/cert-manager
+查看状态
+$ kubectl -n cert-manager rollout status deploy/cert-manager deployment &amp;#34;cert-manager&amp;#34; successfully rolled out $ kubectl get pods -n cert-manager NAME READY STATUS RESTARTS AGE pod/cert-manager-5c47f46f57-k78l6 1/1 Running 0 91s pod/cert-manager-cainjector-6659d6844d-tr8rf 1/1 Running 0 91s pod/cert-manager-webhook-547567b88f-8lthd 1/1 Running 0 91s 使用helm3查看：</description>
     </item>
-    
   </channel>
 </rss>

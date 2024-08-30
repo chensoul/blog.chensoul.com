@@ -4,18 +4,21 @@
     <title>Argocd on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/argocd/</link>
     <description>Recent content in Argocd on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 11 May 2024 12:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/argocd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 May 2024 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/argocd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Argo CD安装和部署</title>
       <link>https://blog.chensoul.cc/posts/2024/05/11/argocd/</link>
       <pubDate>Sat, 11 May 2024 12:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/05/11/argocd/</guid>
       <description>安装 ArgoCD 安装：
-$ kubectl create namespace argocd $ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml 查看安装是否成功，当argocd命名空间下Pod状态都为Running时表示安装成 …</description>
+$ kubectl create namespace argocd $ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml 查看安装是否成功，当argocd命名空间下Pod状态都为Running时表示安装成功。
+kubectl get pod -A 执行如下命令，将名为argocd-server的Service类型修改为NodePort。
+$ kubectl patch svc argocd-server -n argocd -p &amp;#39;{&amp;#34;spec&amp;#34;: {&amp;#34;type&amp;#34;: &amp;#34;NodePort&amp;#34;}}&amp;#39; service/argocd-server patched 查看修改结果。
+$ kubectl -n argocd get svc NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE argocd-applicationset-controller ClusterIP 10.43.184.106 &amp;lt;none&amp;gt; 7000/TCP,8080/TCP 24h argocd-dex-server ClusterIP 10.43.99.202 &amp;lt;none&amp;gt; 5556/TCP,5557/TCP,5558/TCP 24h argocd-metrics ClusterIP 10.43.47.99 &amp;lt;none&amp;gt; 8082/TCP 24h argocd-notifications-controller-metrics ClusterIP 10.43.58.49 &amp;lt;none&amp;gt; 9001/TCP 24h argocd-redis ClusterIP 10.43.70.36 &amp;lt;none&amp;gt; 6379/TCP 24h argocd-repo-server ClusterIP 10.43.40.224 &amp;lt;none&amp;gt; 8081/TCP,8084/TCP 24h argocd-server NodePort 10.43.180.135 &amp;lt;none&amp;gt; 80:31912/TCP,443:32728/TCP 24h argocd-server-metrics ClusterIP 10.43.5.195 &amp;lt;none&amp;gt; 8083/TCP 24h 通过 argocd-server Service访问Argo CD，直接使用节点IP:端口号访问即可。例如本示例中，端口号为32728。
+登录用户名为admin，密码可使用如下命令获取。</description>
     </item>
-    
   </channel>
 </rss>

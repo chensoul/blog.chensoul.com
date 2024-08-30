@@ -4,92 +4,137 @@
     <title>Maven on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/maven/</link>
     <description>Recent content in Maven on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 01 Aug 2024 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/maven/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 01 Aug 2024 08:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/maven/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Github Action 发布 Jar 到 Maven 中央仓库</title>
       <link>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</link>
       <pubDate>Thu, 01 Aug 2024 08:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</guid>
       <description>作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。
-在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action  …</description>
+在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。
+下面我将以一个简单的 Maven 项目为例，介绍如何使用 Github Action 实现自动发布 Jar 到 Maven 中央仓库。
+前提条件 在 Github 创建一个 Maven 项目 安装 gpg 并创建 gpg 秘钥和公钥，参考 How to Publish Artifacts to Maven Central 创建 OSSRH 账号，参考 Generate a Token on OSSRH Sonatype Nexus Repository Manager servers 创建 Maven 项目 首先在Github上面创建项目：https://github.com/chensoul/maven-hello-world
+增加两个 Maven 插件：
+&amp;lt;plugin&amp;gt; &amp;lt;groupId&amp;gt;org.apache.maven.plugins&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;maven-gpg-plugin&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.2.2&amp;lt;/version&amp;gt; &amp;lt;executions&amp;gt; &amp;lt;execution&amp;gt; &amp;lt;goals&amp;gt; &amp;lt;goal&amp;gt;sign&amp;lt;/goal&amp;gt; &amp;lt;/goals&amp;gt; &amp;lt;phase&amp;gt;verify&amp;lt;/phase&amp;gt; &amp;lt;/execution&amp;gt; &amp;lt;/executions&amp;gt; &amp;lt;/plugin&amp;gt; &amp;lt;plugin&amp;gt; &amp;lt;groupId&amp;gt;org.sonatype.plugins&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;nexus-staging-maven-plugin&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.7.0&amp;lt;/version&amp;gt; &amp;lt;extensions&amp;gt;true&amp;lt;/extensions&amp;gt; &amp;lt;configuration&amp;gt; &amp;lt;serverId&amp;gt;ossrh&amp;lt;/serverId&amp;gt; &amp;lt;nexusUrl&amp;gt;https://s01.oss.sonatype.org/&amp;lt;/nexusUrl&amp;gt; &amp;lt;autoReleaseAfterClose&amp;gt;true&amp;lt;/autoReleaseAfterClose&amp;gt; &amp;lt;keepStagingRepositoryOnCloseRuleFailure&amp;gt;false&amp;lt;/keepStagingRepositoryOnCloseRuleFailure&amp;gt; &amp;lt;/configuration&amp;gt; &amp;lt;/plugin&amp;gt; 可以将上面的两个插件加入到 pom.xml 的 build 节点下面，也可以配置到 profile 节点下。https://github.</description>
     </item>
-    
     <item>
       <title>将 Maven 站点发布到 GitHub Pages</title>
       <link>https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/</link>
       <pubDate>Thu, 18 Jul 2024 08:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/</guid>
       <description>本文源代码：https://github.com/chensoul/maven-site-github-example/ 。
 创建 Java Maven 项目 让我们使用 Maven 创建一个简单的 Java 项目
-mvn archetype:generate \ -DgroupId=com.mycompany.app \ …</description>
+mvn archetype:generate \ -DgroupId=com.mycompany.app \ -DartifactId=maven-site-github-example \ -DarchetypeArtifactId=maven-archetype-quickstart \ -DarchetypeVersion=1.4 \ -DinteractiveMode=false 这将创建包含 Maven 项目的my-app文件夹。让我们进入该文件夹并确保它编译正常：
+cd maven-site-github-example mvn clean verify 我们还可以生成该项目的站点：
+mvn clean site 该站点将在target/site文件夹中生成，可以使用浏览器打开；例如，让我们打开它的 index.html：
+chrome target/site/index.html 创建 github 项目 在你的 github 上创建一个项目 maven-site-github-example，然后在本地的 maven-site-github-example 目录提交代码：
+echo &amp;#34;# maven-site-github-example&amp;#34; &amp;gt;&amp;gt; README.md git init git add . git commit -m &amp;#34;first commit&amp;#34; git branch -M main git remote add origin git@github.com:chensoul/maven-site-github-example.git git push -u origin main GitHub Page 设置 现在我们必须在 Git 存储库上创建 gh-pages分支。
+git checkout --orphan gh-pages rm .git/index ; git clean -fdx echo &amp;#34;It works&amp;#34; &amp;gt; index.html git add .</description>
     </item>
-    
     <item>
       <title>搭建本地Maven仓库Nexus</title>
       <link>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</link>
       <pubDate>Tue, 25 Jun 2024 15:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</guid>
-      <description>使用 Docker 安装 $ docker volume create --name nexus_data $ docker run -d -p 8081:8081--name nexus -v nexus_data:/nexus-data sonatype/nexus3 8081 是 Nexus UI 端口 使用 Docker Compose 安装 services: nexus: image: …</description>
+      <description>使用 Docker 安装 $ docker volume create --name nexus_data $ docker run -d -p 8081:8081--name nexus -v nexus_data:/nexus-data sonatype/nexus3 8081 是 Nexus UI 端口 使用 Docker Compose 安装 services: nexus: image: sonatype/nexus3 platform: linux/amd64 ports: - &amp;#34;8081:8081&amp;#34; volumes: - nexus_data:/nexus-data - /etc/localtime:/etc/localtime:ro volumes: nexus_data: 访问并配置 Nexus 访问 http://127.0.0.1:8081/ 或者是 http://&amp;lt;your IP&amp;gt;:8081，用户名为 admin ，初始密码在容器里的 /nexus-data/admin.password 文件
+docker ps # docker-nexus-1 为容器名称 docker exec -it docker-nexus-1 cat /nexus-data/admin.password 登录之后，将密码修改为自己的密码，比如：admin。
+开启匿名访问权限 依次点击【Security】&amp;ndash;【Realms】,将【Docker Bearer Token Tealm】添加到右侧，然后保存。
+创建 Maven 仓库 Nexus 提供三种类型的仓库：
+hosted : 本地存储
+proxy : 提供代理其他仓库的类型，如阿里云镜像加速器
+groudp : 组类型，实质作用是组合多个仓库为一个地址
+创建一个 maven(proxy) 仓库，名称：aliyun，Version Policy 选择 Mixed，URL 地址：https://maven.aliyun.com/nexus/content/groups/public/，并修改 maven-public 仓库，将 aliyun 加入 maven-public 的 Group 中。</description>
     </item>
-    
     <item>
       <title>搭建本地 Maven 仓库 Artifactory 开源版</title>
       <link>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</link>
       <pubDate>Tue, 25 Jun 2024 08:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</guid>
       <description>安装 Artifactory 官方下载安装地址：https://jfrog.com/community/download-artifactory-oss/ ，支持三种安装方式：
-Windows Installer Linux Installers tar.gz RPM Debian Docker Compose Docker Helm …</description>
+Windows Installer Linux Installers tar.gz RPM Debian Docker Compose Docker Helm 手动下载并安装 安装包文件地址在 https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/ 。以当前最新版本 7.84.15 为例，在 linux 服务器上下载：
+wget https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/7.84.15/jfrog-artifactory-oss-7.84.15-linux.tar.gz tar -zxvf jfrog-artifactory-oss-7.84.15-linux.tar.gz cd jfrog-artifactory-oss-7.84.15/app/bin nohup ./artifactory.sh 通过 docker 安装 设置 JFROG_HOME 并创建目录：
+export JFROG_HOME=~/.jfrog mkdir -p $JFROG_HOME/artifactory/var/etc/ sudo chown -R 1030:1030 $JFROG_HOME/artifactory/var sudo chmod -R 777 $JFROG_HOME/artifactory/var touch $JFROG_HOME/artifactory/var/etc/system.yaml 配置数据库。参考 JFrog Recommends Using PostgreSQL ，Artifactory 7.84.7 之后，默认使用 postgresql 数据库。
+cat &amp;lt;&amp;lt;EOF &amp;gt; $JFROG_HOME/artifactory/var/etc/system.yaml shared: database: type: postgresql driver: org.postgresql.Driver url: jdbc:postgresql://192.168.2.39:5432/artifactory username: artifactory password: password EOF 如果需要使用其他数据库，需要修改配置文件，并添加 jdbc 驱动。例如，使用 mysql 数据库：
+cat &amp;lt;&amp;lt;EOF &amp;gt; $JFROG_HOME/artifactory/var/etc/system.yaml shared: database: allowNonPostgresql: true type: mysql driver: com.mysql.jdbc.Driver url: &amp;#34;jdbc:mysql://192.</description>
     </item>
-    
     <item>
       <title>2024-01-04｜GitHub Actions</title>
       <link>https://blog.chensoul.cc/posts/2024/01/04/til/</link>
       <pubDate>Thu, 04 Jan 2024 18:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/01/04/til/</guid>
       <description>今天做了什么：
-修改个人联系方式 注销亚马逊账号 利用GitHub Actions自动优雅地为项目构建Releases 利用GitHub Actions自动构建项目的docker镜像并发布到DockerHub 修改个人联系方式 使用 ichensoul 注册了新的 Gmail、163 邮箱，并将各种网站绑定的邮箱修改到新的 gmail 邮箱。自此，gmail、github、推特、微信、163 的账 …</description>
+修改个人联系方式 注销亚马逊账号 利用GitHub Actions自动优雅地为项目构建Releases 利用GitHub Actions自动构建项目的docker镜像并发布到DockerHub 修改个人联系方式 使用 ichensoul 注册了新的 Gmail、163 邮箱，并将各种网站绑定的邮箱修改到新的 gmail 邮箱。自此，gmail、github、推特、微信、163 的账号都保持为一致，都是 ichensoul。
+以下是 github 上我的个人联系方式。
+健康，爱情和使命，按照这个顺序，其它的都不重要。 &amp;mdash;&amp;mdash; 纳瓦尔
+我是 ChenSoul，一个 Java 软件开发工程师，目前工作在武汉。
+热爱编程，喜欢跑步。读书、健身、定投、帮朋友、陪家人，做一个长期主义者。
+网站 博客：https://blog.chensoul.cc/ 跑步：https://run.chensoul.cc/ Memos：https://memos.chensoul.cc/ 找到我 微信：@ichensoul 邮箱：ichensoul@gmail.com Github：https://github.com/chensoul、https://github.com/ichensoul Twitter：https://twitter.com/ichensoul Telegram频道：https://t.me/chensouls 注销亚马逊账号 缘由是，之前总是收到亚马逊的付款账单（每个月 0.5 美元，有时候1 美元），故元旦放假的时候登陆了亚马逊账号查找付费原因。找了半天没有找到是哪里产生的费用，就一怒之下把在亚马逊注册的域名（chensoul.com，一年 12 美元，一次性付费了 5 年）删除了。
+这几天发现本博客无法访问，于是提工单询问是否可以恢复域名。得到的回复是必须支付 66 美元，才能恢复一年。对此，我肯定无法接受。于是，决定注销亚马逊，在其他平台重新注册一个域名。
+今天在 CF 上注册了一个新的域名 chensoul.cc，一年 8 美元，一次性付费 5 年。在重新设置 DNS，修改 VPS 上的相关服务的域名为新域名之后，博客恢复正常。
+利用GitHub Actions自动优雅地为项目构建Releases 参考 利用GitHub Actions自动优雅地为项目构建Releases 为 github 上的项目 https://github.com/chensoul/chensoul-parent 添加一个机器人字段构建 Release。
+使用方法：
+1、参考 官方文档，在仓库里面配置一个 GitHub Action ，例如：.github/workflows/release-drafter.yml
+# https://github.com/release-drafter/release-drafter name: Release Drafter on: push: branches: - main pull_request: types: [opened, reopened, synchronize] permissions: contents: read jobs: update_release_draft: permissions: contents: write pull-requests: write runs-on: ubuntu-latest steps: - uses: release-drafter/release-drafter@v6 env: GITHUB_TOKEN: ${{ secrets.</description>
     </item>
-    
     <item>
       <title>2023-12-20｜Maven配置继承和生命周期、源码运行Nacos 2.3.0控制台</title>
       <link>https://blog.chensoul.cc/posts/2023/12/20/til/</link>
       <pubDate>Wed, 20 Dec 2023 19:10:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2023/12/20/til/</guid>
       <description>Today I Learned. 今天分享内容：Maven配置继承和生命周期、源码运行Nacos 2.3.0控制台
 Maven 相关 Maven配置继承 以下是一些常见的POM节点，在子项目中可以继承或覆盖父项目的配置：
 groupId（项目组ID）：如果在子项目中未定义groupId，则将继承父项目的groupId。
-version（项目版本）：如果在子项目中未定义version，则将继承父项目 …</description>
+version（项目版本）：如果在子项目中未定义version，则将继承父项目的version。
+properties（属性）：子项目可以继承父项目的属性定义，并在子项目中使用相同的属性。
+dependencies（依赖项）：子项目可以继承父项目的依赖项配置，包括依赖的groupId、artifactId和version等信息。
+dependencyManagement（依赖管理）：在父项目的dependencyManagement节点中定义的依赖版本可以被子项目继承和使用。
+build（构建配置）：子项目可以继承父项目的构建配置，包括插件配置、构建目录、资源目录等。子项目可以覆盖或添加额外的构建配置。
+reporting（报告配置）：子项目可以继承父项目的报告配置，包括报告插件的配置信息。
+repositories（仓库配置）：子项目可以继承父项目的仓库配置，用于从指定的仓库解析依赖。
+scm（版本控制配置）：子项目可以继承父项目的 scm 节点中的配置，包括版本控制系统的 URL、连接器、标签等信息。
+issueManagement（问题管理配置）：子项目可以继承父项目的 issueManagement 节点中的配置，包括问题跟踪系统的 URL、连接器等信息。
+organization（组织配置）：子项目可以继承父项目的 organization 节点中的配置，包括组织的名称、URL 等信息。
+developers（开发者配置）：子项目可以继承父项目的 developers 节点中的配置，包括开发者的姓名、邮箱等信息。
+licenses（许可证配置）：子项目可以继承父项目的 licenses 节点中的配置，包括许可证的名称、URL、分发方式等信息。
+inceptionYear和url这两个节点在 Maven 的 POM 文件中无法被子项目继承。
+inceptionYear：这个节点用于指定项目的初始年份。它通常用于提供项目的创建或开始日期，但它不会被子项目继承。每个子项目需要在自己的 POM 文件中显式定义自己的inceptionYear。 url：这个节点用于指定项目的URL地址，例如项目的主页或版本控制仓库的URL。与inceptionYear类似，url节点也不会被子项目继承。每个子项目需要在自己的 POM 文件中显式定义自己的url。 这些节点通常是项目特定的信息，不具备被继承的属性，因此每个子项目都需要自行定义这些节点，以提供自己独特的项目起始年份和URL地址。
+Maven的生命周期 Maven的标准生命周期包括三个主要的生命周期：
+Clean生命周期：用于清理项目构建产生的输出，包括删除生成的目录和文件。 clean：清理项目，删除生成的目录和文件。 Default生命周期：用于构建项目的核心生命周期，涵盖了项目的编译、测试、打包、部署等主要阶段。 validate：验证项目是否正确且所有必要信息可用。 compile：编译项目的源代码。 test：运行项目的单元测试。 package：将编译后的代码打包成可分发的格式，例如JAR、WAR。 install：将打包的项目安装到本地仓库，供其他项目使用。 deploy：将最终的包复制到远程仓库，供其他开发人员和项目使用。 Site生命周期：用于生成项目的站点文档。 site：生成项目的站点文档。 site-deploy：将生成的站点文档部署到远程服务器。 完整的生命周期：
+validate：验证项目是否正确且所有必要信息可用。 initialize：初始化构建环境，例如设置构建属性和加载父POM。 generate-sources：生成项目的源代码，例如通过处理注解或其他生成代码的工具。 process-sources：处理项目的源代码，例如对源代码进行过滤或转换。 generate-resources：生成项目的资源文件，例如拷贝资源文件到目标目录。 process-resources：处理项目的资源文件，例如过滤资源文件的占位符。 compile：编译项目的源代码，将源代码编译为字节码文件（.class文件）。 process-classes：对编译后的类文件进行额外的处理，例如生成额外的资源文件。 generate-test-sources：生成项目的测试源代码，例如通过处理注解或其他生成代码的工具。 process-test-sources：处理项目的测试源代码，例如对测试源代码进行过滤或转换。 generate-test-resources：生成项目的测试资源文件，例如拷贝测试资源文件到目标目录。 process-test-resources：处理项目的测试资源文件，例如过滤测试资源文件的占位符。 test-compile：编译项目的测试源代码，将测试源代码编译为字节码文件。 process-test-classes：对编译后的测试类文件进行额外的处理。 test：运行项目的单元测试。 prepare-package：准备打包阶段的相关工作，例如生成额外的文件或资源。 package：将项目打包成可分发的格式，例如JAR、WAR等。 pre-integration-test：在集成测试之前执行的一些准备工作。 integration-test：运行项目的集成测试。 post-integration-test：在集成测试之后执行的一些清理工作。 verify：验证项目的完整性，例如对生成的报告进行检查。 install：将项目的构件安装到本地仓库，供本地其他项目使用。 deploy：将项目的构件复制到远程仓库，供其他开发人员和项目使用。 maven-compiler-plugin 问题 github action 的机器人将 maven-compiler-plugin 版本升级到 3.12.0 ，运行 test 时出现异常：
+basedir /Users/chensoul/workspace/IdeaProjects/cocktail/cocktail-cloud/cocktail/cocktail-oauth2/target/generated-test-sources/test-annotations does not exist 将版本降到 3.</description>
     </item>
-    
     <item>
       <title>2023-12-13｜发布到Maven中央仓库的第一个项目</title>
       <link>https://blog.chensoul.cc/posts/2023/12/13/til/</link>
       <pubDate>Wed, 13 Dec 2023 10:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2023/12/13/til/</guid>
       <description>Today I Learned. 今天分享内容：发布到 Maven 中央仓库的第一个项目。
 最近在 Github 上创建了一个 Pom 类型的 Maven 项目 chensoul-parent，该项目主页 https://chensoul.github.io/chensoul-parent/ ，这是我的第一个发布对 Maven 中央仓库的项目。
-其主要用途是管理常用的 Maven Plugin 插 …</description>
+其主要用途是管理常用的 Maven Plugin 插件。在编写该项目的过程中，参考了一些开源项目，他们分别是：
+https://github.com/eclipse/microprofile Eclipse 的一套开源微服务框架实现 https://github.com/microbean/microbean-function microBean™ 的 Java 扩展 https://github.com/naturalett/maven-hello-world 一个 Maven 发布 Jar 的 hello world 的示例项目 https://github.com/eclipse-store/store Eclipse 开源的一个高性能 Java 原生持久存储。微秒响应时间。超高吞吐量。最小延迟。创建超快速内存数据库应用程序和微服务。 该项目打包之后是一个 pom 文件，任何 Maven 项目都可以继承这个项目，这样可以免去自己管理 Mave Plugin 插件的麻烦。这里面的 Mave Plugin 插件包括：
+编译 打包 发布 测试，并生成测试报告 质量检测，包括代码风格检查、漏洞检测 生成网站并发布到 github pages 发布先是使用的 Maven Release Plugin 和 Nexus Staging Maven Plugin 插件，后来觉得 Maven Release Plugin 插件做的事情太多了，不如手动执行命令，于是去掉了 Maven Release Plugin 插件。
+关于 Nexus Staging Maven Plugin 插件的使用了，起初我使用了这个仓库发布 Maven 构建的脚本 。这个脚本比较复杂，于是找到了 https://github.com/naturalett/maven-hello-world 这个仓库，其对应的博客 《Publishing Artifacts to Maven Central using GitHub Actions: A Step-by-Step Guide》，对于如何部署构建到 Maven 中央仓库、如何使用 Github Action 说的比较清楚。如果你对于如何使用这个插件，可以阅读该文章，本文不作赘述。</description>
     </item>
-    
     <item>
       <title>[译]使用Spring Boot Actuator公开有用的信息端点</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/</link>
       <pubDate>Wed, 26 Jul 2023 07:05:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/</guid>
       <description>在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。
 Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。
-在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。 …</description>
+在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。
+示例代码 本文附有 GitHub 上的工作代码示例。
+启用 Spring Boot 执行器 Spring Boot Actuator 是 Spring Boot 的一个子项目。在本节中，我们将快速了解如何引导示例项目并启用 /info 端点。如果您想了解更多有关 Spring Boot Actuator 的信息，已经有一个很棒的教程了。
+让我们使用 Spring Initializr 快速创建一个 Spring Boot 项目。我们将需要以下依赖项：
+依赖性 目的 Spring Boot Actuator 公开应用程序管理端点，例如 info 。 Spring Web 启用 Web 应用程序行为。 如果有帮助，这里是 Maven 和 Gradle 中预填充项目的链接。
+项目构建后，我们将通过 HTTP 公开内置的 /info 端点。默认情况下， /info Web 端点处于禁用状态。我们可以通过在 application.properties 配置中添加 management.endpoints.web.exposure.include 属性来简单地启用它：
+management.endpoints.web.exposure.include=health,info 让我们运行 Spring Boot 应用程序并在浏览器中打开 URL http://localhost:8080/actuator/info 。目前还看不到任何有用的东西，因为我们仍然需要进行一些配置更改。在下一节中，我们将了解如何在此响应中添加信息丰富的构建信息。
+保护端点 如果您公开公开端点，请确保适当保护它们。我们不应在不知情的情况下泄露任何敏感信息。
+Spring Boot 应用程序信息 Spring 从应用程序上下文中定义的各种 InfoContributor bean 收集有用的应用程序信息。下面是默认 InfoContributor beans 的摘要：
+ID Bean Name 用法 build BuildInfoContributor 公开构建信息。 env EnvironmentInfoContributor 公开 Environment 中名称以 info.</description>
     </item>
-    
   </channel>
 </rss>

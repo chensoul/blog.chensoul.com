@@ -4,14 +4,14 @@
     <title>Rsshub on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/rsshub/</link>
     <description>Recent content in Rsshub on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 25 Jan 2023 10:38:34 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/rsshub/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 Jan 2023 10:38:34 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/rsshub/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>我的VPS服务部署记录</title>
       <link>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</link>
       <pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid>
       <description>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。
 服务器设置 更新 yum 源：
@@ -19,8 +19,7 @@ yum update 安装常用软件：
 yum install wget curl git vim -y 设置时区为
 [可选] 设置系统 Swap 交换分区
 因为 vps 服务器的运行内存很小，所以这里先设置下 Swap
-# 1GB RAM with 2GB Swap sudo …</description>
+# 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap /swapfile &amp;amp;&amp;amp; \ sudo swapon /swapfile &amp;amp;&amp;amp; \ echo &amp;#34;/swapfile swap swap defaults 0 0&amp;#34; | sudo tee -a /etc/fstab &amp;amp;&amp;amp; \ sudo swapon --show &amp;amp;&amp;amp; \ sudo free -h 安装 Nginx 参考 CentOS 7 下 yum 安装和配置 Nginx ，使用 yum 安装：</description>
     </item>
-    
   </channel>
 </rss>

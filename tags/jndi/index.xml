@@ -4,19 +4,28 @@
     <title>Jndi on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/jndi/</link>
     <description>Recent content in Jndi on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 15 Dec 2023 13:30:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/jndi/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 15 Dec 2023 13:30:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/jndi/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2023-12-15｜JNDI InitialContext源码分析、ClassLoader加载机制</title>
       <link>https://blog.chensoul.cc/posts/2023/12/15/til/</link>
       <pubDate>Fri, 15 Dec 2023 13:30:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2023/12/15/til/</guid>
       <description>Today I Learned. 今天分享内容：JNDI InitialContext源码分析、ClassLoader加载机制。
 JNDI InitialContext 源码分析 JNDI包结构 javax.naming
-Context InitialContext Name CompositeName CompoundName NameImpl NameParser …</description>
+Context InitialContext Name CompositeName CompoundName NameImpl NameParser NamingEnumeration Referenceable RefAddr BinaryRefAddr StringRefAddr NameClassPair Binding Reference LinkRef javax.naming.directory
+Attribute
+BasicAttribute Attributes
+BasicAttributes DirContext
+InitialDirContext ModificationItem
+SearchControls
+SearchResult
+javax.naming.spi
+NamingManager DirectoryManager ObjectFactory DirObjectFactory ObjectFactoryBuilder StateFactory DirStateFactory InitialContextFactory InitialContextFactoryBuilder Resolver ContinuationContext ContinuationDirContext ResolveResult InitialContext 构造方法 InitialContext的初始化有几种方式：
+通过构造方法 通过 InitialContextFactory#getInitialContext 通过协议转换创建 InitialContext.getURLOrDefaultInitCtx(String name) 一个 JNDI 示例：
+public class DNSClient { public static void main(String[] args) { Hashtable&amp;lt;String, String&amp;gt; env = new Hashtable&amp;lt;&amp;gt;(); env.put(Context.INITIAL_CONTEXT_FACTORY, &amp;#34;com.sun.jndi.dns.DnsContextFactory&amp;#34;); env.put(Context.PROVIDER_URL, &amp;#34;dns://114.114.114.114&amp;#34;); try { DirContext ctx = new InitialDirContext(env); Attributes res = ctx.getAttributes(&amp;#34;example.com&amp;#34;, new String[]{&amp;#34;A&amp;#34;}); System.out.println(res); } catch (NamingException e) { e.</description>
     </item>
-    
   </channel>
 </rss>

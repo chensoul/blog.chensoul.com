@@ -4,19 +4,26 @@
     <title>Jwt on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/jwt/</link>
     <description>Recent content in Jwt on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 06 Jun 2024 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/jwt/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Jun 2024 08:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/jwt/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>JWT</title>
       <link>https://blog.chensoul.cc/posts/2024/06/06/jwt/</link>
       <pubDate>Thu, 06 Jun 2024 08:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/06/06/jwt/</guid>
       <description>什么是 JWT？ JWT（JSON Web Token）是一种开放标准(RFC 7519)，用于在网络应用程序之间安全地传输信息。它被设计用于在两方之间传输声明，这些声明可以是身份验证和授权信息，也可以是任何其他类型的信息。
 设计目的：不需要服务器端存储状态，安全地传递非敏感信息。
-JWT 特点 可扩展性：可以在 payload 中携带任意的 JSON 数据 自包含性：所有用户相关信息都在 JWT …</description>
+JWT 特点 可扩展性：可以在 payload 中携带任意的 JSON 数据 自包含性：所有用户相关信息都在 JWT 中，不需要依赖数据库 无状态性：服务器不需要保存会话状态，提高了系统的可扩展性 跨域支持：可以跨域传递，因为是 JSON 格式 安全性：通过签名确保数据不被篡改 JWT 组成 eyJraWQiOiJmYTNkZmZjMS0xZmQ3LTRhM2QtYTEyMC1mNjY4OWE4NDM5YjQiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjbGllbnQiLCJhdWQiOiJjbGllbnQiLCJuYmYiOjE3MTc1NDk5NDMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImV4cCI6MTcxNzU1MDI0MywiaWF0IjoxNzE3NTQ5OTQzLCJqdGkiOiJiMjU0ZGVhMi1kMWE2LTQxNzEtYjEyYy1lNmYzYzZjMDJkMGQifQ.eRiS0H2E-h5PiDEfJikjoPGH1DCqWVt4VIzLtPoSOaIK6jBIaw0h5m-reZVUyZPNYZG68Ymhey17aZBMveirqCxN-lNcPMIGfuqMptfsD9E6Hfam6bEMgpEAOQsQ6Ruk3vGtdmjnEC2h9ZStoqT5-C6JgArwFLGgX92LXrRYz7-60n0I6EAB07u9kxc6FQKLow90RiyXi2YLur-ttOUQpecf8zHi48zRc-HLLoWAMaNddT-4hg4v0Qts4DultpxZB_Xu7DRc91G_8M6sYFSvFSVFHlcWFgKNLZqUYwepLHX2LxoXdbTLGqV9x__-J8UO0TO3TkpC2BaZAiseYcpYMw JWT 主要有以下三个部分通过 base64 加密组成:
+Header（头部）：描述 JWT 的元数据，通常包含两部分信息:
+声明类型，通常是 &amp;ldquo;JWT&amp;rdquo; 所使用的哈希算法，如 HMAC SHA256 或 RSA Payload（负载）：包含声明，即一些跟当前用户相关的重要信息，如用户 ID、用户角色等。
+Signature（签名）：由 header 和 payload 使用密钥进行签名而组成，用于验证消息不被篡改。
+HMAC_SHA256( secret, base64urlEncoding(header) + &amp;#39;.&amp;#39; + base64urlEncoding(payload) ) HMAC-SHA256 是一种基于加密哈希函数的消息认证码（HMAC）算法，是对称算法，它结合使用了 HMAC 和 SHA-256 哈希函数。
+Header base64解密后：
+{ &amp;#34;kid&amp;#34;: &amp;#34;fa3dffc1-1fd7-4a3d-a120-f6689a8439b4&amp;#34;, &amp;#34;alg&amp;#34;: &amp;#34;RS256&amp;#34; } Payload 解密后：
+{ &amp;#34;sub&amp;#34;: &amp;#34;client&amp;#34;, &amp;#34;aud&amp;#34;: &amp;#34;client&amp;#34;, &amp;#34;nbf&amp;#34;: 1717549943, &amp;#34;iss&amp;#34;: &amp;#34;http://localhost:8080&amp;#34;, &amp;#34;exp&amp;#34;: 1717550243, &amp;#34;iat&amp;#34;: 1717549943, &amp;#34;jti&amp;#34;: &amp;#34;b254dea2-d1a6-4171-b12c-e6f3c6c02d0d&amp;#34; } JWS 和 JWE JWS（JSON Web Signature）是 JSON Web Token (JWT) 规范的一个子规范，它定义了使用 JSON 数据结构表示签名或未签名的内容。
+只对内容做签名，确保其不被篡改，但内容本身并没有加密。 JWS 主要包含以下三个部分:</description>
     </item>
-    
   </channel>
 </rss>

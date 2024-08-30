@@ -4,18 +4,33 @@
     <title>Vercel on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/vercel/</link>
     <description>Recent content in Vercel on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 13 Mar 2023 11:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/vercel/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Mar 2023 11:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/vercel/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>周报-10｜通过Cloudflare Tunnel访问服务、Vercel部署Cusdis和Umami</title>
       <link>https://blog.chensoul.cc/posts/2023/03/13/weekly_review_10/</link>
       <pubDate>Mon, 13 Mar 2023 11:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2023/03/13/weekly_review_10/</guid>
       <description>前言 本篇是对 2023-03-06 到 2023-03-12 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
-这周发现 VPS 上 某些使用 docker 部署的服务（cusdis、umami、uptime、n8n、rsshub、memos）国内用户无法访问了，于是就折腾了一下使用 Cloudflare Tunnel 来代理这些服务。配置成功之后， …</description>
+这周发现 VPS 上 某些使用 docker 部署的服务（cusdis、umami、uptime、n8n、rsshub、memos）国内用户无法访问了，于是就折腾了一下使用 Cloudflare Tunnel 来代理这些服务。配置成功之后，又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。
+这周工作忙完之后，就开始着手通知系统的重构改造服务，想着 chatgpt 这么火，于是就试试让它来写代码。在不断地修改需求的情况下，chatgpt 写出来的代码稍加调整逐渐可以使用了。
+周六从汉口开车去白沙洲湖北财税职业学院，全程 20 公里，回来的时候不小心把路边的面包车擦碰了一下。于是一脸懵的经历了一次保险定损维修。
+周六开始使用 格志 APP 写日志，选择它来记录日志的原因是它支持批量导出 mardkown、pdf、图片等。唯一有个小遗憾的是，这个应用没有图床，导出的 markdown 文件里面图片的链接不是 http 协议。
+周日去新荣龙湖天耀天街售房部看了一下房子。107 平三室两厅两卫，单价 2 万 5 带精装修，公积金贷款 90 万，商业贷款 30 年，每个月房贷 6000。目前来说，买不起这里的房子，但是，作为一个买房目标还是可以的，加油！
+开车总结 最近刷视频，总结的一些开车经验如下：
+提前预判，前面车子刹车，不管是正前方，还是左右前方，这时候也要刹车
+前面有大货车，不要从右边超车
+会车时，看路宽
+不要连续变道，变道时既要看后视镜，又要看窗边
+红灯路口右转时，要看地面或者路边是否有禁止右转标识
+通过 Cloudflare Tunnel 访问服务 以下内容参考 初探 Cloudflare 零信任 - 通过 Cloudflare Tunnel 访问服务。
+1、创建 Cloudflare Tunnel 登录 Cloudflare Zero Trust 控制台，选择左侧导航栏的 Access 菜单，进入 Tunnels 配置，点击 Create a tunnel 创建一个 Tunnel，输入 Tunnel 隧道名称
+选择服务器的操作系统和平台架构：
+可以看到安装命令：
+复制左边命令粘贴到 SSH 会话里安装 Cloudflared（注意保护 Refresh Token 不要泄漏）
+brew install cloudflare/cloudflare/cloudflared &amp;amp;&amp;amp; sudo cloudflared service install eyJhIjoiMmUxOTgwYTBlZjQzZjU3YjkyMGVhMjhjZGY5ZDM4ZDEiLCJ0IjoiYzU1ZTU3MmUtMTEyMS00OWJkLTgzMTgtNjc3NDIyYWMwMjU0IiwicyI6Ik1qZGtZakkyTldFdE5XVTRNUzAwTXpWaExXRXlNRFl0T0RobE5EbGpObVZpWmpJMSJ9 2、删除 Cloudflare DNS 的 A 记录解析 我的域名托管在 Cloudflare 上，所以需要将原来的域名解析记录删除，主要涉及以下两个需要被国内用户访问的域名（其余域名是我个人使用，所以只需要我开启 VPN 访问即可。）：</description>
     </item>
-    
   </channel>
 </rss>

@@ -4,101 +4,109 @@
     <title>Spring-Cloud on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/spring-cloud/</link>
     <description>Recent content in Spring-Cloud on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 20 Feb 2024 07:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/spring-cloud/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 20 Feb 2024 07:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/spring-cloud/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构</title>
       <link>https://blog.chensoul.cc/posts/2024/02/20/til/</link>
       <pubDate>Tue, 20 Feb 2024 07:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/02/20/til/</guid>
       <description>今天做了什么：
 ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能
-@Aspect @Component public class RateLimitAspect { private final RedisTemplate&amp;lt;String, Object&amp;gt; redisTemplate; private final Logger …</description>
+@Aspect @Component public class RateLimitAspect { private final RedisTemplate&amp;lt;String, Object&amp;gt; redisTemplate; private final Logger logger = LoggerFactory.getLogger(RateLimitAspect.class); private final int maxRequests; // Maximum number of requests private final int timeWindow; // Time window in seconds @Autowired public RateLimitAspect(RedisTemplate&amp;lt;String, Object&amp;gt; redisTemplate) { this.redisTemplate = redisTemplate; this.maxRequests = 100; // Default maximum number of requests is 100 this.timeWindow = 60; // Default time window is 60 seconds } @Before(&amp;#34;@annotation(getMapping)&amp;#34;) public void applyRateLimit(JoinPoint joinPoint, GetMapping getMapping) { HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); if (request != null &amp;amp;&amp;amp; HttpMethod.GET.matches(request.getMethod())) { String username = request.getUserPrincipal().getName(); // Get the username if (username !</description>
     </item>
-    
     <item>
       <title>2024-02-19｜foodie-cloud集成Sharding Sphere实现读写分离</title>
       <link>https://blog.chensoul.cc/posts/2024/02/19/til/</link>
       <pubDate>Mon, 19 Feb 2024 07:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/02/19/til/</guid>
       <description>今天做了什么：
 重构 foodie-cloud 项目 基于 docker 实现数据库配置主从复制，集成 Sharding Sphere 实现读写分离 </description>
     </item>
-    
     <item>
       <title>2024-02-18｜NewRelice应用性能监控、6个Diagrams工具、foodie-food测试</title>
       <link>https://blog.chensoul.cc/posts/2024/02/18/til/</link>
       <pubDate>Sun, 18 Feb 2024 07:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/02/18/til/</guid>
       <description>今天做了什么：
 NewRelice：应用性能监控
 https://www.cnblogs.com/caoweixiong/p/14798449.html Top 6 Tools to Turn Code into Beautiful Diagrams ：
-Diagrams Go Diagrams Mermaid PlantUML ASCII diagrams，asciiflow &amp;amp; …</description>
+Diagrams Go Diagrams Mermaid PlantUML ASCII diagrams，asciiflow &amp;amp; monodraw Markmap foodie-cloud 项目
+测试 resilience4j 使用 bash 测试接口：test-em-all.sh 使用 docker 部署项目 </description>
     </item>
-    
     <item>
       <title>2024-02-05｜Spring Cloud Config快速入门</title>
       <link>https://blog.chensoul.cc/posts/2024/02/05/til/</link>
       <pubDate>Mon, 05 Feb 2024 07:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/02/05/til/</guid>
       <description>今天做了什么：
 创建项目 spring-cloud-examples，测试 Spring Cloud Config 使用本地文件和 git 仓库作为配置中心 Spring Cloud Config 是一个基于http协议的远程配置实现方式。通过统一的配置管理服务器进行配置管理，客户端通过http协议主动的拉取服务的的配置信息，完成配置获取。
-Spring Cloud Config 支持以下几种存储 …</description>
+Spring Cloud Config 支持以下几种存储方式：
+Git 仓库 本地文件 Vault JDBC 数据库 本文主要分享 Spring Cloud Config 使用本地文件和Git 仓库存储配置文件、配置文件加解密、集成 Spring Cloud Bus 等内容，源码在 github：spring-cloud-examples。
+本地文件 服务端应用 1. 创建项目 首先，创建一个目录
+mkdir spring-cloud-examples cd spring-cloud-examples 然后，创建 config 目录，并使用 spring cli 创建一个 maven 项目，项目名称 config-server-file
+mkdir config cd config spring init \ --boot-version=3.2.2 \ --type=maven-project \ --java-version=8 \ --name=config-server-file \ --package-name=com.chensoul.springcloud \ --groupId=com.chensoul.springcloud \ --dependencies=cloud-config-server,actuator \ config-server-file ​	项目创建成功之后，将 spring-boot-starter-parent 版本改为 2.7.18，对应的将 spring-cloud.version 改为 2021.0.9。
+2. 添加 @EnableConfigServer 注解 @EnableConfigServer @SpringBootApplication public class ConfigServerFileApplication { public static void main(final String[] args) { SpringApplication.run(ConfigServerFileApplication.class, args); } } 3.</description>
     </item>
-    
     <item>
       <title>2024-02-04｜foodie-cloud集成Resilience4j</title>
       <link>https://blog.chensoul.cc/posts/2024/02/04/til/</link>
       <pubDate>Sun, 04 Feb 2024 07:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/02/04/til/</guid>
       <description>今天做了什么：
 重构 foodie-cloud 项目
 集成 Resilience4j 修改 README.md 文档 阅读博客 https://blog.csdn.net/weixin_42189048
 Enum + Validation 的个人最佳实践 demo 分享 </description>
     </item>
-    
     <item>
       <title>2024-02-02｜foodie-cloud集成Spring Cloud Config和SpringDoc</title>
       <link>https://blog.chensoul.cc/posts/2024/02/02/til/</link>
       <pubDate>Fri, 02 Feb 2024 07:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/02/02/til/</guid>
       <description>今天做了什么：
 参考 《Microservices with Spring Boot 3 and Spring Cloud》，重构 foodie-cloud 项目 集成 Spring Cloud Config 使用文件保存配置文件
 集成 SpringDoc OpenAPI 基于 Javadoc 生成 API 文档
 todo：
 集成 Resilience4j
-集成 Zipkin …</description>
+集成 Zipkin
+部署到 Kubernetes
+集成 EFK
+集成 Spring Cloud Bus</description>
     </item>
-    
     <item>
       <title>2024-01-03｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/03/til/</link>
       <pubDate>Wed, 03 Jan 2024 18:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/01/03/til/</guid>
       <description>今天做了什么：
 idworker-client ，一个开源的 ID 生成器，适合在单机使用 github 上创建了一个使用 spring cloud netflix 相关组件的微服务项目 spring-cloud-examples 重构了狂野架构师课程中的微服务版本的源码 foodie-cloud 重构慕课网 Java架构师-技术专家 课程中的 源码，我做了一些改动：
-升级 Spring Boot …</description>
+升级 Spring Boot 和 Spring Cloud 版本 去掉 tk-mybatis 改为使用 mybatis-plus 重构模块和部分代码 重构后的源码地址：https://github.com/chensoul/foodie-cloud
+后续计划：
+docker 容器编排 k8s 容器编排 集成 Spring Security OAuth2 集成 Spring Cloud alibaba 开发环境和开源项目版本 软件版本：
+组件 用途 版本号 Redis 缓存组件 5.0.4 RabbitMQ 消息中间件 3.7.15 Kafka 消息中间件 2.2.0 Lua 限流脚本 5.3.5 MySQL 数据库 5.7 IDEA 开发环境 版本随意 Java 编译运行项目 1.8以上（推荐8u161以后的版本，否则要装JCE插件） Maven 依赖管理 3.0.4以上 Maven 依赖版本：
+组件 版本号 Spring Cloud 2021.0.9 Spring Boot 2.7.18 Mybatis Plus 3.5.5 技术选型 Spring Cloud每个业务领域都有多个可供选择的组件，这里也列出了微服务章节中将要用到的组件+中间件的技术选型，这也是当前主流的选型。
+内容 技术选型 服务治理 Eureka 负载均衡 Ribbon 服务间调用 Feign 服务容错 Hystrix + Turbine + Dashboard 配置管理 Config + Github 消息总线 Bus + RabbitMQ 服务网关 Gateway 调用链追踪 Sleuth + Zipkin + ELK 消息驱动 Stream + RabbitMQ 流控 Sentinel 基于RPC的服务治理（不集成到电商项目） Dubbo + Admin Portal 默认端口 内容 端口 Eureka 20000 Turbine 20001 Hystrix-Dashboard 20002 Config-Server 20003 Gateway 20004 Zipkin 9411 ELK镜像-ES 9200 ELK镜像-Logstash 5044 ELK镜像-Kibana 5601 redis（单机模式） 6379 rabbitmq（单机模式） 5672 mariadb/mysql（单机模式） 3306 商品微服务 10001 用户微服务 10002 订单微服务 10003 购物车微服务 10004 权限微服务 10006 主搜微服务 同学们自己实现 支付服务 没变，但回调地址要改一下 启动方式 可以在IDEA里启动，也可以使用Maven编译后在命令行窗口启动，命令行启动方式需要在maven编译好项目之后，cd到对应项目下的target目录，然后使用命令&amp;quot;java -jar xxx.</description>
     </item>
-    
     <item>
       <title>2024-01-02｜雪崩问题、Spring Cloud微服务集成 Sentinel</title>
       <link>https://blog.chensoul.cc/posts/2024/01/02/til/</link>
       <pubDate>Tue, 02 Jan 2024 17:10:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/01/02/til/</guid>
       <description>今天做了什么：
 雪崩问题 Spring Cloud微服务集成 Sentinel 扩展 Sentinel 集成 OpenFeign，实现自动降级 雪崩问题 1、什么是雪崩问题？
 雪崩问题（Avalanche Effect）是指在分布式系统中，当一个节点或服务出现故障或不可用时，其影响会扩散到其他节点或服务，导致级联故障的现象。这种现象类似于雪崩，一旦开始，会不断放大和蔓延，最终导致整个系统崩溃。
-雪 …</description>
+雪崩问题的主要原因是系统中的节点或服务之间存在过度依赖、高度耦合，以及缺乏容错机制。当一个节点或服务出现故障时，由于其他节点或服务无法及时处理或适应，故障会不断传播，最终导致整个系统的崩溃。
+2、如何解决雪崩问题？
+超时处理：在请求其他节点或服务时，设置适当的超时时间。如果在规定的时间内未收到响应，可以认为请求失败，并进行相应的处理，如返回默认值或错误信息。超时处理可以防止因等待过长的响应时间导致的请求堆积和资源浪费。 线程隔离：通过将不同的请求在不同的线程中执行，可以避免因某个请求的执行时间过长而影响其他请求的处理。线程隔离可以通过线程池或独立的线程来实现。每个请求都在独立的线程中执行，发生故障或异常时只会影响当前请求，而不会影响整个系统的稳定性。 降级熔断：当系统压力过大或出现故障时，可以通过降级熔断机制暂时关闭或减少对某些功能或服务的请求，以保护核心功能的稳定性。例如，当请求某个服务的失败率超过阈值时，可以自动触发熔断机制，暂时停止对该服务的请求，并返回一个默认值或错误信息。 流量控制：通过实施流量控制策略，限制对系统的并发请求数量。可以使用令牌桶算法或漏桶算法等进行流量控制。这可以避免过多的请求集中在某个节点或服务上，导致其负载过重，进而引发雪崩效应。 负载均衡：使用负载均衡器将请求分发到多个节点或服务上，以均衡系统的负载。负载均衡可以基于不同的算法，如轮询、随机、加权轮询等。通过负载均衡，可以避免单一节点或服务承受过大的压力，从而减少故障和雪崩的风险。 这些方法可以单独或组合使用，具体的选择和实施取决于系统的需求和架构。此外，还需要定期进行系统性能评估和压力测试，以便及时发现和解决潜在的雪崩问题，并不断优化系统的可靠性和稳定性。
+Spring Cloud 微服务集成 Sentinel 添加 maven 依赖：
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.alibaba.cloud&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-cloud-starter-alibaba-sentinel&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; 添加配置文件：
+spring.cloud.sentinel.transport.dashboard=localhost:8080 配置文件打开 Sentinel 对 Feign 的支持：feign.sentinel.enabled=true
+加入 spring-cloud-starter-openfeign 依赖使 Sentinel starter 中的自动化配置类生效：
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-cloud-starter-openfeign&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; 配置 RestTemplate 支持 sentinel：
+@Bean @SentinelRestTemplate( blockHandler = &amp;#34;handleBlock&amp;#34;, fallback = &amp;#34;handleFallback&amp;#34;, fallbackClass = SentinelFallbackBlockHandler.class, blockHandlerClass = SentinelFallbackBlockHandler.class) public RestTemplate restTemplate() { return new RestTemplate(); } SentinelFallbackBlockHandler 类：
+public class SentinelFallbackBlockHandler { public static ClientHttpResponse handleBlock(HttpRequest request, byte[] body, ClientHttpRequestExecution execution, BlockException exception) { return new SentinelClientHttpResponse(); } public static ClientHttpResponse handleFallback(HttpRequest request, byte[] body, ClientHttpRequestExecution execution, BlockException ex) { return new SentinelClientHttpResponse(); } } 扩展 Sentinel 集成 OpenFeign，实现自动降级 1、扩展 BlockExceptionHandler，实现 JSON 输出</description>
     </item>
-    
   </channel>
 </rss>

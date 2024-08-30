@@ -4,19 +4,27 @@
     <title>Gradle on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/gradle/</link>
     <description>Recent content in Gradle on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 26 Jul 2023 07:05:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/gradle/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 26 Jul 2023 07:05:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/gradle/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[译]使用Spring Boot Actuator公开有用的信息端点</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/</link>
       <pubDate>Wed, 26 Jul 2023 07:05:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/</guid>
       <description>在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。
 Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。
-在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。 …</description>
+在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。
+示例代码 本文附有 GitHub 上的工作代码示例。
+启用 Spring Boot 执行器 Spring Boot Actuator 是 Spring Boot 的一个子项目。在本节中，我们将快速了解如何引导示例项目并启用 /info 端点。如果您想了解更多有关 Spring Boot Actuator 的信息，已经有一个很棒的教程了。
+让我们使用 Spring Initializr 快速创建一个 Spring Boot 项目。我们将需要以下依赖项：
+依赖性 目的 Spring Boot Actuator 公开应用程序管理端点，例如 info 。 Spring Web 启用 Web 应用程序行为。 如果有帮助，这里是 Maven 和 Gradle 中预填充项目的链接。
+项目构建后，我们将通过 HTTP 公开内置的 /info 端点。默认情况下， /info Web 端点处于禁用状态。我们可以通过在 application.properties 配置中添加 management.endpoints.web.exposure.include 属性来简单地启用它：
+management.endpoints.web.exposure.include=health,info 让我们运行 Spring Boot 应用程序并在浏览器中打开 URL http://localhost:8080/actuator/info 。目前还看不到任何有用的东西，因为我们仍然需要进行一些配置更改。在下一节中，我们将了解如何在此响应中添加信息丰富的构建信息。
+保护端点 如果您公开公开端点，请确保适当保护它们。我们不应在不知情的情况下泄露任何敏感信息。
+Spring Boot 应用程序信息 Spring 从应用程序上下文中定义的各种 InfoContributor bean 收集有用的应用程序信息。下面是默认 InfoContributor beans 的摘要：
+ID Bean Name 用法 build BuildInfoContributor 公开构建信息。 env EnvironmentInfoContributor 公开 Environment 中名称以 info.</description>
     </item>
-    
   </channel>
 </rss>

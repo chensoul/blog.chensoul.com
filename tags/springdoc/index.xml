@@ -4,44 +4,43 @@
     <title>Springdoc on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/springdoc/</link>
     <description>Recent content in Springdoc on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 10 Jul 2024 11:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/springdoc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Jul 2024 11:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/springdoc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Spring Boot集成SpringDoc生成Api文档</title>
       <link>https://blog.chensoul.cc/posts/2024/07/10/springdoc-with-spring-boot/</link>
       <pubDate>Wed, 10 Jul 2024 11:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/07/10/springdoc-with-spring-boot/</guid>
       <description>以下以 Maven 为例介绍 Spring Boot集成SpringDoc生成Api文档。
-添加依赖 &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springdoc&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;springdoc-openapi-starter-webmvc-ui&amp;lt;/artifactId&amp;gt; …</description>
+添加依赖 &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springdoc&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;springdoc-openapi-starter-webmvc-ui&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; 配置 annotationProcessor，实现通过 javadoc 生成文档。 每个 maven 模块都需要配置：
+&amp;lt;properties&amp;gt; &amp;lt;therapi-runtime-javadoc.version&amp;gt;0.15.0&amp;lt;/therapi-runtime-javadoc.version&amp;gt; &amp;lt;maven-compiler-plugin.version&amp;gt;3.13.0&amp;lt;/maven-compiler-plugin.version&amp;gt; &amp;lt;/properties&amp;gt; &amp;lt;plugin&amp;gt; &amp;lt;groupId&amp;gt;org.apache.maven.plugins&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;maven-compiler-plugin&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;${maven-compiler-plugin.version}&amp;lt;/version&amp;gt; &amp;lt;configuration&amp;gt; &amp;lt;annotationProcessorPaths&amp;gt; &amp;lt;!-- https://springdoc.org/#javadoc-support --&amp;gt; &amp;lt;path&amp;gt; &amp;lt;groupId&amp;gt;com.github.therapi&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;therapi-runtime-javadoc-scribe&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;${therapi-runtime-javadoc.version}&amp;lt;/version&amp;gt; &amp;lt;/path&amp;gt; &amp;lt;/annotationProcessorPaths&amp;gt; &amp;lt;/configuration&amp;gt; &amp;lt;/plugin&amp;gt; 配置 spring boot 插件，生成 build.properties &amp;lt;plugin&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-maven-plugin&amp;lt;/artifactId&amp;gt; &amp;lt;executions&amp;gt; &amp;lt;execution&amp;gt; &amp;lt;goals&amp;gt; &amp;lt;goal&amp;gt;repackage&amp;lt;/goal&amp;gt; &amp;lt;goal&amp;gt;build-info&amp;lt;/goal&amp;gt; &amp;lt;/goals&amp;gt; &amp;lt;/execution&amp;gt; &amp;lt;/executions&amp;gt; &amp;lt;/plugin&amp;gt; 自动装配 @Configuration(proxyBeanMethods = false) @ConditionalOnProperty(name = SPRINGDOC_ENABLED, matchIfMissing = true) @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET) public class SpringdocConfig { @Value(&amp;#34;${server.port}&amp;#34;) private String port; @Value(&amp;#34;${openapi.prod-url:https://localhost}&amp;#34;) private String prodUrl; @Bean public OpenAPI openAPI() { Server devServer = new Server(); devServer.setUrl(&amp;#34;http://localhost:&amp;#34; + port); devServer.setDescription(&amp;#34;Server URL in Development environment&amp;#34;); Server prodServer = new Server(); prodServer.</description>
     </item>
-    
     <item>
       <title>2024-02-02｜foodie-cloud集成Spring Cloud Config和SpringDoc</title>
       <link>https://blog.chensoul.cc/posts/2024/02/02/til/</link>
       <pubDate>Fri, 02 Feb 2024 07:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/02/02/til/</guid>
       <description>今天做了什么：
 参考 《Microservices with Spring Boot 3 and Spring Cloud》，重构 foodie-cloud 项目 集成 Spring Cloud Config 使用文件保存配置文件
 集成 SpringDoc OpenAPI 基于 Javadoc 生成 API 文档
 todo：
 集成 Resilience4j
-集成 Zipkin …</description>
+集成 Zipkin
+部署到 Kubernetes
+集成 EFK
+集成 Spring Cloud Bus</description>
     </item>
-    
     <item>
       <title>2024-01-17｜MySQL 主从复制、ShardingJDBC实现读写分离、集成Springdoc&#43;Javadoc</title>
       <link>https://blog.chensoul.cc/posts/2024/01/17/til/</link>
       <pubDate>Wed, 17 Jan 2024 07:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/01/17/til/</guid>
       <description>今天做了什么：
 观看《2022年黑马程序员新版java课程》中 MySQL 主从复制和读写分离相关视频，使用 Docker 搭建 MySQL 主从复制环境。 foodie-cloud 项目实现读写分离并集成 Springdoc Docker 搭建 MySQL 主从复制环境 参考文章 ：基于 Docker 的 MySQL 主从复制搭建及原理（真正弄懂）
 先创建两个容器：
-version: …</description>
+version: &amp;#39;3.8&amp;#39; services: mysql-master: image: mysql:8 restart: always env_file: - .env ports: - &amp;#34;3307:3306&amp;#34; environment: - TZ=Asia/Shanghai - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} - MYSQL_DATABASE=${MYSQL_DATABASE} - MYSQL_USER=${MYSQL_USER} - MYSQL_PASSWORD=${MYSQL_PASSWORD} command: --default-authentication-plugin=mysql_native_password --explicit_defaults_for_timestamp=true --lower_case_table_names=1 --tls-version=&amp;#39;&amp;#39; --log-bin=mysql-bin --server-id=1 healthcheck: test: &amp;#34;/usr/bin/mysql --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} -e &amp;#39;SHOW DATABASES;&amp;#39;&amp;#34; interval: 5s timeout: 2s retries: 10 mysql-slave: image: mysql:8 restart: always env_file: - .env ports: - &amp;#34;3308:3306&amp;#34; environment: - TZ=Asia/Shanghai - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} - MYSQL_DATABASE=${MYSQL_DATABASE} - MYSQL_USER=${MYSQL_USER} - MYSQL_PASSWORD=${MYSQL_PASSWORD} command: --default-authentication-plugin=mysql_native_password --explicit_defaults_for_timestamp=true --lower_case_table_names=1 --tls-version=&amp;#39;&amp;#39; --log-bin=mysql-bin --server-id=2 healthcheck: test: &amp;#34;/usr/bin/mysql --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} -e &amp;#39;SHOW DATABASES;&amp;#39;&amp;#34; interval: 5s timeout: 2s retries: 10 .</description>
     </item>
-    
   </channel>
 </rss>

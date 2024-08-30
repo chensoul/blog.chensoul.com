@@ -4,19 +4,20 @@
     <title>Mybatis on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/mybatis/</link>
     <description>Recent content in Mybatis on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 30 Jan 2024 07:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/mybatis/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 30 Jan 2024 07:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/mybatis/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2024-01-30｜Mybatis plus和Jackson配置</title>
       <link>https://blog.chensoul.cc/posts/2024/01/30/til/</link>
       <pubDate>Tue, 30 Jan 2024 07:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/01/30/til/</guid>
       <description>今天做了什么：
 重构 foodie-cloud 项目 参考 DDD 组织包结构 Mybatis plus 配置主键生成策略和数据审计功能 Jackson 配置日期序列化 重构 foodie-cloud 项目 Mybatis plus 配置主键生成策略 实体类中可以不用添加@TableId，减少实体类对 mybatis-plus-annotation的依赖
-public class …</description>
+public class BaseEntity implements Serializable { private Long id; private LocalDateTime createTime; private LocalDateTime updateTime; } 改为使用配置：
+mybatis-plus: global-config: db-config: id-type: ASSIGN_ID Mybatis plus 配置数据审计功能 添加下面的类
+@Component @Slf4j public class CustomMetaObjecthandler implements MetaObjectHandler { protected static void fillValIfNullByName( final String fieldName,final Object fieldVal, final MetaObject metaObject,final boolean isCover) { // 1. 没有 set 方法 if (!metaObject.hasSetter(fieldName)) { return; } // 2. 如果用户有手动设置的值 if (metaObject.getValue(fieldName) != null &amp;amp;&amp;amp; !isCover) { return; } // 3. field 类型相同时设置 final Class&amp;lt;?&amp;gt; getterType = metaObject.getGetterType(fieldName); if (ClassUtils.</description>
     </item>
-    
   </channel>
 </rss>

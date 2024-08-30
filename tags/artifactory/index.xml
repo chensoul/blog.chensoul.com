@@ -4,18 +4,21 @@
     <title>Artifactory on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/artifactory/</link>
     <description>Recent content in Artifactory on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 25 Jun 2024 08:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/artifactory/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 25 Jun 2024 08:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/artifactory/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>搭建本地 Maven 仓库 Artifactory 开源版</title>
       <link>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</link>
       <pubDate>Tue, 25 Jun 2024 08:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</guid>
       <description>安装 Artifactory 官方下载安装地址：https://jfrog.com/community/download-artifactory-oss/ ，支持三种安装方式：
-Windows Installer Linux Installers tar.gz RPM Debian Docker Compose Docker Helm …</description>
+Windows Installer Linux Installers tar.gz RPM Debian Docker Compose Docker Helm 手动下载并安装 安装包文件地址在 https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/ 。以当前最新版本 7.84.15 为例，在 linux 服务器上下载：
+wget https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/7.84.15/jfrog-artifactory-oss-7.84.15-linux.tar.gz tar -zxvf jfrog-artifactory-oss-7.84.15-linux.tar.gz cd jfrog-artifactory-oss-7.84.15/app/bin nohup ./artifactory.sh 通过 docker 安装 设置 JFROG_HOME 并创建目录：
+export JFROG_HOME=~/.jfrog mkdir -p $JFROG_HOME/artifactory/var/etc/ sudo chown -R 1030:1030 $JFROG_HOME/artifactory/var sudo chmod -R 777 $JFROG_HOME/artifactory/var touch $JFROG_HOME/artifactory/var/etc/system.yaml 配置数据库。参考 JFrog Recommends Using PostgreSQL ，Artifactory 7.84.7 之后，默认使用 postgresql 数据库。
+cat &amp;lt;&amp;lt;EOF &amp;gt; $JFROG_HOME/artifactory/var/etc/system.yaml shared: database: type: postgresql driver: org.postgresql.Driver url: jdbc:postgresql://192.168.2.39:5432/artifactory username: artifactory password: password EOF 如果需要使用其他数据库，需要修改配置文件，并添加 jdbc 驱动。例如，使用 mysql 数据库：
+cat &amp;lt;&amp;lt;EOF &amp;gt; $JFROG_HOME/artifactory/var/etc/system.yaml shared: database: allowNonPostgresql: true type: mysql driver: com.mysql.jdbc.Driver url: &amp;#34;jdbc:mysql://192.</description>
     </item>
-    
   </channel>
 </rss>

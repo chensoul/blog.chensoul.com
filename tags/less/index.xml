@@ -4,18 +4,23 @@
     <title>Less on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/less/</link>
     <description>Recent content in Less on ChenSoul</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 21 Jun 2023 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/less/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 21 Jun 2023 09:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.chensoul.cc/tags/less/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[译]为恐龙解释现代CSS</title>
       <link>https://blog.chensoul.cc/posts/2023/06/21/modern-css-explained-for-dinosaurs/</link>
       <pubDate>Wed, 21 Jun 2023 09:00:00 +0800</pubDate>
-      
       <guid>https://blog.chensoul.cc/posts/2023/06/21/modern-css-explained-for-dinosaurs/</guid>
       <description>奇怪的是，CSS 被认为是作为 Web 开发人员最容易学习和最难学习的语言之一。开始使用它当然很容易 - 您可以定义样式属性和值以应用于特定元素，然后&amp;hellip;&amp;hellip;这几乎就是您开始所需的一切！但是，对于大型项目，以有意义的方式组织 CSS 会变得纠结和复杂。更改任何一行 CSS 以设置一个页面上元素的样式通常会导致其他页面上的元素发生意外更改。
-为了处理 CSS 固有的复杂性，已 …</description>
+为了处理 CSS 固有的复杂性，已经建立了各种不同的最佳实践。问题在于，对于哪些最佳实践实际上是最好的，没有任何强烈的共识，其中许多似乎完全相互矛盾。如果你是第一次尝试学习 CSS，至少可以说这可能会让人迷失方向。
+本文的目的是提供一个历史背景，说明 CSS 方法和工具如何在 2018 年发展到今天的样子。通过了解这段历史，将更容易理解每种方法以及如何使用它们来为您带来好处。让我们开始吧！
+更新：我制作了本文的新视频课程版本，该版本更深入地介绍了材料，请在此处查看： https://firstclass.actualize.co/p/modern-css-explained-for-dinosaurs
+使用 CSS 进行基本样式设置 让我们从一个基本网站开始，仅使用一个简单的 index.html 文件链接到一个单独的 index.css 文件：
+&amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;#34;en&amp;#34;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;#34;UTF-8&amp;#34; /&amp;gt; &amp;lt;title&amp;gt;Modern CSS&amp;lt;/title&amp;gt; &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; href=&amp;#34;index.css&amp;#34; /&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;header&amp;gt;This is the header.&amp;lt;/header&amp;gt; &amp;lt;main&amp;gt; &amp;lt;h1&amp;gt;This is the main content.&amp;lt;/h1&amp;gt; &amp;lt;p&amp;gt;...&amp;lt;/p&amp;gt; &amp;lt;/main&amp;gt; &amp;lt;nav&amp;gt; &amp;lt;h4&amp;gt;This is the navigation section.&amp;lt;/h4&amp;gt; &amp;lt;p&amp;gt;...&amp;lt;/p&amp;gt; &amp;lt;/nav&amp;gt; &amp;lt;aside&amp;gt; &amp;lt;h4&amp;gt;This is an aside section.&amp;lt;/h4&amp;gt; &amp;lt;p&amp;gt;...&amp;lt;/p&amp;gt; &amp;lt;/aside&amp;gt; &amp;lt;footer&amp;gt;This is the footer.&amp;lt;/footer&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; 现在我们在 HTML 中没有使用任何类或 ID，只是 语义标签。没有任何 CSS，网站看起来像这样（使用占位符文本）：
+功能齐全，但不是很漂亮。我们可以添加 CSS 来改进 index.css 中的基本排版：
+/* BASIC TYPOGRAPHY */ /* from https://github.com/oxalorg/sakura */ html { font-size: 62.</description>
     </item>
-    
   </channel>
 </rss>

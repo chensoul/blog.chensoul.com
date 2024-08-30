@@ -6,12 +6,12 @@
     <description>Recent content in Hugo on ChenSoul</description>
     <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 21 Feb 2023 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 21 Feb 2023 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>周报-7｜练车、博客优化、注册ChatGPT账号</title>
       <link>https://blog.chensoul.cc/posts/2023/02/21/weekly_review_7/</link>
-      <pubDate>Tue, 21 Feb 2023 00:00:00 +0800</pubDate>
+      <pubDate>Tue, 21 Feb 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/02/21/weekly_review_7/</guid>
       <description>前言 本篇是对 2023-02-13 到 2023-02-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
 练车 这周末开始练车，周六是第一次开自己的车，简单试驾了一样；周日则开了一百多公里，具体行程是从阳逻到新洲，从新洲单汉口，从汉口到光谷，从光谷回汉口。
@@ -36,22 +36,9 @@ body { font-family: Open Sans, system-ui, -apple-system, Arial, sans-serif; word
 4、dns 解析迁移到 cloudflare 将 dns 解析从 AWS 迁移到 cloudflare，并开启 CDN 缓存。</description>
     </item>
     <item>
-      <title>我的VPS服务部署记录</title>
-      <link>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</link>
-      <pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid>
-      <description>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。
-服务器设置 更新 yum 源：
-yum update 安装常用软件：
-yum install wget curl git vim -y 设置时区为
-[可选] 设置系统 Swap 交换分区
-因为 vps 服务器的运行内存很小，所以这里先设置下 Swap
-# 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap /swapfile &amp;amp;&amp;amp; \ sudo swapon /swapfile &amp;amp;&amp;amp; \ echo &amp;#34;/swapfile swap swap defaults 0 0&amp;#34; | sudo tee -a /etc/fstab &amp;amp;&amp;amp; \ sudo swapon --show &amp;amp;&amp;amp; \ sudo free -h 安装 Nginx 参考 CentOS 7 下 yum 安装和配置 Nginx ，使用 yum 安装：</description>
-    </item>
-    <item>
       <title>周报-3｜博客定制、VPS部署服务</title>
       <link>https://blog.chensoul.cc/posts/2023/01/25/weekly_review_3/</link>
-      <pubDate>Wed, 25 Jan 2023 09:47:03 +0800</pubDate>
+      <pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/01/25/weekly_review_3/</guid>
       <description>前言 本篇是对 2023-01-16 到 2023-01-22 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
 这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制，也在我的 VPS 上通过 Docker 部署了一些服务。
@@ -65,9 +52,22 @@ flowerss-bot：一个支持应用内阅读的 Telegram RSS Bot。 n8n：一款�
 以上。</description>
     </item>
     <item>
+      <title>我的VPS服务部署记录</title>
+      <link>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</link>
+      <pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid>
+      <description>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。
+服务器设置 更新 yum 源：
+yum update 安装常用软件：
+yum install wget curl git vim -y 设置时区为
+[可选] 设置系统 Swap 交换分区
+因为 vps 服务器的运行内存很小，所以这里先设置下 Swap
+# 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap /swapfile &amp;amp;&amp;amp; \ sudo swapon /swapfile &amp;amp;&amp;amp; \ echo &amp;#34;/swapfile swap swap defaults 0 0&amp;#34; | sudo tee -a /etc/fstab &amp;amp;&amp;amp; \ sudo swapon --show &amp;amp;&amp;amp; \ sudo free -h 安装 Nginx 参考 CentOS 7 下 yum 安装和配置 Nginx ，使用 yum 安装：</description>
+    </item>
+    <item>
       <title>周报-2｜博客重构</title>
       <link>https://blog.chensoul.cc/posts/2023/01/15/weekly_review_2/</link>
-      <pubDate>Sun, 15 Jan 2023 09:47:03 +0800</pubDate>
+      <pubDate>Sun, 15 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/01/15/weekly_review_2/</guid>
       <description>前言 本篇是对 2023-01-09 到 2023-01-15 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
 这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔记和个人的生活记录与思考，所以不会涉及具体的工作内容。
@@ -88,7 +88,7 @@ github pages。国内访问速度受影响。 cloudflare pages。可以使用 cd
     <item>
       <title>周报-1｜开始写周报、冥想</title>
       <link>https://blog.chensoul.cc/posts/2023/01/08/weekly_review_1/</link>
-      <pubDate>Sun, 08 Jan 2023 09:47:03 +0800</pubDate>
+      <pubDate>Sun, 08 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/01/08/weekly_review_1/</guid>
       <description>前言 本篇是对 2023-01-02 到 2023-01-08 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
 这是 2023 年的第一周，元旦放了三天假之后，就用投入了工作之中。元旦已过，过年就没多远了，很多公司也开始准备年会了。因为疫情，这个年注定不好过。现在疫情放开，不知道有多少公司能够熬过这个年，进入百废待兴的节奏。
@@ -107,7 +107,7 @@ github pages。国内访问速度受影响。 cloudflare pages。可以使用 cd
     <item>
       <title>博客中如何使用图床服务</title>
       <link>https://blog.chensoul.cc/posts/2022/08/19/using-images-in-blog/</link>
-      <pubDate>Fri, 19 Aug 2022 12:15:54 +0800</pubDate>
+      <pubDate>Fri, 19 Aug 2022 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2022/08/19/using-images-in-blog/</guid>
       <description>最近编写文档或者写博客，喜欢用 Typora 编辑器通过 Markdown 语法完成编写所有内容。为此，还付费购买了许可证。
 喜欢 Typora 的理由：
@@ -123,7 +123,7 @@ Typora 图片复制到本地 接下来，聊聊 Typora 的图片上传设置：
 所以，这种情况我们需要做一些修改。通常我会设置图片复制到博客的静态页面目录下面，比如，我现在使用的是 Hugo 构建静态博客，会将图片保存到 static/img 目录下，并且，还需要修改图片的 markdown 引用路径为 /images/image-20220819124422239.png ，以表示绝对路径查找图片，在博客服务器上就是相对根域名目录去 img 路径下查找图片。待 hugo 编译完成上传静态文件到服务器之后，可以通过 https://blog.chensoul.cc/images/ 加上图片名称的方式访问到图片。
 但是，显然，这时候在 Typora 是无法预览图片的，因为在本地查找不到这个绝对路径地址。这时候可以在 Typora 里面设置一个绝对路径，操作方法是，在 显示 -&amp;gt; 图片 -&amp;gt; 图像 -&amp;gt; 设置图片根目录 里进行设置。
 设置完成之后，在当前文件的 md 文件的顶部元数据代码里会多一行代码：
-title: &amp;#34;博客中如何使用图床服务&amp;#34; date: 2022-08-19T12:15:54+08:00 slug: using-images-in-blog categories: [日志] tags: [hugo] draft: true typora-root-url: ../../static 这样博客里所有的图片都会保存的博客服务器，如果博客访问量增大，则图片加载时间会变慢。为了解决这个问题，需要将图片进行压缩，并给博客设置 CDN 加速。
+title: &amp;#34;博客中如何使用图床服务&amp;#34; date: 2022-08-19 slug: using-images-in-blog categories: [日志] tags: [hugo] draft: true typora-root-url: ../../static 这样博客里所有的图片都会保存的博客服务器，如果博客访问量增大，则图片加载时间会变慢。为了解决这个问题，需要将图片进行压缩，并给博客设置 CDN 加速。
 Typora 图片上传到网络 将图片保存到本地，待博客静态页面部署到服务器上之后，可以实现正常预览情况。但是，如果我们想把 md 文件打包上传到一些云笔记，比如：语雀，你会发现上传之后会出现图片无法预览的情况。
 这时候，我们需要将图片上传到网络。首先，我们需要安装 PicGo，然后设置图床服务，这里我使用的是 github 作为图床来保存图片，并使用 jsDelivr 的 CDN 服务进行加速访问。
 如何利用 Github 搭建自己的免费图床？可以参考这篇 文章。这里，记录一下我的操作步骤。
@@ -133,7 +133,7 @@ Typora 图片上传到网络 将图片保存到本地，待博客静态页面部
     <item>
       <title>从零开始搭建个人博客</title>
       <link>https://blog.chensoul.cc/posts/2021/09/09/build-personal-blog-from-zero/</link>
-      <pubDate>Thu, 09 Sep 2021 18:14:34 +0800</pubDate>
+      <pubDate>Thu, 09 Sep 2021 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2021/09/09/build-personal-blog-from-zero/</guid>
       <description>从零开始搭建博客，包括注册域名、购买服务器、部署程序及网站配置和优化。
 域名 搭建一个博客或者网站，需要有一个域名。那什么是域名呢？看看百度百科上的解释：

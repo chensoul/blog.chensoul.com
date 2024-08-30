@@ -6,12 +6,25 @@
     <description>Recent content in Async on ChenSoul</description>
     <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 25 Aug 2023 08:05:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 25 Aug 2023 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/async/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[译]使用@Async进行Spring Security上下文传播</title>
+      <link>https://blog.chensoul.cc/posts/2023/08/25/spring-security-async-principal-propagation/</link>
+      <pubDate>Fri, 25 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2023/08/25/spring-security-async-principal-propagation/</guid>
+      <description>1. 简介 在本教程中，我们将重点关注使用 @Async 传播 Spring Security 主体 默认情况下，Spring Security 身份验证绑定到 ThreadLocal - 因此，当执行流在带有 @Async 的新线程中运行时，它不会是经过身份验证的上下文。
+这并不理想——让我们解决它。
+2.Maven 依赖 为了在 Spring Security 中使用异步集成，我们需要在 pom.xml 的依赖项中包含以下部分：
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.security&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-security-config&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;5.7.3&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 可以在此处找到最新版本的 Spring Security 依赖项。
+3.使用@Async 进行 Spring Security 传播 我们先写一个简单的例子：
+@RequestMapping(method = RequestMethod.GET, value = &amp;#34;/async&amp;#34;) @ResponseBody public Object standardProcessing() throws Exception { log.info(&amp;#34;Outside the @Async logic - before the async call: &amp;#34; + SecurityContextHolder.getContext().getAuthentication().getPrincipal()); asyncService.asyncCall(); log.info(&amp;#34;Inside the @Async logic - after the async call: &amp;#34; + SecurityContextHolder.getContext().getAuthentication().getPrincipal()); return SecurityContextHolder.getContext().getAuthentication().getPrincipal(); } 我们想要检查 Spring SecurityContext 是否传播到新线程。首先，我们在异步调用之前记录上下文，接下来我们运行异步方法，最后再次记录上下文。 asyncCall() 方法具有以下实现：
+@Async @Override public void asyncCall() { log.info(&amp;#34;Inside the @Async logic: &amp;#34; + SecurityContextHolder.getContext().getAuthentication().getPrincipal()); } 正如我们所看到的，只有一行代码将输出异步方法的新线程内的上下文。</description>
+    </item>
     <item>
       <title>[译]使用Spring进行REST的错误处理</title>
       <link>https://blog.chensoul.cc/posts/2023/08/25/exception-handling-for-rest-with-spring/</link>
-      <pubDate>Fri, 25 Aug 2023 08:05:00 +0800</pubDate>
+      <pubDate>Fri, 25 Aug 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/25/exception-handling-for-rest-with-spring/</guid>
       <description>1. 概述 本教程将说明如何使用 Spring 为 REST API 实现异常处理。我们还将获得一些历史概述，并了解不同版本引入了哪些新选项。
 在 Spring 3.2 之前，Spring MVC 应用程序中处理异常的两种主要方法是 HandlerExceptionResolver 或 @ExceptionHandler 注解。两者都有一些明显的缺点。
@@ -31,22 +44,9 @@ public class FooController{ //... @ExceptionHandler({ CustomException1.class, Cu
 它用于将标准 Spring 异常解析为其相应的 HTTP 状态代码，即客户端错误 4xx 和服务器错误 5xx 状态代码。以下是它处理的 Spring 异常的完整列表以及它们如何映射到状态代码。</description>
     </item>
     <item>
-      <title>[译]使用@Async进行Spring Security上下文传播</title>
-      <link>https://blog.chensoul.cc/posts/2023/08/25/spring-security-async-principal-propagation/</link>
-      <pubDate>Fri, 25 Aug 2023 08:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/08/25/spring-security-async-principal-propagation/</guid>
-      <description>1. 简介 在本教程中，我们将重点关注使用 @Async 传播 Spring Security 主体 默认情况下，Spring Security 身份验证绑定到 ThreadLocal - 因此，当执行流在带有 @Async 的新线程中运行时，它不会是经过身份验证的上下文。
-这并不理想——让我们解决它。
-2.Maven 依赖 为了在 Spring Security 中使用异步集成，我们需要在 pom.xml 的依赖项中包含以下部分：
-&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.security&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-security-config&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;5.7.3&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 可以在此处找到最新版本的 Spring Security 依赖项。
-3.使用@Async 进行 Spring Security 传播 我们先写一个简单的例子：
-@RequestMapping(method = RequestMethod.GET, value = &amp;#34;/async&amp;#34;) @ResponseBody public Object standardProcessing() throws Exception { log.info(&amp;#34;Outside the @Async logic - before the async call: &amp;#34; + SecurityContextHolder.getContext().getAuthentication().getPrincipal()); asyncService.asyncCall(); log.info(&amp;#34;Inside the @Async logic - after the async call: &amp;#34; + SecurityContextHolder.getContext().getAuthentication().getPrincipal()); return SecurityContextHolder.getContext().getAuthentication().getPrincipal(); } 我们想要检查 Spring SecurityContext 是否传播到新线程。首先，我们在异步调用之前记录上下文，接下来我们运行异步方法，最后再次记录上下文。 asyncCall() 方法具有以下实现：
-@Async @Override public void asyncCall() { log.info(&amp;#34;Inside the @Async logic: &amp;#34; + SecurityContextHolder.getContext().getAuthentication().getPrincipal()); } 正如我们所看到的，只有一行代码将输出异步方法的新线程内的上下文。</description>
-    </item>
-    <item>
       <title>[译]如何在Spring中执行@Async</title>
       <link>https://blog.chensoul.cc/posts/2023/08/25/spring-async/</link>
-      <pubDate>Fri, 25 Aug 2023 07:00:00 +0800</pubDate>
+      <pubDate>Fri, 25 Aug 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/25/spring-async/</guid>
       <description>1. 概述 在本教程中，我们将探讨 Spring 中的异步执行支持和 @Async 注解。
 简单地说，用 @Async 注解 bean 的方法将使其在单独的线程中执行。换句话说，调用者不会等待被调用方法的完成。

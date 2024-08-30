@@ -6,29 +6,12 @@
     <description>Recent content in Kafka on ChenSoul</description>
     <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 07 May 2024 10:10:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 07 May 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/kafka/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>[译]如何通过 WebSocket 将 Kafka 消息流式传输到面向互联网的客户端</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/websockets-kafka/</link>
-      <pubDate>Tue, 07 May 2024 10:10:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/websockets-kafka/</guid>
-      <description>原文链接：https://ably.com/topic/websockets-kafka
-Apache Kafka 是目前最强大的异步消息传递技术之一。 Kafka 由 Jay Kreps、Jun Rao 和 Neha Narkhede 等团队于 2010 年在 LinkedIn 设计，并于 2011 年初开源。如今，该工具被众多公司（包括科技巨头，例如 Slack、Airbnb 或 Netflix 使用）为其实时数据流管道提供支持。
-由于 Kafka 如此受欢迎，我很好奇是否可以使用它通过互联网和 WebSockets 将实时数据直接流式传输给最终用户。毕竟，Kafka 具有一系列特征，似乎使其成为一个值得注意的选择，例如：
-高通量 低延迟 高并发 容错能力 持久性（持久性） 用于将 Kafka 消息流式传输到面向互联网的客户端的现有解决方案 我开始研究实时开发社区对这个用例的看法。我很快发现 Kafka 最初设计用于安全网络内进行机器对机器通信。这让我想到，如果您想通过 WebSocket 将数据从 Kafka 流式传输到面向互联网的用户，您可能需要使用某种中间件。
-我继续研究，希望找到一些可以充当中间件的开源解决方案。我发现了其中的几个，理论上可以用作 Kafka 和通过互联网连接数据流的客户端之间的中介：
-transfers_websockets_service kafka-websocket kafka-proxy-ws 不幸的是，上面列出的所有解决方案都只是概念证明，仅此而已。它们的功能集有限，并且尚未做好生产准备（尤其是大规模生产）。
-然后我研究了成熟的科技公司如何解决这个 Kafka 用例；看来他们确实在使用某种中间件。例如，Trello 开发了WebSocket 协议的简化版本，仅支持订阅和取消订阅命令。 Slack 提供了另一个例子。该公司构建了一个名为Flannel的代理，它本质上是部署到边缘存在点的应用程序级缓存服务。
-当然，像 Trello 或 Slack 这样的公司有能力投资所需的资源来构建此类解决方案。然而，开发自己的中间件并不总是一个可行的选择——这是一项非常复杂的任务，需要大量的资源和时间。另一种选择（最方便、最常见的一种）是使用已建立的第三方解决方案。
-正如我们所看到的，普遍的共识似乎是 Kafka 本身不适合通过互联网进行最后一英里交付；您需要将它与另一个组件结合使用：面向互联网的实时消息传递服务。
-在 Ably，我们的许多客户都通过我们面向互联网的 pub/sub 实时消息服务传输 Kafka消息。为了演示它是多么简单，下面是如何从 Kafka 消费数据并将其发布到 Ably 的示例：
-const kafka = require(&amp;#39;kafka-node&amp;#39;); const Ably = require(&amp;#39;ably&amp;#39;); const ably = new Ably.Realtime({{ABLY_API_KEY}}); const ablyChannel = ably.channels.get(&amp;#39;kafka-example&amp;#39;); const Consumer = kafka.Consumer; const client = new kafka.</description>
-    </item>
     <item>
       <title>[译]Apache Kafka、RabbitMQ 与 AWS SNSSQS：哪个消息代理最好？</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs/</link>
-      <pubDate>Tue, 07 May 2024 10:00:00 +0800</pubDate>
+      <pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs/</guid>
       <description>原文链接：https://ably.com/topic/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs
 将消息从一个组件获取到另一个组件是微服务架构中最重要的部分之一。每个服务必须能够与任何其他服务异步、可靠且大规模地通信。
@@ -43,6 +26,23 @@ const kafka = require(&amp;#39;kafka-node&amp;#39;); const Ably = require(&amp;#
 RabbitMQ 与 Apache Kafka 专注于流数据不同，RabbitMQ 是一个开源分布式消息代理，支持多种不同的消息传递模式，例如发布/订阅和生产者/消费者。尽管它确实拥有高吞吐量，但它的重点更多地是根据消息内容、一天中的时间、发送者和其他标准智能地路由数据，这使得它非常适合事件驱动的架构。
 与 Apache Kafka 一样，RabbitMQ 得到了广泛的支持，具有丰富的集成生态系统。
 AWS SNS 和 SQS Amazon Web Services (AWS) 提供了两种适合消息代理旗帜的产品。 AWS Simple Notification Service (SNS) 是一种高吞吐量消息传递服务，它使用发布/订阅模型在微服务或分发应用程序的组件之间传递消息。</description>
+    </item>
+    <item>
+      <title>[译]如何通过 WebSocket 将 Kafka 消息流式传输到面向互联网的客户端</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/07/websockets-kafka/</link>
+      <pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2024/05/07/websockets-kafka/</guid>
+      <description>原文链接：https://ably.com/topic/websockets-kafka
+Apache Kafka 是目前最强大的异步消息传递技术之一。 Kafka 由 Jay Kreps、Jun Rao 和 Neha Narkhede 等团队于 2010 年在 LinkedIn 设计，并于 2011 年初开源。如今，该工具被众多公司（包括科技巨头，例如 Slack、Airbnb 或 Netflix 使用）为其实时数据流管道提供支持。
+由于 Kafka 如此受欢迎，我很好奇是否可以使用它通过互联网和 WebSockets 将实时数据直接流式传输给最终用户。毕竟，Kafka 具有一系列特征，似乎使其成为一个值得注意的选择，例如：
+高通量 低延迟 高并发 容错能力 持久性（持久性） 用于将 Kafka 消息流式传输到面向互联网的客户端的现有解决方案 我开始研究实时开发社区对这个用例的看法。我很快发现 Kafka 最初设计用于安全网络内进行机器对机器通信。这让我想到，如果您想通过 WebSocket 将数据从 Kafka 流式传输到面向互联网的用户，您可能需要使用某种中间件。
+我继续研究，希望找到一些可以充当中间件的开源解决方案。我发现了其中的几个，理论上可以用作 Kafka 和通过互联网连接数据流的客户端之间的中介：
+transfers_websockets_service kafka-websocket kafka-proxy-ws 不幸的是，上面列出的所有解决方案都只是概念证明，仅此而已。它们的功能集有限，并且尚未做好生产准备（尤其是大规模生产）。
+然后我研究了成熟的科技公司如何解决这个 Kafka 用例；看来他们确实在使用某种中间件。例如，Trello 开发了WebSocket 协议的简化版本，仅支持订阅和取消订阅命令。 Slack 提供了另一个例子。该公司构建了一个名为Flannel的代理，它本质上是部署到边缘存在点的应用程序级缓存服务。
+当然，像 Trello 或 Slack 这样的公司有能力投资所需的资源来构建此类解决方案。然而，开发自己的中间件并不总是一个可行的选择——这是一项非常复杂的任务，需要大量的资源和时间。另一种选择（最方便、最常见的一种）是使用已建立的第三方解决方案。
+正如我们所看到的，普遍的共识似乎是 Kafka 本身不适合通过互联网进行最后一英里交付；您需要将它与另一个组件结合使用：面向互联网的实时消息传递服务。
+在 Ably，我们的许多客户都通过我们面向互联网的 pub/sub 实时消息服务传输 Kafka消息。为了演示它是多么简单，下面是如何从 Kafka 消费数据并将其发布到 Ably 的示例：
+const kafka = require(&amp;#39;kafka-node&amp;#39;); const Ably = require(&amp;#39;ably&amp;#39;); const ably = new Ably.Realtime({{ABLY_API_KEY}}); const ablyChannel = ably.channels.get(&amp;#39;kafka-example&amp;#39;); const Consumer = kafka.Consumer; const client = new kafka.</description>
     </item>
   </channel>
 </rss>

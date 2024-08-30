@@ -6,12 +6,19 @@
     <description>Recent content in Docker on ChenSoul</description>
     <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 09 Jul 2024 16:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 09 Jul 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker安装和配置</title>
+      <link>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</link>
+      <pubDate>Tue, 09 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</guid>
+      <description>Centos7安装Docker 配置宿主机网卡转发 ## 配置网卡转发，看值是否为1 $ sysctl -a |grep -w net.ipv4.ip_forward net.ipv4.ip_forward = 1 ## 若未配置，需要执行如下 $ cat &amp;lt;&amp;lt;EOF &amp;gt; /etc/sysctl.d/docker.conf net.bridge.bridge-nf-call-ip6tables = 1 net.bridge.bridge-nf-call-iptables = 1 net.ipv4.ip_forward=1 EOF $ sysctl -p /etc/sysctl.d/docker.conf Yum安装配置docker ## 下载阿里源repo文件 $ sudo yum install -y yum-utils $ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/repo/Centos-7.repo $ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo $ sudo yum clean all &amp;amp;&amp;amp; yum makecache ## yum安装 $ sudo yum install -y docker-ce docker-ce-cli ## 设置开机自启 systemctl enable docker systemctl daemon-reload ## 启动docker systemctl start docker ## 查看docker信息 docker info docker version ## docker-client which docker ## docker daemon ps aux |grep docker 安装 Compose plugin：</description>
+    </item>
     <item>
       <title>使用 Docker 容器化并运行 Spring Boot 应用程序</title>
       <link>https://blog.chensoul.cc/posts/2024/07/09/docker-for-spring-boot/</link>
-      <pubDate>Tue, 09 Jul 2024 16:00:00 +0800</pubDate>
+      <pubDate>Tue, 09 Jul 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/09/docker-for-spring-boot/</guid>
       <description>本文翻译自 Docker 官方网站的《Java language-specific guide》文章，并做了一些改动。
 Java 入门指南教您如何使用 Docker 创建容器化的 Spring Boot 应用程序。在本模块中，您将学习如何：
@@ -23,16 +30,9 @@ $ git clone https://github.com/spring-projects/spring-petclinic.git $ cd spring-
 $ docker init Welcome to the Docker Init CLI! This utility will walk you through creating the following files with sensible defaults for your project: - .dockerignore - Dockerfile - compose.</description>
     </item>
     <item>
-      <title>Docker安装和配置</title>
-      <link>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</link>
-      <pubDate>Tue, 09 Jul 2024 15:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</guid>
-      <description>Centos7安装Docker 配置宿主机网卡转发 ## 配置网卡转发，看值是否为1 $ sysctl -a |grep -w net.ipv4.ip_forward net.ipv4.ip_forward = 1 ## 若未配置，需要执行如下 $ cat &amp;lt;&amp;lt;EOF &amp;gt; /etc/sysctl.d/docker.conf net.bridge.bridge-nf-call-ip6tables = 1 net.bridge.bridge-nf-call-iptables = 1 net.ipv4.ip_forward=1 EOF $ sysctl -p /etc/sysctl.d/docker.conf Yum安装配置docker ## 下载阿里源repo文件 $ sudo yum install -y yum-utils $ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/repo/Centos-7.repo $ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo $ sudo yum clean all &amp;amp;&amp;amp; yum makecache ## yum安装 $ sudo yum install -y docker-ce docker-ce-cli ## 设置开机自启 systemctl enable docker systemctl daemon-reload ## 启动docker systemctl start docker ## 查看docker信息 docker info docker version ## docker-client which docker ## docker daemon ps aux |grep docker 安装 Compose plugin：</description>
-    </item>
-    <item>
       <title>Gitlab安装和部署-使用Docker</title>
       <link>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</link>
-      <pubDate>Wed, 26 Jun 2024 16:00:00 +0800</pubDate>
+      <pubDate>Wed, 26 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</guid>
       <description>安装 Gitlab 安装 gitlab-ce 版本，当前最新版本为 17.2.0
 配置 external_url 参考 https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose
@@ -47,7 +47,7 @@ services: gitlab: image: gitlab/gitlab-ce container_name: gitlab restart: always
     <item>
       <title>Spring Boot项目创建Docker镜像并运行应用</title>
       <link>https://blog.chensoul.cc/posts/2024/06/06/spring-boot-docker-image/</link>
-      <pubDate>Thu, 06 Jun 2024 12:00:00 +0800</pubDate>
+      <pubDate>Thu, 06 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/06/spring-boot-docker-image/</guid>
       <description>手动创建 Dockerfile 添加 Dockerfile
 在您的 Spring Boot 项目根目录下创建一个名为 Dockerfile 的文件，并添加以下内容:
@@ -59,7 +59,7 @@ Distroless 基础镜像是一种精简的 Linux 发行版,只包含应用程序�
     <item>
       <title>2024-01-17｜MySQL 主从复制、ShardingJDBC实现读写分离、集成Springdoc&#43;Javadoc</title>
       <link>https://blog.chensoul.cc/posts/2024/01/17/til/</link>
-      <pubDate>Wed, 17 Jan 2024 07:00:00 +0800</pubDate>
+      <pubDate>Wed, 17 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/17/til/</guid>
       <description>今天做了什么：
 观看《2022年黑马程序员新版java课程》中 MySQL 主从复制和读写分离相关视频，使用 Docker 搭建 MySQL 主从复制环境。 foodie-cloud 项目实现读写分离并集成 Springdoc Docker 搭建 MySQL 主从复制环境 参考文章 ：基于 Docker 的 MySQL 主从复制搭建及原理（真正弄懂）
@@ -69,7 +69,7 @@ version: &amp;#39;3.8&amp;#39; services: mysql-master: image: mysql:8 restart: a
     <item>
       <title>[译]为 Spring Boot 应用程序创建优化的 Docker 映像</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-boot-docker/</link>
-      <pubDate>Wed, 16 Aug 2023 14:00:00 +0800</pubDate>
+      <pubDate>Wed, 16 Aug 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-boot-docker/</guid>
       <description>容器已成为打包具有所有软件和操作系统依赖项的应用程序，然后将其传送到不同环境的首选方式。
 本文着眼于容器化 Spring Boot 应用程序的不同方法：
@@ -86,7 +86,7 @@ Docker 恰好是最常用的容器实现，并且我们在示例中使用 Docker
     <item>
       <title>[译]Build Robust Continuous Integration With Docker and Friends</title>
       <link>https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/</link>
-      <pubDate>Mon, 22 May 2023 15:00:00 +0800</pubDate>
+      <pubDate>Mon, 22 May 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/</guid>
       <description>持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。
 Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发送每次提交的代码。
@@ -101,7 +101,7 @@ Docker 容器通过提供一致的环境帮助促进持续集成过程，您可�
     <item>
       <title>我的VPS服务部署记录</title>
       <link>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</link>
-      <pubDate>Wed, 25 Jan 2023 10:38:34 +0800</pubDate>
+      <pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid>
       <description>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。
 服务器设置 更新 yum 源：

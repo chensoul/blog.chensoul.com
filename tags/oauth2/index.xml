@@ -6,12 +6,12 @@
     <description>Recent content in Oauth2 on ChenSoul</description>
     <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 06 Jun 2024 12:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 06 Jun 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/oauth2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>All things about OAuth</title>
       <link>https://blog.chensoul.cc/posts/2024/06/06/all-things-about-oauth/</link>
-      <pubDate>Thu, 06 Jun 2024 12:00:00 +0800</pubDate>
+      <pubDate>Thu, 06 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/06/all-things-about-oauth/</guid>
       <description>OAuth 是一种开放协议，允许通过网络、移动和桌面应用程序以简单、标准的方式进行安全授权。
 OAuth 2 入门 以下是一些 OAuth 2.0 指南，涵盖了理解和实现客户端和服务器所需的许多主题。
@@ -36,7 +36,7 @@ Spring Authorization Server相关文章</description>
     <item>
       <title>OAuth2和OIDC区别</title>
       <link>https://blog.chensoul.cc/posts/2024/06/06/oauth2-oidc/</link>
-      <pubDate>Thu, 06 Jun 2024 07:00:00 +0800</pubDate>
+      <pubDate>Thu, 06 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/06/oauth2-oidc/</guid>
       <description>认证和授权 认证 (Authentication)：
 认证是验证用户、设备或系统身份的过程。 常见的认证方式包括用户名/密码、生物特征(如指纹、人脸)、单点登录(SSO)等。 认证确保只有被授权的实体才能访问系统或资源。 授权 (Authorization)：
@@ -53,76 +53,9 @@ OAuth2 和 OIDC OAuth 2.0 和 OpenID Connect (OIDC) 是两个不同但相关的�
 目的不同： OAuth 2.0 是一种授权框架，目的是授予第三方应用程序有限的访问权限，而不需要共享用户的凭证。 OIDC 是构建在 OAuth 2.0 之上的身份验证协议，目的是提供安全的身份验证和用户信息交换。 认证和授权的区别： OAuth 2.0 主要处理授权，即允许第三方应用程序访问受保护资源的过程。 OIDC 在 OAuth 2.0 的基础上增加了认证功能，即验证用户身份的过程。 返回的数据不同： OAuth 2.0 返回的是访问令牌(Access Token)，用于访问受保护资源。 OIDC 返回的是 ID 令牌(ID Token)，包含了有关已验证用户的声明信息。 协议流程不同： OAuth 2.0 定义了四种授权许可类型，如授权码、隐式、客户端凭证等。 OIDC 在 OAuth 2.</description>
     </item>
     <item>
-      <title>[译]OAuth2.0服务器</title>
-      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-server/</link>
-      <pubDate>Wed, 05 Jun 2024 14:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-server/</guid>
-      <description>背景 前言 作者：Aaron Parecki
-我第一次接触 OAuth 是在 2010 年，当时我正在构建一个 API，我知道我希望第三方开发人员能够在其基础上构建应用程序。当时，OAuth 看起来令人生畏。OAuth 1 的实现只有少数几个，而 OAuth 2.0 仍是一个草稿。一天晚上，我决定坐下来，拿着精酿啤酒和最新草案的纸质副本，从头到尾阅读它，直到我理解它。
-在仔细阅读了长达 44 页的规范后，我学到了以下几点：阅读规范并不是了解 OAuth 工作原理的最佳方式，而且 OAuth 2.0 远没有我最初想象的那么复杂。我开始撰写一份简化的规范概述，当我第一次学习这个规范时，我希望它就存在。我将其作为一篇名为“OAuth 2.0 简化版”的博客文章发布在我的网站上。现在，这篇文章每年的阅读量达到数十万次。很明显，人们知道 OAuth 2.0 是保护其 API 的正确选择，并且正在寻找资源来帮助理解它。
-我一直想将这篇博文扩展为更全面的 OAuth 服务器指南，2016 年，我与 Okta 取得了联系，我们在oauth.com上发布了这个新 OAuth 指南的第一个版本。2017 年，我们合作出版了这本书的印刷版，并于 2018 年和 2020 年出版了修订版。
-我希望这本书能让 OAuth 2.0 更加平易近人，并为您在继续使用 Web 技术时提供坚实的知识基础。
-背景 在 OAuth 出现之前，向第三方应用授予您帐户访问权限的常见模式是简单地向其提供您的密码并允许其以您的身份行事。我们经常在 Twitter 应用中看到这种情况，这些应用会要求您提供 Twitter 密码，以便向您提供一些帐户统计数据，或者要求能够从您的帐户发送推文以换取一些有价值的东西。
-这种应用程序获取用户密码的模式显然存在许多问题。由于应用程序需要以用户身份登录服务，因此这些应用程序通常会以纯文本形式存储用户的密码，这使它们成为密码窃取的目标。一旦应用程序获得了用户的密码，它就可以完全访问用户的帐户，包括访问更改用户密码等功能！另一个问题是，在向应用程序提供密码后，您能够撤销该访问权限的唯一方法是更改密码，而用户通常不愿意这样做。
-自然，许多服务很快意识到了这种模式的问题和局限性，并寻求快速解决。许多服务实现了类似于 OAuth 1.0 的东西。Flickr 的 API 使用了所谓的“FlickrAuth”，它使用了“frobs”和“tokens”。谷歌创建了“AuthSub”。Facebook 选择向每个应用程序发布一个秘密，并要求应用程序使用该秘密的 md5 哈希对每个请求进行签名。雅虎创建了“BBAuth”（基于浏览器的身份验证）。结果产生了各种各样的解决方案，彼此完全不兼容，并且经常无法解决某些安全问题。
-2006 年 11 月左右，Twitter 首席架构师布莱恩·库克 (Blaine Cook) 正在寻找一种更好的 Twitter API 身份验证方法，这种方法不需要用户向第三方应用程序透露他们的 Twitter 密码。
-我们想要类似 Flickr Auth / Google AuthSub / Yahoo! BBAuth 的东西，但以开放标准的形式发布，具有通用的服务器和客户端库等。
-– 布莱恩·库克，2007 年 4 月 5 日
-2007 年，一群致力于 OpenID 开发的人员聚在一起，创建了一个邮件列表，旨在制定 API 访问控制标准提案，该提案可供任何系统使用，无论其是否使用 OpenID。最初的这个小组包括 Blaine Cook、Kellen Elliott-McCrea、Larry Halff、Tara Hunt、Ian McKeller、Chris Messina 和其他一些人。</description>
-    </item>
-    <item>
-      <title>[译]OAuth2简化版</title>
-      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth-2-simplified/</link>
-      <pubDate>Wed, 05 Jun 2024 13:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth-2-simplified/</guid>
-      <description>这篇文章以简化的格式描述了 OAuth 2.0，以帮助开发人员和服务提供商实现该协议。
-OAuth 2 规范读起来可能有点混乱，所以我写了这篇文章来帮助以简化的格式描述术语。核心规范将许多决策留给实现者，通常基于实现的安全权衡。这篇文章没有描述成功实施 OAuth 2 所需的所有可能决策，而是做出适用于大多数实现的决策。
-注意：本文已根据 OAuth 2.0 的当前最佳实践从原始 2012 版本更新而来。原始版本可以在这里找到。
-角色 第三方应用程序：“客户端” 客户端是尝试访问用户帐户的应用程序。它需要先获得用户的许可，然后才能执行此操作。
-API：“资源服务器” 资源服务器是用于访问用户信息的 API 服务器。
-授权服务器 这是提供用户批准或拒绝请求的接口的服务器。在较小的实现中，这可能与 API 服务器是同一台服务器，但更大规模的部署通常会将其构建为单独的组件。
-用户：“资源所有者” 资源所有者是授予访问其帐户某些部分的权限的人员。
-创建应用程序 在开始 OAuth 过程之前，必须先向服务注册新应用。注册新应用时，通常会注册应用名称、网站、徽标等基本信息。此外，还必须注册一个重定向 URI，用于将用户重定向到 Web 服务器、基于浏览器的应用程序或移动应用程序。
-重定向 URI 该服务只会将用户重定向到已注册的 URI，这有助于防止某些攻击。任何 HTTP 重定向 URI 都必须通过 HTTPS 提供。这有助于防止令牌在授权过程中被截获。本机应用可能会使用应用程序的自定义 URL 方案注册重定向 URI，这可能类似于 demoapp://redirect .
-客户端 ID 和密码 注册应用后，你将收到一个客户端 ID 和一个（可选）的客户端密码。客户端 ID 被视为公共信息，用于构建登录 URL，或包含在页面上的 Javascript 源代码中。客户端密码必须保密。如果已部署的应用无法对机密保密，例如单页 Javascript 应用或本机应用，则不会使用该密钥，理想情况下，该服务首先不应向这些类型的应用发布机密。
-授权 OAuth 2 的第一步是从用户那里获得授权。对于基于浏览器或移动的应用程序，这通常是通过向用户显示服务提供的界面来实现的。
-OAuth 2 为不同的用例提供了几种“授权类型”。定义的授权类型包括：
-Authorization Code 在 Web 服务器、基于浏览器的应用程序和移动应用程序上运行的应用程序的授权代码
-Password 使用用户名和密码登录的密码（仅适用于第一方应用）
-Client credentials 在没有用户在场的情况下进行应用程序访问的客户端凭据
-Implicit 隐式以前被推荐给没有秘密的客户端，但已被使用授权代码授予与PKCE取代。
-下面将详细介绍每个用例。
-Web 服务器应用程序 Web 服务器应用程序是您在处理 OAuth 服务器时遇到的最常见的应用程序类型。Web 应用程序是用服务器端语言编写的，并在应用程序源代码不向公众开放的服务器上运行。这意味着应用程序在与授权服务器通信时能够使用其客户端密钥，这有助于避免许多攻击媒介。
-授权 创建一个“登录”链接，将用户发送到：
-https://authorization-server.com/auth?response_type=code&amp;amp; client_id=CLIENT_ID&amp;amp;redirect_uri=REDIRECT_URI&amp;amp;scope=photos&amp;amp;state=1234zyx response_type=code 指示您的服务器希望收到授权代码 client_id 首次创建应用程序时收到的客户端 ID redirect_uri 示授权完成后要将用户返回到的 URI scope 一个或多个范围值，指示您希望访问用户帐户的哪些部分 state 应用程序生成的随机字符串，稍后将对其进行验证 用户看到授权提示</description>
-    </item>
-    <item>
-      <title>RFC6749 | OAuth2.0授权框架中文版</title>
-      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2/</link>
-      <pubDate>Wed, 05 Jun 2024 08:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2/</guid>
-      <description>前言 摘要 OAuth2.0 授权框架允许第三方应用获取对 HTTP 服务的有限的访问权限，既可以以资源所有者名义在资源所有者和 HTTP 服务之间进行允许的交互，也可以允许第三方应用以自己的名义进行访问。本规范取代并淘汰 RFC 5849 中描述的 OAuth 1.0 协议。
-本备忘录状态 这是一个互联网标准化过程文档。
-本文档是互联网工程任务组（IETF）的作品。它代表了 IETF 社区的一致看法。它已接受公开审阅并由互联网工程指导小组（IESG）批准公布。有关互联网标准的进一步信息可在 RFC 5741 的第 2 节找到。
-有关本文档的当前状态、勘误表以及如何对它提供反馈可参见 http://www.rfc-editor.org/info/rfc6749。
-版权声明 IETF 信托及标识为本文档的作者的个人版权所有（c）2012。保留所有权利。
-本文档受 BCP78 和 IETF 信托有关 IETF 文档的法律条款 (http://trustee.ietf.org/license-info)的约束，自本文档发布之日起生效。请仔细查阅这些文件，因为它们描述了与本文档有关的权利和限制。从本文档中提取的代码片段必须按信托法律条款 4.e 节所述包括简化 BSD 许可证文本；并且按简化 BSD 许可证中所述不附带质量保证。
-目录 [toc]
-1. 简介 在传统的客户端-服务器身份验证模式中，客户端请求服务器上限制访问的资源（受保护资源）时，需要使用资源所有者的凭据在服务器上进行身份验证。资源所有者为了给第三方应用提供受限资源的访问，需要与第三方共享它的凭据。 这造成一些问题和局限：
-需要第三方应用存储资源所有者的凭据，以供将来使用，通常是明文密码。 需要服务器支持密码身份认证，尽管密码认证天生就有安全缺陷。 第三方应用获得的资源所有者的受保护资源的访问权限过于宽泛，从而导致资源所有者失去对资源使用时限或使用范围的控制。 资源所有者不能在不撤销对所有第三方的访问权限的情况下撤销对单个第三方的访问权限，而且必须通过更改第三方的密码来这样做。 与任何第三方应用的让步导致对终端用户的密码及该密码所保护的所有数据的让步。 OAuth 通过引入授权层以及分离客户端角色和资源所有者角色来解决这些问题。在 OAuth 中，客户端在请求受资源所有者控制并托管在资源服务器上的资源的访问权限时，将被颁发一组不同于资源所有者所拥有凭据的凭据。
-客户端获得一个访问令牌（一个代表特定作用域、生命期以及其他访问属性的字符串），用以代替使用资源所有者的凭据来访问受保护资源。访问令牌由授权服务器在资源所有者认可的情况下颁发给第三方客户端。客户端使用访问令牌访问托管在资源服务器的受保护资源。
-例如，终端用户（资源所有者）可以授权一个打印服务（客户端）访问她存储在图片分享服务（资源服务器）上的受保护图片，而无需与打印服务分享自己的用户名和密码。反之，她直接与图片分享服务信任的服务器（授权服务器）进行身份验证，该服务器颁发给打印服务具体委托凭据（访问令牌）。
-本规范是为 HTTP（[RFC2616]）协议定制。在任何非 HTTP 协议上使用 OAuth 不在本规范的范围之内。
-OAuth 1.0 协议（[RFC5849]）作为一个指导性文档发布，是一个小社区的工作成果。本标准化规范在 OAuth 1.0 的部署经验之上构建，也包括其他使用案例以及从更广泛的 IETF 社区收集到的可扩展性需求。OAuth 2.0 协议不向后兼容 OAuth 1.0。这两个版本可以在网络上共存，实现者可以选择同时支持他们。然而，本规范的用意是新的实现支持按本文档指定的 Auth 2.0，OAuth 1.0 仅用于支持现有的部署。OAuth 2.0 协议与 OAuth 1.0 协议实现细节没有太多关联。熟悉 OAuth 1.0 的实现者应该学习本文档，而不对有关 OAuth 2.0 的结构和细节做任何假设。
-1.1. 角色 OAuth 定义了四种角色：
-资源所有者
-能够授予对受保护资源访问权限的实体。当资源所有者是一个人时，它被称为终端用户。
-资源服务器</description>
-    </item>
-    <item>
       <title>[译][译]OAuth2 with Spring 第5部分：使用PKCE保护您的Spring Boot应用程序以增强安全性</title>
       <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-5-securing-your-spring-boot-application-with-pkce-for-enhanced-security/</link>
-      <pubDate>Wed, 05 Jun 2024 07:04:00 +0800</pubDate>
+      <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-5-securing-your-spring-boot-application-with-pkce-for-enhanced-security/</guid>
       <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-5-securing-your-spring-boot-application-with-pkce-for-enhanced-security-d8025cd08769
 免责声明：本文技术性很强，需要清楚了解本系列前几篇文章，特别是第 1 部分和第 3 部分。
@@ -140,9 +73,73 @@ server: port: 9001 logging: level: org: springframework: security: trace 三. Se
 @Configuration public class SecurityConfig { // This first SecurityFilterChain Bean is only specific to authorization server specific configurations // More on this can be found in this stackoverflow question answers: // https://stackoverflow.com/questions/69126874/why-two-formlogin-configured-in-spring-authorization-server-sample-code @Bean @Order(1) public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception { OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http); http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(withDefaults()); return http .exceptionHandling(e -&amp;gt; e .</description>
     </item>
     <item>
+      <title>[译]OAuth2 with Spring 第1部分：了解基本概念</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-1-knowing-the-basic-concepts/</link>
+      <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-1-knowing-the-basic-concepts/</guid>
+      <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-1-knowing-the-basic-concepts-5c4aa17884a
+在本系列关于 Spring 的 OAuth2的文章中，我将尝试介绍和解释与 OAuth2 相关的每一个问题以及如何在 Spring 框架中实现这些问题。请记住，OAuth2 完全是一个概念性的东西，在不同的框架中，它有自己的实现。此外，许多应用程序开发人员开发自己的 OAuth2 实现，而不使用 Spring 框架提供的 OAuth2 框架支持。因此，我将就这个主题撰写一系列文章。
+什么是 OAuth2 以及为什么？ 根据Octa的说法，OAuth2 是一种用于身份验证和授权的开放标准。它实际上不是一种服务，但它通过 TLS 提供基于令牌的安全性来保护服务。它使用令牌而不是凭据来授权设备、服务器、API 和应用程序。
+OAuth2 的主要目的是让用户能够从单个点或提供商访问多个应用程序，这些应用程序可以使用相同的身份验证和授权信息。这意味着，并不总是需要使用用户 ID 和密码登录。相反，用户将被重定向到拥有用户身份的授权服务器，用户只需单击一下即可允许其他应用程序使用其身份验证信息。一旦获得授权，用户就可以使用来自授权服务器的相同 ID。
+OAuth2 参与者和授权类型 a) 参与者
+对于 OAuth2 架构，有 4 个参与者 -
+资源所有者——在授权服务器中拥有自己的授权信息（通常是用户名、密码、角色等）的用户 客户端——客户端可以被视为资源所有者能够请求资源服务器中受保护资源的应用程序 授权服务器——位于客户端和资源所有者中间，检查身份验证和授权的服务器 资源服务器——包含资源 所有者想要访问的资源。 b) 授权类型
+OAuth2 有几种授权类型来请求访问令牌。授权类型的唯一目的是生成访问令牌。授权类型包括：
+授权码— 为了接收访问令牌，授权客户端向授权服务器发送请求以及先前从授权服务器收到的授权码。本系列的第 3 部分专门介绍此授权码授予。 **PKCE —**代码交换证明密钥 (PKCE) 是授权代码授予的扩展版本，旨在支持单页应用程序或移动应用程序，以防止 CSRF 或授权代码注入攻击。PKCE 最初旨在保护移动应用程序中的授权代码流，但其防止授权代码注入的能力使其适用于每种类型的 OAuth 客户端，甚至是使用客户端身份验证的 Web 应用程序。本系列的第 5 部分描述了此流程的代码示例。 客户端凭证— 在此流程中，客户端应用程序使用 client_id 和 client_secret 进行请求，授权类型为 client_credential。这通常发生在使用服务的第三方应用程序中。本系列的第 2 部分专门介绍此客户端凭证。 刷新令牌授权— 此授权类型由客户端使用。当访问令牌过期时，存储在客户端内存中的刷新令牌将以授权类型 refresh_token 发送到授权服务器。服务器将返回一个新的 access_token。我们不会专门写一篇文章，因为它主要由应用程序内部处理。 了解接收访问令牌的工作流程 OAuth 工作流
+为了请求资源服务器中的某些资源，资源所有者需要访问令牌 资源所有者打开一个应用程序（可能是授权服务器的客户端，在上图中为 BusinessClient）来请求资源服务器中的一些安全资源。 当资源所有者请求没有任何令牌的资源时，他/她可以选择授权服务器。 选择后，客户端将被重定向到授权服务器 (OAuthSercer)。授权服务器要求输入用户名和密码（以及grant_type）。 资源所有者提供所需信息并提交。如果信息真实，授权服务器将访问令牌（以及其他信息，可选）发送给客户端。 客户端保存令牌并在内部创建对资源的请求，这是资源所有者在没有令牌时提出的。 收到令牌后，资源服务器将其发送到授权服务器以验证令牌。 如果授权服务器向资源服务器提供了肯定的响应，资源服务器将响应资源所有者请求的信息。 这就是整个过程的工作原理。在我的下一篇文章中，我将深入研究代码并演示使用内存客户端的 OAuth2 实现。
+参考： OAuth2 授权类型 — https://oauth.net/2/grant-types/ OAuth2 角色 - http://websystique.</description>
+    </item>
+    <item>
+      <title>[译]OAuth2 with Spring 第2部分：授权服务器入门</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-2-getting-started-with-authorization-server/</link>
+      <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-2-getting-started-with-authorization-server/</guid>
+      <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-2-getting-started-with-authorization-server-13804910cb2a
+Spring 团队最近发布了他们的授权服务器。OAuth2 一直是一个热门话题，而构建或理解授权服务器一直是一个谜。在本系列的第 1 部分中，我描述了几乎所有您需要了解的有关 OAuth2 的概念性内容。在本系列的这篇文章中，我将尝试演示如何构建具有client_credential授权类型的授权服务器。我将从使用配置属性进行自动配置开始解释它们，并通过编写 Java 代码自定义配置。让我们开始吧。
+设置授权服务器 让我们转到Spring Initializr并生成项目。
+为了创建授权服务器，我们需要 Oauth2 授权服务器依赖。
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-oauth2-authorization-server&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; 生成项目并导入到您最喜欢的 IDE。
+现在让我们在application.yml中添加我们想要的配置。
+在第 1 部分中，我们了解到我们需要一个客户端来从授权服务器获取令牌。因此，我们需要授权服务器有一些客户端信息。在 application.yml 中，我将放置获取令牌和其他授权信息所需的最少客户端信息。
+spring: security: oauth2: authorization-server: client: client-1: registration: client-id: client client-secret: &amp;#34;{noop}secret&amp;#34; client-authentication-methods: client_secret_basic authorization-grant-types: client_credentials 根据上面的配置属性，我们注册了一个客户端client-1。
+对于client-1，我们定义了 4 个属性：
+clientId client-secret client-authentication-methods：本例中为基本身份验证（client_secret_basic） authorization-grant-types：用于请求新令牌的授予类型。在本例中为 client_credentials。 现在，我们必须启动授权服务器应用程序。
+接下来，在 postman 中，我们向*/oauth2/token端点发出 POST 请求以获取令牌。为什么是/oauth2/token*端点？
+我们可以看到，一旦我们提交请求，我们就会收到详细的令牌信息。
+瞧，我们最小的授权服务器现在已经启动并运行了。
+该项目的链接可以在这里找到。
+问题 1. 我们在哪里找到默认令牌端点？
+答：在 OAuth2 的 RFC 中，它提到默认令牌端点应该是*/token*。但是，很难找到 Spring Boot 授权服务器的默认令牌端点。我不得不浏览源代码。在类OAuth2TokenEndpointFilter中，提到了默认令牌端点。
+感谢您的耐心阅读。在下一篇文章中，我们将尝试创建一个资源服务器，使用authorization_code授权获取令牌以访问一些私人数据。</description>
+    </item>
+    <item>
+      <title>[译]OAuth2 with Spring 第3部分：使用Spring授权服务器授予authorization_code OIDC客户端</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-3-authorizing-oidc-client-with-via-authorization-code-grant-from-spring/</link>
+      <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-3-authorizing-oidc-client-with-via-authorization-code-grant-from-spring/</guid>
+      <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-3-authorizing-oidc-client-with-via-authorization-code-grant-from-spring-67769f9dd68a
+在上一篇文章中，我们讨论了使用 client_credential 的 OAuth2 授权服务器配置。在本文中，我们将讨论使用 authorization_code 授予类型的授权服务器配置。此授权流程将有一个 OIDC 客户端，它将通过使用授权码进行请求来获取 JWT 令牌。
+如今，社交登录非常流行，它已由 OAuth2 和 OIDC 规范标准化。我们今天的讨论主题是设置我们的社交登录客户端 (oidc-client) 应用程序，将其注册到 Spring Boot 授权服务器，使用授权服务器登录并从 OIDC 客户端应用程序访问安全资源。
+今天的演示将包含 2 个应用程序：
+授权服务器（端口 8080） 社交登录客户端（端口 8081） 由于这是一个复杂的主题，让我们首先查看 UI 中的应用程序身份验证和授权流程，然后再讨论配置。
+要继续阅读本文，请从此处获取项目源代码。首先启动授权服务器应用程序，然后在您最喜欢的 IDE 上启动社交登录客户端应用程序。
+我们的社交登录客户端有 2 个端点：
+“/” 将使我们能够访问公共数据 “/private-data” 将为我们提供 JWT 令牌 在浏览器上，导航到“ http://127.0.0.1:8081/private-data ”。这将带我们进入客户端应用程序的登录页面。
+由于我们对社交登录感兴趣，因此不要在此登录页面中输入您的用户名和密码，而是单击oidc-client。它将带您进入授权服务器的登录页面。
+在下面的屏幕中输入“ user”作为用户名，输入“ secret”作为密码，然后单击“登录”。
+这将带您进入同意页面。请注意同意页面的以下 URL：
+http://localhost:8080/oauth2/authorize?response_type=code&amp;amp;client_id=oidc-client&amp;amp;scope=openid%20profile%20read%20write&amp;amp;state=PcF7UjHDmYvmhwpKfv9zVosy0ZBIA2pZe7HHPixZ76E%3D&amp;amp;redirect_uri=http://127.0.0.1:8081/login/oauth2/code/oidc-client&amp;amp;nonce=_KHIsN6mNur-AFQz5KNK0TnZi3VPmj567qbe8-4zPMo&amp;amp;continue
+从上面的URL我们可以找到几条信息：
+response_type=code client_id=oidc-client scope = openid, profile, read, write redirect_uri=http://127.0.0.1:8081/login/oauth2/code/oidc-client 现在，从上面的页面提供您想要允许客户端应用程序的同意。
+如果最初请求的URL（/private-data）具有您刚刚提供的正确同意，它将向我们提供访问令牌和刷新令牌，否则它将显示403错误页面。
+现在让我们深入研究代码。
+授权服务器配置 在这个应用程序中，所有的事情都在 application.yml 文件中完成。Java 方面没有什么内容，除了主类。
+spring: security: user: # Definition of the user details that we will use for login # in the authorization server name: user password: &amp;#34;{noop}secret&amp;#34; roles: USER # Oauth2 client registration starts from here oauth2: authorization-server: client: # We have defined only one client: oidc-client # This client information was also mentioned # in the above URL: client_id=oidc-client oidc-client: registration: # The following client ID and client secret will be matched with the # provided client credentials from client application client-id: oidc-client client-secret: &amp;#34;{noop}secret2&amp;#34; # The following authorization-grant-type will be matched with the # provided authorization-grant-type from the client application authorization-grant-types: - &amp;#34;authorization_code&amp;#34; - &amp;#34;refresh_token&amp;#34; client-authentication-methods: - client_secret_basic # This following redirect URI will be used to redirect the resource owner to the # Client application after the resource owner (user) provides necessary consents.</description>
+    </item>
+    <item>
       <title>[译]OAuth2 with Spring 第4部分：Spring授权客户端与Google授权服务器的社交登录演示</title>
       <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-4-spring-authorization-client-social-login-demo-with-google/</link>
-      <pubDate>Wed, 05 Jun 2024 07:03:00 +0800</pubDate>
+      <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-4-spring-authorization-client-social-login-demo-with-google/</guid>
       <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-4-spring-authorization-client-social-login-demo-with-google-be6097ec18a5
 在之前的文章中，我们学习了如何使用 OIDC 连接到我们自己的授权服务器。我们在自托管授权服务器中定义了我们自己的客户端应用程序。在今天的文章中，我们将使用 Google 和 GitHub 作为我们的授权服务器，并将我们的授权客户端应用程序连接到这些授权服务器并从它们接收令牌。应用程序登录屏幕将如下所示。
@@ -175,73 +172,76 @@ spring: security: oauth2: client: registration: google: client-id: &amp;#34;6155
 现在，一旦我们保存了步骤 3 和步骤 4，我们就可以准备在客户端应用程序中使用这些范围了。</description>
     </item>
     <item>
-      <title>[译]OAuth2 with Spring 第3部分：使用Spring授权服务器授予authorization_code OIDC客户端</title>
-      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-3-authorizing-oidc-client-with-via-authorization-code-grant-from-spring/</link>
-      <pubDate>Wed, 05 Jun 2024 07:02:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-3-authorizing-oidc-client-with-via-authorization-code-grant-from-spring/</guid>
-      <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-3-authorizing-oidc-client-with-via-authorization-code-grant-from-spring-67769f9dd68a
-在上一篇文章中，我们讨论了使用 client_credential 的 OAuth2 授权服务器配置。在本文中，我们将讨论使用 authorization_code 授予类型的授权服务器配置。此授权流程将有一个 OIDC 客户端，它将通过使用授权码进行请求来获取 JWT 令牌。
-如今，社交登录非常流行，它已由 OAuth2 和 OIDC 规范标准化。我们今天的讨论主题是设置我们的社交登录客户端 (oidc-client) 应用程序，将其注册到 Spring Boot 授权服务器，使用授权服务器登录并从 OIDC 客户端应用程序访问安全资源。
-今天的演示将包含 2 个应用程序：
-授权服务器（端口 8080） 社交登录客户端（端口 8081） 由于这是一个复杂的主题，让我们首先查看 UI 中的应用程序身份验证和授权流程，然后再讨论配置。
-要继续阅读本文，请从此处获取项目源代码。首先启动授权服务器应用程序，然后在您最喜欢的 IDE 上启动社交登录客户端应用程序。
-我们的社交登录客户端有 2 个端点：
-“/” 将使我们能够访问公共数据 “/private-data” 将为我们提供 JWT 令牌 在浏览器上，导航到“ http://127.0.0.1:8081/private-data ”。这将带我们进入客户端应用程序的登录页面。
-由于我们对社交登录感兴趣，因此不要在此登录页面中输入您的用户名和密码，而是单击oidc-client。它将带您进入授权服务器的登录页面。
-在下面的屏幕中输入“ user”作为用户名，输入“ secret”作为密码，然后单击“登录”。
-这将带您进入同意页面。请注意同意页面的以下 URL：
-http://localhost:8080/oauth2/authorize?response_type=code&amp;amp;client_id=oidc-client&amp;amp;scope=openid%20profile%20read%20write&amp;amp;state=PcF7UjHDmYvmhwpKfv9zVosy0ZBIA2pZe7HHPixZ76E%3D&amp;amp;redirect_uri=http://127.0.0.1:8081/login/oauth2/code/oidc-client&amp;amp;nonce=_KHIsN6mNur-AFQz5KNK0TnZi3VPmj567qbe8-4zPMo&amp;amp;continue
-从上面的URL我们可以找到几条信息：
-response_type=code client_id=oidc-client scope = openid, profile, read, write redirect_uri=http://127.0.0.1:8081/login/oauth2/code/oidc-client 现在，从上面的页面提供您想要允许客户端应用程序的同意。
-如果最初请求的URL（/private-data）具有您刚刚提供的正确同意，它将向我们提供访问令牌和刷新令牌，否则它将显示403错误页面。
-现在让我们深入研究代码。
-授权服务器配置 在这个应用程序中，所有的事情都在 application.yml 文件中完成。Java 方面没有什么内容，除了主类。
-spring: security: user: # Definition of the user details that we will use for login # in the authorization server name: user password: &amp;#34;{noop}secret&amp;#34; roles: USER # Oauth2 client registration starts from here oauth2: authorization-server: client: # We have defined only one client: oidc-client # This client information was also mentioned # in the above URL: client_id=oidc-client oidc-client: registration: # The following client ID and client secret will be matched with the # provided client credentials from client application client-id: oidc-client client-secret: &amp;#34;{noop}secret2&amp;#34; # The following authorization-grant-type will be matched with the # provided authorization-grant-type from the client application authorization-grant-types: - &amp;#34;authorization_code&amp;#34; - &amp;#34;refresh_token&amp;#34; client-authentication-methods: - client_secret_basic # This following redirect URI will be used to redirect the resource owner to the # Client application after the resource owner (user) provides necessary consents.</description>
+      <title>[译]OAuth2.0服务器</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-server/</link>
+      <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-server/</guid>
+      <description>背景 前言 作者：Aaron Parecki
+我第一次接触 OAuth 是在 2010 年，当时我正在构建一个 API，我知道我希望第三方开发人员能够在其基础上构建应用程序。当时，OAuth 看起来令人生畏。OAuth 1 的实现只有少数几个，而 OAuth 2.0 仍是一个草稿。一天晚上，我决定坐下来，拿着精酿啤酒和最新草案的纸质副本，从头到尾阅读它，直到我理解它。
+在仔细阅读了长达 44 页的规范后，我学到了以下几点：阅读规范并不是了解 OAuth 工作原理的最佳方式，而且 OAuth 2.0 远没有我最初想象的那么复杂。我开始撰写一份简化的规范概述，当我第一次学习这个规范时，我希望它就存在。我将其作为一篇名为“OAuth 2.0 简化版”的博客文章发布在我的网站上。现在，这篇文章每年的阅读量达到数十万次。很明显，人们知道 OAuth 2.0 是保护其 API 的正确选择，并且正在寻找资源来帮助理解它。
+我一直想将这篇博文扩展为更全面的 OAuth 服务器指南，2016 年，我与 Okta 取得了联系，我们在oauth.com上发布了这个新 OAuth 指南的第一个版本。2017 年，我们合作出版了这本书的印刷版，并于 2018 年和 2020 年出版了修订版。
+我希望这本书能让 OAuth 2.0 更加平易近人，并为您在继续使用 Web 技术时提供坚实的知识基础。
+背景 在 OAuth 出现之前，向第三方应用授予您帐户访问权限的常见模式是简单地向其提供您的密码并允许其以您的身份行事。我们经常在 Twitter 应用中看到这种情况，这些应用会要求您提供 Twitter 密码，以便向您提供一些帐户统计数据，或者要求能够从您的帐户发送推文以换取一些有价值的东西。
+这种应用程序获取用户密码的模式显然存在许多问题。由于应用程序需要以用户身份登录服务，因此这些应用程序通常会以纯文本形式存储用户的密码，这使它们成为密码窃取的目标。一旦应用程序获得了用户的密码，它就可以完全访问用户的帐户，包括访问更改用户密码等功能！另一个问题是，在向应用程序提供密码后，您能够撤销该访问权限的唯一方法是更改密码，而用户通常不愿意这样做。
+自然，许多服务很快意识到了这种模式的问题和局限性，并寻求快速解决。许多服务实现了类似于 OAuth 1.0 的东西。Flickr 的 API 使用了所谓的“FlickrAuth”，它使用了“frobs”和“tokens”。谷歌创建了“AuthSub”。Facebook 选择向每个应用程序发布一个秘密，并要求应用程序使用该秘密的 md5 哈希对每个请求进行签名。雅虎创建了“BBAuth”（基于浏览器的身份验证）。结果产生了各种各样的解决方案，彼此完全不兼容，并且经常无法解决某些安全问题。
+2006 年 11 月左右，Twitter 首席架构师布莱恩·库克 (Blaine Cook) 正在寻找一种更好的 Twitter API 身份验证方法，这种方法不需要用户向第三方应用程序透露他们的 Twitter 密码。
+我们想要类似 Flickr Auth / Google AuthSub / Yahoo! BBAuth 的东西，但以开放标准的形式发布，具有通用的服务器和客户端库等。
+– 布莱恩·库克，2007 年 4 月 5 日
+2007 年，一群致力于 OpenID 开发的人员聚在一起，创建了一个邮件列表，旨在制定 API 访问控制标准提案，该提案可供任何系统使用，无论其是否使用 OpenID。最初的这个小组包括 Blaine Cook、Kellen Elliott-McCrea、Larry Halff、Tara Hunt、Ian McKeller、Chris Messina 和其他一些人。</description>
     </item>
     <item>
-      <title>[译]OAuth2 with Spring 第2部分：授权服务器入门</title>
-      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-2-getting-started-with-authorization-server/</link>
-      <pubDate>Wed, 05 Jun 2024 07:01:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-2-getting-started-with-authorization-server/</guid>
-      <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-2-getting-started-with-authorization-server-13804910cb2a
-Spring 团队最近发布了他们的授权服务器。OAuth2 一直是一个热门话题，而构建或理解授权服务器一直是一个谜。在本系列的第 1 部分中，我描述了几乎所有您需要了解的有关 OAuth2 的概念性内容。在本系列的这篇文章中，我将尝试演示如何构建具有client_credential授权类型的授权服务器。我将从使用配置属性进行自动配置开始解释它们，并通过编写 Java 代码自定义配置。让我们开始吧。
-设置授权服务器 让我们转到Spring Initializr并生成项目。
-为了创建授权服务器，我们需要 Oauth2 授权服务器依赖。
-&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-oauth2-authorization-server&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; 生成项目并导入到您最喜欢的 IDE。
-现在让我们在application.yml中添加我们想要的配置。
-在第 1 部分中，我们了解到我们需要一个客户端来从授权服务器获取令牌。因此，我们需要授权服务器有一些客户端信息。在 application.yml 中，我将放置获取令牌和其他授权信息所需的最少客户端信息。
-spring: security: oauth2: authorization-server: client: client-1: registration: client-id: client client-secret: &amp;#34;{noop}secret&amp;#34; client-authentication-methods: client_secret_basic authorization-grant-types: client_credentials 根据上面的配置属性，我们注册了一个客户端client-1。
-对于client-1，我们定义了 4 个属性：
-clientId client-secret client-authentication-methods：本例中为基本身份验证（client_secret_basic） authorization-grant-types：用于请求新令牌的授予类型。在本例中为 client_credentials。 现在，我们必须启动授权服务器应用程序。
-接下来，在 postman 中，我们向*/oauth2/token端点发出 POST 请求以获取令牌。为什么是/oauth2/token*端点？
-我们可以看到，一旦我们提交请求，我们就会收到详细的令牌信息。
-瞧，我们最小的授权服务器现在已经启动并运行了。
-该项目的链接可以在这里找到。
-问题 1. 我们在哪里找到默认令牌端点？
-答：在 OAuth2 的 RFC 中，它提到默认令牌端点应该是*/token*。但是，很难找到 Spring Boot 授权服务器的默认令牌端点。我不得不浏览源代码。在类OAuth2TokenEndpointFilter中，提到了默认令牌端点。
-感谢您的耐心阅读。在下一篇文章中，我们将尝试创建一个资源服务器，使用authorization_code授权获取令牌以访问一些私人数据。</description>
+      <title>[译]OAuth2简化版</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth-2-simplified/</link>
+      <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth-2-simplified/</guid>
+      <description>这篇文章以简化的格式描述了 OAuth 2.0，以帮助开发人员和服务提供商实现该协议。
+OAuth 2 规范读起来可能有点混乱，所以我写了这篇文章来帮助以简化的格式描述术语。核心规范将许多决策留给实现者，通常基于实现的安全权衡。这篇文章没有描述成功实施 OAuth 2 所需的所有可能决策，而是做出适用于大多数实现的决策。
+注意：本文已根据 OAuth 2.0 的当前最佳实践从原始 2012 版本更新而来。原始版本可以在这里找到。
+角色 第三方应用程序：“客户端” 客户端是尝试访问用户帐户的应用程序。它需要先获得用户的许可，然后才能执行此操作。
+API：“资源服务器” 资源服务器是用于访问用户信息的 API 服务器。
+授权服务器 这是提供用户批准或拒绝请求的接口的服务器。在较小的实现中，这可能与 API 服务器是同一台服务器，但更大规模的部署通常会将其构建为单独的组件。
+用户：“资源所有者” 资源所有者是授予访问其帐户某些部分的权限的人员。
+创建应用程序 在开始 OAuth 过程之前，必须先向服务注册新应用。注册新应用时，通常会注册应用名称、网站、徽标等基本信息。此外，还必须注册一个重定向 URI，用于将用户重定向到 Web 服务器、基于浏览器的应用程序或移动应用程序。
+重定向 URI 该服务只会将用户重定向到已注册的 URI，这有助于防止某些攻击。任何 HTTP 重定向 URI 都必须通过 HTTPS 提供。这有助于防止令牌在授权过程中被截获。本机应用可能会使用应用程序的自定义 URL 方案注册重定向 URI，这可能类似于 demoapp://redirect .
+客户端 ID 和密码 注册应用后，你将收到一个客户端 ID 和一个（可选）的客户端密码。客户端 ID 被视为公共信息，用于构建登录 URL，或包含在页面上的 Javascript 源代码中。客户端密码必须保密。如果已部署的应用无法对机密保密，例如单页 Javascript 应用或本机应用，则不会使用该密钥，理想情况下，该服务首先不应向这些类型的应用发布机密。
+授权 OAuth 2 的第一步是从用户那里获得授权。对于基于浏览器或移动的应用程序，这通常是通过向用户显示服务提供的界面来实现的。
+OAuth 2 为不同的用例提供了几种“授权类型”。定义的授权类型包括：
+Authorization Code 在 Web 服务器、基于浏览器的应用程序和移动应用程序上运行的应用程序的授权代码
+Password 使用用户名和密码登录的密码（仅适用于第一方应用）
+Client credentials 在没有用户在场的情况下进行应用程序访问的客户端凭据
+Implicit 隐式以前被推荐给没有秘密的客户端，但已被使用授权代码授予与PKCE取代。
+下面将详细介绍每个用例。
+Web 服务器应用程序 Web 服务器应用程序是您在处理 OAuth 服务器时遇到的最常见的应用程序类型。Web 应用程序是用服务器端语言编写的，并在应用程序源代码不向公众开放的服务器上运行。这意味着应用程序在与授权服务器通信时能够使用其客户端密钥，这有助于避免许多攻击媒介。
+授权 创建一个“登录”链接，将用户发送到：
+https://authorization-server.com/auth?response_type=code&amp;amp; client_id=CLIENT_ID&amp;amp;redirect_uri=REDIRECT_URI&amp;amp;scope=photos&amp;amp;state=1234zyx response_type=code 指示您的服务器希望收到授权代码 client_id 首次创建应用程序时收到的客户端 ID redirect_uri 示授权完成后要将用户返回到的 URI scope 一个或多个范围值，指示您希望访问用户帐户的哪些部分 state 应用程序生成的随机字符串，稍后将对其进行验证 用户看到授权提示</description>
     </item>
     <item>
-      <title>[译]OAuth2 with Spring 第1部分：了解基本概念</title>
-      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-1-knowing-the-basic-concepts/</link>
-      <pubDate>Wed, 05 Jun 2024 07:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-1-knowing-the-basic-concepts/</guid>
-      <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-1-knowing-the-basic-concepts-5c4aa17884a
-在本系列关于 Spring 的 OAuth2的文章中，我将尝试介绍和解释与 OAuth2 相关的每一个问题以及如何在 Spring 框架中实现这些问题。请记住，OAuth2 完全是一个概念性的东西，在不同的框架中，它有自己的实现。此外，许多应用程序开发人员开发自己的 OAuth2 实现，而不使用 Spring 框架提供的 OAuth2 框架支持。因此，我将就这个主题撰写一系列文章。
-什么是 OAuth2 以及为什么？ 根据Octa的说法，OAuth2 是一种用于身份验证和授权的开放标准。它实际上不是一种服务，但它通过 TLS 提供基于令牌的安全性来保护服务。它使用令牌而不是凭据来授权设备、服务器、API 和应用程序。
-OAuth2 的主要目的是让用户能够从单个点或提供商访问多个应用程序，这些应用程序可以使用相同的身份验证和授权信息。这意味着，并不总是需要使用用户 ID 和密码登录。相反，用户将被重定向到拥有用户身份的授权服务器，用户只需单击一下即可允许其他应用程序使用其身份验证信息。一旦获得授权，用户就可以使用来自授权服务器的相同 ID。
-OAuth2 参与者和授权类型 a) 参与者
-对于 OAuth2 架构，有 4 个参与者 -
-资源所有者——在授权服务器中拥有自己的授权信息（通常是用户名、密码、角色等）的用户 客户端——客户端可以被视为资源所有者能够请求资源服务器中受保护资源的应用程序 授权服务器——位于客户端和资源所有者中间，检查身份验证和授权的服务器 资源服务器——包含资源 所有者想要访问的资源。 b) 授权类型
-OAuth2 有几种授权类型来请求访问令牌。授权类型的唯一目的是生成访问令牌。授权类型包括：
-授权码— 为了接收访问令牌，授权客户端向授权服务器发送请求以及先前从授权服务器收到的授权码。本系列的第 3 部分专门介绍此授权码授予。 **PKCE —**代码交换证明密钥 (PKCE) 是授权代码授予的扩展版本，旨在支持单页应用程序或移动应用程序，以防止 CSRF 或授权代码注入攻击。PKCE 最初旨在保护移动应用程序中的授权代码流，但其防止授权代码注入的能力使其适用于每种类型的 OAuth 客户端，甚至是使用客户端身份验证的 Web 应用程序。本系列的第 5 部分描述了此流程的代码示例。 客户端凭证— 在此流程中，客户端应用程序使用 client_id 和 client_secret 进行请求，授权类型为 client_credential。这通常发生在使用服务的第三方应用程序中。本系列的第 2 部分专门介绍此客户端凭证。 刷新令牌授权— 此授权类型由客户端使用。当访问令牌过期时，存储在客户端内存中的刷新令牌将以授权类型 refresh_token 发送到授权服务器。服务器将返回一个新的 access_token。我们不会专门写一篇文章，因为它主要由应用程序内部处理。 了解接收访问令牌的工作流程 OAuth 工作流
-为了请求资源服务器中的某些资源，资源所有者需要访问令牌 资源所有者打开一个应用程序（可能是授权服务器的客户端，在上图中为 BusinessClient）来请求资源服务器中的一些安全资源。 当资源所有者请求没有任何令牌的资源时，他/她可以选择授权服务器。 选择后，客户端将被重定向到授权服务器 (OAuthSercer)。授权服务器要求输入用户名和密码（以及grant_type）。 资源所有者提供所需信息并提交。如果信息真实，授权服务器将访问令牌（以及其他信息，可选）发送给客户端。 客户端保存令牌并在内部创建对资源的请求，这是资源所有者在没有令牌时提出的。 收到令牌后，资源服务器将其发送到授权服务器以验证令牌。 如果授权服务器向资源服务器提供了肯定的响应，资源服务器将响应资源所有者请求的信息。 这就是整个过程的工作原理。在我的下一篇文章中，我将深入研究代码并演示使用内存客户端的 OAuth2 实现。
-参考： OAuth2 授权类型 — https://oauth.net/2/grant-types/ OAuth2 角色 - http://websystique.</description>
+      <title>RFC6749 | OAuth2.0授权框架中文版</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2/</link>
+      <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2/</guid>
+      <description>前言 摘要 OAuth2.0 授权框架允许第三方应用获取对 HTTP 服务的有限的访问权限，既可以以资源所有者名义在资源所有者和 HTTP 服务之间进行允许的交互，也可以允许第三方应用以自己的名义进行访问。本规范取代并淘汰 RFC 5849 中描述的 OAuth 1.0 协议。
+本备忘录状态 这是一个互联网标准化过程文档。
+本文档是互联网工程任务组（IETF）的作品。它代表了 IETF 社区的一致看法。它已接受公开审阅并由互联网工程指导小组（IESG）批准公布。有关互联网标准的进一步信息可在 RFC 5741 的第 2 节找到。
+有关本文档的当前状态、勘误表以及如何对它提供反馈可参见 http://www.rfc-editor.org/info/rfc6749。
+版权声明 IETF 信托及标识为本文档的作者的个人版权所有（c）2012。保留所有权利。
+本文档受 BCP78 和 IETF 信托有关 IETF 文档的法律条款 (http://trustee.ietf.org/license-info)的约束，自本文档发布之日起生效。请仔细查阅这些文件，因为它们描述了与本文档有关的权利和限制。从本文档中提取的代码片段必须按信托法律条款 4.e 节所述包括简化 BSD 许可证文本；并且按简化 BSD 许可证中所述不附带质量保证。
+目录 [toc]
+1. 简介 在传统的客户端-服务器身份验证模式中，客户端请求服务器上限制访问的资源（受保护资源）时，需要使用资源所有者的凭据在服务器上进行身份验证。资源所有者为了给第三方应用提供受限资源的访问，需要与第三方共享它的凭据。 这造成一些问题和局限：
+需要第三方应用存储资源所有者的凭据，以供将来使用，通常是明文密码。 需要服务器支持密码身份认证，尽管密码认证天生就有安全缺陷。 第三方应用获得的资源所有者的受保护资源的访问权限过于宽泛，从而导致资源所有者失去对资源使用时限或使用范围的控制。 资源所有者不能在不撤销对所有第三方的访问权限的情况下撤销对单个第三方的访问权限，而且必须通过更改第三方的密码来这样做。 与任何第三方应用的让步导致对终端用户的密码及该密码所保护的所有数据的让步。 OAuth 通过引入授权层以及分离客户端角色和资源所有者角色来解决这些问题。在 OAuth 中，客户端在请求受资源所有者控制并托管在资源服务器上的资源的访问权限时，将被颁发一组不同于资源所有者所拥有凭据的凭据。
+客户端获得一个访问令牌（一个代表特定作用域、生命期以及其他访问属性的字符串），用以代替使用资源所有者的凭据来访问受保护资源。访问令牌由授权服务器在资源所有者认可的情况下颁发给第三方客户端。客户端使用访问令牌访问托管在资源服务器的受保护资源。
+例如，终端用户（资源所有者）可以授权一个打印服务（客户端）访问她存储在图片分享服务（资源服务器）上的受保护图片，而无需与打印服务分享自己的用户名和密码。反之，她直接与图片分享服务信任的服务器（授权服务器）进行身份验证，该服务器颁发给打印服务具体委托凭据（访问令牌）。
+本规范是为 HTTP（[RFC2616]）协议定制。在任何非 HTTP 协议上使用 OAuth 不在本规范的范围之内。
+OAuth 1.0 协议（[RFC5849]）作为一个指导性文档发布，是一个小社区的工作成果。本标准化规范在 OAuth 1.0 的部署经验之上构建，也包括其他使用案例以及从更广泛的 IETF 社区收集到的可扩展性需求。OAuth 2.0 协议不向后兼容 OAuth 1.0。这两个版本可以在网络上共存，实现者可以选择同时支持他们。然而，本规范的用意是新的实现支持按本文档指定的 Auth 2.0，OAuth 1.0 仅用于支持现有的部署。OAuth 2.0 协议与 OAuth 1.0 协议实现细节没有太多关联。熟悉 OAuth 1.0 的实现者应该学习本文档，而不对有关 OAuth 2.0 的结构和细节做任何假设。
+1.1. 角色 OAuth 定义了四种角色：
+资源所有者
+能够授予对受保护资源访问权限的实体。当资源所有者是一个人时，它被称为终端用户。
+资源服务器</description>
     </item>
     <item>
       <title>[译]什么是 OAuth？</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/oauth/</link>
-      <pubDate>Tue, 07 May 2024 14:00:00 +0800</pubDate>
+      <pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/oauth/</guid>
       <description>原文链接：https://www.pubnub.com/guides/oauth/
 什么是 OAuth？ OAuth（开放授权）是一种开放标准授权框架，允许第三方应用程序访问用户数据，而无需用户共享其登录凭据。它为用户提供了一种安全且标准化的方式，将其在一个网站上的资源的访问权限授予另一个网站或应用程序，而无需暴露其密码。
@@ -266,7 +266,7 @@ OAuth 主要是一种授权协议，允许应用程序访问另一个系统上�
     <item>
       <title>2024-01-10｜ Java审计框架inspektr</title>
       <link>https://blog.chensoul.cc/posts/2024/01/10/til/</link>
-      <pubDate>Wed, 10 Jan 2024 18:00:00 +0800</pubDate>
+      <pubDate>Wed, 10 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/10/til/</guid>
       <description>今天做了什么：
 1、Java Lambda 增强 https://github.com/jOOQ/jOOL 和 https://github.com/vavr-io/vavr ，jOOL 在 jdk8 下存在编译错误，计划，整合这两个项目，创建一个新的项目，只引入自己需要的一些类。
@@ -281,7 +281,7 @@ OAuth 主要是一种授权协议，允许应用程序访问另一个系统上�
     <item>
       <title>2024-01-09｜单点登录</title>
       <link>https://blog.chensoul.cc/posts/2024/01/09/til/</link>
-      <pubDate>Tue, 09 Jan 2024 18:00:00 +0800</pubDate>
+      <pubDate>Tue, 09 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/09/til/</guid>
       <description>今天做了什么：
 使用 renovate 监控第三方依赖更新 ，renovate 貌似需要付费，放弃。 spring-security-oauth2-samples 示例工程重命名模块和包名，代码见 spring-security-oauth2-boot 实现单点登录并测试 实现单点登录并测试 实现单点登录（Single Sign-On，SSO）可以采用多种思路和技术。下面是几种常见的实现思路：
@@ -295,7 +295,7 @@ CAS 交互时序图：https://apereo.github.io/cas/7.0.x/images/cas_flow_diagram
     <item>
       <title>2023-12-28｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2023/12/28/til/</link>
-      <pubDate>Thu, 28 Dec 2023 17:10:00 +0800</pubDate>
+      <pubDate>Thu, 28 Dec 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/28/til/</guid>
       <description>今天做了什么：
 重构微服务项目中使用 spring-security-oauth2 搭建 OAuth2 认证服务和资源服务的代码，减少其他模块对此的耦合度。计划将 spring-security-oauth2 迁移到 spring-security-oauth2-authorization-server 上，即使用 OAuth2.1 授权和认证。Spring Authorization Server 相关文档，可以参考 https://blog.51cto.com/u_15268610/category2。
@@ -318,7 +318,7 @@ CAS 交互时序图：https://apereo.github.io/cas/7.0.x/images/cas_flow_diagram
     <item>
       <title>2023-12-27｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2023/12/27/til/</link>
-      <pubDate>Wed, 27 Dec 2023 17:10:00 +0800</pubDate>
+      <pubDate>Wed, 27 Dec 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/27/til/</guid>
       <description>今天做了什么：
 微服务项目中认证服务器配置授权码模式，并测试通过
@@ -340,7 +340,7 @@ https://gitee.com/dromara/open-capacity-platform/</description>
     <item>
       <title>2023-12-22｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2023/12/22/til/</link>
-      <pubDate>Fri, 22 Dec 2023 19:10:00 +0800</pubDate>
+      <pubDate>Fri, 22 Dec 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/22/til/</guid>
       <description>今天做了什么：
 我使用的 Idea 插件。
@@ -367,7 +367,7 @@ Spring Security OAuth Boot 2 Autoconfig 将 Spring Security OAuth Boot 2 Autocon
     <item>
       <title>2023-12-21｜Spring Security对OAuth2的支持及实现方式</title>
       <link>https://blog.chensoul.cc/posts/2023/12/21/til/</link>
-      <pubDate>Thu, 21 Dec 2023 19:10:00 +0800</pubDate>
+      <pubDate>Thu, 21 Dec 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/21/til/</guid>
       <description>Today I Learned. 今天分享内容：Spring Security 对 OAuth2 的支持
 Spring Security 提供了对 OAuth 的支持，并且有几个相关的项目可以用于实现 OAuth 功能。以下是一些常见的 Spring Security OAuth 项目及其相关信息：
@@ -377,7 +377,7 @@ Spring Security OAuth（https://github.com/spring-attic/spring-security-oauth）
     <item>
       <title>2023-12-18｜使用Spring Security实现OAuth2授权和认证</title>
       <link>https://blog.chensoul.cc/posts/2023/12/18/til/</link>
-      <pubDate>Mon, 18 Dec 2023 18:50:00 +0800</pubDate>
+      <pubDate>Mon, 18 Dec 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/18/til/</guid>
       <description>Today I Learned. 今天分享内容：使用Spring Security实现OAuth2授权和认证。
 最近在开发 Spring Cloud 微服务时，需要对 OAuth2 的异常处理进行定制，从网上搜到一个 github 仓库：oauth2。这篇仓库的代码实现了 OAuth2 的四种授权模式、I18N 国际化、异常处理、JWT Token，我 fork 了一份代码，做了一些改动，去掉了 webflux、eureka 相关代码。
@@ -388,7 +388,7 @@ spring-boot: 2.7.18 org.springframework.security.oauth:spring-security-oauth2-au
     <item>
       <title>[译]SPRING BOOT JWT - 如何使用 SPRING SECURITY 和 JSON WEB 令牌保护您的 REST API</title>
       <link>https://blog.chensoul.cc/posts/2023/09/19/spring-security-jwt/</link>
-      <pubDate>Tue, 19 Sep 2023 14:00:00 +0800</pubDate>
+      <pubDate>Tue, 19 Sep 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/09/19/spring-security-jwt/</guid>
       <description>如果您快速搜索如何使用 JSON Web Tokens 在 Spring Boot 中保护 REST API，您会发现很多相同的结果。这些结果包含一种方法，该方法涉及编写自定义过滤器链并引入第三方库来编码和解码 JWT。
 在看完这些令人费解且令人困惑的教程后，我说必须有一种更简单的方法来做到这一点。我做了任何直接接触 Spring Security 团队的人都会做的事情，我向他们寻求帮助。他们告诉我，Spring Security 确实使用 oAuth2 资源服务器内置了对 JWT 的支持。
@@ -403,7 +403,7 @@ Header: 由两个属性组成：{ &amp;ldquo;alg&amp;rdquo;: &amp;ldquo;HS256&am
     <item>
       <title>[译]Spring Security 与 JWT for REST API</title>
       <link>https://blog.chensoul.cc/posts/2023/09/19/spring-security-tutorial/</link>
-      <pubDate>Tue, 19 Sep 2023 07:00:00 +0800</pubDate>
+      <pubDate>Tue, 19 Sep 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/09/19/spring-security-tutorial/</guid>
       <description>免责声明：Spring Security 5+ 已发布 OAuth JWT 支持。建议使用最新版本的 OAuth 来支持 JWT，而不是使用自定义安全性或过滤器。
 Spring 被认为是 Java 生态系统中值得信赖的框架，并且被广泛使用。将 Spring 称为框架不再有效，因为它更多的是涵盖各种框架的总括术语。其中一个框架是 Spring Security，它是一个功能强大且可定制的身份验证和授权框架。它被认为是保护基于 Spring 的应用程序的事实标准，因此，如果您希望实现 Spring JWT 令牌解决方案，那么将其基于 Spring Security 是有意义的。
@@ -415,19 +415,9 @@ Authentication 验证是指根据提供的凭据验证用户身份的过程。�
 @RestController @RequestMapping(&amp;#34;hello&amp;#34;) public class HelloRestController { @GetMapping(&amp;#34;user&amp;#34;) public String helloUser() { return &amp;#34;Hello User&amp;#34;; } @GetMapping(&amp;#34;admin&amp;#34;) public String helloAdmin() { return &amp;#34;Hello Admin&amp;#34;; } } 之后，如果我们构建并运行该项目，我们可以在 Web 浏览器中访问以下 URL：</description>
     </item>
     <item>
-      <title>[译]没有WebSecurityConfigurerAdapter的Spring Security.md</title>
-      <link>https://blog.chensoul.cc/posts/2023/08/18/spring-security-without-websecurityconfigureradapter/</link>
-      <pubDate>Fri, 18 Aug 2023 11:30:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/08/18/spring-security-without-websecurityconfigureradapter/</guid>
-      <description>在 Spring Security 模块的上下文中，WebSecurityConfigurerAdapter 是一个抽象类，根据 Spring 官方网站 2022 年 2 月 21 日发布的公告，该类已从 Spring Security 5.7.0-M2 中弃用。它通常用于扩展 configure() 方法由自定义配置子类实现。因此，它鼓励用户转向基于组件的安全配置。为了支持对这种新配置设计的更改，我们将讨论常见用例列表和未来建议的替代方案。因此，我们将讨论没有 WebSecurityConfigurerAdapter 的 Spring Security 用例的实现。
-了解这一变化很重要，因为迟早我们将使用最新版本的 Spring Security 来开发安全功能。让我们讨论“没有 WebSecurityConfigurerAdapter 的 Spring Security”主题及其相关概念。
-什么是 WebSecurityConfigurerAdapter？ WebSecurityConfigurerAdapter 是 Spring Security 模块提供的一个抽象类。一般来说，我们使用它来重写它的 configure()方法来定义我们的安全配置类。通常，我们在应用程序中实现 Spring Security 时使用两个具有不同参数的 configure() 方法。一种用于声明与身份验证相关的配置，另一种用于声明与授权相关的配置。该代码类似于下面的代码片段。
-@Configuration @EnableWebSecurity public class SecurityConfiguration extends WebSecurityConfigurerAdapter { @Override protected void configure(AuthenticationManagerBuilder auth) throws Exception { // configure Authentication ...... } @Override protected void configure(HttpSecurity http) throws Exception { // configure Authorization ...... } } 为什么我们需要学习这个改变？ 如果您使用 Spring Boot 2.7.0 和 maven，它将自动下载 Spring Security 5.7.0 或更高版本。在这种情况下，您会发现 WebSecurityConfigurerAdapter 已被弃用。如果您仍然想使用此类而不弃用，您可以在 pom.xml 中将 Spring Boot 版本更改为较低版本（例如 2.6.6 ），如下所示。它将自动下载低于 5.</description>
-    </item>
-    <item>
       <title>[译]如何在Spring Boot2中使用UserDetailsService实现安全性？</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot2-using-userdetailsservice/</link>
-      <pubDate>Fri, 18 Aug 2023 11:00:00 +0800</pubDate>
+      <pubDate>Fri, 18 Aug 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot2-using-userdetailsservice/</guid>
       <description>继续上一篇关于实现 Spring Security 的两种不同方法的文章，在本文中，我们将学习第三种方法“如何使用 UserDetailsS​​ervice 在 Spring Boot 中实现 Security？”。经过上一篇文章后，我希望我们都非常熟悉安全性的基础知识，甚至是 Spring Boot 应用程序中的安全性基础知识。这次我们将创建一个用户注册表并将用户及其角色保存到数据库中。
 然后，根据用户角色，我们将借助预定义的 UserDetailsS​​ervice 检查身份验证和授权功能。
@@ -447,7 +437,7 @@ UserDetailsService 是做什么的？使用它有什么好处？ UserDetailsS​
     <item>
       <title>[译]如何在Spring Boot3中使用UserDetailsService实现安全性？</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot3-using-userdetailsservice/</link>
-      <pubDate>Fri, 18 Aug 2023 11:00:00 +0800</pubDate>
+      <pubDate>Fri, 18 Aug 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot3-using-userdetailsservice/</guid>
       <description>作为有关 Spring Security 的系列文章的继续，在本文中我们将学习“如何在 Spring Boot 3 中使用 UserDetailsService 实现 Spring Boot 中的安全性？”。经过前面的文章，我希望我们都非常熟悉安全性的基础知识，甚至 Spring Boot 应用程序中的安全性基础知识。 Spring Boot 3 发布后，我们将在这里实现“使用 Spring Boot 3 的 Spring Security UserDetailsService”。
 在本文中，我们将创建一个用户注册表单并将用户及其角色保存在数据库中。然后，根据用户角色，我们将借助预定义的 UserDetailsS​​ervice 检查身份验证和授权功能。
@@ -468,9 +458,33 @@ IDE – STS 4.7.1。发布
 Jars Used 下面是这些示例中 maven 使用 pom.</description>
     </item>
     <item>
+      <title>[译]没有WebSecurityConfigurerAdapter的Spring Security.md</title>
+      <link>https://blog.chensoul.cc/posts/2023/08/18/spring-security-without-websecurityconfigureradapter/</link>
+      <pubDate>Fri, 18 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2023/08/18/spring-security-without-websecurityconfigureradapter/</guid>
+      <description>在 Spring Security 模块的上下文中，WebSecurityConfigurerAdapter 是一个抽象类，根据 Spring 官方网站 2022 年 2 月 21 日发布的公告，该类已从 Spring Security 5.7.0-M2 中弃用。它通常用于扩展 configure() 方法由自定义配置子类实现。因此，它鼓励用户转向基于组件的安全配置。为了支持对这种新配置设计的更改，我们将讨论常见用例列表和未来建议的替代方案。因此，我们将讨论没有 WebSecurityConfigurerAdapter 的 Spring Security 用例的实现。
+了解这一变化很重要，因为迟早我们将使用最新版本的 Spring Security 来开发安全功能。让我们讨论“没有 WebSecurityConfigurerAdapter 的 Spring Security”主题及其相关概念。
+什么是 WebSecurityConfigurerAdapter？ WebSecurityConfigurerAdapter 是 Spring Security 模块提供的一个抽象类。一般来说，我们使用它来重写它的 configure()方法来定义我们的安全配置类。通常，我们在应用程序中实现 Spring Security 时使用两个具有不同参数的 configure() 方法。一种用于声明与身份验证相关的配置，另一种用于声明与授权相关的配置。该代码类似于下面的代码片段。
+@Configuration @EnableWebSecurity public class SecurityConfiguration extends WebSecurityConfigurerAdapter { @Override protected void configure(AuthenticationManagerBuilder auth) throws Exception { // configure Authentication ...... } @Override protected void configure(HttpSecurity http) throws Exception { // configure Authorization ...... } } 为什么我们需要学习这个改变？ 如果您使用 Spring Boot 2.7.0 和 maven，它将自动下载 Spring Security 5.7.0 或更高版本。在这种情况下，您会发现 WebSecurityConfigurerAdapter 已被弃用。如果您仍然想使用此类而不弃用，您可以在 pom.xml 中将 Spring Boot 版本更改为较低版本（例如 2.6.6 ），如下所示。它将自动下载低于 5.</description>
+    </item>
+    <item>
+      <title>[译]Spring Security - OAuth2</title>
+      <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-oauth2/</link>
+      <pubDate>Wed, 16 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-oauth2/</guid>
+      <description>OAuth 2.0 基础知识 OAuth 2.0 由 IETF OAuth 工作组开发并于 2012 年 10 月发布。它作为一种开放授权协议，使第三方应用程序能够代表资源所有者对 HTTP 服务进行有限访问。它可以在不泄露用户身份或长期凭证的情况下做到这一点。第三方应用程序本身也可以代表其使用它。
+OAuth 的工作原理包括将用户身份验证委托给托管用户帐户的服务，并授权第三方应用程序访问用户的帐户。
+让我们考虑一个例子。假设我们要登录网站“clientsite.com”。我们可以通过 Facebook、Github、Google 或 Microsoft 登录。我们选择上面给出的选项中的任何选项，然后我们将被重定向到相应的网站进行登录。如果登录成功，系统会询问我们是否要授予 clientsite.com 访问其请求的特定数据的权限。
+我们选择所需的选项，然后使用授权代码或错误代码重定向到 clientsite.com，登录是否成功取决于我们在第三方资源中的操作。这就是 OAuth 2 的基本工作原理。
+OAuth 系统涉及五个关键角色。让我们把它们列出来 -
+User / Resource Owner − 用户/资源所有者- 最终用户，负责身份验证并同意与客户端共享资源。 User-Agent − 用户代理- 用户使用的浏览器。 Client − 客户端 - 请求访问令牌的应用程序。 Authorization Server − 授权服务器- 用于验证用户/客户端的服务器。它颁发访问令牌并在其整个生命周期内对其进行跟踪。 Resource Server − 资源服务器- 提供对所请求资源的访问的 API。它验证访问令牌并提供授权。 入门 我们将使用 Spring Security 和 OAuth 2.0 开发一个 Spring Boot 应用程序来说明上述内容。我们现在将开发一个带有内存数据库的基本应用程序来存储用户凭据。该应用程序将使我们轻松了解 OAuth 2.0 与 Spring Security 的工作原理。
+让我们使用 Spring 初始化程序在 Java 8 中创建一个 Maven 项目。让我们从 start.spring.io 开始。我们生成一个具有以下依赖项的应用程序 -
+Spring Web Spring Security Cloud OAuth2 Spring Boot Devtools 通过上面的配置，我们点击 Generate 按钮生成一个项目。该项目将以 zip 文件形式下载。我们将 zip 解压到一个文件夹中。然后我们可以在我们选择的 IDE 中打开该项目。我在这里使用 Spring Tools Suite，因为它针对 Spring 应用程序进行了优化。我们也可以根据需要使用 Eclipse 或 IntelliJ Idea。</description>
+    </item>
+    <item>
       <title>[译]Spring Security 和 Spring Boot 入门</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security/</link>
-      <pubDate>Wed, 16 Aug 2023 14:40:00 +0800</pubDate>
+      <pubDate>Wed, 16 Aug 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security/</guid>
       <description>Spring Security 是一个有助于保护企业应用程序安全的框架。通过与 Spring MVC、Spring Webflux 或 Spring Boot 集成，我们可以创建一个强大且高度可定制的身份验证和访问控制框架。在本文中，我们将解释核心概念并仔细研究 Spring Security 提供的默认配置及其工作原理。我们将进一步尝试自定义它们并分析它们对示例 Spring Boot 应用程序的影响。
 示例代码 本文附有 GitHub 上的工作代码示例。
@@ -485,23 +499,9 @@ spring: security: user: name: admin password: passw@rd 现在，我们应该能�
 Servlet Filters 过滤器 Authentication 认证 Authorization 授权 Servlet Filters 让我们仔细看看应用程序启动时的控制台日志。我们看到 DefaultSecurityFilterChain 在请求到达 DispatcherServlet 之前触发一系列过滤器。 DispatcherServlet 是 Web 框架中的关键组件，用于处理传入的 Web 请求并将它们分派到适当的处理程序进行处理。</description>
     </item>
     <item>
-      <title>[译]Spring Security - OAuth2</title>
-      <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-oauth2/</link>
-      <pubDate>Wed, 16 Aug 2023 10:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-oauth2/</guid>
-      <description>OAuth 2.0 基础知识 OAuth 2.0 由 IETF OAuth 工作组开发并于 2012 年 10 月发布。它作为一种开放授权协议，使第三方应用程序能够代表资源所有者对 HTTP 服务进行有限访问。它可以在不泄露用户身份或长期凭证的情况下做到这一点。第三方应用程序本身也可以代表其使用它。
-OAuth 的工作原理包括将用户身份验证委托给托管用户帐户的服务，并授权第三方应用程序访问用户的帐户。
-让我们考虑一个例子。假设我们要登录网站“clientsite.com”。我们可以通过 Facebook、Github、Google 或 Microsoft 登录。我们选择上面给出的选项中的任何选项，然后我们将被重定向到相应的网站进行登录。如果登录成功，系统会询问我们是否要授予 clientsite.com 访问其请求的特定数据的权限。
-我们选择所需的选项，然后使用授权代码或错误代码重定向到 clientsite.com，登录是否成功取决于我们在第三方资源中的操作。这就是 OAuth 2 的基本工作原理。
-OAuth 系统涉及五个关键角色。让我们把它们列出来 -
-User / Resource Owner − 用户/资源所有者- 最终用户，负责身份验证并同意与客户端共享资源。 User-Agent − 用户代理- 用户使用的浏览器。 Client − 客户端 - 请求访问令牌的应用程序。 Authorization Server − 授权服务器- 用于验证用户/客户端的服务器。它颁发访问令牌并在其整个生命周期内对其进行跟踪。 Resource Server − 资源服务器- 提供对所请求资源的访问的 API。它验证访问令牌并提供授权。 入门 我们将使用 Spring Security 和 OAuth 2.0 开发一个 Spring Boot 应用程序来说明上述内容。我们现在将开发一个带有内存数据库的基本应用程序来存储用户凭据。该应用程序将使我们轻松了解 OAuth 2.0 与 Spring Security 的工作原理。
-让我们使用 Spring 初始化程序在 Java 8 中创建一个 Maven 项目。让我们从 start.spring.io 开始。我们生成一个具有以下依赖项的应用程序 -
-Spring Web Spring Security Cloud OAuth2 Spring Boot Devtools 通过上面的配置，我们点击 Generate 按钮生成一个项目。该项目将以 zip 文件形式下载。我们将 zip 解压到一个文件夹中。然后我们可以在我们选择的 IDE 中打开该项目。我在这里使用 Spring Tools Suite，因为它针对 Spring 应用程序进行了优化。我们也可以根据需要使用 Eclipse 或 IntelliJ Idea。</description>
-    </item>
-    <item>
       <title>Spring Security和OAuth2发展过程</title>
       <link>https://blog.chensoul.cc/posts/2023/08/15/spring-security-oauth2-history/</link>
-      <pubDate>Tue, 15 Aug 2023 08:00:00 +0800</pubDate>
+      <pubDate>Tue, 15 Aug 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/15/spring-security-oauth2-history/</guid>
       <description>Spring Security 的发展过程 Spring Security 是一个功能强大且广泛使用的安全框架，为企业级应用程序提供了全面的安全性。Spring Security 最初是 Acegi Security 项目的一部分，于 2004 年发布，现在已经成为 Spring 生态系统的核心组件。 Spring Security 的发展过程可以分为三个阶段：
 第一阶段：Spring Security 起源于一个名为 Acegi Security 的开源项目，初期重点实现了 Spring 应用的身份认证和授权服务功能。2003 年，Acegi Security 作为一个孵化项目被捐献给 Spring 社区。2004 年，正式作为 Spring 框架的核心组件之一 Absorbed 进 Spring。并更名为 Spring Security。Spring Security 1.0 版本 Spring Security 1.0 版本发布于 2004 年。它提供了最基本的安全功能，包括身份验证和授权。身份验证是验证用户是否是他们所声称的人的过程。授权是确定用户是否有权访问特定资源的过程。 Spring Security 1.0 版本使用了以下技术来实现身份验证和授权：
@@ -511,7 +511,7 @@ Spring Web Spring Security Cloud OAuth2 Spring Boot Devtools 通过上面的配�
     <item>
       <title>[译]在 Spring 中实现 OAuth2：使用范围（第 2 部分）</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring-scopes/</link>
-      <pubDate>Wed, 26 Jul 2023 07:05:00 +0800</pubDate>
+      <pubDate>Wed, 26 Jul 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring-scopes/</guid>
       <description>我们在上一篇文章中了解了基本的 OAuth2 概念以及如何在 Spring 中实现和执行不同的授权。在这篇文章中，我们将介绍 OAuth2 的另一个重要概念：范围。
 OAuth 范围 保护对应用程序的访问通常分两个步骤进行：身份验证和授权。要理解这两个概念，假设您在绝密政府大楼工作。在开始之前，你会得到一张卡片，可以让你进入建筑物。 OAuth 令牌可以看作是允许您访问的卡片。
@@ -525,7 +525,7 @@ clients.inMemory().withClient(&amp;#34;my-trusted-client&amp;#34;) .authorizedGr
     <item>
       <title>[译]在 Spring 中实现 OAuth2：第 1 部分</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring/</link>
-      <pubDate>Wed, 26 Jul 2023 07:00:00 +0800</pubDate>
+      <pubDate>Wed, 26 Jul 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring/</guid>
       <description>OAuth2 是一组规范，主要提供对 Rest API 的安全访问的方法。 OAuth 的主要目的是允许通过使用令牌来执行身份验证和授权，而不必为每个操作提供凭据。由于本文的重点是实现，并且为了不重新发明轮子，可以查看 OAuth RFC 或维基百科以获取更多理论背景。在这篇文章中，我们将深入探讨 Spring 中的 OAuth2 实现以及如何使用不同的授权类型，但在此之前值得提供一些重要概念的简要定义。
 访问令牌和刷新令牌 身份验证成功后将提供访问令牌以及刷新令牌。访问令牌有一个有限的有效期（标准为 1 小时），之后需要刷新令牌才能获取新的访问令牌和新的刷新令牌。 Referesh 令牌通常会在使用后过期。

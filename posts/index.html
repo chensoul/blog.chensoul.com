@@ -5,14 +5,14 @@ public class IDERunner { private static final boolean TRANSPORT_TRACE = false; p
 BrokerService BrokerService 管理 ActiveMQ Broker 的生命周期。BrokerService 由许多传输连接器、网络连接器和一系列属性组成，这些属性可用于在延迟创建代理时对其进行配置。
 BrokerService 类实现了 Service 接口。Service 接口是 ActiveMQ 组件的核心生命周期接口。如果有标准方法，最好将此接口注册到 Spring，以便它将启动/ 停止方法视为 org.springframework.beans.factory.InitializingBean 和 org.springframework. beans.factory.DisposableBean 的方法
 public interface Service { void start() throws Exception; void stop() throws Exception; } BrokerService 类没有构造方法，有一个 static 代码块：
-static { try { Boolean bouncyCastleNotAdded = Boolean.getBoolean("org.apache.activemq.broker.BouncyCastleNotAdded"); if (bouncyCastleNotAdded == null || bouncyCastleNotAdded == false) { ClassLoader loader = BrokerService....</p></div><footer class=entry-footer><span title='2024-08-27 09:00:00 +0800 +0800'>2024-08-27</span>&nbsp;·&nbsp;8 min&nbsp;·&nbsp;1698 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to ActiveMQ源码-BrokerService和PersistenceAdapter" href=https://blog.chensoul.cc/posts/2024/08/27/activemq-source-code-broker-service/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>ThingsBoard源码编译和Idea运行</h2></header><div class=entry-content><p>ThingsBoard 源码地址：https://github.com/thingsboard/thingsboard，从 3.7 版本之后，要求 JDK17。官方提供了源码编译的文档：Building from sources
+static { try { Boolean bouncyCastleNotAdded = Boolean.getBoolean("org.apache.activemq.broker.BouncyCastleNotAdded"); if (bouncyCastleNotAdded == null || bouncyCastleNotAdded == false) { ClassLoader loader = BrokerService....</p></div><footer class=entry-footer><span title='2024-08-27 00:00:00 +0000 UTC'>2024-08-27</span>&nbsp;·&nbsp;8 min&nbsp;·&nbsp;1698 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to ActiveMQ源码-BrokerService和PersistenceAdapter" href=https://blog.chensoul.cc/posts/2024/08/27/activemq-source-code-broker-service/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>ThingsBoard源码编译和Idea运行</h2></header><div class=entry-content><p>ThingsBoard 源码地址：https://github.com/thingsboard/thingsboard，从 3.7 版本之后，要求 JDK17。官方提供了源码编译的文档：Building from sources
 源码编译 下载代码：
 git clone git@github.com:thingsboard/thingsboard.git 设置当前 JDK 版本为 17 以上。这里我使用 sdkman 切换 java。
 sdk use java 17.0.12-tem 终端编译源码：
 cd thingsboard mvn clean install -Dmaven.test.skip=true 如果在编译过程中提示找不到 Gradle：
 [ERROR] Failed to execute goal org.thingsboard:gradle-maven-plugin:1.0.12:invoke (default) on project http: org.gradle.tooling.BuildException: Could not execute build using connection to Gradle distribution 'https://services.gradle.org/distributions/gradle-7.3.3-bin.zip'. -> [Help 1] 往上查看详细异常日志：
 * What went wrong: Could not compile build file '/Users/chensoul/Codes/github/thingsboard/packaging/java/build.gradle'. > startup failed: General error during conversion: Unsupported class file major version 65 java.lang.IllegalArgumentException: Unsupported class file major version 65 可以看到是 JDK 版本过高的原因。需要确认 JDK 版本使用 17，不能是 21。
-如果 maven 下载太慢，则修改 mirrors 节点如下：...</p></div><footer class=entry-footer><span title='2024-08-27 09:00:00 +0800 +0800'>2024-08-27</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;196 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to ThingsBoard源码编译和Idea运行" href=https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>ActiveMQ源码本地调试运行</h2></header><div class=entry-content><p>源码构建 1、从 https://github.com/apache/activemq 下载源码
+如果 maven 下载太慢，则修改 mirrors 节点如下：...</p></div><footer class=entry-footer><span title='2024-08-27 00:00:00 +0000 UTC'>2024-08-27</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;196 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to ThingsBoard源码编译和Idea运行" href=https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>ActiveMQ源码本地调试运行</h2></header><div class=entry-content><p>源码构建 1、从 https://github.com/apache/activemq 下载源码
 git clone https://github.com/apache/activemq 2、切换至 activemq-5.18.x 分支
 cd activemq git checkout activemq-5.18.x 3、构建源码
 mvn package -DskipTests 构建成功之后，在 assembly/target 目录可以看到打包好的压缩文件。
@@ -24,7 +24,67 @@ mvn package -DskipTests 构建成功之后，在 assembly/target 目录可以看
 5、debug 运行 Main.java 类
 在 Idea 中运行单元测试类 分析 Main.java 类的 main 方法，调用链如下：
 Main.java -> ShellCommand.java -> StartCommand.java -> BrokerService.java 从 BrokerService 类，可以看到启动 broker 的关键代码如下：
-final BrokerService broker; try { // If no config uri, use default setting if (brokerURIs....</p></div><footer class=entry-footer><span title='2024-08-09 09:00:00 +0800 +0800'>2024-08-09</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;309 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to ActiveMQ源码本地调试运行" href=https://blog.chensoul.cc/posts/2024/08/09/debug-activemq-source-code/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]数据库分片速成课程</h2></header><div class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-in-database-sharding
+final BrokerService broker; try { // If no config uri, use default setting if (brokerURIs....</p></div><footer class=entry-footer><span title='2024-08-09 00:00:00 +0000 UTC'>2024-08-09</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;309 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to ActiveMQ源码本地调试运行" href=https://blog.chensoul.cc/posts/2024/08/09/debug-activemq-source-code/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]关系数据库设计速成课程</h2></header><div class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-on-relational-database
+在当今数据驱动的世界中，高效存储和管理信息是各种规模的企业和组织的关键要求。
+关系数据库提供了一个强大的框架，用于根据实体之间明确定义的关系来存储和检索数据。它们提供了一种结构化的数据管理方法，使用户能够：
+定义表 建立关系 执行复杂查询以从存储的信息中提取有意义的见解 然而，仅仅使用关系数据库还不足以获得其好处。
+有效的数据库设计对于优化性能、确保数据完整性和促进高效的数据检索至关重要。数据库设计原则（例如规范化、索引、连接和关系）在创建结构良好且性能良好的数据库中起着至关重要的作用。
+在这篇文章中，我们将研究关系数据库的基础知识，探讨其关键概念、管理系统以及有效数据库设计的基础原则。
+什么是关系数据库？ 关系数据库是一种将数据组织成结构化表格（也称为关系）的数据库。这些表格由行（记录）和列（字段）组成，形成表格结构，可实现高效的数据存储和检索。
+关系数据库的强大之处在于它能够在多个表之间建立关系。
+通过定义相关表之间的连接，可以链接和组合信息。这允许跨多个表进行复杂的查询和数据检索操作，使您能够以各种方式访问和分析数据。
+为了有效地使用关系数据库，我们需要一个关系数据库管理系统 (RDBMS)。
+RDBMS 是一种用于创建、管理和与关系数据库交互的软件应用程序。
+RDBMS 提供的一些关键功能包括：
+数据定义： 定义数据库的结构，包括表、列、数据类型和约束。 数据操作： 对数据库中存储的数据执行各种操作。包括插入新记录、更新现有记录、删除记录等。 数据完整性： RDBMS 强制执行数据完整性规则来维护数据的准确性和一致性。 数据安全： RDBMS 还通过定义用户角色、权限和身份验证措施来提供控制数据库访问的机制。 查询优化： RDBMS 优化复杂查询的执行，以高效检索数据。它采用各种技术，例如索引和查询优化算法。 市场上有多种 RDBMS，每种都具有一组特性和功能。以下是一些示例：
+MySQL： 一种开源 RDBMS，以其简单性、可靠性和广泛采用而闻名。 PostgreSQL： 一个强大的开源 RDBMS，具有高级功能和对数据完整性的强大支持。 Oracle 数据库： 一种功能全面、丰富的 RDBMS，常用于企业环境。 SQL：关系数据库语言 SQL（结构化查询语言）是用于与关系数据库交互的标准编程语言。
+其主要优势之一是通用性。在 MySQL、PostgreSQL、Oracle 等上工作时，语法基本保持不变。
+这种可移植性使开发人员能够以最小的学习曲线从一个 RDBMS 切换到另一个 RDBMS。
+SQL 提供了一套全面的命令和语法，允许开发人员和数据库管理员对数据库中存储的数据执行各种操作。
+SQL 支持四种基本的数据操作，通常称为 CRUD：
+创建： 将新记录插入数据库表，有效地创建新的数据条目。 读取： 根据特定条件从一个或多个表中检索数据。 更新： 修改数据库中现有的记录。 删除： 从数据库表中删除不再需要或满足特定删除条件的记录。 除了数据操作之外，SQL 还提供定义和修改数据库结构的命令。
+基本 RDBMS 概念 使用关系数据库时，了解基本概念和术语至关重要。
+让我们探讨一些关键术语：
+表： 按行和列组织的相关数据的结构化集合。每个表代表一个特定的实体或概念，例如客户、订单或产品。 行： 行，也称为记录或元组，表示表中的单个实例或条目。例如，在“客户”表中，每一行都属于具有某些属性的单个客户。 列： 列，也称为字段或属性，表示表中特定记录的特定特征或属性。列用于组织和分类表中的数据。 主键： 主键是一列或多列的组合，用作表中每条记录的唯一标识符。它通过防止主键列中的重复值或空值来确保数据的唯一性和完整性。 外键： 外键是表中引用另一个表的主键的列或列组合。它建立两个表之间的关系，并有助于加强引用完整性和数据一致性。 连接： 连接是一种根据相关列将两个或多个表中的行组合在一起的操作。通过指定组合表的条件，可以从多个表中检索数据。 索引： 索引是一种数据结构，可提高数据库中数据检索操作的性能。它根据一个或多个列创建表中数据的排序表示。 视图： 视图是从一个或多个基础表动态生成的虚拟表。它提供数据的自定义和简化表示。视图可用于安全性、简化或数据抽象目的。 关系数据库中的键 键是关系数据库设计中的基本组件，在数据完整性和建立表间关系方面发挥着至关重要的作用。
+它们作为记录的唯一标识符，使数据检索和处理更加高效。
+让我们看看不同类型的键及其在关系数据库设计中的意义。
+主键和索引 主键是唯一标识表中每条记录的一列或多列的组合。
+它确保每条记录都是唯一的，并且可以在表中轻松找到。主键约束强制主键列的唯一性和非空性。
+下面的示例显示如何将表中的某一列定义为主键：
+CREATE TABLE books ( book_id INT PRIMARY KEY, title VARCHAR(100), author VARCHAR(100), isbn VARCHAR(20) UNIQUE, publication_year INT, genre VARCHAR(50) ); 通过指定 book_id INT PRIMARY KEY，我们将 book_id 列声明为“books”表的主键。换句话说，book_id 列中的每个值都必须是唯一的，并且不能为空。...</p></div><footer class=entry-footer><span title='2024-08-05 00:00:00 +0000 UTC'>2024-08-05</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;810 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]关系数据库设计速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-relational-database/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]分布式系统速成课程</h2></header><div class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-on-distributed-systems
+分布式系统是多台计算机（也称为节点）的集合，它们协作执行特定任务或提供服务。
+这些节点在物理上是分开的，并通过网络传递消息相互通信。分布式系统可以跨越地理边界，使其能够利用来自不同位置的资源。
+分布式系统有几个区别于传统集中式系统的特点：
+分布式系统中的计算机在物理上是分开的，并通过网络连接。它们不共享内存或公共时钟。 从外部视角来看，分布式系统对于最终用户来说是一个单一、统一的实体。 分布式系统提供了在系统中添加或删除计算机的灵活性。 分布式系统中的节点需要相互协调并达成一致才能一致地执行操作。 分布式系统中的节点可能独立发生故障，并且消息可能会在网络上丢失或延迟。 分布式系统在我们的日常生活中无处不在。例如 Google 搜索等大型 Web 应用程序、在线银行系统、多人游戏等。这些系统利用多台计算机协同工作，提供无缝且响应迅速的用户体验。
+在本文中，我们将探讨分布式系统的优势和挑战。我们还将讨论用于解决这些挑战并确保分布式系统可靠运行的常用方法和技术。
+理解分布式系统 “分布式系统”这个术语有时会让开发人员感到困惑。
+一些常见的混淆是关于分散系统和并行系统。
+让我们在分布式系统的背景下了解这些术语的含义以及它们有何异同。
+分散式系统与分布式系统 “分散式系统”和“分布式系统”等术语经常互换使用，但它们有一个关键的区别。
+虽然这两种类型的系统都涉及多个组件协同工作，但决策过程却使它们有所区别。
+在去中心化系统中，这也是一种分布式系统，没有任何一个组件能够完全控制决策过程。相反，每个组件都拥有决策的一部分，但不拥有做出独立决策所需的完整信息。
+并行系统与分布式系统 与分布式系统密切相关的另一个术语是并行系统。
+分布式和并行系统都旨在扩大计算能力，但它们使用不同的方法实现这一目标。
+在并行计算中，一台机器内的多个处理器同时执行多个任务。这些处理器通常可以访问共享内存，从而可以交换数据并高效地协调其活动。
+另一方面，分布式系统由多台不共享内存的自主机器组成。这些机器通过网络传递消息来通信和协调其操作。每台机器独立运行，通过执行分配的任务为整体计算做出贡献。
+分布式系统的主要优点 虽然设计和构建分布式系统比传统的集中式系统更复杂，但它们的优势使得付出的努力值得。
+让我们探索分布式系统的一些主要优势：
+可扩展性：垂直扩展涉及增加单台机器的硬件资源，通常受到物理约束的限制。例如，单台机器可以添加的处理器核心数量是有限的。相比之下，分布式系统支持水平扩展，可以将其他商用机器添加到系统中。这样可以通过添加相对便宜的硬件来扩展系统。 可靠性：与集中式系统相比，分布式系统对故障的恢复能力更强。由于数据在多个节点上复制，因此单个节点或部分节点的故障不一定会导致整个系统崩溃。其余节点可以继续运行，尽管容量会降低，但可以确保整个系统保持正常运行。 性能：分布式计算通常涉及将复杂的工作负载分解为更小、更易于管理的部分，这些部分可以在多台机器上同时处理。这种并行处理能力可以提高计算密集型任务（例如矩阵乘法或大规模数据处理）的性能。 分布式系统的挑战 分布式系统在操作方面也面临多重挑战。
+了解这些挑战和克服这些挑战的技术是利用分布式系统的关键。
+让我们探讨分布式系统的主要挑战以及处理这些挑战的技术。
+沟通 在分布式系统中，节点需要通过网络相互通信和协调，以作为一个有凝聚力的单元发挥作用。
+然而，由于底层网络基础设施不可靠，这种通信具有挑战性。
+负责在节点之间传递数据包的互联网协议 (IP) 仅提供“尽力而为”的服务。这意味着网络无法保证数据包的可靠传递。
+数据包传输过程中可能会出现几个问题：
+数据包丢失：由于网络拥塞、硬件故障或其他因素，数据包可能在传输过程中丢失或丢弃。 数据包重复：在某些情况下，数据包可能会被重复，导致同一数据包的多个副本被传送到目标节点。 数据包损坏：数据包在传输过程中可能会损坏。损坏的数据包可能包含无效或不正确的数据，从而导致通信错误。 无序传送：数据包到达目标节点的顺序可能与发送时的顺序不同。 在这个不可靠的基础上建立可靠的沟通是一项重大挑战。
+分布式系统处理这些问题的一些关键技术如下：
+1 - 使用 TCP 进行可靠通信 传输控制协议 (TCP) 是一种基础协议，它提供了一种强大的机制来确保进程之间字节流的可靠、按序传输，使其成为分布式系统中可靠数据传输的基石。
+它采用了几种关键机制来克服网络固有的不可靠性：
+TCP 将字节流分割成更小的、有序的数据包（称为段）。 它要求接收方在收到数据包后向发送方发送确认（ACK）。 TCP 使用校验和来验证传输数据的完整性。 TCP 实现流量控制以防止发送方用大量数据淹没接收方。 最后，TCP 采用拥塞控制机制来适应可用的网络带宽。 下图显示了客户端和服务器之间建立连接的 TCP 三次握手过程。
+2 - 使用 TLS 确保通信安全 尽管 TCP 能够确保在不可靠的网络上进行可靠通信，但它并未解决数据传输的安全问题。这时，传输层安全性 (TLS) 协议便应运而生。
+TLS 是一种加密协议，为 TCP 建立的通信通道添加加密、身份验证和完整性。
+TLS 使用多种机制来保护节点之间的通信：
+TLS 使用非对称和对称加密的组合来保护数据的机密性。 TLS 依靠数字证书来验证通信方的身份。 为了确保传输数据的完整性，TLS 在每条消息中都包含校验和或消息认证码。 3 - 使用 DNS 进行服务发现 在分布式系统中，节点需要一种机制来发现彼此并相互通信。这就是域名系统 (DNS) 发挥作用的地方，它解决了服务发现问题。...</p></div><footer class=entry-footer><span title='2024-08-05 00:00:00 +0000 UTC'>2024-08-05</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;273 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]分布式系统速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-distributed-systems/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]数据库分片速成课程</h2></header><div class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-in-database-sharding
 随着应用程序越来越受欢迎，它会吸引更多活跃用户并加入更多功能。这种增长导致每日数据生成量增加，从业务角度来看，这是一个积极的指标。
 然而，它也给应用程序的架构带来挑战，特别是在数据库可扩展性方面。
 数据库是任何应用程序的关键组件，但它也是最难水平扩展的组件之一。当应用程序的流量和数据量增加时，数据库可能会成为性能瓶颈，影响用户体验。
@@ -75,7 +135,7 @@ final BrokerService broker; try { // If no config uri, use default setting if (b
 单调变化 单调变化是指对于给定的记录，分片键值随着时间的推移而增加或减少。
 如果分片键基于单调增加或减少的值，则可能导致分片不平衡。
 考虑存储用户评论的数据库的分片方案。
-分片A存储评论少于10条的用户的数据。 分片B存储有11-20条评论的用户的数据。 分片 C 存储了评论超过 30 条的用户的数据。 随着用户随着时间的推移不断添加评论，他们会逐渐迁移到分片 C，这使得它比分片 A 和 B 更加不平衡。...</p></div><footer class=entry-footer><span title='2024-08-05 09:10:00 +0800 +0800'>2024-08-05</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;397 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]数据库分片速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-in-database-sharding/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]数据库扩展策略速成课程</h2></header><div class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-in-database-scaling
+分片A存储评论少于10条的用户的数据。 分片B存储有11-20条评论的用户的数据。 分片 C 存储了评论超过 30 条的用户的数据。 随着用户随着时间的推移不断添加评论，他们会逐渐迁移到分片 C，这使得它比分片 A 和 B 更加不平衡。...</p></div><footer class=entry-footer><span title='2024-08-05 00:00:00 +0000 UTC'>2024-08-05</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;397 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]数据库分片速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-in-database-sharding/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]数据库扩展策略速成课程</h2></header><div class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-in-database-scaling
 数据库是现代应用程序开发的支柱。它们在存储、管理和检索数据方面发挥着至关重要的作用，使应用程序和服务能够有效运行。
 随着应用程序越来越受欢迎并吸引越来越多的用户群，数据库面临着处理不断增加的数据量、并发用户和复杂查询的挑战。
 有效地扩展数据库以确保最佳性能和良好的用户体验变得至关重要。
@@ -120,67 +180,7 @@ final BrokerService broker; try { // If no config uri, use default setting if (b
 为了解决这一可扩展性挑战，应用程序所有者决定垂直扩展数据库服务器。他们使用更强大的 CPU 升级服务器，将 RAM 容量增加一倍，并用 SSD 替换硬盘驱动器 (HDD)。
 这些硬件增强功能显著提高了数据库服务器的性能。更快的 CPU 和更大的内存可实现更快的查询执行和高效的缓存，而 SSD 则可提供更快的数据检索和写入速度。
 因此，数据库服务器可以处理更多并发用户并提供更高的性能。
-垂直扩展与数据库可扩展性的优势 垂直扩展可以通过多种方式提高数据库的可扩展性：...</p></div><footer class=entry-footer><span title='2024-08-05 09:00:00 +0800 +0800'>2024-08-05</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;209 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]数据库扩展策略速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-in-database-scaling/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]关系数据库设计速成课程</h2></header><div class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-on-relational-database
-在当今数据驱动的世界中，高效存储和管理信息是各种规模的企业和组织的关键要求。
-关系数据库提供了一个强大的框架，用于根据实体之间明确定义的关系来存储和检索数据。它们提供了一种结构化的数据管理方法，使用户能够：
-定义表 建立关系 执行复杂查询以从存储的信息中提取有意义的见解 然而，仅仅使用关系数据库还不足以获得其好处。
-有效的数据库设计对于优化性能、确保数据完整性和促进高效的数据检索至关重要。数据库设计原则（例如规范化、索引、连接和关系）在创建结构良好且性能良好的数据库中起着至关重要的作用。
-在这篇文章中，我们将研究关系数据库的基础知识，探讨其关键概念、管理系统以及有效数据库设计的基础原则。
-什么是关系数据库？ 关系数据库是一种将数据组织成结构化表格（也称为关系）的数据库。这些表格由行（记录）和列（字段）组成，形成表格结构，可实现高效的数据存储和检索。
-关系数据库的强大之处在于它能够在多个表之间建立关系。
-通过定义相关表之间的连接，可以链接和组合信息。这允许跨多个表进行复杂的查询和数据检索操作，使您能够以各种方式访问和分析数据。
-为了有效地使用关系数据库，我们需要一个关系数据库管理系统 (RDBMS)。
-RDBMS 是一种用于创建、管理和与关系数据库交互的软件应用程序。
-RDBMS 提供的一些关键功能包括：
-数据定义： 定义数据库的结构，包括表、列、数据类型和约束。 数据操作： 对数据库中存储的数据执行各种操作。包括插入新记录、更新现有记录、删除记录等。 数据完整性： RDBMS 强制执行数据完整性规则来维护数据的准确性和一致性。 数据安全： RDBMS 还通过定义用户角色、权限和身份验证措施来提供控制数据库访问的机制。 查询优化： RDBMS 优化复杂查询的执行，以高效检索数据。它采用各种技术，例如索引和查询优化算法。 市场上有多种 RDBMS，每种都具有一组特性和功能。以下是一些示例：
-MySQL： 一种开源 RDBMS，以其简单性、可靠性和广泛采用而闻名。 PostgreSQL： 一个强大的开源 RDBMS，具有高级功能和对数据完整性的强大支持。 Oracle 数据库： 一种功能全面、丰富的 RDBMS，常用于企业环境。 SQL：关系数据库语言 SQL（结构化查询语言）是用于与关系数据库交互的标准编程语言。
-其主要优势之一是通用性。在 MySQL、PostgreSQL、Oracle 等上工作时，语法基本保持不变。
-这种可移植性使开发人员能够以最小的学习曲线从一个 RDBMS 切换到另一个 RDBMS。
-SQL 提供了一套全面的命令和语法，允许开发人员和数据库管理员对数据库中存储的数据执行各种操作。
-SQL 支持四种基本的数据操作，通常称为 CRUD：
-创建： 将新记录插入数据库表，有效地创建新的数据条目。 读取： 根据特定条件从一个或多个表中检索数据。 更新： 修改数据库中现有的记录。 删除： 从数据库表中删除不再需要或满足特定删除条件的记录。 除了数据操作之外，SQL 还提供定义和修改数据库结构的命令。
-基本 RDBMS 概念 使用关系数据库时，了解基本概念和术语至关重要。
-让我们探讨一些关键术语：
-表： 按行和列组织的相关数据的结构化集合。每个表代表一个特定的实体或概念，例如客户、订单或产品。 行： 行，也称为记录或元组，表示表中的单个实例或条目。例如，在“客户”表中，每一行都属于具有某些属性的单个客户。 列： 列，也称为字段或属性，表示表中特定记录的特定特征或属性。列用于组织和分类表中的数据。 主键： 主键是一列或多列的组合，用作表中每条记录的唯一标识符。它通过防止主键列中的重复值或空值来确保数据的唯一性和完整性。 外键： 外键是表中引用另一个表的主键的列或列组合。它建立两个表之间的关系，并有助于加强引用完整性和数据一致性。 连接： 连接是一种根据相关列将两个或多个表中的行组合在一起的操作。通过指定组合表的条件，可以从多个表中检索数据。 索引： 索引是一种数据结构，可提高数据库中数据检索操作的性能。它根据一个或多个列创建表中数据的排序表示。 视图： 视图是从一个或多个基础表动态生成的虚拟表。它提供数据的自定义和简化表示。视图可用于安全性、简化或数据抽象目的。 关系数据库中的键 键是关系数据库设计中的基本组件，在数据完整性和建立表间关系方面发挥着至关重要的作用。
-它们作为记录的唯一标识符，使数据检索和处理更加高效。
-让我们看看不同类型的键及其在关系数据库设计中的意义。
-主键和索引 主键是唯一标识表中每条记录的一列或多列的组合。
-它确保每条记录都是唯一的，并且可以在表中轻松找到。主键约束强制主键列的唯一性和非空性。
-下面的示例显示如何将表中的某一列定义为主键：
-CREATE TABLE books ( book_id INT PRIMARY KEY, title VARCHAR(100), author VARCHAR(100), isbn VARCHAR(20) UNIQUE, publication_year INT, genre VARCHAR(50) ); 通过指定 book_id INT PRIMARY KEY，我们将 book_id 列声明为“books”表的主键。换句话说，book_id 列中的每个值都必须是唯一的，并且不能为空。...</p></div><footer class=entry-footer><span title='2024-08-05 08:00:00 +0800 +0800'>2024-08-05</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;810 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]关系数据库设计速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-relational-database/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]分布式系统速成课程</h2></header><div class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-on-distributed-systems
-分布式系统是多台计算机（也称为节点）的集合，它们协作执行特定任务或提供服务。
-这些节点在物理上是分开的，并通过网络传递消息相互通信。分布式系统可以跨越地理边界，使其能够利用来自不同位置的资源。
-分布式系统有几个区别于传统集中式系统的特点：
-分布式系统中的计算机在物理上是分开的，并通过网络连接。它们不共享内存或公共时钟。 从外部视角来看，分布式系统对于最终用户来说是一个单一、统一的实体。 分布式系统提供了在系统中添加或删除计算机的灵活性。 分布式系统中的节点需要相互协调并达成一致才能一致地执行操作。 分布式系统中的节点可能独立发生故障，并且消息可能会在网络上丢失或延迟。 分布式系统在我们的日常生活中无处不在。例如 Google 搜索等大型 Web 应用程序、在线银行系统、多人游戏等。这些系统利用多台计算机协同工作，提供无缝且响应迅速的用户体验。
-在本文中，我们将探讨分布式系统的优势和挑战。我们还将讨论用于解决这些挑战并确保分布式系统可靠运行的常用方法和技术。
-理解分布式系统 “分布式系统”这个术语有时会让开发人员感到困惑。
-一些常见的混淆是关于分散系统和并行系统。
-让我们在分布式系统的背景下了解这些术语的含义以及它们有何异同。
-分散式系统与分布式系统 “分散式系统”和“分布式系统”等术语经常互换使用，但它们有一个关键的区别。
-虽然这两种类型的系统都涉及多个组件协同工作，但决策过程却使它们有所区别。
-在去中心化系统中，这也是一种分布式系统，没有任何一个组件能够完全控制决策过程。相反，每个组件都拥有决策的一部分，但不拥有做出独立决策所需的完整信息。
-并行系统与分布式系统 与分布式系统密切相关的另一个术语是并行系统。
-分布式和并行系统都旨在扩大计算能力，但它们使用不同的方法实现这一目标。
-在并行计算中，一台机器内的多个处理器同时执行多个任务。这些处理器通常可以访问共享内存，从而可以交换数据并高效地协调其活动。
-另一方面，分布式系统由多台不共享内存的自主机器组成。这些机器通过网络传递消息来通信和协调其操作。每台机器独立运行，通过执行分配的任务为整体计算做出贡献。
-分布式系统的主要优点 虽然设计和构建分布式系统比传统的集中式系统更复杂，但它们的优势使得付出的努力值得。
-让我们探索分布式系统的一些主要优势：
-可扩展性：垂直扩展涉及增加单台机器的硬件资源，通常受到物理约束的限制。例如，单台机器可以添加的处理器核心数量是有限的。相比之下，分布式系统支持水平扩展，可以将其他商用机器添加到系统中。这样可以通过添加相对便宜的硬件来扩展系统。 可靠性：与集中式系统相比，分布式系统对故障的恢复能力更强。由于数据在多个节点上复制，因此单个节点或部分节点的故障不一定会导致整个系统崩溃。其余节点可以继续运行，尽管容量会降低，但可以确保整个系统保持正常运行。 性能：分布式计算通常涉及将复杂的工作负载分解为更小、更易于管理的部分，这些部分可以在多台机器上同时处理。这种并行处理能力可以提高计算密集型任务（例如矩阵乘法或大规模数据处理）的性能。 分布式系统的挑战 分布式系统在操作方面也面临多重挑战。
-了解这些挑战和克服这些挑战的技术是利用分布式系统的关键。
-让我们探讨分布式系统的主要挑战以及处理这些挑战的技术。
-沟通 在分布式系统中，节点需要通过网络相互通信和协调，以作为一个有凝聚力的单元发挥作用。
-然而，由于底层网络基础设施不可靠，这种通信具有挑战性。
-负责在节点之间传递数据包的互联网协议 (IP) 仅提供“尽力而为”的服务。这意味着网络无法保证数据包的可靠传递。
-数据包传输过程中可能会出现几个问题：
-数据包丢失：由于网络拥塞、硬件故障或其他因素，数据包可能在传输过程中丢失或丢弃。 数据包重复：在某些情况下，数据包可能会被重复，导致同一数据包的多个副本被传送到目标节点。 数据包损坏：数据包在传输过程中可能会损坏。损坏的数据包可能包含无效或不正确的数据，从而导致通信错误。 无序传送：数据包到达目标节点的顺序可能与发送时的顺序不同。 在这个不可靠的基础上建立可靠的沟通是一项重大挑战。
-分布式系统处理这些问题的一些关键技术如下：
-1 - 使用 TCP 进行可靠通信 传输控制协议 (TCP) 是一种基础协议，它提供了一种强大的机制来确保进程之间字节流的可靠、按序传输，使其成为分布式系统中可靠数据传输的基石。
-它采用了几种关键机制来克服网络固有的不可靠性：
-TCP 将字节流分割成更小的、有序的数据包（称为段）。 它要求接收方在收到数据包后向发送方发送确认（ACK）。 TCP 使用校验和来验证传输数据的完整性。 TCP 实现流量控制以防止发送方用大量数据淹没接收方。 最后，TCP 采用拥塞控制机制来适应可用的网络带宽。 下图显示了客户端和服务器之间建立连接的 TCP 三次握手过程。
-2 - 使用 TLS 确保通信安全 尽管 TCP 能够确保在不可靠的网络上进行可靠通信，但它并未解决数据传输的安全问题。这时，传输层安全性 (TLS) 协议便应运而生。
-TLS 是一种加密协议，为 TCP 建立的通信通道添加加密、身份验证和完整性。
-TLS 使用多种机制来保护节点之间的通信：
-TLS 使用非对称和对称加密的组合来保护数据的机密性。 TLS 依靠数字证书来验证通信方的身份。 为了确保传输数据的完整性，TLS 在每条消息中都包含校验和或消息认证码。 3 - 使用 DNS 进行服务发现 在分布式系统中，节点需要一种机制来发现彼此并相互通信。这就是域名系统 (DNS) 发挥作用的地方，它解决了服务发现问题。...</p></div><footer class=entry-footer><span title='2024-08-05 08:00:00 +0800 +0800'>2024-08-05</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;273 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]分布式系统速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-distributed-systems/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]领域驱动设计速成课程</h2></header><div class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-on-domain-driven-design
+垂直扩展与数据库可扩展性的优势 垂直扩展可以通过多种方式提高数据库的可扩展性：...</p></div><footer class=entry-footer><span title='2024-08-05 00:00:00 +0000 UTC'>2024-08-05</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;209 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]数据库扩展策略速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-in-database-scaling/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]领域驱动设计速成课程</h2></header><div class=entry-content><p>原文链接：https://blog.bytebytego.com/p/a-crash-course-on-domain-driven-design
 为复杂领域开发软件是一项具有挑战性的任务。
 随着问题领域的复杂性不断增长，创建准确表示业务概念、规则和流程的软件变得越来越困难。设计不良的软件很快就会变成难以理解、难以维护和扩展的混乱代码。
 领域驱动设计（DDD）为这个问题提供了解决方案。
@@ -208,22 +208,19 @@ public class Account { private String accountNumber; private double balance; pub
 在实践中，这意味着代码中的类、关系和行为直接对应于领域模型中的概念、关系和规则。设计不是由技术考虑或基础设施细节驱动，而是由有效表达领域模型的需求驱动。
 例如，如果银行领域模型定义了一个“帐户”概念，其中包含“存款”和“取款”等行为，那么软件设计将包括一个“帐户”类，其中包含“存款”和“取款”方法。这些方法如何工作的实现细节将由模型中捕获的规则和要求指导。我们已经在上一节中看到了这一点。
 构建领域模型的关键模式 构建领域模型是领域驱动设计中最重要的方面。然而，一些关键的模式和实践可以帮助我们实现最佳结果。
-让我们详细了解一下其中的主要内容。...</p></div><footer class=entry-footer><span title='2024-08-05 08:00:00 +0800 +0800'>2024-08-05</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;289 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]领域驱动设计速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-domain-driven-design/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>Github Action 发布 Jar 到 Maven 中央仓库</h2></header><div class=entry-content><p>作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。
+让我们详细了解一下其中的主要内容。...</p></div><footer class=entry-footer><span title='2024-08-05 00:00:00 +0000 UTC'>2024-08-05</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;289 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]领域驱动设计速成课程" href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-domain-driven-design/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>Github Action 发布 Jar 到 Maven 中央仓库</h2></header><div class=entry-content><p>作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。
 在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。
 下面我将以一个简单的 Maven 项目为例，介绍如何使用 Github Action 实现自动发布 Jar 到 Maven 中央仓库。
 前提条件 在 Github 创建一个 Maven 项目 安装 gpg 并创建 gpg 秘钥和公钥，参考 How to Publish Artifacts to Maven Central 创建 OSSRH 账号，参考 Generate a Token on OSSRH Sonatype Nexus Repository Manager servers 创建 Maven 项目 首先在Github上面创建项目：https://github.com/chensoul/maven-hello-world
 增加两个 Maven 插件：
-&lt;plugin> &lt;groupId>org.apache.maven.plugins&lt;/groupId> &lt;artifactId>maven-gpg-plugin&lt;/artifactId> &lt;version>3.2.2&lt;/version> &lt;executions> &lt;execution> &lt;goals> &lt;goal>sign&lt;/goal> &lt;/goals> &lt;phase>verify&lt;/phase> &lt;/execution> &lt;/executions> &lt;/plugin> &lt;plugin> &lt;groupId>org.sonatype.plugins&lt;/groupId> &lt;artifactId>nexus-staging-maven-plugin&lt;/artifactId> &lt;version>1.7.0&lt;/version> &lt;extensions>true&lt;/extensions> &lt;configuration> &lt;serverId>ossrh&lt;/serverId> &lt;nexusUrl>https://s01.oss.sonatype.org/&lt;/nexusUrl> &lt;autoReleaseAfterClose>true&lt;/autoReleaseAfterClose> &lt;keepStagingRepositoryOnCloseRuleFailure>false&lt;/keepStagingRepositoryOnCloseRuleFailure> &lt;/configuration> &lt;/plugin> 可以将上面的两个插件加入到 pom.xml 的 build 节点下面，也可以配置到 profile 节点下。https://github....</p></div><footer class=entry-footer><span title='2024-08-01 08:00:00 +0800 +0800'>2024-08-01</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1140 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to Github Action 发布 Jar 到 Maven 中央仓库" href=https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]JMS 2.0 的十个好处意味着可以减少代码编写量</h2></header><div class=entry-content><p>原文链接：Ten ways in which JMS 2.0 means writing less code
-这里有十个简单的例子，说明 JMS 2.0 比 JMS 1.1 需要更少的代码。
-单一 JMSContext 而不是单独的 Connection 和 Session 对象 JMS 2.0 简化 API 引入了一个新对象， JMSContext 它提供了与 JMS 1.1 API 中的分隔 Connection 对象 Session 相同的功能：
-JMS 1.1
-Connection connection = connectionFactory.createConnection(); Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE); JMS 2.0
-JMSContext context = connectionFactory.createContext(JMSContext.SESSION_TRANSACTED); 使用 try-with-resources 块意味着不需要调用 close 使用后未能关闭Connection可能会导致您的应用程序耗尽资源。
-JMS 1.1
-在 JMS 1.1 中，确保使用后关闭连接的最佳方法是调用close()一个finally块：
-try { Connection connection = connectionFactory.createConnection(); try { Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE); ... etc ... } finally { connection.close(); } } catch (JMSException ex) { ex.printStackTrace(); } 这太冗长了。更糟糕的是，如果您在块主体中遇到异常try，然后在中遇到异常close()，则第一个异常将会丢失，即使第一个异常可能是失败的根本原因。
-JMS 2.0
-在 JMS 2.0 中，Connection对象实现了java.lang.AutoCloseable接口。这意味着，如果您Connection 在 try-with-resources 块中创建对象，则该close方法将在该块的末尾自动调用。...</p></div><footer class=entry-footer><span title='2024-07-24 10:20:00 +0800 +0800'>2024-07-24</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;386 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]JMS 2.0 的十个好处意味着可以减少代码编写量" href=https://blog.chensoul.cc/posts/2024/07/24/jms20-means-less-code/></a></article><footer class=page-footer><nav class=pagination><a class=next href=https://blog.chensoul.cc/posts/page/2/>Next&nbsp;2/28&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
+&lt;plugin> &lt;groupId>org.apache.maven.plugins&lt;/groupId> &lt;artifactId>maven-gpg-plugin&lt;/artifactId> &lt;version>3.2.2&lt;/version> &lt;executions> &lt;execution> &lt;goals> &lt;goal>sign&lt;/goal> &lt;/goals> &lt;phase>verify&lt;/phase> &lt;/execution> &lt;/executions> &lt;/plugin> &lt;plugin> &lt;groupId>org.sonatype.plugins&lt;/groupId> &lt;artifactId>nexus-staging-maven-plugin&lt;/artifactId> &lt;version>1.7.0&lt;/version> &lt;extensions>true&lt;/extensions> &lt;configuration> &lt;serverId>ossrh&lt;/serverId> &lt;nexusUrl>https://s01.oss.sonatype.org/&lt;/nexusUrl> &lt;autoReleaseAfterClose>true&lt;/autoReleaseAfterClose> &lt;keepStagingRepositoryOnCloseRuleFailure>false&lt;/keepStagingRepositoryOnCloseRuleFailure> &lt;/configuration> &lt;/plugin> 可以将上面的两个插件加入到 pom.xml 的 build 节点下面，也可以配置到 profile 节点下。https://github....</p></div><footer class=entry-footer><span title='2024-08-01 00:00:00 +0000 UTC'>2024-08-01</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1140 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to Github Action 发布 Jar 到 Maven 中央仓库" href=https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[译]JMS 2.0 中的新增功能</h2></header><div class=entry-content><p>原文链接：What is new in JMS 2.0
+在在软件集成领域，从一个软件组件到另一个软件组件进行通信是一项基本要求。虽然已经出现了许多具有这种能力的技术，但 Java 编程语言为我们提供了一个 API，以促进用 Java 编写的组件之间的消息传递。此 API 的实现将由不同的供应商（JMS 提供商）通过代理软件提供。
+这个API被称为Java消息服务（JMS）。
+JMS 规范的最后一次更新是在 2002 年，当时推出了JMS 1.1。从那时起，多年来，该 API 已在全球许多软件组件中使用，证明了其对开发人员的友好性。JMS 的下一个版本（JMS 2.0）于 2013 年 4 月问世，距离 1.1 版已有数年之久。
+JMS 2.0 只能与Java SE 7 及更高版本一起使用。了解 JMS 2.0 中的新功能将会很有趣。
+易于使用的语言功能 从语言角度来看，对 API 所做的最重大的更改是减少了开发人员需要编写的代码量。让我们将 JMS 2.0 与 1.1 进行比较，看看它们有什么区别。
+连接和会话对象纳入单个 JMSContext 不再需要创建连接和会话对象。您可以创建 JMSContext 并直接使用它来创建消息生产者。
+//JMS 1.1 public void sendMessageJMS11(ConnectionFactory connectionFactory, Queue queueString text) { try { Connection connection = connectionFactory.createConnection(); try { Session session =connection.createSession(false,Session.AUTO_ACKNOWLEDGE); MessageProducer messageProducer = session.createProducer(queue); TextMessage textMessage = session.createTextMessage(text); messageProducer.send(textMessage); } finally { connection.close(); } } catch (JMSException ex) { // handle exception (details omitted) } } //JMS 2....</p></div><footer class=entry-footer><span title='2024-07-24 00:00:00 +0000 UTC'>2024-07-24</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;528 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]JMS 2.0 中的新增功能" href=https://blog.chensoul.cc/posts/2024/07/24/what-is-new-in-jms-2-0/></a></article><footer class=page-footer><nav class=pagination><a class=next href=https://blog.chensoul.cc/posts/page/2/>Next&nbsp;2/28&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
         <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>

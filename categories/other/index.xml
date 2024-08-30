@@ -6,12 +6,12 @@
     <description>Recent content in Other on ChenSoul</description>
     <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 19 Aug 2022 12:15:54 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 19 Aug 2022 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/categories/other/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>博客中如何使用图床服务</title>
       <link>https://blog.chensoul.cc/posts/2022/08/19/using-images-in-blog/</link>
-      <pubDate>Fri, 19 Aug 2022 12:15:54 +0800</pubDate>
+      <pubDate>Fri, 19 Aug 2022 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2022/08/19/using-images-in-blog/</guid>
       <description>最近编写文档或者写博客，喜欢用 Typora 编辑器通过 Markdown 语法完成编写所有内容。为此，还付费购买了许可证。
 喜欢 Typora 的理由：
@@ -27,7 +27,7 @@ Typora 图片复制到本地 接下来，聊聊 Typora 的图片上传设置：
 所以，这种情况我们需要做一些修改。通常我会设置图片复制到博客的静态页面目录下面，比如，我现在使用的是 Hugo 构建静态博客，会将图片保存到 static/img 目录下，并且，还需要修改图片的 markdown 引用路径为 /images/image-20220819124422239.png ，以表示绝对路径查找图片，在博客服务器上就是相对根域名目录去 img 路径下查找图片。待 hugo 编译完成上传静态文件到服务器之后，可以通过 https://blog.chensoul.cc/images/ 加上图片名称的方式访问到图片。
 但是，显然，这时候在 Typora 是无法预览图片的，因为在本地查找不到这个绝对路径地址。这时候可以在 Typora 里面设置一个绝对路径，操作方法是，在 显示 -&amp;gt; 图片 -&amp;gt; 图像 -&amp;gt; 设置图片根目录 里进行设置。
 设置完成之后，在当前文件的 md 文件的顶部元数据代码里会多一行代码：
-title: &amp;#34;博客中如何使用图床服务&amp;#34; date: 2022-08-19T12:15:54+08:00 slug: using-images-in-blog categories: [日志] tags: [hugo] draft: true typora-root-url: ../../static 这样博客里所有的图片都会保存的博客服务器，如果博客访问量增大，则图片加载时间会变慢。为了解决这个问题，需要将图片进行压缩，并给博客设置 CDN 加速。
+title: &amp;#34;博客中如何使用图床服务&amp;#34; date: 2022-08-19 slug: using-images-in-blog categories: [日志] tags: [hugo] draft: true typora-root-url: ../../static 这样博客里所有的图片都会保存的博客服务器，如果博客访问量增大，则图片加载时间会变慢。为了解决这个问题，需要将图片进行压缩，并给博客设置 CDN 加速。
 Typora 图片上传到网络 将图片保存到本地，待博客静态页面部署到服务器上之后，可以实现正常预览情况。但是，如果我们想把 md 文件打包上传到一些云笔记，比如：语雀，你会发现上传之后会出现图片无法预览的情况。
 这时候，我们需要将图片上传到网络。首先，我们需要安装 PicGo，然后设置图床服务，这里我使用的是 github 作为图床来保存图片，并使用 jsDelivr 的 CDN 服务进行加速访问。
 如何利用 Github 搭建自己的免费图床？可以参考这篇 文章。这里，记录一下我的操作步骤。
@@ -37,7 +37,7 @@ Typora 图片上传到网络 将图片保存到本地，待博客静态页面部
     <item>
       <title>从零开始搭建个人博客</title>
       <link>https://blog.chensoul.cc/posts/2021/09/09/build-personal-blog-from-zero/</link>
-      <pubDate>Thu, 09 Sep 2021 18:14:34 +0800</pubDate>
+      <pubDate>Thu, 09 Sep 2021 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2021/09/09/build-personal-blog-from-zero/</guid>
       <description>从零开始搭建博客，包括注册域名、购买服务器、部署程序及网站配置和优化。
 域名 搭建一个博客或者网站，需要有一个域名。那什么是域名呢？看看百度百科上的解释：

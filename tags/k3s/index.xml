@@ -6,24 +6,12 @@
     <description>Recent content in K3s on ChenSoul</description>
     <generator>Hugo -- 0.133.1</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 09 May 2024 11:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 09 May 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/k3s/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>通过k3sup安装k3s</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</link>
-      <pubDate>Thu, 09 May 2024 11:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</guid>
-      <description>k3sup是一个支持在PC、虚拟机、ARM设备上安装k3s的工具，官方网站：https://k3sup.dev/
-安装k3sup 在线安装：
-curl -sLS https://get.k3sup.dev | sh sudo install k3sup /usr/local/bin/ 离线安装，下载地址：https://github.com/alexellis/k3sup/releases
-wget https://github.com/alexellis/k3sup/releases/download/0.13.5/k3sup mv k3sup /usr/local/bin/ chmod +x /usr/local/bin/k3sup 查看版本：
-$ k3sup version _ _____ | | _|___ / ___ _ _ _ __ | |/ / |_ \/ __| | | | &amp;#39;_ \ | &amp;lt; ___) \__ \ |_| | |_) | |_|\_\____/|___/\__,_| .__/ |_| bootstrap K3s over SSH in &amp;lt; 60s 🚀 🚀 Speed up GitHub Actions/GitLab CI + reduce costs: https://actuated.dev Version: 0.13.5 Git Commit: d952d6df22b06147806ca1030b8ba3a4bb9e0c0c 创建k3s集群 创建一个本地集群 k3sup install \ --local \ --context localk3s \ --k3s-channel stable \ --k3s-extra-args &amp;#39;--docker&amp;#39; 查看集群状态：
-$ k3sup ready --context localk3s --kubeconfig .</description>
-    </item>
     <item>
       <title>安装k3s</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s/</link>
-      <pubDate>Thu, 09 May 2024 10:00:00 +0800</pubDate>
+      <pubDate>Thu, 09 May 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s/</guid>
       <description>K3s 是轻量级的 Kubernetes。K3s 易于安装，仅需要 Kubernetes 内存的一半，所有组件都在一个小于 100 MB 的二进制文件中。
 k3s 文档：https://docs.rancher.cn/docs/k3s/_index
@@ -35,7 +23,7 @@ K3s介绍 什么是 K3s？ K3s 是一个完全兼容的 Kubernetes 发行版，�
     <item>
       <title>通过k3d安装k3s</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3d/</link>
-      <pubDate>Thu, 09 May 2024 10:00:00 +0800</pubDate>
+      <pubDate>Thu, 09 May 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3d/</guid>
       <description>k3d是什么 k3d 是一个轻量级包装器，用于在 docker 中运行k3s（Rancher Lab 的最小 Kubernetes 发行版）。
 k3d 使得在 docker 中创建单节点和多节点k3s集群变得非常容易，例如用于 Kubernetes 上的本地开发。
@@ -44,6 +32,18 @@ k3d安装 通过脚本安装：
 wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash macos 上通过homebrew安装：
 brew install k3d 查看帮助文档：
 $ k3d -h https://k3d.io/ k3d is a wrapper CLI that helps you to easily create k3s clusters inside docker. Nodes of a k3d cluster are docker containers running a k3s image. All Nodes of a k3d cluster are part of the same docker network. Usage: k3d [flags] k3d [command] Available Commands: cluster Manage cluster(s) completion Generate completion scripts for [bash, zsh, fish, powershell | psh] config Work with config file(s) help Help about any command image Handle container images.</description>
+    </item>
+    <item>
+      <title>通过k3sup安装k3s</title>
+      <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</link>
+      <pubDate>Thu, 09 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</guid>
+      <description>k3sup是一个支持在PC、虚拟机、ARM设备上安装k3s的工具，官方网站：https://k3sup.dev/
+安装k3sup 在线安装：
+curl -sLS https://get.k3sup.dev | sh sudo install k3sup /usr/local/bin/ 离线安装，下载地址：https://github.com/alexellis/k3sup/releases
+wget https://github.com/alexellis/k3sup/releases/download/0.13.5/k3sup mv k3sup /usr/local/bin/ chmod +x /usr/local/bin/k3sup 查看版本：
+$ k3sup version _ _____ | | _|___ / ___ _ _ _ __ | |/ / |_ \/ __| | | | &amp;#39;_ \ | &amp;lt; ___) \__ \ |_| | |_) | |_|\_\____/|___/\__,_| .__/ |_| bootstrap K3s over SSH in &amp;lt; 60s 🚀 🚀 Speed up GitHub Actions/GitLab CI + reduce costs: https://actuated.dev Version: 0.13.5 Git Commit: d952d6df22b06147806ca1030b8ba3a4bb9e0c0c 创建k3s集群 创建一个本地集群 k3sup install \ --local \ --context localk3s \ --k3s-channel stable \ --k3s-extra-args &amp;#39;--docker&amp;#39; 查看集群状态：
+$ k3sup ready --context localk3s --kubeconfig .</description>
     </item>
   </channel>
 </rss>

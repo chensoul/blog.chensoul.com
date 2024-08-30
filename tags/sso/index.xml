@@ -13,13 +13,7 @@
       <link>https://blog.chensoul.cc/posts/2024/01/11/til/</link>
       <pubDate>Thu, 11 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/11/til/</guid>
-      <description>今天做了什么：
-1、观看 B 站 《SSO单点登录》视频
-2、参考 https://github.com/jOOQ/jOOL 和 https://github.com/vavr-io/vavr ，将 CheckedXXX 的类加入公司项目中。
-涉及的类有：Async.java、Blocking.java、CheckedBiConsumer.java、CheckedBiFunction.java、CheckedBiPredicate.java、CheckedComparator.java、CheckedConsumer.java、CheckedFunction.java、CheckedPredicate.java、CheckedRunnable.java、CheckedSupplier.java、FunctionUtils.java、OnceConsumer.java、SameExecutorCompletionStage.java、UncheckedException.java，并添加单元测试类。
-示例代码：
-@FunctionalInterface public interface CheckedConsumer&amp;lt;T&amp;gt; { void accept(T t) throws Throwable; default CheckedConsumer&amp;lt;T&amp;gt; andThen(CheckedConsumer&amp;lt;? super T&amp;gt; after) { Objects.requireNonNull(after, &amp;#34;after is null&amp;#34;); return (T t) -&amp;gt; { accept(t); after.accept(t); }; } static &amp;lt;T&amp;gt; Consumer&amp;lt;T&amp;gt; sneaky(CheckedConsumer&amp;lt;T&amp;gt; consumer) { return unchecked(consumer, RETHROW_ALL); } static &amp;lt;T&amp;gt; Consumer&amp;lt;T&amp;gt; unchecked(CheckedConsumer&amp;lt;T&amp;gt; consumer) { return unchecked(consumer, THROWABLE_TO_RUNTIME_EXCEPTION); } static &amp;lt;T&amp;gt; Consumer&amp;lt;T&amp;gt; unchecked(CheckedConsumer&amp;lt;T&amp;gt; consumer, Consumer&amp;lt;Throwable&amp;gt; handler) { return t -&amp;gt; { try { consumer.accept(t); } catch (Throwable e) { handler.accept(e); throw new IllegalStateException(&amp;#34;Exception handler must throw a RuntimeException&amp;#34;, e); } }; } } 3、重构公司微服务框架
-4、明天待办事项：</description>
+      <description>今天做了什么： 1、观看 B 站 《SSO单点登录》视频 2、参考 https://github.com/jOOQ/jOOL 和 https://github.com/vavr-io/vavr ，将 CheckedXXX 的类加入公司项目中。 涉及的类有：Async.java、Blocking.java、CheckedBiConsumer.java、Ch</description>
     </item>
   </channel>
 </rss>

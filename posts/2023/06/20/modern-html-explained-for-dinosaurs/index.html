@@ -1,17 +1,15 @@
 <!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>[译]为恐龙解释现代HTML | ChenSoul</title>
-<meta name=keywords content="css,html,javascript"><meta name=description content='在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似：
-<!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <title>My test page</title> </head> <body> <h1>Hello there!</h1> </body> </html> 你有带有标签和内容的元素，带有属性的标签——除了第一行的简化文档类型外，没有太大变化！然而，多年来，Web 开发已经发生了巨大的转变，从创建静态网站（专注于内容）到创建动态 Web 应用程序（专注于交互）——这是 Web 最初设计的目的。创建仍然语义和可访问的自定义用户界面，使用属性和工具提高性能，组织代码以进行重用和可维护性 - 现在有一组全新的问题在起作用。
-本文的目的是提供一个历史背景，说明 HTML 如何在 2018 年演变成今天的语言。我们将从结构良好且易于访问的 HTML 的基础知识开始，就像古代的恐龙一样。然后，我们将介绍不同的技术来提高性能、响应能力和可维护性。CSS 和 JavaScript 将不可避免地进入这个对话；出于本文的目的，将从它们如何影响 HTML 本身编写的角度来介绍它们。通过了解这段历史，您将能够充分利用该语言经常被忽视的新旧功能。让我们开始吧！
-使用语义元素编写内容 让我们向前面的 HTML 示例添加更多内容。现在，我们将创建一个基本网站，其中包含一个带有链接和搜索输入的导航部分，一个用于显示一般网站信息的大型展示部分（通常称为英雄部分或 巨型屏幕 ），文章的三列部分和一个版权信息的页脚部分。
-<!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <title>My test page</title> </head> <body> <div class="navbar"> <ul> <li> <a href="#">Home</a> </li> <li> <a href="#">Info</a> </li> <li> <a href="#">About</a> </li> </ul> <form> <input type="text" placeholder="Search" /> <button type="submit">Search</button> </form> </div> <div class="main"> <div class="hero"> <h1>Hello there!</h1> <p>General info about the page goes here</p> <p><a href="#">Learn more</a></p> </div> <div class="grid"> <div class="column"> <h2>First Heading</h2> <p>Article content goes here</p> <p><a href="#">View details</a></p> </div> <div class="column"> <h2>Second Heading</h2> <p>Article content goes here</p> <p><a href="#">View details</a></p> </div> <div class="column"> <h2>Third Heading</h2> <p>Article content goes here</p> <p><a href="#">View details</a></p> </div> </div> </div> <div class="footer"> <p>Copyright info goes here</p> </div> </body> </html> 在这里，我们使用带有 <div> 、 <h1> 、 <h2> 、 <p> 等标签的基本元素来标记内容。这里的 HTML 是有效的，但它不是完全语义的——也就是说，标签不能尽可能地传达内容的含义。'><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/posts/2023/06/20/modern-html-explained-for-dinosaurs/><meta name=google-site-verification content="nBXwg45SBRjTX78SA-mH0asrAbsdu9c1nk0ObSry7aQ"><link crossorigin=anonymous href=/assets/css/stylesheet.41fda683d7f28f86c97812787adcc91d7e2ab1225be098c611c57b4995b061db.css integrity="sha256-Qf2mg9fyj4bJeBJ4etzJHX4qsSJb4JjGEcV7SZWwYds=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://blog.chensoul.cc/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://blog.chensoul.cc/favicon-32x32.png><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=mask-icon href=https://blog.chensoul.cc/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://blog.chensoul.cc/posts/2023/06/20/modern-html-explained-for-dinosaurs/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><meta property="og:title" content="[译]为恐龙解释现代HTML"><meta property="og:description" content='在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似：
-<!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <title>My test page</title> </head> <body> <h1>Hello there!</h1> </body> </html> 你有带有标签和内容的元素，带有属性的标签——除了第一行的简化文档类型外，没有太大变化！然而，多年来，Web 开发已经发生了巨大的转变，从创建静态网站（专注于内容）到创建动态 Web 应用程序（专注于交互）——这是 Web 最初设计的目的。创建仍然语义和可访问的自定义用户界面，使用属性和工具提高性能，组织代码以进行重用和可维护性 - 现在有一组全新的问题在起作用。
-本文的目的是提供一个历史背景，说明 HTML 如何在 2018 年演变成今天的语言。我们将从结构良好且易于访问的 HTML 的基础知识开始，就像古代的恐龙一样。然后，我们将介绍不同的技术来提高性能、响应能力和可维护性。CSS 和 JavaScript 将不可避免地进入这个对话；出于本文的目的，将从它们如何影响 HTML 本身编写的角度来介绍它们。通过了解这段历史，您将能够充分利用该语言经常被忽视的新旧功能。让我们开始吧！
-使用语义元素编写内容 让我们向前面的 HTML 示例添加更多内容。现在，我们将创建一个基本网站，其中包含一个带有链接和搜索输入的导航部分，一个用于显示一般网站信息的大型展示部分（通常称为英雄部分或 巨型屏幕 ），文章的三列部分和一个版权信息的页脚部分。
-<!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <title>My test page</title> </head> <body> <div class="navbar"> <ul> <li> <a href="#">Home</a> </li> <li> <a href="#">Info</a> </li> <li> <a href="#">About</a> </li> </ul> <form> <input type="text" placeholder="Search" /> <button type="submit">Search</button> </form> </div> <div class="main"> <div class="hero"> <h1>Hello there!</h1> <p>General info about the page goes here</p> <p><a href="#">Learn more</a></p> </div> <div class="grid"> <div class="column"> <h2>First Heading</h2> <p>Article content goes here</p> <p><a href="#">View details</a></p> </div> <div class="column"> <h2>Second Heading</h2> <p>Article content goes here</p> <p><a href="#">View details</a></p> </div> <div class="column"> <h2>Third Heading</h2> <p>Article content goes here</p> <p><a href="#">View details</a></p> </div> </div> </div> <div class="footer"> <p>Copyright info goes here</p> </div> </body> </html> 在这里，我们使用带有 <div> 、 <h1> 、 <h2> 、 <p> 等标签的基本元素来标记内容。这里的 HTML 是有效的，但它不是完全语义的——也就是说，标签不能尽可能地传达内容的含义。'><meta property="og:type" content="article"><meta property="og:url" content="https://blog.chensoul.cc/posts/2023/06/20/modern-html-explained-for-dinosaurs/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-06-20T00:00:00+08:00"><meta property="article:modified_time" content="2023-06-20T00:00:00+08:00"><meta property="og:site_name" content="ChenSoul"><meta name=twitter:card content="summary"><meta name=twitter:title content="[译]为恐龙解释现代HTML"><meta name=twitter:description content='在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似：
-<!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <title>My test page</title> </head> <body> <h1>Hello there!</h1> </body> </html> 你有带有标签和内容的元素，带有属性的标签——除了第一行的简化文档类型外，没有太大变化！然而，多年来，Web 开发已经发生了巨大的转变，从创建静态网站（专注于内容）到创建动态 Web 应用程序（专注于交互）——这是 Web 最初设计的目的。创建仍然语义和可访问的自定义用户界面，使用属性和工具提高性能，组织代码以进行重用和可维护性 - 现在有一组全新的问题在起作用。
-本文的目的是提供一个历史背景，说明 HTML 如何在 2018 年演变成今天的语言。我们将从结构良好且易于访问的 HTML 的基础知识开始，就像古代的恐龙一样。然后，我们将介绍不同的技术来提高性能、响应能力和可维护性。CSS 和 JavaScript 将不可避免地进入这个对话；出于本文的目的，将从它们如何影响 HTML 本身编写的角度来介绍它们。通过了解这段历史，您将能够充分利用该语言经常被忽视的新旧功能。让我们开始吧！
-使用语义元素编写内容 让我们向前面的 HTML 示例添加更多内容。现在，我们将创建一个基本网站，其中包含一个带有链接和搜索输入的导航部分，一个用于显示一般网站信息的大型展示部分（通常称为英雄部分或 巨型屏幕 ），文章的三列部分和一个版权信息的页脚部分。
-<!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <title>My test page</title> </head> <body> <div class="navbar"> <ul> <li> <a href="#">Home</a> </li> <li> <a href="#">Info</a> </li> <li> <a href="#">About</a> </li> </ul> <form> <input type="text" placeholder="Search" /> <button type="submit">Search</button> </form> </div> <div class="main"> <div class="hero"> <h1>Hello there!</h1> <p>General info about the page goes here</p> <p><a href="#">Learn more</a></p> </div> <div class="grid"> <div class="column"> <h2>First Heading</h2> <p>Article content goes here</p> <p><a href="#">View details</a></p> </div> <div class="column"> <h2>Second Heading</h2> <p>Article content goes here</p> <p><a href="#">View details</a></p> </div> <div class="column"> <h2>Third Heading</h2> <p>Article content goes here</p> <p><a href="#">View details</a></p> </div> </div> </div> <div class="footer"> <p>Copyright info goes here</p> </div> </body> </html> 在这里，我们使用带有 <div> 、 <h1> 、 <h2> 、 <p> 等标签的基本元素来标记内容。这里的 HTML 是有效的，但它不是完全语义的——也就是说，标签不能尽可能地传达内容的含义。'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://blog.chensoul.cc/posts/"},{"@type":"ListItem","position":2,"name":"[译]为恐龙解释现代HTML","item":"https://blog.chensoul.cc/posts/2023/06/20/modern-html-explained-for-dinosaurs/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"[译]为恐龙解释现代HTML","name":"[译]为恐龙解释现代HTML","description":"在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似：\n\u0026lt;!DOCTYPE html\u0026gt; \u0026lt;html\u0026gt; \u0026lt;head\u0026gt; \u0026lt;meta charset=\u0026#34;utf-8\u0026#34; /\u0026gt; \u0026lt;title\u0026gt;My test page\u0026lt;/title\u0026gt; \u0026lt;/head\u0026gt; \u0026lt;body\u0026gt; \u0026lt;h1\u0026gt;Hello there!\u0026lt;/h1\u0026gt; \u0026lt;/body\u0026gt; \u0026lt;/html\u0026gt; 你有带有标签和内容的元素，带有属性的标签——除了第一行的简化文档类型外，没有太大变化！然而，多年来，Web 开发已经发生了巨大的转变，从创建静态网站（专注于内容）到创建动态 Web 应用程序（专注于交互）——这是 Web 最初设计的目的。创建仍然语义和可访问的自定义用户界面，使用属性和工具提高性能，组织代码以进行重用和可维护性 - 现在有一组全新的问题在起作用。\n本文的目的是提供一个历史背景，说明 HTML 如何在 2018 年演变成今天的语言。我们将从结构良好且易于访问的 HTML 的基础知识开始，就像古代的恐龙一样。然后，我们将介绍不同的技术来提高性能、响应能力和可维护性。CSS 和 JavaScript 将不可避免地进入这个对话；出于本文的目的，将从它们如何影响 HTML 本身编写的角度来介绍它们。通过了解这段历史，您将能够充分利用该语言经常被忽视的新旧功能。让我们开始吧！\n使用语义元素编写内容 让我们向前面的 HTML 示例添加更多内容。现在，我们将创建一个基本网站，其中包含一个带有链接和搜索输入的导航部分，一个用于显示一般网站信息的大型展示部分（通常称为英雄部分或 巨型屏幕 ），文章的三列部分和一个版权信息的页脚部分。\n\u0026lt;!DOCTYPE html\u0026gt; \u0026lt;html\u0026gt; \u0026lt;head\u0026gt; \u0026lt;meta charset=\u0026#34;utf-8\u0026#34; /\u0026gt; \u0026lt;title\u0026gt;My test page\u0026lt;/title\u0026gt; \u0026lt;/head\u0026gt; \u0026lt;body\u0026gt; \u0026lt;div class=\u0026#34;navbar\u0026#34;\u0026gt; \u0026lt;ul\u0026gt; \u0026lt;li\u0026gt; \u0026lt;a href=\u0026#34;#\u0026#34;\u0026gt;Home\u0026lt;/a\u0026gt; \u0026lt;/li\u0026gt; \u0026lt;li\u0026gt; \u0026lt;a href=\u0026#34;#\u0026#34;\u0026gt;Info\u0026lt;/a\u0026gt; \u0026lt;/li\u0026gt; \u0026lt;li\u0026gt; \u0026lt;a href=\u0026#34;#\u0026#34;\u0026gt;About\u0026lt;/a\u0026gt; \u0026lt;/li\u0026gt; \u0026lt;/ul\u0026gt; \u0026lt;form\u0026gt; \u0026lt;input type=\u0026#34;text\u0026#34; placeholder=\u0026#34;Search\u0026#34; /\u0026gt; \u0026lt;button type=\u0026#34;submit\u0026#34;\u0026gt;Search\u0026lt;/button\u0026gt; \u0026lt;/form\u0026gt; \u0026lt;/div\u0026gt; \u0026lt;div class=\u0026#34;main\u0026#34;\u0026gt; \u0026lt;div class=\u0026#34;hero\u0026#34;\u0026gt; \u0026lt;h1\u0026gt;Hello there!\u0026lt;/h1\u0026gt; \u0026lt;p\u0026gt;General info about the page goes here\u0026lt;/p\u0026gt; \u0026lt;p\u0026gt;\u0026lt;a href=\u0026#34;#\u0026#34;\u0026gt;Learn more\u0026lt;/a\u0026gt;\u0026lt;/p\u0026gt; \u0026lt;/div\u0026gt; \u0026lt;div class=\u0026#34;grid\u0026#34;\u0026gt; \u0026lt;div class=\u0026#34;column\u0026#34;\u0026gt; \u0026lt;h2\u0026gt;First Heading\u0026lt;/h2\u0026gt; \u0026lt;p\u0026gt;Article content goes here\u0026lt;/p\u0026gt; \u0026lt;p\u0026gt;\u0026lt;a href=\u0026#34;#\u0026#34;\u0026gt;View details\u0026lt;/a\u0026gt;\u0026lt;/p\u0026gt; \u0026lt;/div\u0026gt; \u0026lt;div class=\u0026#34;column\u0026#34;\u0026gt; \u0026lt;h2\u0026gt;Second Heading\u0026lt;/h2\u0026gt; \u0026lt;p\u0026gt;Article content goes here\u0026lt;/p\u0026gt; \u0026lt;p\u0026gt;\u0026lt;a href=\u0026#34;#\u0026#34;\u0026gt;View details\u0026lt;/a\u0026gt;\u0026lt;/p\u0026gt; \u0026lt;/div\u0026gt; \u0026lt;div class=\u0026#34;column\u0026#34;\u0026gt; \u0026lt;h2\u0026gt;Third Heading\u0026lt;/h2\u0026gt; \u0026lt;p\u0026gt;Article content goes here\u0026lt;/p\u0026gt; \u0026lt;p\u0026gt;\u0026lt;a href=\u0026#34;#\u0026#34;\u0026gt;View details\u0026lt;/a\u0026gt;\u0026lt;/p\u0026gt; \u0026lt;/div\u0026gt; \u0026lt;/div\u0026gt; \u0026lt;/div\u0026gt; \u0026lt;div class=\u0026#34;footer\u0026#34;\u0026gt; \u0026lt;p\u0026gt;Copyright info goes here\u0026lt;/p\u0026gt; \u0026lt;/div\u0026gt; \u0026lt;/body\u0026gt; \u0026lt;/html\u0026gt; 在这里，我们使用带有 \u0026lt;div\u0026gt; 、 \u0026lt;h1\u0026gt; 、 \u0026lt;h2\u0026gt; 、 \u0026lt;p\u0026gt; 等标签的基本元素来标记内容。这里的 HTML 是有效的，但它不是完全语义的——也就是说，标签不能尽可能地传达内容的含义。","keywords":["css","html","javascript"],"articleBody":" 在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似：\n\u003c!DOCTYPE html\u003e \u003chtml\u003e \u003chead\u003e \u003cmeta charset=\"utf-8\" /\u003e \u003ctitle\u003eMy test page\u003c/title\u003e \u003c/head\u003e \u003cbody\u003e \u003ch1\u003eHello there!\u003c/h1\u003e \u003c/body\u003e \u003c/html\u003e 你有带有标签和内容的元素，带有属性的标签——除了第一行的简化文档类型外，没有太大变化！然而，多年来，Web 开发已经发生了巨大的转变，从创建静态网站（专注于内容）到创建动态 Web 应用程序（专注于交互）——这是 Web 最初设计的目的。创建仍然语义和可访问的自定义用户界面，使用属性和工具提高性能，组织代码以进行重用和可维护性 - 现在有一组全新的问题在起作用。\n本文的目的是提供一个历史背景，说明 HTML 如何在 2018 年演变成今天的语言。我们将从结构良好且易于访问的 HTML 的基础知识开始，就像古代的恐龙一样。然后，我们将介绍不同的技术来提高性能、响应能力和可维护性。CSS 和 JavaScript 将不可避免地进入这个对话；出于本文的目的，将从它们如何影响 HTML 本身编写的角度来介绍它们。通过了解这段历史，您将能够充分利用该语言经常被忽视的新旧功能。让我们开始吧！\n使用语义元素编写内容 让我们向前面的 HTML 示例添加更多内容。现在，我们将创建一个基本网站，其中包含一个带有链接和搜索输入的导航部分，一个用于显示一般网站信息的大型展示部分（通常称为英雄部分或 巨型屏幕 ），文章的三列部分和一个版权信息的页脚部分。\n\u003c!DOCTYPE html\u003e \u003chtml\u003e \u003chead\u003e \u003cmeta charset=\"utf-8\" /\u003e \u003ctitle\u003eMy test page\u003c/title\u003e \u003c/head\u003e \u003cbody\u003e \u003cdiv class=\"navbar\"\u003e \u003cul\u003e \u003cli\u003e \u003ca href=\"#\"\u003eHome\u003c/a\u003e \u003c/li\u003e \u003cli\u003e \u003ca href=\"#\"\u003eInfo\u003c/a\u003e \u003c/li\u003e \u003cli\u003e \u003ca href=\"#\"\u003eAbout\u003c/a\u003e \u003c/li\u003e \u003c/ul\u003e \u003cform\u003e \u003cinput type=\"text\" placeholder=\"Search\" /\u003e \u003cbutton type=\"submit\"\u003eSearch\u003c/button\u003e \u003c/form\u003e \u003c/div\u003e \u003cdiv class=\"main\"\u003e \u003cdiv class=\"hero\"\u003e \u003ch1\u003eHello there!\u003c/h1\u003e \u003cp\u003eGeneral info about the page goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eLearn more\u003c/a\u003e\u003c/p\u003e \u003c/div\u003e \u003cdiv class=\"grid\"\u003e \u003cdiv class=\"column\"\u003e \u003ch2\u003eFirst Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/div\u003e \u003cdiv class=\"column\"\u003e \u003ch2\u003eSecond Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/div\u003e \u003cdiv class=\"column\"\u003e \u003ch2\u003eThird Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/div\u003e \u003c/div\u003e \u003c/div\u003e \u003cdiv class=\"footer\"\u003e \u003cp\u003eCopyright info goes here\u003c/p\u003e \u003c/div\u003e \u003c/body\u003e \u003c/html\u003e 在这里，我们使用带有 、 、 、 等标签的基本元素来标记内容。这里的 HTML 是有效的，但它不是完全语义的——也就是说，标签不能尽可能地传达内容的含义。\n当 HTML5 在 2008 年推出时，它提供了新的元素来改进文档语义。以下是使 HTML 更具语义性的尝试：\n\u003c!DOCTYPE html\u003e \u003chtml lang=\"en\"\u003e \u003chead\u003e \u003cmeta charset=\"utf-8\" /\u003e \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" /\u003e \u003cmeta name=\"description\" content=\"\" /\u003e \u003cmeta name=\"author\" content=\"\" /\u003e \u003ctitle\u003eMy test page\u003c/title\u003e \u003c/head\u003e \u003cbody\u003e \u003cnav role=\"navigation\"\u003e \u003cul\u003e \u003cli\u003e \u003ca href=\"#\"\u003eHome\u003c/a\u003e \u003c/li\u003e \u003cli\u003e \u003ca href=\"#\"\u003eInfo\u003c/a\u003e \u003c/li\u003e \u003cli\u003e \u003ca href=\"#\"\u003eAbout\u003c/a\u003e \u003c/li\u003e \u003c/ul\u003e \u003cform\u003e \u003cinput type=\"text\" placeholder=\"Search\" /\u003e \u003cbutton type=\"submit\"\u003eSearch\u003c/button\u003e \u003c/form\u003e \u003c/nav\u003e \u003cmain role=\"main\"\u003e \u003csection class=\"hero\"\u003e \u003ch1\u003eHello there!\u003c/h1\u003e \u003cp\u003eGeneral info about the page goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eLearn more\u003c/a\u003e\u003c/p\u003e \u003c/section\u003e \u003csection class=\"grid\"\u003e \u003carticle class=\"column\"\u003e \u003ch2\u003eFirst Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/article\u003e \u003carticle class=\"column\"\u003e \u003ch2\u003eSecond Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/article\u003e \u003carticle class=\"column\"\u003e \u003ch2\u003eThird Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/article\u003e \u003c/section\u003e \u003c/main\u003e \u003cfooter role=\"contentinfo\"\u003e \u003cp\u003eCopyright info goes here\u003c/p\u003e \u003c/footer\u003e \u003c/body\u003e \u003c/html\u003e 让我们来看看其中的一些变化：\n指定文档的语言，这有助于搜索引擎和浏览器识别适当的内容。 额外的 标记提供有关搜索引擎和其他服务在页面上不直接可见的网站的信息。它们还提供有关如何调整不同设备上的内容大小的信息。 、 、 、 和 标记为 HTML 文档提供了更易于访问的结构（与通用的 标记相比）。这些标签是在 HTML5 中引入的。 注释添加了一个 JavaScript 文件，该文件仅适用于旧版本的 Internet Explorer，因为它们不支持上述 HTML5 标签。请注意，如今许多最近的网站都没有包含该评论，因为支持这些浏览器的网站越来越少。 role 属性还提供辅助功能信息。请注意，使用 标记通常足以确保可访问性，如果无法识别 标记，则使用额外的 role=\"navigation\" 。 编写语义 HTML 似乎并不重要，尤其是当它不影响网站的视觉外观时。但是，您的网站不仅被人类查看 - 网络浏览器，搜索引擎，屏幕阅读器都依赖于语义 HTML 才能正常运行。\n使用 WAI-ARIA 属性改进可访问性 让我们看一下上面示例中导航栏中的搜索输入：\n\u003cform\u003e \u003cinput type=\"text\" placeholder=\"Search\" /\u003e \u003cbutton type=\"submit\"\u003eSearch\u003c/button\u003e \u003c/form\u003e 此输入元素使用 placeholder 属性而不是标签元素让用户知道其用途。这适用于人类，但它不是正确的语义 HTML，屏幕阅读器和其他技术可能会错过。使其可访问的方法是使用 aria-label 属性：\n\u003cform\u003e \u003cinput type=\"text\" placeholder=\"Search\" aria-label=\"Search\" /\u003e \u003cbutton type=\"submit\"\u003eSearch\u003c/button\u003e \u003c/form\u003e WAI-ARIA 代表“Web 可访问性倡议 — 可访问的富互联网应用程序”（通常简称为 ARIA），是一组属性，当语义标记不够时，使 HTML 更易于访问。上一节中看到的 role 属性是 ARIA 属性。到目前为止，这些属性似乎是很小的变化，但是当我们使用 HTML 来处理基本文档之外的事情时，它变得更加重要。\n让我们看一个更复杂的例子——假设我们想在 HTML 中添加一些选项卡式内容，以提供有关如何在 Windows，Mac 和 Linux 上安装某些程序的说明。由于没有在 HTML 中构建选项卡的本机方法，因此我们必须使用无序列表、链接和 div 之类的东西来构建我们自己的选项卡标记。在这里，我们可以使用 role 、 aria-controls 、 aria-selected 和 aria-labelledby 等可访问性属性来标记 HTML，如下所示：\n\u003cul role=\"tablist\"\u003e \u003cli\u003e \u003ca id=\"windows-tab\" href=\"#windows\" role=\"tab\" aria-controls=\"windows\" aria-selected=\"true\" \u003eWindows\u003c/a \u003e \u003c/li\u003e \u003cli\u003e \u003ca id=\"mac-tab\" href=\"#mac\" role=\"tab\" aria-controls=\"mac\" aria-selected=\"false\" \u003eMac\u003c/a \u003e \u003c/li\u003e \u003cli\u003e \u003ca id=\"linux-tab\" href=\"#linux\" role=\"tab\" aria-controls=\"linux\" aria-selected=\"false\" \u003eLinux\u003c/a \u003e \u003c/li\u003e \u003c/ul\u003e \u003cdiv\u003e \u003cdiv id=\"windows\" role=\"tabpanel\" aria-labelledby=\"windows-tab\"\u003e \u003cimg src=\"http://1000logos.net/wp-content/uploads/2017/04/Microsoft-Logo.png\" alt=\"microsoft logo\" /\u003e ... \u003c/div\u003e \u003cdiv id=\"mac\" role=\"tabpanel\" aria-labelledby=\"mac-tab\"\u003e \u003cimg src=\"https://i.ytimg.com/vi/ipOzBWuYZvg/maxresdefault.jpg\" alt=\"apple logo\" /\u003e ... \u003c/div\u003e \u003cdiv id=\"linux\" role=\"tabpanel\" aria-labelledby=\"linux-tab\"\u003e \u003cimg src=\"https://noware.tech/wp-content/uploads/sites/140/2018/04/linux-1024x565.jpg\" alt=\"linux logo\" /\u003e ... \u003c/div\u003e \u003c/div\u003e 如果没有这些辅助功能属性，选项卡式内容将与选项卡控件没有可识别的关系。具有这些属性有助于屏幕阅读器识别内容，启用具有正确制表符的键盘快捷键等。使用适当的 ARIA 属性本身就是一项完整的研究——要更深入地了解，请查看 官方指南。\n所有这些似乎都是为了提高网站的可访问性而做很多工作。重要的是要承认可访问性是网络的一个组成部分，网络被设计为一个与每个人自由共享信息的平台，而不仅仅是少数人。使网站可访问可以改善每个访问者的体验 - 例如，可访问的键盘快捷键可以帮助那些永远无法使用鼠标的人，那些暂时无法使用鼠标的人，以及那些不喜欢不使用鼠标的人（也就是大多数程序员）。在处理其他功能时，可访问性很容易被忽视，但不应忽视。\n如果您有兴趣改善网站的可访问性，那么有 A11Y 项目 中的清单，这是 一个 很好的起点。然而，使网站可访问不仅仅是检查项目——它总是可以改进的，就像用户体验的任何方面一样。使您的网站可访问的最佳方法是实际使用您的网站，就像受众中的不同人一样 - 使用屏幕阅读器进行测试，尝试仅使用键盘而不是鼠标，使用 色盲过滤器 查看您的网站等。\n用 CSS 和 JavaScript 让它变得漂亮 如果我们到目前为止看一下网站，它看起来就像你期望的那样光秃秃的：\n为了美化它，我们将添加一个 CSS 文件来应用样式。现在，如果你不是特别擅长 CSS，可能需要很多天才能使这个网站看起来很漂亮。与其编写自己的 CSS，不如始终使用 CSS 框架，该框架本质上是其他人以可重用的方式编写的 CSS。\n一个流行的 CSS 框架是 Bootstrap，它于 2011 年问世，并迅速被 数百万个网站 采用和使用。让我们看看使用 Bootstrap 的一些代码会是什么样子：\n\u003c!DOCTYPE html\u003e \u003chtml lang=\"en\"\u003e \u003chead\u003e \u003cmeta charset=\"utf-8\" /\u003e \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" /\u003e \u003cmeta name=\"description\" content=\"\" /\u003e \u003cmeta name=\"author\" content=\"\" /\u003e \u003ctitle\u003eMy test page\u003c/title\u003e \u003clink rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" integrity=\"sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO\" crossorigin=\"anonymous\" /\u003e \u003c/head\u003e \u003cbody\u003e \u003cnav class=\"navbar navbar-expand-lg navbar-light bg-light\" role=\"navigation\" \u003e \u003cul class=\"navbar-nav mr-auto\"\u003e \u003cli class=\"nav-item active\"\u003e \u003ca class=\"nav-link\" href=\"#\"\u003eHome\u003c/a\u003e \u003c/li\u003e \u003cli class=\"nav-item\"\u003e \u003ca class=\"nav-link\" href=\"#\"\u003eInfo\u003c/a\u003e \u003c/li\u003e \u003cli class=\"nav-item\"\u003e \u003ca class=\"nav-link\" href=\"#\"\u003eAbout\u003c/a\u003e \u003c/li\u003e \u003c/ul\u003e \u003cform class=\"form-inline my-2 my-lg-0\"\u003e \u003cinput class=\"form-control mr-sm-2\" type=\"text\" placeholder=\"Search\" aria-label=\"Search\" /\u003e \u003cbutton class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\"\u003e Search \u003c/button\u003e \u003c/form\u003e \u003c/nav\u003e \u003cmain role=\"main\"\u003e \u003c/main\u003e \u003cfooter class=\"navbar navbar-dark bg-secondary\" role=\"contentinfo\"\u003e \u003cp\u003eCopyright info goes here\u003c/p\u003e \u003c/footer\u003e \u003c/body\u003e \u003c/html\u003e 您可以在 此处 查看完整的代码示例。\n让我们检查一下这些更改：\n标签中的 将 Bootstrap CSS 添加到我们的网站。请注意，我们链接到在线托管的文件，这可能会带来一些安全风险 - integrity 和 crossorigin 属性有助于确保链接到的文件正确无误。\n添加的类都是特定于 Bootstrap 的 — 添加的 Bootstrap CSS 具有针对具有特定 HTML 结构的特定类名的样式。\n在三篇文章周围添加了一个额外的 ，以利用 Bootstrap 的网格布局系统（它使用这种特定的 HTML 结构）。\n以下是该网站现在的样子：\n不错！请注意，为了使用像 Bootstrap 这样的 CSS 框架，您实际上根本不需要编写任何 CSS 即可开始使用 — 您只需要在 HTML 中添加适当的类即可利用框架附带的 CSS。\n这里要注意的一件事是，虽然选项卡的样式正确（任何时候只有一个选项卡可见），但它们还没有正常工作——单击选项卡不会执行任何操作。这是因为在这种情况下，这种类型的自定义交互不是由 CSS 处理的，而是由 JavaScript 处理的。在这种情况下，我们可以通过在 标签中添加 Bootstrap 框架附带的 JavaScript 文件来让 Bootstrap 选项卡工作：\n\u003cscript src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\" integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\" crossorigin=\"anonymous\" \u003e\u003c/script\u003e \u003cscript src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js\" integrity=\"sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49\" crossorigin=\"anonymous\" \u003e\u003c/script\u003e \u003cscript src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\" integrity=\"sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy\" crossorigin=\"anonymous\" \u003e\u003c/script\u003e 最后一个脚本是 Bootstrap 的 JavaScript。前两个是 Bootstrap 使用的依赖项（jQuery 和 Popper），在加载 Bootstrap 脚本之前必须先加载它们。如果您查看 此实时示例，您可以看到选项卡现在可以工作了！\nBootstrap 被广泛使用，因为它帮助解决了当时 CSS 的主要痛点，例如浏览器不一致和缺乏适当的网格系统。使用像 Bootstrap 这样的 CSS 框架有一些缺点——特别是，与从头开始编写 CSS 相比，它们可能难以定制，这可能会使您的网站与其他网站相比显得通用。\n此外，随着智能手机和移动流量的增加，减少 CSS 和 JS 文件大小变得越来越重要 - 任何超过几千字节的东西都会显着影响较慢的互联网连接的性能。在上面的例子中使用 Bootstrap 的方式，我们要求用户下载整个 Bootstrap 框架与站点一起，即使我们只使用几种样式和功能。在下一节中，我们将介绍几种有助于解决这些性能问题的技术。\n注意：对 CSS 和 JavaScript 的扎实掌握与使用 HTML 制作复杂的网站有着内在的联系;但是，深入研究这些语言超出了本文的范围。如果你想了解更多关于 CSS 和 JavaScript 的基础知识，MDN Web Docs 总是一个不错的起点。如果你想更好地了解 CSS 的所有新功能（flexbox，grid，SASS 等）如何与所涉及的所有工具和技术结合在一起，请查看我的文章 Modern CSS Explain For Dinosaurs。\n使用 HTML 属性提高性能 在这一点上，我们有一个网站，具有相当好的组织，语义 HTML。如果这就是我们正在考虑的全部内容，那么我们的网站就会完成！然而，在性能（网站为用户加载的速度）和可维护性（开发人员更改代码的难易程度）方面，网站有许多方面可以改进。\n脚本的 defer 属性 对于我们的网站，一个主要的优化是解决标题中加载的 JavaScript 文件。这些文件足够大，实际上会减慢网站的速度。为了呈现页面，Web 浏览器读取给定的 HTML 并将其转换为它理解的格式 - 文档对象模型或 DOM。如您所料，Web 浏览器从 HTML 文档的顶部开始，然后向下工作。这意味着如果它看到 \u003c![endif]--\u003e \u003c/head\u003e \u003cbody\u003e \u003c/body\u003e \u003c/html\u003e 如您所见，该工具添加了一个带有大量 CSS 的内联 ","wordCount":"3379","inLanguage":"en","datePublished":"2023-06-20T00:00:00+08:00","dateModified":"2023-06-20T00:00:00+08:00","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2023/06/20/modern-html-explained-for-dinosaurs/"},"publisher":{"@type":"Organization","name":"ChenSoul","logo":{"@type":"ImageObject","url":"https://blog.chensoul.cc/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories title=分类><span>分类</span></a></li><li><a href=https://blog.chensoul.cc/tags title=标签><span>标签</span></a></li><li><a href=https://blog.chensoul.cc/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://blog.chensoul.cc/index.xml title=订阅><span>订阅</span></a></li><li><a href=https://github.com/chensoul title=关于><span>关于</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">[译]为恐龙解释现代HTML</h1><div class=post-meta><span title='2023-06-20 00:00:00 +0800 CST'>2023-06-20</span>&nbsp;·&nbsp;16 min&nbsp;·&nbsp;3379 words&nbsp;·&nbsp;chensoul</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#%e4%bd%bf%e7%94%a8%e8%af%ad%e4%b9%89%e5%85%83%e7%b4%a0%e7%bc%96%e5%86%99%e5%86%85%e5%ae%b9 aria-label=使用语义元素编写内容>使用语义元素编写内容</a></li><li><a href=#%e4%bd%bf%e7%94%a8-wai-aria-%e5%b1%9e%e6%80%a7%e6%94%b9%e8%bf%9b%e5%8f%af%e8%ae%bf%e9%97%ae%e6%80%a7 aria-label="使用 WAI-ARIA 属性改进可访问性">使用 WAI-ARIA 属性改进可访问性</a></li><li><a href=#%e7%94%a8-css-%e5%92%8c-javascript-%e8%ae%a9%e5%ae%83%e5%8f%98%e5%be%97%e6%bc%82%e4%ba%ae aria-label="用 CSS 和 JavaScript 让它变得漂亮">用 CSS 和 JavaScript 让它变得漂亮</a></li><li><a href=#%e4%bd%bf%e7%94%a8-html-%e5%b1%9e%e6%80%a7%e6%8f%90%e9%ab%98%e6%80%a7%e8%83%bd aria-label="使用 HTML 属性提高性能">使用 HTML 属性提高性能</a><ul><li><a href=#%e8%84%9a%e6%9c%ac%e7%9a%84-defer-%e5%b1%9e%e6%80%a7 aria-label="脚本的 defer 属性">脚本的 defer 属性</a></li><li><a href=#%e5%9b%be%e5%83%8f%e7%9a%84-srcset-%e5%b1%9e%e6%80%a7 aria-label="图像的 srcset 属性">图像的 srcset 属性</a></li><li><a href=#%e5%85%b6%e4%bb%96-html-%e5%b1%9e%e6%80%a7 aria-label="其他 HTML 属性">其他 HTML 属性</a></li></ul></li><li><a href=#%e4%bd%bf%e7%94%a8%e5%b7%a5%e5%85%b7%e6%8f%90%e9%ab%98%e6%80%a7%e8%83%bd aria-label=使用工具提高性能>使用工具提高性能</a><ul><li><a href=#%e4%bb%a3%e7%a0%81%e7%bc%a9%e5%b0%8f aria-label=代码缩小>代码缩小</a></li><li><a href=#%e6%96%87%e4%bb%b6%e4%b8%b2%e8%81%94 aria-label=文件串联>文件串联</a></li><li><a href=#%e5%85%b3%e9%94%ae-css aria-label="关键 CSS">关键 CSS</a></li><li><a href=#%e5%ae%9e%e7%8e%b0%e6%9e%84%e5%bb%ba%e6%ad%a5%e9%aa%a4 aria-label=实现构建步骤>实现构建步骤</a></li></ul></li><li><a href=#%e6%a8%a1%e6%9d%bf%e5%92%8c%e7%bb%84%e4%bb%b6%e6%8f%90%e9%ab%98%e5%8f%af%e7%bb%b4%e6%8a%a4%e6%80%a7 aria-label=模板和组件提高可维护性>模板和组件提高可维护性</a><ul><li><a href=#%e5%9c%a8%e6%9c%8d%e5%8a%a1%e5%99%a8%e4%b8%8a%e6%9e%84%e5%bb%ba%e6%a8%a1%e6%9d%bf aria-label=在服务器上构建模板>在服务器上构建模板</a></li><li><a href=#%e5%9c%a8%e5%ae%a2%e6%88%b7%e7%ab%af%e4%b8%8a%e4%bd%bf%e7%94%a8-web-%e7%bb%84%e4%bb%b6 aria-label="在客户端上使用 Web 组件">在客户端上使用 Web 组件</a></li><li><a href=#%e5%9c%a8%e5%ae%a2%e6%88%b7%e7%ab%af%e4%b8%8a%e4%bd%bf%e7%94%a8-javascript-%e6%a1%86%e6%9e%b6 aria-label="在客户端上使用 JavaScript 框架">在客户端上使用 JavaScript 框架</a></li></ul></li><li><a href=#%e7%bb%93%e8%ae%ba aria-label=结论>结论</a></li></ul></div></details></div><div class=post-content><p><img loading=lazy src=https://peterxjang.com/img/1__EEHKg3z__FAk0ipZDFuWKcw.png alt="Dinosaur comic panel 1"></p><p>在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+<meta name=keywords content="css,html,javascript"><meta name=description content='在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似： 1 2 3 4 5 6 7 8 9 10 <!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <title>My test page</title> </head> <body> <h1>Hello there!</h1> </body>'><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/posts/2023/06/20/modern-html-explained-for-dinosaurs/><meta name=google-site-verification content="nBXwg45SBRjTX78SA-mH0asrAbsdu9c1nk0ObSry7aQ"><link crossorigin=anonymous href=/assets/css/stylesheet.899d9a536396b9b03c9eae0c99cc6ec954a90da94036f5390d131eb8071bb417.css integrity="sha256-iZ2aU2OWubA8nq4MmcxuyVSpDalANvU5DRMeuAcbtBc=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://blog.chensoul.cc/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://blog.chensoul.cc/favicon-32x32.png><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=mask-icon href=https://blog.chensoul.cc/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://blog.chensoul.cc/posts/2023/06/20/modern-html-explained-for-dinosaurs/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><meta property="og:title" content="[译]为恐龙解释现代HTML"><meta property="og:description" content='在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似： 1 2 3 4 5 6 7 8 9 10 <!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <title>My test page</title> </head> <body> <h1>Hello there!</h1> </body>'><meta property="og:type" content="article"><meta property="og:url" content="https://blog.chensoul.cc/posts/2023/06/20/modern-html-explained-for-dinosaurs/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-06-20T00:00:00+08:00"><meta property="article:modified_time" content="2023-06-20T00:00:00+08:00"><meta property="og:site_name" content="ChenSoul"><meta name=twitter:card content="summary"><meta name=twitter:title content="[译]为恐龙解释现代HTML"><meta name=twitter:description content='在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似： 1 2 3 4 5 6 7 8 9 10 <!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <title>My test page</title> </head> <body> <h1>Hello there!</h1> </body>'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://blog.chensoul.cc/posts/"},{"@type":"ListItem","position":2,"name":"[译]为恐龙解释现代HTML","item":"https://blog.chensoul.cc/posts/2023/06/20/modern-html-explained-for-dinosaurs/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"[译]为恐龙解释现代HTML","name":"[译]为恐龙解释现代HTML","description":"在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似： 1 2 3 4 5 6 7 8 9 10 \u0026lt;!DOCTYPE html\u0026gt; \u0026lt;html\u0026gt; \u0026lt;head\u0026gt; \u0026lt;meta charset=\u0026#34;utf-8\u0026#34; /\u0026gt; \u0026lt;title\u0026gt;My test page\u0026lt;/title\u0026gt; \u0026lt;/head\u0026gt; \u0026lt;body\u0026gt; \u0026lt;h1\u0026gt;Hello there!\u0026lt;/h1\u0026gt; \u0026lt;/body\u0026gt;","keywords":["css","html","javascript"],"articleBody":" 在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似：\n1 2 3 4 5 6 7 8 9 10 \u003c!DOCTYPE html\u003e \u003chtml\u003e \u003chead\u003e \u003cmeta charset=\"utf-8\" /\u003e \u003ctitle\u003eMy test page\u003c/title\u003e \u003c/head\u003e \u003cbody\u003e \u003ch1\u003eHello there!\u003c/h1\u003e \u003c/body\u003e \u003c/html\u003e 你有带有标签和内容的元素，带有属性的标签——除了第一行的简化文档类型外，没有太大变化！然而，多年来，Web 开发已经发生了巨大的转变，从创建静态网站（专注于内容）到创建动态 Web 应用程序（专注于交互）——这是 Web 最初设计的目的。创建仍然语义和可访问的自定义用户界面，使用属性和工具提高性能，组织代码以进行重用和可维护性 - 现在有一组全新的问题在起作用。\n本文的目的是提供一个历史背景，说明 HTML 如何在 2018 年演变成今天的语言。我们将从结构良好且易于访问的 HTML 的基础知识开始，就像古代的恐龙一样。然后，我们将介绍不同的技术来提高性能、响应能力和可维护性。CSS 和 JavaScript 将不可避免地进入这个对话；出于本文的目的，将从它们如何影响 HTML 本身编写的角度来介绍它们。通过了解这段历史，您将能够充分利用该语言经常被忽视的新旧功能。让我们开始吧！\n使用语义元素编写内容 让我们向前面的 HTML 示例添加更多内容。现在，我们将创建一个基本网站，其中包含一个带有链接和搜索输入的导航部分，一个用于显示一般网站信息的大型展示部分（通常称为英雄部分或 巨型屏幕 ），文章的三列部分和一个版权信息的页脚部分。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 \u003c!DOCTYPE html\u003e \u003chtml\u003e \u003chead\u003e \u003cmeta charset=\"utf-8\" /\u003e \u003ctitle\u003eMy test page\u003c/title\u003e \u003c/head\u003e \u003cbody\u003e \u003cdiv class=\"navbar\"\u003e \u003cul\u003e \u003cli\u003e \u003ca href=\"#\"\u003eHome\u003c/a\u003e \u003c/li\u003e \u003cli\u003e \u003ca href=\"#\"\u003eInfo\u003c/a\u003e \u003c/li\u003e \u003cli\u003e \u003ca href=\"#\"\u003eAbout\u003c/a\u003e \u003c/li\u003e \u003c/ul\u003e \u003cform\u003e \u003cinput type=\"text\" placeholder=\"Search\" /\u003e \u003cbutton type=\"submit\"\u003eSearch\u003c/button\u003e \u003c/form\u003e \u003c/div\u003e \u003cdiv class=\"main\"\u003e \u003cdiv class=\"hero\"\u003e \u003ch1\u003eHello there!\u003c/h1\u003e \u003cp\u003eGeneral info about the page goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eLearn more\u003c/a\u003e\u003c/p\u003e \u003c/div\u003e \u003cdiv class=\"grid\"\u003e \u003cdiv class=\"column\"\u003e \u003ch2\u003eFirst Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/div\u003e \u003cdiv class=\"column\"\u003e \u003ch2\u003eSecond Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/div\u003e \u003cdiv class=\"column\"\u003e \u003ch2\u003eThird Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/div\u003e \u003c/div\u003e \u003c/div\u003e \u003cdiv class=\"footer\"\u003e \u003cp\u003eCopyright info goes here\u003c/p\u003e \u003c/div\u003e \u003c/body\u003e \u003c/html\u003e 在这里，我们使用带有 、 、 、 等标签的基本元素来标记内容。这里的 HTML 是有效的，但它不是完全语义的——也就是说，标签不能尽可能地传达内容的含义。\n当 HTML5 在 2008 年推出时，它提供了新的元素来改进文档语义。以下是使 HTML 更具语义性的尝试：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 \u003c!DOCTYPE html\u003e \u003chtml lang=\"en\"\u003e \u003chead\u003e \u003cmeta charset=\"utf-8\" /\u003e \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" /\u003e \u003cmeta name=\"description\" content=\"\" /\u003e \u003cmeta name=\"author\" content=\"\" /\u003e \u003ctitle\u003eMy test page\u003c/title\u003e \u003c/head\u003e \u003cbody\u003e \u003cnav role=\"navigation\"\u003e \u003cul\u003e \u003cli\u003e \u003ca href=\"#\"\u003eHome\u003c/a\u003e \u003c/li\u003e \u003cli\u003e \u003ca href=\"#\"\u003eInfo\u003c/a\u003e \u003c/li\u003e \u003cli\u003e \u003ca href=\"#\"\u003eAbout\u003c/a\u003e \u003c/li\u003e \u003c/ul\u003e \u003cform\u003e \u003cinput type=\"text\" placeholder=\"Search\" /\u003e \u003cbutton type=\"submit\"\u003eSearch\u003c/button\u003e \u003c/form\u003e \u003c/nav\u003e \u003cmain role=\"main\"\u003e \u003csection class=\"hero\"\u003e \u003ch1\u003eHello there!\u003c/h1\u003e \u003cp\u003eGeneral info about the page goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eLearn more\u003c/a\u003e\u003c/p\u003e \u003c/section\u003e \u003csection class=\"grid\"\u003e \u003carticle class=\"column\"\u003e \u003ch2\u003eFirst Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/article\u003e \u003carticle class=\"column\"\u003e \u003ch2\u003eSecond Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/article\u003e \u003carticle class=\"column\"\u003e \u003ch2\u003eThird Heading\u003c/h2\u003e \u003cp\u003eArticle content goes here\u003c/p\u003e \u003cp\u003e\u003ca href=\"#\"\u003eView details\u003c/a\u003e\u003c/p\u003e \u003c/article\u003e \u003c/section\u003e \u003c/main\u003e \u003cfooter role=\"contentinfo\"\u003e \u003cp\u003eCopyright info goes here\u003c/p\u003e \u003c/footer\u003e \u003c/body\u003e \u003c/html\u003e 让我们来看看其中的一些变化：\n指定文档的语言，这有助于搜索引擎和浏览器识别适当的内容。 额外的 标记提供有关搜索引擎和其他服务在页面上不直接可见的网站的信息。它们还提供有关如何调整不同设备上的内容大小的信息。 、 、 、 和 标记为 HTML 文档提供了更易于访问的结构（与通用的 标记相比）。这些标签是在 HTML5 中引入的。 注释添加了一个 JavaScript 文件，该文件仅适用于旧版本的 Internet Explorer，因为它们不支持上述 HTML5 标签。请注意，如今许多最近的网站都没有包含该评论，因为支持这些浏览器的网站越来越少。 role 属性还提供辅助功能信息。请注意，使用 标记通常足以确保可访问性，如果无法识别 标记，则使用额外的 role=\"navigation\" 。 编写语义 HTML 似乎并不重要，尤其是当它不影响网站的视觉外观时。但是，您的网站不仅被人类查看 - 网络浏览器，搜索引擎，屏幕阅读器都依赖于语义 HTML 才能正常运行。\n使用 WAI-ARIA 属性改进可访问性 让我们看一下上面示例中导航栏中的搜索输入：\n1 2 3 4 \u003cform\u003e \u003cinput type=\"text\" placeholder=\"Search\" /\u003e \u003cbutton type=\"submit\"\u003eSearch\u003c/button\u003e \u003c/form\u003e 此输入元素使用 placeholder 属性而不是标签元素让用户知道其用途。这适用于人类，但它不是正确的语义 HTML，屏幕阅读器和其他技术可能会错过。使其可访问的方法是使用 aria-label 属性：\n1 2 3 4 \u003cform\u003e \u003cinput type=\"text\" placeholder=\"Search\" aria-label=\"Search\" /\u003e \u003cbutton type=\"submit\"\u003eSearch\u003c/button\u003e \u003c/form\u003e WAI-ARIA 代表“Web 可访问性倡议 — 可访问的富互联网应用程序”（通常简称为 ARIA），是一组属性，当语义标记不够时，使 HTML 更易于访问。上一节中看到的 role 属性是 ARIA 属性。到目前为止，这些属性似乎是很小的变化，但是当我们使用 HTML 来处理基本文档之外的事情时，它变得更加重要。\n让我们看一个更复杂的例子——假设我们想在 HTML 中添加一些选项卡式内容，以提供有关如何在 Windows，Mac 和 Linux 上安装某些程序的说明。由于没有在 HTML 中构建选项卡的本机方法，因此我们必须使用无序列表、链接和 div 之类的东西来构建我们自己的选项卡标记。在这里，我们可以使用 role 、 aria-controls 、 aria-selected 和 aria-labelledby 等可访问性属性来标记 HTML，如下所示：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 \u003cul role=\"tablist\"\u003e \u003cli\u003e \u003ca id=\"windows-tab\" href=\"#windows\" role=\"tab\" aria-controls=\"windows\" aria-selected=\"true\" \u003eWindows\u003c/a \u003e \u003c/li\u003e \u003cli\u003e \u003ca id=\"mac-tab\" href=\"#mac\" role=\"tab\" aria-controls=\"mac\" aria-selected=\"false\" \u003eMac\u003c/a \u003e \u003c/li\u003e \u003cli\u003e \u003ca id=\"linux-tab\" href=\"#linux\" role=\"tab\" aria-controls=\"linux\" aria-selected=\"false\" \u003eLinux\u003c/a \u003e \u003c/li\u003e \u003c/ul\u003e \u003cdiv\u003e \u003cdiv id=\"windows\" role=\"tabpanel\" aria-labelledby=\"windows-tab\"\u003e \u003cimg src=\"http://1000logos.net/wp-content/uploads/2017/04/Microsoft-Logo.png\" alt=\"microsoft logo\" /\u003e ... \u003c/div\u003e \u003cdiv id=\"mac\" role=\"tabpanel\" aria-labelledby=\"mac-tab\"\u003e \u003cimg src=\"https://i.ytimg.com/vi/ipOzBWuYZvg/maxresdefault.jpg\" alt=\"apple logo\" /\u003e ... \u003c/div\u003e \u003cdiv id=\"linux\" role=\"tabpanel\" aria-labelledby=\"linux-tab\"\u003e \u003cimg src=\"https://noware.tech/wp-content/uploads/sites/140/2018/04/linux-1024x565.jpg\" alt=\"linux logo\" /\u003e ... \u003c/div\u003e \u003c/div\u003e 如果没有这些辅助功能属性，选项卡式内容将与选项卡控件没有可识别的关系。具有这些属性有助于屏幕阅读器识别内容，启用具有正确制表符的键盘快捷键等。使用适当的 ARIA 属性本身就是一项完整的研究——要更深入地了解，请查看 官方指南。\n所有这些似乎都是为了提高网站的可访问性而做很多工作。重要的是要承认可访问性是网络的一个组成部分，网络被设计为一个与每个人自由共享信息的平台，而不仅仅是少数人。使网站可访问可以改善每个访问者的体验 - 例如，可访问的键盘快捷键可以帮助那些永远无法使用鼠标的人，那些暂时无法使用鼠标的人，以及那些不喜欢不使用鼠标的人（也就是大多数程序员）。在处理其他功能时，可访问性很容易被忽视，但不应忽视。\n如果您有兴趣改善网站的可访问性，那么有 A11Y 项目 中的清单，这是 一个 很好的起点。然而，使网站可访问不仅仅是检查项目——它总是可以改进的，就像用户体验的任何方面一样。使您的网站可访问的最佳方法是实际使用您的网站，就像受众中的不同人一样 - 使用屏幕阅读器进行测试，尝试仅使用键盘而不是鼠标，使用 色盲过滤器 查看您的网站等。\n用 CSS 和 JavaScript 让它变得漂亮 如果我们到目前为止看一下网站，它看起来就像你期望的那样光秃秃的：\n为了美化它，我们将添加一个 CSS 文件来应用样式。现在，如果你不是特别擅长 CSS，可能需要很多天才能使这个网站看起来很漂亮。与其编写自己的 CSS，不如始终使用 CSS 框架，该框架本质上是其他人以可重用的方式编写的 CSS。\n一个流行的 CSS 框架是 Bootstrap，它于 2011 年问世，并迅速被 数百万个网站 采用和使用。让我们看看使用 Bootstrap 的一些代码会是什么样子：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 \u003c!DOCTYPE html\u003e \u003chtml lang=\"en\"\u003e \u003chead\u003e \u003cmeta charset=\"utf-8\" /\u003e \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" /\u003e \u003cmeta name=\"description\" content=\"\" /\u003e \u003cmeta name=\"author\" content=\"\" /\u003e \u003ctitle\u003eMy test page\u003c/title\u003e \u003clink rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" integrity=\"sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO\" crossorigin=\"anonymous\" /\u003e \u003c/head\u003e \u003cbody\u003e \u003cnav class=\"navbar navbar-expand-lg navbar-light bg-light\" role=\"navigation\" \u003e \u003cul class=\"navbar-nav mr-auto\"\u003e \u003cli class=\"nav-item active\"\u003e \u003ca class=\"nav-link\" href=\"#\"\u003eHome\u003c/a\u003e \u003c/li\u003e \u003cli class=\"nav-item\"\u003e \u003ca class=\"nav-link\" href=\"#\"\u003eInfo\u003c/a\u003e \u003c/li\u003e \u003cli class=\"nav-item\"\u003e \u003ca class=\"nav-link\" href=\"#\"\u003eAbout\u003c/a\u003e \u003c/li\u003e \u003c/ul\u003e \u003cform class=\"form-inline my-2 my-lg-0\"\u003e \u003cinput class=\"form-control mr-sm-2\" type=\"text\" placeholder=\"Search\" aria-label=\"Search\" /\u003e \u003cbutton class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\"\u003e Search \u003c/button\u003e \u003c/form\u003e \u003c/nav\u003e \u003cmain role=\"main\"\u003e \u003c/main\u003e \u003cfooter class=\"navbar navbar-dark bg-secondary\" role=\"contentinfo\"\u003e \u003cp\u003eCopyright info goes here\u003c/p\u003e \u003c/footer\u003e \u003c/body\u003e \u003c/html\u003e 您可以在 此处 查看完整的代码示例。\n让我们检查一下这些更改：\n标签中的 将 Bootstrap CSS 添加到我们的网站。请注意，我们链接到在线托管的文件，这可能会带来一些安全风险 - integrity 和 crossorigin 属性有助于确保链接到的文件正确无误。\n添加的类都是特定于 Bootstrap 的 — 添加的 Bootstrap CSS 具有针对具有特定 HTML 结构的特定类名的样式。\n在三篇文章周围添加了一个额外的 ，以利用 Bootstrap 的网格布局系统（它使用这种特定的 HTML 结构）。\n以下是该网站现在的样子：\n不错！请注意，为了使用像 Bootstrap 这样的 CSS 框架，您实际上根本不需要编写任何 CSS 即可开始使用 — 您只需要在 HTML 中添加适当的类即可利用框架附带的 CSS。\n这里要注意的一件事是，虽然选项卡的样式正确（任何时候只有一个选项卡可见），但它们还没有正常工作——单击选项卡不会执行任何操作。这是因为在这种情况下，这种类型的自定义交互不是由 CSS 处理的，而是由 JavaScript 处理的。在这种情况下，我们可以通过在 标签中添加 Bootstrap 框架附带的 JavaScript 文件来让 Bootstrap 选项卡工作：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 \u003cscript src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\" integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\" crossorigin=\"anonymous\" \u003e\u003c/script\u003e \u003cscript src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js\" integrity=\"sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49\" crossorigin=\"anonymous\" \u003e\u003c/script\u003e \u003cscript src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\" integrity=\"sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy\" crossorigin=\"anonymous\" \u003e\u003c/script\u003e 最后一个脚本是 Bootstrap 的 JavaScript。前两个是 Bootstrap 使用的依赖项（jQuery 和 Popper），在加载 Bootstrap 脚本之前必须先加载它们。如果您查看 此实时示例，您可以看到选项卡现在可以工作了！\nBootstrap 被广泛使用，因为它帮助解决了当时 CSS 的主要痛点，例如浏览器不一致和缺乏适当的网格系统。使用像 Bootstrap 这样的 CSS 框架有一些缺点——特别是，与从头开始编写 CSS 相比，它们可能难以定制，这可能会使您的网站与其他网站相比显得通用。\n此外，随着智能手机和移动流量的增加，减少 CSS 和 JS 文件大小变得越来越重要 - 任何超过几千字节的东西都会显着影响较慢的互联网连接的性能。在上面的例子中使用 Bootstrap 的方式，我们要求用户下载整个 Bootstrap 框架与站点一起，即使我们只使用几种样式和功能。在下一节中，我们将介绍几种有助于解决这些性能问题的技术。\n注意：对 CSS 和 JavaScript 的扎实掌握与使用 HTML 制作复杂的网站有着内在的联系;但是，深入研究这些语言超出了本文的范围。如果你想了解更多关于 CSS 和 JavaScript 的基础知识，MDN Web Docs 总是一个不错的起点。如果你想更好地了解 CSS 的所有新功能（flexbox，grid，SASS 等）如何与所涉及的所有工具和技术结合在一起，请查看我的文章 Modern CSS Explain For Dinosaurs。\n使用 HTML 属性提高性能 在这一点上，我们有一个网站，具有相当好的组织，语义 HTML。如果这就是我们正在考虑的全部内容，那么我们的网站就会完成！然而，在性能（网站为用户加载的速度）和可维护性（开发人员更改代码的难易程度）方面，网站有许多方面可以改进。\n脚本的 defer 属性 对于我们的网站，一个主要的优化是解决标题中加载的 JavaScript 文件。这些文件足够大，实际上会减慢网站的速度。为了呈现页面，Web 浏览器读取给定的 HTML 并将其转换为它理解的格式 - 文档对象模型或 DOM。如您所料，Web 浏览器从 HTML 文档的顶部开始，然后向下工作。这意味着如果它看到 \u003c![endif]--\u003e \u003c/head\u003e \u003cbody\u003e \u003c/body\u003e \u003c/html\u003e 如您所见，该工具添加了一个带有大量 CSS 的内联 ","wordCount":"14517","inLanguage":"en","datePublished":"2023-06-20T00:00:00+08:00","dateModified":"2023-06-20T00:00:00+08:00","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2023/06/20/modern-html-explained-for-dinosaurs/"},"publisher":{"@type":"Organization","name":"ChenSoul","logo":{"@type":"ImageObject","url":"https://blog.chensoul.cc/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories title=分类><span>分类</span></a></li><li><a href=https://blog.chensoul.cc/tags title=标签><span>标签</span></a></li><li><a href=https://blog.chensoul.cc/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://blog.chensoul.cc/index.xml title=订阅><span>订阅</span></a></li><li><a href=https://github.com/chensoul title=关于><span>关于</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">[译]为恐龙解释现代HTML</h1><div class=post-meta><span title='2023-06-20 00:00:00 +0800 CST'>2023-06-20</span>&nbsp;·&nbsp;29 min&nbsp;·&nbsp;14517 words&nbsp;·&nbsp;chensoul</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#%e4%bd%bf%e7%94%a8%e8%af%ad%e4%b9%89%e5%85%83%e7%b4%a0%e7%bc%96%e5%86%99%e5%86%85%e5%ae%b9 aria-label=使用语义元素编写内容>使用语义元素编写内容</a></li><li><a href=#%e4%bd%bf%e7%94%a8-wai-aria-%e5%b1%9e%e6%80%a7%e6%94%b9%e8%bf%9b%e5%8f%af%e8%ae%bf%e9%97%ae%e6%80%a7 aria-label="使用 WAI-ARIA 属性改进可访问性">使用 WAI-ARIA 属性改进可访问性</a></li><li><a href=#%e7%94%a8-css-%e5%92%8c-javascript-%e8%ae%a9%e5%ae%83%e5%8f%98%e5%be%97%e6%bc%82%e4%ba%ae aria-label="用 CSS 和 JavaScript 让它变得漂亮">用 CSS 和 JavaScript 让它变得漂亮</a></li><li><a href=#%e4%bd%bf%e7%94%a8-html-%e5%b1%9e%e6%80%a7%e6%8f%90%e9%ab%98%e6%80%a7%e8%83%bd aria-label="使用 HTML 属性提高性能">使用 HTML 属性提高性能</a><ul><li><a href=#%e8%84%9a%e6%9c%ac%e7%9a%84-defer-%e5%b1%9e%e6%80%a7 aria-label="脚本的 defer 属性">脚本的 defer 属性</a></li><li><a href=#%e5%9b%be%e5%83%8f%e7%9a%84-srcset-%e5%b1%9e%e6%80%a7 aria-label="图像的 srcset 属性">图像的 srcset 属性</a></li><li><a href=#%e5%85%b6%e4%bb%96-html-%e5%b1%9e%e6%80%a7 aria-label="其他 HTML 属性">其他 HTML 属性</a></li></ul></li><li><a href=#%e4%bd%bf%e7%94%a8%e5%b7%a5%e5%85%b7%e6%8f%90%e9%ab%98%e6%80%a7%e8%83%bd aria-label=使用工具提高性能>使用工具提高性能</a><ul><li><a href=#%e4%bb%a3%e7%a0%81%e7%bc%a9%e5%b0%8f aria-label=代码缩小>代码缩小</a></li><li><a href=#%e6%96%87%e4%bb%b6%e4%b8%b2%e8%81%94 aria-label=文件串联>文件串联</a></li><li><a href=#%e5%85%b3%e9%94%ae-css aria-label="关键 CSS">关键 CSS</a></li><li><a href=#%e5%ae%9e%e7%8e%b0%e6%9e%84%e5%bb%ba%e6%ad%a5%e9%aa%a4 aria-label=实现构建步骤>实现构建步骤</a></li></ul></li><li><a href=#%e6%a8%a1%e6%9d%bf%e5%92%8c%e7%bb%84%e4%bb%b6%e6%8f%90%e9%ab%98%e5%8f%af%e7%bb%b4%e6%8a%a4%e6%80%a7 aria-label=模板和组件提高可维护性>模板和组件提高可维护性</a><ul><li><a href=#%e5%9c%a8%e6%9c%8d%e5%8a%a1%e5%99%a8%e4%b8%8a%e6%9e%84%e5%bb%ba%e6%a8%a1%e6%9d%bf aria-label=在服务器上构建模板>在服务器上构建模板</a></li><li><a href=#%e5%9c%a8%e5%ae%a2%e6%88%b7%e7%ab%af%e4%b8%8a%e4%bd%bf%e7%94%a8-web-%e7%bb%84%e4%bb%b6 aria-label="在客户端上使用 Web 组件">在客户端上使用 Web 组件</a></li><li><a href=#%e5%9c%a8%e5%ae%a2%e6%88%b7%e7%ab%af%e4%b8%8a%e4%bd%bf%e7%94%a8-javascript-%e6%a1%86%e6%9e%b6 aria-label="在客户端上使用 JavaScript 框架">在客户端上使用 JavaScript 框架</a></li></ul></li><li><a href=#%e7%bb%93%e8%ae%ba aria-label=结论>结论</a></li></ul></div></details></div><div class=post-content><p><img loading=lazy src=https://peterxjang.com/img/1__EEHKg3z__FAk0ipZDFuWKcw.png alt="Dinosaur comic panel 1"></p><p>在三种主要的前端技术（ HTML，CSS 和 JavaScript ）中，HTML 仍然是最一致的。如果您唯一关心的是创建内容，那么 1990 年代的 HTML 文档看起来与 2018 年创建的文档非常相似：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>charset</span><span class=o>=</span><span class=s>&#34;utf-8&#34;</span> <span class=p>/&gt;</span>
@@ -21,7 +19,60 @@
 </span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>h1</span><span class=p>&gt;</span>Hello there!<span class=p>&lt;/</span><span class=nt>h1</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>你有带有标签和内容的元素，带有属性的标签——除了第一行的简化文档类型外，没有太大变化！然而，多年来，Web 开发已经发生了巨大的转变，从创建静态网站（专注于内容）到创建动态 Web 应用程序（专注于交互）——这是 Web 最初设计的目的。创建仍然语义和可访问的自定义用户界面，使用属性和工具提高性能，组织代码以进行重用和可维护性 - 现在有一组全新的问题在起作用。</p><p>本文的目的是提供一个历史背景，说明 HTML 如何在 2018 年演变成今天的语言。我们将从结构良好且易于访问的 HTML 的基础知识开始，就像古代的恐龙一样。然后，我们将介绍不同的技术来提高性能、响应能力和可维护性。CSS 和 JavaScript 将不可避免地进入这个对话；出于本文的目的，将从它们如何影响 HTML 本身编写的角度来介绍它们。通过了解这段历史，您将能够充分利用该语言经常被忽视的新旧功能。让我们开始吧！</p><h3 id=使用语义元素编写内容>使用语义元素编写内容<a hidden class=anchor aria-hidden=true href=#使用语义元素编写内容>#</a></h3><p>让我们向前面的 HTML 示例添加更多内容。现在，我们将创建一个基本网站，其中包含一个带有链接和搜索输入的导航部分，一个用于显示一般网站信息的大型展示部分（通常称为英雄部分或 <a href=https://en.wikipedia.org/wiki/Jumbotron>巨型屏幕</a> ），文章的三列部分和一个版权信息的页脚部分。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>你有带有标签和内容的元素，带有属性的标签——除了第一行的简化文档类型外，没有太大变化！然而，多年来，Web 开发已经发生了巨大的转变，从创建静态网站（专注于内容）到创建动态 Web 应用程序（专注于交互）——这是 Web 最初设计的目的。创建仍然语义和可访问的自定义用户界面，使用属性和工具提高性能，组织代码以进行重用和可维护性 - 现在有一组全新的问题在起作用。</p><p>本文的目的是提供一个历史背景，说明 HTML 如何在 2018 年演变成今天的语言。我们将从结构良好且易于访问的 HTML 的基础知识开始，就像古代的恐龙一样。然后，我们将介绍不同的技术来提高性能、响应能力和可维护性。CSS 和 JavaScript 将不可避免地进入这个对话；出于本文的目的，将从它们如何影响 HTML 本身编写的角度来介绍它们。通过了解这段历史，您将能够充分利用该语言经常被忽视的新旧功能。让我们开始吧！</p><h3 id=使用语义元素编写内容>使用语义元素编写内容<a hidden class=anchor aria-hidden=true href=#使用语义元素编写内容>#</a></h3><p>让我们向前面的 HTML 示例添加更多内容。现在，我们将创建一个基本网站，其中包含一个带有链接和搜索输入的导航部分，一个用于显示一般网站信息的大型展示部分（通常称为英雄部分或 <a href=https://en.wikipedia.org/wiki/Jumbotron>巨型屏幕</a> ），文章的三列部分和一个版权信息的页脚部分。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>charset</span><span class=o>=</span><span class=s>&#34;utf-8&#34;</span> <span class=p>/&gt;</span>
@@ -74,7 +125,69 @@
 </span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>在这里，我们使用带有 <code>&lt;div></code> 、 <code>&lt;h1></code> 、 <code>&lt;h2></code> 、 <code>&lt;p></code> 等标签的基本元素来标记内容。这里的 HTML 是有效的，但它不是完全语义的——也就是说，标签不能尽可能地传达内容的含义。</p><p>当 HTML5 在 2008 年推出时，它提供了新的元素来改进文档语义。以下是使 HTML 更具语义性的尝试：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这里，我们使用带有 <code>&lt;div></code> 、 <code>&lt;h1></code> 、 <code>&lt;h2></code> 、 <code>&lt;p></code> 等标签的基本元素来标记内容。这里的 HTML 是有效的，但它不是完全语义的——也就是说，标签不能尽可能地传达内容的含义。</p><p>当 HTML5 在 2008 年推出时，它提供了新的元素来改进文档语义。以下是使 HTML 更具语义性的尝试：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>charset</span><span class=o>=</span><span class=s>&#34;utf-8&#34;</span> <span class=p>/&gt;</span>
@@ -136,15 +249,78 @@
 </span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>footer</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>让我们来看看其中的一些变化：</p><ul><li><code>&lt;html lang="en"></code> 指定文档的语言，这有助于搜索引擎和浏览器识别适当的内容。</li><li>额外的 <code>&lt;meta></code> 标记提供有关搜索引擎和其他服务在页面上不直接可见的网站的信息。它们还提供有关如何调整不同设备上的内容大小的信息。</li><li><code>&lt;nav></code> 、 <code>&lt;main></code> 、 <code>&lt;section></code> 、 <code>&lt;article></code> 和 <code>&lt;footer></code> 标记为 HTML 文档提供了更易于访问的结构（与通用的 <code>&lt;div></code> 标记相比）。这些标签是在 HTML5 中引入的。</li><li><code>&lt;!-- [if lt IE 9]>...--></code> 注释添加了一个 JavaScript 文件，该文件仅适用于旧版本的 Internet Explorer，因为它们不支持上述 HTML5 标签。请注意，如今许多最近的网站都没有包含该评论，因为支持这些浏览器的网站越来越少。</li><li><code>role</code> 属性还提供辅助功能信息。请注意，使用 <code>&lt;nav></code> 标记通常足以确保可访问性，如果无法识别 <code>&lt;nav></code> 标记，则使用额外的 <code>role="navigation"</code> 。</li></ul><p>编写语义 HTML 似乎并不重要，尤其是当它不影响网站的视觉外观时。但是，您的网站不仅被人类查看 - 网络浏览器，搜索引擎，屏幕阅读器都依赖于语义 HTML 才能正常运行。</p><h3 id=使用-wai-aria-属性改进可访问性>使用 WAI-ARIA 属性改进可访问性<a hidden class=anchor aria-hidden=true href=#使用-wai-aria-属性改进可访问性>#</a></h3><p>让我们看一下上面示例中导航栏中的搜索输入：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>form</span><span class=p>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>让我们来看看其中的一些变化：</p><ul><li><code>&lt;html lang="en"></code> 指定文档的语言，这有助于搜索引擎和浏览器识别适当的内容。</li><li>额外的 <code>&lt;meta></code> 标记提供有关搜索引擎和其他服务在页面上不直接可见的网站的信息。它们还提供有关如何调整不同设备上的内容大小的信息。</li><li><code>&lt;nav></code> 、 <code>&lt;main></code> 、 <code>&lt;section></code> 、 <code>&lt;article></code> 和 <code>&lt;footer></code> 标记为 HTML 文档提供了更易于访问的结构（与通用的 <code>&lt;div></code> 标记相比）。这些标签是在 HTML5 中引入的。</li><li><code>&lt;!-- [if lt IE 9]>...--></code> 注释添加了一个 JavaScript 文件，该文件仅适用于旧版本的 Internet Explorer，因为它们不支持上述 HTML5 标签。请注意，如今许多最近的网站都没有包含该评论，因为支持这些浏览器的网站越来越少。</li><li><code>role</code> 属性还提供辅助功能信息。请注意，使用 <code>&lt;nav></code> 标记通常足以确保可访问性，如果无法识别 <code>&lt;nav></code> 标记，则使用额外的 <code>role="navigation"</code> 。</li></ul><p>编写语义 HTML 似乎并不重要，尤其是当它不影响网站的视觉外观时。但是，您的网站不仅被人类查看 - 网络浏览器，搜索引擎，屏幕阅读器都依赖于语义 HTML 才能正常运行。</p><h3 id=使用-wai-aria-属性改进可访问性>使用 WAI-ARIA 属性改进可访问性<a hidden class=anchor aria-hidden=true href=#使用-wai-aria-属性改进可访问性>#</a></h3><p>让我们看一下上面示例中导航栏中的搜索输入：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>form</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>input</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;text&#34;</span> <span class=na>placeholder</span><span class=o>=</span><span class=s>&#34;Search&#34;</span> <span class=p>/&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>button</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;submit&#34;</span><span class=p>&gt;</span>Search<span class=p>&lt;/</span><span class=nt>button</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>form</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>此输入元素使用 <code>placeholder</code> 属性而不是标签元素让用户知道其用途。这适用于人类，但它不是正确的语义 HTML，屏幕阅读器和其他技术可能会错过。使其可访问的方法是使用 <code>aria-label</code> 属性：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>form</span><span class=p>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>此输入元素使用 <code>placeholder</code> 属性而不是标签元素让用户知道其用途。这适用于人类，但它不是正确的语义 HTML，屏幕阅读器和其他技术可能会错过。使其可访问的方法是使用 <code>aria-label</code> 属性：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>form</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>input</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;text&#34;</span> <span class=na>placeholder</span><span class=o>=</span><span class=s>&#34;Search&#34;</span> <span class=na>aria-label</span><span class=o>=</span><span class=s>&#34;Search&#34;</span> <span class=p>/&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>button</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;submit&#34;</span><span class=p>&gt;</span>Search<span class=p>&lt;/</span><span class=nt>button</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>form</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>WAI-ARIA 代表“Web 可访问性倡议 — 可访问的富互联网应用程序”（通常简称为 ARIA），是一组属性，当语义标记不够时，使 HTML 更易于访问。上一节中看到的 <code>role</code> 属性是 ARIA 属性。到目前为止，这些属性似乎是很小的变化，但是当我们使用 HTML 来处理基本文档之外的事情时，它变得更加重要。</p><p>让我们看一个更复杂的例子——假设我们想在 HTML 中添加一些选项卡式内容，以提供有关如何在 Windows，Mac 和 Linux 上安装某些程序的说明。由于没有在 HTML 中构建选项卡的本机方法，因此我们必须使用无序列表、链接和 div 之类的东西来构建我们自己的选项卡标记。在这里，我们可以使用 <code>role</code> 、 <code>aria-controls</code> 、 <code>aria-selected</code> 和 <code>aria-labelledby</code> 等可访问性属性来标记 HTML，如下所示：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>ul</span> <span class=na>role</span><span class=o>=</span><span class=s>&#34;tablist&#34;</span><span class=p>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>WAI-ARIA 代表“Web 可访问性倡议 — 可访问的富互联网应用程序”（通常简称为 ARIA），是一组属性，当语义标记不够时，使 HTML 更易于访问。上一节中看到的 <code>role</code> 属性是 ARIA 属性。到目前为止，这些属性似乎是很小的变化，但是当我们使用 HTML 来处理基本文档之外的事情时，它变得更加重要。</p><p>让我们看一个更复杂的例子——假设我们想在 HTML 中添加一些选项卡式内容，以提供有关如何在 Windows，Mac 和 Linux 上安装某些程序的说明。由于没有在 HTML 中构建选项卡的本机方法，因此我们必须使用无序列表、链接和 div 之类的东西来构建我们自己的选项卡标记。在这里，我们可以使用 <code>role</code> 、 <code>aria-controls</code> 、 <code>aria-selected</code> 和 <code>aria-labelledby</code> 等可访问性属性来标记 HTML，如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>ul</span> <span class=na>role</span><span class=o>=</span><span class=s>&#34;tablist&#34;</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>li</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>a</span>
 </span></span><span class=line><span class=cl>      <span class=na>id</span><span class=o>=</span><span class=s>&#34;windows-tab&#34;</span>
@@ -199,7 +375,64 @@
 </span></span><span class=line><span class=cl>    ...
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>如果没有这些辅助功能属性，选项卡式内容将与选项卡控件没有可识别的关系。具有这些属性有助于屏幕阅读器识别内容，启用具有正确制表符的键盘快捷键等。使用适当的 ARIA 属性本身就是一项完整的研究——要更深入地了解，请查看 <a href=https://www.w3.org/TR/wai-aria-practices-1.1/>官方指南</a>。</p><p>所有这些似乎都是为了提高网站的可访问性而做很多工作。重要的是要承认可访问性是网络的一个组成部分，网络被设计为一个与每个人自由共享信息的平台，而不仅仅是少数人。使网站可访问可以改善每个访问者的体验 - 例如，可访问的键盘快捷键可以帮助那些永远无法使用鼠标的人，那些暂时无法使用鼠标的人，以及那些不喜欢不使用鼠标的人（也就是大多数程序员）。在处理其他功能时，可访问性很容易被忽视，但不应忽视。</p><blockquote><p>如果您有兴趣改善网站的可访问性，那么有 <a href=https://a11yproject.com/>A11Y 项目</a> 中的清单，这是 <a href=https://a11yproject.com/checklist>一个</a> 很好的起点。然而，使网站可访问不仅仅是检查项目——它总是可以改进的，就像用户体验的任何方面一样。使您的网站可访问的最佳方法是实际使用您的网站，就像受众中的不同人一样 - 使用屏幕阅读器进行测试，尝试仅使用键盘而不是鼠标，使用 <a href=https://www.toptal.com/designers/colorfilter>色盲过滤器</a> 查看您的网站等。</p></blockquote><h3 id=用-css-和-javascript-让它变得漂亮>用 CSS 和 JavaScript 让它变得漂亮<a hidden class=anchor aria-hidden=true href=#用-css-和-javascript-让它变得漂亮>#</a></h3><p>如果我们到目前为止看一下网站，它看起来就像你期望的那样光秃秃的：</p><p><img loading=lazy src=https://peterxjang.com/img/1__VCXY__h9ynSUJ__9piFx9ATA.png alt="Example website without styling"></p><p>为了美化它，我们将添加一个 CSS 文件来应用样式。现在，如果你不是特别擅长 CSS，可能需要很多天才能使这个网站看起来很漂亮。与其编写自己的 CSS，不如始终使用 CSS 框架，该框架本质上是其他人以可重用的方式编写的 CSS。</p><p>一个流行的 CSS 框架是 Bootstrap，它于 2011 年问世，并迅速被 <a href=https://www.ostraining.com/blog/coding/bootstrap-popularity/>数百万个网站</a> 采用和使用。让我们看看使用 Bootstrap 的一些代码会是什么样子：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果没有这些辅助功能属性，选项卡式内容将与选项卡控件没有可识别的关系。具有这些属性有助于屏幕阅读器识别内容，启用具有正确制表符的键盘快捷键等。使用适当的 ARIA 属性本身就是一项完整的研究——要更深入地了解，请查看 <a href=https://www.w3.org/TR/wai-aria-practices-1.1/>官方指南</a>。</p><p>所有这些似乎都是为了提高网站的可访问性而做很多工作。重要的是要承认可访问性是网络的一个组成部分，网络被设计为一个与每个人自由共享信息的平台，而不仅仅是少数人。使网站可访问可以改善每个访问者的体验 - 例如，可访问的键盘快捷键可以帮助那些永远无法使用鼠标的人，那些暂时无法使用鼠标的人，以及那些不喜欢不使用鼠标的人（也就是大多数程序员）。在处理其他功能时，可访问性很容易被忽视，但不应忽视。</p><blockquote><p>如果您有兴趣改善网站的可访问性，那么有 <a href=https://a11yproject.com/>A11Y 项目</a> 中的清单，这是 <a href=https://a11yproject.com/checklist>一个</a> 很好的起点。然而，使网站可访问不仅仅是检查项目——它总是可以改进的，就像用户体验的任何方面一样。使您的网站可访问的最佳方法是实际使用您的网站，就像受众中的不同人一样 - 使用屏幕阅读器进行测试，尝试仅使用键盘而不是鼠标，使用 <a href=https://www.toptal.com/designers/colorfilter>色盲过滤器</a> 查看您的网站等。</p></blockquote><h3 id=用-css-和-javascript-让它变得漂亮>用 CSS 和 JavaScript 让它变得漂亮<a hidden class=anchor aria-hidden=true href=#用-css-和-javascript-让它变得漂亮>#</a></h3><p>如果我们到目前为止看一下网站，它看起来就像你期望的那样光秃秃的：</p><p><img loading=lazy src=https://peterxjang.com/img/1__VCXY__h9ynSUJ__9piFx9ATA.png alt="Example website without styling"></p><p>为了美化它，我们将添加一个 CSS 文件来应用样式。现在，如果你不是特别擅长 CSS，可能需要很多天才能使这个网站看起来很漂亮。与其编写自己的 CSS，不如始终使用 CSS 框架，该框架本质上是其他人以可重用的方式编写的 CSS。</p><p>一个流行的 CSS 框架是 Bootstrap，它于 2011 年问世，并迅速被 <a href=https://www.ostraining.com/blog/coding/bootstrap-popularity/>数百万个网站</a> 采用和使用。让我们看看使用 Bootstrap 的一些代码会是什么样子：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>charset</span><span class=o>=</span><span class=s>&#34;utf-8&#34;</span> <span class=p>/&gt;</span>
@@ -256,7 +489,24 @@
 </span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>footer</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>您可以在 <a href="https://codepen.io/peterxjang/pen/jOrEpYR?editors=1000">此处</a> 查看完整的代码示例。</p><p>让我们检查一下这些更改：</p><ul><li><p><code>&lt;head></code> 标签中的 <code>&lt;link></code> 将 Bootstrap CSS 添加到我们的网站。请注意，我们链接到在线托管的文件，这可能会带来一些安全风险 - <code>integrity</code> 和 <code>crossorigin</code> 属性有助于确保链接到的文件正确无误。</p></li><li><p>添加的类都是特定于 Bootstrap 的 — 添加的 Bootstrap CSS 具有针对具有特定 HTML 结构的特定类名的样式。</p></li><li><p>在三篇文章周围添加了一个额外的 <code>&lt;div class="row"></code> ，以利用 <a href=https://getbootstrap.com/docs/4.1/layout/grid/>Bootstrap 的网格布局</a>系统（它使用这种特定的 HTML 结构）。</p></li></ul><p>以下是该网站现在的样子：</p><p><img loading=lazy src=https://peterxjang.com/img/1__fO1wXfiWfdv8vY3__qeQv0A.png alt="Example website with Bootstrap styling"></p><p>不错！请注意，为了使用像 Bootstrap 这样的 CSS 框架，您实际上根本不需要编写任何 CSS 即可开始使用 — 您只需要在 HTML 中添加适当的类即可利用框架附带的 CSS。</p><p>这里要注意的一件事是，虽然选项卡的样式正确（任何时候只有一个选项卡可见），但它们还没有正常工作——单击选项卡不会执行任何操作。这是因为在这种情况下，这种类型的自定义交互不是由 CSS 处理的，而是由 JavaScript 处理的。在这种情况下，我们可以通过在 <code>&lt;head></code> 标签中添加 Bootstrap 框架附带的 JavaScript 文件来让 Bootstrap 选项卡工作：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>script</span>
+</span></span></code></pre></td></tr></table></div></div><p>您可以在 <a href="https://codepen.io/peterxjang/pen/jOrEpYR?editors=1000">此处</a> 查看完整的代码示例。</p><p>让我们检查一下这些更改：</p><ul><li><p><code>&lt;head></code> 标签中的 <code>&lt;link></code> 将 Bootstrap CSS 添加到我们的网站。请注意，我们链接到在线托管的文件，这可能会带来一些安全风险 - <code>integrity</code> 和 <code>crossorigin</code> 属性有助于确保链接到的文件正确无误。</p></li><li><p>添加的类都是特定于 Bootstrap 的 — 添加的 Bootstrap CSS 具有针对具有特定 HTML 结构的特定类名的样式。</p></li><li><p>在三篇文章周围添加了一个额外的 <code>&lt;div class="row"></code> ，以利用 <a href=https://getbootstrap.com/docs/4.1/layout/grid/>Bootstrap 的网格布局</a>系统（它使用这种特定的 HTML 结构）。</p></li></ul><p>以下是该网站现在的样子：</p><p><img loading=lazy src=https://peterxjang.com/img/1__fO1wXfiWfdv8vY3__qeQv0A.png alt="Example website with Bootstrap styling"></p><p>不错！请注意，为了使用像 Bootstrap 这样的 CSS 框架，您实际上根本不需要编写任何 CSS 即可开始使用 — 您只需要在 HTML 中添加适当的类即可利用框架附带的 CSS。</p><p>这里要注意的一件事是，虽然选项卡的样式正确（任何时候只有一个选项卡可见），但它们还没有正常工作——单击选项卡不会执行任何操作。这是因为在这种情况下，这种类型的自定义交互不是由 CSS 处理的，而是由 JavaScript 处理的。在这种情况下，我们可以通过在 <code>&lt;head></code> 标签中添加 Bootstrap 框架附带的 JavaScript 文件来让 Bootstrap 选项卡工作：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>script</span>
 </span></span><span class=line><span class=cl>  <span class=na>src</span><span class=o>=</span><span class=s>&#34;https://code.jquery.com/jquery-3.3.1.slim.min.js&#34;</span>
 </span></span><span class=line><span class=cl>  <span class=na>integrity</span><span class=o>=</span><span class=s>&#34;sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo&#34;</span>
 </span></span><span class=line><span class=cl>  <span class=na>crossorigin</span><span class=o>=</span><span class=s>&#34;anonymous&#34;</span>
@@ -273,7 +523,46 @@
 </span></span><span class=line><span class=cl>  <span class=na>integrity</span><span class=o>=</span><span class=s>&#34;sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy&#34;</span>
 </span></span><span class=line><span class=cl>  <span class=na>crossorigin</span><span class=o>=</span><span class=s>&#34;anonymous&#34;</span>
 </span></span><span class=line><span class=cl><span class=p>&gt;&lt;/</span><span class=nt>script</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>最后一个脚本是 Bootstrap 的 JavaScript。前两个是 Bootstrap 使用的依赖项（jQuery 和 Popper），在加载 Bootstrap 脚本之前必须先加载它们。如果您查看 <a href="https://codepen.io/peterxjang/pen/WKYxWL?editors=1000#">此实时示例</a>，您可以看到选项卡现在可以工作了！</p><p>Bootstrap 被广泛使用，因为它帮助解决了当时 CSS 的主要痛点，例如浏览器不一致和缺乏适当的网格系统。使用像 Bootstrap 这样的 CSS 框架有一些缺点——特别是，与从头开始编写 CSS 相比，它们可能难以定制，这可能会使您的网站与其他网站相比显得通用。</p><p>此外，随着智能手机和移动流量的增加，减少 CSS 和 JS 文件大小变得越来越重要 - 任何超过几千字节的东西都会显着影响较慢的互联网连接的性能。在上面的例子中使用 Bootstrap 的方式，我们要求用户下载整个 Bootstrap 框架与站点一起，即使我们只使用几种样式和功能。在下一节中，我们将介绍几种有助于解决这些性能问题的技术。</p><blockquote><p>注意：对 CSS 和 JavaScript 的扎实掌握与使用 HTML 制作复杂的网站有着内在的联系;但是，深入研究这些语言超出了本文的范围。如果你想了解更多关于 CSS 和 JavaScript 的基础知识，<a href=https://developer.mozilla.org/en-US/>MDN Web Docs</a> 总是一个不错的起点。如果你想更好地了解 CSS 的所有新功能（flexbox，grid，SASS 等）如何与所涉及的所有工具和技术结合在一起，请查看我的文章 <a href=https://peterxjang.com/blog/modern-css-explained-for-dinosaurs.html>Modern CSS Explain For Dinosaurs</a>。</p></blockquote><h3 id=使用-html-属性提高性能>使用 HTML 属性提高性能<a hidden class=anchor aria-hidden=true href=#使用-html-属性提高性能>#</a></h3><p>在这一点上，我们有一个网站，具有相当好的组织，语义 HTML。如果这就是我们正在考虑的全部内容，那么我们的网站就会完成！然而，在性能（网站为用户加载的速度）和可维护性（开发人员更改代码的难易程度）方面，网站有许多方面可以改进。</p><h4 id=脚本的-defer-属性>脚本的 defer 属性<a hidden class=anchor aria-hidden=true href=#脚本的-defer-属性>#</a></h4><p>对于我们的网站，一个主要的优化是解决标题中加载的 JavaScript 文件。这些文件足够大，实际上会减慢网站的速度。为了呈现页面，Web 浏览器读取给定的 HTML 并将其转换为它理解的格式 - 文档对象模型或 DOM。如您所料，Web 浏览器从 HTML 文档的顶部开始，然后向下工作。这意味着如果它看到 <code>&lt;script></code> 标记，它将下载并执行脚本，然后再转到下一行。您可以在此处查看此过程的插图：</p><p><img loading=lazy src=https://peterxjang.com/img/1__qo7CQsQCd__QYJchbCXLj__w.png#medium alt="Diagram of JavaScript normal loading order"></p><center>来自 hacks.mozilla.org</center><p>一个常见的优化技巧是将所有 JavaScript <code>&lt;script></code> 标签移出 <code>&lt;head></code> 标签并移到 <code>&lt;body></code> 标签的末尾。你可以在 Bootstrap 自己的入门模板中看到这一点：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>最后一个脚本是 Bootstrap 的 JavaScript。前两个是 Bootstrap 使用的依赖项（jQuery 和 Popper），在加载 Bootstrap 脚本之前必须先加载它们。如果您查看 <a href="https://codepen.io/peterxjang/pen/WKYxWL?editors=1000#">此实时示例</a>，您可以看到选项卡现在可以工作了！</p><p>Bootstrap 被广泛使用，因为它帮助解决了当时 CSS 的主要痛点，例如浏览器不一致和缺乏适当的网格系统。使用像 Bootstrap 这样的 CSS 框架有一些缺点——特别是，与从头开始编写 CSS 相比，它们可能难以定制，这可能会使您的网站与其他网站相比显得通用。</p><p>此外，随着智能手机和移动流量的增加，减少 CSS 和 JS 文件大小变得越来越重要 - 任何超过几千字节的东西都会显着影响较慢的互联网连接的性能。在上面的例子中使用 Bootstrap 的方式，我们要求用户下载整个 Bootstrap 框架与站点一起，即使我们只使用几种样式和功能。在下一节中，我们将介绍几种有助于解决这些性能问题的技术。</p><blockquote><p>注意：对 CSS 和 JavaScript 的扎实掌握与使用 HTML 制作复杂的网站有着内在的联系;但是，深入研究这些语言超出了本文的范围。如果你想了解更多关于 CSS 和 JavaScript 的基础知识，<a href=https://developer.mozilla.org/en-US/>MDN Web Docs</a> 总是一个不错的起点。如果你想更好地了解 CSS 的所有新功能（flexbox，grid，SASS 等）如何与所涉及的所有工具和技术结合在一起，请查看我的文章 <a href=https://peterxjang.com/blog/modern-css-explained-for-dinosaurs.html>Modern CSS Explain For Dinosaurs</a>。</p></blockquote><h3 id=使用-html-属性提高性能>使用 HTML 属性提高性能<a hidden class=anchor aria-hidden=true href=#使用-html-属性提高性能>#</a></h3><p>在这一点上，我们有一个网站，具有相当好的组织，语义 HTML。如果这就是我们正在考虑的全部内容，那么我们的网站就会完成！然而，在性能（网站为用户加载的速度）和可维护性（开发人员更改代码的难易程度）方面，网站有许多方面可以改进。</p><h4 id=脚本的-defer-属性>脚本的 defer 属性<a hidden class=anchor aria-hidden=true href=#脚本的-defer-属性>#</a></h4><p>对于我们的网站，一个主要的优化是解决标题中加载的 JavaScript 文件。这些文件足够大，实际上会减慢网站的速度。为了呈现页面，Web 浏览器读取给定的 HTML 并将其转换为它理解的格式 - 文档对象模型或 DOM。如您所料，Web 浏览器从 HTML 文档的顶部开始，然后向下工作。这意味着如果它看到 <code>&lt;script></code> 标记，它将下载并执行脚本，然后再转到下一行。您可以在此处查看此过程的插图：</p><p><img loading=lazy src=https://peterxjang.com/img/1__qo7CQsQCd__QYJchbCXLj__w.png#medium alt="Diagram of JavaScript normal loading order"></p><center>来自 hacks.mozilla.org</center><p>一个常见的优化技巧是将所有 JavaScript <code>&lt;script></code> 标签移出 <code>&lt;head></code> 标签并移到 <code>&lt;body></code> 标签的末尾。你可以在 Bootstrap 自己的入门模板中看到这一点：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    <span class=c>&lt;!-- Required meta tags --&gt;</span>
@@ -312,7 +601,49 @@
 </span></span><span class=line><span class=cl>    <span class=p>&gt;&lt;/</span><span class=nt>script</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>从某种意义上说，这是一种优化，因为这不是 HTML 的设计方式 - CSS 和 JavaScript 文件应该在<code>标签中</code>定义，如前所述。但是，将所有内容保留在 <code>&lt;head></code> 标记中会产生降低页面呈现性能的意外副作用。将所有 <code>&lt;script></code> 个标记移动到 <code>&lt;body></code> 个标记的底部是提高性能的一种方法。</p><p>在 2018 年，许多网站仍然使用这种将所有 <code>&lt;script></code> 标签移动到 <code>&lt;body></code> 标签底部的技巧。然而，浏览器已经支持了一种不那么黑客的方法近 10 年—— <code>defer</code> 属性。通过将此属性添加到 <code>&lt;script></code> 标记中，浏览器将下载外部文件而不会阻止构建 DOM 的其余部分，并将在 DOM 构建完成后执行脚本。您可以在此处查看此过程的插图：</p><p><img loading=lazy src=https://peterxjang.com/img/1__GhpdG7JTaVJ6nbbaVLkSLg.png#medium alt="Diagram of JavaScript with defer attribute loading order"></p><p>在许多情况下，在 <code>&lt;head></code> 中保留 <code>&lt;script></code> 个标签和 <code>defer</code> 属性将导致更快的页面加载速度，因为文件可以与正在构建的 DOM 并行下载。这就是 Bootstrap 的初学者模板使用 defer 属性的样子：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>从某种意义上说，这是一种优化，因为这不是 HTML 的设计方式 - CSS 和 JavaScript 文件应该在<code>标签中</code>定义，如前所述。但是，将所有内容保留在 <code>&lt;head></code> 标记中会产生降低页面呈现性能的意外副作用。将所有 <code>&lt;script></code> 个标记移动到 <code>&lt;body></code> 个标记的底部是提高性能的一种方法。</p><p>在 2018 年，许多网站仍然使用这种将所有 <code>&lt;script></code> 标签移动到 <code>&lt;body></code> 标签底部的技巧。然而，浏览器已经支持了一种不那么黑客的方法近 10 年—— <code>defer</code> 属性。通过将此属性添加到 <code>&lt;script></code> 标记中，浏览器将下载外部文件而不会阻止构建 DOM 的其余部分，并将在 DOM 构建完成后执行脚本。您可以在此处查看此过程的插图：</p><p><img loading=lazy src=https://peterxjang.com/img/1__GhpdG7JTaVJ6nbbaVLkSLg.png#medium alt="Diagram of JavaScript with defer attribute loading order"></p><p>在许多情况下，在 <code>&lt;head></code> 中保留 <code>&lt;script></code> 个标签和 <code>defer</code> 属性将导致更快的页面加载速度，因为文件可以与正在构建的 DOM 并行下载。这就是 Bootstrap 的初学者模板使用 defer 属性的样子：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    <span class=c>&lt;!-- Required meta tags --&gt;</span>
@@ -354,18 +685,61 @@
 </span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>h1</span><span class=p>&gt;</span>Hello, world!<span class=p>&lt;/</span><span class=nt>h1</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>这样做的好处是网站会渲染得更快，并且它会按预期使用 <code>&lt;head></code> 标记中的脚本组织 HTML。为了更精细地控制哪些文件以什么顺序下载和执行，还有 <code>async</code> 属性以及 <code>&lt;link></code> 个标签的 <code>rel="preload"</code> 属性（您可以在 <a href=https://hacks.mozilla.org/2017/09/building-the-dom-faster-speculative-parsing-async-defer-and-preload/>此处</a> 阅读更多相关信息）。</p><h4 id=图像的-srcset-属性>图像的 srcset 属性<a hidden class=anchor aria-hidden=true href=#图像的-srcset-属性>#</a></h4><p>对于我们的网站，另一个主要的性能优化是图像。现在，这些图像正在被“热链接”，这意味着它们被直接链接到其他人的网站上。这不仅从维护的角度来看是有问题的（如果其他人改变他们的形象，就会破坏我们的网站），从性能的角度来看，它也可能是有问题的。</p><p>我们可以下载文件并在本地链接到它们，而不是直接链接文件。此外，我们可以通过将图像文件大小调整为适当的分辨率来优化图像文件大小。而不是直接链接到另一个网站上的单个图像的图像标签：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>img</span>
+</span></span></code></pre></td></tr></table></div></div><p>这样做的好处是网站会渲染得更快，并且它会按预期使用 <code>&lt;head></code> 标记中的脚本组织 HTML。为了更精细地控制哪些文件以什么顺序下载和执行，还有 <code>async</code> 属性以及 <code>&lt;link></code> 个标签的 <code>rel="preload"</code> 属性（您可以在 <a href=https://hacks.mozilla.org/2017/09/building-the-dom-faster-speculative-parsing-async-defer-and-preload/>此处</a> 阅读更多相关信息）。</p><h4 id=图像的-srcset-属性>图像的 srcset 属性<a hidden class=anchor aria-hidden=true href=#图像的-srcset-属性>#</a></h4><p>对于我们的网站，另一个主要的性能优化是图像。现在，这些图像正在被“热链接”，这意味着它们被直接链接到其他人的网站上。这不仅从维护的角度来看是有问题的（如果其他人改变他们的形象，就会破坏我们的网站），从性能的角度来看，它也可能是有问题的。</p><p>我们可以下载文件并在本地链接到它们，而不是直接链接文件。此外，我们可以通过将图像文件大小调整为适当的分辨率来优化图像文件大小。而不是直接链接到另一个网站上的单个图像的图像标签：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>img</span>
 </span></span><span class=line><span class=cl>  <span class=na>class</span><span class=o>=</span><span class=s>&#34;img-fluid&#34;</span>
 </span></span><span class=line><span class=cl>  <span class=na>src</span><span class=o>=</span><span class=s>&#34;http://1000logos.net/wp-content/uploads/2017/04/Microsoft-Logo.png&#34;</span>
 </span></span><span class=line><span class=cl>  <span class=na>alt</span><span class=o>=</span><span class=s>&#34;microsoft logo&#34;</span>
 </span></span><span class=line><span class=cl><span class=p>/&gt;</span>
-</span></span></code></pre></div><p>我们可以在本地创建图像的多个版本，并响应式地链接到它们：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>img</span>
+</span></span></code></pre></td></tr></table></div></div><p>我们可以在本地创建图像的多个版本，并响应式地链接到它们：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>img</span>
 </span></span><span class=line><span class=cl>  <span class=na>class</span><span class=o>=</span><span class=s>&#34;img-fluid&#34;</span>
 </span></span><span class=line><span class=cl>  <span class=na>src</span><span class=o>=</span><span class=s>&#34;microsoft-logo-small.png&#34;</span>
 </span></span><span class=line><span class=cl>  <span class=na>srcset</span><span class=o>=</span><span class=s>&#34;microsoft-logo-medium.png 1000w, microsoft-logo-large.png 2000w&#34;</span>
 </span></span><span class=line><span class=cl>  <span class=na>alt</span><span class=o>=</span><span class=s>&#34;microsoft logo&#34;</span>
 </span></span><span class=line><span class=cl><span class=p>/&gt;</span>
-</span></span></code></pre></div><p>在这里，我们使用徽标的小型、中型和大型版本。 <code>srcset</code> 属性告诉浏览器根据浏览器宽度加载适当的版本。 <code>srcset</code> 属性是在 2013 年左右引入的，但浏览器花了几年时间才完全支持它。截至 2018 年，它具有 <a href="https://caniuse.com/#feat=srcset">相当不错的浏览器支持</a> ，因此绝对值得将其作为工作流程的一部分。</p><p>对于许多网站来说，优化图像大小通常是最大的性能提升——图像下载大小通常比任何 JavaScript 和 CSS 文件大几个数量级。您可以使用 <code>&lt;picture></code> 元素对图像进行更精细的控制;但是，对于大多数用例来说，使用简单的 <code>srcset</code> 属性 <a href=https://css-tricks.com/responsive-images-youre-just-changing-resolutions-use-srcset/>通常绰绰有余</a>。</p><h4 id=其他-html-属性>其他 HTML 属性<a hidden class=anchor aria-hidden=true href=#其他-html-属性>#</a></h4><p>作为一种语言，HTML 具有 <a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes>许多属性</a> ，并继续添加可用于提高性能的新属性（如 <code>importance</code> 和 <code>lazyload</code> ）。虽然这可能令人生畏，但专注于下载大小（图像和脚本）方面的最大资源，无论它们可能适用于您的特定网站，通常是最好的起点。</p><blockquote><p>请注意，就像可访问性一样，没有一套全面的性能规则始终适用于每个网站——您应该对您的网站进行基准测试以确定最有效的方法（Chrome 和 Firefox 等浏览器提供此类工具）。同样，最好的方法是简单地在慢速网络条件下使用您的网站（浏览器的开发工具可以模拟）——如果您在慢速网络条件下使用自己的网站即使只是一周，您很可能会找到大量性能修复来改善其体验。</p></blockquote><h3 id=使用工具提高性能>使用工具提高性能<a hidden class=anchor aria-hidden=true href=#使用工具提高性能>#</a></h3><p>到目前为止，我们一直在使用 HTML 语言提供的工具来优化性能。您还可以使用外部工具获得更多性能优势。让我们来看看几种常用的方法。</p><h4 id=代码缩小>代码缩小<a hidden class=anchor aria-hidden=true href=#代码缩小>#</a></h4><p>一个重要的性能优化是 JavaScript 和 CSS 代码的缩小（有时称为丑化）。这涉及使用程序来分析和删除代码中不必要或冗余的数据，从简单的事情（如删除不需要的空格）到复杂的事情，如尽可能将长变量重命名为单个字符。下面是 Douglas Crockford 在 <a href=http://www.crockford.com/javascript/jsmin.html>2003 年发布</a> 的第一个 JavaScript 缩减器的示例。示例未缩小的代码如下所示：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=c1>// is.js
+</span></span></code></pre></td></tr></table></div></div><p>在这里，我们使用徽标的小型、中型和大型版本。 <code>srcset</code> 属性告诉浏览器根据浏览器宽度加载适当的版本。 <code>srcset</code> 属性是在 2013 年左右引入的，但浏览器花了几年时间才完全支持它。截至 2018 年，它具有 <a href="https://caniuse.com/#feat=srcset">相当不错的浏览器支持</a> ，因此绝对值得将其作为工作流程的一部分。</p><p>对于许多网站来说，优化图像大小通常是最大的性能提升——图像下载大小通常比任何 JavaScript 和 CSS 文件大几个数量级。您可以使用 <code>&lt;picture></code> 元素对图像进行更精细的控制;但是，对于大多数用例来说，使用简单的 <code>srcset</code> 属性 <a href=https://css-tricks.com/responsive-images-youre-just-changing-resolutions-use-srcset/>通常绰绰有余</a>。</p><h4 id=其他-html-属性>其他 HTML 属性<a hidden class=anchor aria-hidden=true href=#其他-html-属性>#</a></h4><p>作为一种语言，HTML 具有 <a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes>许多属性</a> ，并继续添加可用于提高性能的新属性（如 <code>importance</code> 和 <code>lazyload</code> ）。虽然这可能令人生畏，但专注于下载大小（图像和脚本）方面的最大资源，无论它们可能适用于您的特定网站，通常是最好的起点。</p><blockquote><p>请注意，就像可访问性一样，没有一套全面的性能规则始终适用于每个网站——您应该对您的网站进行基准测试以确定最有效的方法（Chrome 和 Firefox 等浏览器提供此类工具）。同样，最好的方法是简单地在慢速网络条件下使用您的网站（浏览器的开发工具可以模拟）——如果您在慢速网络条件下使用自己的网站即使只是一周，您很可能会找到大量性能修复来改善其体验。</p></blockquote><h3 id=使用工具提高性能>使用工具提高性能<a hidden class=anchor aria-hidden=true href=#使用工具提高性能>#</a></h3><p>到目前为止，我们一直在使用 HTML 语言提供的工具来优化性能。您还可以使用外部工具获得更多性能优势。让我们来看看几种常用的方法。</p><h4 id=代码缩小>代码缩小<a hidden class=anchor aria-hidden=true href=#代码缩小>#</a></h4><p>一个重要的性能优化是 JavaScript 和 CSS 代码的缩小（有时称为丑化）。这涉及使用程序来分析和删除代码中不必要或冗余的数据，从简单的事情（如删除不需要的空格）到复杂的事情，如尽可能将长变量重命名为单个字符。下面是 Douglas Crockford 在 <a href=http://www.crockford.com/javascript/jsmin.html>2003 年发布</a> 的第一个 JavaScript 缩减器的示例。示例未缩小的代码如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=c1>// is.js
 </span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl><span class=c1>// (c) 2001 Douglas Crockford
 </span></span></span><span class=line><span class=cl><span class=c1>// 2001 June 3
@@ -397,7 +771,26 @@
 </span></span><span class=line><span class=cl>  <span class=nx>is</span><span class=p>.</span><span class=nx>ie</span> <span class=o>=</span> <span class=nx>is</span><span class=p>.</span><span class=nx>ns</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>  <span class=nx>is</span><span class=p>.</span><span class=nx>gecko</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>缩小后的代码如下所示：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>var</span> <span class=nx>is</span> <span class=o>=</span> <span class=p>{</span>
+</span></span></code></pre></td></tr></table></div></div><p>缩小后的代码如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>var</span> <span class=nx>is</span> <span class=o>=</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=nx>ie</span><span class=o>:</span> <span class=nx>navigator</span><span class=p>.</span><span class=nx>appName</span> <span class=o>==</span> <span class=s2>&#34;Microsoft Internet Explorer&#34;</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>  <span class=nx>java</span><span class=o>:</span> <span class=nx>navigator</span><span class=p>.</span><span class=nx>javaEnabled</span><span class=p>(),</span>
 </span></span><span class=line><span class=cl>  <span class=nx>ns</span><span class=o>:</span> <span class=nx>navigator</span><span class=p>.</span><span class=nx>appName</span> <span class=o>==</span> <span class=s2>&#34;Netscape&#34;</span><span class=p>,</span>
@@ -416,7 +809,533 @@
 </span></span><span class=line><span class=cl>  <span class=nx>is</span><span class=p>.</span><span class=nx>ie</span> <span class=o>=</span> <span class=nx>is</span><span class=p>.</span><span class=nx>ns</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>  <span class=nx>is</span><span class=p>.</span><span class=nx>gecko</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>这些更改确实加起来 — 从我们之前的示例来看，未缩小的 <code>bootstrap.js</code> 的大小为 124 KB，而缩小的 <code>bootstrap.min.js</code> 的大小为 51 KB。这还不到原来尺寸的一半——使用<a href="https://www.youtube.com/watch?v=kgv7U3GYlDY">Grabthar’s hammer</a>，真是省钱！但说真的，它在网站下载和显示的速度方面有很大的不同，尤其是在互联网连接速度较慢的情况下。</p><p>我们在前面的例子中使用的 Bootstrap CSS 和 JavaScript 已经缩小了，但如果你想缩小自己的代码，你可以使用 <a href=https://javascript-minifier.com/>JavaScript Minifier</a> 或 <a href=https://www.minifier.org/>Minify</a> 等在线工具，有很多可供选择。或者，您可以使用命令行工具，该工具可以节省将代码复制到网站的过程。</p><h4 id=文件串联>文件串联<a hidden class=anchor aria-hidden=true href=#文件串联>#</a></h4><p>另一个相关的性能优化是串联，它将多个 JavaScript 文件（或 CSS 文件）转换为单个文件。浏览器下载单个文件的速度比下载多个小文件更快，这是基于浏览器自 1999 年以来使用的 HTTP/1.1 协议。</p><p>需要注意的是，新版本的协议 HTTP/2 于 2015 年发布，可能会改变此优化。HTTP / 2 允许多个同时连接，因此理论上最好有多个小文件，而不是一个大级联文件。然而，在实践中，它 <a href=http://engineering.khanacademy.org/posts/js-packaging-http2.htm>似乎并不那么简单</a>，因为串联仍然有重要的好处。截至 2018 年，连接 JavaScript 和 CSS 文件仍然是常见的做法。</p><p>要连接您的文件，理论上您可以手动完成 - 将每个 JavaScript 文件的内容复制到单个文件中，对 CSS 文件重复此操作，等等。然后修改 HTML 以链接到单个串联的 JavaScript 文件和单个串联的 CSS 文件。每次部署应用程序时都必须执行此操作，维护起来会非常痛苦 - 最好使用一些自动化过程（更多内容见下文）。</p><h4 id=关键-css>关键 CSS<a hidden class=anchor aria-hidden=true href=#关键-css>#</a></h4><p>近年来流行的另一个优化是内联页面的关键 CSS。这涉及使用工具来识别用户在访问网页时首先看到的所有 HTML 元素：</p><p><img loading=lazy src=https://peterxjang.com/img/1__eqFRbhOchUMNGLj9lisEqQ.jpeg#medium alt="Example website labelling critical portion"></p><center>来自 https://www.smashingmagazine.com/2015/08/understanding-critical-css/</center><p>一旦识别出这些 HTML 元素，该工具将找到影响这些元素的所有 CSS，并将它们直接添加到 HTML 文件中。通过这种方式，浏览器能够显示一个完全样式的网站，而无需等待剩余的 CSS 下载！</p><p>有不同的工具可以帮助您识别 <a href=https://github.com/addyosmani/critical>关键</a> CSS，从 Addy Osmani 的基于节点的关键库到 Jonas Ohlsson Aden 的基于 <a href=https://jonassebastianohlsson.com/criticalpathcssgenerator/>Web 的关键路径 CSS 生成器</a>。下面是我们之前 Bootstrap 示例中的 HTML <code>&lt;head></code> 元素在通过<a href=https://github.com/addyosmani/critical>关键</a>工具分析后的外观示例：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>这些更改确实加起来 — 从我们之前的示例来看，未缩小的 <code>bootstrap.js</code> 的大小为 124 KB，而缩小的 <code>bootstrap.min.js</code> 的大小为 51 KB。这还不到原来尺寸的一半——使用<a href="https://www.youtube.com/watch?v=kgv7U3GYlDY">Grabthar’s hammer</a>，真是省钱！但说真的，它在网站下载和显示的速度方面有很大的不同，尤其是在互联网连接速度较慢的情况下。</p><p>我们在前面的例子中使用的 Bootstrap CSS 和 JavaScript 已经缩小了，但如果你想缩小自己的代码，你可以使用 <a href=https://javascript-minifier.com/>JavaScript Minifier</a> 或 <a href=https://www.minifier.org/>Minify</a> 等在线工具，有很多可供选择。或者，您可以使用命令行工具，该工具可以节省将代码复制到网站的过程。</p><h4 id=文件串联>文件串联<a hidden class=anchor aria-hidden=true href=#文件串联>#</a></h4><p>另一个相关的性能优化是串联，它将多个 JavaScript 文件（或 CSS 文件）转换为单个文件。浏览器下载单个文件的速度比下载多个小文件更快，这是基于浏览器自 1999 年以来使用的 HTTP/1.1 协议。</p><p>需要注意的是，新版本的协议 HTTP/2 于 2015 年发布，可能会改变此优化。HTTP / 2 允许多个同时连接，因此理论上最好有多个小文件，而不是一个大级联文件。然而，在实践中，它 <a href=http://engineering.khanacademy.org/posts/js-packaging-http2.htm>似乎并不那么简单</a>，因为串联仍然有重要的好处。截至 2018 年，连接 JavaScript 和 CSS 文件仍然是常见的做法。</p><p>要连接您的文件，理论上您可以手动完成 - 将每个 JavaScript 文件的内容复制到单个文件中，对 CSS 文件重复此操作，等等。然后修改 HTML 以链接到单个串联的 JavaScript 文件和单个串联的 CSS 文件。每次部署应用程序时都必须执行此操作，维护起来会非常痛苦 - 最好使用一些自动化过程（更多内容见下文）。</p><h4 id=关键-css>关键 CSS<a hidden class=anchor aria-hidden=true href=#关键-css>#</a></h4><p>近年来流行的另一个优化是内联页面的关键 CSS。这涉及使用工具来识别用户在访问网页时首先看到的所有 HTML 元素：</p><p><img loading=lazy src=https://peterxjang.com/img/1__eqFRbhOchUMNGLj9lisEqQ.jpeg#medium alt="Example website labelling critical portion"></p><center>来自 https://www.smashingmagazine.com/2015/08/understanding-critical-css/</center><p>一旦识别出这些 HTML 元素，该工具将找到影响这些元素的所有 CSS，并将它们直接添加到 HTML 文件中。通过这种方式，浏览器能够显示一个完全样式的网站，而无需等待剩余的 CSS 下载！</p><p>有不同的工具可以帮助您识别 <a href=https://github.com/addyosmani/critical>关键</a> CSS，从 Addy Osmani 的基于节点的关键库到 Jonas Ohlsson Aden 的基于 <a href=https://jonassebastianohlsson.com/criticalpathcssgenerator/>Web 的关键路径 CSS 生成器</a>。下面是我们之前 Bootstrap 示例中的 HTML <code>&lt;head></code> 元素在通过<a href=https://github.com/addyosmani/critical>关键</a>工具分析后的外观示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span><span class=lnt>180
+</span><span class=lnt>181
+</span><span class=lnt>182
+</span><span class=lnt>183
+</span><span class=lnt>184
+</span><span class=lnt>185
+</span><span class=lnt>186
+</span><span class=lnt>187
+</span><span class=lnt>188
+</span><span class=lnt>189
+</span><span class=lnt>190
+</span><span class=lnt>191
+</span><span class=lnt>192
+</span><span class=lnt>193
+</span><span class=lnt>194
+</span><span class=lnt>195
+</span><span class=lnt>196
+</span><span class=lnt>197
+</span><span class=lnt>198
+</span><span class=lnt>199
+</span><span class=lnt>200
+</span><span class=lnt>201
+</span><span class=lnt>202
+</span><span class=lnt>203
+</span><span class=lnt>204
+</span><span class=lnt>205
+</span><span class=lnt>206
+</span><span class=lnt>207
+</span><span class=lnt>208
+</span><span class=lnt>209
+</span><span class=lnt>210
+</span><span class=lnt>211
+</span><span class=lnt>212
+</span><span class=lnt>213
+</span><span class=lnt>214
+</span><span class=lnt>215
+</span><span class=lnt>216
+</span><span class=lnt>217
+</span><span class=lnt>218
+</span><span class=lnt>219
+</span><span class=lnt>220
+</span><span class=lnt>221
+</span><span class=lnt>222
+</span><span class=lnt>223
+</span><span class=lnt>224
+</span><span class=lnt>225
+</span><span class=lnt>226
+</span><span class=lnt>227
+</span><span class=lnt>228
+</span><span class=lnt>229
+</span><span class=lnt>230
+</span><span class=lnt>231
+</span><span class=lnt>232
+</span><span class=lnt>233
+</span><span class=lnt>234
+</span><span class=lnt>235
+</span><span class=lnt>236
+</span><span class=lnt>237
+</span><span class=lnt>238
+</span><span class=lnt>239
+</span><span class=lnt>240
+</span><span class=lnt>241
+</span><span class=lnt>242
+</span><span class=lnt>243
+</span><span class=lnt>244
+</span><span class=lnt>245
+</span><span class=lnt>246
+</span><span class=lnt>247
+</span><span class=lnt>248
+</span><span class=lnt>249
+</span><span class=lnt>250
+</span><span class=lnt>251
+</span><span class=lnt>252
+</span><span class=lnt>253
+</span><span class=lnt>254
+</span><span class=lnt>255
+</span><span class=lnt>256
+</span><span class=lnt>257
+</span><span class=lnt>258
+</span><span class=lnt>259
+</span><span class=lnt>260
+</span><span class=lnt>261
+</span><span class=lnt>262
+</span><span class=lnt>263
+</span><span class=lnt>264
+</span><span class=lnt>265
+</span><span class=lnt>266
+</span><span class=lnt>267
+</span><span class=lnt>268
+</span><span class=lnt>269
+</span><span class=lnt>270
+</span><span class=lnt>271
+</span><span class=lnt>272
+</span><span class=lnt>273
+</span><span class=lnt>274
+</span><span class=lnt>275
+</span><span class=lnt>276
+</span><span class=lnt>277
+</span><span class=lnt>278
+</span><span class=lnt>279
+</span><span class=lnt>280
+</span><span class=lnt>281
+</span><span class=lnt>282
+</span><span class=lnt>283
+</span><span class=lnt>284
+</span><span class=lnt>285
+</span><span class=lnt>286
+</span><span class=lnt>287
+</span><span class=lnt>288
+</span><span class=lnt>289
+</span><span class=lnt>290
+</span><span class=lnt>291
+</span><span class=lnt>292
+</span><span class=lnt>293
+</span><span class=lnt>294
+</span><span class=lnt>295
+</span><span class=lnt>296
+</span><span class=lnt>297
+</span><span class=lnt>298
+</span><span class=lnt>299
+</span><span class=lnt>300
+</span><span class=lnt>301
+</span><span class=lnt>302
+</span><span class=lnt>303
+</span><span class=lnt>304
+</span><span class=lnt>305
+</span><span class=lnt>306
+</span><span class=lnt>307
+</span><span class=lnt>308
+</span><span class=lnt>309
+</span><span class=lnt>310
+</span><span class=lnt>311
+</span><span class=lnt>312
+</span><span class=lnt>313
+</span><span class=lnt>314
+</span><span class=lnt>315
+</span><span class=lnt>316
+</span><span class=lnt>317
+</span><span class=lnt>318
+</span><span class=lnt>319
+</span><span class=lnt>320
+</span><span class=lnt>321
+</span><span class=lnt>322
+</span><span class=lnt>323
+</span><span class=lnt>324
+</span><span class=lnt>325
+</span><span class=lnt>326
+</span><span class=lnt>327
+</span><span class=lnt>328
+</span><span class=lnt>329
+</span><span class=lnt>330
+</span><span class=lnt>331
+</span><span class=lnt>332
+</span><span class=lnt>333
+</span><span class=lnt>334
+</span><span class=lnt>335
+</span><span class=lnt>336
+</span><span class=lnt>337
+</span><span class=lnt>338
+</span><span class=lnt>339
+</span><span class=lnt>340
+</span><span class=lnt>341
+</span><span class=lnt>342
+</span><span class=lnt>343
+</span><span class=lnt>344
+</span><span class=lnt>345
+</span><span class=lnt>346
+</span><span class=lnt>347
+</span><span class=lnt>348
+</span><span class=lnt>349
+</span><span class=lnt>350
+</span><span class=lnt>351
+</span><span class=lnt>352
+</span><span class=lnt>353
+</span><span class=lnt>354
+</span><span class=lnt>355
+</span><span class=lnt>356
+</span><span class=lnt>357
+</span><span class=lnt>358
+</span><span class=lnt>359
+</span><span class=lnt>360
+</span><span class=lnt>361
+</span><span class=lnt>362
+</span><span class=lnt>363
+</span><span class=lnt>364
+</span><span class=lnt>365
+</span><span class=lnt>366
+</span><span class=lnt>367
+</span><span class=lnt>368
+</span><span class=lnt>369
+</span><span class=lnt>370
+</span><span class=lnt>371
+</span><span class=lnt>372
+</span><span class=lnt>373
+</span><span class=lnt>374
+</span><span class=lnt>375
+</span><span class=lnt>376
+</span><span class=lnt>377
+</span><span class=lnt>378
+</span><span class=lnt>379
+</span><span class=lnt>380
+</span><span class=lnt>381
+</span><span class=lnt>382
+</span><span class=lnt>383
+</span><span class=lnt>384
+</span><span class=lnt>385
+</span><span class=lnt>386
+</span><span class=lnt>387
+</span><span class=lnt>388
+</span><span class=lnt>389
+</span><span class=lnt>390
+</span><span class=lnt>391
+</span><span class=lnt>392
+</span><span class=lnt>393
+</span><span class=lnt>394
+</span><span class=lnt>395
+</span><span class=lnt>396
+</span><span class=lnt>397
+</span><span class=lnt>398
+</span><span class=lnt>399
+</span><span class=lnt>400
+</span><span class=lnt>401
+</span><span class=lnt>402
+</span><span class=lnt>403
+</span><span class=lnt>404
+</span><span class=lnt>405
+</span><span class=lnt>406
+</span><span class=lnt>407
+</span><span class=lnt>408
+</span><span class=lnt>409
+</span><span class=lnt>410
+</span><span class=lnt>411
+</span><span class=lnt>412
+</span><span class=lnt>413
+</span><span class=lnt>414
+</span><span class=lnt>415
+</span><span class=lnt>416
+</span><span class=lnt>417
+</span><span class=lnt>418
+</span><span class=lnt>419
+</span><span class=lnt>420
+</span><span class=lnt>421
+</span><span class=lnt>422
+</span><span class=lnt>423
+</span><span class=lnt>424
+</span><span class=lnt>425
+</span><span class=lnt>426
+</span><span class=lnt>427
+</span><span class=lnt>428
+</span><span class=lnt>429
+</span><span class=lnt>430
+</span><span class=lnt>431
+</span><span class=lnt>432
+</span><span class=lnt>433
+</span><span class=lnt>434
+</span><span class=lnt>435
+</span><span class=lnt>436
+</span><span class=lnt>437
+</span><span class=lnt>438
+</span><span class=lnt>439
+</span><span class=lnt>440
+</span><span class=lnt>441
+</span><span class=lnt>442
+</span><span class=lnt>443
+</span><span class=lnt>444
+</span><span class=lnt>445
+</span><span class=lnt>446
+</span><span class=lnt>447
+</span><span class=lnt>448
+</span><span class=lnt>449
+</span><span class=lnt>450
+</span><span class=lnt>451
+</span><span class=lnt>452
+</span><span class=lnt>453
+</span><span class=lnt>454
+</span><span class=lnt>455
+</span><span class=lnt>456
+</span><span class=lnt>457
+</span><span class=lnt>458
+</span><span class=lnt>459
+</span><span class=lnt>460
+</span><span class=lnt>461
+</span><span class=lnt>462
+</span><span class=lnt>463
+</span><span class=lnt>464
+</span><span class=lnt>465
+</span><span class=lnt>466
+</span><span class=lnt>467
+</span><span class=lnt>468
+</span><span class=lnt>469
+</span><span class=lnt>470
+</span><span class=lnt>471
+</span><span class=lnt>472
+</span><span class=lnt>473
+</span><span class=lnt>474
+</span><span class=lnt>475
+</span><span class=lnt>476
+</span><span class=lnt>477
+</span><span class=lnt>478
+</span><span class=lnt>479
+</span><span class=lnt>480
+</span><span class=lnt>481
+</span><span class=lnt>482
+</span><span class=lnt>483
+</span><span class=lnt>484
+</span><span class=lnt>485
+</span><span class=lnt>486
+</span><span class=lnt>487
+</span><span class=lnt>488
+</span><span class=lnt>489
+</span><span class=lnt>490
+</span><span class=lnt>491
+</span><span class=lnt>492
+</span><span class=lnt>493
+</span><span class=lnt>494
+</span><span class=lnt>495
+</span><span class=lnt>496
+</span><span class=lnt>497
+</span><span class=lnt>498
+</span><span class=lnt>499
+</span><span class=lnt>500
+</span><span class=lnt>501
+</span><span class=lnt>502
+</span><span class=lnt>503
+</span><span class=lnt>504
+</span><span class=lnt>505
+</span><span class=lnt>506
+</span><span class=lnt>507
+</span><span class=lnt>508
+</span><span class=lnt>509
+</span><span class=lnt>510
+</span><span class=lnt>511
+</span><span class=lnt>512
+</span><span class=lnt>513
+</span><span class=lnt>514
+</span><span class=lnt>515
+</span><span class=lnt>516
+</span><span class=lnt>517
+</span><span class=lnt>518
+</span><span class=lnt>519
+</span><span class=lnt>520
+</span><span class=lnt>521
+</span><span class=lnt>522
+</span><span class=lnt>523
+</span><span class=lnt>524
+</span><span class=lnt>525
+</span><span class=lnt>526
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>charset</span><span class=o>=</span><span class=s>&#34;utf-8&#34;</span> <span class=p>/&gt;</span>
@@ -942,7 +1861,83 @@
 </span></span><span class=line><span class=cl>    <span class=c>&lt;!-- ...  --&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>如您所见，该工具添加了一个带有大量 CSS 的内联 <code>&lt;style></code> 元素。请注意，这不是 Bootstrap 的全部 CSS，只是该工具分析的 CSS 对于此页面的初始视图是必需的。仅 Bootstrap 的缩小 CSS 就有 51 KB;这个新的 HTML 文件包括所有 HTML 以及新内联的 CSS 和 JavaScript，是 12 KB。这种减小的大小比看起来更重要 - 将初始 HTML/CSS/JS 置于 14 KB 以下可以使您的网站在某些最慢的连接上以毫秒为单位呈现。这是因为浏览器和服务器之间的每次往返一次可以发送大约 14 KB - 通过将所有内容放入一次往返中，您可以避免额外往返的开销（<a href=https://developers.google.com/speed/docs/insights/mobile>此处</a>提供更多详细信息）。</p><p>该工具还在 CSS link 元素上添加了 <code>rel="preload"</code> 属性，<a href=https://www.filamentgroup.com/lab/async-css.html>使 CSS 文件能够异步加载</a>。这通常是您不想做的事情 - 尽管它会加快网站速度，但用户会首先看到无样式的纯 HTML，然后在加载 CSS 文件时看到样式正确的网站。但是，在我们的例子中，由于我们正在内联关键的 CSS，这不是问题，因此异步加载剩余的 CSS 可以完美地工作！</p><h4 id=实现构建步骤>实现构建步骤<a hidden class=anchor aria-hidden=true href=#实现构建步骤>#</a></h4><p>此时，您可以执行诸如每次部署网站时手动缩小和连接文件之类的操作，但这将是一个巨大的痛苦。理想情况下，您将使用单个命令自动执行这组任务，这称为生成步骤。缩小和串联只是两个可能的任务 - 任何可以自动化的重复性任务。下面是生成步骤中的一些典型任务：</p><ul><li><p>缩小 HTML、CSS 和 JavaScript</p></li><li><p>连接 JavaScript 文件和 CSS 文件</p></li><li><p>优化图像（通过调整大小、删除未使用的元数据等）</p></li><li><p>添加 CSS 供应商前缀以实现浏览器兼容性</p></li><li><p>转译代码（从 SASS 到 CSS，或从 CoffeeScript 到 JS，等等）</p></li><li><p>运行代码测试</p></li></ul><p>要实现构建步骤，您需要选择一个工具，并且有很多工具可供选择。一个流行的选择是 Grunt，它于 2012 年发布。紧随其后的是 Gulp，以及 Broccoli.js，Brunch 和 webpack。截至 2018 年，webpack 似乎是最受欢迎的选择，但最终这些工具中的任何一个都将用于很好地实现构建步骤的目的。</p><blockquote><p>注意：从头开始学习使用工具进行构建步骤可能非常令人生畏。大多数工具都要求您使用命令行 — 如果您以前从未使用过，您可以阅读<a href=https://www.learnenough.com/command-line-tutorial>本教程</a>以获得入门的良好概述。2018 年许多流行的 Web 开发人员构建工具都是基于 node.js 的——如果你不熟悉 node.js 生态系统及其在前端开发中的使用，你可以阅读我的文章 <a href=https://medium.com/the-node-js-collection/modern-javascript-explained-for-dinosaurs-f695e9747b70>Modern JavaScript Explain For Dinosaurs</a>，了解这方面的概述。</p></blockquote><p><img loading=lazy src=https://peterxjang.com/img/1__GbAw9ahi__dxD6LBA6Kh0__g.png alt="Dinosaur comic panels 3 and 4"></p><h3 id=模板和组件提高可维护性>模板和组件提高可维护性<a hidden class=anchor aria-hidden=true href=#模板和组件提高可维护性>#</a></h3><p>到目前为止，我们有一个不错的网页，既有相当的吸引力，又有性能。现在它看起来像这样：</p><p><img loading=lazy src=https://peterxjang.com/img/1__fO1wXfiWfdv8vY3__qeQv0A.png alt="Example website with Bootstrap styling"></p><p>在导航栏中，有一个指向“关于”页面的链接，但它目前没有转到任何地方。如果我们想制作这个关于页面怎么办？最直接的答案是复制名为 <code>about.html</code> 的 <code>index.html</code> ，并相应地更新内容。具体来说， <code>&lt;main></code> 元素中的内容将更改，HTML 的其余部分将保持不变。下面是一个简单的 <code>about.html</code> 页面的样子：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>如您所见，该工具添加了一个带有大量 CSS 的内联 <code>&lt;style></code> 元素。请注意，这不是 Bootstrap 的全部 CSS，只是该工具分析的 CSS 对于此页面的初始视图是必需的。仅 Bootstrap 的缩小 CSS 就有 51 KB;这个新的 HTML 文件包括所有 HTML 以及新内联的 CSS 和 JavaScript，是 12 KB。这种减小的大小比看起来更重要 - 将初始 HTML/CSS/JS 置于 14 KB 以下可以使您的网站在某些最慢的连接上以毫秒为单位呈现。这是因为浏览器和服务器之间的每次往返一次可以发送大约 14 KB - 通过将所有内容放入一次往返中，您可以避免额外往返的开销（<a href=https://developers.google.com/speed/docs/insights/mobile>此处</a>提供更多详细信息）。</p><p>该工具还在 CSS link 元素上添加了 <code>rel="preload"</code> 属性，<a href=https://www.filamentgroup.com/lab/async-css.html>使 CSS 文件能够异步加载</a>。这通常是您不想做的事情 - 尽管它会加快网站速度，但用户会首先看到无样式的纯 HTML，然后在加载 CSS 文件时看到样式正确的网站。但是，在我们的例子中，由于我们正在内联关键的 CSS，这不是问题，因此异步加载剩余的 CSS 可以完美地工作！</p><h4 id=实现构建步骤>实现构建步骤<a hidden class=anchor aria-hidden=true href=#实现构建步骤>#</a></h4><p>此时，您可以执行诸如每次部署网站时手动缩小和连接文件之类的操作，但这将是一个巨大的痛苦。理想情况下，您将使用单个命令自动执行这组任务，这称为生成步骤。缩小和串联只是两个可能的任务 - 任何可以自动化的重复性任务。下面是生成步骤中的一些典型任务：</p><ul><li><p>缩小 HTML、CSS 和 JavaScript</p></li><li><p>连接 JavaScript 文件和 CSS 文件</p></li><li><p>优化图像（通过调整大小、删除未使用的元数据等）</p></li><li><p>添加 CSS 供应商前缀以实现浏览器兼容性</p></li><li><p>转译代码（从 SASS 到 CSS，或从 CoffeeScript 到 JS，等等）</p></li><li><p>运行代码测试</p></li></ul><p>要实现构建步骤，您需要选择一个工具，并且有很多工具可供选择。一个流行的选择是 Grunt，它于 2012 年发布。紧随其后的是 Gulp，以及 Broccoli.js，Brunch 和 webpack。截至 2018 年，webpack 似乎是最受欢迎的选择，但最终这些工具中的任何一个都将用于很好地实现构建步骤的目的。</p><blockquote><p>注意：从头开始学习使用工具进行构建步骤可能非常令人生畏。大多数工具都要求您使用命令行 — 如果您以前从未使用过，您可以阅读<a href=https://www.learnenough.com/command-line-tutorial>本教程</a>以获得入门的良好概述。2018 年许多流行的 Web 开发人员构建工具都是基于 node.js 的——如果你不熟悉 node.js 生态系统及其在前端开发中的使用，你可以阅读我的文章 <a href=https://medium.com/the-node-js-collection/modern-javascript-explained-for-dinosaurs-f695e9747b70>Modern JavaScript Explain For Dinosaurs</a>，了解这方面的概述。</p></blockquote><p><img loading=lazy src=https://peterxjang.com/img/1__GbAw9ahi__dxD6LBA6Kh0__g.png alt="Dinosaur comic panels 3 and 4"></p><h3 id=模板和组件提高可维护性>模板和组件提高可维护性<a hidden class=anchor aria-hidden=true href=#模板和组件提高可维护性>#</a></h3><p>到目前为止，我们有一个不错的网页，既有相当的吸引力，又有性能。现在它看起来像这样：</p><p><img loading=lazy src=https://peterxjang.com/img/1__fO1wXfiWfdv8vY3__qeQv0A.png alt="Example website with Bootstrap styling"></p><p>在导航栏中，有一个指向“关于”页面的链接，但它目前没有转到任何地方。如果我们想制作这个关于页面怎么办？最直接的答案是复制名为 <code>about.html</code> 的 <code>index.html</code> ，并相应地更新内容。具体来说， <code>&lt;main></code> 元素中的内容将更改，HTML 的其余部分将保持不变。下面是一个简单的 <code>about.html</code> 页面的样子：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>charset</span><span class=o>=</span><span class=s>&#34;utf-8&#34;</span> <span class=p>/&gt;</span>
@@ -1018,7 +2013,21 @@
 </span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>footer</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>请注意，除了突出显示的内容外， <code>about.html</code> 中的所有内容都与 <code>index.html</code> 相同。虽然这有效，但从维护的角度来看，它变得有问题。如果我们使用这种技术制作 7 个不同的页面，那将是大量重复的代码。如果我们以后想对导航栏进行更改，则必须将更改复制到所有 7 个文件中。这违反了众所周知的软件原则，称为 <a href=https://en.wikipedia.org/wiki/Don%27t_repeat_yourself>DRY</a>（不要重复自己）。</p><h4 id=在服务器上构建模板>在服务器上构建模板<a hidden class=anchor aria-hidden=true href=#在服务器上构建模板>#</a></h4><p>此问题的一个解决方案是使用模板引擎。这涉及在 HTML 中编写非标准 HTML，然后将其输入到一个单独的程序中，该程序将用标准 HTML 替换非标准 HTML。最好用一个例子来解释这一点。</p><p>假设你正在使用 PHP，这是最早设计用于 HTML 的语言之一（今天仍然被许多大公司使用）。您将创建一个 <code>head.php</code> 文件（包含 <code>&lt;head></code> 元素中的内容）、 <code>header.php</code> 文件（包含导航栏元素）和 <code>footer.php</code> （包含页脚元素）。</p><p>拥有这些文件后，您可以创建一个 <code>index.php</code> 文件，如下所示：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>请注意，除了突出显示的内容外， <code>about.html</code> 中的所有内容都与 <code>index.html</code> 相同。虽然这有效，但从维护的角度来看，它变得有问题。如果我们使用这种技术制作 7 个不同的页面，那将是大量重复的代码。如果我们以后想对导航栏进行更改，则必须将更改复制到所有 7 个文件中。这违反了众所周知的软件原则，称为 <a href=https://en.wikipedia.org/wiki/Don%27t_repeat_yourself>DRY</a>（不要重复自己）。</p><h4 id=在服务器上构建模板>在服务器上构建模板<a hidden class=anchor aria-hidden=true href=#在服务器上构建模板>#</a></h4><p>此问题的一个解决方案是使用模板引擎。这涉及在 HTML 中编写非标准 HTML，然后将其输入到一个单独的程序中，该程序将用标准 HTML 替换非标准 HTML。最好用一个例子来解释这一点。</p><p>假设你正在使用 PHP，这是最早设计用于 HTML 的语言之一（今天仍然被许多大公司使用）。您将创建一个 <code>head.php</code> 文件（包含 <code>&lt;head></code> 元素中的内容）、 <code>header.php</code> 文件（包含导航栏元素）和 <code>footer.php</code> （包含页脚元素）。</p><p>拥有这些文件后，您可以创建一个 <code>index.php</code> 文件，如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    <span class=cp>&lt;?php include(&#34;head.php&#34;);?&gt;</span>
@@ -1032,7 +2041,21 @@
 </span></span><span class=line><span class=cl>    <span class=cp>&lt;?php include(&#34;footer.php&#34;);?&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p><code>about.php</code> 文件如下所示：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>about.php</code> 文件如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    <span class=cp>&lt;?php include(&#34;head.php&#34;);?&gt;</span>
@@ -1046,7 +2069,23 @@
 </span></span><span class=line><span class=cl>    <span class=cp>&lt;?php include(&#34;footer.php&#34;);?&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>所以在这里你可以看到唯一改变的部分是中间的内容。如果需要更新页眉、页脚或外部依赖项，则只需更改一次。</p><p>上面的代码显然不是有效的 HTML — 您需要某种构建步骤来将 <code>include</code> 语句替换为单独文件中的 HTML。我们实际上可以将其合并到我们之前看到的构建步骤中（用于代码缩小、文件连接、关键 CSS 等）。但是，从模板生成 HTML 的这一步传统上是在服务器上动态完成的。</p><p><img loading=lazy src=https://peterxjang.com/img/1__3fBZ27QgR7eDCoPTjam6nw.png#medium alt="Diagram of client server model"></p><center>来自 wikipedia.org</center><p>服务器是接收 Web 请求并将 HTML/CSS/JS 作为 Web 响应发送回的计算机（与客户端相反，具有启动 Web 请求的 Web 浏览器的计算机）。服务器通常负责基于数据库中的数据创建动态 HTML。例如，如果您在 <a href=https://www.google.com>www.google.com</a> 上搜索“红色香蕉”，则不会有一些关于红色香蕉的唯一 HTML 文件从服务器发送给您。相反，服务器运行代码以根据您的搜索词动态创建 HTML 响应。所以在这里你可以用一块石头杀死两只鸟——因为你已经有一个步骤在服务器上生成动态 HTML，你可以使用模板来定义生成的 HTML 来保持你的代码干燥。</p><p>在服务器上使用模板构建 HTML 是一种解决方案，在相当长的一段时间内一直是事实上的标准。除了 PHP，还有 <a href=https://rubyonrails.org/>Ruby on Rails</a> 框架的 <a href=https://en.wikipedia.org/wiki/ERuby>ERB</a>，Python 的 <a href=https://www.djangoproject.com/>Django</a> 框架的 <a href=https://docs.djangoproject.com/en/1.7/topics/templates/>Django 模板语言</a>，Node&rsquo;s <a href=https://expressjs.com/>Express</a> 框架的<a href=http://ejs.co/>EJS</a>等。这种方法可能非常令人生畏——为了利用模板引擎编写可维护的代码，您基本上首先必须学习整个编程语言和 Web 框架！如果您已经计划使用服务器和数据库，那么这是很自然的选择。但是，如果您只是对在前端编写 HTML 感兴趣，那么老实说，这是一个巨大的进入障碍。</p><blockquote><p>注意：如果您的网站不需要数据库，则可以改用静态网站生成器，该生成器使用模板来构建静态 HTML 文件（Jekyll，Hugo 和 Gatsby 是一些流行的选择）。与服务器端 Web 框架相比，静态站点生成器可能更易于使用;但是，您仍然需要学习单独的编程语言或环境，因此与编写纯 HTML 相比，进入仍然存在障碍。</p></blockquote><h4 id=在客户端上使用-web-组件>在客户端上使用 Web 组件<a hidden class=anchor aria-hidden=true href=#在客户端上使用-web-组件>#</a></h4><p>Web 组件于 2011 年首次引入，作为解决 HTML 可维护性问题的完全不同的方法。Web 组件是在客户端而不是服务器上构建的，这消除了必须学习服务器端编程语言和 Web 框架来编写可维护的 HTML 的障碍。</p><p>Web 组件的总体目标是能够创建可重用的小部件。回顾前面的示例，您可以创建导航栏组件、页眉组件和页脚组件。更进一步，您可以为页面中的内容创建一个巨型组件和一个文章组件。然后，您可以使用 <code>index.html</code> 中的组件，如下所示：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>所以在这里你可以看到唯一改变的部分是中间的内容。如果需要更新页眉、页脚或外部依赖项，则只需更改一次。</p><p>上面的代码显然不是有效的 HTML — 您需要某种构建步骤来将 <code>include</code> 语句替换为单独文件中的 HTML。我们实际上可以将其合并到我们之前看到的构建步骤中（用于代码缩小、文件连接、关键 CSS 等）。但是，从模板生成 HTML 的这一步传统上是在服务器上动态完成的。</p><p><img loading=lazy src=https://peterxjang.com/img/1__3fBZ27QgR7eDCoPTjam6nw.png#medium alt="Diagram of client server model"></p><center>来自 wikipedia.org</center><p>服务器是接收 Web 请求并将 HTML/CSS/JS 作为 Web 响应发送回的计算机（与客户端相反，具有启动 Web 请求的 Web 浏览器的计算机）。服务器通常负责基于数据库中的数据创建动态 HTML。例如，如果您在 <a href=https://www.google.com>www.google.com</a> 上搜索“红色香蕉”，则不会有一些关于红色香蕉的唯一 HTML 文件从服务器发送给您。相反，服务器运行代码以根据您的搜索词动态创建 HTML 响应。所以在这里你可以用一块石头杀死两只鸟——因为你已经有一个步骤在服务器上生成动态 HTML，你可以使用模板来定义生成的 HTML 来保持你的代码干燥。</p><p>在服务器上使用模板构建 HTML 是一种解决方案，在相当长的一段时间内一直是事实上的标准。除了 PHP，还有 <a href=https://rubyonrails.org/>Ruby on Rails</a> 框架的 <a href=https://en.wikipedia.org/wiki/ERuby>ERB</a>，Python 的 <a href=https://www.djangoproject.com/>Django</a> 框架的 <a href=https://docs.djangoproject.com/en/1.7/topics/templates/>Django 模板语言</a>，Node&rsquo;s <a href=https://expressjs.com/>Express</a> 框架的<a href=http://ejs.co/>EJS</a>等。这种方法可能非常令人生畏——为了利用模板引擎编写可维护的代码，您基本上首先必须学习整个编程语言和 Web 框架！如果您已经计划使用服务器和数据库，那么这是很自然的选择。但是，如果您只是对在前端编写 HTML 感兴趣，那么老实说，这是一个巨大的进入障碍。</p><blockquote><p>注意：如果您的网站不需要数据库，则可以改用静态网站生成器，该生成器使用模板来构建静态 HTML 文件（Jekyll，Hugo 和 Gatsby 是一些流行的选择）。与服务器端 Web 框架相比，静态站点生成器可能更易于使用;但是，您仍然需要学习单独的编程语言或环境，因此与编写纯 HTML 相比，进入仍然存在障碍。</p></blockquote><h4 id=在客户端上使用-web-组件>在客户端上使用 Web 组件<a hidden class=anchor aria-hidden=true href=#在客户端上使用-web-组件>#</a></h4><p>Web 组件于 2011 年首次引入，作为解决 HTML 可维护性问题的完全不同的方法。Web 组件是在客户端而不是服务器上构建的，这消除了必须学习服务器端编程语言和 Web 框架来编写可维护的 HTML 的障碍。</p><p>Web 组件的总体目标是能够创建可重用的小部件。回顾前面的示例，您可以创建导航栏组件、页眉组件和页脚组件。更进一步，您可以为页面中的内容创建一个巨型组件和一个文章组件。然后，您可以使用 <code>index.html</code> 中的组件，如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>    ...
@@ -1062,7 +2101,33 @@
 </span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>footer-component</span><span class=p>&gt;&lt;/</span><span class=nt>footer-component</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>为了使其正常工作，我们需要创建自定义元素，其中我们基本上是为 HTML 语言定义新元素（仅适用于此特定网站）。要创建自定义元素，您必须使用 JavaScript。下面是创建导航栏自定义元素所需的 JavaScript 示例：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=nb>window</span><span class=p>.</span><span class=nx>customElements</span><span class=p>.</span><span class=nx>define</span><span class=p>(</span>
+</span></span></code></pre></td></tr></table></div></div><p>为了使其正常工作，我们需要创建自定义元素，其中我们基本上是为 HTML 语言定义新元素（仅适用于此特定网站）。要创建自定义元素，您必须使用 JavaScript。下面是创建导航栏自定义元素所需的 JavaScript 示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=nb>window</span><span class=p>.</span><span class=nx>customElements</span><span class=p>.</span><span class=nx>define</span><span class=p>(</span>
 </span></span><span class=line><span class=cl>  <span class=s2>&#34;navbar-component&#34;</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>  <span class=kr>class</span> <span class=kr>extends</span> <span class=nx>HTMLElement</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=nx>connectedCallback</span><span class=p>()</span> <span class=p>{</span>
@@ -1088,7 +2153,15 @@
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl>  <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>);</span>
-</span></span></code></pre></div><p>JavaScript 看起来有点复杂（它使用新的 <a href=https://en.wikipedia.org/wiki/ECMAScript#6th_Edition_-_ECMAScript_2015>ES2015</a> 语言功能），但它在这个例子中所做的只是为导航栏定义 HTML（上面以粗体显示）并将名称 <code>navbar-component</code> 注册为自定义元素。请注意，HTML 是使用<a href=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals>模板文字</a>在 JavaScript 文件中定义的，本质上是一个巨大的字符串——如果你更喜欢将其移回常规 HTML 文件，我们将需要一个不同的机制，我们将在稍后讨论。如果您将此 JavaScript 添加到页面，您现在可以在普通 HTML 元素之外创建 <code>&lt;navbar-component></code> 个元素。</p><p>到目前为止，在此示例中，此方法与服务器端模板方法相比没有太大优势。但是，当您开始向每个组件添加 JavaScript 功能和 CSS 样式时，好处变得更加明显。Web 组件提供了隔离功能和样式的功能，以保留在每个组件中，使它们可重用 — 不仅用于此站点，而且理论上可以在多个项目中重用。这个概念可以在现有的 HTML 元素（如 <code>&lt;video></code> 元素）中看到。如果你像这样写 HTML：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>video</span> <span class=na>width</span><span class=o>=</span><span class=s>&#34;320&#34;</span> <span class=na>height</span><span class=o>=</span><span class=s>&#34;240&#34;</span> <span class=na>controls</span> <span class=na>loop</span> <span class=na>muted</span><span class=p>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>JavaScript 看起来有点复杂（它使用新的 <a href=https://en.wikipedia.org/wiki/ECMAScript#6th_Edition_-_ECMAScript_2015>ES2015</a> 语言功能），但它在这个例子中所做的只是为导航栏定义 HTML（上面以粗体显示）并将名称 <code>navbar-component</code> 注册为自定义元素。请注意，HTML 是使用<a href=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals>模板文字</a>在 JavaScript 文件中定义的，本质上是一个巨大的字符串——如果你更喜欢将其移回常规 HTML 文件，我们将需要一个不同的机制，我们将在稍后讨论。如果您将此 JavaScript 添加到页面，您现在可以在普通 HTML 元素之外创建 <code>&lt;navbar-component></code> 个元素。</p><p>到目前为止，在此示例中，此方法与服务器端模板方法相比没有太大优势。但是，当您开始向每个组件添加 JavaScript 功能和 CSS 样式时，好处变得更加明显。Web 组件提供了隔离功能和样式的功能，以保留在每个组件中，使它们可重用 — 不仅用于此站点，而且理论上可以在多个项目中重用。这个概念可以在现有的 HTML 元素（如 <code>&lt;video></code> 元素）中看到。如果你像这样写 HTML：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>video</span> <span class=na>width</span><span class=o>=</span><span class=s>&#34;320&#34;</span> <span class=na>height</span><span class=o>=</span><span class=s>&#34;240&#34;</span> <span class=na>controls</span> <span class=na>loop</span> <span class=na>muted</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>source</span> <span class=na>src</span><span class=o>=</span><span class=s>&#34;movie.mp4&#34;</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;video/mp4&#34;</span> <span class=p>/&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>source</span> <span class=na>src</span><span class=o>=</span><span class=s>&#34;movie.ogg&#34;</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;video/ogg&#34;</span> <span class=p>/&gt;</span>
 </span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>p</span><span class=p>&gt;</span>
@@ -1096,7 +2169,53 @@
 </span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;movie.mp4&#34;</span><span class=p>&gt;</span>link to the video<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span> instead.
 </span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>p</span><span class=p>&gt;</span>
 </span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>video</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>你会得到一个看起来像这样的视频播放器：</p><p><img loading=lazy src=https://peterxjang.com/img/1__3pRSQmwBda1IeFo1Smrg__A.png alt="Example HTML video element"></p><center>*（这是视频的图片，不是实际的视频）*</center><p>元素带有自己的 JavaScript 交互式控件和 CSS 样式，它们与页面的其余部分隔离。这意味着当您使用 <video> 元素时，您不必担心它会影响您网站的样式或功能，也不必担心来自网站的任何 CSS 或 JavaScript 会破坏视频组件。</p><p>Web 组件的目标是使开发人员能够创建自己的自定义组件，类似于 <code>&lt;video></code> 元素，并具有所有隔离和可重用性优势。以下是 Web 组件规范的所有部分如何协同工作：</p><ul><li><p>您可以在 JavaScript 中创建<a href=https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements>自定义元素</a>，如前所述。然后，您可以在 JavaScript 中定义自定义功能，并将属性从 HTML 传递到自定义元素中。</p></li><li><p>您可以使用<a href=https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM>影子 DOM</a> 使用 CSS 设置自定义元素的样式，该样式仅适用于元素而不是整个文档（解决 CSS 最困难的方面之一）。</p></li><li><p>如果你不想直接用 JavaScript 编写所有的 HTML，你可以使用 <a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template>HTML 模板</a>，在 <code>&lt;template></code> 标记中将组件的 HTML 写入普通 HTML 文件中，在被 JavaScript 调用之前不会呈现。</p></li><li><p>要组织代码，您可以使用 <a href=https://developer.mozilla.org/en-US/docs/Web/Web_Components/HTML_Imports>HTML 导入</a>，您可以在其中将定义组件所需的所有 HTML、CSS 和 JavaScript 放入名为 <code>navbar-component.html</code> 的文件中，然后将其导入主 HTML 文件中，就像导入外部 CSS 文件一样：<code>&lt;link rel="import" href="navbar-component.html"></code>.</p></li></ul><p>当 Web 组件在 2011 年首次发布时，许多开发人员对这些可能性感到兴奋。虽然服务器端模板化方法有助于解决 HTML 的一些可维护性问题，但 Web 组件提供了完全不同的东西 - 扩展 HTML 的承诺将具有完整的可重用小部件。这是使 Web 平台成为可以开发复杂应用程序的地方所缺少的部分，而不是最初设计的简单静态内容站点。</p><p>那么发生了什么？在接下来的几年里，很明显，浏览器并没有就 Web 组件作为标准达成一致。截至 2018 年，几乎没有浏览器完全支持上述 Web 组件的四个主要功能，这是由于实现性能的潜在问题，标准冲突和不同的公司利益。这让开发人员处于一个有趣的位置 - 几乎每个人都同意组件样式方法是将 Web 从静态站点转移到复杂应用程序的必要部分，但等待浏览器支持似乎是徒劳的。怎么办？</p><h4 id=在客户端上使用-javascript-框架>在客户端上使用 JavaScript 框架<a hidden class=anchor aria-hidden=true href=#在客户端上使用-javascript-框架>#</a></h4><p>当 HTML Web 组件规范不会很快实现时，JavaScript 已经是一种足够强大的语言来弥补这一缺陷。开发人员一直在使用 <a href=https://jquery.com/>jQuery</a> 库（2006 年发布）制作复杂的应用程序，尽管很难为大规模应用程序组织代码。<a href=http://backbonejs.org/>Backbone.js</a>（2010 年发布）是最早的流行库之一，旨在为大型单页应用程序提供组织代码的框架，其次是 <a href=https://angularjs.org/>AngularJS</a>，<a href=https://www.emberjs.com/>Ember.js </a>等。</p><p>所有这些框架都与现有的 JavaScript 功能一起工作 - 它们不必依赖于等待浏览器来实现 Web 组件规范。但是没有一个框架使用真正的孤立和可重用的组件；如果没有 Web 组件规范的 4 个部分（自定义元素、影子 DOM、HTML 模板和 HTML 导入），这似乎是不可能的。</p><p>2013 年，一个名为 <a href=https://reactjs.org/>React</a> 的框架发布，它对这种情况有一个有趣的看法。他们能够使用以下方法在没有 Web 组件规范的情况下制作一个真正的基于组件的框架：</p><ul><li>React 没有使用 Web 组件的自定义元素规范，而是采用了在 JavaScript 中定义所有 HTML 的方法。从本质上讲，您将定义 JavaScript 函数以使用称为 JSX 的特殊语法输出所需的 HTML（它看起来像 HTML，但使用构建步骤转换为 JavaScript 函数）。</li><li>React 没有使用 Web 组件的 HTML 模板规范，而是没有提供在 JavaScript 之外编写 HTML 的方法。</li><li>React 没有使用 Web 组件的 HTML 导入规范，而是采用了将 JavaScript 导入 JavaScript 的方法。这在当时实际上并不直接可行，但像<a href=http://browserify.org/>Browserify</a> 和 <a href=https://webpack.js.org/>webpack</a>这样的工具允许开发人员在 他们的 JavaScript 中编写 <code>require</code> 或 <code>import</code> 语句，这些语句将在构建时转换为单个 JavaScript 包。</li></ul><p>从本质上讲，这里的见解是，您可以通过在 JavaScript 中执行所有操作来使组件工作。请注意，这里缺少 Web 组件规范的一部分，即影子 DOM——React 在首次发布时没有隔离样式的解决方案。尽管如此，它足以为今天使用组件构建应用程序提供一个框架。</p><p>这就是 JavaScript 使用 React 制作导航栏组件的样子：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-jsx data-lang=jsx><span class=line><span class=cl><span class=kr>import</span> <span class=nx>React</span><span class=p>,</span> <span class=p>{</span> <span class=nx>Component</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;react&#34;</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>你会得到一个看起来像这样的视频播放器：</p><p><img loading=lazy src=https://peterxjang.com/img/1__3pRSQmwBda1IeFo1Smrg__A.png alt="Example HTML video element"></p><center>*（这是视频的图片，不是实际的视频）*</center><p>元素带有自己的 JavaScript 交互式控件和 CSS 样式，它们与页面的其余部分隔离。这意味着当您使用 <video> 元素时，您不必担心它会影响您网站的样式或功能，也不必担心来自网站的任何 CSS 或 JavaScript 会破坏视频组件。</p><p>Web 组件的目标是使开发人员能够创建自己的自定义组件，类似于 <code>&lt;video></code> 元素，并具有所有隔离和可重用性优势。以下是 Web 组件规范的所有部分如何协同工作：</p><ul><li><p>您可以在 JavaScript 中创建<a href=https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements>自定义元素</a>，如前所述。然后，您可以在 JavaScript 中定义自定义功能，并将属性从 HTML 传递到自定义元素中。</p></li><li><p>您可以使用<a href=https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM>影子 DOM</a> 使用 CSS 设置自定义元素的样式，该样式仅适用于元素而不是整个文档（解决 CSS 最困难的方面之一）。</p></li><li><p>如果你不想直接用 JavaScript 编写所有的 HTML，你可以使用 <a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template>HTML 模板</a>，在 <code>&lt;template></code> 标记中将组件的 HTML 写入普通 HTML 文件中，在被 JavaScript 调用之前不会呈现。</p></li><li><p>要组织代码，您可以使用 <a href=https://developer.mozilla.org/en-US/docs/Web/Web_Components/HTML_Imports>HTML 导入</a>，您可以在其中将定义组件所需的所有 HTML、CSS 和 JavaScript 放入名为 <code>navbar-component.html</code> 的文件中，然后将其导入主 HTML 文件中，就像导入外部 CSS 文件一样：<code>&lt;link rel="import" href="navbar-component.html"></code>.</p></li></ul><p>当 Web 组件在 2011 年首次发布时，许多开发人员对这些可能性感到兴奋。虽然服务器端模板化方法有助于解决 HTML 的一些可维护性问题，但 Web 组件提供了完全不同的东西 - 扩展 HTML 的承诺将具有完整的可重用小部件。这是使 Web 平台成为可以开发复杂应用程序的地方所缺少的部分，而不是最初设计的简单静态内容站点。</p><p>那么发生了什么？在接下来的几年里，很明显，浏览器并没有就 Web 组件作为标准达成一致。截至 2018 年，几乎没有浏览器完全支持上述 Web 组件的四个主要功能，这是由于实现性能的潜在问题，标准冲突和不同的公司利益。这让开发人员处于一个有趣的位置 - 几乎每个人都同意组件样式方法是将 Web 从静态站点转移到复杂应用程序的必要部分，但等待浏览器支持似乎是徒劳的。怎么办？</p><h4 id=在客户端上使用-javascript-框架>在客户端上使用 JavaScript 框架<a hidden class=anchor aria-hidden=true href=#在客户端上使用-javascript-框架>#</a></h4><p>当 HTML Web 组件规范不会很快实现时，JavaScript 已经是一种足够强大的语言来弥补这一缺陷。开发人员一直在使用 <a href=https://jquery.com/>jQuery</a> 库（2006 年发布）制作复杂的应用程序，尽管很难为大规模应用程序组织代码。<a href=http://backbonejs.org/>Backbone.js</a>（2010 年发布）是最早的流行库之一，旨在为大型单页应用程序提供组织代码的框架，其次是 <a href=https://angularjs.org/>AngularJS</a>，<a href=https://www.emberjs.com/>Ember.js </a>等。</p><p>所有这些框架都与现有的 JavaScript 功能一起工作 - 它们不必依赖于等待浏览器来实现 Web 组件规范。但是没有一个框架使用真正的孤立和可重用的组件；如果没有 Web 组件规范的 4 个部分（自定义元素、影子 DOM、HTML 模板和 HTML 导入），这似乎是不可能的。</p><p>2013 年，一个名为 <a href=https://reactjs.org/>React</a> 的框架发布，它对这种情况有一个有趣的看法。他们能够使用以下方法在没有 Web 组件规范的情况下制作一个真正的基于组件的框架：</p><ul><li>React 没有使用 Web 组件的自定义元素规范，而是采用了在 JavaScript 中定义所有 HTML 的方法。从本质上讲，您将定义 JavaScript 函数以使用称为 JSX 的特殊语法输出所需的 HTML（它看起来像 HTML，但使用构建步骤转换为 JavaScript 函数）。</li><li>React 没有使用 Web 组件的 HTML 模板规范，而是没有提供在 JavaScript 之外编写 HTML 的方法。</li><li>React 没有使用 Web 组件的 HTML 导入规范，而是采用了将 JavaScript 导入 JavaScript 的方法。这在当时实际上并不直接可行，但像<a href=http://browserify.org/>Browserify</a> 和 <a href=https://webpack.js.org/>webpack</a>这样的工具允许开发人员在 他们的 JavaScript 中编写 <code>require</code> 或 <code>import</code> 语句，这些语句将在构建时转换为单个 JavaScript 包。</li></ul><p>从本质上讲，这里的见解是，您可以通过在 JavaScript 中执行所有操作来使组件工作。请注意，这里缺少 Web 组件规范的一部分，即影子 DOM——React 在首次发布时没有隔离样式的解决方案。尽管如此，它足以为今天使用组件构建应用程序提供一个框架。</p><p>这就是 JavaScript 使用 React 制作导航栏组件的样子：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-jsx data-lang=jsx><span class=line><span class=cl><span class=kr>import</span> <span class=nx>React</span><span class=p>,</span> <span class=p>{</span> <span class=nx>Component</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;react&#34;</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kr>class</span> <span class=nx>Navbar</span> <span class=kr>extends</span> <span class=nx>Component</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=nx>render</span><span class=p>()</span> <span class=p>{</span>
@@ -1142,7 +2261,7 @@
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=nx>Navbar</span><span class=p>;</span>
-</span></span></code></pre></div><p>这与前面显示的自定义元素示例没有太大区别（尽管 JSX 语法在大多数开发人员第一次看到它时都感到不安）。React 中的想法是将其分解为进一步的子组件，这样每个组件只做一件事。</p><p>当 React 首次发布时，它遭到了很多批评，特别是因为它似乎缺乏关注点分离（开发人员被教导将 HTML、CSS 和 JS 完全分开以实现可维护性）。然而，React 提出了这样一个观点，即对于复杂的 Web 应用程序，关注点的分离不是关于技术（HTML，CSS 和 JS）之间的边界，而是关于功能单元（换句话说，组件）之间的边界。</p><p>除了作为一个基于组件的框架之外，React 还带来了关于如何使用声明性方法管理应用程序中数据的强烈意见。这意味着使用 React，您无需编写代码即可直接更新接口。相反，你定义接口应该是什么样子（使用 JSX），编写代码来更新数据，然后让 React 弄清楚如何使用其虚拟 DOM 实现有效地更新和渲染接口（不要与影子 DOM 混淆）。这是 Web 框架设计的一个重大转变，影响力大到每个主要框架都公开借用了 React 使用 <a href=https://reactjs.org/docs/faq-internals.html>虚拟 DOM</a> 实现的声明式方法 — Ember、Angular、Vue.js，等等。截至 2018 年，Web 开发社区已在很大程度上接受这种范式作为构建现代 Web 应用程序的方式。</p><p>请注意，以清晰且可维护的方式编写 HTML 的愿望使我们进入了一个需要大量编程知识的地方;几乎不可能特别避免 JavaScript。从某种意义上说，这打破了 HTML 的承诺，HTML 被设计成一种不需要理解编程就可以有效使用的语言。未来可能会有开发人员可以在纯 HTML 中共享预先构建的 Web 组件，但未来可能需要相当长的时间才能到来。</p><blockquote><p>本节仅简要概述了 React 和其他类似框架采用的前端方法。如果你想要更完整的解释和教程，关于如何使用各种 JavaScript 框架和方法构建一个工作的应用程序，请查看我的系列比较前端方法：<a href=https://medium.com/actualize-network/comparing-frontend-frameworks-part-1-introduction-6cf3d49e42cf>看看 jQuery，Vue.js，React 和 Elm</a>。</p></blockquote><h3 id=结论>结论<a hidden class=anchor aria-hidden=true href=#结论>#</a></h3><p>简而言之，这就是现代 HTML。我们介绍了使用适当的标签和 aria 属性编写语义和可访问的内容，使用 CSS 和 JavaScript 添加样式和动态功能，使用 HTML 属性和工具提高性能，最后使用模板和组件来提高可维护性。在此过程中，我们可以看到，要充分利用现代 HTML，几乎不可能避免使用构建过程以及某种形式的独立编程语言，对于大多数方法来说，这通常是 JavaScript。</p><p>从高层次来看它有时会令人沮丧——过去是一个简单易用的工作（用 HTML 制作网站）现在变得复杂且似乎难以接近（使用 JavaScript 前端框架制作 Web 应用程序，使用具有数千个潜在脆弱依赖项的构建过程）。然而，重要的是要注意，Web 开发作为一个行业只存在了大约 30 年 - 与其他行业（例如已经存在了许多世纪的建筑）相比，这只是历史的一小部分。就好像 Web 开发人员刚刚学会了如何用粘土建造房屋，现在被要求使用相同的工具来建造摩天大楼。我们的工具和流程不断发展是很自然的;我们只需要确保它以一种<a href=https://www.vanityfair.com/news/2018/07/the-man-who-created-the-world-wide-web-has-some-regrets>包容网络作为民主平台</a>的最初愿景的方式发展。</p><p>现代 HTML 的使用肯定会令人沮丧，因为它继续快速变化和发展。然而，我们现在能够做的比以往任何时候都多，而且我们基本上都处于一个新行业的底层，有可能将其塑造成我们希望它成为的平台。作为一名开发人员，这是一个激动人心的时刻，我希望这些信息可以作为路线图，在您的旅程中为您提供帮助！</p><p><img loading=lazy src=https://peterxjang.com/img/1__fHND__kRQTWkLMFlOwbZNrw.png alt="Dinosaur comic panel 5"></p><p>特别感谢 <a href=https://twitter.com/ryanqnorth>@ryanqnorth</a> 的 <a href=http://www.qwantz.com/>恐龙漫画</a>，自 2003 年以来（恐龙统治网络）以来，它提供了一些最好的荒诞幽默。</p><blockquote><p>对这种学习方式感兴趣？请务必查看 <a href=http://anyonecanlearntocode.com/>Actualize 编码训练营</a>（我是教学主任和首席讲师）。我们在芝加哥提供 <a href=http://anyonecanlearntocode.com/chicago-coding-bootcamp>面对面的课程</a> 以及 <a href=http://anyonecanlearntocode.com/online-coding-bootcamp>实时在线课程</a>，以帮助人们过渡到现代网络开发人员的新职业！</p></blockquote><p>原文链接：<a href=https://peterxjang.com/blog/modern-html-explained-for-dinosaurs.html>https://peterxjang.com/blog/modern-html-explained-for-dinosaurs.html</a></p></div><footer class=post-footer><ul class=post-tags><li><a href=https://blog.chensoul.cc/tags/css/>Css</a></li><li><a href=https://blog.chensoul.cc/tags/html/>Html</a></li><li><a href=https://blog.chensoul.cc/tags/javascript/>Javascript</a></li></ul><nav class=paginav><a class=prev href=https://blog.chensoul.cc/posts/2023/06/21/weekly_review_24/><span class=title>« Prev</span><br><span>周报-24｜如果没有疼痛</span>
+</span></span></code></pre></td></tr></table></div></div><p>这与前面显示的自定义元素示例没有太大区别（尽管 JSX 语法在大多数开发人员第一次看到它时都感到不安）。React 中的想法是将其分解为进一步的子组件，这样每个组件只做一件事。</p><p>当 React 首次发布时，它遭到了很多批评，特别是因为它似乎缺乏关注点分离（开发人员被教导将 HTML、CSS 和 JS 完全分开以实现可维护性）。然而，React 提出了这样一个观点，即对于复杂的 Web 应用程序，关注点的分离不是关于技术（HTML，CSS 和 JS）之间的边界，而是关于功能单元（换句话说，组件）之间的边界。</p><p>除了作为一个基于组件的框架之外，React 还带来了关于如何使用声明性方法管理应用程序中数据的强烈意见。这意味着使用 React，您无需编写代码即可直接更新接口。相反，你定义接口应该是什么样子（使用 JSX），编写代码来更新数据，然后让 React 弄清楚如何使用其虚拟 DOM 实现有效地更新和渲染接口（不要与影子 DOM 混淆）。这是 Web 框架设计的一个重大转变，影响力大到每个主要框架都公开借用了 React 使用 <a href=https://reactjs.org/docs/faq-internals.html>虚拟 DOM</a> 实现的声明式方法 — Ember、Angular、Vue.js，等等。截至 2018 年，Web 开发社区已在很大程度上接受这种范式作为构建现代 Web 应用程序的方式。</p><p>请注意，以清晰且可维护的方式编写 HTML 的愿望使我们进入了一个需要大量编程知识的地方;几乎不可能特别避免 JavaScript。从某种意义上说，这打破了 HTML 的承诺，HTML 被设计成一种不需要理解编程就可以有效使用的语言。未来可能会有开发人员可以在纯 HTML 中共享预先构建的 Web 组件，但未来可能需要相当长的时间才能到来。</p><blockquote><p>本节仅简要概述了 React 和其他类似框架采用的前端方法。如果你想要更完整的解释和教程，关于如何使用各种 JavaScript 框架和方法构建一个工作的应用程序，请查看我的系列比较前端方法：<a href=https://medium.com/actualize-network/comparing-frontend-frameworks-part-1-introduction-6cf3d49e42cf>看看 jQuery，Vue.js，React 和 Elm</a>。</p></blockquote><h3 id=结论>结论<a hidden class=anchor aria-hidden=true href=#结论>#</a></h3><p>简而言之，这就是现代 HTML。我们介绍了使用适当的标签和 aria 属性编写语义和可访问的内容，使用 CSS 和 JavaScript 添加样式和动态功能，使用 HTML 属性和工具提高性能，最后使用模板和组件来提高可维护性。在此过程中，我们可以看到，要充分利用现代 HTML，几乎不可能避免使用构建过程以及某种形式的独立编程语言，对于大多数方法来说，这通常是 JavaScript。</p><p>从高层次来看它有时会令人沮丧——过去是一个简单易用的工作（用 HTML 制作网站）现在变得复杂且似乎难以接近（使用 JavaScript 前端框架制作 Web 应用程序，使用具有数千个潜在脆弱依赖项的构建过程）。然而，重要的是要注意，Web 开发作为一个行业只存在了大约 30 年 - 与其他行业（例如已经存在了许多世纪的建筑）相比，这只是历史的一小部分。就好像 Web 开发人员刚刚学会了如何用粘土建造房屋，现在被要求使用相同的工具来建造摩天大楼。我们的工具和流程不断发展是很自然的;我们只需要确保它以一种<a href=https://www.vanityfair.com/news/2018/07/the-man-who-created-the-world-wide-web-has-some-regrets>包容网络作为民主平台</a>的最初愿景的方式发展。</p><p>现代 HTML 的使用肯定会令人沮丧，因为它继续快速变化和发展。然而，我们现在能够做的比以往任何时候都多，而且我们基本上都处于一个新行业的底层，有可能将其塑造成我们希望它成为的平台。作为一名开发人员，这是一个激动人心的时刻，我希望这些信息可以作为路线图，在您的旅程中为您提供帮助！</p><p><img loading=lazy src=https://peterxjang.com/img/1__fHND__kRQTWkLMFlOwbZNrw.png alt="Dinosaur comic panel 5"></p><p>特别感谢 <a href=https://twitter.com/ryanqnorth>@ryanqnorth</a> 的 <a href=http://www.qwantz.com/>恐龙漫画</a>，自 2003 年以来（恐龙统治网络）以来，它提供了一些最好的荒诞幽默。</p><blockquote><p>对这种学习方式感兴趣？请务必查看 <a href=http://anyonecanlearntocode.com/>Actualize 编码训练营</a>（我是教学主任和首席讲师）。我们在芝加哥提供 <a href=http://anyonecanlearntocode.com/chicago-coding-bootcamp>面对面的课程</a> 以及 <a href=http://anyonecanlearntocode.com/online-coding-bootcamp>实时在线课程</a>，以帮助人们过渡到现代网络开发人员的新职业！</p></blockquote><p>原文链接：<a href=https://peterxjang.com/blog/modern-html-explained-for-dinosaurs.html>https://peterxjang.com/blog/modern-html-explained-for-dinosaurs.html</a></p></div><footer class=post-footer><ul class=post-tags><li><a href=https://blog.chensoul.cc/tags/css/>Css</a></li><li><a href=https://blog.chensoul.cc/tags/html/>Html</a></li><li><a href=https://blog.chensoul.cc/tags/javascript/>Javascript</a></li></ul><nav class=paginav><a class=prev href=https://blog.chensoul.cc/posts/2023/06/21/weekly_review_24/><span class=title>« Prev</span><br><span>周报-24｜如果没有疼痛</span>
 </a><a class=next href=https://blog.chensoul.cc/posts/2023/06/19/modern-javascript-explained-for-dinosaurs/><span class=title>Next »</span><br><span>[译]为恐龙解释现代JavaScript</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]为恐龙解释现代HTML on x" href="https://x.com/intent/tweet/?text=%5b%e8%af%91%5d%e4%b8%ba%e6%81%90%e9%be%99%e8%a7%a3%e9%87%8a%e7%8e%b0%e4%bb%a3HTML&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f06%2f20%2fmodern-html-explained-for-dinosaurs%2f&amp;hashtags=css%2chtml%2cjavascript"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]为恐龙解释现代HTML on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f06%2f20%2fmodern-html-explained-for-dinosaurs%2f&amp;title=%5b%e8%af%91%5d%e4%b8%ba%e6%81%90%e9%be%99%e8%a7%a3%e9%87%8a%e7%8e%b0%e4%bb%a3HTML&amp;summary=%5b%e8%af%91%5d%e4%b8%ba%e6%81%90%e9%be%99%e8%a7%a3%e9%87%8a%e7%8e%b0%e4%bb%a3HTML&amp;source=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f06%2f20%2fmodern-html-explained-for-dinosaurs%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]为恐龙解释现代HTML on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f06%2f20%2fmodern-html-explained-for-dinosaurs%2f&title=%5b%e8%af%91%5d%e4%b8%ba%e6%81%90%e9%be%99%e8%a7%a3%e9%87%8a%e7%8e%b0%e4%bb%a3HTML"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]为恐龙解释现代HTML on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f06%2f20%2fmodern-html-explained-for-dinosaurs%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]为恐龙解释现代HTML on whatsapp" href="https://api.whatsapp.com/send?text=%5b%e8%af%91%5d%e4%b8%ba%e6%81%90%e9%be%99%e8%a7%a3%e9%87%8a%e7%8e%b0%e4%bb%a3HTML%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f06%2f20%2fmodern-html-explained-for-dinosaurs%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]为恐龙解释现代HTML on telegram" href="https://telegram.me/share/url?text=%5b%e8%af%91%5d%e4%b8%ba%e6%81%90%e9%be%99%e8%a7%a3%e9%87%8a%e7%8e%b0%e4%bb%a3HTML&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f06%2f20%2fmodern-html-explained-for-dinosaurs%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]为恐龙解释现代HTML on ycombinator" href="https://news.ycombinator.com/submitlink?t=%5b%e8%af%91%5d%e4%b8%ba%e6%81%90%e9%be%99%e8%a7%a3%e9%87%8a%e7%8e%b0%e4%bb%a3HTML&u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f06%2f20%2fmodern-html-explained-for-dinosaurs%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &

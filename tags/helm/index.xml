@@ -13,16 +13,7 @@
       <link>https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/</link>
       <pubDate>Fri, 10 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/</guid>
-      <description>cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。
-cert-manager 可以从各种证书颁发机构获取证书，包括： Let&amp;rsquo;s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。
-使用 cert-manager 的证书资源，私钥和证书存储在 Kubernetes Secret 中，该 Secret 由应用程序 Pod 挂载或由 Ingress 控制器使用。使用csi-driver、csi-driver-spiffe或istio-csr，私钥是在应用程序启动之前按需生成的；私钥永远不会离开节点，并且不会存储在 Kubernetes Secret 中。
-安装 参考官方文档：https://cert-manager.io/docs/installation/
-使用kubectl安装 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml 查看：
-$ kubectl get pods --namespace cert-manager 使用helm安装 添加 repo：
-helm repo add jetstack https://charts.jetstack.io --force-update helm repo update 安装 cert-manager：
-helm install cert-manager jetstack/cert-manager \ --namespace cert-manager \ --create-namespace \ --version v1.14.5 \ --set installCRDs=true 更多配置参数，参考：https://artifacthub.io/packages/helm/cert-manager/cert-manager
-查看状态
-$ kubectl -n cert-manager rollout status deploy/cert-manager deployment &amp;#34;cert-manager&amp;#34; successfully rolled out $ kubectl get pods -n cert-manager NAME READY STATUS RESTARTS AGE pod/cert-manager-5c47f46f57-k78l6 1/1 Running 0 91s pod/cert-manager-cainjector-6659d6844d-tr8rf 1/1 Running 0 91s pod/cert-manager-webhook-547567b88f-8lthd 1/1 Running 0 91s 使用helm3查看：</description>
+      <description>cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。 cert-manager 可以从各种证书颁发机构获取证书，包括： Let&amp;rsquo;s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。 使用 cert-manager 的证书资源，私钥</description>
     </item>
   </channel>
 </rss>

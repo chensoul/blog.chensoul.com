@@ -13,53 +13,21 @@
       <link>https://blog.chensoul.cc/posts/2024/08/27/activemq-source-code-broker-service/</link>
       <pubDate>Tue, 27 Aug 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/08/27/activemq-source-code-broker-service/</guid>
-      <description>activemq-broker 模块 test/java 目录下有个 IDERunner 类：
-public class IDERunner { private static final boolean TRANSPORT_TRACE = false; public static void main(String[]args) throws Exception { BrokerService brokerService = new BrokerService(); // brokerService.addConnector( // &amp;#34;tcp://0.0.0.0:61616?trace=&amp;#34; + TRANSPORT_TRACE + // &amp;#34;&amp;amp;transport.wireFormat.maxFrameSize=104857600&amp;#34;); brokerService.setPersistent(false); brokerService.setUseJmx(false); brokerService.setAdvisorySupport(false); brokerService.start(); brokerService.waitUntilStopped(); } } 注释掉 brokerService 调用 addConnector 方法的三行代码，然后 debug 运行该类的 main 方法。
-BrokerService BrokerService 管理 ActiveMQ Broker 的生命周期。BrokerService 由许多传输连接器、网络连接器和一系列属性组成，这些属性可用于在延迟创建代理时对其进行配置。
-BrokerService 类实现了 Service 接口。Service 接口是 ActiveMQ 组件的核心生命周期接口。如果有标准方法，最好将此接口注册到 Spring，以便它将启动/ 停止方法视为 org.springframework.beans.factory.InitializingBean 和 org.springframework. beans.factory.DisposableBean 的方法
-public interface Service { void start() throws Exception; void stop() throws Exception; } BrokerService 类没有构造方法，有一个 static 代码块：
-static { try { Boolean bouncyCastleNotAdded = Boolean.getBoolean(&amp;#34;org.apache.activemq.broker.BouncyCastleNotAdded&amp;#34;); if (bouncyCastleNotAdded == null || bouncyCastleNotAdded == false) { ClassLoader loader = BrokerService.</description>
+      <description>activemq-broker 模块 test/java 目录下有个 IDERunner 类： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 public class IDERunner { private static final boolean TRANSPORT_TRACE = false; public static void main(String[]args) throws Exception { BrokerService brokerService = new BrokerService(); // brokerService.addConnector( // &amp;#34;tcp://0.0.0.0:61616?trace=&amp;#34; + TRANSPORT_TRACE + // &amp;#34;&amp;amp;transport.wireFormat.maxFrameSize=104857600&amp;#34;); brokerService.setPersistent(false); brokerService.setUseJmx(false); brokerService.setAdvisorySupport(false); brokerService.start(); brokerService.waitUntilStopped(); } } 注释掉 brokerService 调用 addConnector 方法的三行代码，然后 debug 运行该类的 main 方法。 BrokerService BrokerService 管理</description>
     </item>
     <item>
       <title>ActiveMQ源码本地调试运行</title>
       <link>https://blog.chensoul.cc/posts/2024/08/09/debug-activemq-source-code/</link>
       <pubDate>Fri, 09 Aug 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/08/09/debug-activemq-source-code/</guid>
-      <description>源码构建 1、从 https://github.com/apache/activemq 下载源码
-git clone https://github.com/apache/activemq 2、切换至 activemq-5.18.x 分支
-cd activemq git checkout activemq-5.18.x 3、构建源码
-mvn package -DskipTests 构建成功之后，在 assembly/target 目录可以看到打包好的压缩文件。
-在 Idea 中运行代码 activemq-console 在 Idea 中运行代码 activemq-console，启动 activemq：
-1、在 idea 中打开项目
-2、解压 assembly/target 目录下生成的压缩文件，将 conf、webapps 和 lib 目录拷贝到项目的根目录下面。
-3、在idea中选中子模块 activemq-console，右击 选择 Open Module Settings —&amp;gt; Modules —&amp;gt; Dependencies，点击+(加号) —&amp;gt;选择 JARS or directories，把 lib 中的包（包括子目录下的）全部导入
-4、配置从 activemq-console 下的 Main 类启动，在 Program arguments 添加 start
-5、debug 运行 Main.java 类
-在 Idea 中运行单元测试类 分析 Main.java 类的 main 方法，调用链如下：
-Main.java -&amp;gt; ShellCommand.java -&amp;gt; StartCommand.java -&amp;gt; BrokerService.java 从 BrokerService 类，可以看到启动 broker 的关键代码如下：
-final BrokerService broker; try { // If no config uri, use default setting if (brokerURIs.</description>
+      <description>源码构建 1、从 https://github.com/apache/activemq 下载源码 1 git clone https://github.com/apache/activemq 2、切换至 activemq-5.18.x 分支 1 2 cd activemq git checkout activemq-5.18.x 3、构建源码 1 mvn package -DskipTests 构建成功之后，在 assembly/target 目录可以看到打包好的压缩文件。 在 Idea 中运行代码 activemq-console 在 Idea 中运行代码 activemq-console，启动 a</description>
     </item>
     <item>
       <title>ActiveMQ安装和使用</title>
       <link>https://blog.chensoul.cc/posts/2024/07/05/install-activemq/</link>
       <pubDate>Fri, 05 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/05/install-activemq/</guid>
-      <description>ActiveMQ 是一个实现了 JMS 协议的开源消息中间件，目前它有两种版本：ActiveMQ &amp;ldquo;Classic&amp;rdquo; 和 ActiveMQ Artemis。
-Artemis 版本作为Classic版本的替代品而诞生，相较的提升点有：
-高性能与低延迟：Artemis通过改进的设计实现了更高的吞吐量和更低的消息处理延迟。
-存储机制：使用了不同的持久化策略和日志结构，比如Journal文件系统，以获得更好的写性能和恢复速度。
-内存管理：内存使用效率更高，尤其是在处理大量小消息时表现更好。
-集群和HA：提供了更先进的高可用性解决方案和更灵活的集群模式。
-协议支持：除了原有的JMS之外，对AMQP 1.0的支持更加成熟和完善，并且也支持STOMP等多种协议。
-架构更新：整体架构更为现代化，为云原生环境和大规模分布式部署进行了优化。
-ActiveMQ Classic 各个版本的比较，参考：https://activemq.apache.org/components/classic/download/ 。
-6.0.x：需要 JDK17 5.17.x + ：需要 JDK11 5.16.x ：需要 JDK8 本文以 ActiveMQ Classic 5.16.7 进行测试。
-压缩包安装 在 linux 服务器上下载和安装：
-wget https://archive.apache.org/dist/activemq/5.16.7/apache-activemq-5.16.7-bin.tar.gz tar -zxvf apache-activemq-5.16.7-bin.tar.gz cd apache-activemq-5.16.7 启动：
-$ bin/activemq start INFO: Loading &amp;#39;/data/apache-activemq-5.16.7//bin/env&amp;#39; INFO: Using java &amp;#39;/usr/bin/java&amp;#39; INFO: Starting - inspect logfiles specified in logging.properties and log4j.properties to get details INFO: pidfile created : &amp;#39;/data/apache-activemq-5.16.7//data/activemq.pid&amp;#39; (pid &amp;#39;31850&amp;#39;) 查看是否启动成功：
-$ netstat -antpule|grep 61616 tcp6 0 0 :::61616 :::* LISTEN 0 382969263 31850/java 查看日志：
-tailf data/activemq.log 打开浏览器，访问 http://127.0.0.1:8161/admin ，默认账号：admin，密码：admin
-修改配置，支持通过 IP 访问，修改 conf 目录下的 jetty.</description>
+      <description>ActiveMQ 是一个实现了 JMS 协议的开源消息中间件，目前它有两种版本：ActiveMQ &amp;ldquo;Classic&amp;rdquo; 和 ActiveMQ Artemis。 Artemis 版本作为Classic版本的替代品而诞生，相较的提升点有： 高性能与低延迟：Artemis通过改进的设计实</description>
     </item>
   </channel>
 </rss>

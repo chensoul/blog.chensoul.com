@@ -13,11 +13,7 @@
       <link>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</link>
       <pubDate>Wed, 26 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</guid>
-      <description>使用 Docker 安装 $ docker volume create --name jenkins_data $ docker run -p 8080:8080 -p 50000:50000 -v jenkins_data:/var/jenkins_home jenkins/jenkins:jdk21 第一次启动 Jenkins 时，Docker 日志将包含如下消息：
-Jenkins initial setup is required. An admin user has been created and a password generated. Please use the following password to proceed to installation: 1883c809f01b4ed585fb5c3e0156543a This may also be found at: /var/jenkins_home/secrets/initialAdminPassword 那串随机的数字和字母是初始管理员密码，这是完成 Jenkins 配置所必需的。
-使用 Docker Compose 安装 services: jenkins: image: jenkins/jenkins:jdk21 ports: - &amp;#34;8080:8080&amp;#34; - &amp;#34;50000:50000&amp;#34; volumes: - jenkins_data:/var/jenkins_home - /var/run/docker.sock:/var/run/docker.sock - /etc/localtime:/etc/localtime:ro volumes: jenkins_data: 在 Docker 中下载并运行 Jenkins 参考 在 Docker 中下载并运行 Jenkins。
-定制官方 Jenkins Docker 镜像，例如，安装 curl、maven、docker-ce-cli
-FROM jenkins/jenkins:jdk21 USER root RUN apt-get update &amp;amp;&amp;amp; apt-get install -y curl maven lsb-release RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.</description>
+      <description>使用 Docker 安装 1 2 3 $ docker volume create --name jenkins_data $ docker run -p 8080:8080 -p 50000:50000 -v jenkins_data:/var/jenkins_home jenkins/jenkins:jdk21 第一次启动 Jenkins 时，Docker 日志将包含如下消息： 1 2 3 4 5 6 Jenkins initial setup is required. An admin user has been created and a password generated. Please use the following password to proceed to installation: 1883c809f01b4ed585fb5c3e0156543a This may also be found at: /var/jenkins_home/secrets/initialAdminPassword 那串随机的数字和字母是初始管</description>
     </item>
   </channel>
 </rss>

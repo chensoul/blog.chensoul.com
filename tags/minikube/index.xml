@@ -13,28 +13,14 @@
       <link>https://blog.chensoul.cc/posts/2024/07/10/minikube-quick-start/</link>
       <pubDate>Wed, 10 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/10/minikube-quick-start/</guid>
-      <description>安装 macos 系统使用 brew 安装
-brew install minikube 启动集群 查看当前集群列表
-$ minikube profile list |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | Profile | VM Driver | Runtime | IP | Port | Version | Status | Nodes | Active Profile | Active Kubecontext | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | minikube | docker | docker | 192.168.49.2 | 8443 | v1.30.0 | Unknown | 1 | * | * | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| 创建一个集群
-# 启动一个名称为 minikube 集群，命名空间为 default minikube start 默认情况下，minikube start 创建一个名为“minikube”的集群。如果您想创建不同的集群或更改其名称，可以使用--profile(或-p) 标志：
-minikube start -p test 如果只想使用 docker 而不使用 k8s：
-minikube start --container-runtime=docker --no-kubernetes 指定资源：
-minikube start --cpus 4 --memory 8G 也可以调整资源：
-minikube config set cpus 2 minikube config set memory 2G k8s 集群创建成功之后，可以通过 kubectl 查看上下文：</description>
+      <description>安装 macos 系统使用 brew 安装 1 brew install minikube 启动集群 查看当前集群列表 1 2 3 4 5 6 $ minikube profile list |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | Profile | VM Driver | Runtime | IP | Port | Version | Status | Nodes | Active Profile | Active Kubecontext | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | minikube | docker | docker | 192.168.49.2 | 8443 | v1.30.0 | Unknown | 1 | * | * | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| 创建一个集群 1 2 # 启动一个名称为</description>
     </item>
     <item>
       <title>[译]Minikube 中的 Minions - 面向 Java 开发人员的 Kubernetes 简介</title>
       <link>https://blog.chensoul.cc/posts/2024/07/08/minions-in-minikube-a-kubernetes-intro-for-java-de/</link>
       <pubDate>Mon, 08 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/08/minions-in-minikube-a-kubernetes-intro-for-java-de/</guid>
-      <description>我们希望我们的微服务是可复制、可替换的工作程序，我们可以轻松升级或降级，无需停机，管理也只需最少。我们可能会说我们希望他们是我们的奴才。在本文中，我们将通过一个简单的示例来了解 Kubernetes 通过创建和编排奴才大军可以为我们做些什么。您可以按照本文进行编码，也可以从此处克隆项目。
-先决条件 我们需要将微服务容器化，以便在 Kubernetes 中运行它们 — 我们将使用Docker来实现这一点。我们将使用Minikube，而不是使用云托管的 Kubernetes，这样我们就可以在本地进行沙盒处理。
-目的 我们的仆从大军将是 Java 微服务。我们希望我们的大军中有不同类型的仆从，这样我们才能看到 Kubernetes 能为我们做些什么。因此，我们的目标是让每个微服务都响应一个简单的 http 请求，响应如下：
-我们将使用 ASCII 艺术来代表仆从类型。
-构建Java Minion服务 我们可以使用带有 Web starter 依赖项的Spring Initializr 将我们的微服务作为 Spring Boot Web 应用程序启动：
-在项目中，我们将创建一个带注释的控制器来 @RestController 处理请求。我们将使用 @RequestMapping(method=GET) 来提供响应主体。因此，首先我们可以执行以下操作：
-@RequestMapping( method=GET) @ResponseBody public String minion() throws UnknownHostException { StringBuilder stringBuilder = new StringBuilder(); stringBuilder.append(&amp;#34;Host: &amp;#34;).append(InetAddress.getLocalHost().getHostName()).append(&amp;#34;&amp;lt;br/&amp;gt;&amp;#34;); return stringBuilder.toString(); } 但这并不能完全满足我们的要求。我们可以在这里输出 ASCII 艺术，但是我们要选择哪种类型的 Minion？为此，我们可以使用一个技巧。我们将创建一个可以采用我们选择的任何 Minion 类型的应用程序。为此，我们需要它包含一个 ASCII 艺术 Minion 库。因此，我们创建了一个名为 MinionsLibrary 的类，我们用它来注释， @Component 并在其中创建一个映射，我们用来自此博客 的一些 Minion 来初始化它：
-@Component public class MinionsLibrary { private Map&amp;lt;String,String&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); public MinionsLibrary(){ map.put(&amp;#34;one-eyed-minion&amp;#34;,&amp;lt;COPY-PASTE MINION ASCII ART HERE&amp;gt;); map.put(&amp;#34;two-eyed-minion&amp;#34;,&amp;lt;COPY-PASTE MINION ASCII ART HERE&amp;gt;); map.put(&amp;#34;sad-minion&amp;#34;,&amp;lt;COPY-PASTE MINION ASCII ART HERE&amp;gt;); map.</description>
+      <description>我们希望我们的微服务是可复制、可替换的工作程序，我们可以轻松升级或降级，无需停机，管理也只需最少。我们可能会说我们希望他们是我们的奴才。在本文中，我们将通过一个简单的示例来了解 Kubernetes 通过创建和编排奴才大军</description>
     </item>
   </channel>
 </rss>

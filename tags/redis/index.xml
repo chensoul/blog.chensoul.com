@@ -13,119 +13,49 @@
       <link>https://blog.chensoul.cc/posts/2024/05/14/redis-install/</link>
       <pubDate>Tue, 14 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/14/redis-install/</guid>
-      <description>单机安装 通过 yum 安装 在 CentOS 7 上通过 yum 安装 Redis，可以按照以下步骤进行操作：
-更新系统软件包：
-sudo yum update 安装 Redis：
-sudo yum install redis 可以看到默认安装的 redis 版本是 3.2.12-2.el7
-如果需要安装 redis 7，这需要下载 yum 源：
-sudo yum install epel-release sudo yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm 然后，在指定源进行安装：
-yum --enablerepo=remi install redis 启动 Redis 服务：
-sudo systemctl start redis 配置 Redis 开机自启动：
-sudo systemctl enable redis 修改配置文件 /etc/redis.conf
-修改 bind 和 requirepass
-bind 0.0.0.0 requirepass 123456 然后重启 redis：
-sudo systemctl restart redis 开启防火墙（可选）
-# 添加 redis 端口 firewall-cmd --zone=public --add-port=6379/tcp --permanent firewall-cmd --zone=public --add-port=6379/udp --permanent # 重启防火墙 firewall-cmd --reload 运行 redis-cli
-redis-cli 127.0.0.1:6379&amp;gt; auth 123456 OK 通过 snap 安装 安装 redis</description>
+      <description>单机安装 通过 yum 安装 在 CentOS 7 上通过 yum 安装 Redis，可以按照以下步骤进行操作： 更新系统软件包： 1 sudo yum update 安装 Redis： 1 sudo yum install redis 可以看到默认安装的 redis 版本是 3.2.12-2.el7 如果需要安装 redis 7，这需要下载 yum 源： 1 2 sudo yum install epel-release sudo</description>
     </item>
     <item>
       <title>2024-02-01｜使用 Spring Initializr 创建项目</title>
       <link>https://blog.chensoul.cc/posts/2024/02/01/til/</link>
       <pubDate>Thu, 01 Feb 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/02/01/til/</guid>
-      <description>今天做了什么：
-重构 foodie-cloud 项目，部署到 docker 容器 使用 Spring Initializr 创建项目 使用 Spring Initializr 创建项目 安装 spring cli
-使用 brew 安装的 spring cli 版本是 3.x 版本
-brew tap pivotal/tap brew install springboot 使用 sdkman 安装：
-sdk install springboot 3.2.2 查看版本：
-$ spring version Spring CLI v3.2.2 查看 spring cli 支持的命令
-spring help 查看 init 命令说明：
-spring help init 参考 spring init 命令：
-spring init --list 可以看到支持的依赖
-activemq actuator amqp artemis azure-active-directory azure-cosmos-db azure-keyvault azure-storage azure-support batch cache camel cloud-bus cloud-config-client cloud-config-server cloud-contract-stub-runner cloud-contract-verifier cloud-eureka cloud-eureka-server cloud-feign cloud-function cloud-gateway cloud-gateway-reactive cloud-gcp cloud-gcp-pubsub cloud-gcp-storage cloud-loadbalancer cloud-resilience4j cloud-starter cloud-starter-consul-config cloud-starter-consul-discovery cloud-starter-vault-config cloud-starter-zookeeper-config cloud-starter-zookeeper-discovery cloud-stream cloud-task codecentric-spring-boot-admin-client codecentric-spring-boot-admin-server configuration-processor data-cassandra data-cassandra-reactive data-couchbase data-couchbase-reactive data-elasticsearch data-jdbc data-jpa data-ldap data-mongodb data-mongodb-reactive data-neo4j data-r2dbc data-redis data-redis-reactive data-rest data-rest-explorer datadog db2 derby devtools dgs-codegen distributed-tracing docker-compose dynatrace flyway freemarker graphite graphql groovy-templates h2 hateoas hilla hsql influx integration jdbc jersey jooq kafka kafka-streams liquibase lombok mail mariadb modulith mustache mybatis mysql native new-relic oauth2-authorization-server oauth2-client oauth2-resource-server okta oracle picocli postgresql prometheus pulsar pulsar-reactive quartz restdocs rsocket scs-config-client scs-service-registry security sentry session solace spring-shell sqlserver testcontainers thymeleaf timefold-solver unboundid-ldap vaadin validation wavefront web web-services webflux websocket zipkin 支持的构建系统有：</description>
+      <description>今天做了什么： 重构 foodie-cloud 项目，部署到 docker 容器 使用 Spring Initializr 创建项目 使用 Spring Initializr 创建项目 安装 spring cli 使用 brew 安装的 spring cli 版本是 3.x 版本 1 2 brew tap pivotal/tap brew install springboot 使用 sdkman 安装： 1 sdk install springboot 3.2.2 查看版本： 1 2 $ spring version Spring CLI v3.2.2 查看 spring cli 支持的命令 1 spring help 查看 init</description>
     </item>
     <item>
       <title>2024-01-31｜Redis事务</title>
       <link>https://blog.chensoul.cc/posts/2024/01/31/til/</link>
       <pubDate>Wed, 31 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/31/til/</guid>
-      <description>今天做了什么：
-下载 《Microservices with Spring Boot 3 and Spring Cloud》，源码在 github
-Redis 事务
-Redis事务 原理 Redis 是一个内存数据库，它支持事务操作。Redis 事务是一系列的命令操作，这些命令会被一起执行，要么全部成功，要么全部失败。在事务执行期间，其他客户端提交的命令不会被插入到事务中，确保事务的原子性。
-Redis 事务使用以下命令进行管理：
-MULTI：标记事务的开始。 EXEC：执行事务中的所有命令。 DISCARD：取消事务，放弃之前的所有命令。 WATCH：监视一个或多个键，如果在事务执行之前有其他客户端对这些键进行了修改，则事务会被中止。 UNWATCH：取消对所有键的监视。 在执行事务之前，先使用 MULTI 命令标记事务的开始，然后按顺序执行多个命令。在所有命令都被添加到事务队列之后，使用 EXEC 命令来执行事务中的所有命令。如果执行成功，事务中的所有命令会被一起执行，然后返回结果。如果在执行事务期间发生错误，事务会被中止，所有的修改都会被回滚。
-示例 以下是一个使用 Redis 事务的示例：
-#开启事务 MULTI SET key1 &amp;#34;value1&amp;#34; SET key2 &amp;#34;value2&amp;#34; GET key1 GET key2 #执行事务 EXEC # 取消事务 discard 上述事务包含了两个 SET 命令和两个 GET 命令。在 EXEC 命令执行之后，将会依次执行这些命令，并返回相应的结果。
-需要注意的是，Redis 的事务是乐观锁，并不会在执行期间对键进行加锁。因此，在使用事务时要注意并发操作可能引发的竞态条件。
-Redis对于命令执行错误处理，有两种解决方式：
-语法错误（编译） 执行错误（运行） 语法错误：执行命令的语法不正确。
-#开启事务 multi #命令 set name zhangsan set age seterror sex male #执行事务 exec #获取正确指令数据 get name 此时整个事务队列中，存在一条正确指令，两条语法错误指令， 当执行exec后，会直接返回错误，正确的命令也不会执行。
-执行错误：命令在运行过程中出现错误。
-#开启事务 multi #命令 set lesson java rpush lesson eureka feign nacos set lesson redis #执行事务 exec #获取数据 get lesson 通过上面事务执行可以看到，语法本身是没有问题的，所以运行之前redis无法发现错误，但是在执行时出现了错误，因此只会错误的命令不执行， 而正确的命令仍然能够正常执行。</description>
+      <description>今天做了什么： 下载 《Microservices with Spring Boot 3 and Spring Cloud》，源码在 github Redis 事务 Redis事务 原理 Redis 是一个内存数据库，它支持事务操作。Redis 事务是一系列的命令操作，这些命令会被一起执行，要么</description>
     </item>
     <item>
       <title>2024-01-22｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/22/til/</link>
       <pubDate>Mon, 22 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/22/til/</guid>
-      <description>今天做了什么：
-修改瑞吉外卖项目 reggie：
-去掉 .mvn 相关文件，去掉 github action 中用到 .mvn 的 workflow 参考 DDD 修改包结构 配置 Redis 持久化
-chensoul-parent 发布 v1.0.40 ，升级 maven 插件版本，去掉 sortpom、impsort 插件
-vps 禁用防火墙
-观看慕课网视频《高级Redis进阶课 解决Redis实际问题+掌握Redis6.x特性》，网盘地址：https://www.aliyundrive.com/s/DqXP972AJnk。注意：其中没有项目资料，如有需要，可以联系我。
-重构 《高级Redis进阶课 解决Redis实际问题+掌握Redis6.x特性》 资料中的 food-social-contact-parent 源代码，重命名为 foodie-cloud 并提交到 Github 仓库 foodie-cloud （原来的 foodie-cloud 源码已删除）。</description>
+      <description>今天做了什么： 修改瑞吉外卖项目 reggie： 去掉 .mvn 相关文件，去掉 github action 中用到 .mvn 的 workflow 参考 DDD 修改包结构 配置 Redis 持久化 chensoul-parent 发布 v1.0.40 ，升级 maven 插件版本，去掉 sortpom、impsort 插件 vps 禁用防火墙 观看慕课网视频《</description>
     </item>
     <item>
       <title>2024-01-18｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/18/til/</link>
       <pubDate>Thu, 18 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/18/til/</guid>
-      <description>今天做了什么：
-修改瑞吉外卖项目 reggie：
-修改数据源配置，使用 HikariCP 数据源 修改接口返回字段和前端文件，code=0 表示成功 添加 mysql、redis 安装文档 添加 openresty lua 脚本实现 redis 缓存 基于 springboot 使用 sharding-jdbc 测试读写分离、分库分表。代码在：https://github.com/chensoul/sharding-examples
-测试 RabbitMQ 生产、消费，代码在：https://github.com/chensoul/rabbitmq-examples
-观看 B 站视频《【IT老齐455】SpringBoot、Caffine、Redis本地远程二级缓存》，视频中的代码在：second-cache</description>
+      <description>今天做了什么： 修改瑞吉外卖项目 reggie： 修改数据源配置，使用 HikariCP 数据源 修改接口返回字段和前端文件，code=0 表示成功 添加 mysql、redis 安装文档 添加 openresty lua 脚本实现 redis 缓存 基于 springboot 使用 sharding-jdbc 测试读写分离</description>
     </item>
     <item>
       <title>2024-01-16｜Redis安装</title>
       <link>https://blog.chensoul.cc/posts/2024/01/16/til/</link>
       <pubDate>Tue, 16 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/16/til/</guid>
-      <description>今天做了什么：
-1、spring-cloud-examples 添加分布式锁、rabbitmq、kafka、分库分表等示例代码
-2、foodie-cloud 添加登录部分代码
-3、整理 Redis 安装文档
-Redis 安装 Centos7 通过 yum 安装 在 CentOS 7 上通过 yum 安装 Redis，可以按照以下步骤进行操作：
-更新系统软件包：
-sudo yum update 安装 Redis：
-sudo yum install redis 可以看到默认安装的 redis 版本是 3.2.12-2.el7
-如果需要安装 redis 7，这需要下载 yum 源：
-sudo yum install epel-release sudo yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm 然后，在指定源进行安装：
-yum --enablerepo=remi install redis 启动 Redis 服务：
-sudo systemctl start redis 配置 Redis 开机自启动：
-sudo systemctl enable redis 修改配置文件 /etc/redis.conf
-修改 bind 和 requirepass
-bind 0.0.0.0 requirepass 123456 然后重启 redis：
-sudo systemctl restart redis 运行 redis-cli
-redis-cli 127.0.0.1:6379&amp;gt; auth 123456 OK Centos7 通过 snap 安装 安装 redis
-sudo snap install redis 查看 snap 安装的包：</description>
+      <description>今天做了什么： 1、spring-cloud-examples 添加分布式锁、rabbitmq、kafka、分库分表等示例代码 2、foodie-cloud 添加登录部分代码 3、整理 Redis 安装文档 Redis 安装 Centos7 通过 yum 安</description>
     </item>
     <item>
       <title>[译]Build Robust Continuous Integration With Docker and Friends</title>
       <link>https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/</link>
       <pubDate>Mon, 22 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/</guid>
-      <description>持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。
-Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发送每次提交的代码。
-在本教程中，您将学习如何使用 Docker 为 Flask Web 应用程序创建强大的持续集成管道。
-您将完成在本地开发和测试应用程序、将其容器化、使用 Docker Compose 编排容器以及使用 GitHub Actions 定义 CI 管道的步骤。
-在本教程结束时，您将能够为您的 Web 应用程序创建一个完全自动化的 CI 管道。
-在本教程中，您将：
-在 Docker 容器中本地运行 Redis 服务器 用 Docker 编排 Flask 编写的 Python Web 应用程序 构建 Docker 镜像并将它们推送到 Docker Hub 仓库 使用 Docker Compose 编排多容器应用程序 在任何地方复制类似生产的基础设施 使用 GitHub Actions 定义持续集成工作流 理想情况下，您应该具有使用 Python 进行 Web 开发、测试自动化、将 Redis 与 Python 结合使用以及使用 Git 和 GitHub 进行源代码版本控制的经验。以前接触过 Docker 会更好，但不是必需的。您还应该拥有一个 Git 客户端和一个 GitHub 帐户，以便跟随并复制本教程的步骤。
-注意：本教程大致基于名为 Docker in Action - Fitter, Happier, More Productive 的旧教程，该教程由 Michael Herman 编写，他于 2015 年 2 月 8 日在 PyTennessee 展示了他的 CI 工作流程。如果你有兴趣，您可以查看展示的相应幻灯片在会议上。
-不幸的是，原始教程中描述的许多工具不再受支持或免费提供。在此更新的教程中，您将使用最新的工具和技术，例如 GitHub Actions。</description>
+      <description>持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。 Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发送每次提交的代码。 在本教程中，您将学习如何使用 Docker 为 Flask Web 应用程</description>
     </item>
   </channel>
 </rss>

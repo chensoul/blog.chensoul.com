@@ -13,156 +13,42 @@
       <link>https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/</link>
       <pubDate>Tue, 27 Aug 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/</guid>
-      <description>ThingsBoard 源码地址：https://github.com/thingsboard/thingsboard，从 3.7 版本之后，要求 JDK17。官方提供了源码编译的文档：Building from sources
-源码编译 下载代码：
-git clone git@github.com:thingsboard/thingsboard.git 设置当前 JDK 版本为 17 以上。这里我使用 sdkman 切换 java。
-sdk use java 17.0.12-tem 终端编译源码：
-cd thingsboard mvn clean install -Dmaven.test.skip=true 如果在编译过程中提示找不到 Gradle：
-[ERROR] Failed to execute goal org.thingsboard:gradle-maven-plugin:1.0.12:invoke (default) on project http: org.gradle.tooling.BuildException: Could not execute build using connection to Gradle distribution &amp;#39;https://services.gradle.org/distributions/gradle-7.3.3-bin.zip&amp;#39;. -&amp;gt; [Help 1] 往上查看详细异常日志：
-* What went wrong: Could not compile build file &amp;#39;/Users/chensoul/Codes/github/thingsboard/packaging/java/build.gradle&amp;#39;. &amp;gt; startup failed: General error during conversion: Unsupported class file major version 65 java.lang.IllegalArgumentException: Unsupported class file major version 65 可以看到是 JDK 版本过高的原因。需要确认 JDK 版本使用 17，不能是 21。
-如果 maven 下载太慢，则修改 mirrors 节点如下：</description>
+      <description>ThingsBoard 源码地址：https://github.com/thingsboard/thingsboard，从 3.7 版本之后，要求 JDK17。官方提供了源码编译的文档：Building from sources 源码编译 下载代码： 1 git clone git@github.com:thingsboard/thingsboard.git</description>
     </item>
     <item>
       <title>[译]WebSocket与HTTP：2024年为您的项目选择哪一个</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/websockets-vs-http/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/websockets-vs-http/</guid>
-      <description>原文链接：https://ably.com/topic/websockets-vs-http
-当谈到 WebSocket 与 HTTP 时，决定使用哪一种并不总是那么明确。哪一个更好？您的应用程序应该使用哪一款？
-但问题的答案不一定是其中之一 - 开发人员经常根据场景在同一个应用程序中同时使用 WebSocket 和 HTTP。更重要的问题是 - 我如何确定 WebSockets 还是 HTTP 是特定类型通信的正确通信协议？
-这是您需要了解的一切。
-WebSocket 与 HTTP 概览 在此页面上，我们将探讨这些技术的工作原理、它们在实现实时通信方面的表现如何，并就在哪些场景中使用哪些技术提供具体指导。
-如果您正在寻找高级比较，以下是主要差异一目了然：
-请继续阅读以详细了解这两种流行协议的比较。
-HTTP协议 什么是 HTTP？ 从根本上讲，HTTP 是一种通信协议，使客户端（例如 Web 浏览器）和服务器能够共享信息。
-例如，HTML 文档、图像、应用程序数据 (JSON) 等。
-很难想出比您现在正在阅读的此页面更好的 HTTP 实际示例。
-当您加载此页面时，您的浏览器会发出 HTTP 请求，服务器会使用您当前正在阅读的 HTML 文档来响应该请求。
-HTTP 是如何工作的？ HTTP 遵循请求-响应消息传递模式，其中客户端发出请求，Web 服务器发送响应，该响应不仅包括请求的内容，还包括有关请求的相关信息。
-在底层，每个请求都会打开一个与服务器的短暂连接，然后关闭。
-HTTP 示例
-网页浏览。 下载图像、视频或二进制文件，例如桌面应用程序。 使用 JavaScript 中的 fetch 函数向 API 发出异步请求。 由于每个 HTTP 请求都包含处理它所需的所有信息，因此服务器无需跟踪连接和请求。
-这种无状态设计是有利的，因为它使得可以部署额外的服务器来处理请求，而不需要在服务器之间同步状态逻辑。
-此外，由于每个请求都是独立的，因此通过代理路由消息以执行缓存、加密和压缩等增值功能变得非常简单。
-这种无状态方法的缺点是客户端打开一个临时连接并为每个请求发送元数据，从而产生少量开销。
-当加载网页或下载文件时，这种开销可以忽略不计。但是，如果您发送负载较小的高频请求，它可能会对应用程序的性能产生显着影响。
-通过 HTTP 进行实时更新 这种模式（客户端发出请求，服务器发出响应）非常适合网页、文件或应用程序数据等静态资源。
-但是，请考虑这样一种情况：客户不知道新信息何时可用。
-例如，假设您正在为 BBC 实施突发新闻功能。
-在这种情况下，客户不知道故事的下一次更新何时会发生。
-现在，您可以对客户端进行编码，以频繁地发出 HTTP 请求，以防万一发生某些情况，并且对于少数客户端来说，这可能工作得足够好。
-但是假设您有成百上千个客户端（在 BBC 的情况下有数十万个）向服务器发送请求，而这些请求在更新之间没有产生任何新内容。
-这不仅浪费带宽和服务器资源，而且在最近的请求完成后不久更新就会中断 - 可能需要几秒钟才能发送下一个请求并且用户获得更新。一般来说，这种方法称为HTTP 轮询，它既不高效也不实时！
-相反，如果服务器能够在新信息可用时将数据推送到客户端，那就更好了，但这从根本上违背了请求-响应模式的原则。
-或者确实如此？
-HTTP 流式传输 尽管 HTTP 从根本上遵循请求-响应模式，但有一种解决方法可用于实现实时更新。
-服务器不是发出完整的响应，而是发出部分 HTTP 响应并保持底层连接打开。
-基于上一节的突发新闻示例，通过 HTTP 流，服务器可以在每次新闻更新中断时将部分响应（如果您愿意，可以是块）附加到响应流 - 连接无限期保持打开状态，使服务器能够推送当新信息可用时，以最短的延迟向客户端提供新信息。</description>
+      <description>原文链接：https://ably.com/topic/websockets-vs-http 当谈到 WebSocket 与 HTTP 时，决定使用哪一种并不总是那么明确。哪一个更好？您的应用程序应该使用哪一款？ 但问题的答案不一定是</description>
     </item>
     <item>
       <title>ThingsBoard的领域模型</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/</guid>
-      <description>ThingsBoard是一个开源的物联网平台，用于管理和监控物联网设备和数据。它提供了一个可扩展的架构，可以连接各种设备，并实时收集、处理和分析设备生成的数据。
-领域模型 在ThingsBoard中，领域模型是一个关键概念，用于描述物联网系统中的物理实体、属性和行为。以下是ThingsBoard中的主要领域模型组件：
-租户（Tenant）：租户是ThingsBoard中的顶级组织单位。它代表了一个独立的实体，可以是一个用户、组织或公司。租户拥有和管理自己的设备、客户、规则和仪表板等资源。租户之间的数据和配置是相互隔离的，每个租户都有自己的独立环境。租户由系统管理员创建和管理。
-租户配置（TenantProfile）：用于定义租户级别的配置和属性。
-客户（Customer）：客户是租户下的子级实体，代表了物联网系统中的用户或组织。一个租户可以包含多个客户，每个客户都有自己的访问权限和角色。客户可以访问和监控租户下的设备和数据。客户可以有自己的设备、规则和仪表板等资源，但这些资源受到租户级别的限制。客户由租户管理员创建和管理。
-用户（User）：保存用户的基本信息
-用户的角色（Authority）：SYS_ADMIN、TENANT_ADMIN、CUSTOMER_USER、REFRESH_TOKEN、PRE_VERIFICATION_TOKEN 用户凭证（UserCredentials）：保存用户的密码、激活用户 Token、重置密码 Token、密码使用历史 用户认证设置（UserAuthSettings）：保存用户 2FA 认证设置 用户设置（UserSettings）：保存用户的设置，包括：通用设置、通知、访问过的仪表盘等等 系统设置（AdminSettings）：是用于配置和管理整个系统的全局设置和参数，包括：通用设置、邮件、JWT、连接设置等等。
-审计日志（AuditLog）
-资产（Asset）：指在系统中表示和管理的物理或虚拟实体。资产可以是设备、传感器、设施、车辆、建筑物、人员或其他实体，其状态、属性和行为可以被监测、控制和管理。
-资产配置（AssetProfile）：配置资产使用的默认规则链、队列、移动端仪表盘
-设备（Device）：
-遥测数据（TsKV）： 最新遥测数据： 属性（AttributeKvEntry）：属性类型分为客户端、服务端、共享 远程调用（Rpc） 设备凭证（DeviceCredentials）： OTA： 设备配置（DeviceProfile）：配置设备使用的默认规则链、队列、移动端仪表盘、边缘网关默认规则链、分配的固件、分配的软件、传输方式、告警规则、设置预配置
-告警（Alarm）：包括字段：租户、客户、类型、明细、发起者、告警级别（严重、重要、次要、警告、不确定）、是否应答、是否清除、受理人、开始时间、结束时间、应答时间、清除时间、受理时间、是否传播、是否传播给所有者、是否传播给租户
-告警评论（AlarmComment）：
-实体告警（EntityAlarm）：
-事件（Event）：分为异常事件、组件生命周期事件、规则链调试事件、规则节点事件、统计事件
-通知（Notification）:
-通知请求（NotificationRequest） 通知模版（NotificationTemplate）： 通知规则（NotificationRule） 通知对象（NotificationTarget） 流程 上报遥测数据 设备配置启用告警规则。温度大于 20 时，产生告警。温度小于 20 时，清除告警。
-创建一个设备，设备凭证使用 AccessToken
-使用 http api 发送遥测数据
-curl -v -X POST http://localhost:8080/api/v1/gs76dj5m47yd3lm1wurd/telemetry --header Content-Type:application/json --data &amp;#34;{temperature:25}&amp;#34; 查看告警
-再次发送遥测数据，可以清除告警
-源码分析：
-使用 http api 发送数据，入口类在 common/transport/http 模块下的 DeviceApiController 类。这个类提供了以下几个接口：
-GET /api/v1/{deviceToken}/attributes POST /api/v1/{deviceToken}/attributes GET /api/v1/{deviceToken}/telemetry POST /api/v1/{deviceToken}/telemetry GET /api/v1/{deviceToken}/rpc POST /api/v1/{deviceToken}/rpc POST /api/v1/{deviceToken}/rpc/{requestId} POST /api/v1/{deviceToken}/claim GET /api/v1/{deviceToken}/firmware POST /api/v1/{deviceToken}/firmware GET /api/v1/{deviceToken}/software POST /api/v1/{deviceToken}/software POST /api/v1/provision POST /api/v1/{deviceToken}/telemetry 处理逻辑：
-HttpTransportContext TransportService DefaultTransportService TbQueueProducer&amp;lt;TbProtoQueueMsg&amp;lt;ToRuleEngineMsg&amp;gt;&amp;gt; ruleEngineMsgProducer TbRuleEngineQueueConsumerManager TbRuleEngineConsumerContext ActorSystemContext TbActorRef TbActorMailbox AppActor TenantActor RuleChainActor	RuleChainActorMessageProcessor RuleNodeActor RuleNodeActorMessageProcessor TbDeviceProfileNode DeviceState AlarmState DefaultTbContext DefaultTbClusterService TbRuleEngineProducerProvider TbQueueProducer&amp;lt;TbProtoQueueMsg&amp;lt;ToRuleEngineMsg&amp;gt;&amp;gt; toRuleEngine 这里面用到了 Transport 、Queue、Actor ，调用链非常长。</description>
+      <description>ThingsBoard是一个开源的物联网平台，用于管理和监控物联网设备和数据。它提供了一个可扩展的架构，可以连接各种设备，并实时收集、处理和分析设备生成的数据。 领域模型 在ThingsBoard中，领域</description>
     </item>
     <item>
       <title>All things about ThingsBoard</title>
       <link>https://blog.chensoul.cc/posts/2024/04/29/all-things-about-thingsboard/</link>
       <pubDate>Mon, 29 Apr 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/04/29/all-things-about-thingsboard/</guid>
-      <description>thingsboard 是一款乌克兰团队基于java语言研发的开源物联网框架，开源的是ce版，企业版需要购买授权且无源码。
-官方网站：
-Thingsboard 官网：https://thingsboard.io/
-Thingsboard社区免费版本：https://demo.thingsboard.io/
-Thingsboard 企业付费版本：https://thingsboard.cloud/
-Thingsboard 源码：https://github.com/thingsboard/thingsboard
-TBMQ 源码：https://github.com/thingsboard/tbmq
-中文网：http://www.ithingsboard.com/
-ThingsBoard 中文社区：https://www.thingsboard.club/
-博客：
-What is ThingsBoard? An Overview of ThingsBoard in 2024
-How to access MQTT data with ThingsBoard | EMQ
-分享｜五分钟学会使用 ThingsBoard 规则链
-分享｜五分钟了解 ThingsBoard 物联网平台多种部署场景
-分享｜五分钟快速学会 ThingsBoard 打包镜像和 Docker 部署
-分享｜五分钟快速学会 ThingsBoard 对接物联网网关
-分享｜五分钟快速学会 ThingsBoard DashBoard 基本操作
-分享｜五分钟学会 ThingsBoard 本地编译运行和 Linux 部署
-分享｜五分钟熟悉 ThingsBoard 前端二次开发。
-https://www.cnblogs.com/east196/tag/ThingsBoard/
-物联网技术学习指南 https://iot.mushuwei.cn/
-物联网开源框架Thingsboard使用总结
-https://www.weishadian.com/index.php/tag/thingsboard/page/5/
-thingskit博客
-ThingsBoard二次开发之源码分析1- 基础知识
-源码分析：
-ThingsBoard 源码分析 thingsboard源码解析 精尽thingsboard源码解析 https://github.com/blackstar-baba/how-2-use-thingsboard https://chenzhifu.xyz/categories/thingsboard IOT 平台：
-http://iot.bctools.cn/ ThingsKit 分布式规则引擎系统，重构于开源IOT项目thingboard </description>
+      <description>thingsboard 是一款乌克兰团队基于java语言研发的开源物联网框架，开源的是ce版，企业版需要购买授权且无源码。 官方网站： Thingsboard 官网：https://thingsboard.io/ Thingsboard社区免费版本：</description>
     </item>
     <item>
       <title>TBMQ测试和源码分析</title>
       <link>https://blog.chensoul.cc/posts/2024/04/28/thingsboard-tbmq-test/</link>
       <pubDate>Sun, 28 Apr 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/04/28/thingsboard-tbmq-test/</guid>
-      <description>启动 TBMQ 程序，浏览器访问 http://localhost:8083，创建一个 Application，Credentials Type 为 BASIC，客户端 ID、用户名和密码均设置为 tbmq_app
-使用 mosquitto 测试订阅消息
-mosquitto_sub -d -q 1 -h localhost -p 1883 -t tbmq/demo/+ -i &amp;#39;tbmq_app&amp;#39; -u &amp;#39;tbmq_app&amp;#39; -P &amp;#39;tbmq_app&amp;#39; -c -v Debug 调试 MqttSessionHandler 类的 channelRead(ChannelHandlerContext ctx, Object msg) 方法
-第一次连接，消息类型是 CONNECT
-消息：
-固定头：MqttFixedHeader[messageType=CONNECT, isDup=false, qosLevel=AT_MOST_ONCE, isRetain=false, remainingLength=40]
-变量头：MqttConnectVariableHeader[name=MQTT, version=4, hasUserName=true, hasPassword=true, isWillRetain=false, isWillFlag=false, isCleanSession=false, keepAliveTimeSeconds=60]
-负载：MqttConnectPayload[clientIdentifier=tbmq_app, willTopic=null, willMessage=null, userName=tbmq_app, password=[116, 98, 109, 113, 95, 97, 112, 112]]
-address 为空，故从 ChannelHandlerContext 获取客户端地址，并将地址保持到客户端 Session 上下文 ClientSessionCtx
-初始化 Session：获取 clientI、mqtt 版本，调用 ClientMqttActorManager 初始化 session：创建 clientActorRef，发送一个 SessionInitMsg 消息
-调用 ClientMqttActorManager connect 方法，发送一个 MqttConnectMsg 消息
-第二次连接，消息类型是 SUBSCRIBE
-MqttSubscribeMessage[fixedHeader=MqttFixedHeader[messageType=SUBSCRIBE, isDup=false, qosLevel=AT_LEAST_ONCE, isRetain=false, remainingLength=16], variableHeader=MqttMessageIdAndPropertiesVariableHeader[messageId=1, properties=io.</description>
+      <description>启动 TBMQ 程序，浏览器访问 http://localhost:8083，创建一个 Application，Credentials Type 为 BASIC，客户端 ID、用户名和密码均设置为 tbmq_app 使用 mosquitto 测试订阅消息 1 mosquitto_sub -d -q 1 -h</description>
     </item>
     <item>
       <title>ThingsBoard TBMQ本地和通过Docker运行</title>
       <link>https://blog.chensoul.cc/posts/2024/04/17/thingsboard-tbmq-local-docker-run/</link>
       <pubDate>Wed, 17 Apr 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/04/17/thingsboard-tbmq-local-docker-run/</guid>
-      <description>docker-compose 运行 参考：https://thingsboard.io/docs/mqtt-broker/install/cluster/docker-compose-setup/
-下载源代码
-git clone -b release-1.3.0 https://github.com/thingsboard/tbmq.git cd tbmq/docker 创建逻辑卷并执行安装程序
-./scripts/docker-create-volumes.sh ./scripts/docker-install-tbmq.sh 运行服务
-./scripts/docker-start-services.sh 浏览器访问：http://localhost:8083，用户名/密码：sysadmin@thingsboard.org / sysadmin
-查看 HaProxy 日志，发现出现异常：Error: Specified qdisc kind is unknown. 。
-目前，尚未找到解决办法，只能不使用 HaProxy 而是直接访问 tbmq1，修改 docker-compose.yml ，暴露容器端口 8083 到本地的 8083：
-tbmq1: restart: always container_name: &amp;#34;${TBMQ_1_NAME}&amp;#34; image: &amp;#34;${DOCKER_REPO}/${DOCKER_NAME}:${TBMQ_VERSION}&amp;#34; ports: - &amp;#34;1883&amp;#34; - &amp;#34;8083:8083&amp;#34; #修改这里 - &amp;#34;8084&amp;#34; 然后，通过浏览器访问 浏览器访问：http://localhost:8081
-源码编译并运行 安装好 JDK 17+ 和 Maven3.6.3+
-下载源代码
-git clone -b release-1.3.0 https://github.com/thingsboard/tbmq.git cd tbmq 编译代码
-mvn clean install -DskipTests 通过 docker-compose 本地安装 postgres、kafka、redis
-参考 docker 目录下的文件新建 docker-compose.postgres.yml 文件：
-version: &amp;#39;3.0&amp;#39; services: postgres: restart: always image: postgres:15 ports: - &amp;#34;5432:5432&amp;#34; environment: POSTGRES_DB: thingsboard_mqtt_broker POSTGRES_PASSWORD: postgres volumes: - postgres-data:/var/lib/postgresql/data volumes: postgres-data: 新建 docker-compose.</description>
+      <description>docker-compose 运行 参考：https://thingsboard.io/docs/mqtt-broker/install/cluster/docker-compose-setup/ 下载源代码 1 2 git clone -b release-1.3.0 https://github.com/thingsboard/tbmq.git cd tbmq/docker 创建逻</description>
     </item>
   </channel>
 </rss>

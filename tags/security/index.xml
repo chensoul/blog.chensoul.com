@@ -13,13 +13,7 @@
       <link>https://blog.chensoul.cc/posts/2023/08/25/spring-security-async-principal-propagation/</link>
       <pubDate>Fri, 25 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/25/spring-security-async-principal-propagation/</guid>
-      <description>1. 简介 在本教程中，我们将重点关注使用 @Async 传播 Spring Security 主体 默认情况下，Spring Security 身份验证绑定到 ThreadLocal - 因此，当执行流在带有 @Async 的新线程中运行时，它不会是经过身份验证的上下文。
-这并不理想——让我们解决它。
-2.Maven 依赖 为了在 Spring Security 中使用异步集成，我们需要在 pom.xml 的依赖项中包含以下部分：
-&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.security&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-security-config&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;5.7.3&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 可以在此处找到最新版本的 Spring Security 依赖项。
-3.使用@Async 进行 Spring Security 传播 我们先写一个简单的例子：
-@RequestMapping(method = RequestMethod.GET, value = &amp;#34;/async&amp;#34;) @ResponseBody public Object standardProcessing() throws Exception { log.info(&amp;#34;Outside the @Async logic - before the async call: &amp;#34; + SecurityContextHolder.getContext().getAuthentication().getPrincipal()); asyncService.asyncCall(); log.info(&amp;#34;Inside the @Async logic - after the async call: &amp;#34; + SecurityContextHolder.getContext().getAuthentication().getPrincipal()); return SecurityContextHolder.getContext().getAuthentication().getPrincipal(); } 我们想要检查 Spring SecurityContext 是否传播到新线程。首先，我们在异步调用之前记录上下文，接下来我们运行异步方法，最后再次记录上下文。 asyncCall() 方法具有以下实现：
-@Async @Override public void asyncCall() { log.info(&amp;#34;Inside the @Async logic: &amp;#34; + SecurityContextHolder.getContext().getAuthentication().getPrincipal()); } 正如我们所看到的，只有一行代码将输出异步方法的新线程内的上下文。</description>
+      <description>1. 简介 在本教程中，我们将重点关注使用 @Async 传播 Spring Security 主体 默认情况下，Spring Security 身份验证绑定到 ThreadLocal - 因此，当执行流在带有 @Async 的新线程中运行时，它不会是经过身份验证的上下文。 这并不理想——让我们解决它。 2.Maven 依赖 为</description>
     </item>
   </channel>
 </rss>

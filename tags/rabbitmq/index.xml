@@ -13,30 +13,14 @@
       <link>https://blog.chensoul.cc/posts/2024/05/07/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs/</guid>
-      <description>原文链接：https://ably.com/topic/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs
-将消息从一个组件获取到另一个组件是微服务架构中最重要的部分之一。每个服务必须能够与任何其他服务异步、可靠且大规模地通信。
-这就是消息代理的用武之地。消息代理（例如 Apache Kafka、RabbitMQ 和AWS SNS/SQS）为您提供一个通用接口和一组保证，而不是手动协调可能数千个微服务之间的通信。这简化了集成并更容易推理您的系统。
-然而，比较消息代理可能很棘手，因为每个消息代理都采用不同的方法来完成工作。那么，您如何决定哪个消息代理最适合您的用例？
-在本文中，您将找到有关业界最受欢迎的三个消息代理如何适用于不同用例的指南。我们将研究诸如它们的扩展方法、它们支持的消息传递模式以及它们如何处理性能和智能消息路由之间的权衡等特征。
-比较消息代理：您应该寻找什么？ 消息代理是一个广泛的类别。虽然我们正在考虑的三个选项中的每一个都在更大系统中的组件之间移动数据，但在它们之间做出决定取决于它们如何做到这一点。
-因此，我们需要检查每个消息代理的特征，根据它们如何影响其移动数据的能力以及它的工作方式。我们将研究以下六个因素以及它们如何应用于 Apache Kafka、RabbitMQ 和 AWS SNS/SQS：
-**消息传递模式：**消息代理组织和分发消息的方式（例如发布/订阅或请求回复）比其他架构和用例更适合某些架构和用例。 **消息路由：**消息代理能否根据消息的内容和其他标准来路由消息？ **可扩展性：**并非每种情况都需要每秒处理数百万条消息。确保消息代理可以扩展到您需要的吞吐量级别，同时牢记这将如何影响设置和操作的复杂性。 **可靠性：**消息代理如何处理故障？它会保留消息还是仅通过系统传递消息？ **安全性：**数据是否加密？消息代理是否提供审核日志？它如何处理身份验证和访问控制？是否经过 HIPAA 和 PCI DSS 等行业标准认证？ **成本和许可：**消息代理是开源的吗？需要哪些云或服务器资源？是否持续收取许可费？您的团队需要花费多少时间来运行它？ 介绍 Apache Kafka、RabbitMQ 以及 AWS SNS 和 SQS 在详细进行比较之前，我们先来谈谈为什么我们关注这三种解决方案。原因之一是它们是您可能遇到的最常见的消息代理解决方案之一。研究表明，全球有近 50,000 家公司使用 RabbitMQ，而超过60,000 家公司正在使用 Apache Kafka。尽管 AWS SQS 的用户群似乎较小，但只有超过 24,000 家公司，但它在更广泛的 Amazon Web Services 生态系统中发挥着重要作用。这种广泛的部署使得您可以更轻松地招募经验丰富的员工、与现有技术堆栈集成，以及当您需要时寻求支持。但还有另一个考虑因素。我们正在研究的每个消息代理都从不同的角度解决该问题。 Apache Kafka 专为吞吐量而设计，而 RabbitMQ 更关注复杂的消息路由。与 RabbitMQ 一样，SNS 和 SQS 这两种 AWS 解决方案更关注路由而不是吞吐量，我们在这里考虑它们是因为 AWS 生态系统的重要性。
-阿帕奇·卡夫卡 Apache Kafka 是一个实时流平台，旨在构建可扩展、容错的分布式应用程序。它专门以非常高的吞吐量传输数据，通常用于操作数据，例如日志记录和指标。
-拥有如此庞大的安装基础，有一些工具可以将 Apache Kafka 连接到几乎任何其他正在运行的系统。尽管 Apache Kafka 专注于高吞吐量，但它也可以处理传输中的数据，例如触发操作和转换数据。然而，这种灵活性和强大功能是有代价的，因为 Apache Kafka 比某些替代方案更难设置和操作。
-RabbitMQ 与 Apache Kafka 专注于流数据不同，RabbitMQ 是一个开源分布式消息代理，支持多种不同的消息传递模式，例如发布/订阅和生产者/消费者。尽管它确实拥有高吞吐量，但它的重点更多地是根据消息内容、一天中的时间、发送者和其他标准智能地路由数据，这使得它非常适合事件驱动的架构。
-与 Apache Kafka 一样，RabbitMQ 得到了广泛的支持，具有丰富的集成生态系统。
-AWS SNS 和 SQS Amazon Web Services (AWS) 提供了两种适合消息代理旗帜的产品。 AWS Simple Notification Service (SNS) 是一种高吞吐量消息传递服务，它使用发布/订阅模型在微服务或分发应用程序的组件之间传递消息。</description>
+      <description>原文链接：https://ably.com/topic/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs 将消息从一个组件获取到另一个组件是微服务架构中最重要的部分之一。每</description>
     </item>
     <item>
       <title>2024-01-18｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/18/til/</link>
       <pubDate>Thu, 18 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/18/til/</guid>
-      <description>今天做了什么：
-修改瑞吉外卖项目 reggie：
-修改数据源配置，使用 HikariCP 数据源 修改接口返回字段和前端文件，code=0 表示成功 添加 mysql、redis 安装文档 添加 openresty lua 脚本实现 redis 缓存 基于 springboot 使用 sharding-jdbc 测试读写分离、分库分表。代码在：https://github.com/chensoul/sharding-examples
-测试 RabbitMQ 生产、消费，代码在：https://github.com/chensoul/rabbitmq-examples
-观看 B 站视频《【IT老齐455】SpringBoot、Caffine、Redis本地远程二级缓存》，视频中的代码在：second-cache</description>
+      <description>今天做了什么： 修改瑞吉外卖项目 reggie： 修改数据源配置，使用 HikariCP 数据源 修改接口返回字段和前端文件，code=0 表示成功 添加 mysql、redis 安装文档 添加 openresty lua 脚本实现 redis 缓存 基于 springboot 使用 sharding-jdbc 测试读写分离</description>
     </item>
   </channel>
 </rss>

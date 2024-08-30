@@ -13,386 +13,196 @@
       <link>https://blog.chensoul.cc/posts/2024/07/19/gitlab-runner-install/</link>
       <pubDate>Fri, 19 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/19/gitlab-runner-install/</guid>
-      <description>介绍 GitLab Runner 是一个用于在 GitLab CI/CD（持续集成/持续交付）流水线中运行作业（Jobs）的开源工具。它充当了 GitLab CI/CD 系统中的代理，负责接收作业请求、执行作业脚本并报告结果。
-下面是 GitLab Runner 的一些关键特点和功能：
-多平台支持：GitLab Runner 可在多种操作系统上运行，包括 Linux、macOS 和 Windows，使其适用于各种开发环境和需求。 作业执行器：Runner 接收来自 GitLab CI/CD 的作业请求，并在指定的环境中执行作业。它可以运行各种类型的作业，如构建、测试、部署等。 并发执行：GitLab Runner 可以同时运行多个作业，以提高整体流水线的处理能力和效率。 弹性扩展：你可以配置多个 GitLab Runner 实例，以满足不同项目和流水线的需求。每个 Runner 实例都可以在不同的环境中运行，比如在不同的物理或虚拟机器上，或者在云服务提供商的容器中。 配置灵活性：Runner 的配置相对灵活，你可以根据项目、分支或标签等条件来指定不同的执行规则。这使得你可以针对不同的场景和需求进行定制化配置。 日志和报告：Runner 会生成详细的日志和报告，用于记录作业的执行过程和结果。这些信息对于故障排除、问题追踪和流水线性能分析非常有帮助。 安全和身份验证：GitLab Runner 可与 GitLab CI/CD 系统集成，并通过访问令牌或其他身份验证机制来确保安全的通信和访问权限控制。 安装 GitLab Runner 的版本需要和 GitLab 保持一致。
-查看当前 Gitlab 版本：
-root@gitlab:/# gitlab-rake gitlab:env:info System information System:	Current User:	git Using RVM:	no Ruby Version:	3.1.5p253 Gem Version:	3.5.11 Bundler Version:2.5.11 Rake Version:	13.0.6 Redis Version:	7.0.15 Sidekiq Version:7.1.6 Go Version:	unknown GitLab information Version:	17.1.1 Revision:	a1c9a43d543 Directory:	/opt/gitlab/embedded/service/gitlab-rails DB Adapter:	PostgreSQL DB Version:	14.11 URL:	https://gitlab.wesine.com.cn HTTP Clone URL:	https://gitlab.</description>
+      <description>介绍 GitLab Runner 是一个用于在 GitLab CI/CD（持续集成/持续交付）流水线中运行作业（Jobs）的开源工具。它充当了 GitLab CI/CD 系统中的代理，负责接收作业请求、执行作业脚本并报告结果。 下面是 GitLab Runner 的一些关键特点和功能： 多平台</description>
     </item>
     <item>
       <title>Gitlab安装和部署-使用yum源</title>
       <link>https://blog.chensoul.cc/posts/2024/07/15/install-gitlab-using-yum/</link>
       <pubDate>Mon, 15 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/15/install-gitlab-using-yum/</guid>
-      <description>Gitlab Server 部署 1、环境配置 关闭防火墙、SELinux
-开启邮件服务
-$ systemctl start postfix $ systemctl enable postfix 2、手动安装 1、安装 gitlab 依赖包 centos7:
-$ yum install -y curl openssh-server openssh-clients postfix cronie policycoreutils-python gitlab-ce 10.x.x以后的版本需要依赖policycoreutils-python
-centos8:
-$ yum install -y curl openssh-server openssh-clients postfix cronie policycoreutils-python-utils 2、添加官方源 $ curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash 因为官方源太慢，可以使用国内清华yum源，配置如下
-$ vim /etc/yum.repos.d/gitlab-ce.repo [gitlab-ce] name=Gitlab CE Repository baseurl=https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el$releasever/ gpgcheck=0 enabled=1 3、安装 Gitlab 自动安装最新版
-$ yum -y install gitlab-ce 4、配置 Gitlab 1、查看Gitlab版本 $ head -1 /opt/gitlab/version-manifest.txt gitlab-ce 10.1.1 2、Gitlab 配置登录链接 #设置登录链接 $ vim /etc/gitlab/gitlab.rb *** ## GitLab URL ##! URL on which GitLab will be reachable. ##! For more details on configuring external_url see: ##!</description>
+      <description>Gitlab Server 部署 1、环境配置 关闭防火墙、SELinux 开启邮件服务 1 2 $ systemctl start postfix $ systemctl enable postfix 2、手动安装 1、安装 gitlab 依赖包 centos7: 1 $ yum install -y curl openssh-server openssh-clients postfix cronie policycoreutils-python gitlab-ce 10.x.x以后的版本需要依赖policycoreutils-pyt</description>
     </item>
     <item>
       <title>Git介绍</title>
       <link>https://blog.chensoul.cc/posts/2024/07/15/git/</link>
       <pubDate>Mon, 15 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/15/git/</guid>
-      <description>Git、Github、Gitlab 的区别 Git是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。
-是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。
-Github是在线的基于Git的代码托管服务。 GitHub是2008年由Ruby on Rails编写而成。GitHub同时提供付费账户和免费账户。这两种账户都可以创建公开的代码仓库，只有付费账户可以创建私有的代码仓库。 Gitlab解决了这个问题, 可以在上面创建免费的私人repo。
-git：是一套软件 可以做本地私有仓库
-github：本身是一个代码托管网站 公有和私有仓库(收费) 不能做本地私有仓库
-gitlab：本身也是一个代码托管的网站 功能上和github没有区别 公有和私有仓库（免费） 可以部署本地私有仓库
-Git 与 SVN 区别 GIT不仅仅是个版本控制系统，它也是个内容管理系统(CMS),工作管理系统等。
-如果你是一个具有使用SVN背景的人，你需要做一定的思想转换，来适应GIT提供的一些概念和特征。
-Git 与 SVN 区别
-Git是分布式的，svn不是：这是GIT和其它非分布式的版本控制系统，例如SVN，CVS等，最核心的区别。 GIT把内容按元数据方式存储，而SVN是按文件：所有的资源控制系统都是把文件的元信息隐藏在一个类似.svn,.cvs等的文件夹里。 GIT分支和SVN的分支不同：分支在SVN中一点不特别，就是版本库中的另外的一个目录。 GIT没有一个全局的版本号，而SVN有：目前为止这是跟SVN相比GIT缺少的最大的一个特征。 GIT的内容完整性要优于SVN：GIT的内容存储使用的是SHA-1哈希算法。这能确保代码内容的完整性，确保在遇到磁盘故障和网络问题时降低对版本库的破坏。 git 是分布式的版本控制器 没有客户端和服务器端的概念。
-svn 它是C/S结构的版本控制器 有客户端和服务器端 服务器如果宕机而且代码没有备份的情况下 完整代码就会丢失
-Git 工作流程 一般工作流程如下：
-克隆 Git 资源作为工作目录。 在克隆的资源上添加或修改文件。 如果其他人修改了，你可以更新资源。 在提交前查看修改。 提交修改。 在修改完成后，如果发现错误，可以撤回提交并再次修改并提交。 Git 的工作流程示意图：
-Git 基本概念 **工作区：**就是你在电脑里能看到的目录。 **暂存区：**英文叫stage, 或index。一般存放在&amp;quot;git目录&amp;quot;下的index文件（.git/index）中，所以我们把暂存区有时也叫作索引（index）。 **版本库：**工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。 工作区、版本库中的暂存区和版本库之间的关系的示意图：
-图中左侧为工作区，右侧为版本库。在版本库中标记为 &amp;ldquo;index&amp;rdquo; 的区域是暂存区（stage, index），标记为 &amp;ldquo;master&amp;rdquo; 的是 master 分支所代表的目录树。
-图中我们可以看出此时 &amp;ldquo;HEAD&amp;rdquo; 实际是指向 master 分支的一个&amp;quot;游标&amp;quot;。所以图示的命令中出现 HEAD 的地方可以用 master 来替换。
-图中的 objects 标识的区域为 Git 的对象库，实际位于 &amp;ldquo;.git/objects&amp;rdquo; 目录下，里面包含了创建的各种对象及内容。
-当对工作区修改（或新增）的文件执行 &amp;ldquo;git add&amp;rdquo; 命令时，暂存区的目录树被更新，同时工作区修改（或新增）的文件内容被写入到对象库中的一个新的对象中，而该对象的ID被记录在暂存区的文件索引中。
-当执行提交操作（git commit）时，暂存区的目录树写到版本库（对象库）中，master 分支会做相应的更新。即 master 指向的目录树就是提交时暂存区的目录树。</description>
+      <description>Git、Github、Gitlab 的区别 Git是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。 Github是在线的</description>
     </item>
     <item>
       <title>Git使用</title>
       <link>https://blog.chensoul.cc/posts/2024/07/15/git/</link>
       <pubDate>Mon, 15 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/15/git/</guid>
-      <description>部署Git 服务 创建git仓库
-git-server上的操作：
-[root@localhost ~]# yum install git git-core gitweb -y [root@localhost ~]# useradd git [root@localhost ~]# passwd git [root@localhost ~]# mkdir /git-root/ [root@localhost ~]# cd /git-root/ [root@localhost git-root]# git init --bare shell.git Initialized empty Git repository in /git-root/shell.git/ [root@localhost git-root]# chown -R git:git shell.git 注意： git init 和 git init &amp;ndash;bare 的区别:
-使用&amp;ndash;bare选项时，不再生成 .git 目录，而是只生成 .git 目录下面的版本历史记录文件，这些版本历史记录文件也不再存放在 .git 目录下面，而是直接存放在版本库的根目录下面。 用&amp;quot;git init&amp;quot;初始化的版本库用户也可以在该目录下执行所有 git 方面的操作。但别的用户在将更新 push 上来的时候容易出现冲突。 使用”git init &amp;ndash;bare”方法创建一个所谓的裸仓库，之所以叫裸仓库是因为这个仓库只保存git历史提交的版本信息，而不允许用户在上面进行各种git操作，如果你硬要操作的话，只会得到下面的错误（”This operation must be run in a work tree”）这个就是最好把远端仓库初始化成bare仓库的原因 git仓库测试
-git-client上的操作：
-[root@localhost ~]# ssh-keygen [root@localhost ~]# ssh-copy-id git@192.168.1.178 [root@localhost shell]# git config --global user.email &amp;#34;you@example.com&amp;#34; [root@localhost shell]# git config --global user.name &amp;#34;Your Name&amp;#34; [root@localhost ~]# git clone git@192.</description>
+      <description>部署Git 服务 创建git仓库 git-server上的操作： 1 2 3 4 5 6 7 8 [root@localhost ~]# yum install git git-core gitweb -y [root@localhost ~]# useradd git [root@localhost ~]# passwd git [root@localhost ~]# mkdir /git-root/ [root@localhost ~]# cd /git-root/ [root@localhost git-root]# git init --bare shell.git Initialized empty Git repository in /git-root/shell.git/ [root@localhost git-root]# chown -R git:git shell.git 注意： git init 和 git init &amp;ndash;bare 的区别: 使用&amp;ndash</description>
     </item>
     <item>
       <title>Minikube快速入门</title>
       <link>https://blog.chensoul.cc/posts/2024/07/10/minikube-quick-start/</link>
       <pubDate>Wed, 10 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/10/minikube-quick-start/</guid>
-      <description>安装 macos 系统使用 brew 安装
-brew install minikube 启动集群 查看当前集群列表
-$ minikube profile list |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | Profile | VM Driver | Runtime | IP | Port | Version | Status | Nodes | Active Profile | Active Kubecontext | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | minikube | docker | docker | 192.168.49.2 | 8443 | v1.30.0 | Unknown | 1 | * | * | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| 创建一个集群
-# 启动一个名称为 minikube 集群，命名空间为 default minikube start 默认情况下，minikube start 创建一个名为“minikube”的集群。如果您想创建不同的集群或更改其名称，可以使用--profile(或-p) 标志：
-minikube start -p test 如果只想使用 docker 而不使用 k8s：
-minikube start --container-runtime=docker --no-kubernetes 指定资源：
-minikube start --cpus 4 --memory 8G 也可以调整资源：
-minikube config set cpus 2 minikube config set memory 2G k8s 集群创建成功之后，可以通过 kubectl 查看上下文：</description>
+      <description>安装 macos 系统使用 brew 安装 1 brew install minikube 启动集群 查看当前集群列表 1 2 3 4 5 6 $ minikube profile list |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | Profile | VM Driver | Runtime | IP | Port | Version | Status | Nodes | Active Profile | Active Kubecontext | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | minikube | docker | docker | 192.168.49.2 | 8443 | v1.30.0 | Unknown | 1 | * | * | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| 创建一个集群 1 2 # 启动一个名称为</description>
     </item>
     <item>
       <title>Docker安装和配置</title>
       <link>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</link>
       <pubDate>Tue, 09 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</guid>
-      <description>Centos7安装Docker 配置宿主机网卡转发 ## 配置网卡转发，看值是否为1 $ sysctl -a |grep -w net.ipv4.ip_forward net.ipv4.ip_forward = 1 ## 若未配置，需要执行如下 $ cat &amp;lt;&amp;lt;EOF &amp;gt; /etc/sysctl.d/docker.conf net.bridge.bridge-nf-call-ip6tables = 1 net.bridge.bridge-nf-call-iptables = 1 net.ipv4.ip_forward=1 EOF $ sysctl -p /etc/sysctl.d/docker.conf Yum安装配置docker ## 下载阿里源repo文件 $ sudo yum install -y yum-utils $ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/repo/Centos-7.repo $ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo $ sudo yum clean all &amp;amp;&amp;amp; yum makecache ## yum安装 $ sudo yum install -y docker-ce docker-ce-cli ## 设置开机自启 systemctl enable docker systemctl daemon-reload ## 启动docker systemctl start docker ## 查看docker信息 docker info docker version ## docker-client which docker ## docker daemon ps aux |grep docker 安装 Compose plugin：</description>
+      <description>Centos7安装Docker 配置宿主机网卡转发 1 2 3 4 5 6 7 8 9 10 11 ## 配置网卡转发，看值是否为1 $ sysctl -a |grep -w net.ipv4.ip_forward net.ipv4.ip_forward = 1 ## 若未配置，需要执行如下 $ cat &amp;lt;&amp;lt;EOF &amp;gt; /etc/sysctl.d/docker.conf net.bridge.bridge-nf-call-ip6tables = 1 net.bridge.bridge-nf-call-iptables = 1 net.ipv4.ip_forward=1 EOF $ sysctl -p /etc/sysctl.d/docker.conf Yum安装配置docker</description>
     </item>
     <item>
       <title>使用 Docker 容器化并运行 Spring Boot 应用程序</title>
       <link>https://blog.chensoul.cc/posts/2024/07/09/docker-for-spring-boot/</link>
       <pubDate>Tue, 09 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/09/docker-for-spring-boot/</guid>
-      <description>本文翻译自 Docker 官方网站的《Java language-specific guide》文章，并做了一些改动。
-Java 入门指南教您如何使用 Docker 创建容器化的 Spring Boot 应用程序。在本模块中，您将学习如何：
-使用 Maven 容器化并运行 Spring Boot 应用程序 设置本地开发环境以将数据库连接到容器，配置调试器，并使用 Compose Watch 进行实时重新加载 在容器内运行单元测试 使用 GitHub Actions 为应用程序配置 CI/CD 管道 将容器化应用程序本地部署到 Kubernetes 以测试和调试您的部署 完成 Java 入门模块后，您应该能够根据本指南中提供的示例和说明来容器化您自己的 Java 应用程序。
-容器化你的应用 先决条件 您已安装最新版本的 Docker Desktop，Docker 会定期添加新功能，本指南的某些部分可能仅适用于最新版本的 Docker Desktop。
-您有一个 Git 客户端。本节中的示例使用基于命令行的 Git 客户端，但您可以使用任何客户端。
-获取示例应用程序 将要使用的示例应用程序克隆到本地开发机器。在终端中运行以下命令来克隆存储库。
-$ git clone https://github.com/spring-projects/spring-petclinic.git $ cd spring-petclinic 初始化 Docker 资产 现在您有了一个应用程序，您可以使用它docker init来创建必要的 Docker 资产来容器化您的应用程序。在 spring-petclinic 中已包含 Docker 资产。系统将提示您覆盖现有 Docker 资产。要继续本指南，请选择y覆盖它们。
-$ docker init Welcome to the Docker Init CLI! This utility will walk you through creating the following files with sensible defaults for your project: - .dockerignore - Dockerfile - compose.</description>
+      <description>本文翻译自 Docker 官方网站的《Java language-specific guide》文章，并做了一些改动。 Java 入门指南教您如何使用 Docker 创建容器化的 Spring Boot 应用程序。在本模块中，您将学习如何： 使用 Maven 容器化并运行 Spring Boot 应用程序 设置本地开发环境以将数据库</description>
     </item>
     <item>
       <title>[译]Minikube 中的 Minions - 面向 Java 开发人员的 Kubernetes 简介</title>
       <link>https://blog.chensoul.cc/posts/2024/07/08/minions-in-minikube-a-kubernetes-intro-for-java-de/</link>
       <pubDate>Mon, 08 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/08/minions-in-minikube-a-kubernetes-intro-for-java-de/</guid>
-      <description>我们希望我们的微服务是可复制、可替换的工作程序，我们可以轻松升级或降级，无需停机，管理也只需最少。我们可能会说我们希望他们是我们的奴才。在本文中，我们将通过一个简单的示例来了解 Kubernetes 通过创建和编排奴才大军可以为我们做些什么。您可以按照本文进行编码，也可以从此处克隆项目。
-先决条件 我们需要将微服务容器化，以便在 Kubernetes 中运行它们 — 我们将使用Docker来实现这一点。我们将使用Minikube，而不是使用云托管的 Kubernetes，这样我们就可以在本地进行沙盒处理。
-目的 我们的仆从大军将是 Java 微服务。我们希望我们的大军中有不同类型的仆从，这样我们才能看到 Kubernetes 能为我们做些什么。因此，我们的目标是让每个微服务都响应一个简单的 http 请求，响应如下：
-我们将使用 ASCII 艺术来代表仆从类型。
-构建Java Minion服务 我们可以使用带有 Web starter 依赖项的Spring Initializr 将我们的微服务作为 Spring Boot Web 应用程序启动：
-在项目中，我们将创建一个带注释的控制器来 @RestController 处理请求。我们将使用 @RequestMapping(method=GET) 来提供响应主体。因此，首先我们可以执行以下操作：
-@RequestMapping( method=GET) @ResponseBody public String minion() throws UnknownHostException { StringBuilder stringBuilder = new StringBuilder(); stringBuilder.append(&amp;#34;Host: &amp;#34;).append(InetAddress.getLocalHost().getHostName()).append(&amp;#34;&amp;lt;br/&amp;gt;&amp;#34;); return stringBuilder.toString(); } 但这并不能完全满足我们的要求。我们可以在这里输出 ASCII 艺术，但是我们要选择哪种类型的 Minion？为此，我们可以使用一个技巧。我们将创建一个可以采用我们选择的任何 Minion 类型的应用程序。为此，我们需要它包含一个 ASCII 艺术 Minion 库。因此，我们创建了一个名为 MinionsLibrary 的类，我们用它来注释， @Component 并在其中创建一个映射，我们用来自此博客 的一些 Minion 来初始化它：
-@Component public class MinionsLibrary { private Map&amp;lt;String,String&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); public MinionsLibrary(){ map.put(&amp;#34;one-eyed-minion&amp;#34;,&amp;lt;COPY-PASTE MINION ASCII ART HERE&amp;gt;); map.put(&amp;#34;two-eyed-minion&amp;#34;,&amp;lt;COPY-PASTE MINION ASCII ART HERE&amp;gt;); map.put(&amp;#34;sad-minion&amp;#34;,&amp;lt;COPY-PASTE MINION ASCII ART HERE&amp;gt;); map.</description>
+      <description>我们希望我们的微服务是可复制、可替换的工作程序，我们可以轻松升级或降级，无需停机，管理也只需最少。我们可能会说我们希望他们是我们的奴才。在本文中，我们将通过一个简单的示例来了解 Kubernetes 通过创建和编排奴才大军</description>
     </item>
     <item>
       <title>[译]面向 Java 开发人员的 Kubernetes</title>
       <link>https://blog.chensoul.cc/posts/2024/07/08/kubernetes-for-java-developers/</link>
       <pubDate>Mon, 08 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/08/kubernetes-for-java-developers/</guid>
-      <description>有一类新工具可用于将应用程序 docker 化并部署到 Kubernetes，这些工具专门面向开发人员。该类别中的最新工具是 RedHat 的 JKube。
-微服务是一种架构风格，由一个小型的、单独的应用程序组件组成，该组件具有单一职责，在部署和可扩展性方面具有高度的自主性。这些组件通过轻量级协议（如 REST over HTTP）进行通信。因此，开发团队规模很小（两个披萨规则），专注于微服务。实际上，团队拥有从开发到部署的整个生命周期——如果你构建了它，你就会运行它。这就产生了一个问题。毕竟，开发团队的核心竞争力通常是 Maven、微服务框架（例如 Spring Boot）、测试框架（如 JUnit）等。但是，如果我们看一下部署微服务所涉及的步骤：
-将应用程序打包到 Docker 等容器中。这涉及编写 Dockerfile。 将容器部署到 Kubernetes 等编排器。这涉及编写一些资源；服务描述文件、部署等。 用开发人员熟悉的术语来说，这就是“阻抗不匹配”。为了解决这个问题，我们需要一类能够使用开发人员的语言并使整个部署步骤对他们透明的工具。其中最著名的是Jib ，我们在之前的论文中讨论过它，它可以为您的 Java 应用程序构建优化的 Docker 和OCI映像，并以 Maven 插件的形式提供。此类别中还有其他工具，例如Dekorate，它允许我们仅使用 Maven 和 Java 注释来生成 Kubernetes 清单。此类别中最新且最全面的条目是 RedHat 的 JKube，这是我们的当日主题。
-JKube是一个 Maven 插件，其目标包括构建 Docker 映像和创建 Kubernetes 资源描述符。映像和描述符可以在没有配置的情况下生成，基于基于 pom 文件中条目的一些默认设置，或者可以使用 pom 中的 XML 条目进行自定义，或者在极端情况下使用 Dockerfile 和资源片段进行自定义。以下是该插件的目标：
-目标 描述 k8s:build 将应用程序 Docker 化为映像。 k8s:resource 生成 k8s 资源描述符。 k8s:apply 应用这些清单。 k8s:log 查看容器的日志。 K8s:undeploy 撤消部署。 首先，我假设您已在本地安装了 Docker 和 Kubernetes。有几种方法可以做到这一点。我还假设您具备 Docker 和 Kubernetes 的基本知识，如 [ Docker ] 和 [ Kubernetes ] 中所述。
-&amp;lt;plugin&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jkube&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;kubernetes-maven-plugin&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.2.0&amp;lt;/version&amp;gt; &amp;lt;/plugin&amp;gt; 现在我们可以生成图像：
-mvn k8s:build 在通常的 Spring Boot 歌舞之后，您可以列出图像：
-您可以自定义图像。例如，您可能希望通过配置frompom 中的元素来选择插件使用的默认图像以外的基础图像：</description>
+      <description>有一类新工具可用于将应用程序 docker 化并部署到 Kubernetes，这些工具专门面向开发人员。该类别中的最新工具是 RedHat 的 JKube。 微服务是一种架构风格，由一个小型的、单独的应用程序组件组成，该组件具有单一职</description>
     </item>
     <item>
       <title>ActiveMQ安装和使用</title>
       <link>https://blog.chensoul.cc/posts/2024/07/05/install-activemq/</link>
       <pubDate>Fri, 05 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/05/install-activemq/</guid>
-      <description>ActiveMQ 是一个实现了 JMS 协议的开源消息中间件，目前它有两种版本：ActiveMQ &amp;ldquo;Classic&amp;rdquo; 和 ActiveMQ Artemis。
-Artemis 版本作为Classic版本的替代品而诞生，相较的提升点有：
-高性能与低延迟：Artemis通过改进的设计实现了更高的吞吐量和更低的消息处理延迟。
-存储机制：使用了不同的持久化策略和日志结构，比如Journal文件系统，以获得更好的写性能和恢复速度。
-内存管理：内存使用效率更高，尤其是在处理大量小消息时表现更好。
-集群和HA：提供了更先进的高可用性解决方案和更灵活的集群模式。
-协议支持：除了原有的JMS之外，对AMQP 1.0的支持更加成熟和完善，并且也支持STOMP等多种协议。
-架构更新：整体架构更为现代化，为云原生环境和大规模分布式部署进行了优化。
-ActiveMQ Classic 各个版本的比较，参考：https://activemq.apache.org/components/classic/download/ 。
-6.0.x：需要 JDK17 5.17.x + ：需要 JDK11 5.16.x ：需要 JDK8 本文以 ActiveMQ Classic 5.16.7 进行测试。
-压缩包安装 在 linux 服务器上下载和安装：
-wget https://archive.apache.org/dist/activemq/5.16.7/apache-activemq-5.16.7-bin.tar.gz tar -zxvf apache-activemq-5.16.7-bin.tar.gz cd apache-activemq-5.16.7 启动：
-$ bin/activemq start INFO: Loading &amp;#39;/data/apache-activemq-5.16.7//bin/env&amp;#39; INFO: Using java &amp;#39;/usr/bin/java&amp;#39; INFO: Starting - inspect logfiles specified in logging.properties and log4j.properties to get details INFO: pidfile created : &amp;#39;/data/apache-activemq-5.16.7//data/activemq.pid&amp;#39; (pid &amp;#39;31850&amp;#39;) 查看是否启动成功：
-$ netstat -antpule|grep 61616 tcp6 0 0 :::61616 :::* LISTEN 0 382969263 31850/java 查看日志：
-tailf data/activemq.log 打开浏览器，访问 http://127.0.0.1:8161/admin ，默认账号：admin，密码：admin
-修改配置，支持通过 IP 访问，修改 conf 目录下的 jetty.</description>
+      <description>ActiveMQ 是一个实现了 JMS 协议的开源消息中间件，目前它有两种版本：ActiveMQ &amp;ldquo;Classic&amp;rdquo; 和 ActiveMQ Artemis。 Artemis 版本作为Classic版本的替代品而诞生，相较的提升点有： 高性能与低延迟：Artemis通过改进的设计实</description>
     </item>
     <item>
       <title>Gitlab安装和部署-使用Docker</title>
       <link>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</link>
       <pubDate>Wed, 26 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</guid>
-      <description>安装 Gitlab 安装 gitlab-ce 版本，当前最新版本为 17.2.0
-配置 external_url 参考 https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose
-services: gitlab: image: gitlab/gitlab-ce container_name: gitlab restart: always hostname: &amp;#39;gitlab.example.com&amp;#39; environment: GITLAB_OMNIBUS_CONFIG: | external_url &amp;#39;https://gitlab.example.com&amp;#39; ports: - &amp;#39;80:80&amp;#39; - &amp;#39;443:443&amp;#39; - &amp;#39;22:22&amp;#39; volumes: - &amp;#39;/srv/gitlab/config:/etc/gitlab&amp;#39; - &amp;#39;/srv/gitlab/logs:/var/log/gitlab&amp;#39; - &amp;#39;/srv/gitlab/data:/var/opt/gitlab&amp;#39; shm_size: &amp;#39;256m&amp;#39; 停止本地的 sshd 和 nginx 服务，避免 22 、80、443端口备占用：
-systemctl stop nginx systemctl stop sshd 启动 gitlab：
-export GITLAB_HOME=/srv/gitlab &amp;amp;&amp;amp; docker compose up -d 查看日志：
-docker logs -f gitlab 本地配置 /etc/host 文件：
-127.0.0.1 gitlab.example.com 打开浏览器访问：https://gitlab.example.com/ ，用户名 root，密码通过下面命令查看：
-cat /srv/gitlab/config/initial_root_password 修改默认端口 参考 https://github.com/hutchgrant/gitlab-docker-local/，
-services: gitlab: image: gitlab/gitlab-ce container_name: gitlab restart: always hostname: &amp;#39;gitlab.example.com&amp;#39; environment: GITLAB_OMNIBUS_CONFIG: | external_url &amp;#39;https://gitlab.example.com:3143&amp;#39; gitlab_rails[&amp;#39;gitlab_shell_ssh_port&amp;#39;] = 3122 ports: - &amp;#39;3143:443&amp;#39; - &amp;#39;3122:22&amp;#39; volumes: - &amp;#39;/srv/gitlab/config:/etc/gitlab&amp;#39; - &amp;#39;/srv/gitlab/logs:/var/log/gitlab&amp;#39; - &amp;#39;/srv/gitlab/data:/var/opt/gitlab&amp;#39; shm_size: &amp;#39;256m&amp;#39; 配置时区 进入容器，修改配置 /etc/gitlab/gitlab.</description>
+      <description>安装 Gitlab 安装 gitlab-ce 版本，当前最新版本为 17.2.0 配置 external_url 参考 https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 services: gitlab: image: gitlab/gitlab-ce container_name: gitlab restart: always hostname: &amp;#39;gitlab.example.com&amp;#39; environment: GITLAB_OMNIBUS_CONFIG: | external_url &amp;#39;https://gitlab.example.com&amp;#39; ports: - &amp;#39;80:80&amp;#39; - &amp;#39;443:443&amp;#39; - &amp;#39;22:22&amp;#39; volumes: - &amp;#39;/srv/gitlab/config:/etc/gitlab&amp;#39; - &amp;#39;/srv/gitlab/logs:/var/log/gitlab&amp;#39; - &amp;#39;/srv/gitlab/data:/var/opt/gitlab&amp;#39; shm_size: &amp;#39;256m&amp;#39; 停止本地的 sshd 和 nginx 服务，避免 22 、80、443端口备占用： 1</description>
     </item>
     <item>
       <title>Jenkins安装和部署-使用Docker</title>
       <link>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</link>
       <pubDate>Wed, 26 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</guid>
-      <description>使用 Docker 安装 $ docker volume create --name jenkins_data $ docker run -p 8080:8080 -p 50000:50000 -v jenkins_data:/var/jenkins_home jenkins/jenkins:jdk21 第一次启动 Jenkins 时，Docker 日志将包含如下消息：
-Jenkins initial setup is required. An admin user has been created and a password generated. Please use the following password to proceed to installation: 1883c809f01b4ed585fb5c3e0156543a This may also be found at: /var/jenkins_home/secrets/initialAdminPassword 那串随机的数字和字母是初始管理员密码，这是完成 Jenkins 配置所必需的。
-使用 Docker Compose 安装 services: jenkins: image: jenkins/jenkins:jdk21 ports: - &amp;#34;8080:8080&amp;#34; - &amp;#34;50000:50000&amp;#34; volumes: - jenkins_data:/var/jenkins_home - /var/run/docker.sock:/var/run/docker.sock - /etc/localtime:/etc/localtime:ro volumes: jenkins_data: 在 Docker 中下载并运行 Jenkins 参考 在 Docker 中下载并运行 Jenkins。
-定制官方 Jenkins Docker 镜像，例如，安装 curl、maven、docker-ce-cli
-FROM jenkins/jenkins:jdk21 USER root RUN apt-get update &amp;amp;&amp;amp; apt-get install -y curl maven lsb-release RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.</description>
+      <description>使用 Docker 安装 1 2 3 $ docker volume create --name jenkins_data $ docker run -p 8080:8080 -p 50000:50000 -v jenkins_data:/var/jenkins_home jenkins/jenkins:jdk21 第一次启动 Jenkins 时，Docker 日志将包含如下消息： 1 2 3 4 5 6 Jenkins initial setup is required. An admin user has been created and a password generated. Please use the following password to proceed to installation: 1883c809f01b4ed585fb5c3e0156543a This may also be found at: /var/jenkins_home/secrets/initialAdminPassword 那串随机的数字和字母是初始管</description>
     </item>
     <item>
       <title>Tengine动态裁剪图片</title>
       <link>https://blog.chensoul.cc/posts/2024/06/26/install-cert-manager/</link>
       <pubDate>Wed, 26 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/26/install-cert-manager/</guid>
-      <description>软件列表 Tengine：https://github.com/alibaba/tengine Lua：http://www.lua.org/ftp/ ，这里使用 lua-5.3.1.tar.gz LuaJIT：http://luajit.org/download.html ，这里使用 LuaJIT-2.0.4.tar.gz GraphicdMagick：https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/ ，这里使用 GraphicsMagick-1.3.18.tar.gz 安装Lua 先安装依赖：
-yum install readline readline-devel -y 解压文件
-tar -zxvf lua-5.3.1.tar.gz 进入目录，执行：
-cd lua-5.3.1 make linux &amp;amp;&amp;amp; make install 验证安装成功:
-lua -v 安装luaJIT 解压文件
-tar -zxvf LuaJIT-2.0.4.tar.gz 进入目录，执行：
-cd LuaJIT-2.0.4 make &amp;amp;&amp;amp; make install 安装tengine 安装依赖：
-yum -y install pcre-devel openssl openssl-devel 解压文件：
-unzip tengine-master.zip 进入目录，执行：
-cd tengine-master ./configure --prefix=/usr/local/Tengine --dso-path=/usr/local/Tengine/modules --with-http_realip_module --with-http_gzip_static_module \ --with-http_stub_status_module --with-http_concat_module \ --with-http_lua_module --http-proxy-temp-path=/var/tmp/Tengine/proxy_temp \ --http-fastcgi-temp-path=/var/tmp/Tengine/fastcgi_temp \ --http-uwsgi-temp-path=/var/tmp/Tengine/uwsgi_temp \ --http-scgi-temp-path=/var/tmp/Tengine/cgi_temp \ --http-client-body-temp-path=/var/tmp/Tengine/client_body_temp \ --http-log-path=/var/log/Tengine/access.log \ --error-log-path=/var/log/Tengine/error.log 再执行：
-make &amp;amp;&amp;amp; make install 验证安装成功:
-$ /usr/local/Tengine/sbin/nginx /usr/local/Tengine/sbin/nginx: error while loading shared libraries: libluajit-5.1.so.2: cannot open shared object file: No such file or directory 提示找不到文件，配置一个软连接：</description>
+      <description>软件列表 Tengine：https://github.com/alibaba/tengine Lua：http://www.lua.org/ftp/ ，这里使用 lua-5.3.1.tar.gz LuaJIT：http://luajit.</description>
     </item>
     <item>
       <title>搭建本地 Maven 仓库 Artifactory 开源版</title>
       <link>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</link>
       <pubDate>Tue, 25 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</guid>
-      <description>安装 Artifactory 官方下载安装地址：https://jfrog.com/community/download-artifactory-oss/ ，支持三种安装方式：
-Windows Installer Linux Installers tar.gz RPM Debian Docker Compose Docker Helm 手动下载并安装 安装包文件地址在 https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/ 。以当前最新版本 7.84.15 为例，在 linux 服务器上下载：
-wget https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/7.84.15/jfrog-artifactory-oss-7.84.15-linux.tar.gz tar -zxvf jfrog-artifactory-oss-7.84.15-linux.tar.gz cd jfrog-artifactory-oss-7.84.15/app/bin nohup ./artifactory.sh 通过 docker 安装 设置 JFROG_HOME 并创建目录：
-export JFROG_HOME=~/.jfrog mkdir -p $JFROG_HOME/artifactory/var/etc/ sudo chown -R 1030:1030 $JFROG_HOME/artifactory/var sudo chmod -R 777 $JFROG_HOME/artifactory/var touch $JFROG_HOME/artifactory/var/etc/system.yaml 配置数据库。参考 JFrog Recommends Using PostgreSQL ，Artifactory 7.84.7 之后，默认使用 postgresql 数据库。
-cat &amp;lt;&amp;lt;EOF &amp;gt; $JFROG_HOME/artifactory/var/etc/system.yaml shared: database: type: postgresql driver: org.postgresql.Driver url: jdbc:postgresql://192.168.2.39:5432/artifactory username: artifactory password: password EOF 如果需要使用其他数据库，需要修改配置文件，并添加 jdbc 驱动。例如，使用 mysql 数据库：
-cat &amp;lt;&amp;lt;EOF &amp;gt; $JFROG_HOME/artifactory/var/etc/system.yaml shared: database: allowNonPostgresql: true type: mysql driver: com.mysql.jdbc.Driver url: &amp;#34;jdbc:mysql://192.</description>
+      <description>安装 Artifactory 官方下载安装地址：https://jfrog.com/community/download-artifactory-oss/ ，支持三种安装方式： Windows Installer Linux Installers tar.gz RPM Debian Docker Compose Docker Helm 手动下载并安装 安装包文件地址</description>
     </item>
     <item>
       <title>搭建本地Maven仓库Nexus</title>
       <link>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</link>
       <pubDate>Tue, 25 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</guid>
-      <description>使用 Docker 安装 $ docker volume create --name nexus_data $ docker run -d -p 8081:8081--name nexus -v nexus_data:/nexus-data sonatype/nexus3 8081 是 Nexus UI 端口 使用 Docker Compose 安装 services: nexus: image: sonatype/nexus3 platform: linux/amd64 ports: - &amp;#34;8081:8081&amp;#34; volumes: - nexus_data:/nexus-data - /etc/localtime:/etc/localtime:ro volumes: nexus_data: 访问并配置 Nexus 访问 http://127.0.0.1:8081/ 或者是 http://&amp;lt;your IP&amp;gt;:8081，用户名为 admin ，初始密码在容器里的 /nexus-data/admin.password 文件
-docker ps # docker-nexus-1 为容器名称 docker exec -it docker-nexus-1 cat /nexus-data/admin.password 登录之后，将密码修改为自己的密码，比如：admin。
-开启匿名访问权限 依次点击【Security】&amp;ndash;【Realms】,将【Docker Bearer Token Tealm】添加到右侧，然后保存。
-创建 Maven 仓库 Nexus 提供三种类型的仓库：
-hosted : 本地存储
-proxy : 提供代理其他仓库的类型，如阿里云镜像加速器
-groudp : 组类型，实质作用是组合多个仓库为一个地址
-创建一个 maven(proxy) 仓库，名称：aliyun，Version Policy 选择 Mixed，URL 地址：https://maven.aliyun.com/nexus/content/groups/public/，并修改 maven-public 仓库，将 aliyun 加入 maven-public 的 Group 中。</description>
+      <description>使用 Docker 安装 1 2 3 $ docker volume create --name nexus_data $ docker run -d -p 8081:8081--name nexus -v nexus_data:/nexus-data sonatype/nexus3 8081 是 Nexus UI 端口 使用 Docker Compose 安装 1 2 3 4 5 6 7 8 9 10 11 12 services: nexus: image: sonatype/nexus3 platform: linux/amd64 ports: - &amp;#34;8081:8081&amp;#34; volumes: - nexus_data:/nexus-data - /etc/localtime:/etc/localtime:ro volumes: nexus_data: 访问并配置 Nexus 访问 http://127.0.0.1:8081/ 或者是 http://&amp;lt;your IP&amp;gt;:8081，用户名为 admin ，初始密码在</description>
     </item>
     <item>
       <title>Spring Boot项目创建Docker镜像并运行应用</title>
       <link>https://blog.chensoul.cc/posts/2024/06/06/spring-boot-docker-image/</link>
       <pubDate>Thu, 06 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/06/spring-boot-docker-image/</guid>
-      <description>手动创建 Dockerfile 添加 Dockerfile
-在您的 Spring Boot 项目根目录下创建一个名为 Dockerfile 的文件，并添加以下内容:
-# 使用 OpenJDK 21 作为基础镜像 FROM openjdk:21 # 设置工作目录 WORKDIR /app # 将 JAR 文件复制到容器中 COPY target/*.jar app.jar # 暴露 8080 端口 EXPOSE 8080 # 设置容器启动时执行的命令 ENTRYPOINT [&amp;#34;java&amp;#34;, &amp;#34;-jar&amp;#34;, &amp;#34;app.jar&amp;#34;] 这个 Dockerfile 将使用 OpenJDK 21 作为基础镜像，将编译后的 JAR 文件复制到容器中，并在容器启动时执行 java -jar app.jar 命令。
-使用 Google Distroless 基础镜像:
-Distroless 基础镜像是一种精简的 Linux 发行版,只包含应用程序运行所需的最小依赖项。 在 Dockerfile 中使用 gcr.io/distroless/java:11 作为基础镜像可以大幅减小最终镜像的体积。 如果 target 目录下存在多个 jar 文件，则可以在 dockerfile 同级添加一个 .dockerignore 文件忽略掉 *-sources.jar ：
-# Include any files or directories that you don&amp;#39;t want to be copied to your # container here (e.g., local build artifacts, temporary files, etc.</description>
+      <description>手动创建 Dockerfile 添加 Dockerfile 在您的 Spring Boot 项目根目录下创建一个名为 Dockerfile 的文件，并添加以下内容: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 使用 OpenJDK 21 作为基础镜像 FROM openjdk:21 # 设置工作目录 WORKDIR /app # 将 JAR 文件复制到容器中 COPY target/*.jar app.jar # 暴露 8080 端口 EXPOSE 8080 # 设置容</description>
     </item>
     <item>
       <title>Argo CD安装和部署</title>
       <link>https://blog.chensoul.cc/posts/2024/05/11/argocd/</link>
       <pubDate>Sat, 11 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/11/argocd/</guid>
-      <description>安装 ArgoCD 安装：
-$ kubectl create namespace argocd $ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml 查看安装是否成功，当argocd命名空间下Pod状态都为Running时表示安装成功。
-kubectl get pod -A 执行如下命令，将名为argocd-server的Service类型修改为NodePort。
-$ kubectl patch svc argocd-server -n argocd -p &amp;#39;{&amp;#34;spec&amp;#34;: {&amp;#34;type&amp;#34;: &amp;#34;NodePort&amp;#34;}}&amp;#39; service/argocd-server patched 查看修改结果。
-$ kubectl -n argocd get svc NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE argocd-applicationset-controller ClusterIP 10.43.184.106 &amp;lt;none&amp;gt; 7000/TCP,8080/TCP 24h argocd-dex-server ClusterIP 10.43.99.202 &amp;lt;none&amp;gt; 5556/TCP,5557/TCP,5558/TCP 24h argocd-metrics ClusterIP 10.43.47.99 &amp;lt;none&amp;gt; 8082/TCP 24h argocd-notifications-controller-metrics ClusterIP 10.43.58.49 &amp;lt;none&amp;gt; 9001/TCP 24h argocd-redis ClusterIP 10.43.70.36 &amp;lt;none&amp;gt; 6379/TCP 24h argocd-repo-server ClusterIP 10.43.40.224 &amp;lt;none&amp;gt; 8081/TCP,8084/TCP 24h argocd-server NodePort 10.43.180.135 &amp;lt;none&amp;gt; 80:31912/TCP,443:32728/TCP 24h argocd-server-metrics ClusterIP 10.43.5.195 &amp;lt;none&amp;gt; 8083/TCP 24h 通过 argocd-server Service访问Argo CD，直接使用节点IP:端口号访问即可。例如本示例中，端口号为32728。
-登录用户名为admin，密码可使用如下命令获取。</description>
+      <description>安装 ArgoCD 安装： 1 2 $ kubectl create namespace argocd $ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml 查看安装是否成功，当argocd命名空间下Pod状态都为Running时表示安装成功。 1 kubectl get pod -A 执行如下命令，将名为argocd-server的Service类</description>
     </item>
     <item>
       <title>K8s安装Cert Manager</title>
       <link>https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/</link>
       <pubDate>Fri, 10 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/</guid>
-      <description>cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。
-cert-manager 可以从各种证书颁发机构获取证书，包括： Let&amp;rsquo;s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。
-使用 cert-manager 的证书资源，私钥和证书存储在 Kubernetes Secret 中，该 Secret 由应用程序 Pod 挂载或由 Ingress 控制器使用。使用csi-driver、csi-driver-spiffe或istio-csr，私钥是在应用程序启动之前按需生成的；私钥永远不会离开节点，并且不会存储在 Kubernetes Secret 中。
-安装 参考官方文档：https://cert-manager.io/docs/installation/
-使用kubectl安装 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml 查看：
-$ kubectl get pods --namespace cert-manager 使用helm安装 添加 repo：
-helm repo add jetstack https://charts.jetstack.io --force-update helm repo update 安装 cert-manager：
-helm install cert-manager jetstack/cert-manager \ --namespace cert-manager \ --create-namespace \ --version v1.14.5 \ --set installCRDs=true 更多配置参数，参考：https://artifacthub.io/packages/helm/cert-manager/cert-manager
-查看状态
-$ kubectl -n cert-manager rollout status deploy/cert-manager deployment &amp;#34;cert-manager&amp;#34; successfully rolled out $ kubectl get pods -n cert-manager NAME READY STATUS RESTARTS AGE pod/cert-manager-5c47f46f57-k78l6 1/1 Running 0 91s pod/cert-manager-cainjector-6659d6844d-tr8rf 1/1 Running 0 91s pod/cert-manager-webhook-547567b88f-8lthd 1/1 Running 0 91s 使用helm3查看：</description>
+      <description>cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。 cert-manager 可以从各种证书颁发机构获取证书，包括： Let&amp;rsquo;s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。 使用 cert-manager 的证书资源，私钥</description>
     </item>
     <item>
       <title>Rancher安装和部署-使用K8s </title>
       <link>https://blog.chensoul.cc/posts/2024/05/10/install-rancher/</link>
       <pubDate>Fri, 10 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/10/install-rancher/</guid>
-      <description>前提条件 Kubernetes 集群：可以使用 RKE、RKE2、K3S 等工具安装集群 Ingress Controller：对于 RKE、RKE2 和 K3s，你不需要手动安装 Ingress Controller，因为它是默认安装的。 CLI 工具：安装 kubectl 和 helm 使用 docker 安装 Rancher mkdir -p /data/rancher docker run --name rancher --privileged -d --restart=unless-stopped -p 80:80 -p 443:443 -v /data/rancher:/var/lib/rancher/ rancher/rancher:stable docker logs -f rancher 使用 helm 安装 Rancher 参考：在 Kubernetes 集群上安装/升级 Rancher
-添加 Helm Chart 仓库，安装 cert-manager helm repo add rancher-stable https://releases.rancher.com/server-charts/stable helm repo add jetstack https://charts.jetstack.io helm repo update helm install cert-manager jetstack/cert-manager \ --namespace cert-manager \ --create-namespace \ --version v1.14.5 \ --set installCRDs=true kubectl get pods --namespace cert-manager 不同的证书配置需要使用不同的 Rancher 安装命令。 先创建命名空间：
-kubectl create namespace cattle-system 默认情况是使用 Rancher 生成 CA，并使用 cert-manager 颁发用于访问 Rancher Server 接口的证书。</description>
+      <description>前提条件 Kubernetes 集群：可以使用 RKE、RKE2、K3S 等工具安装集群 Ingress Controller：对于 RKE、RKE2 和 K3s，你不需要手动安装 Ingress Controller，因为它是默认安装的。 CLI 工具：安装 kubectl 和 helm 使用 docker</description>
     </item>
     <item>
       <title>All things about Drone</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-drone/</link>
       <pubDate>Thu, 09 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-drone/</guid>
-      <description>Drone by Harness ™ 是一个现代化的持续集成平台，使忙碌的团队能够使用强大的云原生管道引擎自动化其构建、测试和发布工作流程。
-Drone实践 Docker 容器环境下的持续集成最佳实践：构建基于 Drone + GitFlow + K8s 的云原生语义化 CI 工作流 容器环境持续集成优化，Drone CI 提速 500% 在Kubernetes上执行Drone CI/CD 玩转 Drone CI 基于 gogs/gitlab 和 drone 搭建的 CI/CD 平台 基于drone构建CI/CD系统,对接k8s 使用Drone构建静态博客
-Hugo + Gogs + Drone 搭建博客 How to build a Hugo static site automatically using Drone CI and Codeberg.org Static Website Generation on Steriods with Docker A HUGO PLUGIN FOR YOUR DRONE CI PIPELINE drone持续集成-发布github pages 视频教学 一天學會 DevOps 自動化測試及部署 </description>
+      <description>Drone by Harness ™ 是一个现代化的持续集成平台，使忙碌的团队能够使用强大的云原生管道引擎自动化其构建、测试和发布工作流程。 Drone实践 Docker 容器环境下的持续集成最佳实践：构建基于 Drone + GitFlow + K8s 的云原生语义化 CI 工作流 容器</description>
     </item>
     <item>
       <title>安装k3s</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s/</link>
       <pubDate>Thu, 09 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s/</guid>
-      <description>K3s 是轻量级的 Kubernetes。K3s 易于安装，仅需要 Kubernetes 内存的一半，所有组件都在一个小于 100 MB 的二进制文件中。
-k3s 文档：https://docs.rancher.cn/docs/k3s/_index
-K3s介绍 什么是 K3s？ K3s 是一个完全兼容的 Kubernetes 发行版，具有以下增强功能：
-打包为单个二进制文件。 使用基于 sqlite3 作为默认存储机制的轻量级存储后端。同时支持使用 etcd3、MySQL 和 Postgres。 封装在简单的启动程序中，可以处理很多复杂的 TLS 和选项。 默认情况下是安全的，对轻量级环境有合理的默认值。 添加了简单但强大的 batteries-included 功能，例如： 本地存储提供程序 service load balancer Helm controller Traefik ingress controller 所有 Kubernetes control plane 组件的操作都封装在单个二进制文件和进程中。因此，K3s 支持自动化和管理复杂的集群操作（例如证书分发等）。 最大程度减轻了外部依赖性，K3s 仅需要现代内核和 cgroup 挂载。K3s 打包了所需的依赖，包括： containerd Flannel (CNI) CoreDNS Traefik (Ingress) Klipper-lb (Service LB) 嵌入式网络策略控制器 嵌入式 local-path-provisioner 主机实用程序（iptables、socat 等） 为什么叫 K3s? 我们希望安装的 Kubernetes 只占用一半的内存。Kubernetes 是一个 10 个字母的单词，简写为 K8s。Kubernetes 的一半就是一个 5 个字母的单词，因此简写为 K3s。K3s 没有全称，也没有官方的发音。
-适用场景 K3s 适用于以下场景：
-边缘计算-Edge 物联网-IoT CI Development ARM 嵌入 K8s 由于运行 K3s 所需的资源相对较少，所以 K3s 也适用于开发和测试场景。在这些场景中，如果开发或测试人员需要对某些功能进行验证，或对某些问题进行重现，那么使用 K3s 不仅能够缩短启动集群的时间，还能够减少集群需要消耗的资源。与此同时，Rancher 中国团队推出了一款针对 K3s 的效率提升工具：AutoK3s。只需要输入一行命令，即可快速创建 K3s 集群并添加指定数量的 master 节点和 worker 节点。如需详细了解 AutoK3s，请参考AutoK3s 功能介绍。</description>
+      <description>K3s 是轻量级的 Kubernetes。K3s 易于安装，仅需要 Kubernetes 内存的一半，所有组件都在一个小于 100 MB 的二进制文件中。 k3s 文档：https://docs.rancher.cn/docs/k3s/_index K3</description>
     </item>
     <item>
       <title>通过k3d安装k3s</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3d/</link>
       <pubDate>Thu, 09 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3d/</guid>
-      <description>k3d是什么 k3d 是一个轻量级包装器，用于在 docker 中运行k3s（Rancher Lab 的最小 Kubernetes 发行版）。
-k3d 使得在 docker 中创建单节点和多节点k3s集群变得非常容易，例如用于 Kubernetes 上的本地开发。
-注意： k3d 是一个社区驱动的项目，但它不是官方 Rancher (SUSE) 产品。
-k3d安装 通过脚本安装：
-wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash macos 上通过homebrew安装：
-brew install k3d 查看帮助文档：
-$ k3d -h https://k3d.io/ k3d is a wrapper CLI that helps you to easily create k3s clusters inside docker. Nodes of a k3d cluster are docker containers running a k3s image. All Nodes of a k3d cluster are part of the same docker network. Usage: k3d [flags] k3d [command] Available Commands: cluster Manage cluster(s) completion Generate completion scripts for [bash, zsh, fish, powershell | psh] config Work with config file(s) help Help about any command image Handle container images.</description>
+      <description>k3d是什么 k3d 是一个轻量级包装器，用于在 docker 中运行k3s（Rancher Lab 的最小 Kubernetes 发行版）。 k3d 使得在 docker 中创建单节点和多节点k3s集群变得非常容易，例如用于 Kubernetes 上的本地开发。 注意： k3d 是一个社区驱动的项目，但</description>
     </item>
     <item>
       <title>通过k3sup安装k3s</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</link>
       <pubDate>Thu, 09 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</guid>
-      <description>k3sup是一个支持在PC、虚拟机、ARM设备上安装k3s的工具，官方网站：https://k3sup.dev/
-安装k3sup 在线安装：
-curl -sLS https://get.k3sup.dev | sh sudo install k3sup /usr/local/bin/ 离线安装，下载地址：https://github.com/alexellis/k3sup/releases
-wget https://github.com/alexellis/k3sup/releases/download/0.13.5/k3sup mv k3sup /usr/local/bin/ chmod +x /usr/local/bin/k3sup 查看版本：
-$ k3sup version _ _____ | | _|___ / ___ _ _ _ __ | |/ / |_ \/ __| | | | &amp;#39;_ \ | &amp;lt; ___) \__ \ |_| | |_) | |_|\_\____/|___/\__,_| .__/ |_| bootstrap K3s over SSH in &amp;lt; 60s 🚀 🚀 Speed up GitHub Actions/GitLab CI + reduce costs: https://actuated.dev Version: 0.13.5 Git Commit: d952d6df22b06147806ca1030b8ba3a4bb9e0c0c 创建k3s集群 创建一个本地集群 k3sup install \ --local \ --context localk3s \ --k3s-channel stable \ --k3s-extra-args &amp;#39;--docker&amp;#39; 查看集群状态：
-$ k3sup ready --context localk3s --kubeconfig .</description>
+      <description>k3sup是一个支持在PC、虚拟机、ARM设备上安装k3s的工具，官方网站：https://k3sup.dev/ 安装k3sup 在线安装： 1 2 curl -sLS https://get.k3sup.dev | sh sudo install k3sup /usr/local/bin/ 离线安装，下载地址：https://git</description>
     </item>
     <item>
       <title>[译]DevOps 和测试人员的 Git 面试问题</title>
       <link>https://blog.chensoul.cc/posts/2023/10/12/git-interview-questions/</link>
       <pubDate>Thu, 12 Oct 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/10/12/git-interview-questions/</guid>
-      <description>欢迎来到 Git 面试准备指南，我们将在这里向初学者和经验丰富的专业人士讨论最常见的 Git 面试问题。无论您是准备参加 DevOps 或测试面试，还是希望提高 Git 技能，此资源都可以通过深入研究一些与 Git 基本概念和实践相关的最常见面试问题来帮助您。
-我们将涵盖所有重要主题，例如分支、存储库管理、处理合并冲突和协作工作流程。通过探索这些问题，您将更深入地了解 Git 的版本控制系统，并更好地应对开发项目中的现实挑战。
-1.什么是版本控制系统？ 版本控制系统 (VCS) 是一种帮助跟踪和管理文件和代码随时间变化的软件。它允许多人协作处理一个项目，跟踪修订，并在需要时轻松恢复到以前的版本。
-版本控制系统主要分为三种类型：
-本地版本控制系统 (LVCS)：在 LVCS 中，版本控制数据库存储在本地计算机上。更改和修订在位于用户计算机上的本地存储库中进行跟踪。但此类系统缺乏协作功能，不利于团队开发。 集中版本控制系统 (CVCS)：在 CVCS 中，版本控制数据库存储在中央服务器上。用户可以从服务器检出文件、进行更改并将其提交回服务器。这允许多个用户在同一项目上进行协作，并提供对存储库的集中控制。然而，CVCS 的一个缺点是，如果中央服务器出现故障，协作者将无法执行某些操作，直到服务器恢复为止。 分布式版本控制系统 (DVCS)：在 DVCS 中，每个用户都有一个包含整个版本历史记录的本地存储库。这意味着每个用户都拥有项目存储库的完整副本，包括所有分支和修订。用户可以在本地存储库上独立工作，并与其他存储库同步更改。 DVCS 为分布式和分散式工作流程提供更好的支持，允许用户离线工作并更有效地协作。 2. Git 中的 Origin 是什么？ 在 Git 中，“origin”是指我们从中克隆的远程存储库。当我们从远程服务器克隆存储库时，Git 会自动创建一个名为“origin”的远程引用，该引用指向原始远程存储库。
-默认情况下，当我们克隆存储库时，Git 会设置“来源”并将其与我们克隆的原始存储库关联起来。我们可以通过运行命令“git remote -v”来验证这一点。此命令显示与本地存储库关联的远程存储库列表及其 URL。
-git remote -v origin https://github.com/lokeshgupta1981/Spring-Boot3-Demos.git (fetch) origin https://github.com/lokeshgupta1981/Spring-Boot3-Demos.git (push) 请注意，“origin”只是一个未硬编码的别名，可以使用以下命令提示符进行更改：
-git remote rename origin newName 3.我们如何在 Git 中配置全局用户名和电子邮件？ 设置全局一致的用户名和电子邮件地址非常重要，因为 Git 使用此信息将提交与正确的作者关联起来。它有助于识别每个提交的人员，并允许在项目内进行适当的协作和归属。
-要在 Git 中配置全局用户名和电子邮件，我们可以使用以下命令：
-git config --global user.name &amp;#34;MyName&amp;#34; git config --global user.email &amp;#34;myname@gmail.com&amp;#34; 这些命令将全局设置用户名和电子邮件，这意味着它们将用于您计算机上的所有 Git 存储库，除非在存储库级别覆盖。
-您可以通过运行以下命令来验证更改。这些命令将分别显示配置的用户名和电子邮件。
-git config --global user.name # Prints &amp;#39;lokeshgupta1981&amp;#39; git config --global user.email # Prints &amp;#39;howtodoinjava@gmail.com&amp;#39; 4.</description>
+      <description>欢迎来到 Git 面试准备指南，我们将在这里向初学者和经验丰富的专业人士讨论最常见的 Git 面试问题。无论您是准备参加 DevOps 或测试面试，还是希望提高 Git 技能，此资源都可以通过深入研究一些与 Git 基本概念和实践相关的最常见面试</description>
     </item>
     <item>
       <title>[译]关于 HTTP 您需要了解的一切</title>
       <link>https://blog.chensoul.cc/posts/2023/10/12/http-in-depth/</link>
       <pubDate>Thu, 12 Oct 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/10/12/http-in-depth/</guid>
-      <description>HTTP 是每个 Web 开发人员都应该了解的协议，因为它为整个 Web 提供动力。了解 HTTP 当然可以帮助您开发更好的应用程序。
-在本文中，我将讨论 HTTP 是什么、它是如何产生的、它今天的状况以及我们是如何走到这一步的
-什么是 HTTP？ 首先，什么是 HTTP？ HTTP 是基于 TCP/IP 的应用层通信协议，它标准化了客户端和服务器之间的通信方式。它定义了如何通过互联网请求和传输内容。通过应用层协议，我的意思是它只是一个标准化主机（客户端和服务器）通信方式的抽象层。 HTTP 本身依赖于 TCP/IP 来获取客户端和服务器之间的请求和响应。
-默认情况下，使用 TCP 端口 80，但也可以使用其他端口。然而，HTTPS 使用端口 443。
-HTTP/0.9 - One Liner (1991) HTTP 的第一个有记录的版本是 1991 年提出的 HTTP/0.9。它是有史以来最简单的协议；有一个名为 GET 的方法。如果客户端必须访问服务器上的某个网页，它会发出如下所示的简单请求
-GET /index.html 服务器的响应如下所示
-(response body) (connection closed) 也就是说，服务器将收到请求，回复 HTML 作为响应，一旦内容传输完毕，连接就会关闭。有
-无标题 GET 是唯一允许的方法 响应必须是 HTML 正如您所看到的，该协议实际上只不过是未来的踏脚石。
-HTTP/1.0 - 1996 1996 年，HTTP 的下一个版本（即 HTTP/1.0）得到了发展，比原始版本有了很大的改进。与仅针对 HTML 响应设计的 HTTP/0.9 不同，HTTP/1.0 现在也可以处理其他响应格式，即图像、视频文件、纯文本或任何其他内容类型。它添加了更多方法（即 POST 和 HEAD）、更改了请求/响应格式、将 HTTP 标头添加到请求和响应中、添加了状态代码来标识响应、引入了字符集支持、多部分类型、授权、缓存、内容编码等都包括在内。
-以下是示例 HTTP/1.0 请求和响应的样子：
-GET / HTTP/1.0 Host: cs.fyi User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) Accept: */* 正如您所看到的，除了请求之外，客户端还发送了它的个人信息、所需的响应类型等。而在 HTTP/0.9 中，客户端永远无法发送此类信息，因为没有标头。
-对上述请求的响应示例可能如下所示
-HTTP/1.0 200 OK Content-Type: text/plain Content-Length: 137582 Expires: Thu, 05 Dec 1997 16:00:00 GMT Last-Modified: Wed, 5 August 1996 15:55:28 GMT Server: Apache 0.</description>
+      <description>HTTP 是每个 Web 开发人员都应该了解的协议，因为它为整个 Web 提供动力。了解 HTTP 当然可以帮助您开发更好的应用程序。 在本文中，我将讨论 HTTP 是什么、它是如何产生的、它今天的状况以及我们是如何走到这一步的 什么是 HTTP？ 首</description>
     </item>
     <item>
       <title>Git Flow分支模型和使用</title>
       <link>https://blog.chensoul.cc/posts/2023/05/11/git-flow-model-and-usage/</link>
       <pubDate>Thu, 11 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/11/git-flow-model-and-usage/</guid>
-      <description>介绍 Git Flow 是由 Vincent Driessen 在 2010 年提出的一种 Git 工作流。在这之前，Git 没有一个明确的标准工作流，导致团队在使用 Git 时往往会遇到一些问题，如分支管理、版本控制等。为了解决这些问题，Vincent Driessen 提出了 Git Flow 分支模型，成为了 Git 在实际应用中的一种标准工作流。
-随着时间的推移，Git Flow 也在不断发展和完善。在 2011 年，Atlassian 发布了 SourceTree，这是一款图形化的 Git 客户端，支持 Git Flow 分支模型。在 2013 年，Git Flow 的一些开发者发布了 Git Flow AVH Edition，这是 Git Flow 的一个增强版本，提供了更多的功能和选项。此外，Git Flow 还得到了其他开源工具和平台的支持，如 GitHub、GitLab 等。
-Git Flow 分支模型 Git Flow 分支模型定义了一种标准的 Git 分支模型，它将代码分为两个长期分支（master 和 develop）和三个短期分支（feature、release 和 hotfix），使得团队可以更好地管理代码的版本和发布。
-以下是 Git Flow 分支模型的详细介绍：
-master 分支 master 分支是代码库的主分支，它包含了所有已发布的代码和版本。所有代码都应该在该分支上进行测试和验证，以确保代码的质量和稳定性。master分支只能通过合并release或hotfix分支来更新。 develop 分支 develop 分支是代码库的开发分支，它包含了所有开发中的代码和功能。所有新的代码都应该在该分支上进行开发和测试，以确保代码的可靠性和稳定性。develop分支只能通过合并feature分支来更新。 feature 分支 feature 分支是为开发新的功能或修复 bug 而创建的临时分支。每个feature分支都是从develop分支分离出来的，开发完成后会合并回develop分支。feature 分支的命名应该清晰明确，以反映该分支所涉及的功能或问题。 release 分支 release 分支是为发布新版本而创建的临时分支。每个release分支都是从develop分支分离出来的，发布完成后会合并回develop分支和master分支。在 release 分支上可以进行一些小的修复和调整，以确保发布的代码的质量和稳定性。 hotfix 分支 hotfix 分支是为快速修复生产环境中的问题而创建的临时分支。每个 hotfix 分支都是从 master 分支分离出来的，修复完成后会合并回 develop 分支和 master 分支。hotfix分支的优先级比其他分支更高，因为它们需要尽快修复生产环境中的问题。 根据上面的理论，我们来实际操作一遍。首先，是 develop 分支创建一个 feature 分支。</description>
+      <description>介绍 Git Flow 是由 Vincent Driessen 在 2010 年提出的一种 Git 工作流。在这之前，Git 没有一个明确的标准工作流，导致团队在使用 Git 时往往会遇到一些问题，如分支管理、版本控制等。为了解决这些问题，Vincent Driessen 提出了 Git Flow 分支模型，</description>
     </item>
     <item>
       <title>我的VPS服务部署记录</title>
       <link>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</link>
       <pubDate>Wed, 25 Jan 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid>
-      <description>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。
-服务器设置 更新 yum 源：
-yum update 安装常用软件：
-yum install wget curl git vim -y 设置时区为
-[可选] 设置系统 Swap 交换分区
-因为 vps 服务器的运行内存很小，所以这里先设置下 Swap
-# 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile &amp;amp;&amp;amp; \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 &amp;amp;&amp;amp; \ sudo chmod 600 /swapfile &amp;amp;&amp;amp; \ sudo mkswap /swapfile &amp;amp;&amp;amp; \ sudo swapon /swapfile &amp;amp;&amp;amp; \ echo &amp;#34;/swapfile swap swap defaults 0 0&amp;#34; | sudo tee -a /etc/fstab &amp;amp;&amp;amp; \ sudo swapon --show &amp;amp;&amp;amp; \ sudo free -h 安装 Nginx 参考 CentOS 7 下 yum 安装和配置 Nginx ，使用 yum 安装：</description>
+      <description>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。 服务器设置 更新 yum 源： 1 yum update 安装常用软件： 1 yum install wget curl git vim -y 设置时区为 [可选] 设置系统 Swap 交换分区 因为 vps 服务器的运行内存很小，所以这里先设置下 Swap 1 2 3 4 5</description>
     </item>
     <item>
       <title>Mac开发环境配置</title>
       <link>https://blog.chensoul.cc/posts/2021/09/09/mac-development-environment-setup/</link>
       <pubDate>Thu, 09 Sep 2021 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2021/09/09/mac-development-environment-setup/</guid>
-      <description>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是 Mac 开发环境，所以，这篇文章主要是基于 Mac 操作系统，记录开发环境搭建过程。
-系统设置 dotfile 配置 下载 dotfile 文件：
-git clone git@github.com:chensoul/snippets.git 拷贝到用户目录：
-cd dotfiles sh bootstrap.sh macos 系统设置：
-. .macos 安装软件 安装 brew、nvs sh install.sh 安装 MySQL 安装 MySQL：
-# 搜索可以安装的版本 ➜ brew search mysql # 安装对应的版本 ➜ brew install mysql@5.7 # 写入环境变量 echo &amp;#39;export PATH=&amp;#34;/opt/homebrew/opt/mysql@5.7/bin:$PATH&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.zshrc # 为了让编译器找到 mysql@5.7 还需要写入 echo &amp;#39;export LDFLAGS=&amp;#34;-L/opt/homebrew/opt/mysql@5.7/lib&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.zshrc echo &amp;#39;export CPPFLAGS=&amp;#34;-I/opt/homebrew/opt/mysql@5.7/include&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.zshrc # 为了让 pkg-config 找到 mysql@5.7 还需要写入 echo &amp;#39;PKG_CONFIG_PATH=&amp;#34;/opt/homebrew/opt/mysql@5.7/lib/pkgconfig&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.zshrc MySQL 服务相关：
-# 查看 MySQL 服务状态 ➜ brew services info mysql@5.7 ➜ mysql.server status # 启动 MySQL 服务 ➜ brew services start mysql@5.7 ➜ mysql.server start # 重启 MySQL 服务 ➜ brew services restart mysql@5.</description>
+      <description>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是 Mac 开发环境，所以，这篇文章主要是基于 Mac 操作系统，记录开发环境搭建过程。 系统设置 dotfile 配置 下载 dotfile 文件： 1 git clone git@github.com:chensoul/snippets.git 拷贝到用</description>
     </item>
   </channel>
 </rss>

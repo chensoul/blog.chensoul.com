@@ -6,46 +6,8 @@
     <description>Recent content in Java on ChenSoul</description>
     <generator>Hugo -- 0.134.3</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 27 Aug 2024 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 05 Aug 2024 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/java/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>ThingsBoard源码编译和Idea运行</title>
-      <link>https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/</link>
-      <pubDate>Tue, 27 Aug 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/</guid>
-      <description>&lt;p&gt;ThingsBoard 源码地址：&lt;a href=&#34;https://github.com/thingsboard/thingsboard&#34; target=&#34;_blank&#34;&gt;https://github.com/thingsboard/thingsboard&lt;/a&gt;，从 &lt;a href=&#34;https://github.com/thingsboard/thingsboard/releases/tag/v3.7&#34; target=&#34;_blank&#34;&gt;3.7&lt;/a&gt; 版本之后，要求 JDK17。官方提供了源码编译的文档：&lt;a href=&#34;https://thingsboard.io/docs/user-guide/install/building-from-source/&#34; target=&#34;_blank&#34;&gt;Building from sources&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;源码编译&#34;&gt;源码编译&lt;/h2&gt;
-&lt;p&gt;下载代码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone git@github.com:thingsboard/thingsboard.git
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;设置当前 JDK 版本为 17 以上。这里我使用 sdkman 切换 java。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sdk use java 17.0.12-tem
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;终端编译源码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; thingsboard
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mvn clean install -Dmaven.test.skip&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;如果在编译过程中提示找不到 Gradle：&lt;/p&gt;</description>
-    </item>
     <item>
       <title>[译]领域驱动设计速成课程</title>
       <link>https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-domain-driven-design/</link>
@@ -55,53 +17,6 @@
 &lt;p&gt;为复杂领域开发软件是一项具有挑战性的任务。&lt;/p&gt;
 &lt;p&gt;随着问题领域的复杂性不断增长，创建准确表示业务概念、规则和流程的软件变得越来越困难。设计不良的软件很快就会变成难以理解、难以维护和扩展的混乱代码。&lt;/p&gt;
 &lt;p&gt;领域驱动设计（DDD）为这个问题提供了解决方案。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Github Action 发布 Jar 到 Maven 中央仓库</title>
-      <link>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</link>
-      <pubDate>Thu, 01 Aug 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</guid>
-      <description>&lt;p&gt;作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。&lt;/p&gt;
-&lt;p&gt;在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>将 Maven 站点发布到 GitHub Pages</title>
-      <link>https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/</link>
-      <pubDate>Thu, 18 Jul 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/</guid>
-      <description>&lt;p&gt;本文源代码：&lt;a href=&#34;https://github.com/chensoul/maven-site-github-example/&#34; target=&#34;_blank&#34;&gt;https://github.com/chensoul/maven-site-github-example/&lt;/a&gt; 。&lt;/p&gt;
-&lt;h2 id=&#34;创建-java-maven-项目&#34;&gt;创建 Java Maven 项目&lt;/h2&gt;
-&lt;p&gt;让我们使用 Maven 创建一个简单的 Java 项目&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mvn archetype:generate &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DgroupId&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;com.mycompany.app &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DartifactId&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;maven-site-github-example &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DarchetypeArtifactId&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;maven-archetype-quickstart &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DarchetypeVersion&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;1.4 &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DinteractiveMode&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;false&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这将创建包含 Maven 项目的&lt;em&gt;my-app&lt;/em&gt;文件夹。让我们进入该文件夹并确保它编译正常：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; maven-site-github-example
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mvn clean verify
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;我们还可以生成该项目的站点：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译][译]OAuth2 with Spring 第5部分：使用PKCE保护您的Spring Boot应用程序以增强安全性</title>
@@ -133,207 +48,12 @@
       <description>&lt;p&gt;原文地址：https://mainul35.medium.com/oauth2-with-spring-part-4-spring-authorization-client-social-login-demo-with-google-be6097ec18a5&lt;/p&gt;</description>
     </item>
     <item>
-      <title>[译]如何组织代码</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/30/how-to-structure-our-code/</link>
-      <pubDate>Thu, 30 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/30/how-to-structure-our-code/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://medium.com/@minadev/how-to-structure-our-code-b5e7b1c32c21&#34; target=&#34;_blank&#34;&gt;How to Structure Code&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;软件设计最佳实践，逐层发现包、按功能发现包以及六角形架构/端口和适配器。&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;在这篇博文中，我将探讨如何构建我们的代码并讨论最佳实践，涵盖三种不同的方法：按层打包、按功能打包以及六边形架构/端口和适配器及其优缺点。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>All things about Spring Modulith</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-spring-modulith/</link>
-      <pubDate>Thu, 09 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-spring-modulith/</guid>
-      <description>&lt;p&gt;VMware 推出了一个实验性的项目&lt;a href=&#34;https://spring.io/projects/spring-modulith&#34; target=&#34;_blank&#34;&gt;Spring Modulith&lt;/a&gt;，以便于通过模块和事件更好地组织 Spring Boot 3 应用。该项目引入了新的类和注解，但并不会生成代码。它的模块没有使用 Java Platform Module System（JPMS），而是映射到了普通的 Java 包。模块有 API，但是 Spring Modulith 鼓励使用 Spring 应用事件作为“主要的交互方式”。这些事件可以自动持久化到事件日志中。Spring Modulith 还简化了模块和事件的测试。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]比较 Socket.IO 和 HTTP：主要区别和用例</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/08/socketio-vs-http/</link>
-      <pubDate>Wed, 08 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/08/socketio-vs-http/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/socketio-vs-http&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/socketio-vs-http&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;在规划实时应用程序时，您应该仔细考虑要使用哪些技术。本文对&lt;a href=&#34;https://ably.com/topic/socketio&#34; target=&#34;_blank&#34;&gt;Socket.IO&lt;/a&gt;实时库和&lt;a href=&#34;https://ably.com/topic/websockets-vs-http#http&#34; target=&#34;_blank&#34;&gt;HTTP&lt;/a&gt;协议进行了比较。下面您将了解每种解决方案的功能、每种解决方案的优缺点以及何时使用它们。&lt;/p&gt;
-&lt;h2 id=&#34;什么是socketio&#34;&gt;什么是Socket.IO？&lt;/h2&gt;
-&lt;p&gt;Socket.IO 是一个创建于 2010 年的库，提供客户端和服务器之间的实时双向通信。它允许管理连接、发送和接收消息等等。这使得 Socket.IO 成为构建消息/聊天应用程序的理想选择。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]2024年最好的WebSocket替代品</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/websocket-alternatives/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/websocket-alternatives/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/websocket-alternatives&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websocket-alternatives&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;什么是-websocket&#34;&gt;什么是 WebSocket？&lt;/h2&gt;
-&lt;p&gt;简而言之，WebSocket 是一种实时 Web 技术，可通过持久连接在客户端和服务器之间实现双向、全双工通信。 WebSocket 连接会根据需要保持活动状态（理论上，它可以永远持续），从而允许服务器和客户端以最小的开销随意发送数据。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]Apache Kafka、RabbitMQ 与 AWS SNSSQS：哪个消息代理最好？</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;将消息从一个组件获取到另一个组件是微服务架构中最重要的部分之一。每个服务必须能够与任何其他服务异步、可靠且大规模地通信。&lt;/p&gt;
-&lt;p&gt;这就是消息代理的用武之地。消息代理（例如 Apache Kafka、RabbitMQ 和&lt;a href=&#34;https://ably.com/topic/aws-sns-vs-sqs&#34; target=&#34;_blank&#34;&gt;AWS SNS/SQS&lt;/a&gt;）为您提供一个通用接口和一组保证，而不是手动协调可能数千个微服务之间的通信。这简化了集成并更容易推理您的系统。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]HTTP 的演变 – HTTP2 深入探讨</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/http2/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/http2/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/http2&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/http2&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;可以毫不夸张地说，超文本传输协议 (HTTP) 造就了我们所熟知的互联网。 HTTP 最初是由万维网的发明者蒂姆·伯纳斯·李 (Tim Berners-Lee) 于 1989 年提出的应用程序协议。第一个记录版本 HTTP/0.9 被称为单行协议。鉴于它催生了万维网，它现在可以被描述为有史以来最伟大的俏皮话。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]Java和WebSockets：构建可靠的实时应用程序</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/websockets-java/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/websockets-java/</guid>
-      <description>&lt;p&gt;原文：&lt;a href=&#34;https://ably.com/topic/websockets-java&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websockets-java&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;在全球范围内，人们对实时传输数据的需求不断增长，&lt;a href=&#34;https://ably.com/topic/websockets&#34; target=&#34;_blank&#34;&gt;WebSocket&lt;/a&gt;可能是此类用例中最流行的传输协议。在 WebSocket 出现之前，“实时”网络已经存在，但它很难实现，通常速度较慢，并且是通过破解现有的网络技术来实现的，而这些技术并不是为实时应用程序设计的。 WebSocket 协议为真正的实时网络铺平了道路。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]WebSocket API和协议说明</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/the-websocket-api-and-protocol-explained/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/the-websocket-api-and-protocol-explained/</guid>
-      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://ably.com/topic/websockets&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websockets&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;WebSocket 标志着 Web 开发的转折点。 WebSocket 技术旨在以事件为驱动，并针对低延迟进行了优化，已成为许多寻求构建交互式实时数字体验以提供令人愉悦的用户体验的组织和开发人员的首选。本文探讨了与 WebSocket 相关的关键主题：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://ably.com/topic/websockets#web-sockets-the-web-socket-protocol-and-api-explained&#34; target=&#34;_blank&#34;&gt;WebSocket 协议和 API 解释&lt;/a&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]WebSocket与HTTP：2024年为您的项目选择哪一个</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/websockets-vs-http/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/websockets-vs-http/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/websockets-vs-http&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websockets-vs-http&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;当谈到 WebSocket 与 HTTP 时，决定使用哪一种并不总是那么明确。哪一个更好？您的应用程序应该使用哪一款？&lt;/p&gt;
-&lt;p&gt;但问题的答案不一定是其中之一 - 开发人员经常根据场景在同一个应用程序中同时使用 WebSocket 和 HTTP。更重要的问题是 - 我如何确定 WebSockets 还是 HTTP 是特定类型通信的正确通信协议？&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]WebSocket与REST</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/websocket-vs-rest/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/websocket-vs-rest/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/websocket-vs-rest&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websocket-vs-rest&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;无论您是将客户端连接到服务器、将微服务相互连接，还是将应用程序的一部分连接到外部服务，在通信方法方面，您几乎都会有多种选择。不过，有两个比较突出：WebSocket 和 REST。&lt;/p&gt;
-&lt;p&gt;好消息是，尽管为应用程序选择核心技术是一项严肃的责任，但由于 WebSocket 和 REST 不同的架构选择、性能特征和实现考虑因素，在 WebSocket 和 REST 之间进行选择相对简单。这意味着双方都可以解决对方可能遇到的问题。&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>[译]如何通过 WebSocket 将 Kafka 消息流式传输到面向互联网的客户端</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/websockets-kafka/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/websockets-kafka/</guid>
       <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/websockets-kafka&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websockets-kafka&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Apache Kafka 是目前最强大的异步消息传递技术之一。 Kafka 由 Jay Kreps、Jun Rao 和 Neha Narkhede 等团队于 2010 年在 LinkedIn 设计，并于 2011 年初开源。如今，该工具被众多公司（包括科技巨头，例如 Slack、Airbnb 或 Netflix 使用）为其实时数据流管道提供支持。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>ThingsBoard的领域模型</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/</guid>
-      <description>&lt;p&gt;ThingsBoard是一个开源的物联网平台，用于管理和监控物联网设备和数据。它提供了一个可扩展的架构，可以连接各种设备，并实时收集、处理和分析设备生成的数据。&lt;/p&gt;
-&lt;h2 id=&#34;领域模型&#34;&gt;领域模型&lt;/h2&gt;
-&lt;p&gt;在ThingsBoard中，领域模型是一个关键概念，用于描述物联网系统中的物理实体、属性和行为。以下是ThingsBoard中的主要领域模型组件：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>All things about ThingsBoard</title>
-      <link>https://blog.chensoul.cc/posts/2024/04/29/all-things-about-thingsboard/</link>
-      <pubDate>Mon, 29 Apr 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/04/29/all-things-about-thingsboard/</guid>
-      <description>&lt;p&gt;thingsboard 是一款乌克兰团队基于java语言研发的开源物联网框架，开源的是ce版，企业版需要购买授权且无源码。&lt;/p&gt;
-&lt;p&gt;官方网站：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Thingsboard 官网：&lt;a href=&#34;https://thingsboard.io/&#34; target=&#34;_blank&#34;&gt;https://thingsboard.io/&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Thingsboard社区免费版本：&lt;a href=&#34;https://demo.thingsboard.io/&#34; target=&#34;_blank&#34;&gt;https://demo.thingsboard.io/&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Thingsboard 企业付费版本：&lt;a href=&#34;https://thingsboard.cloud/&#34; target=&#34;_blank&#34;&gt;https://thingsboard.cloud/&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Thingsboard 源码：&lt;a href=&#34;https://github.com/thingsboard/thingsboard&#34; target=&#34;_blank&#34;&gt;https://github.com/thingsboard/thingsboard&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;TBMQ 源码：&lt;a href=&#34;https://github.com/thingsboard/tbmq&#34; target=&#34;_blank&#34;&gt;https://github.com/thingsboard/tbmq&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;中文网：&lt;a href=&#34;http://www.ithingsboard.com/&#34; target=&#34;_blank&#34;&gt;http://www.ithingsboard.com/&lt;/a&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>TBMQ测试和源码分析</title>
-      <link>https://blog.chensoul.cc/posts/2024/04/28/thingsboard-tbmq-test/</link>
-      <pubDate>Sun, 28 Apr 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/04/28/thingsboard-tbmq-test/</guid>
-      <description>&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;启动 TBMQ 程序，浏览器访问 http://localhost:8083，创建一个 Application，Credentials Type 为   BASIC，客户端 ID、用户名和密码均设置为 tbmq_app&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;使用 mosquitto 测试订阅消息&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mosquitto_sub -d -q &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; -h localhost -p &lt;span class=&#34;m&#34;&gt;1883&lt;/span&gt; -t tbmq/demo/+ -i &lt;span class=&#34;s1&#34;&gt;&amp;#39;tbmq_app&amp;#39;&lt;/span&gt; -u &lt;span class=&#34;s1&#34;&gt;&amp;#39;tbmq_app&amp;#39;&lt;/span&gt; -P &lt;span class=&#34;s1&#34;&gt;&amp;#39;tbmq_app&amp;#39;&lt;/span&gt; -c -v
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Debug 调试 MqttSessionHandler 类的 &lt;code&gt;channelRead(ChannelHandlerContext ctx, Object msg)&lt;/code&gt; 方法&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>ThingsBoard TBMQ本地和通过Docker运行</title>
-      <link>https://blog.chensoul.cc/posts/2024/04/17/thingsboard-tbmq-local-docker-run/</link>
-      <pubDate>Wed, 17 Apr 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/04/17/thingsboard-tbmq-local-docker-run/</guid>
-      <description>&lt;h2 id=&#34;docker-compose-运行&#34;&gt;docker-compose 运行&lt;/h2&gt;
-&lt;p&gt;参考：&lt;a href=&#34;https://thingsboard.io/docs/mqtt-broker/install/cluster/docker-compose-setup/&#34; target=&#34;_blank&#34;&gt;https://thingsboard.io/docs/mqtt-broker/install/cluster/docker-compose-setup/&lt;/a&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;下载源代码&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone -b release-1.3.0 https://github.com/thingsboard/tbmq.git
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; tbmq/docker
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;创建逻辑卷并执行安装程序&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./scripts/docker-create-volumes.sh
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./scripts/docker-install-tbmq.sh
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;运行服务&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./scripts/docker-start-services.sh
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;浏览器访问：&lt;a href=&#34;http://localhost:8083&#34; target=&#34;_blank&#34;&gt;http://localhost:8083&lt;/a&gt;，用户名/密码：sysadmin@thingsboard.org / sysadmin&lt;/p&gt;
-&lt;p&gt;查看 HaProxy 日志，发现出现异常：&lt;code&gt;Error: Specified qdisc kind is unknown.&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;目前，尚未找到解决办法，只能不使用 HaProxy 而是直接访问 tbmq1，修改 docker-compose.yml ，暴露容器端口 8083 到本地的 8083：&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Circuit Breaker</title>
@@ -523,20 +243,6 @@
       <description>&lt;p&gt;本文主要介绍 Acyclic Visitor 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>周报-21｜Python之禅、产品经理被优化、端午节送节</title>
-      <link>https://blog.chensoul.cc/posts/2023/05/31/weekly_review_21/</link>
-      <pubDate>Wed, 31 May 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/05/31/weekly_review_21/</guid>
-      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-21-00.jpg&#34; alt=&#34;weekly-review-21-00&#34;  /&gt;
-&lt;/p&gt;
-&lt;p&gt;
-  &lt;center&gt;&lt;i&gt;公司价值观&lt;/i&gt;&lt;/center&gt;
-&lt;/p&gt;
-&lt;p&gt;本篇是对 &lt;code&gt;2023-05-22&lt;/code&gt; 到 &lt;code&gt;2023-05-28&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
-&lt;p&gt;周一，休产假的产品经理回来上班，得知她被优化之后，内心有些不舍和伤感。中午，组长请大家一起吃了饭。晚上，产品经理交割完办公用户之后，就没来上班了。自此，过完年后，公司至少有三位女同事修完产假之后就离职了，有的是主动，更多的应该是被动。虽然有 N+1 赔偿，但是，这个社会对女性还是不够公平。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记12：当覆盖 equals 方法时，总要覆盖 hashCode 方法</title>

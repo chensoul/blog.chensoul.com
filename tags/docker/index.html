@@ -18,14 +18,7 @@ Java 入门指南教您如何使用 Docker 创建容器化的 Spring Boot 应用
 ...</p></div><footer class=entry-footer><span title='2023-08-16 00:00:00 +0800 CST'>2023-08-16</span>&nbsp;·&nbsp;8 min&nbsp;·&nbsp;3818 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]为 Spring Boot 应用程序创建优化的 Docker 映像" href=https://blog.chensoul.cc/posts/2023/08/16/spring-boot-docker/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>[译]Build Robust Continuous Integration With Docker and Friends</h2></header><div class=entry-content><p>持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。
 Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发送每次提交的代码。
 在本教程中，您将学习如何使用 Docker 为 Flask Web 应用程序创建强大的持续集成管道。
-...</p></div><footer class=entry-footer><span title='2023-05-22 00:00:00 +0800 CST'>2023-05-22</span>&nbsp;·&nbsp;82 min&nbsp;·&nbsp;40594 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]Build Robust Continuous Integration With Docker and Friends" href=https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>我的VPS服务部署记录</h2></header><div class=entry-content><p>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。
-服务器设置 更新 yum 源：
-1 yum update 安装常用软件：
-1 yum install wget curl git vim -y 设置时区为
-[可选] 设置系统 Swap 交换分区
-因为 vps 服务器的运行内存很小，所以这里先设置下 Swap
-1 2 3 4 5 6 7 8 9 # 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile && \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 && \ sudo chmod 600 /swapfile && \ sudo mkswap /swapfile && \ sudo swapon /swapfile && \ echo "/swapfile swap swap defaults 0 0" | sudo tee -a /etc/fstab && \ sudo swapon --show && \ sudo free -h 安装 Nginx 参考 CentOS 7 下 yum 安装和配置 Nginx ，使用 yum 安装：
-...</p></div><footer class=entry-footer><span title='2023-01-25 00:00:00 +0800 CST'>2023-01-25</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;2755 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to 我的VPS服务部署记录" href=https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/></a></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
+...</p></div><footer class=entry-footer><span title='2023-05-22 00:00:00 +0800 CST'>2023-05-22</span>&nbsp;·&nbsp;82 min&nbsp;·&nbsp;40594 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to [译]Build Robust Continuous Integration With Docker and Friends" href=https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/></a></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
         <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>

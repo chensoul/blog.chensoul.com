@@ -3,14 +3,7 @@
 <a href=/tags/memos/index.xml title=RSS aria-label=RSS><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" height="23"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></h1></header><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>周报-7｜练车、博客优化、注册ChatGPT账号</h2></header><div class=entry-content><p>前言 本篇是对 2023-02-13 到 2023-02-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。
 练车 这周末开始练车，周六是第一次开自己的车，简单试驾了一样；周日则开了一百多公里，具体行程是从阳逻到新洲，从新洲单汉口，从汉口到光谷，从光谷回汉口。
 这途中走了江北快速公路、二环、二七长江大桥、东湖隧道，从白天开到晚上夜行，经历过堵车，路上看到车祸后的事故现场。
-...</p></div><footer class=entry-footer><span title='2023-02-21 00:00:00 +0800 CST'>2023-02-21</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;2536 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to 周报-7｜练车、博客优化、注册ChatGPT账号" href=https://blog.chensoul.cc/posts/2023/02/21/weekly_review_7/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>我的VPS服务部署记录</h2></header><div class=entry-content><p>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。
-服务器设置 更新 yum 源：
-1 yum update 安装常用软件：
-1 yum install wget curl git vim -y 设置时区为
-[可选] 设置系统 Swap 交换分区
-因为 vps 服务器的运行内存很小，所以这里先设置下 Swap
-1 2 3 4 5 6 7 8 9 # 1GB RAM with 2GB Swap sudo fallocate -l 2G /swapfile && \ sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152 && \ sudo chmod 600 /swapfile && \ sudo mkswap /swapfile && \ sudo swapon /swapfile && \ echo "/swapfile swap swap defaults 0 0" | sudo tee -a /etc/fstab && \ sudo swapon --show && \ sudo free -h 安装 Nginx 参考 CentOS 7 下 yum 安装和配置 Nginx ，使用 yum 安装：
-...</p></div><footer class=entry-footer><span title='2023-01-25 00:00:00 +0800 CST'>2023-01-25</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;2755 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to 我的VPS服务部署记录" href=https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/></a></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
+...</p></div><footer class=entry-footer><span title='2023-02-21 00:00:00 +0800 CST'>2023-02-21</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;2536 words&nbsp;·&nbsp;chensoul</footer><a class=entry-link aria-label="post link to 周报-7｜练车、博客优化、注册ChatGPT账号" href=https://blog.chensoul.cc/posts/2023/02/21/weekly_review_7/></a></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
         <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>

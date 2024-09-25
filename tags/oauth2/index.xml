@@ -173,69 +173,6 @@
 &lt;p&gt;扩展 BearerTokenExtractor，支持从 request 请求的 header 中读取 access_token&lt;/p&gt;</description>
     </item>
     <item>
-      <title>2023-12-22｜今天做了什么</title>
-      <link>https://blog.chensoul.cc/posts/2023/12/22/til/</link>
-      <pubDate>Fri, 22 Dec 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/12/22/til/</guid>
-      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;我使用的 Idea 插件。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;springdoc-openapi v1.7.0 示例&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Spring Security OAuth Boot 2 Autoconfig 转换成 maven 项目，并添加示例&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;idea&#34;&gt;Idea&lt;/h2&gt;
-&lt;p&gt;1、插件&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;GenerateSerialVersionUID：自动生成 serialVersionUID&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;MicroProfile Starter：创建 MicroProfile 微服务应用&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Easy Javadoc：快速生成 Javadoc&lt;/p&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;快捷键&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;作用域&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;说明&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl \&lt;/code&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;类、方法、属性（光标放上面就行，不要双击选中！）&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;生成当前文档注释&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl \&lt;/code&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;选中的&lt;/strong&gt;中文&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;生成选中的中文的英文命名&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl \&lt;/code&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;选中的&lt;/strong&gt;非中文&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;弹框展示翻译结果&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl shift \&lt;/code&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;类&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;生成全部文档注释&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;.ignore&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>2023-12-21｜Spring Security对OAuth2的支持及实现方式</title>
       <link>https://blog.chensoul.cc/posts/2023/12/21/til/</link>
       <pubDate>Thu, 21 Dec 2023 00:00:00 +0800</pubDate>
@@ -286,6 +223,15 @@
       <description>&lt;h1 id=&#34;概述&#34;&gt;概述&lt;/h1&gt;
 &lt;p&gt;在本文中，我们将创建一个授权服务器，为任何客户端生成 access_token。这称为 OAuth2 的 &lt;code&gt;client_credentials&lt;/code&gt; 流程。它主要用于服务间通信。&lt;/p&gt;
 &lt;p&gt;我们将使用 spring boot oauth2 授权服务器依赖项来创建身份验证服务器。我们还将创建一个资源服务器和客户端来对其进行端到端测试。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[译]在 Spring 中实现 OAuth2：使用范围（第 2 部分）</title>
+      <link>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring-scopes/</link>
+      <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring-scopes/</guid>
+      <description>&lt;p&gt;我们在&lt;a href=&#34;https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring/&#34;&gt;上一篇文章&lt;/a&gt;中了解了基本的 OAuth2 概念以及如何在 Spring 中实现和执行不同的授权。在这篇文章中，我们将介绍 OAuth2 的另一个重要概念：范围。&lt;/p&gt;
+&lt;h2 id=&#34;oauth-范围&#34;&gt;OAuth 范围&lt;/h2&gt;
+&lt;p&gt;保护对应用程序的访问通常分两个步骤进行：身份验证和授权。要理解这两个概念，假设您在绝密政府大楼工作。在开始之前，你会得到一张卡片，可以让你进入建筑物。 OAuth 令牌可以看作是允许您访问的卡片。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]在 Spring 中实现 OAuth2：第 1 部分</title>

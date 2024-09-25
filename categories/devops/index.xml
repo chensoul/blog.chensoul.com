@@ -4,7 +4,7 @@
     <title>Devops on ChenSoul</title>
     <link>https://blog.chensoul.cc/categories/devops/</link>
     <description>Recent content in Devops on ChenSoul</description>
-    <generator>Hugo -- 0.133.1</generator>
+    <generator>Hugo -- 0.134.3</generator>
     <language>zh-cn</language>
     <lastBuildDate>Fri, 19 Jul 2024 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/categories/devops/index.xml" rel="self" type="application/rss+xml" />
@@ -13,196 +13,1004 @@
       <link>https://blog.chensoul.cc/posts/2024/07/19/gitlab-runner-install/</link>
       <pubDate>Fri, 19 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/19/gitlab-runner-install/</guid>
-      <description>介绍 GitLab Runner 是一个用于在 GitLab CI/CD（持续集成/持续交付）流水线中运行作业（Jobs）的开源工具。它充当了 GitLab CI/CD 系统中的代理，负责接收作业请求、执行作业脚本并报告结果。 下面是 GitLab Runner 的一些关键特点和功能： 多平台</description>
+      <description>&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;GitLab Runner 是一个用于在 GitLab CI/CD（持续集成/持续交付）流水线中运行作业（Jobs）的开源工具。它充当了 GitLab CI/CD 系统中的代理，负责接收作业请求、执行作业脚本并报告结果。&lt;/p&gt;
+&lt;p&gt;下面是 GitLab Runner 的一些关键特点和功能：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;多平台支持：GitLab Runner 可在多种操作系统上运行，包括 Linux、macOS 和 Windows，使其适用于各种开发环境和需求。&lt;/li&gt;
+&lt;li&gt;作业执行器：Runner 接收来自 GitLab CI/CD 的作业请求，并在指定的环境中执行作业。它可以运行各种类型的作业，如构建、测试、部署等。&lt;/li&gt;
+&lt;li&gt;并发执行：GitLab Runner 可以同时运行多个作业，以提高整体流水线的处理能力和效率。&lt;/li&gt;
+&lt;li&gt;弹性扩展：你可以配置多个 GitLab Runner 实例，以满足不同项目和流水线的需求。每个 Runner 实例都可以在不同的环境中运行，比如在不同的物理或虚拟机器上，或者在云服务提供商的容器中。&lt;/li&gt;
+&lt;li&gt;配置灵活性：Runner 的配置相对灵活，你可以根据项目、分支或标签等条件来指定不同的执行规则。这使得你可以针对不同的场景和需求进行定制化配置。&lt;/li&gt;
+&lt;li&gt;日志和报告：Runner 会生成详细的日志和报告，用于记录作业的执行过程和结果。这些信息对于故障排除、问题追踪和流水线性能分析非常有帮助。&lt;/li&gt;
+&lt;li&gt;安全和身份验证：GitLab Runner 可与 GitLab CI/CD 系统集成，并通过访问令牌或其他身份验证机制来确保安全的通信和访问权限控制。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+&lt;p&gt;GitLab Runner 的版本需要和 GitLab 保持一致。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Gitlab安装和部署-使用yum源</title>
       <link>https://blog.chensoul.cc/posts/2024/07/15/install-gitlab-using-yum/</link>
       <pubDate>Mon, 15 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/15/install-gitlab-using-yum/</guid>
-      <description>Gitlab Server 部署 1、环境配置 关闭防火墙、SELinux 开启邮件服务 1 2 $ systemctl start postfix $ systemctl enable postfix 2、手动安装 1、安装 gitlab 依赖包 centos7: 1 $ yum install -y curl openssh-server openssh-clients postfix cronie policycoreutils-python gitlab-ce 10.x.x以后的版本需要依赖policycoreutils-pyt</description>
+      <description>&lt;h2 id=&#34;gitlab-server-部署&#34;&gt;Gitlab Server 部署&lt;/h2&gt;
+&lt;h3 id=&#34;1环境配置&#34;&gt;1、环境配置&lt;/h3&gt;
+&lt;p&gt;关闭防火墙、SELinux&lt;/p&gt;
+&lt;p&gt;开启邮件服务&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ systemctl start  postfix
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ systemctl &lt;span class=&#34;nb&#34;&gt;enable&lt;/span&gt; postfix
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;2手动安装&#34;&gt;2、手动安装&lt;/h3&gt;
+&lt;h4 id=&#34;1安装-gitlab-依赖包&#34;&gt;1、安装 gitlab 依赖包&lt;/h4&gt;
+&lt;p&gt;centos7:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ yum install -y curl openssh-server openssh-clients postfix cronie policycoreutils-python
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;gitlab-ce 10.x.x以后的版本需要依赖policycoreutils-python&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;centos8:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ yum install -y curl openssh-server openssh-clients postfix cronie  policycoreutils-python-utils
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;2添加官方源&#34;&gt;2、添加官方源&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sudo bash
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;因为官方源太慢，可以使用国内清华yum源，配置如下&lt;/p&gt;</description>
     </item>
     <item>
       <title>Git介绍</title>
       <link>https://blog.chensoul.cc/posts/2024/07/15/git/</link>
       <pubDate>Mon, 15 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/15/git/</guid>
-      <description>Git、Github、Gitlab 的区别 Git是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。 Github是在线的</description>
+      <description>&lt;h2 id=&#34;gitgithubgitlab-的区别&#34;&gt;Git、Github、Gitlab 的区别&lt;/h2&gt;
+&lt;p&gt;Git是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。&lt;/p&gt;
+&lt;p&gt;是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。&lt;/p&gt;
+&lt;p&gt;Github是在线的基于Git的代码托管服务。 GitHub是2008年由Ruby on Rails编写而成。GitHub同时提供付费账户和免费账户。这两种账户都可以创建公开的代码仓库，只有付费账户可以创建私有的代码仓库。 Gitlab解决了这个问题, 可以在上面创建免费的私人repo。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Git使用</title>
       <link>https://blog.chensoul.cc/posts/2024/07/15/git/</link>
       <pubDate>Mon, 15 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/15/git/</guid>
-      <description>部署Git 服务 创建git仓库 git-server上的操作： 1 2 3 4 5 6 7 8 [root@localhost ~]# yum install git git-core gitweb -y [root@localhost ~]# useradd git [root@localhost ~]# passwd git [root@localhost ~]# mkdir /git-root/ [root@localhost ~]# cd /git-root/ [root@localhost git-root]# git init --bare shell.git Initialized empty Git repository in /git-root/shell.git/ [root@localhost git-root]# chown -R git:git shell.git 注意： git init 和 git init &amp;ndash;bare 的区别: 使用&amp;ndash</description>
+      <description>&lt;h2 id=&#34;部署git-服务&#34;&gt;部署Git 服务&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;创建git仓库&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;git-server上的操作：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[root@localhost ~]# yum install git git-core gitweb -y
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[root@localhost ~]# useradd git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[root@localhost ~]# passwd git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[root@localhost ~]# mkdir /git-root/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[root@localhost ~]# cd /git-root/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[root@localhost git-root]# git init --bare shell.git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Initialized empty Git repository in /git-root/shell.git/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[root@localhost git-root]# chown -R git:git shell.git
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;注意：
+git init 和 git init &amp;ndash;bare 的区别:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用&amp;ndash;bare选项时，不再生成 .git 目录，而是只生成 .git 目录下面的版本历史记录文件，这些版本历史记录文件也不再存放在 .git 目录下面，而是直接存放在版本库的根目录下面。&lt;/li&gt;
+&lt;li&gt;用&amp;quot;git init&amp;quot;初始化的版本库用户也可以在该目录下执行所有 git 方面的操作。但别的用户在将更新 push 上来的时候容易出现冲突。
+使用”git init &amp;ndash;bare”方法创建一个所谓的裸仓库，之所以叫裸仓库是因为这个仓库只保存git历史提交的版本信息，而不允许用户在上面进行各种git操作，如果你硬要操作的话，只会得到下面的错误（”This operation must be run in a work tree”）这个就是最好把远端仓库初始化成bare仓库的原因&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;git仓库测试&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Minikube快速入门</title>
       <link>https://blog.chensoul.cc/posts/2024/07/10/minikube-quick-start/</link>
       <pubDate>Wed, 10 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/10/minikube-quick-start/</guid>
-      <description>安装 macos 系统使用 brew 安装 1 brew install minikube 启动集群 查看当前集群列表 1 2 3 4 5 6 $ minikube profile list |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | Profile | VM Driver | Runtime | IP | Port | Version | Status | Nodes | Active Profile | Active Kubecontext | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | minikube | docker | docker | 192.168.49.2 | 8443 | v1.30.0 | Unknown | 1 | * | * | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| 创建一个集群 1 2 # 启动一个名称为</description>
+      <description>&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+&lt;p&gt;macos 系统使用 brew 安装&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;brew install minikube
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;启动集群&#34;&gt;启动集群&lt;/h2&gt;
+&lt;p&gt;查看当前集群列表&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ minikube profile list
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Profile  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; VM Driver &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Runtime &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;      IP      &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Port &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Version &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Status  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Nodes &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Active Profile &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Active Kubecontext &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; minikube &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; docker    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; docker  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; 192.168.49.2 &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8443&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; v1.30.0 &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Unknown &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;     &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; *              &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; *                  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;创建一个集群&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 启动一个名称为 minikube 集群，命名空间为 default&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;minikube start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;默认情况下，&lt;code&gt;minikube start &lt;/code&gt;创建一个名为“minikube”的集群。如果您想创建不同的集群或更改其名称，可以使用&lt;code&gt;--profile&lt;/code&gt;(或&lt;code&gt;-p&lt;/code&gt;) 标志：&lt;/p&gt;</description>
     </item>
     <item>
       <title>Docker安装和配置</title>
       <link>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</link>
       <pubDate>Tue, 09 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</guid>
-      <description>Centos7安装Docker 配置宿主机网卡转发 1 2 3 4 5 6 7 8 9 10 11 ## 配置网卡转发，看值是否为1 $ sysctl -a |grep -w net.ipv4.ip_forward net.ipv4.ip_forward = 1 ## 若未配置，需要执行如下 $ cat &amp;lt;&amp;lt;EOF &amp;gt; /etc/sysctl.d/docker.conf net.bridge.bridge-nf-call-ip6tables = 1 net.bridge.bridge-nf-call-iptables = 1 net.ipv4.ip_forward=1 EOF $ sysctl -p /etc/sysctl.d/docker.conf Yum安装配置docker</description>
+      <description>&lt;h1 id=&#34;centos7安装docker&#34;&gt;Centos7安装Docker&lt;/h1&gt;
+&lt;h2 id=&#34;配置宿主机网卡转发&#34;&gt;配置宿主机网卡转发&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;## 配置网卡转发，看值是否为1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sysctl&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;-a&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;grep&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;-w&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;net&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;ipv4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;ip_forward&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;net&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;ipv4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;ip_forward&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;## 若未配置，需要执行如下&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;cat &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;EOF&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;etc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sysctl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;docker&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;conf&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;net&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;bridge&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;bridge-nf&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;-call-ip6tables&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;net&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;bridge&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;bridge-nf&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;-call-iptables&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;net&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;ipv4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ip_forward&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sysctl&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;-p&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;etc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sysctl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;docker&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;conf&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;yum安装配置docker&#34;&gt;Yum安装配置docker&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;## 下载阿里源repo文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;yum&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;-y&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;yum-utils&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;yum-config&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;-manager&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;-add-repo&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;//&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mirrors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;aliyun&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;com&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;repo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Centos&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;repo&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;yum-config&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;-manager&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;-add-repo&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;//&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mirrors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;aliyun&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;com&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;docker-ce&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;linux&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;centos&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;docker-ce&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;py&#34;&gt;repo&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;yum&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;clean&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;all&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;yum&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;makecache&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;## yum安装&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;yum&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;-y&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;docker-ce&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;docker-ce&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;-cli&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;## 设置开机自启&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;systemctl&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;enable&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;docker&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;systemctl&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;daemon-reload&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;## 启动docker&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;systemctl&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;start &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;docker&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;## 查看docker信息&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;docker&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;docker&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;version&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;## docker-client&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;which&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;docker&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;## docker daemon&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;ps &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;aux&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;grep&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;docker&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;安装 Compose plugin：&lt;/p&gt;</description>
     </item>
     <item>
       <title>使用 Docker 容器化并运行 Spring Boot 应用程序</title>
       <link>https://blog.chensoul.cc/posts/2024/07/09/docker-for-spring-boot/</link>
       <pubDate>Tue, 09 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/09/docker-for-spring-boot/</guid>
-      <description>本文翻译自 Docker 官方网站的《Java language-specific guide》文章，并做了一些改动。 Java 入门指南教您如何使用 Docker 创建容器化的 Spring Boot 应用程序。在本模块中，您将学习如何： 使用 Maven 容器化并运行 Spring Boot 应用程序 设置本地开发环境以将数据库</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;本文翻译自 Docker 官方网站的《&lt;a href=&#34;https://docs.docker.com/language/java/&#34; target=&#34;_blank&#34;&gt;Java language-specific guide&lt;/a&gt;》文章，并做了一些改动。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Java 入门指南教您如何使用 Docker 创建容器化的 Spring Boot 应用程序。在本模块中，您将学习如何：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 Maven 容器化并运行 Spring Boot 应用程序&lt;/li&gt;
+&lt;li&gt;设置本地开发环境以将数据库连接到容器，配置调试器，并使用 Compose Watch 进行实时重新加载&lt;/li&gt;
+&lt;li&gt;在容器内运行单元测试&lt;/li&gt;
+&lt;li&gt;使用 GitHub Actions 为应用程序配置 CI/CD 管道&lt;/li&gt;
+&lt;li&gt;将容器化应用程序本地部署到 Kubernetes 以测试和调试您的部署&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;完成 Java 入门模块后，您应该能够根据本指南中提供的示例和说明来容器化您自己的 Java 应用程序。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Minikube 中的 Minions - 面向 Java 开发人员的 Kubernetes 简介</title>
       <link>https://blog.chensoul.cc/posts/2024/07/08/minions-in-minikube-a-kubernetes-intro-for-java-de/</link>
       <pubDate>Mon, 08 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/08/minions-in-minikube-a-kubernetes-intro-for-java-de/</guid>
-      <description>我们希望我们的微服务是可复制、可替换的工作程序，我们可以轻松升级或降级，无需停机，管理也只需最少。我们可能会说我们希望他们是我们的奴才。在本文中，我们将通过一个简单的示例来了解 Kubernetes 通过创建和编排奴才大军</description>
+      <description>&lt;p&gt;我们希望我们的微服务是可复制、可替换的工作程序，我们可以轻松升级或降级，无需停机，管理也只需最少。我们可能会说我们希望他们是我们的奴才。在本文中，我们将通过一个简单的示例来了解 Kubernetes 通过创建和编排奴才大军可以为我们做些什么。您可以按照本文进行编码，也可以从&lt;a href=&#34;https://github.com/ryandawsonuk/minions/blob/master/minion-army.yml&#34; target=&#34;_blank&#34;&gt;此处&lt;/a&gt;克隆项目。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]面向 Java 开发人员的 Kubernetes</title>
       <link>https://blog.chensoul.cc/posts/2024/07/08/kubernetes-for-java-developers/</link>
       <pubDate>Mon, 08 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/08/kubernetes-for-java-developers/</guid>
-      <description>有一类新工具可用于将应用程序 docker 化并部署到 Kubernetes，这些工具专门面向开发人员。该类别中的最新工具是 RedHat 的 JKube。 微服务是一种架构风格，由一个小型的、单独的应用程序组件组成，该组件具有单一职</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;有一类新工具可用于将应用程序 docker 化并部署到 Kubernetes，这些工具专门面向开发人员。该类别中的最新工具是 RedHat 的 JKube。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;微服务是一种架构风格，由一个小型的、单独的应用程序组件组成，该组件具有单一职责，在部署和可扩展性方面具有高度的自主性。这些组件通过轻量级协议（如 REST over HTTP）进行通信。因此，开发团队规模很小（两个披萨规则），专注于微服务。实际上，团队拥有从开发到部署的整个生命周期——如果你构建了它，你就会运行它。这就产生了一个问题。毕竟，开发团队的核心竞争力通常是 Maven、微服务框架（例如 Spring Boot）、测试框架（如 JUnit）等。但是，如果我们看一下部署微服务所涉及的步骤：&lt;/p&gt;</description>
     </item>
     <item>
       <title>ActiveMQ安装和使用</title>
       <link>https://blog.chensoul.cc/posts/2024/07/05/install-activemq/</link>
       <pubDate>Fri, 05 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/05/install-activemq/</guid>
-      <description>ActiveMQ 是一个实现了 JMS 协议的开源消息中间件，目前它有两种版本：ActiveMQ &amp;ldquo;Classic&amp;rdquo; 和 ActiveMQ Artemis。 Artemis 版本作为Classic版本的替代品而诞生，相较的提升点有： 高性能与低延迟：Artemis通过改进的设计实</description>
+      <description>&lt;p&gt;ActiveMQ 是一个实现了 JMS 协议的开源消息中间件，目前它有两种版本：ActiveMQ &amp;ldquo;Classic&amp;rdquo; 和 ActiveMQ Artemis。&lt;/p&gt;
+&lt;p&gt;Artemis 版本作为Classic版本的替代品而诞生，相较的提升点有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;高性能与低延迟：Artemis通过改进的设计实现了更高的吞吐量和更低的消息处理延迟。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Gitlab安装和部署-使用Docker</title>
       <link>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</link>
       <pubDate>Wed, 26 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</guid>
-      <description>安装 Gitlab 安装 gitlab-ce 版本，当前最新版本为 17.2.0 配置 external_url 参考 https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 services: gitlab: image: gitlab/gitlab-ce container_name: gitlab restart: always hostname: &amp;#39;gitlab.example.com&amp;#39; environment: GITLAB_OMNIBUS_CONFIG: | external_url &amp;#39;https://gitlab.example.com&amp;#39; ports: - &amp;#39;80:80&amp;#39; - &amp;#39;443:443&amp;#39; - &amp;#39;22:22&amp;#39; volumes: - &amp;#39;/srv/gitlab/config:/etc/gitlab&amp;#39; - &amp;#39;/srv/gitlab/logs:/var/log/gitlab&amp;#39; - &amp;#39;/srv/gitlab/data:/var/opt/gitlab&amp;#39; shm_size: &amp;#39;256m&amp;#39; 停止本地的 sshd 和 nginx 服务，避免 22 、80、443端口备占用： 1</description>
+      <description>&lt;h2 id=&#34;安装-gitlab&#34;&gt;安装 Gitlab&lt;/h2&gt;
+&lt;p&gt;安装 gitlab-ce  版本，当前最新版本为  17.2.0&lt;/p&gt;
+&lt;h3 id=&#34;配置-external_url&#34;&gt;配置 external_url&lt;/h3&gt;
+&lt;p&gt;参考 &lt;a href=&#34;https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose&#34; target=&#34;_blank&#34;&gt;https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;services&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;gitlab&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;gitlab/gitlab-ce&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;container_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;gitlab&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;restart&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;always&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;hostname&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;gitlab.example.com&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;environment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;GITLAB_OMNIBUS_CONFIG&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;sd&#34;&gt;        external_url &amp;#39;https://gitlab.example.com&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;ports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;s1&#34;&gt;&amp;#39;80:80&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;s1&#34;&gt;&amp;#39;443:443&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;s1&#34;&gt;&amp;#39;22:22&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;s1&#34;&gt;&amp;#39;/srv/gitlab/config:/etc/gitlab&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;s1&#34;&gt;&amp;#39;/srv/gitlab/logs:/var/log/gitlab&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;s1&#34;&gt;&amp;#39;/srv/gitlab/data:/var/opt/gitlab&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;shm_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;256m&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;停止本地的 sshd 和 nginx 服务，避免 22 、80、443端口备占用：&lt;/p&gt;</description>
     </item>
     <item>
       <title>Jenkins安装和部署-使用Docker</title>
       <link>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</link>
       <pubDate>Wed, 26 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</guid>
-      <description>使用 Docker 安装 1 2 3 $ docker volume create --name jenkins_data $ docker run -p 8080:8080 -p 50000:50000 -v jenkins_data:/var/jenkins_home jenkins/jenkins:jdk21 第一次启动 Jenkins 时，Docker 日志将包含如下消息： 1 2 3 4 5 6 Jenkins initial setup is required. An admin user has been created and a password generated. Please use the following password to proceed to installation: 1883c809f01b4ed585fb5c3e0156543a This may also be found at: /var/jenkins_home/secrets/initialAdminPassword 那串随机的数字和字母是初始管</description>
+      <description>&lt;h2 id=&#34;使用-docker-安装&#34;&gt;使用 Docker 安装&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ docker volume create --name jenkins_data
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ docker run -p 8080:8080 -p 50000:50000 -v jenkins_data:/var/jenkins_home jenkins/jenkins:jdk21
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;第一次启动 Jenkins 时，Docker 日志将包含如下消息：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Jenkins initial setup is required. An admin user has been created and a password generated.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Please use the following password to proceed to installation:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1883c809f01b4ed585fb5c3e0156543a
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;那串随机的数字和字母是初始管理员密码，这是完成 Jenkins 配置所必需的。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Tengine动态裁剪图片</title>
       <link>https://blog.chensoul.cc/posts/2024/06/26/install-cert-manager/</link>
       <pubDate>Wed, 26 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/26/install-cert-manager/</guid>
-      <description>软件列表 Tengine：https://github.com/alibaba/tengine Lua：http://www.lua.org/ftp/ ，这里使用 lua-5.3.1.tar.gz LuaJIT：http://luajit.</description>
+      <description>&lt;h2 id=&#34;软件列表&#34;&gt;软件列表&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Tengine：&lt;a href=&#34;https://github.com/alibaba/tengine&#34; target=&#34;_blank&#34;&gt;https://github.com/alibaba/tengine&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Lua：&lt;a href=&#34;http://www.lua.org/ftp/&#34; target=&#34;_blank&#34;&gt;http://www.lua.org/ftp/&lt;/a&gt; ，这里使用 lua-5.3.1.tar.gz&lt;/li&gt;
+&lt;li&gt;LuaJIT：&lt;a href=&#34;&#34;&gt;http://luajit.org/download.html&lt;/a&gt; ，这里使用 LuaJIT-2.0.4.tar.gz&lt;/li&gt;
+&lt;li&gt;GraphicdMagick：&lt;a href=&#34;https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/&#34; target=&#34;_blank&#34;&gt;https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/&lt;/a&gt; ，这里使用 GraphicsMagick-1.3.18.tar.gz&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;安装lua&#34;&gt;安装Lua&lt;/h2&gt;
+&lt;p&gt;先安装依赖：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;yum install readline readline-devel -y
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;解压文件&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;tar -zxvf lua-5.3.1.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;进入目录，执行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; lua-5.3.1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;make linux &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; make install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;验证安装成功:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;lua -v
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;安装luajit&#34;&gt;安装luaJIT&lt;/h2&gt;
+&lt;p&gt;解压文件&lt;/p&gt;</description>
     </item>
     <item>
       <title>搭建本地 Maven 仓库 Artifactory 开源版</title>
       <link>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</link>
       <pubDate>Tue, 25 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</guid>
-      <description>安装 Artifactory 官方下载安装地址：https://jfrog.com/community/download-artifactory-oss/ ，支持三种安装方式： Windows Installer Linux Installers tar.gz RPM Debian Docker Compose Docker Helm 手动下载并安装 安装包文件地址</description>
+      <description>&lt;h2 id=&#34;安装-artifactory&#34;&gt;安装 Artifactory&lt;/h2&gt;
+&lt;p&gt;官方下载安装地址：&lt;a href=&#34;https://jfrog.com/community/download-artifactory-oss/&#34; target=&#34;_blank&#34;&gt;https://jfrog.com/community/download-artifactory-oss/&lt;/a&gt; ，支持三种安装方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Windows Installer&lt;/li&gt;
+&lt;li&gt;Linux Installers
+&lt;ul&gt;
+&lt;li&gt;tar.gz&lt;/li&gt;
+&lt;li&gt;RPM&lt;/li&gt;
+&lt;li&gt;Debian&lt;/li&gt;
+&lt;li&gt;Docker Compose&lt;/li&gt;
+&lt;li&gt;Docker&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Helm&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;手动下载并安装&#34;&gt;手动下载并安装&lt;/h3&gt;
+&lt;p&gt;安装包文件地址在 &lt;a href=&#34;https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/&#34; target=&#34;_blank&#34;&gt;https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/&lt;/a&gt; 。以当前最新版本 7.84.15 为例，在 linux 服务器上下载：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wget https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/7.84.15/jfrog-artifactory-oss-7.84.15-linux.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; tar -zxvf jfrog-artifactory-oss-7.84.15-linux.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; &lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; jfrog-artifactory-oss-7.84.15/app/bin
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; nohup ./artifactory.sh 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;通过-docker-安装&#34;&gt;通过 docker 安装&lt;/h3&gt;
+&lt;p&gt;设置 JFROG_HOME 并创建目录：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;JFROG_HOME&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;~/.jfrog
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir -p &lt;span class=&#34;nv&#34;&gt;$JFROG_HOME&lt;/span&gt;/artifactory/var/etc/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo chown -R 1030:1030 &lt;span class=&#34;nv&#34;&gt;$JFROG_HOME&lt;/span&gt;/artifactory/var
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo chmod -R &lt;span class=&#34;m&#34;&gt;777&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$JFROG_HOME&lt;/span&gt;/artifactory/var
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;touch &lt;span class=&#34;nv&#34;&gt;$JFROG_HOME&lt;/span&gt;/artifactory/var/etc/system.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;配置数据库。参考 &lt;a href=&#34;https://jfrog.com/help/r/jfrog-installation-setup-documentation/database-configuration&#34; target=&#34;_blank&#34;&gt;JFrog Recommends Using PostgreSQL&lt;/a&gt; ，Artifactory 7.84.7 之后，默认使用 postgresql 数据库。&lt;/p&gt;</description>
     </item>
     <item>
       <title>搭建本地Maven仓库Nexus</title>
       <link>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</link>
       <pubDate>Tue, 25 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</guid>
-      <description>使用 Docker 安装 1 2 3 $ docker volume create --name nexus_data $ docker run -d -p 8081:8081--name nexus -v nexus_data:/nexus-data sonatype/nexus3 8081 是 Nexus UI 端口 使用 Docker Compose 安装 1 2 3 4 5 6 7 8 9 10 11 12 services: nexus: image: sonatype/nexus3 platform: linux/amd64 ports: - &amp;#34;8081:8081&amp;#34; volumes: - nexus_data:/nexus-data - /etc/localtime:/etc/localtime:ro volumes: nexus_data: 访问并配置 Nexus 访问 http://127.0.0.1:8081/ 或者是 http://&amp;lt;your IP&amp;gt;:8081，用户名为 admin ，初始密码在</description>
+      <description>&lt;h2 id=&#34;使用-docker-安装&#34;&gt;使用 Docker 安装&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ docker volume create --name nexus_data
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ docker run -d -p 8081:8081--name nexus -v nexus_data:/nexus-data sonatype/nexus3
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;8081 是 Nexus UI 端口&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;使用-docker-compose-安装&#34;&gt;使用 Docker Compose 安装&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;services&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;nexus&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;sonatype/nexus3&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;platform&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;linux/amd64&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;ports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;- &lt;span class=&#34;s2&#34;&gt;&amp;#34;8081:8081&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;nexus_data:/nexus-data&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;/etc/localtime:/etc/localtime:ro&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;nexus_data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;访问并配置-nexus&#34;&gt;访问并配置 Nexus&lt;/h2&gt;
+&lt;p&gt;访问 http://127.0.0.1:8081/  或者是 &lt;code&gt;http://&amp;lt;your IP&amp;gt;:8081&lt;/code&gt;，用户名为 admin ，初始密码在容器里的 /nexus-data/admin.password 文件&lt;/p&gt;</description>
     </item>
     <item>
       <title>Spring Boot项目创建Docker镜像并运行应用</title>
       <link>https://blog.chensoul.cc/posts/2024/06/06/spring-boot-docker-image/</link>
       <pubDate>Thu, 06 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/06/spring-boot-docker-image/</guid>
-      <description>手动创建 Dockerfile 添加 Dockerfile 在您的 Spring Boot 项目根目录下创建一个名为 Dockerfile 的文件，并添加以下内容: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 使用 OpenJDK 21 作为基础镜像 FROM openjdk:21 # 设置工作目录 WORKDIR /app # 将 JAR 文件复制到容器中 COPY target/*.jar app.jar # 暴露 8080 端口 EXPOSE 8080 # 设置容</description>
+      <description>&lt;h2 id=&#34;手动创建-dockerfile&#34;&gt;手动创建 Dockerfile&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;添加 Dockerfile&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在您的 Spring Boot 项目根目录下创建一个名为 &lt;code&gt;Dockerfile&lt;/code&gt; 的文件，并添加以下内容:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-docker&#34; data-lang=&#34;docker&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# 使用 OpenJDK 21 作为基础镜像&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;s&#34;&gt; openjdk:21&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 设置工作目录&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;WORKDIR&lt;/span&gt;&lt;span class=&#34;s&#34;&gt; /app&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 将 JAR 文件复制到容器中&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;COPY&lt;/span&gt; target/*.jar app.jar&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 暴露 8080 端口&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;EXPOSE&lt;/span&gt;&lt;span class=&#34;s&#34;&gt; 8080&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 设置容器启动时执行的命令&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;ENTRYPOINT&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;java&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;-jar&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;app.jar&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这个 Dockerfile 将使用 OpenJDK 21 作为基础镜像，将编译后的 JAR 文件复制到容器中，并在容器启动时执行 &lt;code&gt;java -jar app.jar&lt;/code&gt; 命令。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Argo CD安装和部署</title>
       <link>https://blog.chensoul.cc/posts/2024/05/11/argocd/</link>
       <pubDate>Sat, 11 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/11/argocd/</guid>
-      <description>安装 ArgoCD 安装： 1 2 $ kubectl create namespace argocd $ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml 查看安装是否成功，当argocd命名空间下Pod状态都为Running时表示安装成功。 1 kubectl get pod -A 执行如下命令，将名为argocd-server的Service类</description>
+      <description>&lt;h2 id=&#34;安装-argocd&#34;&gt;安装 ArgoCD&lt;/h2&gt;
+&lt;p&gt;安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ kubectl create namespace argocd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;查看安装是否成功，当argocd命名空间下Pod状态都为Running时表示安装成功。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;kubectl get pod -A
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;执行如下命令，将名为argocd-server的Service类型修改为NodePort。&lt;/p&gt;</description>
     </item>
     <item>
       <title>K8s安装Cert Manager</title>
       <link>https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/</link>
       <pubDate>Fri, 10 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/</guid>
-      <description>cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。 cert-manager 可以从各种证书颁发机构获取证书，包括： Let&amp;rsquo;s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。 使用 cert-manager 的证书资源，私钥</description>
+      <description>&lt;p&gt;cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。&lt;/p&gt;
+&lt;p&gt;cert-manager 可以从各种&lt;a href=&#34;https://cert-manager.io/docs/configuration/issuers/&#34; target=&#34;_blank&#34;&gt;证书颁发机构&lt;/a&gt;获取证书，包括： &lt;a href=&#34;https://cert-manager.io/docs/configuration/acme/&#34; target=&#34;_blank&#34;&gt;Let&amp;rsquo;s Encrypt&lt;/a&gt;、&lt;a href=&#34;https://cert-manager.io/docs/configuration/vault/&#34; target=&#34;_blank&#34;&gt;HashiCorp Vault&lt;/a&gt;、 &lt;a href=&#34;https://cert-manager.io/docs/configuration/venafi/&#34; target=&#34;_blank&#34;&gt;Venafi&lt;/a&gt;和&lt;a href=&#34;https://cert-manager.io/docs/configuration/ca/&#34; target=&#34;_blank&#34;&gt;私有 PKI&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;使用 cert-manager 的&lt;a href=&#34;https://cert-manager.io/docs/usage/certificate/&#34; target=&#34;_blank&#34;&gt;证书资源&lt;/a&gt;，私钥和证书存储在 Kubernetes Secret 中，该 Secret 由应用程序 Pod 挂载或由 Ingress 控制器使用。使用&lt;a href=&#34;https://cert-manager.io/docs/usage/csi-driver/&#34; target=&#34;_blank&#34;&gt;csi-driver&lt;/a&gt;、&lt;a href=&#34;https://cert-manager.io/docs/usage/csi-driver-spiffe/&#34; target=&#34;_blank&#34;&gt;csi-driver-spiffe&lt;/a&gt;或&lt;a href=&#34;https://cert-manager.io/docs/usage/istio-csr/&#34; target=&#34;_blank&#34;&gt;istio-csr&lt;/a&gt;，私钥是在应用程序启动之前按需生成的；私钥永远不会离开节点，并且不会存储在 Kubernetes Secret 中。&lt;/p&gt;
+&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+&lt;p&gt;参考官方文档：&lt;a href=&#34;https://cert-manager.io/docs/installation/&#34; target=&#34;_blank&#34;&gt;https://cert-manager.io/docs/installation/&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;使用kubectl安装&#34;&gt;使用kubectl安装&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;查看：&lt;/p&gt;</description>
     </item>
     <item>
       <title>Rancher安装和部署-使用K8s </title>
       <link>https://blog.chensoul.cc/posts/2024/05/10/install-rancher/</link>
       <pubDate>Fri, 10 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/10/install-rancher/</guid>
-      <description>前提条件 Kubernetes 集群：可以使用 RKE、RKE2、K3S 等工具安装集群 Ingress Controller：对于 RKE、RKE2 和 K3s，你不需要手动安装 Ingress Controller，因为它是默认安装的。 CLI 工具：安装 kubectl 和 helm 使用 docker</description>
+      <description>&lt;h2 id=&#34;前提条件&#34;&gt;前提条件&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster#kubernetes-%e9%9b%86%e7%be%a4&#34; target=&#34;_blank&#34;&gt;Kubernetes 集群&lt;/a&gt;：可以使用 &lt;strong&gt;RKE&lt;/strong&gt;、&lt;strong&gt;RKE2&lt;/strong&gt;、&lt;strong&gt;K3S&lt;/strong&gt; 等工具安装集群&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster#ingress-controller&#34; target=&#34;_blank&#34;&gt;Ingress Controller&lt;/a&gt;：对于 RKE、RKE2 和 K3s，你不需要手动安装 Ingress Controller，因为它是默认安装的。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster#cli-%e5%b7%a5%e5%85%b7&#34; target=&#34;_blank&#34;&gt;CLI 工具&lt;/a&gt;：安装 kubectl 和 helm&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;使用-docker-安装-rancher&#34;&gt;使用 docker 安装 Rancher&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir -p /data/rancher
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker run --name rancher --privileged -d --restart&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;unless-stopped -p 80:80 -p 443:443 -v /data/rancher:/var/lib/rancher/ rancher/rancher:stable
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker logs -f rancher
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;使用-helm-安装-rancher&#34;&gt;使用 helm 安装 Rancher&lt;/h2&gt;
+&lt;p&gt;参考：&lt;a href=&#34;https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster&#34; target=&#34;_blank&#34;&gt;在 Kubernetes 集群上安装/升级 Rancher&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>All things about Drone</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-drone/</link>
       <pubDate>Thu, 09 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-drone/</guid>
-      <description>Drone by Harness ™ 是一个现代化的持续集成平台，使忙碌的团队能够使用强大的云原生管道引擎自动化其构建、测试和发布工作流程。 Drone实践 Docker 容器环境下的持续集成最佳实践：构建基于 Drone + GitFlow + K8s 的云原生语义化 CI 工作流 容器</description>
+      <description>&lt;p&gt;Drone by &lt;a href=&#34;https://harness.io/&#34; target=&#34;_blank&#34;&gt;Harness&lt;/a&gt; ™ 是一个现代化的持续集成平台，使忙碌的团队能够使用强大的云原生管道引擎自动化其构建、测试和发布工作流程。&lt;/p&gt;
+&lt;h2 id=&#34;drone实践&#34;&gt;Drone实践&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://avnpc.com/p/202&#34; target=&#34;_blank&#34;&gt;Docker 容器环境下的持续集成最佳实践：构建基于 Drone + GitFlow + K8s 的云原生语义化 CI 工作流&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://avnpc.com/p/204&#34; target=&#34;_blank&#34;&gt;容器环境持续集成优化，Drone CI 提速 500%&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.itfanr.cc/2019/07/11/run-drone-cicd-on-kubernetes/&#34; target=&#34;_blank&#34;&gt;在Kubernetes上执行Drone CI/CD&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.aliyun.com/article/718091?spm=a2c6h.13262185.0.0.20ad7863aYuwQH&#34; target=&#34;_blank&#34;&gt;玩转 Drone CI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://maiyang.me/post/2018-08-11-gitlab-gogs-drone-cicd/&#34; target=&#34;_blank&#34;&gt;基于 gogs/gitlab 和 drone 搭建的 CI/CD 平台&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://sealyun.com/post/ci-cd/&#34; target=&#34;_blank&#34;&gt;基于drone构建CI/CD系统,对接k8s&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;使用Drone构建静态博客&lt;/p&gt;</description>
     </item>
     <item>
       <title>安装k3s</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s/</link>
       <pubDate>Thu, 09 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s/</guid>
-      <description>K3s 是轻量级的 Kubernetes。K3s 易于安装，仅需要 Kubernetes 内存的一半，所有组件都在一个小于 100 MB 的二进制文件中。 k3s 文档：https://docs.rancher.cn/docs/k3s/_index K3</description>
+      <description>&lt;p&gt;K3s 是轻量级的 Kubernetes。K3s 易于安装，仅需要 Kubernetes 内存的一半，所有组件都在一个小于 100 MB 的二进制文件中。&lt;/p&gt;
+&lt;p&gt;k3s 文档：&lt;a href=&#34;https://docs.rancher.cn/docs/k3s/_index&#34; target=&#34;_blank&#34;&gt;https://docs.rancher.cn/docs/k3s/_index&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;k3s介绍&#34;&gt;K3s介绍&lt;/h2&gt;
+&lt;h3 id=&#34;什么是-k3s&#34;&gt;什么是 K3s？&lt;/h3&gt;
+&lt;p&gt;K3s 是一个完全兼容的 Kubernetes 发行版，具有以下增强功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;打包为单个二进制文件。&lt;/li&gt;
+&lt;li&gt;使用基于 sqlite3 作为默认存储机制的轻量级存储后端。同时支持使用 etcd3、MySQL 和 Postgres。&lt;/li&gt;
+&lt;li&gt;封装在简单的启动程序中，可以处理很多复杂的 TLS 和选项。&lt;/li&gt;
+&lt;li&gt;默认情况下是安全的，对轻量级环境有合理的默认值。&lt;/li&gt;
+&lt;li&gt;添加了简单但强大的 batteries-included 功能，例如：
+&lt;ul&gt;
+&lt;li&gt;本地存储提供程序&lt;/li&gt;
+&lt;li&gt;service load balancer&lt;/li&gt;
+&lt;li&gt;Helm controller&lt;/li&gt;
+&lt;li&gt;Traefik ingress controller&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;所有 Kubernetes control plane 组件的操作都封装在单个二进制文件和进程中。因此，K3s 支持自动化和管理复杂的集群操作（例如证书分发等）。&lt;/li&gt;
+&lt;li&gt;最大程度减轻了外部依赖性，K3s 仅需要现代内核和 cgroup 挂载。K3s 打包了所需的依赖，包括：
+&lt;ul&gt;
+&lt;li&gt;containerd&lt;/li&gt;
+&lt;li&gt;Flannel (CNI)&lt;/li&gt;
+&lt;li&gt;CoreDNS&lt;/li&gt;
+&lt;li&gt;Traefik (Ingress)&lt;/li&gt;
+&lt;li&gt;Klipper-lb (Service LB)&lt;/li&gt;
+&lt;li&gt;嵌入式网络策略控制器&lt;/li&gt;
+&lt;li&gt;嵌入式 local-path-provisioner&lt;/li&gt;
+&lt;li&gt;主机实用程序（iptables、socat 等）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;为什么叫-k3s&#34;&gt;为什么叫 K3s?&lt;/h3&gt;
+&lt;p&gt;我们希望安装的 Kubernetes 只占用一半的内存。Kubernetes 是一个 10 个字母的单词，简写为 K8s。Kubernetes 的一半就是一个 5 个字母的单词，因此简写为 K3s。K3s 没有全称，也没有官方的发音。&lt;/p&gt;</description>
     </item>
     <item>
       <title>通过k3d安装k3s</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3d/</link>
       <pubDate>Thu, 09 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3d/</guid>
-      <description>k3d是什么 k3d 是一个轻量级包装器，用于在 docker 中运行k3s（Rancher Lab 的最小 Kubernetes 发行版）。 k3d 使得在 docker 中创建单节点和多节点k3s集群变得非常容易，例如用于 Kubernetes 上的本地开发。 注意： k3d 是一个社区驱动的项目，但</description>
+      <description>&lt;h2 id=&#34;k3d是什么&#34;&gt;k3d是什么&lt;/h2&gt;
+&lt;p&gt;k3d 是一个轻量级包装器，用于在 docker 中运行&lt;a href=&#34;https://github.com/rancher/k3s&#34; target=&#34;_blank&#34;&gt;k3s&lt;/a&gt;（Rancher Lab 的最小 Kubernetes 发行版）。&lt;/p&gt;
+&lt;p&gt;k3d 使得在 docker 中创建单节点和多节点&lt;a href=&#34;https://github.com/rancher/k3s&#34; target=&#34;_blank&#34;&gt;k3s&lt;/a&gt;集群变得非常容易，例如用于 Kubernetes 上的本地开发。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; k3d 是一个&lt;strong&gt;社区驱动的项目&lt;/strong&gt;，但它不是官方 Rancher (SUSE) 产品。&lt;/p&gt;
+&lt;h2 id=&#34;k3d安装&#34;&gt;k3d安装&lt;/h2&gt;
+&lt;p&gt;通过脚本安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; bash
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;macos 上通过homebrew安装：&lt;/p&gt;</description>
     </item>
     <item>
       <title>通过k3sup安装k3s</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</link>
       <pubDate>Thu, 09 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/09/install-k3s-using-k3sup/</guid>
-      <description>k3sup是一个支持在PC、虚拟机、ARM设备上安装k3s的工具，官方网站：https://k3sup.dev/ 安装k3sup 在线安装： 1 2 curl -sLS https://get.k3sup.dev | sh sudo install k3sup /usr/local/bin/ 离线安装，下载地址：https://git</description>
+      <description>&lt;p&gt;k3sup是一个支持在PC、虚拟机、ARM设备上安装k3s的工具，官方网站：&lt;a href=&#34;https://k3sup.dev/&#34; target=&#34;_blank&#34;&gt;https://k3sup.dev/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;安装k3sup&#34;&gt;安装k3sup&lt;/h2&gt;
+&lt;p&gt;在线安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -sLS https://get.k3sup.dev &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sh
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo install k3sup /usr/local/bin/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;离线安装，下载地址：&lt;a href=&#34;https://github.com/alexellis/k3sup/releases&#34; target=&#34;_blank&#34;&gt;https://github.com/alexellis/k3sup/releases&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wget https://github.com/alexellis/k3sup/releases/download/0.13.5/k3sup
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mv k3sup /usr/local/bin/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;chmod +x /usr/local/bin/k3sup
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;查看版本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ k3sup version
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; _    _____
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; _&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;___ / ___ _   _ _ __
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;/ / &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;_ &lt;span class=&#34;se&#34;&gt;\/&lt;/span&gt; __&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;&amp;#39;&lt;/span&gt;_ &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;   &amp;lt; ___&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\_&lt;/span&gt;_ &lt;span class=&#34;se&#34;&gt;\ &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;_&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;_&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;_&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\_\_&lt;/span&gt;___/&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;___/&lt;span class=&#34;se&#34;&gt;\_&lt;/span&gt;_,_&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; .__/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                     &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;_&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;bootstrap K3s over SSH in &amp;lt; 60s 🚀
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;🚀 Speed up GitHub Actions/GitLab CI + reduce costs: https://actuated.dev
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Version: 0.13.5
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Git Commit: d952d6df22b06147806ca1030b8ba3a4bb9e0c0c
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;创建k3s集群&#34;&gt;创建k3s集群&lt;/h2&gt;
+&lt;h3 id=&#34;创建一个本地集群&#34;&gt;创建一个本地集群&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;k3sup install &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  --local &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  --context localk3s &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  --k3s-channel stable &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  --k3s-extra-args &lt;span class=&#34;s1&#34;&gt;&amp;#39;--docker&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;查看集群状态：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]DevOps 和测试人员的 Git 面试问题</title>
       <link>https://blog.chensoul.cc/posts/2023/10/12/git-interview-questions/</link>
       <pubDate>Thu, 12 Oct 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/10/12/git-interview-questions/</guid>
-      <description>欢迎来到 Git 面试准备指南，我们将在这里向初学者和经验丰富的专业人士讨论最常见的 Git 面试问题。无论您是准备参加 DevOps 或测试面试，还是希望提高 Git 技能，此资源都可以通过深入研究一些与 Git 基本概念和实践相关的最常见面试</description>
+      <description>&lt;p&gt;欢迎来到 Git 面试准备指南，我们将在这里向初学者和经验丰富的专业人士讨论最常见的 Git 面试问题。无论您是准备参加 DevOps 或测试面试，还是希望提高 Git 技能，此资源都可以通过深入研究一些与 Git 基本概念和实践相关的最常见面试问题来帮助您。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]关于 HTTP 您需要了解的一切</title>
       <link>https://blog.chensoul.cc/posts/2023/10/12/http-in-depth/</link>
       <pubDate>Thu, 12 Oct 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/10/12/http-in-depth/</guid>
-      <description>HTTP 是每个 Web 开发人员都应该了解的协议，因为它为整个 Web 提供动力。了解 HTTP 当然可以帮助您开发更好的应用程序。 在本文中，我将讨论 HTTP 是什么、它是如何产生的、它今天的状况以及我们是如何走到这一步的 什么是 HTTP？ 首</description>
+      <description>&lt;p&gt;HTTP 是每个 Web 开发人员都应该了解的协议，因为它为整个 Web 提供动力。了解 HTTP 当然可以帮助您开发更好的应用程序。&lt;/p&gt;
+&lt;p&gt;在本文中，我将讨论 HTTP 是什么、它是如何产生的、它今天的状况以及我们是如何走到这一步的&lt;/p&gt;
+&lt;h2 id=&#34;什么是-http&#34;&gt;什么是 HTTP？&lt;/h2&gt;
+&lt;p&gt;首先，什么是 HTTP？ HTTP 是基于 TCP/IP 的应用层通信协议，它标准化了客户端和服务器之间的通信方式。它定义了如何通过互联网请求和传输内容。通过应用层协议，我的意思是它只是一个标准化主机（客户端和服务器）通信方式的抽象层。 HTTP 本身依赖于 TCP/IP 来获取客户端和服务器之间的请求和响应。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Git Flow分支模型和使用</title>
       <link>https://blog.chensoul.cc/posts/2023/05/11/git-flow-model-and-usage/</link>
       <pubDate>Thu, 11 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/11/git-flow-model-and-usage/</guid>
-      <description>介绍 Git Flow 是由 Vincent Driessen 在 2010 年提出的一种 Git 工作流。在这之前，Git 没有一个明确的标准工作流，导致团队在使用 Git 时往往会遇到一些问题，如分支管理、版本控制等。为了解决这些问题，Vincent Driessen 提出了 Git Flow 分支模型，</description>
+      <description>&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://nvie.com/posts/a-successful-git-branching-model/&#34; target=&#34;_blank&#34;&gt;Git Flow&lt;/a&gt; 是由 Vincent Driessen 在 2010 年提出的一种 Git 工作流。在这之前，Git 没有一个明确的标准工作流，导致团队在使用 Git 时往往会遇到一些问题，如分支管理、版本控制等。为了解决这些问题，Vincent Driessen 提出了 Git Flow 分支模型，成为了 Git 在实际应用中的一种标准工作流。&lt;/p&gt;</description>
     </item>
     <item>
       <title>我的VPS服务部署记录</title>
       <link>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</link>
       <pubDate>Wed, 25 Jan 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid>
-      <description>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。 服务器设置 更新 yum 源： 1 yum update 安装常用软件： 1 yum install wget curl git vim -y 设置时区为 [可选] 设置系统 Swap 交换分区 因为 vps 服务器的运行内存很小，所以这里先设置下 Swap 1 2 3 4 5</description>
+      <description>&lt;p&gt;我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。&lt;/p&gt;
+&lt;h2 id=&#34;服务器设置&#34;&gt;服务器设置&lt;/h2&gt;
+&lt;p&gt;更新 yum 源：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;yum update
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;安装常用软件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;yum install wget curl git vim -y
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;设置时区为&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;[可选] 设置系统 Swap 交换分区&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;因为 vps 服务器的运行内存很小，所以这里先设置下 Swap&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 1GB RAM with 2GB Swap&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo fallocate -l 2G /swapfile &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo dd &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/zero &lt;span class=&#34;nv&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/swapfile &lt;span class=&#34;nv&#34;&gt;bs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1024&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;count&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2097152&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo chmod &lt;span class=&#34;m&#34;&gt;600&lt;/span&gt; /swapfile &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo mkswap /swapfile &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo swapon /swapfile &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;/swapfile swap swap defaults 0 0&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sudo tee -a /etc/fstab &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo swapon --show &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo free -h
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;安装-nginx&#34;&gt;安装 Nginx&lt;/h2&gt;
+&lt;p&gt;参考 &lt;a href=&#34;https://qizhanming.com/blog/2018/08/06/how-to-install-nginx-on-centos-7&#34; target=&#34;_blank&#34;&gt;CentOS 7 下 yum 安装和配置 Nginx&lt;/a&gt; ，使用 yum 安装：&lt;/p&gt;</description>
     </item>
     <item>
       <title>Mac开发环境配置</title>
       <link>https://blog.chensoul.cc/posts/2021/09/09/mac-development-environment-setup/</link>
       <pubDate>Thu, 09 Sep 2021 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2021/09/09/mac-development-environment-setup/</guid>
-      <description>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是 Mac 开发环境，所以，这篇文章主要是基于 Mac 操作系统，记录开发环境搭建过程。 系统设置 dotfile 配置 下载 dotfile 文件： 1 git clone git@github.com:chensoul/snippets.git 拷贝到用</description>
+      <description>&lt;p&gt;这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是 Mac 开发环境，所以，这篇文章主要是基于 Mac 操作系统，记录开发环境搭建过程。&lt;/p&gt;
+&lt;h2 id=&#34;重装系统后设置&#34;&gt;重装系统后设置&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone https://github.com/chensoul/snippets.git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; snippets/mac-setup
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sh setup.sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;安装其他软件&#34;&gt;安装其他软件&lt;/h2&gt;
+&lt;h3 id=&#34;安装-mysql&#34;&gt;安装 MySQL&lt;/h3&gt;
+&lt;p&gt;安装 MySQL：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-BASH&#34; data-lang=&#34;BASH&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 搜索可以安装的版本&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;➜ brew search mysql
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 安装对应的版本&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;➜ brew install mysql@5.7
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 写入环境变量&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;export PATH=&amp;#34;/opt/homebrew/opt/mysql@5.7/bin:$PATH&amp;#34;&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.zshrc
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 为了让编译器找到 mysql@5.7 还需要写入&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;export LDFLAGS=&amp;#34;-L/opt/homebrew/opt/mysql@5.7/lib&amp;#34;&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.zshrc
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;export CPPFLAGS=&amp;#34;-I/opt/homebrew/opt/mysql@5.7/include&amp;#34;&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.zshrc
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 为了让 pkg-config 找到 mysql@5.7 还需要写入&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;PKG_CONFIG_PATH=&amp;#34;/opt/homebrew/opt/mysql@5.7/lib/pkgconfig&amp;#34;&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.zshrc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;MySQL 服务相关：&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

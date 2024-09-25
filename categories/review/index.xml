@@ -4,7 +4,7 @@
     <title>Review on ChenSoul</title>
     <link>https://blog.chensoul.cc/categories/review/</link>
     <description>Recent content in Review on ChenSoul</description>
-    <generator>Hugo -- 0.133.1</generator>
+    <generator>Hugo -- 0.134.3</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 20 Feb 2024 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/categories/review/index.xml" rel="self" type="application/rss+xml" />
@@ -13,455 +13,1327 @@
       <link>https://blog.chensoul.cc/posts/2024/02/20/til/</link>
       <pubDate>Tue, 20 Feb 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/02/20/til/</guid>
-      <description>今天做了什么： ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 @Aspect @Component public</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;51
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;52
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;53
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;54
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;55
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;56
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;57
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;58
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;59
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;60
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;61
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;62
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;63
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;64
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;65
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@Aspect&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@Component&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;RateLimitAspect&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RedisTemplate&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Object&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisTemplate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Logger&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LoggerFactory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getLogger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RateLimitAspect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;maxRequests&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// Maximum number of requests&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;timeWindow&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// Time window in seconds&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@Autowired&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;RateLimitAspect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RedisTemplate&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Object&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisTemplate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;redisTemplate&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisTemplate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;maxRequests&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// Default maximum number of requests is 100&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;timeWindow&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;60&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// Default time window is 60 seconds&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@Before&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;@annotation(getMapping)&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;applyRateLimit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;JoinPoint&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;joinPoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;GetMapping&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;getMapping&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpServletRequest&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ServletRequestAttributes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RequestContextHolder&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;         &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getRequestAttributes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpMethod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;GET&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;matches&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getMethod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()))&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;username&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getUserPrincipal&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// Get the username&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;username&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;username&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isEmpty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;              &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rateLimitKey&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;rate_limit:&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;username&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;              &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;incrementAndCheckRateLimit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rateLimitKey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;incrementAndCheckRateLimit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rateLimitKey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpServletRequest&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Long&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;currentRequests&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisTemplate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RedisCallback&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Long&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Object&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nativeConnection&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getNativeConnection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;local current = redis.call(&amp;#39;INCR&amp;#39;, KEYS[1])\n&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                  &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;if tonumber(current) == 1 then\n&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                  &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;    redis.call(&amp;#39;EXPIRE&amp;#39;, KEYS[1], ARGV[1])\n&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                  &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;end\n&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                  &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;return current&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Long&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RedisOperations&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nativeConnection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                  &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RedisCallback&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Object&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;connection1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;connection1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;eval&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                          &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getBytes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                          &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisTemplate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getKeySerializer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// Use custom Key serializer&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                          &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redisTemplate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getValueSerializer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// Use custom Value serializer&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                          &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Collections&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;singletonList&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rateLimitKey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getBytes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                          &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Collections&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;singletonList&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;valueOf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;timeWindow&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getBytes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                  &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;currentRequests&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;maxRequests&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;urlWithParams&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;getRequestUrlWithParams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;warn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Rate limit exceeded for key: {}. Request URL with Params: {}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;             &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rateLimitKey&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;urlWithParams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;throw&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RateLimitException&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;getRequestUrlWithParams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpServletRequest&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getRequestURL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;queryString&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getQueryString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;queryString&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;queryString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isEmpty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;?&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;queryString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;调整 &lt;a href=&#34;https://github.com/chensoul/spring-cloud-examples&#34; target=&#34;_blank&#34;&gt;spring-cloud-examples&lt;/a&gt; 目录，通过源码分析 &lt;a href=&#34;https://github.com/chensoul/spring-cloud-examples/blob/main/lesson-01-bootstrap/SpringBoot%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B.md&#34; target=&#34;_blank&#34;&gt;SpringBoot 2.7.18 启动过程&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-02-19｜foodie-cloud集成Sharding Sphere实现读写分离</title>
       <link>https://blog.chensoul.cc/posts/2024/02/19/til/</link>
       <pubDate>Mon, 19 Feb 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/02/19/til/</guid>
-      <description>今天做了什么： 重构 foodie-cloud 项目 基于 docker 实现数据库配置主从复制，集成 Sharding Sphere 实现读写分离</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目
+&lt;ul&gt;
+&lt;li&gt;基于 docker 实现数据库配置主从复制，&lt;a href=&#34;https://github.com/chensoul/foodie-cloud/blob/main/docs/mysql.md&#34; target=&#34;_blank&#34;&gt;集成 Sharding Sphere 实现读写分离&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     <item>
       <title>2024-02-18｜NewRelice应用性能监控、6个Diagrams工具、foodie-food测试</title>
       <link>https://blog.chensoul.cc/posts/2024/02/18/til/</link>
       <pubDate>Sun, 18 Feb 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/02/18/til/</guid>
-      <description>今天做了什么： NewRelice：应用性能监控 https://www.cnblogs.com/caoweixiong/p/14798449.html Top 6 Tools to Turn Code into Beautiful Diagrams ： Diagrams Go Diagrams Mermaid PlantUML ASCII diagrams，asciiflow &amp;amp; monodraw Markmap foodie-cloud 项目 测试 resilience4j 使用 bash 测试接口：test-em-all.sh 使用 docker 部署项目</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://newrelic.com/&#34; target=&#34;_blank&#34;&gt;NewRelice&lt;/a&gt;：应用性能监控&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.cnblogs.com/caoweixiong/p/14798449.html&#34; target=&#34;_blank&#34;&gt;https://www.cnblogs.com/caoweixiong/p/14798449.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=jCd6XfWLZsg&#34; target=&#34;_blank&#34;&gt;Top 6 Tools to Turn Code into Beautiful Diagrams&lt;/a&gt; ：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://diagrams.mingrammer.com/&#34; target=&#34;_blank&#34;&gt;Diagrams&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://godiagram.com/winforms/latest/&#34; target=&#34;_blank&#34;&gt;Go Diagrams&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://mermaid.js.org/&#34; target=&#34;_blank&#34;&gt;Mermaid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://plantuml.com/&#34; target=&#34;_blank&#34;&gt;PlantUML&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;ASCII diagrams，&lt;a href=&#34;https://asciiflow.com/#/&#34; target=&#34;_blank&#34;&gt;asciiflow&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://monodraw.helftone.com/&#34; target=&#34;_blank&#34;&gt;monodraw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://markmap.js.org/&#34; target=&#34;_blank&#34;&gt;Markmap&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;测试 resilience4j&lt;/li&gt;
+&lt;li&gt;使用 bash 测试接口：test-em-all.sh&lt;/li&gt;
+&lt;li&gt;使用 docker 部署项目&lt;/li&gt;
+&lt;/ul&gt;</description>
     </item>
     <item>
       <title>2024-02-05｜Spring Cloud Config快速入门</title>
       <link>https://blog.chensoul.cc/posts/2024/02/05/til/</link>
       <pubDate>Mon, 05 Feb 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/02/05/til/</guid>
-      <description>今天做了什么： 创建项目 spring-cloud-examples，测试 Spring Cloud Config 使用本地文件和 git 仓库作为配置中心 Spring Cloud Config 是一个基于http协议的远程配置实现方式。通过统一的配置管理服务器进行配置管理，客户端</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建项目 &lt;a href=&#34;https://github.com/chensoul/spring-cloud-examples&#34; target=&#34;_blank&#34;&gt;spring-cloud-examples&lt;/a&gt;，测试 &lt;em&gt;Spring Cloud&lt;/em&gt; Config 使用本地文件和 git 仓库作为配置中心&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;Spring Cloud&lt;/em&gt; Config 是一个基于http协议的远程配置实现方式。通过统一的配置管理服务器进行配置管理，客户端通过http协议主动的拉取服务的的配置信息，完成配置获取。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-02-04｜foodie-cloud集成Resilience4j</title>
       <link>https://blog.chensoul.cc/posts/2024/02/04/til/</link>
       <pubDate>Sun, 04 Feb 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/02/04/til/</guid>
-      <description>今天做了什么： 重构 foodie-cloud 项目 集成 Resilience4j 修改 README.md 文档 阅读博客 https://blog.csdn.net/weixin_42189048 Enum + Validation 的个人最佳实践 demo 分享</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;集成 &lt;strong&gt;Resilience4j&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;修改 README.md 文档&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;阅读博客 &lt;a href=&#34;https://blog.csdn.net/weixin_42189048&#34; target=&#34;_blank&#34;&gt;https://blog.csdn.net/weixin_42189048&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.csdn.net/weixin_42189048/article/details/125276495?spm=1001.2014.3001.5501&#34; target=&#34;_blank&#34;&gt;Enum + Validation 的个人最佳实践 demo 分享&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     <item>
       <title>2024-02-02｜foodie-cloud集成Spring Cloud Config和SpringDoc</title>
       <link>https://blog.chensoul.cc/posts/2024/02/02/til/</link>
       <pubDate>Fri, 02 Feb 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/02/02/til/</guid>
-      <description>今天做了什么： 参考 《Microservices with Spring Boot 3 and Spring Cloud》，重构 foodie-cloud 项目 集成 Spring Cloud Config 使用文件保存配置文件 集成 SpringDoc OpenAPI 基于 Javadoc 生成 API 文档 todo： 集成 Resilience4j 集成 Zipkin 部署到 Kubernetes 集成 EFK 集成 Spring Cloud Bus</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;参考 《&lt;a href=&#34;https://download.packt.com/free-ebook/9781805128694&#34; target=&#34;_blank&#34;&gt;Microservices with Spring Boot 3 and Spring Cloud&lt;/a&gt;》，重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;集成 Spring Cloud Config 使用文件保存配置文件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;集成 SpringDoc OpenAPI 基于 Javadoc 生成 API 文档&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;todo：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;集成 &lt;strong&gt;Resilience4j&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;集成 &lt;strong&gt;Zipkin&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;部署到 Kubernetes&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;集成 EFK&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;集成 Spring Cloud Bus&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     <item>
       <title>2024-02-01｜使用 Spring Initializr 创建项目</title>
       <link>https://blog.chensoul.cc/posts/2024/02/01/til/</link>
       <pubDate>Thu, 01 Feb 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/02/01/til/</guid>
-      <description>今天做了什么： 重构 foodie-cloud 项目，部署到 docker 容器 使用 Spring Initializr 创建项目 使用 Spring Initializr 创建项目 安装 spring cli 使用 brew 安装的 spring cli 版本是 3.x 版本 1 2 brew tap pivotal/tap brew install springboot 使用 sdkman 安装： 1 sdk install springboot 3.2.2 查看版本： 1 2 $ spring version Spring CLI v3.2.2 查看 spring cli 支持的命令 1 spring help 查看 init</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目，部署到 docker 容器&lt;/li&gt;
+&lt;li&gt;使用 Spring Initializr 创建项目&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;使用-spring-initializr-创建项目&#34;&gt;使用 Spring Initializr 创建项目&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;安装  spring cli&lt;/p&gt;
+&lt;p&gt;使用 brew 安装的 spring cli 版本是 3.x 版本&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;brew tap pivotal/tap
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;brew install springboot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;使用 sdkman 安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sdk install springboot 3.2.2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;查看版本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ spring version
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Spring CLI v3.2.2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;查看 spring cli 支持的命令&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;spring &lt;span class=&#34;nb&#34;&gt;help&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;查看 init 命令说明：&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-31｜Redis事务</title>
       <link>https://blog.chensoul.cc/posts/2024/01/31/til/</link>
       <pubDate>Wed, 31 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/31/til/</guid>
-      <description>今天做了什么： 下载 《Microservices with Spring Boot 3 and Spring Cloud》，源码在 github Redis 事务 Redis事务 原理 Redis 是一个内存数据库，它支持事务操作。Redis 事务是一系列的命令操作，这些命令会被一起执行，要么</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;下载 《&lt;a href=&#34;https://download.packt.com/free-ebook/9781805128694&#34; target=&#34;_blank&#34;&gt;Microservices with Spring Boot 3 and Spring Cloud&lt;/a&gt;》，源码在 &lt;a href=&#34;https://github.com/PacktPublishing/Microservices-with-Spring-Boot-and-Spring-Cloud-Third-Edition&#34; target=&#34;_blank&#34;&gt;github&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Redis 事务&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;redis事务&#34;&gt;Redis事务&lt;/h1&gt;
+&lt;h2 id=&#34;原理&#34;&gt;原理&lt;/h2&gt;
+&lt;p&gt;Redis 是一个内存数据库，它支持事务操作。Redis 事务是一系列的命令操作，这些命令会被一起执行，要么全部成功，要么全部失败。在事务执行期间，其他客户端提交的命令不会被插入到事务中，确保事务的原子性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-30｜Mybatis plus和Jackson配置</title>
       <link>https://blog.chensoul.cc/posts/2024/01/30/til/</link>
       <pubDate>Tue, 30 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/30/til/</guid>
-      <description>今天做了什么： 重构 foodie-cloud 项目 参考 DDD 组织包结构 Mybatis plus 配置主键生成策略和数据审计功能 Jackson 配置日期序列化 重构 foodie-cloud 项目 Mybatis plus 配置主键生成策略 实体类中可以不用添加@TableId，减少实体类对 mybatis-plus-an</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目
+&lt;ul&gt;
+&lt;li&gt;参考 DDD 组织包结构&lt;/li&gt;
+&lt;li&gt;Mybatis plus 配置主键生成策略和数据审计功能&lt;/li&gt;
+&lt;li&gt;Jackson 配置日期序列化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;重构-foodie-cloud-项目&#34;&gt;重构 foodie-cloud 项目&lt;/h2&gt;
+&lt;h3 id=&#34;mybatis-plus-配置主键生成策略&#34;&gt;Mybatis plus 配置主键生成策略&lt;/h3&gt;
+&lt;p&gt;实体类中可以不用添加@TableId，减少实体类对 mybatis-plus-annotation的依赖&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-29｜C4架构模型</title>
       <link>https://blog.chensoul.cc/posts/2024/01/29/til/</link>
       <pubDate>Mon, 29 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/29/til/</guid>
-      <description>今天做了什么： 重构 foodie-cloud 项目 C4 架构模型 C4架构模型 C4 架构模型是一种简洁且易于理解的软件架构描述方法，由 Simon Brown 提出。C4 表示 Context, Containers, Components, and Code，这四个层级帮助我们组织和描述软件系统的不同抽象层次。 以下是 C4 架构模</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;C4 架构模型&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;c4架构模型&#34;&gt;C4架构模型&lt;/h2&gt;
+&lt;p&gt;C4 架构模型是一种简洁且易于理解的软件架构描述方法，由 Simon Brown 提出。C4 表示 Context, Containers, Components, and Code，这四个层级帮助我们组织和描述软件系统的不同抽象层次。&lt;/p&gt;
+&lt;p&gt;以下是 C4 架构模型的四个层级：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Context（上下文）：这是最高级别的层级，用于描述系统的整体环境和目标。在这个层级，我们关注系统与外部实体（如用户、其他系统、硬件设备等）的交互。可以使用上下文图（Context Diagram）来展示系统和相关实体之间的关系。&lt;/li&gt;
+&lt;li&gt;Containers（容器）：这个层级用于描述系统内部的主要逻辑组件，通常是一个独立的运行时进程或线程。容器可以是 Web 服务器、数据库、消息队列、桌面应用等，它们在系统中承担着不同的角色和责任。通过容器图（Container Diagram），我们可以展示系统中的容器及其之间的关系。&lt;/li&gt;
+&lt;li&gt;Components（组件）：这个层级用于进一步划分容器，描述容器内部的组织结构和组件之间的关系。组件是系统的构建块，代表了较细粒度的功能单元或模块。可以使用组件图（Component Diagram）来展示组件及其之间的关系。&lt;/li&gt;
+&lt;li&gt;Code（代码）：这个层级用于描述组件内部的代码结构和实现细节。在这个层级，我们可以使用类图、包图等来展示代码级别的结构和关系。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;C4 架构模型通过层级化的方式，帮助我们从高级别到低级别逐步展示和描述软件系统的不同抽象层次，使得架构描述更加清晰和易于理解。它适用于不同规模和复杂度的软件系统，并且可以方便地与其他架构描述方法（如 UML）结合使用。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-26｜foodie-cloud集成Feign</title>
       <link>https://blog.chensoul.cc/posts/2024/01/26/til/</link>
       <pubDate>Fri, 26 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/26/til/</guid>
-      <description>今天做了什么： 重构 foodie-cloud 项目 集成 Feign 替换 RestTemplate 认证服务负责用户的维护和登录 整理 Feign、Eureka、Seata、Sentinel 相关文档 eureka分区的深入讲解 Spring Cloud Eureka详解</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;集成 Feign 替换 RestTemplate&lt;/li&gt;
+&lt;li&gt;认证服务负责用户的维护和登录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;整理 Feign、Eureka、Seata、Sentinel 相关文档&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://segmentfault.com/a/1190000014107639&#34; target=&#34;_blank&#34;&gt;eureka分区的深入讲解&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://cloud.tencent.com/developer/article/2106187&#34; target=&#34;_blank&#34;&gt;Spring Cloud Eureka详解&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     <item>
       <title>2024-01-25｜Idea和zsh快捷键</title>
       <link>https://blog.chensoul.cc/posts/2024/01/25/til/</link>
       <pubDate>Thu, 25 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/25/til/</guid>
-      <description>今天做了什么： 整理 Idea 快捷键 整理 zsh 中定义的常用的快捷键 Idea 快捷键 使用快捷键 command +1 打开 Project 窗口 输入 control + R 可以运行 Java 代码 上下文 在 for 方法上，输入 option + enter，可以调出上下文，替换 for 表达式 在字符串上面输入 option + ent</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;整理 Idea 快捷键&lt;/li&gt;
+&lt;li&gt;整理 zsh 中定义的常用的快捷键&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;idea-快捷键&#34;&gt;Idea 快捷键&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;使用快捷键 command +1 打开 Project 窗口&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;输入 control + R 可以运行 Java 代码&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;上下文&#34;&gt;上下文&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;在 for 方法上，输入 option + enter，可以调出上下文，替换 for 表达式&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在字符串上面输入 option + enter，可以调出上下文。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-24｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/24/til/</link>
       <pubDate>Wed, 24 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/24/til/</guid>
-      <description>今天做了什么： 观看 B 站视频《鸟宝的春天11_security编码实现》 参考视频中示例使用 SecurityFilterChain DSL 语法实现用户名密码登录功能。 扩展 WebAuthenticationDetails ，修改客户端 IP 获取方式，并记录服务端 IP。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 public</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;观看 B 站视频《&lt;a href=&#34;https://www.bilibili.com/video/BV1F5411y7Ta/&#34; target=&#34;_blank&#34;&gt;鸟宝的春天11_security编码实现&lt;/a&gt;》&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;参考视频中示例使用 SecurityFilterChain DSL 语法实现用户名密码登录功能。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;扩展 WebAuthenticationDetails ，修改客户端 IP 获取方式，并记录服务端 IP。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;CustomWebAuthenticationDetails&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;extends&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;WebAuthenticationDetails&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serialVersionUID&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;4441359628463408329L&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@Getter&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverAddress&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;CustomWebAuthenticationDetails&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpServletRequest&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverAddress&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;super&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpRequestUtils&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getClientIp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;extractSessionId&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;serverAddress&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverAddress&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;protected&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;extractSessionId&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpServletRequest&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpSession&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getSession&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;?&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getId&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;获取客户端 IP 使用了 HttpRequestUtils 类，实际上就是从 Request 的 header 中获取 IP。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-23｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/23/til/</link>
       <pubDate>Tue, 23 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/23/til/</guid>
-      <description>今天做了什么： 重构 foodie-cloud 项目，修改模块名称、表名及字段名。 修改 spring-security-oauth2-legacy-examples ，测试资源服务器通过 jwt、jwk、远程三种方式获取用户信息；测试 sso 单点登录（进行中）。</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目，修改模块名称、表名及字段名。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;修改 &lt;a href=&#34;https://github.com/chensoul/spring-security-oauth2-legacy-examples&#34; target=&#34;_blank&#34;&gt;spring-security-oauth2-legacy-examples&lt;/a&gt; ，测试资源服务器通过 jwt、jwk、远程三种方式获取用户信息；测试 sso 单点登录（进行中）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     <item>
       <title>2024-01-22｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/22/til/</link>
       <pubDate>Mon, 22 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/22/til/</guid>
-      <description>今天做了什么： 修改瑞吉外卖项目 reggie： 去掉 .mvn 相关文件，去掉 github action 中用到 .mvn 的 workflow 参考 DDD 修改包结构 配置 Redis 持久化 chensoul-parent 发布 v1.0.40 ，升级 maven 插件版本，去掉 sortpom、impsort 插件 vps 禁用防火墙 观看慕课网视频《</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;修改瑞吉外卖项目 &lt;a href=&#34;https://github.com/chensoul/reggie&#34; target=&#34;_blank&#34;&gt;reggie&lt;/a&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;去掉 .mvn 相关文件，去掉 github action 中用到 .mvn 的 workflow&lt;/li&gt;
+&lt;li&gt;参考 DDD 修改包结构&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;配置 Redis 持久化&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/chensoul/chensoul-parent&#34; target=&#34;_blank&#34;&gt;chensoul-parent&lt;/a&gt; 发布 v1.0.40 ，升级 maven 插件版本，去掉 sortpom、impsort 插件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;vps 禁用防火墙&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;观看慕课网视频《&lt;a href=&#34;https://coding.imooc.com/class/467.html&#34; target=&#34;_blank&#34;&gt;高级Redis进阶课 解决Redis实际问题+掌握Redis6.x特性&lt;/a&gt;》，网盘地址：&lt;a href=&#34;https://www.aliyundrive.com/s/DqXP972AJnk&#34; target=&#34;_blank&#34;&gt;https://www.aliyundrive.com/s/DqXP972AJnk&lt;/a&gt;。注意：其中没有项目资料，如有需要，可以联系我。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-18｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/18/til/</link>
       <pubDate>Thu, 18 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/18/til/</guid>
-      <description>今天做了什么： 修改瑞吉外卖项目 reggie： 修改数据源配置，使用 HikariCP 数据源 修改接口返回字段和前端文件，code=0 表示成功 添加 mysql、redis 安装文档 添加 openresty lua 脚本实现 redis 缓存 基于 springboot 使用 sharding-jdbc 测试读写分离</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;修改瑞吉外卖项目 &lt;a href=&#34;https://github.com/chensoul/reggie&#34; target=&#34;_blank&#34;&gt;reggie&lt;/a&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;修改数据源配置，使用 HikariCP 数据源&lt;/li&gt;
+&lt;li&gt;修改接口返回字段和前端文件，code=0 表示成功&lt;/li&gt;
+&lt;li&gt;添加 mysql、redis 安装文档&lt;/li&gt;
+&lt;li&gt;添加 openresty lua 脚本实现 redis 缓存&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;基于 springboot 使用 sharding-jdbc 测试读写分离、分库分表。代码在：&lt;a href=&#34;https://github.com/chensoul/sharding-examples&#34; target=&#34;_blank&#34;&gt;https://github.com/chensoul/sharding-examples&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-17｜MySQL 主从复制、ShardingJDBC实现读写分离、集成Springdoc&#43;Javadoc</title>
       <link>https://blog.chensoul.cc/posts/2024/01/17/til/</link>
       <pubDate>Wed, 17 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/17/til/</guid>
-      <description>今天做了什么： 观看《2022年黑马程序员新版java课程》中 MySQL 主从复制和读写分离相关视频，使用 Docker 搭建 MySQL 主从复制环境。 foodie-cloud 项目实现读写分离并集成 Springdoc Docker 搭建 MySQL 主从复制环境 参考文章 ：基于 Docker 的 MySQL 主从复制搭建及原理</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;观看《2022年黑马程序员新版java课程》中 MySQL 主从复制和读写分离相关视频，使用 Docker 搭建 MySQL 主从复制环境。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目实现读写分离并集成 Springdoc&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;docker-搭建-mysql-主从复制环境&#34;&gt;Docker 搭建 MySQL 主从复制环境&lt;/h2&gt;
+&lt;p&gt;参考文章 ：&lt;a href=&#34;https://learnku.com/articles/30439&#34; target=&#34;_blank&#34;&gt;基于 Docker 的 MySQL 主从复制搭建及原理（真正弄懂）&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-16｜Redis安装</title>
       <link>https://blog.chensoul.cc/posts/2024/01/16/til/</link>
       <pubDate>Tue, 16 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/16/til/</guid>
-      <description>今天做了什么： 1、spring-cloud-examples 添加分布式锁、rabbitmq、kafka、分库分表等示例代码 2、foodie-cloud 添加登录部分代码 3、整理 Redis 安装文档 Redis 安装 Centos7 通过 yum 安</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;p&gt;1、&lt;a href=&#34;https://github.com/chensoul/spring-cloud-examples&#34; target=&#34;_blank&#34;&gt;spring-cloud-examples&lt;/a&gt; 添加分布式锁、rabbitmq、kafka、分库分表等示例代码&lt;/p&gt;
+&lt;p&gt;2、&lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 添加登录部分代码&lt;/p&gt;
+&lt;p&gt;3、整理 Redis 安装文档&lt;/p&gt;
+&lt;h2 id=&#34;redis-安装&#34;&gt;Redis 安装&lt;/h2&gt;
+&lt;h3 id=&#34;centos7-通过-yum-安装&#34;&gt;Centos7 通过 yum 安装&lt;/h3&gt;
+&lt;p&gt;在 CentOS 7 上通过 yum 安装 Redis，可以按照以下步骤进行操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;更新系统软件包：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo yum update
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装 Redis：&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-15｜Nginx配置结构与指令语法</title>
       <link>https://blog.chensoul.cc/posts/2024/01/15/til/</link>
       <pubDate>Mon, 15 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/15/til/</guid>
-      <description>今天做了什么： 1、看 JHipster 源码发现这两个类库 jackson-datatypes-collections 支持 hppc 数据类型。hppc：Java 的高性能原始集合，HPPC 为所有 Java 基元类型提供典型集合的模板生成实现，例如列表、集合和映射。HPPC 背后的主要驱动力是针对最</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;p&gt;1、看 JHipster 源码发现这两个类库&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/FasterXML/jackson-datatypes-collections&#34; target=&#34;_blank&#34;&gt;jackson-datatypes-collections&lt;/a&gt; 支持 hppc 数据类型。hppc：&lt;em&gt;Java 的高性能原始集合&lt;/em&gt;，HPPC 为所有 Java 基元类型提供典型集合的模板生成实现，例如列表、集合和映射。HPPC 背后的主要驱动力是针对最高性能和内存效率的优化。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-11｜Session和Cookie的区别、单点登录和三方登录的区别</title>
       <link>https://blog.chensoul.cc/posts/2024/01/11/til/</link>
       <pubDate>Thu, 11 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/11/til/</guid>
-      <description>今天做了什么： 1、观看 B 站 《SSO单点登录》视频 2、参考 https://github.com/jOOQ/jOOL 和 https://github.com/vavr-io/vavr ，将 CheckedXXX 的类加入公司项目中。 涉及的类有：Async.java、Blocking.java、CheckedBiConsumer.java、Ch</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 1、观看 B 站 《&lt;a href=&#34;https://www.bilibili.com/video/BV1ht4y1E7EL?p=1&#34; target=&#34;_blank&#34;&gt;SSO单点登录&lt;/a&gt;》视频&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 2、参考  &lt;a href=&#34;https://github.com/jOOQ/jOOL&#34; target=&#34;_blank&#34;&gt;https://github.com/jOOQ/jOOL&lt;/a&gt; 和 &lt;a href=&#34;https://github.com/vavr-io/vavr&#34; target=&#34;_blank&#34;&gt;https://github.com/vavr-io/vavr&lt;/a&gt; ，将 CheckedXXX 的类加入公司项目中。&lt;/p&gt;
+&lt;p&gt;涉及的类有：Async.java、Blocking.java、CheckedBiConsumer.java、CheckedBiFunction.java、CheckedBiPredicate.java、CheckedComparator.java、CheckedConsumer.java、CheckedFunction.java、CheckedPredicate.java、CheckedRunnable.java、CheckedSupplier.java、FunctionUtils.java、OnceConsumer.java、SameExecutorCompletionStage.java、UncheckedException.java，并添加单元测试类。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-10｜ Java审计框架inspektr</title>
       <link>https://blog.chensoul.cc/posts/2024/01/10/til/</link>
       <pubDate>Wed, 10 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/10/til/</guid>
-      <description>今天做了什么： 1、Java Lambda 增强 https://github.com/jOOQ/jOOL 和 https://github.com/vavr-io/vavr ，jOOL 在 jdk8 下存在编译错误，计划，整合这两个项目，创建一个新的项目，只引入自己需要的一些类。 2、https://www.pac4j.org/ 一个安全框架 3、ht</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;p&gt;1、Java Lambda 增强 &lt;a href=&#34;https://github.com/jOOQ/jOOL&#34; target=&#34;_blank&#34;&gt;https://github.com/jOOQ/jOOL&lt;/a&gt; 和 &lt;a href=&#34;https://github.com/vavr-io/vavr&#34; target=&#34;_blank&#34;&gt;https://github.com/vavr-io/vavr&lt;/a&gt; ，jOOL 在 jdk8 下存在编译错误，计划，整合这两个项目，创建一个新的项目，只引入自己需要的一些类。&lt;/p&gt;
+&lt;p&gt;2、&lt;a href=&#34;https://www.pac4j.org/&#34; target=&#34;_blank&#34;&gt;https://www.pac4j.org/&lt;/a&gt; 一个安全框架&lt;/p&gt;
+&lt;p&gt;3、&lt;a href=&#34;https://github.com/apereo/inspektr&#34; target=&#34;_blank&#34;&gt;https://github.com/apereo/inspektr&lt;/a&gt; 一个轻量级的 Java 审计框架。这个是在看 CAS 源码的过程中，发现的。&lt;/p&gt;
+&lt;p&gt;在 CAS 的源码中，有一些比较不错的代码，引入到自己的项目中，另外，打算仿照这个 inspektr 框架，重写公司微服务项目中的日志记录模块。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-09｜单点登录</title>
       <link>https://blog.chensoul.cc/posts/2024/01/09/til/</link>
       <pubDate>Tue, 09 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/09/til/</guid>
-      <description>今天做了什么： 使用 renovate 监控第三方依赖更新 ，renovate 貌似需要付费，放弃。 spring-security-oauth2-samples 示例工程重命名模块和包名，代码见 spring-security-oauth2-boot 实现单点登录并测试 实现单点登录并测试 实现单点登录（Single Sign-On，SSO）可</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://zexo.dev/posts/2020/03/01/keep-your-repo-dependencies-up-to-date-with-renovate/&#34; target=&#34;_blank&#34;&gt;使用 renovate 监控第三方依赖更新&lt;/a&gt; ，renovate 貌似需要付费，放弃。&lt;/li&gt;
+&lt;li&gt;spring-security-oauth2-samples 示例工程重命名模块和包名，代码见 &lt;a href=&#34;https://github.com/chensoul/spring-security-oauth2-boot&#34; target=&#34;_blank&#34;&gt;spring-security-oauth2-boot&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;实现单点登录并测试&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;实现单点登录并测试&#34;&gt;实现单点登录并测试&lt;/h2&gt;
+&lt;p&gt;实现单点登录（Single Sign-On，SSO）可以采用多种思路和技术。下面是几种常见的实现思路：&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-08｜VPS 迁移</title>
       <link>https://blog.chensoul.cc/posts/2024/01/08/til/</link>
       <pubDate>Mon, 08 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/08/til/</guid>
-      <description>今天做了什么： VPS 迁移 继续重构 foodie-cloud 参考 https://github.com/mybatis/parent/ 重构 chensoul-parent 修改了 maven 插件 添加了 Github Actions VPS 迁移 迁移步骤： 旧的 VPS 上备份数据库、nginx 配置文件、docker-compose 文件 新的 VPS 上安装 docker、docker-comp</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;VPS 迁移&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;继续重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;参考 &lt;a href=&#34;https://github.com/mybatis/parent/&#34; target=&#34;_blank&#34;&gt;https://github.com/mybatis/parent/  &lt;/a&gt; 重构 &lt;a href=&#34;https://github.com/chensoul/chensoul-parent&#34; target=&#34;_blank&#34;&gt;chensoul-parent&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;修改了 maven 插件&lt;/li&gt;
+&lt;li&gt;添加了 Github Actions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;vps-迁移&#34;&gt;VPS 迁移&lt;/h2&gt;
+&lt;p&gt;迁移步骤：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;旧的 VPS 上备份数据库、nginx 配置文件、docker-compose 文件&lt;/li&gt;
+&lt;li&gt;新的 VPS 上安装 docker、docker-compose、nginx&lt;/li&gt;
+&lt;li&gt;新的 VPS 上恢复数据库，配置 nginx&lt;/li&gt;
+&lt;li&gt;修改 DNS 解析&lt;/li&gt;
+&lt;/ul&gt;</description>
     </item>
     <item>
       <title>2024-01-05｜Nginx、正向代理和反向代理</title>
       <link>https://blog.chensoul.cc/posts/2024/01/05/til/</link>
       <pubDate>Fri, 05 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/05/til/</guid>
-      <description>今天做了什么： Nginx、正向代理和反向代理 Nginx 介绍 Nginx（发音为&amp;quot;engine-x&amp;quot;）是一个高性能的开源Web服务器和反向代理服务器。它专注于高并发、低内存消耗和高度模块化的架</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Nginx、正向代理和反向代理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;nginx-介绍&#34;&gt;Nginx 介绍&lt;/h2&gt;
+&lt;p&gt;Nginx（发音为&amp;quot;engine-x&amp;quot;）是一个高性能的开源Web服务器和反向代理服务器。它专注于高并发、低内存消耗和高度模块化的架构，因此被广泛用于构建性能出色的网站、应用程序和服务。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-04｜GitHub Actions</title>
       <link>https://blog.chensoul.cc/posts/2024/01/04/til/</link>
       <pubDate>Thu, 04 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/04/til/</guid>
-      <description>今天做了什么： 修改个人联系方式 注销亚马逊账号 利用GitHub Actions自动优雅地为项目构建Releases 利用GitHub Actions自动构建项目的docker镜像并发布到DockerHub 修改</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;修改个人联系方式&lt;/li&gt;
+&lt;li&gt;注销亚马逊账号&lt;/li&gt;
+&lt;li&gt;利用GitHub Actions自动优雅地为项目构建Releases&lt;/li&gt;
+&lt;li&gt;利用GitHub Actions自动构建项目的docker镜像并发布到DockerHub&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;修改个人联系方式&#34;&gt;修改个人联系方式&lt;/h2&gt;
+&lt;p&gt;使用 ichensoul 注册了新的 Gmail、163 邮箱，并将各种网站绑定的邮箱修改到新的 gmail 邮箱。自此，gmail、github、推特、微信、163 的账号都保持为一致，都是 ichensoul。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-03｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/03/til/</link>
       <pubDate>Wed, 03 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/03/til/</guid>
-      <description>今天做了什么： idworker-client ，一个开源的 ID 生成器，适合在单机使用 github 上创建了一个使用 spring cloud netflix 相关组件的微服务项目 spring-cloud-examples 重构了狂野架构师课程中的微服务版本的源码 foodie-cloud 重构慕课网 Java架构师-技术专家 课程中的 源码，我做了一些改</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/bingoohuang/idworker-client&#34; target=&#34;_blank&#34;&gt;idworker-client&lt;/a&gt; ，一个开源的 ID 生成器，适合在单机使用&lt;/li&gt;
+&lt;li&gt;github 上创建了一个使用 spring cloud netflix 相关组件的微服务项目 &lt;a href=&#34;https://github.com/chensoul/spring-cloud-examples&#34; target=&#34;_blank&#34;&gt;spring-cloud-examples&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;重构了狂野架构师课程中的微服务版本的源码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;foodie-cloud&#34;&gt;foodie-cloud&lt;/h1&gt;
+&lt;p&gt;重构慕课网 &lt;a href=&#34;https://class.imooc.com/sale/javaarchitect&#34; target=&#34;_blank&#34;&gt;Java架构师-技术专家&lt;/a&gt; 课程中的 &lt;a href=&#34;https://github.com/liuhouer/np-architect/&#34; target=&#34;_blank&#34;&gt;源码&lt;/a&gt;，我做了一些改动：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;升级 Spring Boot 和 Spring Cloud 版本&lt;/li&gt;
+&lt;li&gt;去掉 tk-mybatis 改为使用 mybatis-plus&lt;/li&gt;
+&lt;li&gt;重构模块和部分代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;重构后的源码地址：&lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;https://github.com/chensoul/foodie-cloud&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-02｜雪崩问题、Spring Cloud微服务集成 Sentinel</title>
       <link>https://blog.chensoul.cc/posts/2024/01/02/til/</link>
       <pubDate>Tue, 02 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/02/til/</guid>
-      <description>今天做了什么： 雪崩问题 Spring Cloud微服务集成 Sentinel 扩展 Sentinel 集成 OpenFeign，实现自动降级 雪崩问题 1、什么是雪崩问题？ 雪崩问题（Avalanche Effect）是指在分布式系统中，当一个节点或服务出现故</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;雪崩问题&lt;/li&gt;
+&lt;li&gt;Spring Cloud微服务集成 Sentinel&lt;/li&gt;
+&lt;li&gt;扩展 Sentinel 集成 OpenFeign，实现自动降级&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;雪崩问题&#34;&gt;雪崩问题&lt;/h2&gt;
+&lt;p&gt;1、什么是雪崩问题？&lt;/p&gt;
+&lt;p&gt;雪崩问题（Avalanche Effect）是指在分布式系统中，当一个节点或服务出现故障或不可用时，其影响会扩散到其他节点或服务，导致级联故障的现象。这种现象类似于雪崩，一旦开始，会不断放大和蔓延，最终导致整个系统崩溃。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-28｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2023/12/28/til/</link>
       <pubDate>Thu, 28 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/28/til/</guid>
-      <description>今天做了什么： 重构微服务项目中使用 spring-security-oauth2 搭建 OAuth2 认证服务和资源服务的代码，减少其他模块对此的耦合度。计划将 spring-security-oauth2 迁移到 spring-security-oauth2-authorization-server 上，即使用 OAuth2.1 授权和认证。Spring Authorization Server 相关文档，可以参考 https://blog.51c</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;重构微服务项目中使用 spring-security-oauth2 搭建 OAuth2 认证服务和资源服务的代码，减少其他模块对此的耦合度。计划将 spring-security-oauth2 迁移到 spring-security-oauth2-authorization-server 上，即使用 OAuth2.1 授权和认证。&lt;strong&gt;Spring Authorization Server&lt;/strong&gt; 相关文档，可以参考 &lt;a href=&#34;https://blog.51cto.com/u_15268610/category2&#34; target=&#34;_blank&#34;&gt;https://blog.51cto.com/u_15268610/category2&lt;/a&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;看 &lt;a href=&#34;https://github.com/xuxiaowei-cloud/xuxiaowei-cloud&#34; target=&#34;_blank&#34;&gt;xuxiaowei-cloud&lt;/a&gt; master 分支源代码，整理 /login 登陆逻辑，参数：username、password、tenantId、clientId&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-27｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2023/12/27/til/</link>
       <pubDate>Wed, 27 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/27/til/</guid>
-      <description>今天做了什么： 微服务项目中认证服务器配置授权码模式，并测试通过 扩展 RedisAuthorizationCodeServices ，支持设置过期时间。 注意：OAuth2Authentication 无法从 json 反序列化，故无法使用 JSON 反序列化类，只能使用 JDK 反序列化类。 扩</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;微服务项目中认证服务器配置授权码模式，并测试通过&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;扩展 RedisAuthorizationCodeServices ，支持设置过期时间。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;注意：OAuth2Authentication 无法从 json 反序列化，故无法使用 JSON 反序列化类，只能使用  JDK 反序列化类。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;扩展 BearerTokenExtractor，支持从 request 请求的 header 中读取 access_token&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-22｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2023/12/22/til/</link>
       <pubDate>Fri, 22 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/22/til/</guid>
-      <description>今天做了什么： 我使用的 Idea 插件。 springdoc-openapi v1.7.0 示例 Spring Security OAuth Boot 2 Autoconfig 转换成 maven 项目，并添加示例 Idea 1、插件 GenerateSerialVersionUID：自动生成 serialVersionUID MicroProfile Starter：创建 MicroProfile 微服务应用 Easy Javadoc：快速</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;我使用的 Idea 插件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;springdoc-openapi v1.7.0 示例&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spring Security OAuth Boot 2 Autoconfig 转换成 maven 项目，并添加示例&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;idea&#34;&gt;Idea&lt;/h2&gt;
+&lt;p&gt;1、插件&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;GenerateSerialVersionUID：自动生成 serialVersionUID&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MicroProfile Starter：创建 MicroProfile 微服务应用&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Easy Javadoc：快速生成 Javadoc&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;快捷键&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;作用域&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;说明&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl \&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;类、方法、属性（光标放上面就行，不要双击选中！）&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;生成当前文档注释&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl \&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;选中的&lt;/strong&gt;中文&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;生成选中的中文的英文命名&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl \&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;选中的&lt;/strong&gt;非中文&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;弹框展示翻译结果&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl shift \&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;类&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;生成全部文档注释&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;.ignore&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-21｜Spring Security对OAuth2的支持及实现方式</title>
       <link>https://blog.chensoul.cc/posts/2023/12/21/til/</link>
       <pubDate>Thu, 21 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/21/til/</guid>
-      <description>Today I Learned. 今天分享内容：Spring Security 对 OAuth2 的支持 Spring Security 提供了对 OAuth 的支持，并且有几个相关的项目可以用于实现 OAuth 功能。以下是一些常见的 Spring Security OAuth 项目及其相关信息： Spring Security OAuth（https://github.com/</description>
+      <description>&lt;p&gt;Today I Learned. 今天分享内容：Spring Security 对 OAuth2 的支持&lt;/p&gt;
+&lt;p&gt;Spring Security 提供了对 OAuth 的支持，并且有几个相关的项目可以用于实现 OAuth 功能。以下是一些常见的 Spring Security OAuth 项目及其相关信息：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Spring Security OAuth（&lt;a href=&#34;https://github.com/spring-attic/spring-security-oauth&#34; target=&#34;_blank&#34;&gt;https://github.com/spring-attic/spring-security-oauth&lt;/a&gt;）：官方提供的 Spring Security OAuth 项目，为 Spring 应用程序提供了 OAuth 1.0 和 OAuth 2.0 的支持。该项目在 Spring Security 5.x 版本后已不再维护，建议使用后续提到的 Spring Authorization Server。&lt;/li&gt;
+&lt;li&gt;Spring Security 5（&lt;a href=&#34;https://github.com/spring-attic/spring-security&#34; target=&#34;_blank&#34;&gt;https://github.com/spring-attic/spring-security&lt;/a&gt;）：Spring Security 5.x 版本开始将 OAuth 2.0 客户端支持集成到核心库中，使得在 Spring Security 中实现 OAuth 2.0 认证变得更加简单。你可以使用 Spring Security 5.x 以及后续版本来实现 OAuth 2.0 客户端功能。&lt;/li&gt;
+&lt;li&gt;Spring Security OAuth2 Boot（&lt;a href=&#34;https://github.com/spring-attic/spring-security-oauth2-boot&#34; target=&#34;_blank&#34;&gt;https://github.com/spring-attic/spring-security-oauth2-boot&lt;/a&gt;），该项目是 &lt;code&gt;spring-attic&lt;/code&gt; 组织维护的，提供了 Spring Boot 2 和旧版 Spring Security OAuth 的自动配置。该项目已经停止了活跃的开发和更新，最新的提交日期是 2022 年 5 月 20 日。&lt;/li&gt;
+&lt;li&gt;Spring Authorization Server（https:&lt;a href=&#34;&#34;&gt;&lt;/a&gt;//github.com/spring-projects/spring-authorization-server）：官方提供的用于构建 OAuth 2.0 授权服务器的实验性项目。它是 Spring Security 5.3 之后推出的替代方案，旨在提供更简化和灵活的 OAuth 2.0 授权服务器功能。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Authorization Server&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-20｜Maven配置继承和生命周期、源码运行Nacos 2.3.0控制台</title>
       <link>https://blog.chensoul.cc/posts/2023/12/20/til/</link>
       <pubDate>Wed, 20 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/20/til/</guid>
-      <description>Today I Learned. 今天分享内容：Maven配置继承和生命周期、源码运行Nacos 2.3.0控制台 Maven 相关 Maven配置继承 以下是一些常见的POM节点，在子项目中可以继承或覆盖父项目的配置： groupId（项目组ID</description>
+      <description>&lt;p&gt;Today I Learned. 今天分享内容：Maven配置继承和生命周期、源码运行Nacos 2.3.0控制台&lt;/p&gt;
+&lt;h2 id=&#34;maven-相关&#34;&gt;Maven 相关&lt;/h2&gt;
+&lt;h3 id=&#34;maven配置继承&#34;&gt;Maven配置继承&lt;/h3&gt;
+&lt;p&gt;以下是一些常见的POM节点，在子项目中可以继承或覆盖父项目的配置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;groupId（项目组ID）：如果在子项目中未定义groupId，则将继承父项目的groupId。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-19｜Spring Security OAuth2配置JWT、Github Actions配置代码扫描</title>
       <link>https://blog.chensoul.cc/posts/2023/12/19/til/</link>
       <pubDate>Tue, 19 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/19/til/</guid>
-      <description>Today I Learned. 今天分享内容：Spring Security OAuth2 配置JWT、Github Actions配置代码扫描，另外，修改了 spring-security-oauth2-legacy 仓库，支持授权认证中心的多种配置方式（jdbc、内存、redis、jwt）、资源中心的多种配置方式</description>
+      <description>&lt;p&gt;Today I Learned. 今天分享内容：Spring Security OAuth2 配置JWT、Github Actions配置代码扫描，另外，修改了 &lt;a href=&#34;https://github.com/chensoul/spring-security-oauth2-legacy&#34; target=&#34;_blank&#34;&gt;spring-security-oauth2-legacy&lt;/a&gt; 仓库，支持授权认证中心的多种配置方式（jdbc、内存、redis、jwt）、资源中心的多种配置方式（jwt、jdbc、redis、remote、jwk-set-uri）。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-18｜使用Spring Security实现OAuth2授权和认证</title>
       <link>https://blog.chensoul.cc/posts/2023/12/18/til/</link>
       <pubDate>Mon, 18 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/18/til/</guid>
-      <description>Today I Learned. 今天分享内容：使用Spring Security实现OAuth2授权和认证。 最近在开发 Spring Cloud 微服务时，需要对 OAuth2 的异常处理进行定制，从网上搜到一个 github 仓库：oauth2。这篇仓库的代码实现了 OAuth2 的四种授权</description>
+      <description>&lt;p&gt;Today I Learned. 今天分享内容：使用Spring Security实现OAuth2授权和认证。&lt;/p&gt;
+&lt;p&gt;最近在开发 Spring Cloud 微服务时，需要对 OAuth2 的异常处理进行定制，从网上搜到一个 github 仓库：&lt;a href=&#34;https://github.com/selfancy/oauth2&#34; target=&#34;_blank&#34;&gt;oauth2&lt;/a&gt;。这篇仓库的代码实现了 OAuth2 的四种授权模式、I18N 国际化、异常处理、JWT Token，我 fork 了一份代码，做了一些改动，去掉了 webflux、eureka 相关代码。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-15｜JNDI InitialContext源码分析、ClassLoader加载机制</title>
       <link>https://blog.chensoul.cc/posts/2023/12/15/til/</link>
       <pubDate>Fri, 15 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/15/til/</guid>
-      <description>Today I Learned. 今天分享内容：JNDI InitialContext源码分析、ClassLoader加载机制。 JNDI InitialContext 源码分析 JNDI包结构 javax.naming Context InitialContext Name CompositeName CompoundName NameImpl NameParser NamingEnumeration Referenceable RefAddr BinaryRefAddr StringRefAddr NameClassPair Binding Reference LinkRef javax.naming.directory Attribute BasicAttribute Attributes BasicAttributes DirContext InitialDirContext ModificationItem SearchControls SearchResult javax.naming.spi NamingManager DirectoryManager ObjectFactory DirObjectFactory ObjectFactoryBuilder StateFactory DirStateFactory InitialContextFactory InitialContextFactoryBuilder Resolver</description>
+      <description>&lt;p&gt;Today I Learned. 今天分享内容：JNDI InitialContext源码分析、ClassLoader加载机制。&lt;/p&gt;
+&lt;h2 id=&#34;jndi-initialcontext-源码分析&#34;&gt;JNDI InitialContext 源码分析&lt;/h2&gt;
+&lt;h3 id=&#34;jndi包结构&#34;&gt;JNDI包结构&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;javax.naming&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Context
+&lt;ul&gt;
+&lt;li&gt;InitialContext&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Name
+&lt;ul&gt;
+&lt;li&gt;CompositeName&lt;/li&gt;
+&lt;li&gt;CompoundName&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NameImpl&lt;/li&gt;
+&lt;li&gt;NameParser&lt;/li&gt;
+&lt;li&gt;NamingEnumeration&lt;/li&gt;
+&lt;li&gt;Referenceable&lt;/li&gt;
+&lt;li&gt;RefAddr
+&lt;ul&gt;
+&lt;li&gt;BinaryRefAddr&lt;/li&gt;
+&lt;li&gt;StringRefAddr&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NameClassPair
+&lt;ul&gt;
+&lt;li&gt;Binding&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Reference
+&lt;ul&gt;
+&lt;li&gt;LinkRef&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;javax.naming.directory&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Attribute&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;BasicAttribute&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Attributes&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;BasicAttributes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;DirContext&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;InitialDirContext&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ModificationItem&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SearchControls&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SearchResult&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;javax.naming.spi&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NamingManager
+&lt;ul&gt;
+&lt;li&gt;DirectoryManager&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ObjectFactory
+&lt;ul&gt;
+&lt;li&gt;DirObjectFactory&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ObjectFactoryBuilder&lt;/li&gt;
+&lt;li&gt;StateFactory
+&lt;ul&gt;
+&lt;li&gt;DirStateFactory&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;InitialContextFactory&lt;/li&gt;
+&lt;li&gt;InitialContextFactoryBuilder&lt;/li&gt;
+&lt;li&gt;Resolver
+&lt;ul&gt;
+&lt;li&gt;ContinuationContext
+&lt;ul&gt;
+&lt;li&gt;ContinuationDirContext&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ResolveResult&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;initialcontext-构造方法&#34;&gt;InitialContext 构造方法&lt;/h3&gt;
+&lt;p&gt;InitialContext的初始化有几种方式：&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-14｜购买新的VPS服务器、最近在做什么</title>
       <link>https://blog.chensoul.cc/posts/2023/12/14/til/</link>
       <pubDate>Thu, 14 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/14/til/</guid>
-      <description>Today I Learned. 今天分享内容：购买新的 VPS 服务器、最近在做什么。 购买新的 VPS 服务器 今天看到搬瓦工上的 VPS 还有一个月到期，该 VPS 配置是 40 GB SSD、2 GB RAM、2 TB Bandwidth、3x Intel Xeon CPU、1 Gigabit Network，一</description>
+      <description>&lt;p&gt;Today I Learned. 今天分享内容：购买新的 VPS 服务器、最近在做什么。&lt;/p&gt;
+&lt;h2 id=&#34;购买新的-vps-服务器&#34;&gt;购买新的 VPS 服务器&lt;/h2&gt;
+&lt;p&gt;今天看到搬瓦工上的 VPS 还有一个月到期，该 VPS 配置是 40 GB SSD、2 GB RAM、2 TB Bandwidth、3x Intel Xeon CPU、1 Gigabit Network，一年费用是 99 美元。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-13｜发布到Maven中央仓库的第一个项目</title>
       <link>https://blog.chensoul.cc/posts/2023/12/13/til/</link>
       <pubDate>Wed, 13 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/13/til/</guid>
-      <description>Today I Learned. 今天分享内容：发布到 Maven 中央仓库的第一个项目。 最近在 Github 上创建了一个 Pom 类型的 Maven 项目 chensoul-parent，该项目主页 https://chensoul.github.io/chensoul-parent/ ，这是我的第一个发布对 Maven 中央仓库的项目。 其主要用途是管理常用的 Maven Plugin 插件。</description>
+      <description>&lt;p&gt;Today I Learned. 今天分享内容：发布到 Maven 中央仓库的第一个项目。&lt;/p&gt;
+&lt;p&gt;最近在 Github 上创建了一个 Pom 类型的 Maven 项目 &lt;a href=&#34;https://github.com/chensoul/chensoul-parent/&#34; target=&#34;_blank&#34;&gt;chensoul-parent&lt;/a&gt;，该项目主页 &lt;a href=&#34;https://chensoul.github.io/chensoul-parent/&#34; target=&#34;_blank&#34;&gt;https://chensoul.github.io/chensoul-parent/&lt;/a&gt; ，这是我的第一个发布对 Maven 中央仓库的项目。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/daily-review-20231213-00.png&#34; alt=&#34;daily-review-20231213-00&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;其主要用途是管理常用的 Maven Plugin 插件。在编写该项目的过程中，参考了一些开源项目，他们分别是：&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-12｜RMI、Java漏洞安全、Semgrep漏洞检测</title>
       <link>https://blog.chensoul.cc/posts/2023/12/12/til/</link>
       <pubDate>Tue, 12 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/12/til/</guid>
-      <description>Today I Learned. 今天我学了：RMI、Java漏洞安全、Semgrep漏洞检测。 RMI 介绍 RMI（Remote Method Invocation）是Java语言提供的一种远程调用机制，用于在分布式系统中实现对象之间的远程通信。 通</description>
+      <description>&lt;p&gt;Today I Learned. 今天我学了：RMI、Java漏洞安全、Semgrep漏洞检测。&lt;/p&gt;
+&lt;h2 id=&#34;rmi&#34;&gt;RMI&lt;/h2&gt;
+&lt;h3 id=&#34;介绍&#34;&gt;介绍&lt;/h3&gt;
+&lt;p&gt;RMI（Remote Method Invocation）是Java语言提供的一种远程调用机制，用于在分布式系统中实现对象之间的远程通信。&lt;/p&gt;
+&lt;p&gt;通过Java RMI，开发人员可以像调用本地方法一样调用远程对象的方法。RMI隐藏了底层网络通信的复杂性，使得远程方法调用过程对于开发人员来说更加简单和透明。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-28｜技术文档范例</title>
       <link>https://blog.chensoul.cc/posts/2023/07/27/weekly_review_28/</link>
       <pubDate>Thu, 27 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/27/weekly_review_28/</guid>
-      <description>前言 本篇是对 2023-07-10 到 2023-07-16 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 读书、健身、投资、帮朋友、陪家人。 这是我的第 27 篇周报，由于工作的原因，前两周的周报是一起发布的，所以第 27 篇周</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-07-10&lt;/code&gt; 到 &lt;code&gt;2023-07-16&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;读书、健身、投资、帮朋友、陪家人。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这是我的第 27 篇周报，由于工作的原因，前两周的周报是一起发布的，所以第 27 篇周报被跳过去了。&lt;/p&gt;
+&lt;h2 id=&#34;技术文档范例&#34;&gt;技术文档范例&lt;/h2&gt;
+&lt;p&gt;以下是一个使用中文标题的技术文档范例：&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-26｜上半年的绩效总结</title>
       <link>https://blog.chensoul.cc/posts/2023/07/11/weekly_review_26/</link>
       <pubDate>Tue, 11 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/11/weekly_review_26/</guid>
-      <description>前言 本篇是对 2023-06-26 到 2023-07-09 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 读书、健身、投资、帮朋友、陪家人。 这两周主要是忙于工作，Wekatime 上统计的上周每天平均编程时间达到了 6</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-06-26&lt;/code&gt; 到 &lt;code&gt;2023-07-09&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;读书、健身、投资、帮朋友、陪家人。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这两周主要是忙于工作，Wekatime 上统计的上周每天平均编程时间达到了 &lt;strong&gt;6 hrs 52 mins&lt;/strong&gt;，基本上每天都是早七晚七的上班节奏。于是，学习的时间都被工作占用了。工作的内容主要是整合多个系统实现 sso 登录，用到的技术有 SpringCloud、Spring Security Oauth2 等等。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-25｜端午安康</title>
       <link>https://blog.chensoul.cc/posts/2023/06/28/weekly_review_25/</link>
       <pubDate>Wed, 28 Jun 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/06/28/weekly_review_25/</guid>
-      <description>前言 本篇是对 2023-06-19 到 2023-06-25 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 读书、健身、投资、帮朋友、陪家人。 这周因为端午节，只上三天班，放三天假。祝愿所有父母端午安康！ 读书 本周阅读时</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-06-19&lt;/code&gt; 到 &lt;code&gt;2023-06-25&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;读书、健身、投资、帮朋友、陪家人。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这周因为端午节，只上三天班，放三天假。祝愿所有父母端午安康！&lt;/p&gt;
+&lt;h2 id=&#34;读书&#34;&gt;读书&lt;/h2&gt;
+&lt;img src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-25-03.jpeg&#34; alt=&#34;weekly-review-25-03&#34; style=&#34;width:50%;&#34; /&gt;
+&lt;p&gt;本周阅读时长 15 分钟，主要是阅读《Java 高并发核心编程：多线程、锁、JVM、JUC、高并发设计模式》。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-24｜如果没有疼痛</title>
       <link>https://blog.chensoul.cc/posts/2023/06/21/weekly_review_24/</link>
       <pubDate>Wed, 21 Jun 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/06/21/weekly_review_24/</guid>
-      <description>前言 本篇是对 2023-06-12 到 2023-06-18 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 读书、健身、投资、帮朋友、陪家人。 读书 本周尚未读书。 健身 我跑过了一些地方，希望随着时间推移，地图点亮的地方越</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-06-12&lt;/code&gt; 到 &lt;code&gt;2023-06-18&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;读书、健身、投资、帮朋友、陪家人。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;读书&#34;&gt;读书&lt;/h2&gt;
+&lt;p&gt;本周尚未读书。&lt;/p&gt;
+&lt;h2 id=&#34;健身&#34;&gt;健身&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我跑过了一些地方，希望随着时间推移，地图点亮的地方越来越多。2 年里我跑过 2 个省份 2 个城市。更多跑步数据在我的 &lt;a href=&#34;https://run.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;跑步&lt;/a&gt; 主页。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-23｜读书、健身、定投、帮朋友、陪家人</title>
       <link>https://blog.chensoul.cc/posts/2023/06/14/weekly_review_23/</link>
       <pubDate>Wed, 14 Jun 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/06/14/weekly_review_23/</guid>
-      <description>前言 本篇是对 2023-06-05 到 2023-06-11 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 读书、健身、投资、帮朋友、陪家人。 以后周报的主题，会包括这几个部分：读书、健身、投资、帮朋友、陪家人，再加上</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-06-05&lt;/code&gt; 到 &lt;code&gt;2023-06-11&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;读书、健身、投资、帮朋友、陪家人。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;以后周报的主题，会包括这几个部分：读书、健身、投资、帮朋友、陪家人，再加上工作和本周分享两块内容。&lt;/p&gt;
+&lt;img src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-23-03.png&#34; alt=&#34;weekly-review-23-03&#34; style=&#34;width:50%;&#34; /&gt;
+&lt;h2 id=&#34;读书&#34;&gt;读书&lt;/h2&gt;
+&lt;p&gt;本周阅读统计，总计阅读 31 分钟：&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-22｜微信读书笔记助手</title>
       <link>https://blog.chensoul.cc/posts/2023/06/09/weekly_review_22/</link>
       <pubDate>Fri, 09 Jun 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/06/09/weekly_review_22/</guid>
-      <description>前言 本篇是对 2023-05-29 到 2023-06-04 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 读书、健身、定投、帮朋友、陪家人，本周周报增加一块内容：读书，记录每周读书的时间。 微信读书笔记助手 最近注销了</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-05-29&lt;/code&gt; 到 &lt;code&gt;2023-06-04&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;读书、健身、定投、帮朋友、陪家人，本周周报增加一块内容：读书，记录每周读书的时间。&lt;/p&gt;
+&lt;h2 id=&#34;微信读书笔记助手&#34;&gt;微信读书笔记助手&lt;/h2&gt;
+&lt;p&gt;最近注销了微信阅读账号，清空了历史数据。本着宁缺毋滥的原则，书架重新添加了几本书。计划是重新使用微信阅读养成读书的习惯。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-21｜Python之禅、产品经理被优化、端午节送节</title>
       <link>https://blog.chensoul.cc/posts/2023/05/31/weekly_review_21/</link>
       <pubDate>Wed, 31 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/31/weekly_review_21/</guid>
-      <description>前言 公司价值观 本篇是对 2023-05-22 到 2023-05-28 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 周一，休产假的产品经理回来上班，得知她被优化之后，内心有些不舍和伤感。中午，组长请大家一起吃了饭。</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-21-00.jpg&#34; alt=&#34;weekly-review-21-00&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;center&gt;&lt;i&gt;公司价值观&lt;/i&gt;&lt;/center&gt;
+&lt;/p&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-05-22&lt;/code&gt; 到 &lt;code&gt;2023-05-28&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;周一，休产假的产品经理回来上班，得知她被优化之后，内心有些不舍和伤感。中午，组长请大家一起吃了饭。晚上，产品经理交割完办公用户之后，就没来上班了。自此，过完年后，公司至少有三位女同事修完产假之后就离职了，有的是主动，更多的应该是被动。虽然有 N+1 赔偿，但是，这个社会对女性还是不够公平。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-20｜自动生成每日早报、周末团建</title>
       <link>https://blog.chensoul.cc/posts/2023/05/25/weekly_review_20/</link>
       <pubDate>Thu, 25 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/25/weekly_review_20/</guid>
-      <description>前言 乐农湖畔生态园 本篇是对 2023-05-15 到 2023-05-21 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 不知不觉，这已经是第 20 篇周报了。这周依旧是健身、理财、学习和写博客。 自动生成每日早报 最近在朋友</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-20-00.jpeg&#34; alt=&#34;weekly-review-20-00&#34;  /&gt;
+&lt;/p&gt;
+&lt;center&gt;&lt;i&gt;乐农湖畔生态园&lt;/i&gt;&lt;/center&gt;
+&lt;br/&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-05-15&lt;/code&gt; 到 &lt;code&gt;2023-05-21&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;不知不觉，这已经是第 20 篇周报了。这周依旧是健身、理财、学习和写博客。&lt;/p&gt;
+&lt;h2 id=&#34;自动生成每日早报&#34;&gt;自动生成每日早报&lt;/h2&gt;
+&lt;p&gt;最近在朋友圈看到这样一个早报，就在想能否通过代码自动抓取新闻并生成这样一个早报图片？&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-19｜武功山看日出、Python初学建议</title>
       <link>https://blog.chensoul.cc/posts/2023/05/18/weekly_review_19/</link>
       <pubDate>Thu, 18 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/18/weekly_review_19/</guid>
-      <description>前言 本篇是对 2023-05-08 到 2023-05-14 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 本周继续学习 python，发现一个质量非常高的 python 学习网站 Real Python，该网站有学习 python 的一些教程，是收费的，</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-19-00.png&#34; alt=&#34;weekly-review-19-00&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-05-08&lt;/code&gt; 到 &lt;code&gt;2023-05-14&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;本周继续学习 python，发现一个质量非常高的 python 学习网站 &lt;a href=&#34;https://realpython.com/&#34; target=&#34;_blank&#34;&gt;Real Python&lt;/a&gt;，该网站有学习 python 的一些教程，是收费的，部分章节是可以免费观看的。&lt;/p&gt;
+&lt;p&gt;另外，周五晚上老婆临时起意想去武功山看日出，于是立即规划行程并购买火车票。因为一年半之前，我去过一次，所以规划起来还是很轻松的。上一次去是国庆节碰到下雨，没有看到日出。幸运的是，这次是晴天，不仅看到了日落还看到了日出。这一次没有选择住帐篷，而是住在了云中雾客栈，没想到这个客栈离金顶需要 40 分钟左右的路程，而且有段路程是坑坑洼洼。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-18｜导出豆瓣数据、Effective Java 3第二章总结</title>
       <link>https://blog.chensoul.cc/posts/2023/05/10/weekly_review_18/</link>
       <pubDate>Wed, 10 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/10/weekly_review_18/</guid>
-      <description>前言 本篇是对 2023-05-01 到 2023-05-07 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 继上周实现导出苹果接口数据之后，这周又实现了自动导出豆瓣数据。此外，还萌生了导出每天阅读的数据的想法。奈何现</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-05-01&lt;/code&gt; 到 &lt;code&gt;2023-05-07&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;继上周实现导出苹果接口数据之后，这周又实现了自动导出豆瓣数据。此外，还萌生了导出每天阅读的数据的想法。奈何现在阅读 app 都需要收费，只能暂且搁置这个想法。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-17｜导出苹果健康数据、自动化收集个人数据、FlexyPool动态连接池</title>
       <link>https://blog.chensoul.cc/posts/2023/05/06/weekly_review_17/</link>
       <pubDate>Sat, 06 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/06/weekly_review_17/</guid>
-      <description>前言 本篇是对 2023-04-24 到 2023-04-30 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 本周二早上跑步右小腿抽筋，跑步暂停了两天，所以有两天走路没有到一万步。在小腿恢复之后，继续跑步，查看 strava 上的统</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-04-24&lt;/code&gt; 到 &lt;code&gt;2023-04-30&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;本周二早上跑步右小腿抽筋，跑步暂停了两天，所以有两天走路没有到一万步。在小腿恢复之后，继续跑步，查看 strava 上的统计，这周总共跑了 27 公里，比上周 41 公里少了 14 公里。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-16｜《灌篮高手》电影、《春山如笑》话剧</title>
       <link>https://blog.chensoul.cc/posts/2023/04/25/weekly_review_16/</link>
       <pubDate>Tue, 25 Apr 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/04/25/weekly_review_16/</guid>
-      <description>前言 本篇是对 2023-04-17 到 2023-04-23 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周的工作，手上累积了三个迭代版本，因为临近五一及其他原因，短期内无法发布上线。开发过程中，想着这些版本都会</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-16-01.png&#34; alt=&#34;weekly-review-16-01&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-04-17&lt;/code&gt; 到 &lt;code&gt;2023-04-23&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这周的工作，手上累积了三个迭代版本，因为临近五一及其他原因，短期内无法发布上线。开发过程中，想着这些版本都会一个个上线，所以三个版本之间合并了代码，存在了依赖关系。以后，还是需要小版本迭代、上一个版本发布之后再从 main 分支合并代码。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-15｜Umami升级到2.0、汉街蜡像馆、使用Strava跑步</title>
       <link>https://blog.chensoul.cc/posts/2023/04/18/weekly_review_15/</link>
       <pubDate>Tue, 18 Apr 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/04/18/weekly_review_15/</guid>
-      <description>前言 题图：楚河汉街蜡像馆 本篇是对 2023-04-10 到 2023-04-16 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周的工作不算忙碌，继续学习《Effective Java 3》这本书，并花了一些时间学习 Rust</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-15-01.png&#34; alt=&#34;weekly-review-15-01&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;题图：楚河汉街蜡像馆&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-04-10&lt;/code&gt; 到 &lt;code&gt;2023-04-16&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这周的工作不算忙碌，继续学习《Effective Java 3》这本书，并花了一些时间学习 Rust、Python 的基础语法。&lt;/p&gt;
+&lt;p&gt;这个月已经过了一半，减肥也进行了两周，体重从 72 公斤减到了现在的 68.4 公斤。在之前每天走路 1 万步的基础上，打算开始每天跑步，比记录跑步数据。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-14｜如何学习一门编程语言</title>
       <link>https://blog.chensoul.cc/posts/2023/04/13/weekly_review_14/</link>
       <pubDate>Thu, 13 Apr 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/04/13/weekly_review_14/</guid>
-      <description>前言 本篇是对 2023-04-03 到 2023-04-09 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周还是和以前一样每天运动，并开始施行断食。因为是刚开始断食，有时候忍不住饥饿感而吃了一些东西。 本周工作主要</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekl-review-14-01.jpg&#34; alt=&#34;weekl-review-14-01&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-04-03&lt;/code&gt; 到 &lt;code&gt;2023-04-09&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这周还是和以前一样每天运动，并开始施行断食。因为是刚开始断食，有时候忍不住饥饿感而吃了一些东西。&lt;/p&gt;
+&lt;p&gt;本周工作主要是发布了一个版本，其余时间用来学习 Rust 和 Python，初学这两种语言，他们语法上有很多相似之处。如何学习一门编程语言？整理了一些步骤。尝试了一下用多种语言编写猜数游戏，这些语言包括 Rust、Ptyhon、Go、NodeJs、JavaScript、Kotlin、Bash，除了 Java。这是一个很有意思的事情，如果能够把这些语言都熟练掌握，那就更好了。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-13｜健身、记账、更新SSL证书、代码提交百度站点收录</title>
       <link>https://blog.chensoul.cc/posts/2023/04/04/weekly_review_13/</link>
       <pubDate>Tue, 04 Apr 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/04/04/weekly_review_13/</guid>
-      <description>前言 本篇是对 2023-03-27 到 2023-04-02 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 本周是三月的最后一周，想到这，就想对随便对三月份做个总结。总结的方面，大概包括工作、生活、学习、健身、财务、</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-13-01.jpeg&#34; alt=&#34;weekly-review-13-01&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-03-27&lt;/code&gt; 到 &lt;code&gt;2023-04-02&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;本周是三月的最后一周，想到这，就想对随便对三月份做个总结。总结的方面，大概包括工作、生活、学习、健身、财务、娱乐几个方面。万事开头难，不知道能者多少，但是，相信不管写多少，都是有意义的。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-12｜车辆被堵、开车总结、Effective Java3笔记</title>
       <link>https://blog.chensoul.cc/posts/2023/03/28/weekly_review_12/</link>
       <pubDate>Tue, 28 Mar 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/03/28/weekly_review_12/</guid>
-      <description>前言 本篇是对 2023-03-20 到 2023-03-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 上周去同济医院检查鼾症，检查结果是轻度症状，医生建议多运动减肥。这周每天走路 1 万步的目标已达成。 工作上发布了</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-12-01.jpeg&#34; alt=&#34;weekly-review-12-01&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-03-20&lt;/code&gt; 到 &lt;code&gt;2023-03-26&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;上周去同济医院检查鼾症，检查结果是轻度症状，医生建议多运动减肥。这周每天走路 1 万步的目标已达成。&lt;/p&gt;
+&lt;img src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-12-02.png&#34; alt=&#34;weekly-review-12-02&#34; style=&#34;width:50%;&#34; /&gt;
+&lt;p&gt;工作上发布了一个版本，另外两个迭代正在进行中，预计这周再发布一个版本。从飞书通讯录看到又有三个非技术类同事被裁，这周周会，部门领导说最近又有一个做商务的同事被优化了。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-11｜从语雀迁移到Obsidian</title>
       <link>https://blog.chensoul.cc/posts/2023/03/20/weekly_review_11/</link>
       <pubDate>Mon, 20 Mar 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/03/20/weekly_review_11/</guid>
-      <description>前言 图片：涨渡湖湿地水上森林公园 本篇是对 2023-03-13 到 2023-03-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周的工作主要是重构、优化系统，工作节奏比之前轻缓了很多。这周也开始了开车上下班</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-11-04.jpeg&#34; alt=&#34;weekly-review-11-04&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;图片：&lt;em&gt;涨渡湖湿地水上森林公园&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-03-13&lt;/code&gt; 到 &lt;code&gt;2023-03-19&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这周的工作主要是重构、优化系统，工作节奏比之前轻缓了很多。这周也开始了开车上下班，除去周五去医院做检查，一共开了 4 天车。从汉口到光谷，一共 29 公里，如果早上 6:30 出发，就只需要 50 分钟；如果 6:45 出发，竟然需要两个小时，真是无语了。无奈之下，只能每天早点出门早点到公司，然后，打完卡之后，在公司楼下走路。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-10｜通过Cloudflare Tunnel访问服务、Vercel部署Cusdis和Umami</title>
       <link>https://blog.chensoul.cc/posts/2023/03/13/weekly_review_10/</link>
       <pubDate>Mon, 13 Mar 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/03/13/weekly_review_10/</guid>
-      <description>前言 本篇是对 2023-03-06 到 2023-03-12 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周发现 VPS 上 某些使用 docker 部署的服务（cusdis、umami、uptime、n8n、rsshub、memos）</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-10-00.jpeg&#34; alt=&#34;weekly-review-10-00&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-03-06&lt;/code&gt; 到 &lt;code&gt;2023-03-12&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这周发现 VPS 上 &lt;a href=&#34;https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/&#34; target=&#34;_blank&#34;&gt;某些使用 docker 部署的服务&lt;/a&gt;（cusdis、umami、uptime、n8n、rsshub、memos）国内用户无法访问了，于是就折腾了一下使用 Cloudflare Tunnel 来代理这些服务。配置成功之后，又发现本地如果开启 VPN，Cloudflare Tunnel 代理的域名还是无法访问，于是放弃了使用 Cloudflare Tunnel，改为将这些国内无法访问的服务部署到免费的 VPS 服务器上，比如：Railway、Vercel。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-9｜开车总结、博客该写什么、Web3批量空投</title>
       <link>https://blog.chensoul.cc/posts/2023/03/07/weekly_review_9/</link>
       <pubDate>Tue, 07 Mar 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/03/07/weekly_review_9/</guid>
-      <description>前言 本篇是对 2023-02-27 到 2023-03-05 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周的主要工作是版本测试和项目上线，在大家的共同努力下，最后是成功上线。 由于公司最近在裁员，留下来的都开始卷</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/weekly-review-09-07.png&#34; alt=&#34;将军山&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-02-27&lt;/code&gt; 到 &lt;code&gt;2023-03-05&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这周的主要工作是版本测试和项目上线，在大家的共同努力下，最后是成功上线。&lt;/p&gt;
+&lt;p&gt;由于公司最近在裁员，留下来的都开始卷起来，每天晚上 8 点之后下班，这样平均一天的工作时间才有 11 小时。据说，旁边组的同事平均每天都是 12 个小时工作时间。裁了三位同事之后，我们软件组还有 8 人，算法组有 7 人，产品组有 6 人，终端组有 4 人。距集团公司六月上市还有两个月，裁员估计还会继续，同志们还需努力加班，争取被裁的不是自己。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-8｜内存泄漏、公司裁员、练车</title>
       <link>https://blog.chensoul.cc/posts/2023/02/27/weekly_review_8/</link>
       <pubDate>Mon, 27 Feb 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/02/27/weekly_review_8/</guid>
-      <description>前言 本篇是对 2023-02-20 到 2023-02-26 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这篇周报又是在地铁上完成编写的。回顾这一周的工作，还是项目测试、修复 bug 和准备上线发布。平静的工作节奏因为突如</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-02-20&lt;/code&gt; 到 &lt;code&gt;2023-02-26&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这篇周报又是在地铁上完成编写的。回顾这一周的工作，还是项目测试、修复 bug 和准备上线发布。平静的工作节奏因为突如其来的裁员消息而变得内卷起来，大家下班的时间都纷纷往后移到了 20 点左右。周末的时候，还是练车，从汉口开车到新洲。刚开始有点不敢，后来还是鼓起勇气，平安的到达。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-7｜练车、博客优化、注册ChatGPT账号</title>
       <link>https://blog.chensoul.cc/posts/2023/02/21/weekly_review_7/</link>
       <pubDate>Tue, 21 Feb 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/02/21/weekly_review_7/</guid>
-      <description>前言 本篇是对 2023-02-13 到 2023-02-19 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 练车 这周末开始练车，周六是第一次开自己的车，简单试驾了一样；周日则开了一百多公里，具体行程是从阳逻到新洲，从</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-02-13&lt;/code&gt; 到 &lt;code&gt;2023-02-19&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;h2 id=&#34;练车&#34;&gt;练车&lt;/h2&gt;
+&lt;p&gt;这周末开始练车，周六是第一次开自己的车，简单试驾了一样；周日则开了一百多公里，具体行程是从阳逻到新洲，从新洲单汉口，从汉口到光谷，从光谷回汉口。&lt;/p&gt;
+&lt;p&gt;这途中走了江北快速公路、二环、二七长江大桥、东湖隧道，从白天开到晚上夜行，经历过堵车，路上看到车祸后的事故现场。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-6｜买车和选号、粉色理论</title>
       <link>https://blog.chensoul.cc/posts/2023/02/13/weekly_review_6/</link>
       <pubDate>Mon, 13 Feb 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/02/13/weekly_review_6/</guid>
-      <description>前言 本篇是对 2023-02-06 到 2023-02-12 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这篇周报又是在坐地铁的时候完成编写的，一边坐地铁，一边回顾上一周发生的事情，一边复盘和总结。坐地铁大概有一个</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-02-06&lt;/code&gt; 到 &lt;code&gt;2023-02-12&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这篇周报又是在坐地铁的时候完成编写的，一边坐地铁，一边回顾上一周发生的事情，一边复盘和总结。坐地铁大概有一个半小时，从家到公司的一段通勤路程。现在还没有买车，所以都是坐地铁上下班。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-5｜项目事故、牙疼、Damus</title>
       <link>https://blog.chensoul.cc/posts/2023/02/07/weekly_review_5/</link>
       <pubDate>Tue, 07 Feb 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/02/07/weekly_review_5/</guid>
-      <description>前言 本篇是对 2023-01-30 到 2023-02-05 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这周是过年后的第一个工作周，被国家安排了连上七天班，算是体会了一次 “过年七天乐，上班七天累” 的过山车。七天的</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-01-30&lt;/code&gt; 到 &lt;code&gt;2023-02-05&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这周是过年后的第一个工作周，被国家安排了连上七天班，算是体会了一次 “过年七天乐，上班七天累” 的过山车。七天的工作主要是测试并发布项目，每天忙的焦头乱额，生怕项目出了问题。有句话说，怕什么来什么。没想到周六还是报出了一个故障，还在睡觉中的我被一个电话吵醒，接着忙着找问题和解决方法，一天的时间就都花在这上面。万幸的是事故影响不大，发布了一个小版本进行修复。事故原因，还是值得警惕。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-4｜过年、向上管理、工作周总结</title>
       <link>https://blog.chensoul.cc/posts/2023/01/30/weekly_review_4/</link>
       <pubDate>Mon, 30 Jan 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/01/30/weekly_review_4/</guid>
-      <description>前言 本篇是对 2023-01-23 到 2023-01-29 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 过年 这周处于过年吃喝拜年模式，除了腊月二十九和正月初一，其他时间都是和老婆在路上。因为是结婚第一个新年，需要</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-01-23&lt;/code&gt; 到 &lt;code&gt;2023-01-29&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;h2 id=&#34;过年&#34;&gt;过年&lt;/h2&gt;
+&lt;p&gt;这周处于过年吃喝拜年模式，除了腊月二十九和正月初一，其他时间都是和老婆在路上。因为是结婚第一个新年，需要带着老婆去各个亲戚家拜年。因为是第一次在新房过年，就把老爸从农村接过来一起过年。因为年前没有来得及买车，去哪里都不方便，都要需要滴滴打车。为此，打车花了不少钱，当然，给红包也给了不少钱。趁初一不用拜年的缝隙时间，带老婆和老爸去看了两场电影《无名》和《交换人生》。老爸很少去看电影院看电影，听到要去看电影，像个小孩似的，饭还吃完，就跑去电梯门口等电梯。这两场电影，看的我瞌睡来了，倒是初二晚上看《满江红》睡意全无。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-3｜博客定制、VPS部署服务</title>
       <link>https://blog.chensoul.cc/posts/2023/01/25/weekly_review_3/</link>
       <pubDate>Wed, 25 Jan 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/01/25/weekly_review_3/</guid>
-      <description>前言 本篇是对 2023-01-16 到 2023-01-22 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-01-16&lt;/code&gt; 到 &lt;code&gt;2023-01-22&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这是过年前的最后一周，上了三天班，请了两天假回去准备年货、去亲戚家吃年饭。趁放假之前，继续对博客做了一些定制，也在我的 VPS 上通过 Docker 部署了一些服务。&lt;/p&gt;
+&lt;h2 id=&#34;定制博客&#34;&gt;定制博客&lt;/h2&gt;
+&lt;p&gt;基于 &lt;a href=&#34;https://www.pseudoyu.com/&#34; target=&#34;_blank&#34;&gt;pseudoyu&lt;/a&gt; 的博客和主题定制博客，发现并修复了 bug，还做了一些改进，并在他的 github 提交 &lt;a href=&#34;https://github.com/pseudoyu/pseudoyu/issues/2&#34; target=&#34;_blank&#34;&gt;issue&lt;/a&gt; 和 merge request。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-2｜博客重构</title>
       <link>https://blog.chensoul.cc/posts/2023/01/15/weekly_review_2/</link>
       <pubDate>Sun, 15 Jan 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/01/15/weekly_review_2/</guid>
-      <description>前言 本篇是对 2023-01-09 到 2023-01-15 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔记和个人</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-01-09&lt;/code&gt; 到 &lt;code&gt;2023-01-15&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这是年前倒数第二个工作周，工作上主要是完成项目一个版本的测试和发布。这个博客主要是分享一些技术相关笔记和个人的生活记录与思考，所以不会涉及具体的工作内容。&lt;/p&gt;</description>
     </item>
     <item>
       <title>周报-1｜开始写周报、冥想</title>
       <link>https://blog.chensoul.cc/posts/2023/01/08/weekly_review_1/</link>
       <pubDate>Sun, 08 Jan 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/01/08/weekly_review_1/</guid>
-      <description>前言 本篇是对 2023-01-02 到 2023-01-08 这周生活的记录与思考。首发在我的个人 博客，你可以移步了解更多或者给我留言。 这是 2023 年的第一周，元旦放了三天假之后，就用投入了工作之中。元旦已过，过年就没多远了，很多公司也开始准备年会了</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;本篇是对 &lt;code&gt;2023-01-02&lt;/code&gt; 到 &lt;code&gt;2023-01-08&lt;/code&gt; 这周生活的记录与思考。首发在我的个人 &lt;a href=&#34;https://blog.chensoul.cc/&#34; target=&#34;_blank&#34;&gt;博客&lt;/a&gt;，你可以移步了解更多或者给我留言。&lt;/p&gt;
+&lt;p&gt;这是 2023 年的第一周，元旦放了三天假之后，就用投入了工作之中。元旦已过，过年就没多远了，很多公司也开始准备年会了。因为疫情，这个年注定不好过。现在疫情放开，不知道有多少公司能够熬过这个年，进入百废待兴的节奏。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -4,7 +4,7 @@
     <title>Redis on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/redis/</link>
     <description>Recent content in Redis on ChenSoul</description>
-    <generator>Hugo -- 0.133.1</generator>
+    <generator>Hugo -- 0.134.3</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 14 May 2024 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/redis/index.xml" rel="self" type="application/rss+xml" />
@@ -13,49 +13,205 @@
       <link>https://blog.chensoul.cc/posts/2024/05/14/redis-install/</link>
       <pubDate>Tue, 14 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/14/redis-install/</guid>
-      <description>单机安装 通过 yum 安装 在 CentOS 7 上通过 yum 安装 Redis，可以按照以下步骤进行操作： 更新系统软件包： 1 sudo yum update 安装 Redis： 1 sudo yum install redis 可以看到默认安装的 redis 版本是 3.2.12-2.el7 如果需要安装 redis 7，这需要下载 yum 源： 1 2 sudo yum install epel-release sudo</description>
+      <description>&lt;h2 id=&#34;单机安装&#34;&gt;单机安装&lt;/h2&gt;
+&lt;h3 id=&#34;通过-yum-安装&#34;&gt;通过 yum 安装&lt;/h3&gt;
+&lt;p&gt;在 CentOS 7 上通过 yum 安装 Redis，可以按照以下步骤进行操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;更新系统软件包：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo yum update
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装 Redis：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo yum install redis
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以看到默认安装的 redis 版本是 3.2.12-2.el7&lt;/p&gt;
+&lt;p&gt;如果需要安装 redis 7，这需要下载 yum 源：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo yum install epel-release
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后，在指定源进行安装：&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-02-01｜使用 Spring Initializr 创建项目</title>
       <link>https://blog.chensoul.cc/posts/2024/02/01/til/</link>
       <pubDate>Thu, 01 Feb 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/02/01/til/</guid>
-      <description>今天做了什么： 重构 foodie-cloud 项目，部署到 docker 容器 使用 Spring Initializr 创建项目 使用 Spring Initializr 创建项目 安装 spring cli 使用 brew 安装的 spring cli 版本是 3.x 版本 1 2 brew tap pivotal/tap brew install springboot 使用 sdkman 安装： 1 sdk install springboot 3.2.2 查看版本： 1 2 $ spring version Spring CLI v3.2.2 查看 spring cli 支持的命令 1 spring help 查看 init</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目，部署到 docker 容器&lt;/li&gt;
+&lt;li&gt;使用 Spring Initializr 创建项目&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;使用-spring-initializr-创建项目&#34;&gt;使用 Spring Initializr 创建项目&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;安装  spring cli&lt;/p&gt;
+&lt;p&gt;使用 brew 安装的 spring cli 版本是 3.x 版本&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;brew tap pivotal/tap
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;brew install springboot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;使用 sdkman 安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sdk install springboot 3.2.2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;查看版本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ spring version
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Spring CLI v3.2.2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;查看 spring cli 支持的命令&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;spring &lt;span class=&#34;nb&#34;&gt;help&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;查看 init 命令说明：&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-31｜Redis事务</title>
       <link>https://blog.chensoul.cc/posts/2024/01/31/til/</link>
       <pubDate>Wed, 31 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/31/til/</guid>
-      <description>今天做了什么： 下载 《Microservices with Spring Boot 3 and Spring Cloud》，源码在 github Redis 事务 Redis事务 原理 Redis 是一个内存数据库，它支持事务操作。Redis 事务是一系列的命令操作，这些命令会被一起执行，要么</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;下载 《&lt;a href=&#34;https://download.packt.com/free-ebook/9781805128694&#34; target=&#34;_blank&#34;&gt;Microservices with Spring Boot 3 and Spring Cloud&lt;/a&gt;》，源码在 &lt;a href=&#34;https://github.com/PacktPublishing/Microservices-with-Spring-Boot-and-Spring-Cloud-Third-Edition&#34; target=&#34;_blank&#34;&gt;github&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Redis 事务&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;redis事务&#34;&gt;Redis事务&lt;/h1&gt;
+&lt;h2 id=&#34;原理&#34;&gt;原理&lt;/h2&gt;
+&lt;p&gt;Redis 是一个内存数据库，它支持事务操作。Redis 事务是一系列的命令操作，这些命令会被一起执行，要么全部成功，要么全部失败。在事务执行期间，其他客户端提交的命令不会被插入到事务中，确保事务的原子性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-22｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/22/til/</link>
       <pubDate>Mon, 22 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/22/til/</guid>
-      <description>今天做了什么： 修改瑞吉外卖项目 reggie： 去掉 .mvn 相关文件，去掉 github action 中用到 .mvn 的 workflow 参考 DDD 修改包结构 配置 Redis 持久化 chensoul-parent 发布 v1.0.40 ，升级 maven 插件版本，去掉 sortpom、impsort 插件 vps 禁用防火墙 观看慕课网视频《</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;修改瑞吉外卖项目 &lt;a href=&#34;https://github.com/chensoul/reggie&#34; target=&#34;_blank&#34;&gt;reggie&lt;/a&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;去掉 .mvn 相关文件，去掉 github action 中用到 .mvn 的 workflow&lt;/li&gt;
+&lt;li&gt;参考 DDD 修改包结构&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;配置 Redis 持久化&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/chensoul/chensoul-parent&#34; target=&#34;_blank&#34;&gt;chensoul-parent&lt;/a&gt; 发布 v1.0.40 ，升级 maven 插件版本，去掉 sortpom、impsort 插件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;vps 禁用防火墙&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;观看慕课网视频《&lt;a href=&#34;https://coding.imooc.com/class/467.html&#34; target=&#34;_blank&#34;&gt;高级Redis进阶课 解决Redis实际问题+掌握Redis6.x特性&lt;/a&gt;》，网盘地址：&lt;a href=&#34;https://www.aliyundrive.com/s/DqXP972AJnk&#34; target=&#34;_blank&#34;&gt;https://www.aliyundrive.com/s/DqXP972AJnk&lt;/a&gt;。注意：其中没有项目资料，如有需要，可以联系我。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-18｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/18/til/</link>
       <pubDate>Thu, 18 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/18/til/</guid>
-      <description>今天做了什么： 修改瑞吉外卖项目 reggie： 修改数据源配置，使用 HikariCP 数据源 修改接口返回字段和前端文件，code=0 表示成功 添加 mysql、redis 安装文档 添加 openresty lua 脚本实现 redis 缓存 基于 springboot 使用 sharding-jdbc 测试读写分离</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;修改瑞吉外卖项目 &lt;a href=&#34;https://github.com/chensoul/reggie&#34; target=&#34;_blank&#34;&gt;reggie&lt;/a&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;修改数据源配置，使用 HikariCP 数据源&lt;/li&gt;
+&lt;li&gt;修改接口返回字段和前端文件，code=0 表示成功&lt;/li&gt;
+&lt;li&gt;添加 mysql、redis 安装文档&lt;/li&gt;
+&lt;li&gt;添加 openresty lua 脚本实现 redis 缓存&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;基于 springboot 使用 sharding-jdbc 测试读写分离、分库分表。代码在：&lt;a href=&#34;https://github.com/chensoul/sharding-examples&#34; target=&#34;_blank&#34;&gt;https://github.com/chensoul/sharding-examples&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-16｜Redis安装</title>
       <link>https://blog.chensoul.cc/posts/2024/01/16/til/</link>
       <pubDate>Tue, 16 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/16/til/</guid>
-      <description>今天做了什么： 1、spring-cloud-examples 添加分布式锁、rabbitmq、kafka、分库分表等示例代码 2、foodie-cloud 添加登录部分代码 3、整理 Redis 安装文档 Redis 安装 Centos7 通过 yum 安</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;p&gt;1、&lt;a href=&#34;https://github.com/chensoul/spring-cloud-examples&#34; target=&#34;_blank&#34;&gt;spring-cloud-examples&lt;/a&gt; 添加分布式锁、rabbitmq、kafka、分库分表等示例代码&lt;/p&gt;
+&lt;p&gt;2、&lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 添加登录部分代码&lt;/p&gt;
+&lt;p&gt;3、整理 Redis 安装文档&lt;/p&gt;
+&lt;h2 id=&#34;redis-安装&#34;&gt;Redis 安装&lt;/h2&gt;
+&lt;h3 id=&#34;centos7-通过-yum-安装&#34;&gt;Centos7 通过 yum 安装&lt;/h3&gt;
+&lt;p&gt;在 CentOS 7 上通过 yum 安装 Redis，可以按照以下步骤进行操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;更新系统软件包：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo yum update
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装 Redis：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Build Robust Continuous Integration With Docker and Friends</title>
       <link>https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/</link>
       <pubDate>Mon, 22 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/</guid>
-      <description>持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。 Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发送每次提交的代码。 在本教程中，您将学习如何使用 Docker 为 Flask Web 应用程</description>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://files.realpython.com/media/UPDATE-Docker-in-Action-Fitter-Happier-More-Productive_Watermarked.479cfb791c17.jpg&#34; alt=&#34;Build Robust Continuous Integration With Docker and Friends&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;持续集成 (CI) 已成为软件开发的关键，它允许团队频繁合并代码更改并及早发现错误。&lt;/p&gt;
+&lt;p&gt;Docker 容器通过提供一致的环境帮助促进持续集成过程，您可以在其中测试和发送每次提交的代码。&lt;/p&gt;
+&lt;p&gt;在本教程中，您将学习如何使用 Docker 为 Flask Web 应用程序创建强大的持续集成管道。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

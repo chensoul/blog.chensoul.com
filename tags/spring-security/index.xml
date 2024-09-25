@@ -4,219 +4,447 @@
     <title>Spring-Security on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/spring-security/</link>
     <description>Recent content in Spring-Security on ChenSoul</description>
-    <generator>Hugo -- 0.133.1</generator>
+    <generator>Hugo -- 0.134.3</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 24 Jan 2024 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 05 Jun 2024 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/spring-security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[译]OAuth2 with Spring 第2部分：授权服务器入门</title>
+      <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-2-getting-started-with-authorization-server/</link>
+      <pubDate>Wed, 05 Jun 2024 00:00:00 +0800</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-2-getting-started-with-authorization-server/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://mainul35.medium.com/oauth2-with-spring-part-2-getting-started-with-authorization-server-13804910cb2a&#34; target=&#34;_blank&#34;&gt;https://mainul35.medium.com/oauth2-with-spring-part-2-getting-started-with-authorization-server-13804910cb2a&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Spring 团队最近发布了他们的授权服务器。OAuth2 一直是一个热门话题，而构建或理解授权服务器一直是一个谜。在本系列的&lt;a href=&#34;https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-1-knowing-the-basic-concepts/&#34;&gt;第 1 部分&lt;/a&gt;中，我描述了几乎所有您需要了解的有关 OAuth2 的概念性内容。在本系列的这篇文章中，我将尝试演示如何构建具有&lt;strong&gt;client_credential&lt;/strong&gt;授权类型的授权服务器。我将从使用配置属性进行自动配置开始解释它们，并通过编写 Java 代码自定义配置。让我们开始吧。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>2024-01-24｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/24/til/</link>
       <pubDate>Wed, 24 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/24/til/</guid>
-      <description>今天做了什么： 观看 B 站视频《鸟宝的春天11_security编码实现》 参考视频中示例使用 SecurityFilterChain DSL 语法实现用户名密码登录功能。 扩展 WebAuthenticationDetails ，修改客户端 IP 获取方式，并记录服务端 IP。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 public</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;观看 B 站视频《&lt;a href=&#34;https://www.bilibili.com/video/BV1F5411y7Ta/&#34; target=&#34;_blank&#34;&gt;鸟宝的春天11_security编码实现&lt;/a&gt;》&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;参考视频中示例使用 SecurityFilterChain DSL 语法实现用户名密码登录功能。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;扩展 WebAuthenticationDetails ，修改客户端 IP 获取方式，并记录服务端 IP。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;CustomWebAuthenticationDetails&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;extends&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;WebAuthenticationDetails&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serialVersionUID&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;4441359628463408329L&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@Getter&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverAddress&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;CustomWebAuthenticationDetails&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpServletRequest&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverAddress&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;super&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpRequestUtils&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getClientIp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;extractSessionId&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;serverAddress&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverAddress&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;protected&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;extractSessionId&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpServletRequest&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpSession&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getSession&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;?&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getId&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;获取客户端 IP 使用了 HttpRequestUtils 类，实际上就是从 Request 的 header 中获取 IP。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-23｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2024/01/23/til/</link>
       <pubDate>Tue, 23 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/23/til/</guid>
-      <description>今天做了什么： 重构 foodie-cloud 项目，修改模块名称、表名及字段名。 修改 spring-security-oauth2-legacy-examples ，测试资源服务器通过 jwt、jwk、远程三种方式获取用户信息；测试 sso 单点登录（进行中）。</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目，修改模块名称、表名及字段名。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;修改 &lt;a href=&#34;https://github.com/chensoul/spring-security-oauth2-legacy-examples&#34; target=&#34;_blank&#34;&gt;spring-security-oauth2-legacy-examples&lt;/a&gt; ，测试资源服务器通过 jwt、jwk、远程三种方式获取用户信息；测试 sso 单点登录（进行中）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     <item>
       <title>2024-01-10｜ Java审计框架inspektr</title>
       <link>https://blog.chensoul.cc/posts/2024/01/10/til/</link>
       <pubDate>Wed, 10 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/10/til/</guid>
-      <description>今天做了什么： 1、Java Lambda 增强 https://github.com/jOOQ/jOOL 和 https://github.com/vavr-io/vavr ，jOOL 在 jdk8 下存在编译错误，计划，整合这两个项目，创建一个新的项目，只引入自己需要的一些类。 2、https://www.pac4j.org/ 一个安全框架 3、ht</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;p&gt;1、Java Lambda 增强 &lt;a href=&#34;https://github.com/jOOQ/jOOL&#34; target=&#34;_blank&#34;&gt;https://github.com/jOOQ/jOOL&lt;/a&gt; 和 &lt;a href=&#34;https://github.com/vavr-io/vavr&#34; target=&#34;_blank&#34;&gt;https://github.com/vavr-io/vavr&lt;/a&gt; ，jOOL 在 jdk8 下存在编译错误，计划，整合这两个项目，创建一个新的项目，只引入自己需要的一些类。&lt;/p&gt;
+&lt;p&gt;2、&lt;a href=&#34;https://www.pac4j.org/&#34; target=&#34;_blank&#34;&gt;https://www.pac4j.org/&lt;/a&gt; 一个安全框架&lt;/p&gt;
+&lt;p&gt;3、&lt;a href=&#34;https://github.com/apereo/inspektr&#34; target=&#34;_blank&#34;&gt;https://github.com/apereo/inspektr&lt;/a&gt; 一个轻量级的 Java 审计框架。这个是在看 CAS 源码的过程中，发现的。&lt;/p&gt;
+&lt;p&gt;在 CAS 的源码中，有一些比较不错的代码，引入到自己的项目中，另外，打算仿照这个 inspektr 框架，重写公司微服务项目中的日志记录模块。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024-01-09｜单点登录</title>
       <link>https://blog.chensoul.cc/posts/2024/01/09/til/</link>
       <pubDate>Tue, 09 Jan 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/01/09/til/</guid>
-      <description>今天做了什么： 使用 renovate 监控第三方依赖更新 ，renovate 貌似需要付费，放弃。 spring-security-oauth2-samples 示例工程重命名模块和包名，代码见 spring-security-oauth2-boot 实现单点登录并测试 实现单点登录并测试 实现单点登录（Single Sign-On，SSO）可</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://zexo.dev/posts/2020/03/01/keep-your-repo-dependencies-up-to-date-with-renovate/&#34; target=&#34;_blank&#34;&gt;使用 renovate 监控第三方依赖更新&lt;/a&gt; ，renovate 貌似需要付费，放弃。&lt;/li&gt;
+&lt;li&gt;spring-security-oauth2-samples 示例工程重命名模块和包名，代码见 &lt;a href=&#34;https://github.com/chensoul/spring-security-oauth2-boot&#34; target=&#34;_blank&#34;&gt;spring-security-oauth2-boot&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;实现单点登录并测试&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;实现单点登录并测试&#34;&gt;实现单点登录并测试&lt;/h2&gt;
+&lt;p&gt;实现单点登录（Single Sign-On，SSO）可以采用多种思路和技术。下面是几种常见的实现思路：&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-28｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2023/12/28/til/</link>
       <pubDate>Thu, 28 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/28/til/</guid>
-      <description>今天做了什么： 重构微服务项目中使用 spring-security-oauth2 搭建 OAuth2 认证服务和资源服务的代码，减少其他模块对此的耦合度。计划将 spring-security-oauth2 迁移到 spring-security-oauth2-authorization-server 上，即使用 OAuth2.1 授权和认证。Spring Authorization Server 相关文档，可以参考 https://blog.51c</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;重构微服务项目中使用 spring-security-oauth2 搭建 OAuth2 认证服务和资源服务的代码，减少其他模块对此的耦合度。计划将 spring-security-oauth2 迁移到 spring-security-oauth2-authorization-server 上，即使用 OAuth2.1 授权和认证。&lt;strong&gt;Spring Authorization Server&lt;/strong&gt; 相关文档，可以参考 &lt;a href=&#34;https://blog.51cto.com/u_15268610/category2&#34; target=&#34;_blank&#34;&gt;https://blog.51cto.com/u_15268610/category2&lt;/a&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;看 &lt;a href=&#34;https://github.com/xuxiaowei-cloud/xuxiaowei-cloud&#34; target=&#34;_blank&#34;&gt;xuxiaowei-cloud&lt;/a&gt; master 分支源代码，整理 /login 登陆逻辑，参数：username、password、tenantId、clientId&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-27｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2023/12/27/til/</link>
       <pubDate>Wed, 27 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/27/til/</guid>
-      <description>今天做了什么： 微服务项目中认证服务器配置授权码模式，并测试通过 扩展 RedisAuthorizationCodeServices ，支持设置过期时间。 注意：OAuth2Authentication 无法从 json 反序列化，故无法使用 JSON 反序列化类，只能使用 JDK 反序列化类。 扩</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;微服务项目中认证服务器配置授权码模式，并测试通过&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;扩展 RedisAuthorizationCodeServices ，支持设置过期时间。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;注意：OAuth2Authentication 无法从 json 反序列化，故无法使用 JSON 反序列化类，只能使用  JDK 反序列化类。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;扩展 BearerTokenExtractor，支持从 request 请求的 header 中读取 access_token&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-22｜今天做了什么</title>
       <link>https://blog.chensoul.cc/posts/2023/12/22/til/</link>
       <pubDate>Fri, 22 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/22/til/</guid>
-      <description>今天做了什么： 我使用的 Idea 插件。 springdoc-openapi v1.7.0 示例 Spring Security OAuth Boot 2 Autoconfig 转换成 maven 项目，并添加示例 Idea 1、插件 GenerateSerialVersionUID：自动生成 serialVersionUID MicroProfile Starter：创建 MicroProfile 微服务应用 Easy Javadoc：快速</description>
+      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;我使用的 Idea 插件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;springdoc-openapi v1.7.0 示例&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spring Security OAuth Boot 2 Autoconfig 转换成 maven 项目，并添加示例&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;idea&#34;&gt;Idea&lt;/h2&gt;
+&lt;p&gt;1、插件&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;GenerateSerialVersionUID：自动生成 serialVersionUID&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MicroProfile Starter：创建 MicroProfile 微服务应用&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Easy Javadoc：快速生成 Javadoc&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;快捷键&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;作用域&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;说明&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl \&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;类、方法、属性（光标放上面就行，不要双击选中！）&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;生成当前文档注释&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl \&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;选中的&lt;/strong&gt;中文&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;生成选中的中文的英文命名&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl \&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;选中的&lt;/strong&gt;非中文&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;弹框展示翻译结果&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;ctrl shift \&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;类&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;生成全部文档注释&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;.ignore&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-21｜Spring Security对OAuth2的支持及实现方式</title>
       <link>https://blog.chensoul.cc/posts/2023/12/21/til/</link>
       <pubDate>Thu, 21 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/21/til/</guid>
-      <description>Today I Learned. 今天分享内容：Spring Security 对 OAuth2 的支持 Spring Security 提供了对 OAuth 的支持，并且有几个相关的项目可以用于实现 OAuth 功能。以下是一些常见的 Spring Security OAuth 项目及其相关信息： Spring Security OAuth（https://github.com/</description>
+      <description>&lt;p&gt;Today I Learned. 今天分享内容：Spring Security 对 OAuth2 的支持&lt;/p&gt;
+&lt;p&gt;Spring Security 提供了对 OAuth 的支持，并且有几个相关的项目可以用于实现 OAuth 功能。以下是一些常见的 Spring Security OAuth 项目及其相关信息：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Spring Security OAuth（&lt;a href=&#34;https://github.com/spring-attic/spring-security-oauth&#34; target=&#34;_blank&#34;&gt;https://github.com/spring-attic/spring-security-oauth&lt;/a&gt;）：官方提供的 Spring Security OAuth 项目，为 Spring 应用程序提供了 OAuth 1.0 和 OAuth 2.0 的支持。该项目在 Spring Security 5.x 版本后已不再维护，建议使用后续提到的 Spring Authorization Server。&lt;/li&gt;
+&lt;li&gt;Spring Security 5（&lt;a href=&#34;https://github.com/spring-attic/spring-security&#34; target=&#34;_blank&#34;&gt;https://github.com/spring-attic/spring-security&lt;/a&gt;）：Spring Security 5.x 版本开始将 OAuth 2.0 客户端支持集成到核心库中，使得在 Spring Security 中实现 OAuth 2.0 认证变得更加简单。你可以使用 Spring Security 5.x 以及后续版本来实现 OAuth 2.0 客户端功能。&lt;/li&gt;
+&lt;li&gt;Spring Security OAuth2 Boot（&lt;a href=&#34;https://github.com/spring-attic/spring-security-oauth2-boot&#34; target=&#34;_blank&#34;&gt;https://github.com/spring-attic/spring-security-oauth2-boot&lt;/a&gt;），该项目是 &lt;code&gt;spring-attic&lt;/code&gt; 组织维护的，提供了 Spring Boot 2 和旧版 Spring Security OAuth 的自动配置。该项目已经停止了活跃的开发和更新，最新的提交日期是 2022 年 5 月 20 日。&lt;/li&gt;
+&lt;li&gt;Spring Authorization Server（https:&lt;a href=&#34;&#34;&gt;&lt;/a&gt;//github.com/spring-projects/spring-authorization-server）：官方提供的用于构建 OAuth 2.0 授权服务器的实验性项目。它是 Spring Security 5.3 之后推出的替代方案，旨在提供更简化和灵活的 OAuth 2.0 授权服务器功能。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Authorization Server&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-19｜Spring Security OAuth2配置JWT、Github Actions配置代码扫描</title>
       <link>https://blog.chensoul.cc/posts/2023/12/19/til/</link>
       <pubDate>Tue, 19 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/19/til/</guid>
-      <description>Today I Learned. 今天分享内容：Spring Security OAuth2 配置JWT、Github Actions配置代码扫描，另外，修改了 spring-security-oauth2-legacy 仓库，支持授权认证中心的多种配置方式（jdbc、内存、redis、jwt）、资源中心的多种配置方式</description>
+      <description>&lt;p&gt;Today I Learned. 今天分享内容：Spring Security OAuth2 配置JWT、Github Actions配置代码扫描，另外，修改了 &lt;a href=&#34;https://github.com/chensoul/spring-security-oauth2-legacy&#34; target=&#34;_blank&#34;&gt;spring-security-oauth2-legacy&lt;/a&gt; 仓库，支持授权认证中心的多种配置方式（jdbc、内存、redis、jwt）、资源中心的多种配置方式（jwt、jdbc、redis、remote、jwk-set-uri）。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023-12-18｜使用Spring Security实现OAuth2授权和认证</title>
       <link>https://blog.chensoul.cc/posts/2023/12/18/til/</link>
       <pubDate>Mon, 18 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/18/til/</guid>
-      <description>Today I Learned. 今天分享内容：使用Spring Security实现OAuth2授权和认证。 最近在开发 Spring Cloud 微服务时，需要对 OAuth2 的异常处理进行定制，从网上搜到一个 github 仓库：oauth2。这篇仓库的代码实现了 OAuth2 的四种授权</description>
+      <description>&lt;p&gt;Today I Learned. 今天分享内容：使用Spring Security实现OAuth2授权和认证。&lt;/p&gt;
+&lt;p&gt;最近在开发 Spring Cloud 微服务时，需要对 OAuth2 的异常处理进行定制，从网上搜到一个 github 仓库：&lt;a href=&#34;https://github.com/selfancy/oauth2&#34; target=&#34;_blank&#34;&gt;oauth2&lt;/a&gt;。这篇仓库的代码实现了 OAuth2 的四种授权模式、I18N 国际化、异常处理、JWT Token，我 fork 了一份代码，做了一些改动，去掉了 webflux、eureka 相关代码。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security 面试问题</title>
       <link>https://blog.chensoul.cc/posts/2023/10/12/spring-security-interview-questions/</link>
       <pubDate>Thu, 12 Oct 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/10/12/spring-security-interview-questions/</guid>
-      <description>本面试准备指南将讨论一些常见的 Spring Security 面试问题。无论您是准备面试还是只是想增强对 Spring Security 的了解，这些问题都将帮助您理解关键概念并指导您设计常见安全问题的解决方案。 1. Spring Security 的核心特性是什么？ Spring Security 提供的两个最突出的</description>
-    </item>
-    <item>
-      <title>[译]SPRING BOOT JWT - 如何使用 SPRING SECURITY 和 JSON WEB 令牌保护您的 REST API</title>
-      <link>https://blog.chensoul.cc/posts/2023/09/19/spring-security-jwt/</link>
-      <pubDate>Tue, 19 Sep 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/09/19/spring-security-jwt/</guid>
-      <description>如果您快速搜索如何使用 JSON Web Tokens 在 Spring Boot 中保护 REST API，您会发现很多相同的结果。这些结果包含一种方法，该方法涉及编写自定义过滤器链并引入第三方库来编码和解码 JWT。 在看完这些令人费解且令人困惑的教程后，我说</description>
+      <description>&lt;p&gt;本面试准备指南将讨论一些常见的 Spring Security 面试问题。无论您是准备面试还是只是想增强对 Spring Security 的了解，这些问题都将帮助您理解关键概念并指导您设计常见安全问题的解决方案。&lt;/p&gt;
+&lt;h2 id=&#34;1-spring-security-的核心特性是什么&#34;&gt;1. Spring Security 的核心特性是什么？&lt;/h2&gt;
+&lt;p&gt;Spring Security 提供的两个最突出的功能是身份验证和授权。这些功能在确保应用程序的安全性方面发挥着至关重要的作用。然而，Spring Security 超越了身份验证和授权，还提供了额外的功能来防止漏洞利用并与其他框架集成。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security 与 JWT for REST API</title>
       <link>https://blog.chensoul.cc/posts/2023/09/19/spring-security-tutorial/</link>
       <pubDate>Tue, 19 Sep 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/09/19/spring-security-tutorial/</guid>
-      <description>免责声明：Spring Security 5+ 已发布 OAuth JWT 支持。建议使用最新版本的 OAuth 来支持 JWT，而不是使用自定义安全性或过滤器。 Spring 被认为是 Java 生态系统中值得信赖的框架，并且被广泛使用。将 Spring 称为框架不再有效，因为它更多的是涵</description>
+      <description>&lt;p&gt;&lt;strong&gt;免责声明：Spring Security 5+ 已发布 OAuth JWT 支持。建议使用最新版本的 OAuth 来支持 JWT，而不是使用自定义安全性或过滤器。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://spring.io/&#34; target=&#34;_blank&#34;&gt;Spring&lt;/a&gt; 被认为是 Java 生态系统中值得信赖的框架，并且被广泛使用。将 Spring 称为框架不再有效，因为它更多的是涵盖各种框架的总括术语。其中一个框架是 &lt;a href=&#34;https://spring.io/projects/spring-security&#34; target=&#34;_blank&#34;&gt;Spring Security&lt;/a&gt;，它是一个功能强大且可定制的身份验证和授权框架。它被认为是保护基于 Spring 的应用程序的事实标准，因此，如果您希望实现 Spring JWT 令牌解决方案，那么将其基于 Spring Security 是有意义的。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[译]如何使用Spring Security和JWT保护您的REST API</title>
+      <link>https://blog.chensoul.cc/posts/2023/09/19/spring-security-jwt/</link>
+      <pubDate>Tue, 19 Sep 2023 00:00:00 +0800</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2023/09/19/spring-security-jwt/</guid>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.danvega.dev/blog/spring-security-jwt&#34; target=&#34;_blank&#34;&gt;How to Secure your REST APIs with Spring Security &amp;amp; JSON Web Tokens (JWTs)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如果您快速搜索如何使用 JSON Web Tokens 在 Spring Boot 中保护 REST API，您会发现很多相同的结果。这些结果包含一种方法，该方法涉及编写自定义过滤器链并引入第三方库来编码和解码 JWT。&lt;/p&gt;
+&lt;p&gt;在看完这些令人费解且令人困惑的教程后，我说必须有一种更简单的方法来做到这一点。我做了任何直接接触 Spring Security 团队的人都会做的事情，我向他们寻求帮助。他们告诉我，Spring Security 确实使用 oAuth2 资源服务器内置了对 JWT 的支持。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[译]使用@Async进行Spring Security上下文传播</title>
+      <link>https://blog.chensoul.cc/posts/2023/08/25/spring-security-async-principal-propagation/</link>
+      <pubDate>Fri, 25 Aug 2023 00:00:00 +0800</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2023/08/25/spring-security-async-principal-propagation/</guid>
+      <description>&lt;h2 id=&#34;1-简介&#34;&gt;1. 简介&lt;/h2&gt;
+&lt;p&gt;在本教程中，我们将重点关注使用 &lt;code&gt;@Async&lt;/code&gt; 传播 Spring Security 主体
+默认情况下，Spring Security 身份验证绑定到 &lt;code&gt;ThreadLocal&lt;/code&gt; - 因此，当执行流在带有 &lt;code&gt;@Async&lt;/code&gt; 的新线程中运行时，它不会是经过身份验证的上下文。&lt;/p&gt;
+&lt;p&gt;这并不理想——让我们解决它。&lt;/p&gt;
+&lt;h2 id=&#34;2maven-依赖&#34;&gt;2.Maven 依赖&lt;/h2&gt;
+&lt;p&gt;为了在 Spring Security 中使用异步集成，我们需要在 pom.xml 的依赖项中包含以下部分：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Boot项目如何实现JWT认证？</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-jwt-authentication-in-spring-boot-project/</link>
       <pubDate>Fri, 18 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-jwt-authentication-in-spring-boot-project/</guid>
-      <description>没有人可以否认这样一个事实：安全性是生产就绪应用程序的一项重要功能。尽管我们可以使用内存身份验证、JDBC 身份验证或通过 UserDetailsS​​ervice 来保护一个 Web 应用程序的安全。但是，当一个</description>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://javatechonline.com/wp-content/uploads/2020/12/JWT_With_SpringBoot-1.jpg&#34; alt=&#34;How to implement JWT Authentication in Spring Boot Project?&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;没有人可以否认这样一个事实：安全性是生产就绪应用程序的一项重要功能。尽管我们可以&lt;a href=&#34;https://javatechonline.com/how-to-implement-security-in-spring-boot-project/&#34; target=&#34;_blank&#34;&gt;使用内存身份验证&lt;/a&gt;、&lt;a href=&#34;https://javatechonline.com/how-to-implement-security-in-spring-boot-project/&#34; target=&#34;_blank&#34;&gt;JDBC 身份验证&lt;/a&gt;或通过 &lt;a href=&#34;https://javatechonline.com/how-to-implement-security-in-spring-boot-using-userdetailsservice/&#34; target=&#34;_blank&#34;&gt;UserDetailsS&lt;/a&gt;​​ervice 来保护一个 Web 应用程序的安全。但是，当一个应用程序在内部使用其他应用程序的服务时，使用 Web 服务概念实现安全性就变得很重要。在这种情况下，我们使用具有特定有效期的令牌来保护我们的应用程序。此外，我们将学习“如何在 Spring Boot 项目中实现 JWT 身份验证？”以整体了解 JWT（JSON Web Token）身份验证背后的概念。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Boot项目如何实现Security？</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot-project/</link>
       <pubDate>Fri, 18 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot-project/</guid>
-      <description>如今，几乎每个客户都要求在实时应用程序中实现强大的安全功能。安全功能对于保持机密性、完整性和可用性的需求是非常有效的。现实世界中有很多类型的安全性，但我们作为开发人员将重点关注应用程序/软件安全性。 此</description>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://javatechonline.com/wp-content/uploads/2020/11/SpringSecurityBasics-1.jpg&#34; alt=&#34;How to implement Security in Spring Boot Project?&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;如今，几乎每个客户都要求在实时应用程序中实现强大的安全功能。安全功能对于保持机密性、完整性和可用性的需求是非常有效的。现实世界中有很多类型的安全性，但我们作为开发人员将重点关注应用程序/软件安全性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]如何在Spring Boot2中使用UserDetailsService实现安全性？</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot2-using-userdetailsservice/</link>
       <pubDate>Fri, 18 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot2-using-userdetailsservice/</guid>
-      <description>继续上一篇关于实现 Spring Security 的两种不同方法的文章，在本文中，我们将学习第三种方法“如何使用 UserDetailsS​​ervice 在 Spring Boot 中实现 Security？”。经过上一篇文章后，我希望我们都非常熟悉安全</description>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://javatechonline.com/wp-content/uploads/2024/03/Thymeleaf_SpringSecurity-1.jpg&#34; alt=&#34;img&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;继续上一篇&lt;a href=&#34;https://javatechonline.com/how-to-implement-security-in-spring-boot-project/&#34; target=&#34;_blank&#34;&gt;关于实现 Spring Security 的两种不同方法&lt;/a&gt;的文章，在本文中，我们将学习第三种方法“如何使用 UserDetailsS​​ervice 在 Spring Boot 中实现 Security？”。经过上一篇文章后，我希望我们都非常熟悉安全性的基础知识，甚至是 Spring Boot 应用程序中的安全性基础知识。这次我们将创建一个用户注册表并将用户及其角色保存到数据库中。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]如何在Spring Boot3中使用UserDetailsService实现安全性？</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot3-using-userdetailsservice/</link>
       <pubDate>Fri, 18 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot3-using-userdetailsservice/</guid>
-      <description>作为有关 Spring Security 的系列文章的继续，在本文中我们将学习“如何在 Spring Boot 3 中使用 UserDetailsService 实现 Spring Boot 中的安全性？”。经过前面的文章，我希望我们都非常熟悉安全性的基础知识，甚至 Spring Boot 应用程序中的安全性基础知识。 Spring Boot 3 发布后，我</description>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://javatechonline.com/wp-content/uploads/2022/12/UserDetailsServiceSpringBoot3-1.jpg&#34; alt=&#34;Spring Security UserDetailsService Using Spring Boot 3&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;作为有关 Spring Security 的系列文章的继续，在本文中我们将学习“如何在 Spring Boot 3 中使用 UserDetailsService 实现 Spring Boot 中的安全性？”。经过前面的文章，我希望我们都非常熟悉安全性的基础知识，甚至 Spring Boot 应用程序中的安全性基础知识。 Spring Boot 3 发布后，我们将在这里实现“使用 Spring Boot 3 的 Spring Security UserDetailsService”。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]没有WebSecurityConfigurerAdapter的Spring Security.md</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/spring-security-without-websecurityconfigureradapter/</link>
       <pubDate>Fri, 18 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/spring-security-without-websecurityconfigureradapter/</guid>
-      <description>在 Spring Security 模块的上下文中，WebSecurityConfigurerAdapter 是一个抽象类，根据 Spring 官方网站 2022 年 2 月 21 日发布的公告，该类已从 Spring Security 5.7.0-M2 中弃用。它通常用于扩展 configure() 方法由自定义配置子类实现。因此，</description>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://javatechonline.com/wp-content/uploads/2022/07/WebSecurityConfigurerAdapter-Deprecated-1.jpg&#34; alt=&#34;WebSecurityConfigurerAdapter Deprecated&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;在 Spring Security 模块的上下文中，WebSecurityConfigurerAdapter 是一个抽象类，根据 &lt;a href=&#34;https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter&#34; target=&#34;_blank&#34;&gt;Spring 官方网站&lt;/a&gt; 2022 年 2 月 21 日发布的公告，该类已从 Spring Security 5.7.0-M2 中弃用。它通常用于扩展 configure() 方法由自定义配置子类实现。因此，它鼓励用户转向基于组件的安全配置。为了支持对这种新配置设计的更改，我们将讨论常见用例列表和未来建议的替代方案。因此，我们将讨论没有 WebSecurityConfigurerAdapter 的 Spring Security 用例的实现。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security - JWT</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-jwt/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-jwt/</guid>
-      <description>简介和概述 JSON Web Token 或 JWT（更常见的名称）是一种开放的互联网标准 (RFC 7519)，用于以紧凑的方式在各方之间安全地传输可信信息。令牌包含编码为 JSON 对象的声明，并使用私有密钥或公钥/私钥对进行数字签名。它们是独</description>
+      <description>&lt;h3 id=&#34;简介和概述&#34;&gt;简介和概述&lt;/h3&gt;
+&lt;p&gt;JSON Web Token 或 JWT（更常见的名称）是一种开放的互联网标准 (RFC 7519)，用于以紧凑的方式在各方之间安全地传输可信信息。令牌包含编码为 JSON 对象的声明，并使用私有密钥或公钥/私钥对进行数字签名。它们是独立且可验证的，因为它们经过数字签名。 JWT 可以进行签名和/或加密。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security - OAuth2</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-oauth2/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-oauth2/</guid>
-      <description>OAuth 2.0 基础知识 OAuth 2.0 由 IETF OAuth 工作组开发并于 2012 年 10 月发布。它作为一种开放授权协议，使第三方应用程序能够代表资源所有者对 HTTP 服务进行有限访问。它可以在不泄露用户身份或长期凭证的情况下做到这一点。第三方应用程序本身</description>
+      <description>&lt;h2 id=&#34;oauth-20-基础知识&#34;&gt;OAuth 2.0 基础知识&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://www.tutorialspoint.com/spring_security/images/oauth_2_fundamentals.jpg&#34; alt=&#34;OAuth 2.0 Fundamentals&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;OAuth 2.0 由 IETF OAuth 工作组开发并于 2012 年 10 月发布。它作为一种开放授权协议，使第三方应用程序能够代表资源所有者对 HTTP 服务进行有限访问。它可以在不泄露用户身份或长期凭证的情况下做到这一点。第三方应用程序本身也可以代表其使用它。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security - 使用数据库表单登录</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-form-login-with-database/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-form-login-with-database/</guid>
-      <description>内容 简介和概述 Spring Security 的基本组件 AuthenticationFilter 认证过滤器 AuthenticationManager 认证管理器 AuthenticationProvider 认证提供者 UserDetailsService 用户详情服务 PasswordEncoder 密码编码器 Spring 安全上下文 表单登录 使用数据库登录 登录尝试限制 入门（实用指南） 简介和概述 除了提供各种内置的身份验证和授权选项之</description>
+      <description>&lt;h2 id=&#34;内容&#34;&gt;内容&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;简介和概述&lt;/li&gt;
+&lt;li&gt;Spring Security 的基本组件
+&lt;ul&gt;
+&lt;li&gt;AuthenticationFilter 认证过滤器&lt;/li&gt;
+&lt;li&gt;AuthenticationManager 认证管理器&lt;/li&gt;
+&lt;li&gt;AuthenticationProvider 认证提供者&lt;/li&gt;
+&lt;li&gt;UserDetailsService 用户详情服务&lt;/li&gt;
+&lt;li&gt;PasswordEncoder 密码编码器&lt;/li&gt;
+&lt;li&gt;Spring 安全上下文&lt;/li&gt;
+&lt;li&gt;表单登录&lt;/li&gt;
+&lt;li&gt;使用数据库登录&lt;/li&gt;
+&lt;li&gt;登录尝试限制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;入门（实用指南）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;简介和概述&#34;&gt;简介和概述&lt;/h2&gt;
+&lt;p&gt;除了提供各种内置的身份验证和授权选项之外，Spring Security 还允许我们根据需要自定义身份验证过程。从自定义登录页面到我们自己的自定义身份验证提供程序和身份验证过滤器，我们几乎可以自定义身份验证过程的各个方面。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security - 表单登录、记住我和注销</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-form-login-remember-me-and-logout/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-form-login-remember-me-and-logout/</guid>
-      <description>内容 简介和概述 入门（实用指南） 简介和概述 Spring Security 附带了大量内置功能和工具，为我们提供方便。在这个例子中，我们将讨论其中三个有趣且有用的功能 - 表单登录 记住账号 登出 表单登录 基于表单的登录是 Spring Security 提供支持的一种用</description>
+      <description>&lt;h2 id=&#34;内容&#34;&gt;内容&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;简介和概述&lt;/li&gt;
+&lt;li&gt;入门（实用指南）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;简介和概述&#34;&gt;简介和概述&lt;/h2&gt;
+&lt;p&gt;Spring Security 附带了大量内置功能和工具，为我们提供方便。在这个例子中，我们将讨论其中三个有趣且有用的功能 -&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;表单登录&lt;/li&gt;
+&lt;li&gt;记住账号&lt;/li&gt;
+&lt;li&gt;登出&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;表单登录&#34;&gt;表单登录&lt;/h3&gt;
+&lt;p&gt;基于表单的登录是 Spring Security 提供支持的一种用户名/密码身份验证形式。这是通过 Html 表单提供的。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security 和 Spring Boot 入门</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security/</guid>
-      <description>Spring Security 是一个有助于保护企业应用程序安全的框架。通过与 Spring MVC、Spring Webflux 或 Spring Boot 集成，我们可以创建一个强大且高度可定制的身份验证和访问控制框架。在本文中，我们将解释核心概念并仔细研究 Spring Security 提供的默认配置</description>
+      <description>&lt;p&gt;Spring Security 是一个有助于保护企业应用程序安全的框架。通过与 Spring MVC、Spring Webflux 或 Spring Boot 集成，我们可以创建一个强大且高度可定制的身份验证和访问控制框架。在本文中，我们将解释核心概念并仔细研究 Spring Security 提供的默认配置及其工作原理。我们将进一步尝试自定义它们并分析它们对示例 Spring Boot 应用程序的影响。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security：深入了解身份验证和授权</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-authentication-and-authorization/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-authentication-and-authorization/</guid>
-      <description>您可以使用本指南来了解 Spring Security 是什么以及其核心功能（如身份验证、授权或常见漏洞保护）如何工作。此外，还有全面的常见问题解答。 （编者注：大约 6500 字，您可能不想尝试在移动设备上阅读本文。将其添加为书签，稍后再回</description>
+      <description>&lt;p&gt;您可以使用本指南来了解 Spring Security 是什么以及其核心功能（如身份验证、授权或常见漏洞保护）如何工作。此外，还有全面的常见问题解答。&lt;/p&gt;
+&lt;p&gt;（编者注：大约 6500 字，您可能不想尝试在移动设备上阅读本文。将其添加为书签，稍后再回来。）&lt;/p&gt;</description>
     </item>
     <item>
       <title>Spring Security和OAuth2发展过程</title>
       <link>https://blog.chensoul.cc/posts/2023/08/15/spring-security-oauth2-history/</link>
       <pubDate>Tue, 15 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/15/spring-security-oauth2-history/</guid>
-      <description>Spring Security 的发展过程 Spring Security 是一个功能强大且广泛使用的安全框架，为企业级应用程序提供了全面的安全性。Spring Security 最初是 Acegi Security 项目的一部分，于 2004 年发布，现在已经成为 Spring 生态系统的核心组件。 Spring Security 的发展过程可以分为三个</description>
+      <description>&lt;h2 id=&#34;spring-security-的发展过程&#34;&gt;Spring Security 的发展过程&lt;/h2&gt;
+&lt;p&gt;Spring Security 是一个功能强大且广泛使用的安全框架，为企业级应用程序提供了全面的安全性。Spring Security 最初是 Acegi Security 项目的一部分，于 2004 年发布，现在已经成为 Spring 生态系统的核心组件。 Spring Security 的发展过程可以分为三个阶段：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Boot授权服务器 - 使用 Java 的资源服务器和客户端凭证示例</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-authorization-server/</link>
       <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-authorization-server/</guid>
-      <description>概述 在本文中，我们将创建一个授权服务器，为任何客户端生成 access_token。这称为 OAuth2 的 client_credentials 流程。它主要用于服务间通信。 我们将使用 spring boot oauth2 授权服务器依赖项来创建身份验证服务器。我们还将创建一个资源服务</description>
+      <description>&lt;h1 id=&#34;概述&#34;&gt;概述&lt;/h1&gt;
+&lt;p&gt;在本文中，我们将创建一个授权服务器，为任何客户端生成 access_token。这称为 OAuth2 的 &lt;code&gt;client_credentials&lt;/code&gt; 流程。它主要用于服务间通信。&lt;/p&gt;
+&lt;p&gt;我们将使用 spring boot oauth2 授权服务器依赖项来创建身份验证服务器。我们还将创建一个资源服务器和客户端来对其进行端到端测试。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]使用 Spring Boot 和 Spring Security 配置 CORS</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/spring-cors/</link>
       <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/spring-cors/</guid>
-      <description>跨源资源共享 (CORS) 是一种基于 HTTP 标头的机制，允许服务器显式将某些源列入白名单，并帮助绕过同源策略。 这是必需的，因为浏览器默认应用同源策略以确保安全。通过在 Web 应用程序中实施 CORS，网页可以请求额外的资源并从</description>
+      <description>&lt;p&gt;跨源资源共享 (CORS) 是一种基于 HTTP 标头的机制，允许服务器显式将某些源列入白名单，并帮助绕过同源策略。&lt;/p&gt;
+&lt;p&gt;这是必需的，因为浏览器默认应用同源策略以确保安全。通过在 Web 应用程序中实施 CORS，网页可以请求额外的资源并从其他域加载到浏览器中。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]在 Spring 中实现 OAuth2：使用范围（第 2 部分）</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring-scopes/</link>
       <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring-scopes/</guid>
-      <description>我们在上一篇文章中了解了基本的 OAuth2 概念以及如何在 Spring 中实现和执行不同的授权。在这篇文章中，我们将介绍 OAuth2 的另一个重要概念：范围。 OAuth 范围 保护对应用程序的访问通常分两个步骤进行：身份验证和授权。要理解这两个概念</description>
+      <description>&lt;p&gt;我们在&lt;a href=&#34;https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring/&#34;&gt;上一篇文章&lt;/a&gt;中了解了基本的 OAuth2 概念以及如何在 Spring 中实现和执行不同的授权。在这篇文章中，我们将介绍 OAuth2 的另一个重要概念：范围。&lt;/p&gt;
+&lt;h2 id=&#34;oauth-范围&#34;&gt;OAuth 范围&lt;/h2&gt;
+&lt;p&gt;保护对应用程序的访问通常分两个步骤进行：身份验证和授权。要理解这两个概念，假设您在绝密政府大楼工作。在开始之前，你会得到一张卡片，可以让你进入建筑物。 OAuth 令牌可以看作是允许您访问的卡片。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]在 Spring 中实现 OAuth2：第 1 部分</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring/</link>
       <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring/</guid>
-      <description>OAuth2 是一组规范，主要提供对 Rest API 的安全访问的方法。 OAuth 的主要目的是允许通过使用令牌来执行身份验证和授权，而不必为每个操作提供凭据。由于本文的重点是实现，并且为了不重新发明轮子，可以查看 OAuth RFC 或维基百科以获取更</description>
+      <description>&lt;p&gt;OAuth2 是一组规范，主要提供对 Rest API 的安全访问的方法。 OAuth 的主要目的是允许通过使用令牌来执行身份验证和授权，而不必为每个操作提供凭据。由于本文的重点是实现，并且为了不重新发明轮子，可以查看 &lt;a href=&#34;https://tools.ietf.org/html/rfc6749&#34; target=&#34;_blank&#34;&gt;OAuth RFC&lt;/a&gt; 或&lt;a href=&#34;https://en.wikipedia.org/wiki/OAuth&#34; target=&#34;_blank&#34;&gt;维基百科&lt;/a&gt;以获取更多理论背景。在这篇文章中，我们将深入探讨 Spring 中的 OAuth2 实现以及如何使用不同的授权类型，但在此之前值得提供一些重要概念的简要定义。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]使用Spring Boot2和Spring Security 5以及JDBC令牌存储进行Oauth2集中授权</title>
       <link>https://blog.chensoul.cc/posts/2023/07/14/oauth-2-centralized-authorization-with-spring-boot-2-and-spring-security-5-and-jdbc-token-store/</link>
       <pubDate>Fri, 14 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/14/oauth-2-centralized-authorization-with-spring-boot-2-and-spring-security-5-and-jdbc-token-store/</guid>
-      <description>在这篇文章中，我们将了解如何使用 Spring Boot 2 和 Spring Security 5 OAuth2 来实现集中授权的授权服务器以及如何通过 GUI 对其进行管理，还将提供资源服务器演示以及 github 下的整个项目。 很多示例涵盖了基于早期版本的 Spring boot 2 和 Spring Security 5 使用内存令牌实</description>
+      <description>&lt;p&gt;在这篇文章中，我们将了解如何使用 Spring Boot 2 和 Spring Security 5 OAuth2 来实现集中授权的授权服务器以及如何通过 GUI 对其进行管理，还将提供资源服务器演示以及 github 下的整个项目。&lt;/p&gt;
+&lt;p&gt;很多示例涵盖了基于早期版本的 Spring boot 2 和 Spring Security 5 使用内存令牌实现 Oauth2，因此想法是使用 MySql 数据库作为令牌存储。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

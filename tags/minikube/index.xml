@@ -4,7 +4,7 @@
     <title>Minikube on ChenSoul</title>
     <link>https://blog.chensoul.cc/tags/minikube/</link>
     <description>Recent content in Minikube on ChenSoul</description>
-    <generator>Hugo -- 0.133.1</generator>
+    <generator>Hugo -- 0.134.3</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 10 Jul 2024 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/tags/minikube/index.xml" rel="self" type="application/rss+xml" />
@@ -13,14 +13,56 @@
       <link>https://blog.chensoul.cc/posts/2024/07/10/minikube-quick-start/</link>
       <pubDate>Wed, 10 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/10/minikube-quick-start/</guid>
-      <description>安装 macos 系统使用 brew 安装 1 brew install minikube 启动集群 查看当前集群列表 1 2 3 4 5 6 $ minikube profile list |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | Profile | VM Driver | Runtime | IP | Port | Version | Status | Nodes | Active Profile | Active Kubecontext | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| | minikube | docker | docker | 192.168.49.2 | 8443 | v1.30.0 | Unknown | 1 | * | * | |----------|-----------|---------|--------------|------|---------|---------|-------|----------------|--------------------| 创建一个集群 1 2 # 启动一个名称为</description>
+      <description>&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+&lt;p&gt;macos 系统使用 brew 安装&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;brew install minikube
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;启动集群&#34;&gt;启动集群&lt;/h2&gt;
+&lt;p&gt;查看当前集群列表&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ minikube profile list
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Profile  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; VM Driver &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Runtime &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;      IP      &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Port &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Version &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Status  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Nodes &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Active Profile &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Active Kubecontext &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; minikube &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; docker    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; docker  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; 192.168.49.2 &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8443&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; v1.30.0 &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Unknown &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;     &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; *              &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; *                  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-----------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;---------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;----------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;--------------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;创建一个集群&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 启动一个名称为 minikube 集群，命名空间为 default&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;minikube start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;默认情况下，&lt;code&gt;minikube start &lt;/code&gt;创建一个名为“minikube”的集群。如果您想创建不同的集群或更改其名称，可以使用&lt;code&gt;--profile&lt;/code&gt;(或&lt;code&gt;-p&lt;/code&gt;) 标志：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Minikube 中的 Minions - 面向 Java 开发人员的 Kubernetes 简介</title>
       <link>https://blog.chensoul.cc/posts/2024/07/08/minions-in-minikube-a-kubernetes-intro-for-java-de/</link>
       <pubDate>Mon, 08 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/08/minions-in-minikube-a-kubernetes-intro-for-java-de/</guid>
-      <description>我们希望我们的微服务是可复制、可替换的工作程序，我们可以轻松升级或降级，无需停机，管理也只需最少。我们可能会说我们希望他们是我们的奴才。在本文中，我们将通过一个简单的示例来了解 Kubernetes 通过创建和编排奴才大军</description>
+      <description>&lt;p&gt;我们希望我们的微服务是可复制、可替换的工作程序，我们可以轻松升级或降级，无需停机，管理也只需最少。我们可能会说我们希望他们是我们的奴才。在本文中，我们将通过一个简单的示例来了解 Kubernetes 通过创建和编排奴才大军可以为我们做些什么。您可以按照本文进行编码，也可以从&lt;a href=&#34;https://github.com/ryandawsonuk/minions/blob/master/minion-army.yml&#34; target=&#34;_blank&#34;&gt;此处&lt;/a&gt;克隆项目。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

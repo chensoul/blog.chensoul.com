@@ -4,7 +4,7 @@
     <title>Java on ChenSoul</title>
     <link>https://blog.chensoul.cc/categories/java/</link>
     <description>Recent content in Java on ChenSoul</description>
-    <generator>Hugo -- 0.133.1</generator>
+    <generator>Hugo -- 0.134.3</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 27 Aug 2024 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://blog.chensoul.cc/categories/java/index.xml" rel="self" type="application/rss+xml" />
@@ -13,903 +13,1704 @@
       <link>https://blog.chensoul.cc/posts/2024/08/27/activemq-source-code-broker-service/</link>
       <pubDate>Tue, 27 Aug 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/08/27/activemq-source-code-broker-service/</guid>
-      <description>activemq-broker 模块 test/java 目录下有个 IDERunner 类： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 public class IDERunner { private static final boolean TRANSPORT_TRACE = false; public static void main(String[]args) throws Exception { BrokerService brokerService = new BrokerService(); // brokerService.addConnector( // &amp;#34;tcp://0.0.0.0:61616?trace=&amp;#34; + TRANSPORT_TRACE + // &amp;#34;&amp;amp;transport.wireFormat.maxFrameSize=104857600&amp;#34;); brokerService.setPersistent(false); brokerService.setUseJmx(false); brokerService.setAdvisorySupport(false); brokerService.start(); brokerService.waitUntilStopped(); } } 注释掉 brokerService 调用 addConnector 方法的三行代码，然后 debug 运行该类的 main 方法。 BrokerService BrokerService 管理</description>
+      <description>&lt;p&gt;activemq-broker 模块 test/java 目录下有个 IDERunner 类：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;IDERunner&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TRANSPORT_TRACE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;throws&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Exception&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;BrokerService&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;brokerService&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;BrokerService&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;//        brokerService.addConnector(&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;//            &amp;#34;tcp://0.0.0.0:61616?trace=&amp;#34; + TRANSPORT_TRACE +&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;//                &amp;#34;&amp;amp;transport.wireFormat.maxFrameSize=104857600&amp;#34;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;brokerService&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setPersistent&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;brokerService&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setUseJmx&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;brokerService&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setAdvisorySupport&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;brokerService&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;brokerService&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;waitUntilStopped&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;注释掉 brokerService 调用 addConnector 方法的三行代码，然后 debug 运行该类的 main 方法。&lt;/p&gt;</description>
     </item>
     <item>
       <title>ThingsBoard源码编译和Idea运行</title>
       <link>https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/</link>
       <pubDate>Tue, 27 Aug 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/</guid>
-      <description>ThingsBoard 源码地址：https://github.com/thingsboard/thingsboard，从 3.7 版本之后，要求 JDK17。官方提供了源码编译的文档：Building from sources 源码编译 下载代码： 1 git clone git@github.com:thingsboard/thingsboard.git</description>
+      <description>&lt;p&gt;ThingsBoard 源码地址：&lt;a href=&#34;https://github.com/thingsboard/thingsboard&#34; target=&#34;_blank&#34;&gt;https://github.com/thingsboard/thingsboard&lt;/a&gt;，从 &lt;a href=&#34;https://github.com/thingsboard/thingsboard/releases/tag/v3.7&#34; target=&#34;_blank&#34;&gt;3.7&lt;/a&gt; 版本之后，要求 JDK17。官方提供了源码编译的文档：&lt;a href=&#34;https://thingsboard.io/docs/user-guide/install/building-from-source/&#34; target=&#34;_blank&#34;&gt;Building from sources&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;源码编译&#34;&gt;源码编译&lt;/h2&gt;
+&lt;p&gt;下载代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone git@github.com:thingsboard/thingsboard.git
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;设置当前 JDK 版本为 17 以上。这里我使用 sdkman 切换 java。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sdk use java 17.0.12-tem
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;终端编译源码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; thingsboard
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mvn clean install -Dmaven.test.skip&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果在编译过程中提示找不到 Gradle：&lt;/p&gt;</description>
     </item>
     <item>
       <title>ActiveMQ源码本地调试运行</title>
       <link>https://blog.chensoul.cc/posts/2024/08/09/debug-activemq-source-code/</link>
       <pubDate>Fri, 09 Aug 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/08/09/debug-activemq-source-code/</guid>
-      <description>源码构建 1、从 https://github.com/apache/activemq 下载源码 1 git clone https://github.com/apache/activemq 2、切换至 activemq-5.18.x 分支 1 2 cd activemq git checkout activemq-5.18.x 3、构建源码 1 mvn package -DskipTests 构建成功之后，在 assembly/target 目录可以看到打包好的压缩文件。 在 Idea 中运行代码 activemq-console 在 Idea 中运行代码 activemq-console，启动 a</description>
+      <description>&lt;h2 id=&#34;源码构建&#34;&gt;源码构建&lt;/h2&gt;
+&lt;p&gt;1、从 &lt;a href=&#34;https://github.com/apache/activemq&#34; target=&#34;_blank&#34;&gt;https://github.com/apache/activemq&lt;/a&gt; 下载源码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone https://github.com/apache/activemq
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;2、切换至 activemq-5.18.x 分支&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; activemq
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git checkout activemq-5.18.x
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;3、构建源码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mvn package -DskipTests
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;构建成功之后，在 assembly/target 目录可以看到打包好的压缩文件。&lt;/p&gt;
+&lt;h2 id=&#34;在--idea-中运行代码-activemq-console&#34;&gt;在  Idea 中运行代码 activemq-console&lt;/h2&gt;
+&lt;p&gt;在  Idea 中运行代码 activemq-console，启动  activemq：&lt;/p&gt;
+&lt;p&gt;1、在 idea 中打开项目&lt;/p&gt;</description>
     </item>
     <item>
       <title>Github Action 发布 Jar 到 Maven 中央仓库</title>
       <link>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</link>
       <pubDate>Thu, 01 Aug 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</guid>
-      <description>作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。 在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步</description>
+      <description>&lt;p&gt;作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。&lt;/p&gt;
+&lt;p&gt;在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]JMS 2.0 中的新增功能</title>
       <link>https://blog.chensoul.cc/posts/2024/07/24/what-is-new-in-jms-2-0/</link>
       <pubDate>Wed, 24 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/24/what-is-new-in-jms-2-0/</guid>
-      <description>原文链接：What is new in JMS 2.0 在在软件集成领域，从一个软件组件到另一个软件组件进行通信是一项基本要求。虽然已经出现了许多具有这种能力的技术，但 Java 编程语言为我们提供了一个 API，以促进用 Java 编写的组件之间的</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://hasithah.medium.com/what-is-new-in-jms-2-0-821266fc1bf0&#34; target=&#34;_blank&#34;&gt;What is new in JMS 2.0&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在在软件集成领域，从一个软件组件到另一个软件组件进行通信是一项基本要求。虽然已经出现了许多具有这种能力的技术，但 Java 编程语言为我们提供了一个 API，以促进用 Java 编写的组件之间的消息传递。此 API 的实现将由不同的供应商（JMS 提供商）通过代理软件提供。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]JMS 2.0 中的新增功能（第一部分）- 易于使用</title>
       <link>https://blog.chensoul.cc/posts/2024/07/24/jms20/</link>
       <pubDate>Wed, 24 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/24/jms20/</guid>
-      <description>原文链接：https://www.oracle.com/technical-resources/articles/java/jms20.html 作者：Nigel Deakin 出版日期：2013 年 5 月 了解新的易用性</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.oracle.com/technical-resources/articles/java/jms20.html&#34; target=&#34;_blank&#34;&gt;https://www.oracle.com/technical-resources/articles/java/jms20.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;作者：Nigel Deakin&lt;/em&gt;
+出版日期：2013 年 5 月&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;了解新的易用性功能如何使您编写更少的代码行。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;本文是两部分系列文章的第一部分，假设读者对 Java 消息服务 (JMS) 1.1 有基本了解，并介绍了 JMS 2.0 中的一些新的易用特性。在&lt;a href=&#34;https://www.oracle.com/technical-resources/articles/java/jms2messaging.html&#34; target=&#34;_blank&#34;&gt;第二部分&lt;/a&gt;中，我们将介绍新的消息传递特性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]JMS 2.0 中的新增功能（第二部分）- 新的消息传送功能</title>
       <link>https://blog.chensoul.cc/posts/2024/07/24/jms20/</link>
       <pubDate>Wed, 24 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/24/jms20/</guid>
-      <description>原文链接：https://www.oracle.com/technical-resources/articles/java/jms2messaging.html 作者：Nigel Deakin 出版日期：2013 年 5</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.oracle.com/technical-resources/articles/java/jms2messaging.html&#34; target=&#34;_blank&#34;&gt;https://www.oracle.com/technical-resources/articles/java/jms2messaging.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;作者：Nigel Deakin&lt;/em&gt;
+出版日期：2013 年 5 月&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;了解如何利用 JMS 2.0 中的新消息传递功能。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;本文是两部分系列文章中的第二部分，介绍了 Java 消息服务 (JMS) 2.0 中引入的一些新消息传递功能。本文假设读者对 JMS 1.1 有基本的了解。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]JMS 2.0 的十个好处意味着可以减少代码编写量</title>
       <link>https://blog.chensoul.cc/posts/2024/07/24/jms20-means-less-code/</link>
       <pubDate>Wed, 24 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/24/jms20-means-less-code/</guid>
-      <description>原文链接：Ten ways in which JMS 2.0 means writing less code 这里有十个简单的例子，说明 JMS 2.0 比 JMS 1.1 需要更少的代码。 单一 JMSContext 而不是单独的 Connection 和 Session 对象 JMS 2.0 简化 API 引入了一个新对象， JMSContext 它提供了与 JMS 1.1 API 中的分隔 Connection 对象 Session 相同的功能： JMS 1.1 1 2 Connection connection</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://javaee.github.io/jms-spec/pages/JMS20MeansLessCode&#34; target=&#34;_blank&#34;&gt;Ten ways in which JMS 2.0 means writing less code&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这里有十个简单的例子，说明 JMS 2.0 比 JMS 1.1 需要更少的代码。&lt;/p&gt;
+&lt;h2 id=&#34;单一-jmscontext-而不是单独的-connection-和-session-对象&#34;&gt;单一 JMSContext 而不是单独的 Connection 和 Session 对象&lt;/h2&gt;
+&lt;p&gt;JMS 2.0 简化 API 引入了一个新对象， &lt;code&gt;JMSContext&lt;/code&gt; 它提供了与 JMS 1.1 API 中的分隔 &lt;code&gt;Connection&lt;/code&gt; 对象 &lt;code&gt;Session&lt;/code&gt; 相同的功能：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;JMS 1.1&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Connection&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;connectionFactory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;createConnection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Session&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;createSession&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;AUTO_ACKNOWLEDGE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;JMS 2.0&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]JMS 事务的实际应用</title>
       <link>https://blog.chensoul.cc/posts/2024/07/23/jms-transactions-in-action/</link>
       <pubDate>Tue, 23 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/23/jms-transactions-in-action/</guid>
-      <description>在本文中，您将了解如何选择性地使用 JMS 事务。在 JMS 中，您可以选择控制一个会话的原子操作。每个会话都支持一系列事务。每个事务将一组生成或使用的消息分组为一个原子工作单元。确保您已经理解了JMS 中的消息确认。</description>
+      <description>&lt;p&gt;在本文中，您将了解如何选择性地使用 JMS 事务。在 JMS 中，您可以选择控制一个会话的原子操作。每个会话都支持一系列事务。每个事务将一组生成或使用的消息分组为一个原子工作单元。确保您已经理解了&lt;a href=&#34;https://jstobigdata.com/jms/guaranteed-delivery-using-jms-message-acknowledgement/&#34; target=&#34;_blank&#34;&gt;JMS 中的消息确认&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;交易提交时 –&lt;/strong&gt; ( &lt;code&gt;jmsContext.commit()&lt;/code&gt;)&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]JMS 发布-订阅消息模型</title>
       <link>https://blog.chensoul.cc/posts/2024/07/23/jms-pub-sub-messaging-model/</link>
       <pubDate>Tue, 23 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/23/jms-pub-sub-messaging-model/</guid>
-      <description>在本文中，您将了解 JMS 发布-订阅 (publish-subscribe) 消息传递模型。正如您在JMS 简介文章中所读到的，在发布/订阅模型中，客户端通过称为主题的中介将消息发送给多个接收者。发送者通常称为发布者，接收者称为订阅者。 JMS 发布/订阅</description>
+      <description>&lt;p&gt;在本文中，您将了解 JMS 发布-订阅 (publish-subscribe) 消息传递模型。正如您在&lt;a href=&#34;https://jstobigdata.com/jms/jms-introduction-java-message-service/&#34; target=&#34;_blank&#34;&gt;JMS 简介文章&lt;/a&gt;中所读到的，在发布/订阅模型中，客户端通过称为主题的中介将消息发送给多个接收者。发送者通常称为发布者，接收者称为订阅者。&lt;/p&gt;
+&lt;h2 id=&#34;jms-发布订阅消息传递示例&#34;&gt;JMS 发布/订阅消息传递示例&lt;/h2&gt;
+&lt;p&gt;下面是一个简单的代码示例，演示了发布/订阅消息模型的工作原理。我创建了 2 个主线程，&lt;code&gt;publisher&lt;/code&gt;和&lt;code&gt;subscriber1&lt;/code&gt;。将订阅者 1 克隆到&lt;code&gt;subscriber2&lt;/code&gt;。所以基本上我有一个消息发布者和 2 个消息订阅者。链接至&lt;a href=&#34;https://github.com/jstobigdata/jms-parent-app/blob/master/jms-glassfish5/src/main/java/lab03/message/pubsub/SimplePubSubExample.java&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt; 。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]JMS 消息优先级</title>
       <link>https://blog.chensoul.cc/posts/2024/07/23/jms-prioritize-messages/</link>
       <pubDate>Tue, 23 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/23/jms-prioritize-messages/</guid>
-      <description>我们将通过示例详细讨论 JMS 消息优先级。每条消息的标头字段代表其优先级。我在消息模型教程JMSPriority中讨论过消息优先级。 JMS 有 10 个优先级，从 0 到 9。0 是最低优先级，9 是最高优先级。根据 JMS 标准，优先</description>
+      <description>&lt;p&gt;我们将通过示例详细讨论 JMS 消息优先级。每条消息的标头字段代表其优先级。我在消息模型教程&lt;code&gt;JMSPriority&lt;/code&gt;中讨论过消息优先级。&lt;/p&gt;
+&lt;p&gt;JMS 有 10 个优先级，从 0 到 9。0 是最低优先级，9 是最高优先级。根据 JMS 标准，优先级为 0-4 的消息为正常优先级，优先级为 5-9 的消息被视为加急优先级。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]JMS 消息模型</title>
       <link>https://blog.chensoul.cc/posts/2024/07/23/jms-message-model/</link>
       <pubDate>Tue, 23 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/23/jms-message-model/</guid>
-      <description>消息是 JMS 的核心，无论是事件还是业务数据。消息由标头、自定义属性和正文组成。这是您将在 JMS 消息模型（JMS 消息剖析）中学习的内容。 JMS 消息由 Header、Properties 和 Body（Payload）组成</description>
+      <description>&lt;p&gt;消息是 JMS 的核心，无论是事件还是业务数据。消息由标头、自定义属性和正文组成。这是您将在 JMS 消息模型（JMS 消息剖析）中学习的内容。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/JMS-message-model-min-1024x536.png&#34; alt=&#34;JMS 消息模型&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;JMS 消息由 Header、Properties 和 Body（Payload）组成。我们将在下面详细讨论它们。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]JMS 消息选择器在过滤消息中的应用</title>
       <link>https://blog.chensoul.cc/posts/2024/07/23/jms-message-selectors-in-action-to-filter-messages/</link>
       <pubDate>Tue, 23 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/23/jms-message-selectors-in-action-to-filter-messages/</guid>
-      <description>发送给接收方的消息通常需要根据某些标准进行过滤。JMS 提供消息选择器，允许 JMS 消费者根据消息头指定其感兴趣的消息。在本文中，您将学习使用 JMS 消息选择器来过滤消息。 这是一篇高级教程，在继续阅读本文之前，请确</description>
+      <description>&lt;p&gt;发送给接收方的消息通常需要根据某些标准进行过滤。JMS 提供消息选择器，允许 JMS 消费者根据消息头指定其感兴趣的消息。在本文中，您将学习使用 JMS 消息选择器来过滤消息。&lt;/p&gt;
+&lt;p&gt;这是一篇高级教程，在继续阅读本文之前，请确保您对 JMS 有基本的了解。如果您是 JMS 新手，请查看&lt;a href=&#34;https://jstobigdata.com/jms/jms-point-to-point-messaging-in-action/&#34; target=&#34;_blank&#34;&gt;JMS 点对点消息传递模型文章。&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]JMS 点对点消息传递的实际应用</title>
       <link>https://blog.chensoul.cc/posts/2024/07/23/jms-point-to-point-messaging-in-action/</link>
       <pubDate>Tue, 23 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/23/jms-point-to-point-messaging-in-action/</guid>
-      <description>点对点系统使用队列进行消息传递。客户端将消息发送到特定队列，特定订阅者监听或接收来自该队列的消息。在 JMS 点对点消息传递系统中，队列用于处理单个发送者和单个消费者。确保您已经阅读了有关JMS 消息模型以及如</description>
+      <description>&lt;p&gt;点对点系统使用队列进行消息传递。客户端将消息发送到特定队列，特定订阅者监听或接收来自该队列的消息。在 JMS 点对点消息传递系统中，队列用于处理单个发送者和单个消费者。确保您已经阅读了有关&lt;a href=&#34;https://jstobigdata.com/jms/jms-message-model/&#34; target=&#34;_blank&#34;&gt;JMS 消息模型&lt;/a&gt;以及&lt;a href=&#34;https://jstobigdata.com/jms/send-and-receive-message-in-jms/&#34; target=&#34;_blank&#34;&gt;如何在 JMS 中发送和接收消息的&lt;/a&gt;先前教程。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]JMS介绍 – Java消息服务</title>
       <link>https://blog.chensoul.cc/posts/2024/07/23/jms-introduction-java-message-service/</link>
       <pubDate>Tue, 23 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/23/jms-introduction-java-message-service/</guid>
-      <description>JMS 代表 Java 消息服务，它是 Java 中访问消息中间件服务器的标准。这是一个 JMS 介绍教程，为您提供消息传递和 JMS 的简要概述。您将了解使用 JMS 的优势以及 JMS 中的不同消息传递模型。 什么是消息传递？ 消息传递是跨各种应用程序或服务</description>
+      <description>&lt;p&gt;JMS 代表 Java 消息服务，它是 Java 中访问消息中间件服务器的标准。这是一个 JMS 介绍教程，为您提供消息传递和 JMS 的简要概述。您将了解使用 JMS 的优势以及 JMS 中的不同消息传递模型。&lt;/p&gt;
+&lt;h2 id=&#34;什么是消息传递&#34;&gt;什么是消息传递？&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;消息传递&lt;/strong&gt;是&lt;strong&gt;跨各种应用程序或服务交换业务数据的过程&lt;/strong&gt;。消息通常是其他应用程序或服务使用的&lt;strong&gt;异步请求、响应、报告或事件&lt;/strong&gt;。这些消息包含重要信息。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]为 JMS 安装和设置 Glassfish</title>
       <link>https://blog.chensoul.cc/posts/2024/07/23/install-and-setup-glassfish-for-jms/</link>
       <pubDate>Tue, 23 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/23/install-and-setup-glassfish-for-jms/</guid>
-      <description>在本文中，我们将为 JMS 2.0 设置 Glassfish，创建一个 Java 项目并添加必要的依赖项。 先决条件 请确保您的系统上安装了以下工具。 已安装JDK 8。尚未使用任何更高版本的 Java 进行测试。 Eclipse、STS 或 IntelliJ ID</description>
+      <description>&lt;p&gt;在本文中，我们将为 JMS 2.0 设置 Glassfish，创建一个 Java 项目并添加必要的依赖项。&lt;/p&gt;
+&lt;h2 id=&#34;先决条件&#34;&gt;先决条件&lt;/h2&gt;
+&lt;p&gt;请确保您的系统上安装了以下工具。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;已安装JDK 8。尚未使用任何更高版本的 Java 进行测试。&lt;/li&gt;
+&lt;li&gt;Eclipse、STS 或 IntelliJ IDEA。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;glassfish-安装和设置步骤&#34;&gt;Glassfish 安装和设置步骤&lt;/h2&gt;
+&lt;h3 id=&#34;步骤-1下载-glassfish-并解压缩&#34;&gt;步骤 1，下载 Glassfish 并解压缩&lt;/h3&gt;
+&lt;p&gt;您需要从 &lt;a href=&#34;https://javaee.github.io/glassfish/download&#34; target=&#34;_blank&#34;&gt;&lt;strong&gt;Glassfish GitHub repo&lt;/strong&gt;&lt;/a&gt;下载开源 Glassfish 版本，然后将其解压缩到我们将运行服务器的文件夹中。我使用的是带有 JDK 8 的 GlassFish 5.0。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]使用 JMS 消息确认保证传送</title>
       <link>https://blog.chensoul.cc/posts/2024/07/23/guaranteed-delivery-using-jms-message-acknowledgement/</link>
       <pubDate>Tue, 23 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/23/guaranteed-delivery-using-jms-message-acknowledgement/</guid>
-      <description>JMS 通过 JMS 消息确认（确认模式）确保消息传递的可靠性。如果会话已进行事务处理，则该commit()方法会自动处理消息确认。否则，该方法将处理恢复rollback()。在本文中，我们将假设会话未进行事务处理</description>
+      <description>&lt;p&gt;JMS 通过 JMS 消息确认（确认模式）确保消息传递的可靠性。如果会话已进行事务处理，则该&lt;code&gt;commit()&lt;/code&gt;方法会自动处理消息确认。否则，该方法将处理恢复&lt;code&gt;rollback()&lt;/code&gt;。在本文中，我们将假设会话未进行事务处理。这是一个高级主题，请确保您对 JMS 有基本的了解。如果您是 JMS 新手，可以参考使用 JMS&lt;a href=&#34;https://jstobigdata.com/jms/send-and-receive-message-in-jms/&#34; target=&#34;_blank&#34;&gt;发送和接收消息。&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]在 JMS 中发送和接收消息</title>
       <link>https://blog.chensoul.cc/posts/2024/07/23/send-and-receive-message-in-jms/</link>
       <pubDate>Tue, 23 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/23/send-and-receive-message-in-jms/</guid>
-      <description>您将了解 JMS 架构，学习如何在 JMS 中发送和接收消息。我将介绍管理对象、JMS 1.1 API 和 JMS 2.0 API。我们还将看到与 JMS 1.1 API 相比，JMS 2.0 API 的使用有多么简单。在继续学习本课程之前，请确保您已完成 JMS 设置。如果您是初学者</description>
+      <description>&lt;p&gt;您将了解 JMS 架构，学习如何在 JMS 中发送和接收消息。我将介绍管理对象、JMS 1.1 API 和 JMS 2.0 API。我们还将看到与 JMS 1.1 API 相比，JMS 2.0 API 的使用有多么简单。在继续学习本课程之前，请确保您已完成 JMS 设置。如果您是初学者，请确保您已了解&lt;a href=&#34;https://jstobigdata.com/jms/jms-introduction-java-message-service/&#34; target=&#34;_blank&#34;&gt;JMS 的基础知识&lt;/a&gt;。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]完整的 JMS 2.0 教程</title>
       <link>https://blog.chensoul.cc/posts/2024/07/23/a-complete-jms-2-0-tutorial/</link>
       <pubDate>Tue, 23 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/23/a-complete-jms-2-0-tutorial/</guid>
-      <description>JMS 代表 Java 消息服务，它是 Java 中访问消息中间件服务器的标准。消息传递是在各种应用程序或服务之间交换业务数据的过程。这是一个完整的 JMS 2.0 教程， 其中包含大量代码示例。完整的代码示例可在 GitHub 上找到，请下载并运行示例。</description>
+      <description>&lt;p&gt;JMS 代表 Java 消息服务，它是 Java 中访问消息中间件服务器的标准。消息传递是在各种应用程序或服务之间交换业务数据的过程。这是&lt;strong&gt;一个完整的 JMS 2.0 教程，&lt;/strong&gt; 其中包含大量代码示例。完整的代码示例可在 GitHub 上找到，请下载并运行示例。本教程使用 Glassfish 开源服务器作为 JMS 提供程序的示例。&lt;/p&gt;</description>
     </item>
     <item>
       <title>将 Maven 站点发布到 GitHub Pages</title>
       <link>https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/</link>
       <pubDate>Thu, 18 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/</guid>
-      <description>本文源代码：https://github.com/chensoul/maven-site-github-example/ 。 创建 Java Maven 项目 让我们使用 Maven 创建一个简单的 Java 项目 1 2 3 4 5 6 mvn archetype:generate \ -DgroupId=com.mycompany.app \ -DartifactId=maven-site-github-example \ -DarchetypeArtifactId=maven-archetype-quickstart \ -DarchetypeVersion=1.4 \</description>
+      <description>&lt;p&gt;本文源代码：&lt;a href=&#34;https://github.com/chensoul/maven-site-github-example/&#34; target=&#34;_blank&#34;&gt;https://github.com/chensoul/maven-site-github-example/&lt;/a&gt; 。&lt;/p&gt;
+&lt;h2 id=&#34;创建-java-maven-项目&#34;&gt;创建 Java Maven 项目&lt;/h2&gt;
+&lt;p&gt;让我们使用 Maven 创建一个简单的 Java 项目&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mvn archetype:generate &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DgroupId&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;com.mycompany.app &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DartifactId&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;maven-site-github-example &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DarchetypeArtifactId&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;maven-archetype-quickstart &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DarchetypeVersion&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;1.4 &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DinteractiveMode&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这将创建包含 Maven 项目的&lt;em&gt;my-app&lt;/em&gt;文件夹。让我们进入该文件夹并确保它编译正常：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; maven-site-github-example
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mvn clean verify
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我们还可以生成该项目的站点：&lt;/p&gt;</description>
     </item>
     <item>
       <title>Spring Boot集成SpringDoc生成Api文档</title>
       <link>https://blog.chensoul.cc/posts/2024/07/10/springdoc-with-spring-boot/</link>
       <pubDate>Wed, 10 Jul 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/07/10/springdoc-with-spring-boot/</guid>
-      <description>以下以 Maven 为例介绍 Spring Boot集成SpringDoc生成Api文档。 添加依赖 1 2 3 4 &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springdoc&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;springdoc-openapi-starter-webmvc-ui&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; 配置 annotationProcessor，实现通过 javadoc 生成文档。 每个 maven 模块都需要配置： 1 2 3 4 5 6 7 8 9 10 11 12 13</description>
+      <description>&lt;p&gt;以下以 Maven 为例介绍 Spring Boot集成SpringDoc生成Api文档。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;添加依赖&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springdoc&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;springdoc-openapi-starter-webmvc-ui&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;配置 annotationProcessor，实现通过 javadoc 生成文档。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;每个 maven 模块都需要配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;properties&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;therapi-runtime-javadoc.version&amp;gt;&lt;/span&gt;0.15.0&lt;span class=&#34;nt&#34;&gt;&amp;lt;/therapi-runtime-javadoc.version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;maven-compiler-plugin.version&amp;gt;&lt;/span&gt;3.13.0&lt;span class=&#34;nt&#34;&gt;&amp;lt;/maven-compiler-plugin.version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/properties&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.apache.maven.plugins&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;maven-compiler-plugin&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;${maven-compiler-plugin.version}&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;annotationProcessorPaths&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;c&#34;&gt;&amp;lt;!-- https://springdoc.org/#javadoc-support --&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;lt;path&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;com.github.therapi&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;therapi-runtime-javadoc-scribe&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;${therapi-runtime-javadoc.version}&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;lt;/path&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;/annotationProcessorPaths&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;配置 spring boot 插件，生成 build.properties&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.boot&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-boot-maven-plugin&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;executions&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;execution&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;lt;goals&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;lt;goal&amp;gt;&lt;/span&gt;repackage&lt;span class=&#34;nt&#34;&gt;&amp;lt;/goal&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;lt;goal&amp;gt;&lt;/span&gt;build-info&lt;span class=&#34;nt&#34;&gt;&amp;lt;/goal&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;lt;/goals&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;/execution&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;/executions&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;自动装配&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@Configuration&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;proxyBeanMethods&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@ConditionalOnProperty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SPRINGDOC_ENABLED&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;matchIfMissing&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@ConditionalOnWebApplication&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ConditionalOnWebApplication&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;Type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;SERVLET&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;SpringdocConfig&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@Value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;${server.port}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@Value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;${openapi.prod-url:https://localhost}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;prodUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@Bean&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;OpenAPI&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;openAPI&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Server&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;devServer&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;devServer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;http://localhost:&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;devServer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setDescription&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Server URL in Development environment&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Server&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;prodServer&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;prodServer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;prodUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;prodServer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setDescription&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Server URL in Production environment&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Contact&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;contact&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Contact&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;contact&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setEmail&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;ichensoul@gmail.com&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;contact&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;ChenSoul&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;contact&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://blog.chensoul.cc&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;License&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mitLicense&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;License&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Apache License&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://www.apache.org/licenses/LICENSE-2.0.txt&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Info&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;			&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Spring Boot3 Monolith API&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;			&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;			&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;contact&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;contact&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;			&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;description&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;This API exposes endpoints to manage charging sessions.&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;termsOfService&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://blog.chensoul.cc/terms&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;			&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;license&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mitLicense&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;OpenAPI&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;servers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;devServer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;prodServer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
     </item>
     <item>
       <title>All things about OAuth</title>
       <link>https://blog.chensoul.cc/posts/2024/06/06/all-things-about-oauth/</link>
       <pubDate>Thu, 06 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/06/all-things-about-oauth/</guid>
-      <description>OAuth 是一种开放协议，允许通过网络、移动和桌面应用程序以简单、标准的方式进行安全授权。 OAuth 2 入门 以下是一些 OAuth 2.0 指南，涵盖了理解和实现客户端和服务器所需的许多主题。 OAuth 2.0 简化版 由 Aaron Parecki 编写的*《OAuth 2.0 Sim</description>
+      <description>&lt;p&gt;OAuth 是一种&lt;strong&gt;开放协议&lt;/strong&gt;，允许通过网络、移动和桌面应用程序以&lt;strong&gt;简单&lt;/strong&gt;、&lt;strong&gt;标准的方式进行&lt;/strong&gt;安全授权。&lt;/p&gt;
+&lt;h2 id=&#34;oauth-2-入门&#34;&gt;OAuth 2 入门&lt;/h2&gt;
+&lt;p&gt;以下是一些 OAuth 2.0 指南，涵盖了理解和实现客户端和服务器所需的许多主题。&lt;/p&gt;
+&lt;h3 id=&#34;oauth-20-简化版httpsaaronpareckicomoauth-2-simplified&#34;&gt;&lt;a href=&#34;https://aaronparecki.com/oauth-2-simplified/&#34; target=&#34;_blank&#34;&gt;OAuth 2.0 简化版&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;由 &lt;a href=&#34;https://aaronparecki.com/&#34; target=&#34;_blank&#34;&gt;Aaron Parecki&lt;/a&gt; 编写的*《OAuth 2.0 Simplified*》是一份专注于编写客户端的 OAuth 2.0 指南，它在入门级别上清晰地概述了规范。&lt;/p&gt;</description>
     </item>
     <item>
       <title>JWT</title>
       <link>https://blog.chensoul.cc/posts/2024/06/06/jwt/</link>
       <pubDate>Thu, 06 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/06/jwt/</guid>
-      <description>什么是 JWT？ JWT（JSON Web Token）是一种开放标准(RFC 7519)，用于在网络应用程序之间安全地传输信息。它被设计用于在两方之间传输声明，这些声明可以是身份验证和授权信息，也可以是任何其他类</description>
+      <description>&lt;h2 id=&#34;什么是-jwt&#34;&gt;什么是 JWT？&lt;/h2&gt;
+&lt;p&gt;JWT（JSON Web Token）是一种开放标准(RFC 7519)，用于在网络应用程序之间安全地传输信息。它被设计用于在两方之间传输声明，这些声明可以是身份验证和授权信息，也可以是任何其他类型的信息。&lt;/p&gt;</description>
     </item>
     <item>
       <title>OAuth2和OIDC区别</title>
       <link>https://blog.chensoul.cc/posts/2024/06/06/oauth2-oidc/</link>
       <pubDate>Thu, 06 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/06/oauth2-oidc/</guid>
-      <description>认证和授权 认证 (Authentication)： 认证是验证用户、设备或系统身份的过程。 常见的认证方式包括用户名/密码、生物特征(如指纹、人脸)、单点登录(SSO)等。 认证确保只有被授权的实体才能访问系</description>
+      <description>&lt;h2 id=&#34;认证和授权&#34;&gt;认证和授权&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;认证 (Authentication)&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;认证是验证用户、设备或系统身份的过程。&lt;/li&gt;
+&lt;li&gt;常见的认证方式包括用户名/密码、生物特征(如指纹、人脸)、单点登录(SSO)等。&lt;/li&gt;
+&lt;li&gt;认证确保只有被授权的实体才能访问系统或资源。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;授权 (Authorization)&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;授权是确定已认证的实体被允许执行哪些操作或访问哪些资源的过程。&lt;/li&gt;
+&lt;li&gt;授权通常基于预定义的策略和规则，如角色、权限、访问控制列表(ACL)等。&lt;/li&gt;
+&lt;li&gt;授权决定了经过身份验证的实体可以执行的操作和访问的资源。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;认证和授权的关系：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译][译]OAuth2 with Spring 第5部分：使用PKCE保护您的Spring Boot应用程序以增强安全性</title>
       <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-5-securing-your-spring-boot-application-with-pkce-for-enhanced-security/</link>
       <pubDate>Wed, 05 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-5-securing-your-spring-boot-application-with-pkce-for-enhanced-security/</guid>
-      <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-5-securing-your-spring-boot-application-wit</description>
+      <description>&lt;p&gt;原文地址：https://mainul35.medium.com/oauth2-with-spring-part-5-securing-your-spring-boot-application-with-pkce-for-enhanced-security-d8025cd08769&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]OAuth2 with Spring 第1部分：了解基本概念</title>
       <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-1-knowing-the-basic-concepts/</link>
       <pubDate>Wed, 05 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-1-knowing-the-basic-concepts/</guid>
-      <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-1-knowing-the-basic-concepts-5c4aa17884a 在本系</description>
+      <description>&lt;p&gt;原文地址：https://mainul35.medium.com/oauth2-with-spring-part-1-knowing-the-basic-concepts-5c4aa17884a&lt;/p&gt;
+&lt;p&gt;在本系列&lt;strong&gt;关于 Spring 的 OAuth2&lt;/strong&gt;的文章中，我将尝试介绍和解释与 OAuth2 相关的每一个问题以及如何在 Spring 框架中实现这些问题。请记住，OAuth2 完全是一个概念性的东西，在不同的框架中，它有自己的实现。此外，许多应用程序开发人员开发自己的 OAuth2 实现，而不使用 Spring 框架提供的 OAuth2 框架支持。因此，我将就这个主题撰写一系列文章。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]OAuth2 with Spring 第2部分：授权服务器入门</title>
       <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-2-getting-started-with-authorization-server/</link>
       <pubDate>Wed, 05 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-2-getting-started-with-authorization-server/</guid>
-      <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-2-getting-started-with-authorization-server</description>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://mainul35.medium.com/oauth2-with-spring-part-2-getting-started-with-authorization-server-13804910cb2a&#34; target=&#34;_blank&#34;&gt;https://mainul35.medium.com/oauth2-with-spring-part-2-getting-started-with-authorization-server-13804910cb2a&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Spring 团队最近发布了他们的授权服务器。OAuth2 一直是一个热门话题，而构建或理解授权服务器一直是一个谜。在本系列的&lt;a href=&#34;https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-1-knowing-the-basic-concepts/&#34;&gt;第 1 部分&lt;/a&gt;中，我描述了几乎所有您需要了解的有关 OAuth2 的概念性内容。在本系列的这篇文章中，我将尝试演示如何构建具有&lt;strong&gt;client_credential&lt;/strong&gt;授权类型的授权服务器。我将从使用配置属性进行自动配置开始解释它们，并通过编写 Java 代码自定义配置。让我们开始吧。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]OAuth2 with Spring 第3部分：使用Spring授权服务器授予authorization_code OIDC客户端</title>
       <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-3-authorizing-oidc-client-with-via-authorization-code-grant-from-spring/</link>
       <pubDate>Wed, 05 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-3-authorizing-oidc-client-with-via-authorization-code-grant-from-spring/</guid>
-      <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-3-authorizing-oidc-client-with-via-authoriz</description>
+      <description>&lt;p&gt;原文地址：https://mainul35.medium.com/oauth2-with-spring-part-3-authorizing-oidc-client-with-via-authorization-code-grant-from-spring-67769f9dd68a&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]OAuth2 with Spring 第4部分：Spring授权客户端与Google授权服务器的社交登录演示</title>
       <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-4-spring-authorization-client-social-login-demo-with-google/</link>
       <pubDate>Wed, 05 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-with-spring-part-4-spring-authorization-client-social-login-demo-with-google/</guid>
-      <description>原文地址：https://mainul35.medium.com/oauth2-with-spring-part-4-spring-authorization-client-social-login-</description>
+      <description>&lt;p&gt;原文地址：https://mainul35.medium.com/oauth2-with-spring-part-4-spring-authorization-client-social-login-demo-with-google-be6097ec18a5&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]OAuth2.0服务器</title>
       <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2-server/</link>
       <pubDate>Wed, 05 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2-server/</guid>
-      <description>背景 前言 作者：Aaron Parecki 我第一次接触 OAuth 是在 2010 年，当时我正在构建一个 API，我知道我希望第三方开发人员能够在其基础上构建应用程序。当时，OAuth 看起来令人生畏。OAuth 1 的实现只有少数几个，而 OAuth 2.0</description>
+      <description>&lt;h1 id=&#34;背景&#34;&gt;背景&lt;/h1&gt;
+&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;作者：&lt;a href=&#34;https://aaronparecki.com/&#34; target=&#34;_blank&#34;&gt;Aaron Parecki&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;我第一次接触 OAuth 是在 2010 年，当时我正在构建一个 API，我知道我希望第三方开发人员能够在其基础上构建应用程序。当时，OAuth 看起来令人生畏。OAuth 1 的实现只有少数几个，而 OAuth 2.0 仍是一个草稿。一天晚上，我决定坐下来，拿着精酿啤酒和最新草案的纸质副本，从头到尾阅读它，直到我理解它。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]OAuth2简化版</title>
       <link>https://blog.chensoul.cc/posts/2024/06/05/oauth-2-simplified/</link>
       <pubDate>Wed, 05 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth-2-simplified/</guid>
-      <description>这篇文章以简化的格式描述了 OAuth 2.0，以帮助开发人员和服务提供商实现该协议。 OAuth 2 规范读起来可能有点混乱，所以我写了这篇文章来帮助以简化的格式描述术语。核心规范将许多决策留给实现者，通常基于实现的安全权衡</description>
+      <description>&lt;p&gt;这篇文章以简化的格式描述了 OAuth 2.0，以帮助开发人员和服务提供商实现该协议。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://oauth.net/2/&#34; target=&#34;_blank&#34;&gt;OAuth 2 规范&lt;/a&gt;读起来可能有点混乱，所以我写了这篇文章来帮助以简化的格式描述术语。核心规范将许多决策留给实现者，通常基于实现的安全权衡。这篇文章没有描述成功实施 OAuth 2 所需的所有可能决策，而是做出适用于大多数实现的决策。&lt;/p&gt;</description>
     </item>
     <item>
       <title>RFC6749 | OAuth2.0授权框架中文版</title>
       <link>https://blog.chensoul.cc/posts/2024/06/05/oauth2/</link>
       <pubDate>Wed, 05 Jun 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/06/05/oauth2/</guid>
-      <description>前言 摘要 OAuth2.0 授权框架允许第三方应用获取对 HTTP 服务的有限的访问权限，既可以以资源所有者名义在资源所有者和 HTTP 服务之间进行允许的交互，也可以允许第三方应用以自己的名义进行访问。本规范取代并淘汰 RFC 5849 中描述的 OAuth 1.0 协</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;h3 id=&#34;摘要&#34;&gt;摘要&lt;/h3&gt;
+&lt;p&gt;OAuth2.0 授权框架允许第三方应用获取对 HTTP 服务的有限的访问权限，既可以以资源所有者名义在资源所有者和 HTTP 服务之间进行允许的交互，也可以允许第三方应用以自己的名义进行访问。本规范取代并淘汰 RFC 5849 中描述的 OAuth 1.0 协议。&lt;/p&gt;
+&lt;h3 id=&#34;本备忘录状态&#34;&gt;本备忘录状态&lt;/h3&gt;
+&lt;p&gt;这是一个互联网标准化过程文档。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]使用 Spring Boot 构建 RESTful API：集成 DDD 和六边形架构</title>
       <link>https://blog.chensoul.cc/posts/2024/05/30/building-a-restful-api-with-spring-boot-integrating-ddd-and-hexagonal-architecture/</link>
       <pubDate>Thu, 30 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/30/building-a-restful-api-with-spring-boot-integrating-ddd-and-hexagonal-architecture/</guid>
-      <description>原文链接：Building a RESTful API with Spring Boot: Integrating DDD and Hexagonal Architecture 介绍 在快节奏的软件开发世界中，API 扮演着至关重要的角色，可以有效地促进不同系统之间的交互和数据交换。API 创建最突出的技术之一是 Spring Boot，它是一种强</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://medium.com/@juannegrin/building-a-restful-api-with-spring-boot-integrating-ddd-and-hexagonal-architecture-df50fe24a1ff&#34; target=&#34;_blank&#34;&gt;Building a RESTful API with Spring Boot: Integrating DDD and Hexagonal Architecture&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;介绍&#34;&gt;介绍&lt;/h1&gt;
+&lt;p&gt;在快节奏的软件开发世界中，API 扮演着至关重要的角色，可以有效地促进不同系统之间的交互和数据交换。API 创建最突出的技术之一是 Spring Boot，它是一种强大的工具，可以简化 Java 应用程序的开发，使开发人员可以专注于业务逻辑而不是环境设置。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]如何组织代码</title>
       <link>https://blog.chensoul.cc/posts/2024/05/30/how-to-structure-our-code/</link>
       <pubDate>Thu, 30 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/30/how-to-structure-our-code/</guid>
-      <description>原文链接：How to Structure Code 软件设计最佳实践，逐层发现包、按功能发现包以及六角形架构/端口和适配器。 在这篇博文中，我将探讨如何构建我们的代码并讨论最佳实践，涵盖三种不同的方法：按层打包、按功能打包以及六边形</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://medium.com/@minadev/how-to-structure-our-code-b5e7b1c32c21&#34; target=&#34;_blank&#34;&gt;How to Structure Code&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;软件设计最佳实践，逐层发现包、按功能发现包以及六角形架构/端口和适配器。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;在这篇博文中，我将探讨如何构建我们的代码并讨论最佳实践，涵盖三种不同的方法：按层打包、按功能打包以及六边形架构/端口和适配器及其优缺点。&lt;/p&gt;</description>
     </item>
     <item>
       <title>All things about WebSocket</title>
       <link>https://blog.chensoul.cc/posts/2024/05/10/all-things-about-websocket/</link>
       <pubDate>Fri, 10 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/10/all-things-about-websocket/</guid>
-      <description>Wikipedia：WebSocket WebSocket - Web APIs | MDN PubNub：什么是 WebSocket？ What are WebSockets? websocket protocol - RFC6455 - tools.ietf.org WebSocket Ably：What are WebSockets used for? Pusher：What are WebSockets? WebSocket vs. HTTP communication protocols What are WebSockets? | Web Security Academy Educati</description>
+      <description>&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34; target=&#34;_blank&#34;&gt;Wikipedia：WebSocket&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/API/WebSocket&#34; target=&#34;_blank&#34;&gt;WebSocket - Web APIs | MDN&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.pubnub.com/guides/websockets/&#34; target=&#34;_blank&#34;&gt;PubNub：什么是 WebSocket？&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.twilio.com/docs/glossary/what-are-websockets&#34; target=&#34;_blank&#34;&gt;What are WebSockets?&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc6455&#34; target=&#34;_blank&#34;&gt;websocket protocol - RFC6455 - tools.ietf.org&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://javascript.info/websocket&#34; target=&#34;_blank&#34;&gt;WebSocket&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://ably.com/topic/what-are-websockets-used-for&#34; target=&#34;_blank&#34;&gt;Ably：What are WebSockets used for? &lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://pusher.com/websockets/&#34; target=&#34;_blank&#34;&gt;Pusher：What are WebSockets?&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://sendbird.com/developer/tutorials/websocket-vs-http-communication-protocols&#34; target=&#34;_blank&#34;&gt;WebSocket vs. HTTP communication protocols&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://portswigger.net/web-security/websockets/what-are-websockets&#34; target=&#34;_blank&#34;&gt;What are WebSockets? | Web Security Academy&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.educative.io/answers/what-is-websocket&#34; target=&#34;_blank&#34;&gt;Educative：What is WebSocket?&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.spring.io/spring-framework/reference/web/websocket.html&#34; target=&#34;_blank&#34;&gt;Spring：WebSocket&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_a_WebSocket_server_in_Java&#34; target=&#34;_blank&#34;&gt;Writing a WebSocket server in Java - Web APIs&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.baeldung.com/java-websockets&#34; target=&#34;_blank&#34;&gt;Baeldung：A Guide to the Java API for WebSocket&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.baeldung.com/websockets-api-java-spring-client&#34; target=&#34;_blank&#34;&gt;Baeldung：A Java Client for a WebSockets API&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.toptal.com/java/stomp-spring-boot-websocket&#34; target=&#34;_blank&#34;&gt;WebSocket Implementation with Spring Boot and STOMP&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://apifox.com/apiskills/websocket-protocol/&#34; target=&#34;_blank&#34;&gt;ApiFox：WebSocket协议入门到精通&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.oracle.com/technical-resources/articles/java/jsr356.html&#34; target=&#34;_blank&#34;&gt;JSR 356, Java API for WebSocket&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://sunyunqiang.com/blog/websocket_protocol_rfc6455/&#34; target=&#34;_blank&#34;&gt;WebSocket 协议解析 [RFC 6455]&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>All things about Spring Modulith</title>
       <link>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-spring-modulith/</link>
       <pubDate>Thu, 09 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-spring-modulith/</guid>
-      <description>VMware 推出了一个实验性的项目Spring Modulith，以便于通过模块和事件更好地组织 Spring Boot 3 应用。该项目引入了新的类和注解，但并不会生成代码。它的模块没有使用 Java Platform Module System（JPMS），而是映射到了</description>
+      <description>&lt;p&gt;VMware 推出了一个实验性的项目&lt;a href=&#34;https://spring.io/projects/spring-modulith&#34; target=&#34;_blank&#34;&gt;Spring Modulith&lt;/a&gt;，以便于通过模块和事件更好地组织 Spring Boot 3 应用。该项目引入了新的类和注解，但并不会生成代码。它的模块没有使用 Java Platform Module System（JPMS），而是映射到了普通的 Java 包。模块有 API，但是 Spring Modulith 鼓励使用 Spring 应用事件作为“主要的交互方式”。这些事件可以自动持久化到事件日志中。Spring Modulith 还简化了模块和事件的测试。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]探索 http2（第 1 部分）：概述</title>
       <link>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-1-overview/</link>
       <pubDate>Wed, 08 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-1-overview/</guid>
-      <description>原文链接：https://noobj.medium.com/exploring-http2-part-1-overview-dc3e9b53968f 让我们来谈谈 http2 的内容、原因、时间和方式 完整的代码可以</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://noobj.medium.com/exploring-http2-part-1-overview-dc3e9b53968f&#34; target=&#34;_blank&#34;&gt;https://noobj.medium.com/exploring-http2-part-1-overview-dc3e9b53968f&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;让我们来谈谈&lt;/em&gt; &lt;strong&gt;http2 的内容、原因、时间和方式&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;完整的代码可以在&lt;a href=&#34;https://github.com/noobg1/http1_vs_http2&#34; target=&#34;_blank&#34;&gt;github&lt;/a&gt;上找到。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第 1 部分：概述&lt;/strong&gt;
+第 2 部分：&lt;a href=&#34;https://medium.com/@noobj/exploring-http2-part-2-with-node-http2-core-and-hapijs-74e3df14249&#34; target=&#34;_blank&#34;&gt;使用 node-http2 核心和 hapijs 进行探索&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是http2&#34;&gt;什么是http2？&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;**&lt;em&gt;http2*&lt;strong&gt;是自 1999 年以来使用的&lt;/strong&gt;&lt;/em&gt;http1.1***之后的最新更新&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]探索 http2（第 2 部分）：使用 node-http2 核心和 hapijs</title>
       <link>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-2-overview/</link>
       <pubDate>Wed, 08 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-2-overview/</guid>
-      <description>原文链接：https://noobj.medium.com/exploring-http2-part-2-with-node-http2-core-and-hapijs-74e3df14249 来源：h</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://noobj.medium.com/exploring-http2-part-2-with-node-http2-core-and-hapijs-74e3df14249&#34; target=&#34;_blank&#34;&gt;https://noobj.medium.com/exploring-http2-part-2-with-node-http2-core-and-hapijs-74e3df14249&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://miro.medium.com/v2/resize:fit:1400/1*AI-qItSMJDSBxEhk8XMyIw.png&#34; alt=&#34;img&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;来源：&lt;a href=&#34;https://www.thewebmaster.com/hosting/2015/dec/14/what-is-http2-and-how-does-it-compare-to-http1-1/&#34; target=&#34;_blank&#34;&gt;https://www.thewebmaster.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;先决条件&lt;/strong&gt;：了解 javascript、客户端-服务器架构。&lt;/p&gt;
+&lt;p&gt;完整的代码可以在&lt;a href=&#34;https://github.com/noobg1/http1_vs_http2&#34; target=&#34;_blank&#34;&gt;github&lt;/a&gt;上找到。&lt;/p&gt;
+&lt;p&gt;第 1 部分：&lt;a href=&#34;https://medium.com/@noobj/exploring-http2-part-1-overview-dc3e9b53968f&#34; target=&#34;_blank&#34;&gt;概述（&lt;em&gt;http2 的原因、内容、时间、方式&lt;/em&gt;）&lt;/a&gt;&lt;strong&gt;第 2 部分：使用 node-http2 核心和 hapijs 进行探索&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;免责&lt;strong&gt;声明&lt;/strong&gt;：本文将使用&lt;strong&gt;node@v9+&lt;strong&gt;附带的&lt;/strong&gt;http2模块。&lt;/strong&gt;&lt;a href=&#34;https://github.com/http2/http2-spec/wiki/Implementations&#34; target=&#34;_blank&#34;&gt;这里&lt;/a&gt;列出了其他几个 http2 客户端-服务器库实现。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]比较 Socket.IO 和 HTTP：主要区别和用例</title>
       <link>https://blog.chensoul.cc/posts/2024/05/08/socketio-vs-http/</link>
       <pubDate>Wed, 08 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/08/socketio-vs-http/</guid>
-      <description>原文链接：https://ably.com/topic/socketio-vs-http 在规划实时应用程序时，您应该仔细考虑要使用哪些技术。本文对Socket.IO实时库和HTTP协议进行了比较。下面</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/socketio-vs-http&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/socketio-vs-http&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在规划实时应用程序时，您应该仔细考虑要使用哪些技术。本文对&lt;a href=&#34;https://ably.com/topic/socketio&#34; target=&#34;_blank&#34;&gt;Socket.IO&lt;/a&gt;实时库和&lt;a href=&#34;https://ably.com/topic/websockets-vs-http#http&#34; target=&#34;_blank&#34;&gt;HTTP&lt;/a&gt;协议进行了比较。下面您将了解每种解决方案的功能、每种解决方案的优缺点以及何时使用它们。&lt;/p&gt;
+&lt;h2 id=&#34;什么是socketio&#34;&gt;什么是Socket.IO？&lt;/h2&gt;
+&lt;p&gt;Socket.IO 是一个创建于 2010 年的库，提供客户端和服务器之间的实时双向通信。它允许管理连接、发送和接收消息等等。这使得 Socket.IO 成为构建消息/聊天应用程序的理想选择。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]2024年最好的WebSocket替代品</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/websocket-alternatives/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/websocket-alternatives/</guid>
-      <description>原文链接：https://ably.com/topic/websocket-alternatives 什么是 WebSocket？ 简而言之，WebSocket 是一种实时 Web 技术，可通过持久连接在客户端和服务</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/websocket-alternatives&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websocket-alternatives&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是-websocket&#34;&gt;什么是 WebSocket？&lt;/h2&gt;
+&lt;p&gt;简而言之，WebSocket 是一种实时 Web 技术，可通过持久连接在客户端和服务器之间实现双向、全双工通信。 WebSocket 连接会根据需要保持活动状态（理论上，它可以永远持续），从而允许服务器和客户端以最小的开销随意发送数据。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Apache Kafka、RabbitMQ 与 AWS SNSSQS：哪个消息代理最好？</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs/</guid>
-      <description>原文链接：https://ably.com/topic/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs 将消息从一个组件获取到另一个组件是微服务架构中最重要的部分之一。每</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/apache-kafka-vs-rabbitmq-vs-aws-sns-sqs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;将消息从一个组件获取到另一个组件是微服务架构中最重要的部分之一。每个服务必须能够与任何其他服务异步、可靠且大规模地通信。&lt;/p&gt;
+&lt;p&gt;这就是消息代理的用武之地。消息代理（例如 Apache Kafka、RabbitMQ 和&lt;a href=&#34;https://ably.com/topic/aws-sns-vs-sqs&#34; target=&#34;_blank&#34;&gt;AWS SNS/SQS&lt;/a&gt;）为您提供一个通用接口和一组保证，而不是手动协调可能数千个微服务之间的通信。这简化了集成并更容易推理您的系统。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]HTTP 的演变 – HTTP2 深入探讨</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/http2/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/http2/</guid>
-      <description>原文链接：https://ably.com/topic/http2 可以毫不夸张地说，超文本传输协议 (HTTP) 造就了我们所熟知的互联网。 HTTP 最初是由万维网的发明者蒂姆·伯纳斯·李 (Tim Berners-Lee) 于 1989 年提出的应用程序协议。第一</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/http2&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/http2&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;可以毫不夸张地说，超文本传输协议 (HTTP) 造就了我们所熟知的互联网。 HTTP 最初是由万维网的发明者蒂姆·伯纳斯·李 (Tim Berners-Lee) 于 1989 年提出的应用程序协议。第一个记录版本 HTTP/0.9 被称为单行协议。鉴于它催生了万维网，它现在可以被描述为有史以来最伟大的俏皮话。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Java和WebSockets：构建可靠的实时应用程序</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/websockets-java/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/websockets-java/</guid>
-      <description>原文：https://ably.com/topic/websockets-java 在全球范围内，人们对实时传输数据的需求不断增长，WebSocket可能是此类用例中最流行的传输协议。在 WebSocket 出现之前，“实</description>
+      <description>&lt;p&gt;原文：&lt;a href=&#34;https://ably.com/topic/websockets-java&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websockets-java&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在全球范围内，人们对实时传输数据的需求不断增长，&lt;a href=&#34;https://ably.com/topic/websockets&#34; target=&#34;_blank&#34;&gt;WebSocket&lt;/a&gt;可能是此类用例中最流行的传输协议。在 WebSocket 出现之前，“实时”网络已经存在，但它很难实现，通常速度较慢，并且是通过破解现有的网络技术来实现的，而这些技术并不是为实时应用程序设计的。 WebSocket 协议为真正的实时网络铺平了道路。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]WebSocket API和协议说明</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/the-websocket-api-and-protocol-explained/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/the-websocket-api-and-protocol-explained/</guid>
-      <description>原文地址：https://ably.com/topic/websockets WebSocket 标志着 Web 开发的转折点。 WebSocket 技术旨在以事件为驱动，并针对低延迟进行了优化，已成为许多寻求构建交互式实时数字体验以提供令人愉悦的</description>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://ably.com/topic/websockets&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websockets&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;WebSocket 标志着 Web 开发的转折点。 WebSocket 技术旨在以事件为驱动，并针对低延迟进行了优化，已成为许多寻求构建交互式实时数字体验以提供令人愉悦的用户体验的组织和开发人员的首选。本文探讨了与 WebSocket 相关的关键主题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://ably.com/topic/websockets#web-sockets-the-web-socket-protocol-and-api-explained&#34; target=&#34;_blank&#34;&gt;WebSocket 协议和 API 解释&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]WebSocket与HTTP：2024年为您的项目选择哪一个</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/websockets-vs-http/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/websockets-vs-http/</guid>
-      <description>原文链接：https://ably.com/topic/websockets-vs-http 当谈到 WebSocket 与 HTTP 时，决定使用哪一种并不总是那么明确。哪一个更好？您的应用程序应该使用哪一款？ 但问题的答案不一定是</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/websockets-vs-http&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websockets-vs-http&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;当谈到 WebSocket 与 HTTP 时，决定使用哪一种并不总是那么明确。哪一个更好？您的应用程序应该使用哪一款？&lt;/p&gt;
+&lt;p&gt;但问题的答案不一定是其中之一 - 开发人员经常根据场景在同一个应用程序中同时使用 WebSocket 和 HTTP。更重要的问题是 - 我如何确定 WebSockets 还是 HTTP 是特定类型通信的正确通信协议？&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]WebSocket与REST</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/websocket-vs-rest/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/websocket-vs-rest/</guid>
-      <description>原文链接：https://ably.com/topic/websocket-vs-rest 无论您是将客户端连接到服务器、将微服务相互连接，还是将应用程序的一部分连接到外部服务，在通信方法方面，您几乎都</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/websocket-vs-rest&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websocket-vs-rest&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;无论您是将客户端连接到服务器、将微服务相互连接，还是将应用程序的一部分连接到外部服务，在通信方法方面，您几乎都会有多种选择。不过，有两个比较突出：WebSocket 和 REST。&lt;/p&gt;
+&lt;p&gt;好消息是，尽管为应用程序选择核心技术是一项严肃的责任，但由于 WebSocket 和 REST 不同的架构选择、性能特征和实现考虑因素，在 WebSocket 和 REST 之间进行选择相对简单。这意味着双方都可以解决对方可能遇到的问题。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]什么是 HTTP？</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/http/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/http/</guid>
-      <description>原文链接：https://www.pubnub.com/guides/http/ HTTP 概述 HTTP，即超文本传输协议，是互联网通信的基础。它在客户端-服务器模型上运行，其中前端客户端（例如网络浏览器）通过</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.pubnub.com/guides/http/&#34; target=&#34;_blank&#34;&gt;https://www.pubnub.com/guides/http/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;http-概述&#34;&gt;HTTP 概述&lt;/h2&gt;
+&lt;p&gt;HTTP，即超文本传输协议，是互联网通信的基础。它在客户端-服务器模型上运行，其中前端客户端（例如网络浏览器）通过向服务器发送HTTP请求消息来发起请求，例如请求网页（例如搜索引擎）。然后，服务器使用包含所请求资源的 HTTP 响应消息进行响应，如果资源不可用，则使用错误消息进行响应。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]什么是 OAuth？</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/oauth/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/oauth/</guid>
-      <description>原文链接：https://www.pubnub.com/guides/oauth/ 什么是 OAuth？ OAuth（开放授权）是一种开放标准授权框架，允许第三方应用程序访问用户数据，而无需用户共享其登录凭</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.pubnub.com/guides/oauth/&#34; target=&#34;_blank&#34;&gt;https://www.pubnub.com/guides/oauth/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是-oauth&#34;&gt;什么是 OAuth？&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://oauth.net/&#34; target=&#34;_blank&#34;&gt;OAuth（开放授权）&lt;/a&gt;是一种开放标准授权框架，允许第三方应用程序访问用户数据，而无需用户共享其登录凭据。它为用户提供了一种安全且标准化的方式，将其在一个网站上的资源的访问权限授予另一个网站或应用程序，而无需暴露其密码。&lt;/p&gt;
+&lt;p&gt;简单来说，OAuth 充当最终用户和他们想要授予访问权限的应用程序之间的中间人。用户不会直接向 Web 应用程序提供用户名和密码，而是会被重定向到授权服务器（例如 Google、Facebook 或 Twitter），在那里他们可以安全地验证自己的身份。经过身份验证后，用户可以授予或拒绝对其想要使用的应用程序上的数据的访问权限。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]什么是HTTP/3？</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/http3/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/http3/</guid>
-      <description>原文链接：https://www.pubnub.com/guides/http-3/ 什么是 HTTP/3？ HTTP/3（或 HTTP-over-QUIC）是超文本传输协议 ( HTTP ) 的第三个主要版本。它是用于 Web</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.pubnub.com/guides/http-3/&#34; target=&#34;_blank&#34;&gt;https://www.pubnub.com/guides/http-3/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是-http3&#34;&gt;什么是 HTTP/3？&lt;/h2&gt;
+&lt;p&gt;HTTP/3（或 HTTP-over-QUIC）是超文本传输协议 ( &lt;a href=&#34;https://www.pubnub.com/guides/http/&#34; target=&#34;_blank&#34;&gt;HTTP&lt;/a&gt; ) 的第三个主要版本。它是用于 Web 浏览器和服务器之间通信的应用层协议。 HTTP/3 旨在提高 Web 通信的性能和安全性。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/HTTP/3&#34; target=&#34;_blank&#34;&gt;HTTP/3&lt;/a&gt;的主要功能之一是它构建在&lt;a href=&#34;https://www.pubnub.com/guides/udp/&#34; target=&#34;_blank&#34;&gt;用户数据报协议 (UDP)&lt;/a&gt;之上，而不是建立在 HTTP 早期版本中使用的&lt;a href=&#34;https://www.pubnub.com/guides/tcp-ip/&#34; target=&#34;_blank&#34;&gt;传输控制协议&lt;/a&gt;(TCP) 之上。 UDP 是一种无连接协议，可为实时应用程序提供更低的延迟和更好的性能。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]什么是HTTP流式传输？</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/http-streaming/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/http-streaming/</guid>
-      <description>原文链接：https://www.pubnub.com/guides/http-streaming/ 什么是 HTTP 流式传输？ HTTP 流，也称为基于 HTTP 的流或 HTTP 实时流，是一种用于通过 Internet 传送实时多媒体内容（例如音频或视</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.pubnub.com/guides/http-streaming/&#34; target=&#34;_blank&#34;&gt;https://www.pubnub.com/guides/http-streaming/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是-http-流式传输&#34;&gt;什么是 HTTP 流式传输？&lt;/h2&gt;
+&lt;p&gt;HTTP 流，也称为基于 HTTP 的流或 HTTP 实时流，是一种用于通过 Internet 传送实时多媒体内容（例如音频或视频）的技术。该协议允许从服务器到客户端设备的连续数据传输，使用户能够消费媒体内容而无需完整的文件下载。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]什么是Socket.IO？</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/socket-io/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/socket-io/</guid>
-      <description>原文链接：https://www.pubnub.com/guides/socket-io/ 什么是Socket.IO？ Socket.IO是一个开源的跨平台库，它提供客户端和服务器之间基于事件的全双工双向</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.pubnub.com/guides/socket-io/&#34; target=&#34;_blank&#34;&gt;https://www.pubnub.com/guides/socket-io/&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;什么是socketio&#34;&gt;什么是Socket.IO？&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://socket.io/&#34; target=&#34;_blank&#34;&gt;Socket.IO&lt;/a&gt;是一个开源的跨平台库，它提供客户端和服务器之间基于事件的&lt;a href=&#34;https://www.geeksforgeeks.org/transmission-modes-computer-networks/&#34; target=&#34;_blank&#34;&gt;全双工双向通信&lt;/a&gt;。它基于 WebSocket 协议构建，提供附加功能，例如自动重新连接以及在无法使用 &lt;a href=&#34;https://www.pubnub.com/guides/what-are-websockets-and-when-should-you-use-them/&#34; target=&#34;_blank&#34;&gt;WebSocket时回退到&lt;/a&gt;&lt;a href=&#34;https://www.pubnub.com/blog/http-long-polling/&#34; target=&#34;_blank&#34;&gt;HTTP 长轮询。&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://www.pubnub.com/cdn/3prze68gbwl1/4t7rtQndLsmkIKrTmwacxr/7d22b54ec50fc5b61687ad5a207f4cd7/Client_Server.png?w=700&amp;amp;h=550&amp;amp;fit=pad&#34; alt=&#34;img&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;Socket.IO 客户端由客户端和服务器端库组成。虽然最初在服务器上支持&lt;a href=&#34;https://www.pubnub.com/blog/nodejs-websocket-programming-examples/&#34; target=&#34;_blank&#34;&gt;NodeJS ，在客户端支持&lt;/a&gt;&lt;a href=&#34;https://www.pubnub.com/guides/javascript/&#34; target=&#34;_blank&#34;&gt;JavaScript&lt;/a&gt;，但现在它支持各种服务器和客户端技术，包括&lt;a href=&#34;https://www.pubnub.com/docs/sdks/java&#34; target=&#34;_blank&#34;&gt;Java&lt;/a&gt;、&lt;a href=&#34;https://www.pubnub.com/docs/sdks/python&#34; target=&#34;_blank&#34;&gt;Python&lt;/a&gt;、&lt;a href=&#34;https://www.pubnub.com/docs/sdks/swift&#34; target=&#34;_blank&#34;&gt;Swift&lt;/a&gt;和&lt;a href=&#34;https://www.pubnub.com/docs/sdks/kotlin&#34; target=&#34;_blank&#34;&gt;Kotlin&lt;/a&gt;，它们都是官方代码库的一部分，由活跃社区贡献。&lt;/p&gt;
+&lt;h3 id=&#34;socketio-有何用途&#34;&gt;Socket.io 有何用途？&lt;/h3&gt;
+&lt;p&gt;Socket.IO 允许您实现依赖于消息交换的各种应用程序，例如&lt;a href=&#34;https://www.pubnub.com/solutions/chat/&#34; target=&#34;_blank&#34;&gt;即时消息传递&lt;/a&gt;、&lt;a href=&#34;https://www.pubnub.com/solutions/multiuser-collaboration/&#34; target=&#34;_blank&#34;&gt;多用户协作&lt;/a&gt;、&lt;a href=&#34;https://www.pubnub.com/solutions/data-streaming/&#34; target=&#34;_blank&#34;&gt;实时分析&lt;/a&gt;、文件共享和&lt;a href=&#34;https://www.pubnub.com/products/mobile-push-notifications/&#34; target=&#34;_blank&#34;&gt;通知&lt;/a&gt;。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]什么是WebSocket？</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/websockets/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/websockets/</guid>
-      <description>原文链接：https://www.pubnub.com/guides/websockets/ 什么是 WebSocket？ WebSocket 是一种通过单个TCP连接提供全双工通信通道的通信协议。它支持客户端和服务器之间的</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.pubnub.com/guides/websockets/&#34; target=&#34;_blank&#34;&gt;https://www.pubnub.com/guides/websockets/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是-websocket&#34;&gt;什么是 WebSocket？&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.pubnub.com/guides/tcp-ip/&#34; target=&#34;_blank&#34;&gt;WebSocket 是一种通过单个TCP&lt;/a&gt;连接提供全双工通信通道的通信协议。它支持客户端和服务器之间的实时、事件驱动的连接。&lt;/p&gt;
+&lt;p&gt;与遵循请求-响应模型的传统 HTTP 软件不同，WebSocket 允许双向（双向）通信。这意味着客户端和服务器可以随时向对方发送数据，而无需持续轮询。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]什么是长轮询？</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/long-polling/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/long-polling/</guid>
-      <description>原文链接：https://www.pubnub.com/guides/long-polling/ 什么是长轮询？ 长轮询用于实时 Web 应用程序，以实现客户端和 Web 服务器之间近乎即时的通信。它在实时更新至关重要的</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.pubnub.com/guides/long-polling/&#34; target=&#34;_blank&#34;&gt;https://www.pubnub.com/guides/long-polling/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是长轮询&#34;&gt;什么是长轮询？&lt;/h2&gt;
+&lt;p&gt;长轮询用于实时 Web 应用程序，以实现客户端和 Web 服务器之间近乎即时的通信。它在实时更新至关重要的聊天和消息应用程序中特别有用。&lt;/p&gt;
+&lt;p&gt;在传统的&lt;a href=&#34;https://www.pubnub.com/guides/http/&#34; target=&#34;_blank&#34;&gt;HTTP&lt;/a&gt;通信中，客户端向服务器发送新请求并等待响应。这称为短轮询。然而，在实时场景中，短轮询可能效率不高，因为它需要频繁向服务器请求，导致不必要的网络开销和增加延迟。&lt;/p&gt;
+&lt;p&gt;另一方面，长轮询通过在新数据可用之前保持请求长时间打开来提高效率。服务器保持请求打开并等待，直到有新信息发送回客户端。一旦服务器有新数据，它就会响应客户端，然后客户端可以处理数据并发起新的长轮询请求。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]如何通过 WebSocket 将 Kafka 消息流式传输到面向互联网的客户端</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/websockets-kafka/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/websockets-kafka/</guid>
-      <description>原文链接：https://ably.com/topic/websockets-kafka Apache Kafka 是目前最强大的异步消息传递技术之一。 Kafka 由 Jay Kreps、Jun Rao 和 Neha Narkhede 等团队于 2010 年在 LinkedIn 设计，并于 2011 年初开源。如</description>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/websockets-kafka&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/websockets-kafka&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Apache Kafka 是目前最强大的异步消息传递技术之一。 Kafka 由 Jay Kreps、Jun Rao 和 Neha Narkhede 等团队于 2010 年在 LinkedIn 设计，并于 2011 年初开源。如今，该工具被众多公司（包括科技巨头，例如 Slack、Airbnb 或 Netflix 使用）为其实时数据流管道提供支持。&lt;/p&gt;</description>
     </item>
     <item>
       <title>ThingsBoard的领域模型</title>
       <link>https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/</link>
       <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/</guid>
-      <description>ThingsBoard是一个开源的物联网平台，用于管理和监控物联网设备和数据。它提供了一个可扩展的架构，可以连接各种设备，并实时收集、处理和分析设备生成的数据。 领域模型 在ThingsBoard中，领域</description>
+      <description>&lt;p&gt;ThingsBoard是一个开源的物联网平台，用于管理和监控物联网设备和数据。它提供了一个可扩展的架构，可以连接各种设备，并实时收集、处理和分析设备生成的数据。&lt;/p&gt;
+&lt;h2 id=&#34;领域模型&#34;&gt;领域模型&lt;/h2&gt;
+&lt;p&gt;在ThingsBoard中，领域模型是一个关键概念，用于描述物联网系统中的物理实体、属性和行为。以下是ThingsBoard中的主要领域模型组件：&lt;/p&gt;</description>
     </item>
     <item>
       <title>All things about ThingsBoard</title>
       <link>https://blog.chensoul.cc/posts/2024/04/29/all-things-about-thingsboard/</link>
       <pubDate>Mon, 29 Apr 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/04/29/all-things-about-thingsboard/</guid>
-      <description>thingsboard 是一款乌克兰团队基于java语言研发的开源物联网框架，开源的是ce版，企业版需要购买授权且无源码。 官方网站： Thingsboard 官网：https://thingsboard.io/ Thingsboard社区免费版本：</description>
+      <description>&lt;p&gt;thingsboard 是一款乌克兰团队基于java语言研发的开源物联网框架，开源的是ce版，企业版需要购买授权且无源码。&lt;/p&gt;
+&lt;p&gt;官方网站：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Thingsboard 官网：&lt;a href=&#34;https://thingsboard.io/&#34; target=&#34;_blank&#34;&gt;https://thingsboard.io/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Thingsboard社区免费版本：&lt;a href=&#34;https://demo.thingsboard.io/&#34; target=&#34;_blank&#34;&gt;https://demo.thingsboard.io/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Thingsboard 企业付费版本：&lt;a href=&#34;https://thingsboard.cloud/&#34; target=&#34;_blank&#34;&gt;https://thingsboard.cloud/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Thingsboard 源码：&lt;a href=&#34;https://github.com/thingsboard/thingsboard&#34; target=&#34;_blank&#34;&gt;https://github.com/thingsboard/thingsboard&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;TBMQ 源码：&lt;a href=&#34;https://github.com/thingsboard/tbmq&#34; target=&#34;_blank&#34;&gt;https://github.com/thingsboard/tbmq&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;中文网：&lt;a href=&#34;http://www.ithingsboard.com/&#34; target=&#34;_blank&#34;&gt;http://www.ithingsboard.com/&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>TBMQ测试和源码分析</title>
       <link>https://blog.chensoul.cc/posts/2024/04/28/thingsboard-tbmq-test/</link>
       <pubDate>Sun, 28 Apr 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/04/28/thingsboard-tbmq-test/</guid>
-      <description>启动 TBMQ 程序，浏览器访问 http://localhost:8083，创建一个 Application，Credentials Type 为 BASIC，客户端 ID、用户名和密码均设置为 tbmq_app 使用 mosquitto 测试订阅消息 1 mosquitto_sub -d -q 1 -h</description>
+      <description>&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;启动 TBMQ 程序，浏览器访问 http://localhost:8083，创建一个 Application，Credentials Type 为   BASIC，客户端 ID、用户名和密码均设置为 tbmq_app&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用 mosquitto 测试订阅消息&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mosquitto_sub -d -q &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; -h localhost -p &lt;span class=&#34;m&#34;&gt;1883&lt;/span&gt; -t tbmq/demo/+ -i &lt;span class=&#34;s1&#34;&gt;&amp;#39;tbmq_app&amp;#39;&lt;/span&gt; -u &lt;span class=&#34;s1&#34;&gt;&amp;#39;tbmq_app&amp;#39;&lt;/span&gt; -P &lt;span class=&#34;s1&#34;&gt;&amp;#39;tbmq_app&amp;#39;&lt;/span&gt; -c -v
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Debug 调试 MqttSessionHandler 类的 &lt;code&gt;channelRead(ChannelHandlerContext ctx, Object msg)&lt;/code&gt; 方法&lt;/p&gt;</description>
     </item>
     <item>
       <title>ThingsBoard TBMQ本地和通过Docker运行</title>
       <link>https://blog.chensoul.cc/posts/2024/04/17/thingsboard-tbmq-local-docker-run/</link>
       <pubDate>Wed, 17 Apr 2024 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2024/04/17/thingsboard-tbmq-local-docker-run/</guid>
-      <description>docker-compose 运行 参考：https://thingsboard.io/docs/mqtt-broker/install/cluster/docker-compose-setup/ 下载源代码 1 2 git clone -b release-1.3.0 https://github.com/thingsboard/tbmq.git cd tbmq/docker 创建逻</description>
+      <description>&lt;h2 id=&#34;docker-compose-运行&#34;&gt;docker-compose 运行&lt;/h2&gt;
+&lt;p&gt;参考：&lt;a href=&#34;https://thingsboard.io/docs/mqtt-broker/install/cluster/docker-compose-setup/&#34; target=&#34;_blank&#34;&gt;https://thingsboard.io/docs/mqtt-broker/install/cluster/docker-compose-setup/&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;下载源代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone -b release-1.3.0 https://github.com/thingsboard/tbmq.git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; tbmq/docker
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;创建逻辑卷并执行安装程序&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./scripts/docker-create-volumes.sh
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./scripts/docker-install-tbmq.sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;运行服务&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./scripts/docker-start-services.sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;浏览器访问：&lt;a href=&#34;http://localhost:8083&#34; target=&#34;_blank&#34;&gt;http://localhost:8083&lt;/a&gt;，用户名/密码：sysadmin@thingsboard.org / sysadmin&lt;/p&gt;
+&lt;p&gt;查看 HaProxy 日志，发现出现异常：&lt;code&gt;Error: Specified qdisc kind is unknown.&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;目前，尚未找到解决办法，只能不使用 HaProxy 而是直接访问 tbmq1，修改 docker-compose.yml ，暴露容器端口 8083 到本地的 8083：&lt;/p&gt;</description>
     </item>
     <item>
       <title>All things about MicroProfile</title>
       <link>https://blog.chensoul.cc/posts/2023/12/14/all-things-about-microprofile/</link>
       <pubDate>Thu, 14 Dec 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/12/14/all-things-about-microprofile/</guid>
-      <description>最近在一些开源项目中看到了 MicroProfile ，于是在网上查阅了相关资料加深对 MicroProfile 的理解，并做了笔记形成此文。 MicroProfile MicroProfile是一个开放的企业级Java微服务框架，旨在简化和标准化基于微服务架构的应用程序开发。</description>
+      <description>&lt;p&gt;最近在一些开源项目中看到了 MicroProfile ，于是在网上查阅了相关资料加深对 MicroProfile 的理解，并做了笔记形成此文。&lt;/p&gt;
+&lt;h2 id=&#34;microprofile&#34;&gt;MicroProfile&lt;/h2&gt;
+&lt;p&gt;MicroProfile是一个开放的企业级Java微服务框架，旨在简化和标准化基于微服务架构的应用程序开发。它是由Eclipse Foundation主导的一个开源项目，致力于提供轻量级、可移植和可互操作的Java微服务规范和实现。&lt;/p&gt;</description>
     </item>
     <item>
       <title>JHipster安装和介绍</title>
       <link>https://blog.chensoul.cc/posts/2023/11/02/jhipster-intro/</link>
       <pubDate>Thu, 02 Nov 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/11/02/jhipster-intro/</guid>
-      <description>JHipster 是一个开发平台，可以快速生成，开发和部署现代 Web 应用程序+微服务架构。 JHipster 或者称 Java Hipster，是一个应用代码产生器，能够创建 Spring Boot/Spring Cloud + React/VueJs/AngularJS 的应用。使用 JHipster，首先你要配置好 Java 、Git 以及 Maven 或者</description>
+      <description>&lt;p&gt;JHipster 是一个开发平台，可以快速生成，开发和部署现代 Web 应用程序+微服务架构。&lt;/p&gt;
+&lt;p&gt;JHipster 或者称 Java Hipster，是一个应用代码产生器，能够创建 Spring Boot/Spring Cloud + React/VueJs/AngularJS 的应用。使用 JHipster，首先你要配置好 Java 、Git 以及 Maven 或者 Gradle 的环境，然后通过 NodeJs 管理工具安装 JHipster 。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Circuit Breaker</title>
       <link>https://blog.chensoul.cc/posts/2023/10/26/java-design-patterns-circuit-breaker/</link>
       <pubDate>Thu, 26 Oct 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/10/26/java-design-patterns-circuit-breaker/</guid>
-      <description>本文主要介绍 Circuit Breaker 断路器模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 断路器模式（Circuit Breaker Pattern）是一种在分布式系统中处理故障</description>
+      <description>&lt;p&gt;本文主要介绍 &lt;a href=&#34;https://java-design-patterns.com/zh/patterns/circuit-breaker/&#34; target=&#34;_blank&#34;&gt;Circuit Breaker&lt;/a&gt; 断路器模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;断路器模式（Circuit Breaker Pattern）是一种在分布式系统中处理故障和提高系统可靠性的设计模式。它的主要目标是防止故障的传递，并在故障发生时提供优雅的故障处理机制。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Chain</title>
       <link>https://blog.chensoul.cc/posts/2023/10/16/java-design-patterns-chain/</link>
       <pubDate>Mon, 16 Oct 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/10/16/java-design-patterns-chain/</guid>
-      <description>本文主要介绍 Chain 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 目的 通过给多个对象一个处理请求的机会，避免请求的发送者和它的接收者耦合。串联接收对象</description>
+      <description>&lt;p&gt;本文主要介绍 &lt;a href=&#34;https://java-design-patterns.com/zh/patterns/chain/&#34; target=&#34;_blank&#34;&gt;Chain&lt;/a&gt; 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;目的&#34;&gt;目的&lt;/h2&gt;
+&lt;p&gt;通过给多个对象一个处理请求的机会，避免请求的发送者和它的接收者耦合。串联接收对象并在链条中传递请求直到一个对象处理它。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Boot3和Spring6中的新特性</title>
       <link>https://blog.chensoul.cc/posts/2023/10/13/new-features-in-spring-boot-3-and-spring-6/</link>
       <pubDate>Fri, 13 Oct 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/10/13/new-features-in-spring-boot-3-and-spring-6/</guid>
-      <description>Spring Boot 3.0 于 2022 年 11 月正式发布，包含一些新功能和改进。这是继大约 4.5 年前发布 Spring Boot 2.0 后 Spring Boot 的第一个主要版本。它也是第一个支持 Spring Framework 6.0 的 Spring Boot GA 版本。作为开发人员，我们需要了解这些更新，才能顺利使用 Spring Boot。毫无疑</description>
+      <description>&lt;p&gt;Spring Boot 3.0 于 2022 年 11 月正式发布，包含一些新功能和改进。这是继大约 4.5 年前发布 Spring Boot 2.0 后 Spring Boot 的第一个主要版本。它也是第一个支持 Spring Framework 6.0 的 Spring Boot GA 版本。作为开发人员，我们需要了解这些更新，才能顺利使用 Spring Boot。毫无疑问，新版本中最大的转变之一是放弃了对旧版本 Java 的支持。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Callback</title>
       <link>https://blog.chensoul.cc/posts/2023/10/13/java-design-patterns-callback/</link>
       <pubDate>Fri, 13 Oct 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/10/13/java-design-patterns-callback/</guid>
-      <description>本文主要介绍 Callback 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 回调（Callback）是一种设计模式，在这种模式中，一个可执行的代码被作为参数</description>
+      <description>&lt;p&gt;本文主要介绍 &lt;a href=&#34;https://java-design-patterns.com/zh/patterns/callback/&#34; target=&#34;_blank&#34;&gt;Callback&lt;/a&gt; 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;回调（Callback）是一种设计模式，在这种模式中，一个可执行的代码被作为参数传递给其他代码，接收方的代码可以在适当的时候调用它。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security 面试问题</title>
       <link>https://blog.chensoul.cc/posts/2023/10/12/spring-security-interview-questions/</link>
       <pubDate>Thu, 12 Oct 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/10/12/spring-security-interview-questions/</guid>
-      <description>本面试准备指南将讨论一些常见的 Spring Security 面试问题。无论您是准备面试还是只是想增强对 Spring Security 的了解，这些问题都将帮助您理解关键概念并指导您设计常见安全问题的解决方案。 1. Spring Security 的核心特性是什么？ Spring Security 提供的两个最突出的</description>
+      <description>&lt;p&gt;本面试准备指南将讨论一些常见的 Spring Security 面试问题。无论您是准备面试还是只是想增强对 Spring Security 的了解，这些问题都将帮助您理解关键概念并指导您设计常见安全问题的解决方案。&lt;/p&gt;
+&lt;h2 id=&#34;1-spring-security-的核心特性是什么&#34;&gt;1. Spring Security 的核心特性是什么？&lt;/h2&gt;
+&lt;p&gt;Spring Security 提供的两个最突出的功能是身份验证和授权。这些功能在确保应用程序的安全性方面发挥着至关重要的作用。然而，Spring Security 超越了身份验证和授权，还提供了额外的功能来防止漏洞利用并与其他框架集成。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Caching</title>
       <link>https://blog.chensoul.cc/posts/2023/09/25/java-design-patterns-cahcing/</link>
       <pubDate>Mon, 25 Sep 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/09/25/java-design-patterns-cahcing/</guid>
-      <description>本文主要介绍 Caching 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 缓存模式（Caching Pattern）是一种设计模式，旨在通过在资源使用后将其</description>
+      <description>&lt;p&gt;本文主要介绍 &lt;a href=&#34;https://java-design-patterns.com/zh/patterns/caching/&#34; target=&#34;_blank&#34;&gt;Caching&lt;/a&gt; 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;缓存模式（Caching Pattern）是一种设计模式，旨在通过在资源使用后将其保留在某个快速访问的存储中，并在需要时重新使用资源，以避免昂贵的资源重新获取。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Bytecode</title>
       <link>https://blog.chensoul.cc/posts/2023/09/22/java-design-patterns-bytecode/</link>
       <pubDate>Fri, 22 Sep 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/09/22/java-design-patterns-bytecode/</guid>
-      <description>本文主要介绍 Bytecode 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 字节码设计模式是一种软件设计模式，它允许以数据驱动的方式定义和执行行为。在字节码</description>
-    </item>
-    <item>
-      <title>[译]SPRING BOOT JWT - 如何使用 SPRING SECURITY 和 JSON WEB 令牌保护您的 REST API</title>
-      <link>https://blog.chensoul.cc/posts/2023/09/19/spring-security-jwt/</link>
-      <pubDate>Tue, 19 Sep 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/09/19/spring-security-jwt/</guid>
-      <description>如果您快速搜索如何使用 JSON Web Tokens 在 Spring Boot 中保护 REST API，您会发现很多相同的结果。这些结果包含一种方法，该方法涉及编写自定义过滤器链并引入第三方库来编码和解码 JWT。 在看完这些令人费解且令人困惑的教程后，我说</description>
+      <description>&lt;p&gt;本文主要介绍 &lt;a href=&#34;https://java-design-patterns.com/zh/patterns/bytecode/&#34; target=&#34;_blank&#34;&gt;Bytecode&lt;/a&gt; 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;字节码设计模式是一种软件设计模式，它允许以数据驱动的方式定义和执行行为。在字节码设计模式中，行为被表示为一系列虚拟机指令，这些指令被编码为字节码，并在运行时执行。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security 与 JWT for REST API</title>
       <link>https://blog.chensoul.cc/posts/2023/09/19/spring-security-tutorial/</link>
       <pubDate>Tue, 19 Sep 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/09/19/spring-security-tutorial/</guid>
-      <description>免责声明：Spring Security 5+ 已发布 OAuth JWT 支持。建议使用最新版本的 OAuth 来支持 JWT，而不是使用自定义安全性或过滤器。 Spring 被认为是 Java 生态系统中值得信赖的框架，并且被广泛使用。将 Spring 称为框架不再有效，因为它更多的是涵</description>
+      <description>&lt;p&gt;&lt;strong&gt;免责声明：Spring Security 5+ 已发布 OAuth JWT 支持。建议使用最新版本的 OAuth 来支持 JWT，而不是使用自定义安全性或过滤器。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://spring.io/&#34; target=&#34;_blank&#34;&gt;Spring&lt;/a&gt; 被认为是 Java 生态系统中值得信赖的框架，并且被广泛使用。将 Spring 称为框架不再有效，因为它更多的是涵盖各种框架的总括术语。其中一个框架是 &lt;a href=&#34;https://spring.io/projects/spring-security&#34; target=&#34;_blank&#34;&gt;Spring Security&lt;/a&gt;，它是一个功能强大且可定制的身份验证和授权框架。它被认为是保护基于 Spring 的应用程序的事实标准，因此，如果您希望实现 Spring JWT 令牌解决方案，那么将其基于 Spring Security 是有意义的。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[译]如何使用Spring Security和JWT保护您的REST API</title>
+      <link>https://blog.chensoul.cc/posts/2023/09/19/spring-security-jwt/</link>
+      <pubDate>Tue, 19 Sep 2023 00:00:00 +0800</pubDate>
+      <guid>https://blog.chensoul.cc/posts/2023/09/19/spring-security-jwt/</guid>
+      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.danvega.dev/blog/spring-security-jwt&#34; target=&#34;_blank&#34;&gt;How to Secure your REST APIs with Spring Security &amp;amp; JSON Web Tokens (JWTs)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如果您快速搜索如何使用 JSON Web Tokens 在 Spring Boot 中保护 REST API，您会发现很多相同的结果。这些结果包含一种方法，该方法涉及编写自定义过滤器链并引入第三方库来编码和解码 JWT。&lt;/p&gt;
+&lt;p&gt;在看完这些令人费解且令人困惑的教程后，我说必须有一种更简单的方法来做到这一点。我做了任何直接接触 Spring Security 团队的人都会做的事情，我向他们寻求帮助。他们告诉我，Spring Security 确实使用 oAuth2 资源服务器内置了对 JWT 的支持。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Builder</title>
       <link>https://blog.chensoul.cc/posts/2023/09/05/java-design-patterns-builder/</link>
       <pubDate>Tue, 05 Sep 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/09/05/java-design-patterns-builder/</guid>
-      <description>本文主要介绍 Builder 构造器模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 构造器模式（Builder Pattern）是一种创建型设计模式，用于将复杂</description>
+      <description>&lt;p&gt;本文主要介绍 &lt;a href=&#34;https://java-design-patterns.com/zh/patterns/builder/&#34; target=&#34;_blank&#34;&gt;Builder&lt;/a&gt; 构造器模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;构造器模式（Builder Pattern）是一种创建型设计模式，用于将复杂对象的构建过程与其表示分离，从而可以使用相同的构建过程创建不同的表示。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Business Delegate</title>
       <link>https://blog.chensoul.cc/posts/2023/09/05/java-design-patterns-business-delegate/</link>
       <pubDate>Tue, 05 Sep 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/09/05/java-design-patterns-business-delegate/</guid>
-      <description>本文主要介绍 Business Delegate 业务委托模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 业务委托模式（Business Delegate Pattern）在表示层和业务层之间引</description>
+      <description>&lt;p&gt;本文主要介绍 &lt;a href=&#34;https://java-design-patterns.com/zh/patterns/business-delegate/&#34; target=&#34;_blank&#34;&gt;Business Delegate&lt;/a&gt; 业务委托模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;业务委托模式（Business Delegate Pattern）在表示层和业务层之间引入了一个抽象层，旨在实现这两个层之间的松散耦合，并封装了有关如何定位、连接和交互业务对象的逻辑。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Bridge</title>
       <link>https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/</link>
       <pubDate>Mon, 28 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/</guid>
-      <description>本文主要介绍 Bridge 桥接模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 桥接模式（Bridge Pattern）是一种结构型设计模式，用于将抽象与其实</description>
+      <description>&lt;p&gt;本文主要介绍 &lt;a href=&#34;https://java-design-patterns.com/zh/patterns/bridge/&#34; target=&#34;_blank&#34;&gt;Bridge&lt;/a&gt; 桥接模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;桥接模式（Bridge Pattern）是一种结构型设计模式，用于将抽象与其实现分离，使它们可以独立地变化。桥接模式通过创建两个独立的层次结构，一个是抽象部分，一个是实现部分，来实现这种分离。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]REST API 的自定义错误消息处理</title>
       <link>https://blog.chensoul.cc/posts/2023/08/25/global-error-handler-in-a-spring-rest-api/</link>
       <pubDate>Fri, 25 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/25/global-error-handler-in-a-spring-rest-api/</guid>
-      <description>1. 概述 在本教程中，我们将讨论如何为 Spring REST API 实现全局错误处理程序。 我们将使用每个异常的语义为客户端构建有意义的错误消息，其明确的目标是为客户端提供所有信息以轻松诊断问题。 2. 自定义错误消息 让我们首先实现一个</description>
+      <description>&lt;h2 id=&#34;1-概述&#34;&gt;1. 概述&lt;/h2&gt;
+&lt;p&gt;在本教程中，我们将讨论如何为 Spring REST API 实现全局错误处理程序。&lt;/p&gt;
+&lt;p&gt;我们将使用每个异常的语义为客户端构建有意义的错误消息，其明确的目标是为客户端提供所有信息以轻松诊断问题。&lt;/p&gt;
+&lt;h2 id=&#34;2-自定义错误消息&#34;&gt;2. 自定义错误消息&lt;/h2&gt;
+&lt;p&gt;让我们首先实现一个用于通过线路发送错误的简单结构 — &lt;code&gt;ApiError&lt;/code&gt;：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Events</title>
       <link>https://blog.chensoul.cc/posts/2023/08/25/spring-events/</link>
       <pubDate>Fri, 25 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/25/spring-events/</guid>
-      <description>1. 概述 在本教程中，我们将讨论如何在 Spring 中使用事件。 事件是框架中最容易被忽视的功能之一，但也是最有用的功能之一。与 Spring 中的许多其他功能一样，事件发布是 ApplicationContext 提供的功能之一。 有一些简单的准则需要遵循： 如果我们使用</description>
+      <description>&lt;h2 id=&#34;1-概述&#34;&gt;1. 概述&lt;/h2&gt;
+&lt;p&gt;在本教程中，我们将讨论如何在 Spring 中使用事件。&lt;/p&gt;
+&lt;p&gt;事件是框架中最容易被忽视的功能之一，但也是最有用的功能之一。与 Spring 中的许多其他功能一样，事件发布是 &lt;code&gt;ApplicationContext&lt;/code&gt; 提供的功能之一。&lt;/p&gt;
+&lt;p&gt;有一些简单的准则需要遵循：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果我们使用 Spring Framework 4.2 之前的版本，事件类应该扩展 &lt;code&gt;ApplicationEvent&lt;/code&gt;。从 4.2 版本开始，事件类不再需要扩展 ApplicationEvent 类。&lt;/li&gt;
+&lt;li&gt;发布者应该注入一个 &lt;code&gt;ApplicationEventPublisher&lt;/code&gt; 对象。&lt;/li&gt;
+&lt;li&gt;监听器应该实现 &lt;code&gt;ApplicationListener&lt;/code&gt; 接口。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2-自定义事件&#34;&gt;2. 自定义事件&lt;/h2&gt;
+&lt;p&gt;Spring 允许我们创建和发布默认情况下同步的自定义事件。这有一些优点，例如侦听器能够参与发布者的事务上下文。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]使用@Async进行Spring Security上下文传播</title>
       <link>https://blog.chensoul.cc/posts/2023/08/25/spring-security-async-principal-propagation/</link>
       <pubDate>Fri, 25 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/25/spring-security-async-principal-propagation/</guid>
-      <description>1. 简介 在本教程中，我们将重点关注使用 @Async 传播 Spring Security 主体 默认情况下，Spring Security 身份验证绑定到 ThreadLocal - 因此，当执行流在带有 @Async 的新线程中运行时，它不会是经过身份验证的上下文。 这并不理想——让我们解决它。 2.Maven 依赖 为</description>
+      <description>&lt;h2 id=&#34;1-简介&#34;&gt;1. 简介&lt;/h2&gt;
+&lt;p&gt;在本教程中，我们将重点关注使用 &lt;code&gt;@Async&lt;/code&gt; 传播 Spring Security 主体
+默认情况下，Spring Security 身份验证绑定到 &lt;code&gt;ThreadLocal&lt;/code&gt; - 因此，当执行流在带有 &lt;code&gt;@Async&lt;/code&gt; 的新线程中运行时，它不会是经过身份验证的上下文。&lt;/p&gt;
+&lt;p&gt;这并不理想——让我们解决它。&lt;/p&gt;
+&lt;h2 id=&#34;2maven-依赖&#34;&gt;2.Maven 依赖&lt;/h2&gt;
+&lt;p&gt;为了在 Spring Security 中使用异步集成，我们需要在 pom.xml 的依赖项中包含以下部分：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]使用Spring进行REST的错误处理</title>
       <link>https://blog.chensoul.cc/posts/2023/08/25/exception-handling-for-rest-with-spring/</link>
       <pubDate>Fri, 25 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/25/exception-handling-for-rest-with-spring/</guid>
-      <description>1. 概述 本教程将说明如何使用 Spring 为 REST API 实现异常处理。我们还将获得一些历史概述，并了解不同版本引入了哪些新选项。 在 Spring 3.2 之前，Spring MVC 应用程序中处理异常的两种主要方法是 HandlerExceptionResolver 或 @ExceptionHandler 注解。两者都有一些明显的缺点</description>
+      <description>&lt;h2 id=&#34;1-概述&#34;&gt;1. 概述&lt;/h2&gt;
+&lt;p&gt;本教程将说明如何使用 Spring 为 REST API 实现异常处理。我们还将获得一些历史概述，并了解不同版本引入了哪些新选项。&lt;/p&gt;
+&lt;p&gt;在 Spring 3.2 之前，Spring MVC 应用程序中处理异常的两种主要方法是 &lt;code&gt;HandlerExceptionResolver&lt;/code&gt; 或 &lt;code&gt;@ExceptionHandler&lt;/code&gt; 注解。两者都有一些明显的缺点。&lt;/p&gt;
+&lt;p&gt;从 3.2 开始，我们使用了 &lt;code&gt;@ControllerAdvice&lt;/code&gt; 注释来解决前两个解决方案的局限性，并促进整个应用程序的统一异常处理。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]如何在Spring中执行@Async</title>
       <link>https://blog.chensoul.cc/posts/2023/08/25/spring-async/</link>
       <pubDate>Fri, 25 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/25/spring-async/</guid>
-      <description>1. 概述 在本教程中，我们将探讨 Spring 中的异步执行支持和 @Async 注解。 简单地说，用 @Async 注解 bean 的方法将使其在单独的线程中执行。换句话说，调用者不会等待被调用方法的完成。 Spring 的一个有趣的方面是，框架中的事件支持还 支持异步处</description>
+      <description>&lt;h2 id=&#34;1-概述&#34;&gt;1. 概述&lt;/h2&gt;
+&lt;p&gt;在本教程中，我们将探讨 Spring 中的异步执行支持和 &lt;code&gt;@Async&lt;/code&gt; 注解。&lt;/p&gt;
+&lt;p&gt;简单地说，用 &lt;code&gt;@Async&lt;/code&gt; 注解 bean 的方法将使其在单独的线程中执行。换句话说，调用者不会等待被调用方法的完成。&lt;/p&gt;
+&lt;p&gt;Spring 的一个有趣的方面是，框架中的事件支持还 &lt;a href=&#34;https://www.baeldung.com/spring-events&#34; target=&#34;_blank&#34;&gt;支持异步处理&lt;/a&gt;（如果需要）。&lt;/p&gt;
+&lt;h2 id=&#34;2启用异步支持&#34;&gt;2.启用异步支持&lt;/h2&gt;
+&lt;p&gt;让我们首先通过 Java 注解启用异步处理。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Balking</title>
       <link>https://blog.chensoul.cc/posts/2023/08/25/java-design-patterns-balking/</link>
       <pubDate>Fri, 25 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/25/java-design-patterns-balking/</guid>
-      <description>本文主要介绍 Balking 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 止步模式（Balking）是一种在对象处于特定状态时才执行操作的设计模式。它用于</description>
+      <description>&lt;p&gt;本文主要介绍 &lt;a href=&#34;https://java-design-patterns.com/zh/patterns/balking/&#34; target=&#34;_blank&#34;&gt;Balking&lt;/a&gt; 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;止步模式（Balking）是一种在对象处于特定状态时才执行操作的设计模式。它用于防止对象在不完整或不合适的状态下执行某些代码，从而确保代码的正确性和一致性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Boot项目如何实现JWT认证？</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-jwt-authentication-in-spring-boot-project/</link>
       <pubDate>Fri, 18 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-jwt-authentication-in-spring-boot-project/</guid>
-      <description>没有人可以否认这样一个事实：安全性是生产就绪应用程序的一项重要功能。尽管我们可以使用内存身份验证、JDBC 身份验证或通过 UserDetailsS​​ervice 来保护一个 Web 应用程序的安全。但是，当一个</description>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://javatechonline.com/wp-content/uploads/2020/12/JWT_With_SpringBoot-1.jpg&#34; alt=&#34;How to implement JWT Authentication in Spring Boot Project?&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;没有人可以否认这样一个事实：安全性是生产就绪应用程序的一项重要功能。尽管我们可以&lt;a href=&#34;https://javatechonline.com/how-to-implement-security-in-spring-boot-project/&#34; target=&#34;_blank&#34;&gt;使用内存身份验证&lt;/a&gt;、&lt;a href=&#34;https://javatechonline.com/how-to-implement-security-in-spring-boot-project/&#34; target=&#34;_blank&#34;&gt;JDBC 身份验证&lt;/a&gt;或通过 &lt;a href=&#34;https://javatechonline.com/how-to-implement-security-in-spring-boot-using-userdetailsservice/&#34; target=&#34;_blank&#34;&gt;UserDetailsS&lt;/a&gt;​​ervice 来保护一个 Web 应用程序的安全。但是，当一个应用程序在内部使用其他应用程序的服务时，使用 Web 服务概念实现安全性就变得很重要。在这种情况下，我们使用具有特定有效期的令牌来保护我们的应用程序。此外，我们将学习“如何在 Spring Boot 项目中实现 JWT 身份验证？”以整体了解 JWT（JSON Web Token）身份验证背后的概念。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Boot项目如何实现Security？</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot-project/</link>
       <pubDate>Fri, 18 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot-project/</guid>
-      <description>如今，几乎每个客户都要求在实时应用程序中实现强大的安全功能。安全功能对于保持机密性、完整性和可用性的需求是非常有效的。现实世界中有很多类型的安全性，但我们作为开发人员将重点关注应用程序/软件安全性。 此</description>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://javatechonline.com/wp-content/uploads/2020/11/SpringSecurityBasics-1.jpg&#34; alt=&#34;How to implement Security in Spring Boot Project?&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;如今，几乎每个客户都要求在实时应用程序中实现强大的安全功能。安全功能对于保持机密性、完整性和可用性的需求是非常有效的。现实世界中有很多类型的安全性，但我们作为开发人员将重点关注应用程序/软件安全性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]如何在Spring Boot2中使用UserDetailsService实现安全性？</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot2-using-userdetailsservice/</link>
       <pubDate>Fri, 18 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot2-using-userdetailsservice/</guid>
-      <description>继续上一篇关于实现 Spring Security 的两种不同方法的文章，在本文中，我们将学习第三种方法“如何使用 UserDetailsS​​ervice 在 Spring Boot 中实现 Security？”。经过上一篇文章后，我希望我们都非常熟悉安全</description>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://javatechonline.com/wp-content/uploads/2024/03/Thymeleaf_SpringSecurity-1.jpg&#34; alt=&#34;img&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;继续上一篇&lt;a href=&#34;https://javatechonline.com/how-to-implement-security-in-spring-boot-project/&#34; target=&#34;_blank&#34;&gt;关于实现 Spring Security 的两种不同方法&lt;/a&gt;的文章，在本文中，我们将学习第三种方法“如何使用 UserDetailsS​​ervice 在 Spring Boot 中实现 Security？”。经过上一篇文章后，我希望我们都非常熟悉安全性的基础知识，甚至是 Spring Boot 应用程序中的安全性基础知识。这次我们将创建一个用户注册表并将用户及其角色保存到数据库中。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]如何在Spring Boot3中使用UserDetailsService实现安全性？</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot3-using-userdetailsservice/</link>
       <pubDate>Fri, 18 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/how-to-implement-security-in-spring-boot3-using-userdetailsservice/</guid>
-      <description>作为有关 Spring Security 的系列文章的继续，在本文中我们将学习“如何在 Spring Boot 3 中使用 UserDetailsService 实现 Spring Boot 中的安全性？”。经过前面的文章，我希望我们都非常熟悉安全性的基础知识，甚至 Spring Boot 应用程序中的安全性基础知识。 Spring Boot 3 发布后，我</description>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://javatechonline.com/wp-content/uploads/2022/12/UserDetailsServiceSpringBoot3-1.jpg&#34; alt=&#34;Spring Security UserDetailsService Using Spring Boot 3&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;作为有关 Spring Security 的系列文章的继续，在本文中我们将学习“如何在 Spring Boot 3 中使用 UserDetailsService 实现 Spring Boot 中的安全性？”。经过前面的文章，我希望我们都非常熟悉安全性的基础知识，甚至 Spring Boot 应用程序中的安全性基础知识。 Spring Boot 3 发布后，我们将在这里实现“使用 Spring Boot 3 的 Spring Security UserDetailsService”。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]没有WebSecurityConfigurerAdapter的Spring Security.md</title>
       <link>https://blog.chensoul.cc/posts/2023/08/18/spring-security-without-websecurityconfigureradapter/</link>
       <pubDate>Fri, 18 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/18/spring-security-without-websecurityconfigureradapter/</guid>
-      <description>在 Spring Security 模块的上下文中，WebSecurityConfigurerAdapter 是一个抽象类，根据 Spring 官方网站 2022 年 2 月 21 日发布的公告，该类已从 Spring Security 5.7.0-M2 中弃用。它通常用于扩展 configure() 方法由自定义配置子类实现。因此，</description>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://javatechonline.com/wp-content/uploads/2022/07/WebSecurityConfigurerAdapter-Deprecated-1.jpg&#34; alt=&#34;WebSecurityConfigurerAdapter Deprecated&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;在 Spring Security 模块的上下文中，WebSecurityConfigurerAdapter 是一个抽象类，根据 &lt;a href=&#34;https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter&#34; target=&#34;_blank&#34;&gt;Spring 官方网站&lt;/a&gt; 2022 年 2 月 21 日发布的公告，该类已从 Spring Security 5.7.0-M2 中弃用。它通常用于扩展 configure() 方法由自定义配置子类实现。因此，它鼓励用户转向基于组件的安全配置。为了支持对这种新配置设计的更改，我们将讨论常见用例列表和未来建议的替代方案。因此，我们将讨论没有 WebSecurityConfigurerAdapter 的 Spring Security 用例的实现。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security - JWT</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-jwt/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-jwt/</guid>
-      <description>简介和概述 JSON Web Token 或 JWT（更常见的名称）是一种开放的互联网标准 (RFC 7519)，用于以紧凑的方式在各方之间安全地传输可信信息。令牌包含编码为 JSON 对象的声明，并使用私有密钥或公钥/私钥对进行数字签名。它们是独</description>
+      <description>&lt;h3 id=&#34;简介和概述&#34;&gt;简介和概述&lt;/h3&gt;
+&lt;p&gt;JSON Web Token 或 JWT（更常见的名称）是一种开放的互联网标准 (RFC 7519)，用于以紧凑的方式在各方之间安全地传输可信信息。令牌包含编码为 JSON 对象的声明，并使用私有密钥或公钥/私钥对进行数字签名。它们是独立且可验证的，因为它们经过数字签名。 JWT 可以进行签名和/或加密。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security - OAuth2</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-oauth2/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-with-oauth2/</guid>
-      <description>OAuth 2.0 基础知识 OAuth 2.0 由 IETF OAuth 工作组开发并于 2012 年 10 月发布。它作为一种开放授权协议，使第三方应用程序能够代表资源所有者对 HTTP 服务进行有限访问。它可以在不泄露用户身份或长期凭证的情况下做到这一点。第三方应用程序本身</description>
+      <description>&lt;h2 id=&#34;oauth-20-基础知识&#34;&gt;OAuth 2.0 基础知识&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://www.tutorialspoint.com/spring_security/images/oauth_2_fundamentals.jpg&#34; alt=&#34;OAuth 2.0 Fundamentals&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;OAuth 2.0 由 IETF OAuth 工作组开发并于 2012 年 10 月发布。它作为一种开放授权协议，使第三方应用程序能够代表资源所有者对 HTTP 服务进行有限访问。它可以在不泄露用户身份或长期凭证的情况下做到这一点。第三方应用程序本身也可以代表其使用它。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security - 使用数据库表单登录</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-form-login-with-database/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-form-login-with-database/</guid>
-      <description>内容 简介和概述 Spring Security 的基本组件 AuthenticationFilter 认证过滤器 AuthenticationManager 认证管理器 AuthenticationProvider 认证提供者 UserDetailsService 用户详情服务 PasswordEncoder 密码编码器 Spring 安全上下文 表单登录 使用数据库登录 登录尝试限制 入门（实用指南） 简介和概述 除了提供各种内置的身份验证和授权选项之</description>
+      <description>&lt;h2 id=&#34;内容&#34;&gt;内容&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;简介和概述&lt;/li&gt;
+&lt;li&gt;Spring Security 的基本组件
+&lt;ul&gt;
+&lt;li&gt;AuthenticationFilter 认证过滤器&lt;/li&gt;
+&lt;li&gt;AuthenticationManager 认证管理器&lt;/li&gt;
+&lt;li&gt;AuthenticationProvider 认证提供者&lt;/li&gt;
+&lt;li&gt;UserDetailsService 用户详情服务&lt;/li&gt;
+&lt;li&gt;PasswordEncoder 密码编码器&lt;/li&gt;
+&lt;li&gt;Spring 安全上下文&lt;/li&gt;
+&lt;li&gt;表单登录&lt;/li&gt;
+&lt;li&gt;使用数据库登录&lt;/li&gt;
+&lt;li&gt;登录尝试限制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;入门（实用指南）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;简介和概述&#34;&gt;简介和概述&lt;/h2&gt;
+&lt;p&gt;除了提供各种内置的身份验证和授权选项之外，Spring Security 还允许我们根据需要自定义身份验证过程。从自定义登录页面到我们自己的自定义身份验证提供程序和身份验证过滤器，我们几乎可以自定义身份验证过程的各个方面。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security - 表单登录、记住我和注销</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-form-login-remember-me-and-logout/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-form-login-remember-me-and-logout/</guid>
-      <description>内容 简介和概述 入门（实用指南） 简介和概述 Spring Security 附带了大量内置功能和工具，为我们提供方便。在这个例子中，我们将讨论其中三个有趣且有用的功能 - 表单登录 记住账号 登出 表单登录 基于表单的登录是 Spring Security 提供支持的一种用</description>
+      <description>&lt;h2 id=&#34;内容&#34;&gt;内容&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;简介和概述&lt;/li&gt;
+&lt;li&gt;入门（实用指南）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;简介和概述&#34;&gt;简介和概述&lt;/h2&gt;
+&lt;p&gt;Spring Security 附带了大量内置功能和工具，为我们提供方便。在这个例子中，我们将讨论其中三个有趣且有用的功能 -&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;表单登录&lt;/li&gt;
+&lt;li&gt;记住账号&lt;/li&gt;
+&lt;li&gt;登出&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;表单登录&#34;&gt;表单登录&lt;/h3&gt;
+&lt;p&gt;基于表单的登录是 Spring Security 提供支持的一种用户名/密码身份验证形式。这是通过 Html 表单提供的。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security 和 Spring Boot 入门</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security/</guid>
-      <description>Spring Security 是一个有助于保护企业应用程序安全的框架。通过与 Spring MVC、Spring Webflux 或 Spring Boot 集成，我们可以创建一个强大且高度可定制的身份验证和访问控制框架。在本文中，我们将解释核心概念并仔细研究 Spring Security 提供的默认配置</description>
+      <description>&lt;p&gt;Spring Security 是一个有助于保护企业应用程序安全的框架。通过与 Spring MVC、Spring Webflux 或 Spring Boot 集成，我们可以创建一个强大且高度可定制的身份验证和访问控制框架。在本文中，我们将解释核心概念并仔细研究 Spring Security 提供的默认配置及其工作原理。我们将进一步尝试自定义它们并分析它们对示例 Spring Boot 应用程序的影响。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Security：深入了解身份验证和授权</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-security-authentication-and-authorization/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-security-authentication-and-authorization/</guid>
-      <description>您可以使用本指南来了解 Spring Security 是什么以及其核心功能（如身份验证、授权或常见漏洞保护）如何工作。此外，还有全面的常见问题解答。 （编者注：大约 6500 字，您可能不想尝试在移动设备上阅读本文。将其添加为书签，稍后再回</description>
+      <description>&lt;p&gt;您可以使用本指南来了解 Spring Security 是什么以及其核心功能（如身份验证、授权或常见漏洞保护）如何工作。此外，还有全面的常见问题解答。&lt;/p&gt;
+&lt;p&gt;（编者注：大约 6500 字，您可能不想尝试在移动设备上阅读本文。将其添加为书签，稍后再回来。）&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]为 Spring Boot 应用程序创建优化的 Docker 映像</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-boot-docker/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-boot-docker/</guid>
-      <description>容器已成为打包具有所有软件和操作系统依赖项的应用程序，然后将其传送到不同环境的首选方式。 本文着眼于容器化 Spring Boot 应用程序的不同方法： 使用 Docker 文件构建 Docker 镜像， 使用 Cloud-Native Buildpack 从源代码构建 OCI 映像， 通过使用分层工具将 JAR 的</description>
+      <description>&lt;p&gt;容器已成为打包具有所有软件和操作系统依赖项的应用程序，然后将其传送到不同环境的首选方式。&lt;/p&gt;
+&lt;p&gt;本文着眼于容器化 Spring Boot 应用程序的不同方法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 Docker 文件构建 Docker 镜像，&lt;/li&gt;
+&lt;li&gt;使用 Cloud-Native Buildpack 从源代码构建 OCI 映像，&lt;/li&gt;
+&lt;li&gt;通过使用分层工具将 JAR 的各个部分拆分为不同的层，在运行时优化映像。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;示例代码&#34;&gt;示例代码&lt;/h2&gt;
+&lt;p&gt;本文附有 &lt;a href=&#34;https://github.com/thombergs/code-examples/tree/master/spring-boot/spring-boot-docker&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt; 上的工作代码示例。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]深入了解Spring事务管理：@Transactional</title>
       <link>https://blog.chensoul.cc/posts/2023/08/16/spring-transaction-management-transactional-in-depth/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/16/spring-transaction-management-transactional-in-depth/</guid>
-      <description>您可以使用本指南来简单实用地了解 Spring 使用 @Transactional 注释进行事务管理的工作原理。 唯一的先决条件？您需要对 ACID 有一个粗略的了解，即什么是数据库事务以及为什么使用它们。此外，这里不讨论分布式事务或反应式事务，但就 Spring 而言</description>
+      <description>&lt;p&gt;您可以使用本指南来简单实用地了解 Spring 使用 @Transactional 注释进行事务管理的工作原理。&lt;/p&gt;
+&lt;p&gt;唯一的先决条件？您需要对 ACID 有一个粗略的了解，即什么是数据库事务以及为什么使用它们。此外，这里不讨论分布式事务或反应式事务，但就 Spring 而言，一般原则仍然适用。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Spring Security和OAuth2发展过程</title>
       <link>https://blog.chensoul.cc/posts/2023/08/15/spring-security-oauth2-history/</link>
       <pubDate>Tue, 15 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/15/spring-security-oauth2-history/</guid>
-      <description>Spring Security 的发展过程 Spring Security 是一个功能强大且广泛使用的安全框架，为企业级应用程序提供了全面的安全性。Spring Security 最初是 Acegi Security 项目的一部分，于 2004 年发布，现在已经成为 Spring 生态系统的核心组件。 Spring Security 的发展过程可以分为三个</description>
+      <description>&lt;h2 id=&#34;spring-security-的发展过程&#34;&gt;Spring Security 的发展过程&lt;/h2&gt;
+&lt;p&gt;Spring Security 是一个功能强大且广泛使用的安全框架，为企业级应用程序提供了全面的安全性。Spring Security 最初是 Acegi Security 项目的一部分，于 2004 年发布，现在已经成为 Spring 生态系统的核心组件。 Spring Security 的发展过程可以分为三个阶段：&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记17：减少可变性</title>
       <link>https://blog.chensoul.cc/posts/2023/08/14/minimize-mutability/</link>
       <pubDate>Mon, 14 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/14/minimize-mutability/</guid>
-      <description>本文是 《Effective Java 3》第四章《类和接口》的学习笔记：减少可变性。 原文 不可变类是实例不能被修改的类。每个实例中包含的所有信息在对象的生命周期内都是固定的，因此永远不会观察到任何更改。Java 库</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第四章《类和接口》的学习笔记：减少可变性。&lt;/p&gt;
+&lt;h2 id=&#34;原文&#34;&gt;原文&lt;/h2&gt;
+&lt;p&gt;不可变类是实例不能被修改的类。每个实例中包含的所有信息在对象的生命周期内都是固定的，因此永远不会观察到任何更改。Java 库包含许多不可变的类，包括 String、基本类型的包装类、BigInteger 和 BigDecimal。这么做有很好的理由：不可变类比可变类更容易设计、实现和使用。它们不太容易出错，而且更安全。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Async Method Invocation</title>
       <link>https://blog.chensoul.cc/posts/2023/08/14/java-design-patterns-async-method-invocation/</link>
       <pubDate>Mon, 14 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/14/java-design-patterns-async-method-invocation/</guid>
-      <description>本文主要介绍 Async Method Invocation 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 Async Method Invocation（异步方法调用）是一种编程模式，用于处理异步操作和并</description>
+      <description>&lt;p&gt;本文主要介绍 Async Method Invocation 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;Async Method Invocation（异步方法调用）是一种编程模式，用于处理异步操作和并发执行。它允许在执行某个操作时不阻塞主线程，而是将操作委托给另一个线程或处理程序，并在操作完成后获取结果或执行回调。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：API Gateway </title>
       <link>https://blog.chensoul.cc/posts/2023/08/13/java-design-patterns-api-gateway/</link>
       <pubDate>Sun, 13 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/13/java-design-patterns-api-gateway/</guid>
-      <description>本文主要介绍 API Gateway 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 目的 API 网关设计模式旨在将所有对微服务的调用聚合到一起。客户端通过调用 API 网关来实现对</description>
+      <description>&lt;p&gt;本文主要介绍 API Gateway 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;目的&#34;&gt;目的&lt;/h2&gt;
+&lt;p&gt;API 网关设计模式旨在将所有对微服务的调用聚合到一起。客户端通过调用 API 网关来实现对多个微服务的访问，而不是直接调用每个微服务。这种模式的目的是解决以下问题：&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Arrange/Act/Assert</title>
       <link>https://blog.chensoul.cc/posts/2023/08/13/java-design-patterns-arrange-act-assert/</link>
       <pubDate>Sun, 13 Aug 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/08/13/java-design-patterns-arrange-act-assert/</guid>
-      <description>本文主要介绍 Arrange/Act/Assert 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 介绍 Arrange/Act/Assert（安排/执行/断言）又称 Given/When</description>
+      <description>&lt;p&gt;本文主要介绍 Arrange/Act/Assert 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;Arrange/Act/Assert（安排/执行/断言）又称 Given/When/Then，是一种测试设计模式，用于组织和编写单元测试的结构。它提供了一种清晰的测试布局，使得测试代码易于理解和维护。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Boot异常处理完整指南</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-exception-handling/</link>
       <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-exception-handling/</guid>
-      <description>处理异常是构建健壮应用程序的重要部分。 Spring Boot 提供了不止一种方法。 本文将探讨这些方法，并提供一些关于何时某种给定方法可能优于另一种方法的指导。 示例代码 本文附有 GitHub 上的工作代码示例。 介绍 Spring Boot 为我们提供了处理异</description>
+      <description>&lt;p&gt;处理异常是构建健壮应用程序的重要部分。 Spring Boot 提供了不止一种方法。&lt;/p&gt;
+&lt;p&gt;本文将探讨这些方法，并提供一些关于何时某种给定方法可能优于另一种方法的指导。&lt;/p&gt;
+&lt;h2 id=&#34;示例代码&#34;&gt;示例代码&lt;/h2&gt;
+&lt;p&gt;本文附有 GitHub 上的工作&lt;a href=&#34;https://github.com/thombergs/code-examples/tree/master/spring-boot/exception-handling&#34; target=&#34;_blank&#34;&gt;代码示例&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;Spring Boot 为我们提供了处理异常的工具，而不仅仅是简单的“try-catch”块。为了使用这些工具，我们应用了一些注释，使我们能够将异常处理视为横切关注点：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]Spring Boot授权服务器 - 使用 Java 的资源服务器和客户端凭证示例</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-authorization-server/</link>
       <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-authorization-server/</guid>
-      <description>概述 在本文中，我们将创建一个授权服务器，为任何客户端生成 access_token。这称为 OAuth2 的 client_credentials 流程。它主要用于服务间通信。 我们将使用 spring boot oauth2 授权服务器依赖项来创建身份验证服务器。我们还将创建一个资源服务</description>
+      <description>&lt;h1 id=&#34;概述&#34;&gt;概述&lt;/h1&gt;
+&lt;p&gt;在本文中，我们将创建一个授权服务器，为任何客户端生成 access_token。这称为 OAuth2 的 &lt;code&gt;client_credentials&lt;/code&gt; 流程。它主要用于服务间通信。&lt;/p&gt;
+&lt;p&gt;我们将使用 spring boot oauth2 授权服务器依赖项来创建身份验证服务器。我们还将创建一个资源服务器和客户端来对其进行端到端测试。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]使用 Spring Boot 和 Spring Security 配置 CORS</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/spring-cors/</link>
       <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/spring-cors/</guid>
-      <description>跨源资源共享 (CORS) 是一种基于 HTTP 标头的机制，允许服务器显式将某些源列入白名单，并帮助绕过同源策略。 这是必需的，因为浏览器默认应用同源策略以确保安全。通过在 Web 应用程序中实施 CORS，网页可以请求额外的资源并从</description>
+      <description>&lt;p&gt;跨源资源共享 (CORS) 是一种基于 HTTP 标头的机制，允许服务器显式将某些源列入白名单，并帮助绕过同源策略。&lt;/p&gt;
+&lt;p&gt;这是必需的，因为浏览器默认应用同源策略以确保安全。通过在 Web 应用程序中实施 CORS，网页可以请求额外的资源并从其他域加载到浏览器中。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]使用 Spring 的 Null-Safety 注解保护您的代码免受 NullPointerExceptions 的影响</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-null-safety-annotations/</link>
       <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-null-safety-annotations/</guid>
-      <description>NullPointerExceptions （通常缩写为“NPE”）对于每个 Java 程序员来说都是一场噩梦。 我们可以在互联网上找到大量解释如何编写空安全代码的文章。空安全确保我们在代码中添加了适当的检查，以保证对象引用不能为空，或者毕竟在对象为空时</description>
+      <description>&lt;p&gt;&lt;code&gt;NullPointerExceptions&lt;/code&gt; （通常缩写为“NPE”）对于每个 Java 程序员来说都是一场噩梦。&lt;/p&gt;
+&lt;p&gt;我们可以在互联网上找到大量解释如何编写空安全代码的文章。空安全确保我们在代码中添加了适当的检查，以保证对象引用不能为空，或者毕竟在对象为空时采取可能的安全措施。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]使用Spring Boot Actuator公开有用的信息端点</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/</link>
       <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/</guid>
-      <description>在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。 Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点</description>
+      <description>&lt;p&gt;在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。&lt;/p&gt;
+&lt;p&gt;Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。&lt;/p&gt;
+&lt;p&gt;在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]在 Spring 中实现 OAuth2：使用范围（第 2 部分）</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring-scopes/</link>
       <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring-scopes/</guid>
-      <description>我们在上一篇文章中了解了基本的 OAuth2 概念以及如何在 Spring 中实现和执行不同的授权。在这篇文章中，我们将介绍 OAuth2 的另一个重要概念：范围。 OAuth 范围 保护对应用程序的访问通常分两个步骤进行：身份验证和授权。要理解这两个概念</description>
+      <description>&lt;p&gt;我们在&lt;a href=&#34;https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring/&#34;&gt;上一篇文章&lt;/a&gt;中了解了基本的 OAuth2 概念以及如何在 Spring 中实现和执行不同的授权。在这篇文章中，我们将介绍 OAuth2 的另一个重要概念：范围。&lt;/p&gt;
+&lt;h2 id=&#34;oauth-范围&#34;&gt;OAuth 范围&lt;/h2&gt;
+&lt;p&gt;保护对应用程序的访问通常分两个步骤进行：身份验证和授权。要理解这两个概念，假设您在绝密政府大楼工作。在开始之前，你会得到一张卡片，可以让你进入建筑物。 OAuth 令牌可以看作是允许您访问的卡片。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]在 Spring 中实现 OAuth2：第 1 部分</title>
       <link>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring/</link>
       <pubDate>Wed, 26 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring/</guid>
-      <description>OAuth2 是一组规范，主要提供对 Rest API 的安全访问的方法。 OAuth 的主要目的是允许通过使用令牌来执行身份验证和授权，而不必为每个操作提供凭据。由于本文的重点是实现，并且为了不重新发明轮子，可以查看 OAuth RFC 或维基百科以获取更</description>
+      <description>&lt;p&gt;OAuth2 是一组规范，主要提供对 Rest API 的安全访问的方法。 OAuth 的主要目的是允许通过使用令牌来执行身份验证和授权，而不必为每个操作提供凭据。由于本文的重点是实现，并且为了不重新发明轮子，可以查看 &lt;a href=&#34;https://tools.ietf.org/html/rfc6749&#34; target=&#34;_blank&#34;&gt;OAuth RFC&lt;/a&gt; 或&lt;a href=&#34;https://en.wikipedia.org/wiki/OAuth&#34; target=&#34;_blank&#34;&gt;维基百科&lt;/a&gt;以获取更多理论背景。在这篇文章中，我们将深入探讨 Spring 中的 OAuth2 实现以及如何使用不同的授权类型，但在此之前值得提供一些重要概念的简要定义。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[译]使用Spring Boot2和Spring Security 5以及JDBC令牌存储进行Oauth2集中授权</title>
       <link>https://blog.chensoul.cc/posts/2023/07/14/oauth-2-centralized-authorization-with-spring-boot-2-and-spring-security-5-and-jdbc-token-store/</link>
       <pubDate>Fri, 14 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/14/oauth-2-centralized-authorization-with-spring-boot-2-and-spring-security-5-and-jdbc-token-store/</guid>
-      <description>在这篇文章中，我们将了解如何使用 Spring Boot 2 和 Spring Security 5 OAuth2 来实现集中授权的授权服务器以及如何通过 GUI 对其进行管理，还将提供资源服务器演示以及 github 下的整个项目。 很多示例涵盖了基于早期版本的 Spring boot 2 和 Spring Security 5 使用内存令牌实</description>
+      <description>&lt;p&gt;在这篇文章中，我们将了解如何使用 Spring Boot 2 和 Spring Security 5 OAuth2 来实现集中授权的授权服务器以及如何通过 GUI 对其进行管理，还将提供资源服务器演示以及 github 下的整个项目。&lt;/p&gt;
+&lt;p&gt;很多示例涵盖了基于早期版本的 Spring boot 2 和 Spring Security 5 使用内存令牌实现 Oauth2，因此想法是使用 MySql 数据库作为令牌存储。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Ambassador</title>
       <link>https://blog.chensoul.cc/posts/2023/07/06/java-design-patterns-ambassador/</link>
       <pubDate>Thu, 06 Jul 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/07/06/java-design-patterns-ambassador/</guid>
-      <description>本文主要介绍 Ambassador 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和</description>
+      <description>&lt;p&gt;本文主要介绍 Ambassador 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Aggregator Microservices</title>
       <link>https://blog.chensoul.cc/posts/2023/06/26/java-design-patterns-aggregator-microservices/</link>
       <pubDate>Mon, 26 Jun 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/06/26/java-design-patterns-aggregator-microservices/</guid>
-      <description>本文主要介绍 Aggregator Microservices 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解</description>
+      <description>&lt;p&gt;本文主要介绍 Aggregator Microservices 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记15：尽量减少类和成员的可访问性</title>
       <link>https://blog.chensoul.cc/posts/2023/06/15/minimize-the-accessibility-of-classes-and-members/</link>
       <pubDate>Thu, 15 Jun 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/06/15/minimize-the-accessibility-of-classes-and-members/</guid>
-      <description>本文是 《Effective Java 3》第四章《类和接口》的学习笔记：尽量减少类和成员的可访问性。 类和接口是 Java 编程语言的核心。它们是抽象的基本单位。该语言提供了许多强大的元素，你可以使用它们来设计类和接口。 介</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第四章《类和接口》的学习笔记：尽量减少类和成员的可访问性。&lt;/p&gt;
+&lt;p&gt;类和接口是 Java 编程语言的核心。它们是抽象的基本单位。该语言提供了许多强大的元素，你可以使用它们来设计类和接口。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;《Effective Java, Third Edition》这本书中的第四章主要讲述了如何尽量减少类和成员的可访问性，以提高代码的封装性、安全性和可维护性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记16：在公共类中，使用访问器方法，而不是公共字段</title>
       <link>https://blog.chensoul.cc/posts/2023/06/15/minimize-the-accessibility-of-classes-and-members/</link>
       <pubDate>Thu, 15 Jun 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/06/15/minimize-the-accessibility-of-classes-and-members/</guid>
-      <description>本文是 《Effective Java 3》第四章《类和接口》的学习笔记：在公共类中，使用访问器方法，而不是公共字段。 介绍 与其直接将类的内部字段公开为公共字段，推荐使用访问器方法（也称为 getter 和 setter）来访问和</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第四章《类和接口》的学习笔记：在公共类中，使用访问器方法，而不是公共字段。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;与其直接将类的内部字段公开为公共字段，推荐使用访问器方法（也称为 getter 和 setter）来访问和修改对象的状态。这样可以使类对其内部表示保持控制，并为类的客户端提供一种抽象程度。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Adapter</title>
       <link>https://blog.chensoul.cc/posts/2023/06/10/java-design-patterns-adapter/</link>
       <pubDate>Sat, 10 Jun 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/06/10/java-design-patterns-adapter/</guid>
-      <description>本文主要介绍 Adapter 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和</description>
+      <description>&lt;p&gt;本文主要介绍 Adapter 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Visitor</title>
       <link>https://blog.chensoul.cc/posts/2023/06/02/java-design-patterns-visitor/</link>
       <pubDate>Fri, 02 Jun 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/06/02/java-design-patterns-visitor/</guid>
-      <description>本文主要介绍 Visitor 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和</description>
+      <description>&lt;p&gt;本文主要介绍 Visitor 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Acyclic Visitor</title>
       <link>https://blog.chensoul.cc/posts/2023/06/01/java-design-patterns-acyclic-visitor/</link>
       <pubDate>Thu, 01 Jun 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/06/01/java-design-patterns-acyclic-visitor/</guid>
-      <description>本文主要介绍 Acyclic Visitor 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解</description>
+      <description>&lt;p&gt;本文主要介绍 Acyclic Visitor 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记12：当覆盖 equals 方法时，总要覆盖 hashCode 方法</title>
       <link>https://blog.chensoul.cc/posts/2023/05/26/always-override-tostring/</link>
       <pubDate>Fri, 26 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/26/always-override-tostring/</guid>
-      <description>本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：始终覆盖 toString 方法。 介绍 虽然 Object 提供 toString 方法的实现，但它返回的字符串通常不是类的用户希望看到的。它由后跟「at」符号（@）的类名和 hash 代码的无</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：始终覆盖 toString 方法。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;虽然 Object 提供 toString 方法的实现，但它返回的字符串通常不是类的用户希望看到的。它由后跟「at」符号（@）的类名和 hash 代码的无符号十六进制表示（例如 &lt;code&gt;PhoneNumber@163b91&lt;/code&gt;）组成。toString 的通用约定是这么描述的，返回的字符串应该是「简洁但信息丰富的表示，易于阅读」。虽然有人认为 &lt;code&gt;PhoneNumber@163b91&lt;/code&gt; 简洁易懂，但与 &lt;code&gt;707-867-5309&lt;/code&gt; 相比，它的信息量并不大。toString 约定接着描述，「建议所有子类覆盖此方法。」好建议，确实！&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记13：明智地覆盖 clone 方法</title>
       <link>https://blog.chensoul.cc/posts/2023/05/26/override-clone-judiciously/</link>
       <pubDate>Fri, 26 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/26/override-clone-judiciously/</guid>
-      <description>本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：明智地覆盖 clone 方法。 介绍 Cloneable 接口的目的是作为 mixin 接口，用于让类来宣称它们允许克隆。不幸的是，它没有达到这个目的。它的主要缺点是缺少 clone 方法，</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：明智地覆盖 clone 方法。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;Cloneable 接口的目的是作为 mixin 接口，用于让类来宣称它们允许克隆。不幸的是，它没有达到这个目的。它的主要缺点是缺少 clone 方法，并且 Object 类的 clone 方法是受保护的。如果不求助于反射，就不能仅仅因为对象实现了 Cloneable 接口就能调用 clone 方法。即使反射调用也可能失败，因为不能保证对象具有可访问的 clone 方法。尽管存在多种缺陷，但该机制的使用范围相当广泛，因此理解它是值得的。本条目将告诉你如何实现行为良好的 clone 方法，讨论什么时候应该这样做，并提供替代方案。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记14：考虑实现 Comparable 接口</title>
       <link>https://blog.chensoul.cc/posts/2023/05/26/consider-implementing-comparable/</link>
       <pubDate>Fri, 26 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/26/consider-implementing-comparable/</guid>
-      <description>本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：考虑实现 Comparable 接口。 介绍 与本章讨论的其他方法不同，compareTo 方法不是在 Object 中声明的。相反，它是 Comparable 接口中的唯一方法。它在性质上类似于</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：考虑实现 Comparable 接口。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;与本章讨论的其他方法不同，compareTo 方法不是在 Object 中声明的。相反，它是 Comparable 接口中的唯一方法。它在性质上类似于 Object 的 equals 方法，除了简单的相等比较之外，它还允许顺序比较，而且它是通用的。一个类实现 Comparable，表明实例具有自然顺序。对实现 Comparable 的对象数组进行排序非常简单：&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Active Object</title>
       <link>https://blog.chensoul.cc/posts/2023/05/26/java-design-patterns-active-object/</link>
       <pubDate>Fri, 26 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/26/java-design-patterns-active-object/</guid>
-      <description>本文主要介绍 Active Object 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解</description>
+      <description>&lt;p&gt;本文主要介绍 Active Object 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记11：当覆盖 equals 方法时，总要覆盖 hashCode 方法</title>
       <link>https://blog.chensoul.cc/posts/2023/05/23/always-override-hashcode-when-you-override-equals/</link>
       <pubDate>Tue, 23 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/23/always-override-hashcode-when-you-override-equals/</guid>
-      <description>本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：当覆盖 equals 方法时，总要覆盖 hashCode 方法。 介绍 在覆盖了 equals 方法的类中，必须覆盖 hashCode 方法。 如果你没有这样做，该类将违反 hashCode 方法的一般约定，这将阻止该类</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：当覆盖 equals 方法时，总要覆盖 hashCode 方法。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;在覆盖了 equals 方法的类中，必须覆盖 hashCode 方法。&lt;/strong&gt; 如果你没有这样做，该类将违反 hashCode 方法的一般约定，这将阻止该类在 HashMap 和 HashSet 等集合中正常运行。以下是根据 Object 规范修改的约定：&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Abstract Document</title>
       <link>https://blog.chensoul.cc/posts/2023/05/22/java-design-patterns-abstract-document/</link>
       <pubDate>Mon, 22 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/22/java-design-patterns-abstract-document/</guid>
-      <description>本文主要介绍 Abstract Document 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解</description>
+      <description>&lt;p&gt;本文主要介绍 Abstract Document 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Java设计模式：Abstract Factory</title>
       <link>https://blog.chensoul.cc/posts/2023/05/22/java-design-patterns-abstract-factory/</link>
       <pubDate>Mon, 22 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/22/java-design-patterns-abstract-factory/</guid>
-      <description>本文主要介绍 Abstract Factory 模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。 Java Design Patterns 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解</description>
+      <description>&lt;p&gt;本文主要介绍 Abstract Factory 模式，在 &lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://java-design-patterns.com/&#34; target=&#34;_blank&#34;&gt;Java Design Patterns&lt;/a&gt; 提供了各种 Java 设计模式的介绍、示例代码和用例说明。该网站旨在帮助 Java 开发人员了解和应用各种常见的设计模式，以提高代码的可读性、可维护性和可扩展性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>JSR 166规范</title>
       <link>https://blog.chensoul.cc/posts/2023/05/18/jsr-166/</link>
       <pubDate>Thu, 18 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/18/jsr-166/</guid>
-      <description>JSR 介绍 JSR，全称 Java Specification Requests， 即 Java 规范提案， 主要是用于向 JCP(Java Community Process) 提出新增标准化技术规范的正式请求。每次 JAVA 版本更新都会有对应的 JSR 更新，比如在 Java 8 版本中，其新特性 Lambda 表达式对应的是 JSR 335，新的日期</description>
+      <description>&lt;h2 id=&#34;jsr-介绍&#34;&gt;JSR 介绍&lt;/h2&gt;
+&lt;p&gt;JSR，全称 Java Specification Requests， 即 Java 规范提案， 主要是用于向 JCP(Java Community Process) 提出新增标准化技术规范的正式请求。每次 JAVA 版本更新都会有对应的 JSR 更新，比如在 Java 8 版本中，其新特性 Lambda 表达式对应的是 &lt;a href=&#34;http://jcp.org/en/jsr/detail?id=335&#34; target=&#34;_blank&#34;&gt;JSR 335&lt;/a&gt;，新的日期和时间 API 对应的是 &lt;a href=&#34;http://jcp.org/en/jsr/detail?id=310&#34; target=&#34;_blank&#34;&gt;JSR 310&lt;/a&gt;。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记10：覆盖equals方法时应遵守的约定</title>
       <link>https://blog.chensoul.cc/posts/2023/05/17/obey-the-general-contract-when-overriding-equals/</link>
       <pubDate>Wed, 17 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/17/obey-the-general-contract-when-overriding-equals/</guid>
-      <description>本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：覆盖 equals 方法时应遵守的约定。 介绍 覆盖 equals 方法似乎很简单，但是有很多覆盖的方式会导致出错，而且后果可能非常严重。避免问题的最简单方法是不覆</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第三章《对象的通用方法》的学习笔记：覆盖 equals 方法时应遵守的约定。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;覆盖 equals 方法似乎很简单，但是有很多覆盖的方式会导致出错，而且后果可能非常严重。避免问题的最简单方法是不覆盖 equals 方法，在这种情况下，类的每个实例都只等于它自己。如果符合下列任何条件，就是正确的做法：&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记8：避免使用终结器和清除器</title>
       <link>https://blog.chensoul.cc/posts/2023/05/08/avoid-finalizers-and-cleaners/</link>
       <pubDate>Mon, 08 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/08/avoid-finalizers-and-cleaners/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记：避免使用终结器和清除器。 介绍 终结器是不可预测的、常常是危险的，通常也是不必要的。 它们的使用可能导致不稳定的行为、低效率和可移植性问题。终结器有一些有效</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第二章的学习笔记：避免使用终结器和清除器。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;终结器是不可预测的、常常是危险的，通常也是不必要的。&lt;/strong&gt; 它们的使用可能导致不稳定的行为、低效率和可移植性问题。终结器有一些有效的用途，我们稍后会介绍，但通常情况下应该避免使用它们。从 Java 9 开始，终结器已经被弃用，但它们仍然被 Java 库使用。Java 9 中终结器的替代品是清除器。 &lt;strong&gt;清除器的危险比终结器小，但仍然不可预测、缓慢，而且通常是不必要的。&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记9：使用 try-with-resources 优于 try-finally</title>
       <link>https://blog.chensoul.cc/posts/2023/05/08/prefer-try-with-resources-to-try-finally/</link>
       <pubDate>Mon, 08 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/08/prefer-try-with-resources-to-try-finally/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记：使用 try-with-resources 优于 try-finally。 介绍 Java 库包含许多必须通过调用 close 方法手动关闭的资源。常见的有 InputStream、OutputStream 和 java</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第二章的学习笔记：使用 try-with-resources 优于 try-finally。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;Java 库包含许多必须通过调用 close 方法手动关闭的资源。常见的有 InputStream、OutputStream 和 java.sql.Connection。关闭资源常常会被客户端忽略，这会导致可怕的性能后果。虽然这些资源中的许多都使用终结器作为安全网，但终结器并不能很好地工作。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记4：用私有构造函数使类不可实例化</title>
       <link>https://blog.chensoul.cc/posts/2023/05/05/enforce-noninstantiability-with-a-private-constructor/</link>
       <pubDate>Fri, 05 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/05/enforce-noninstantiability-with-a-private-constructor/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记：用私有构造函数使类不可实例化。 介绍 使用私有构造函数强制实现不可实例化的主要原因是防止类被意外地实例化，以使代码更加健壮和可靠。在某些情况下，我们只需要</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第二章的学习笔记：用私有构造函数使类不可实例化。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;使用私有构造函数强制实现不可实例化的主要原因是防止类被意外地实例化，以使代码更加健壮和可靠。在某些情况下，我们只需要使用类中的静态方法和静态字段，而不需要创建该类的实例。如果类中没有显式地定义私有构造函数，Java 编译器将会自动为该类生成一个默认的公共构造函数，这意味着该类可以在其他类中被实例化。如果这不是我们想要的，为了防止其他人意外地实例化我们的类，我们可以将构造函数设置为私有。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记7：排除过时的对象引用</title>
       <link>https://blog.chensoul.cc/posts/2023/05/05/eliminate-obsolete-object-references/</link>
       <pubDate>Fri, 05 May 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/05/05/eliminate-obsolete-object-references/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记：排除过时的对象引用。 介绍 &amp;ldquo;Eliminate obsolete object references&amp;rdquo; 是一条 Java 编程最佳实践的原则，指的是在代码中及时清理不再使用的对象引用，以避免内存泄漏和性能问题。当一个对象不再需要时，</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第二章的学习笔记：排除过时的对象引用。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;&amp;ldquo;Eliminate obsolete object references&amp;rdquo; 是一条 Java 编程最佳实践的原则，指的是在代码中及时清理不再使用的对象引用，以避免内存泄漏和性能问题。当一个对象不再需要时，应该尽快将其引用设置为 null，这样 JVM 可以及时回收它所占用的内存。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记6：避免创建不必要的对象</title>
       <link>https://blog.chensoul.cc/posts/2023/04/24/avoid-creating-unnecessary-objects/</link>
       <pubDate>Mon, 24 Apr 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/04/24/avoid-creating-unnecessary-objects/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记：避免创建不必要的对象。 介绍 创建对象时，经常会复用对象。如果对象是不可变的，那么它总是可以被复用的。 下面一个例子： 1 String s = new String(&amp;#34;bikini&amp;#34;); // DON&amp;#39;T DO THIS! 该语句每次执行时都</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第二章的学习笔记：避免创建不必要的对象。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;创建对象时，经常会复用对象。如果对象是不可变的，那么它总是可以被复用的。&lt;/p&gt;
+&lt;p&gt;下面一个例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;bikini&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// DON&amp;#39;T DO THIS!&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;该语句每次执行时都会创建一个新的 String 实例，而这些对象创建都不是必需的。String 构造函数的参数 &lt;code&gt;(&amp;quot;bikini&amp;quot;)&lt;/code&gt; 本身就是一个 String 实例，在功能上与构造函数创建的所有对象相同。如果这种用法发生在循环或频繁调用的方法中，创建大量 String 实例是不必要的。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记5：依赖注入优于硬编码资源</title>
       <link>https://blog.chensoul.cc/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</link>
       <pubDate>Mon, 17 Apr 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/04/17/prefer-dependency-injection-to-hardwiring-resources/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 依赖注入是软件工程中使用的一种设计模式，用于将组件和依赖项相互解耦。而不是在组件内部创建和管理依赖项，</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;依赖注入是软件工程中使用的一种设计模式，用于将组件和依赖项相互解耦。而不是在组件内部创建和管理依赖项，我们从外部传递它们。这种方法可以帮助创建更模块化和灵活的代码。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记3：使用私有构造函数或枚举类型创建单例</title>
       <link>https://blog.chensoul.cc/posts/2023/04/11/enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type/</link>
       <pubDate>Tue, 11 Apr 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/04/11/enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 单例是一个只实例化一次的类。单例通常表示无状态对象，比如函数或系统组件，它们在本质上是唯一的。将一个类</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;单例是一个只实例化一次的类。单例通常表示无状态对象，比如函数或系统组件，它们在本质上是唯一的。&lt;strong&gt;将一个类设计为单例会使它的客户端测试时变得困难，&lt;/strong&gt; 除非它实现了作为其类型的接口，否则无法用模拟实现来代替单例。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记1：静态工厂方法代替构造函数</title>
       <link>https://blog.chensoul.cc/posts/2023/04/03/static-factory-methods-instead-of-constructors/</link>
       <pubDate>Mon, 03 Apr 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/04/03/static-factory-methods-instead-of-constructors/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 静态工厂方法是指在类中定义一个静态方法，用于创建该类的实例。示例： 1 2 3 public static Boolean valueOf(boolean b) { return b ? Boolean.TRUE : Boolean.FALSE; } 与构</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;静态工厂方法是指在类中定义一个静态方法，用于创建该类的实例。示例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Boolean&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;valueOf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;?&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Boolean&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;TRUE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Boolean&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;FALSE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;与构造函数不同的是，静态工厂方法可以有自己的名称，并且可以根据参数的不同返回不同的对象实例。&lt;/p&gt;</description>
     </item>
     <item>
       <title>《Effective Java 3》笔记2：使用构造器代替构造方法</title>
       <link>https://blog.chensoul.cc/posts/2023/04/03/builder-instead-of-constructors/</link>
       <pubDate>Mon, 03 Apr 2023 00:00:00 +0800</pubDate>
       <guid>https://blog.chensoul.cc/posts/2023/04/03/builder-instead-of-constructors/</guid>
-      <description>本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。 介绍 当一个类需要多个构造函数参数时，可以考虑使用构建器模式来创建对象。构建器模式是一种创建对象的设计模式，</description>
+      <description>&lt;p&gt;本文是 《Effective Java 3》第二章的学习笔记，在整理笔记过程中，通过 chatgpt 的帮助做了一些扩展。&lt;/p&gt;
+&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;当一个类需要多个构造函数参数时，可以考虑使用&lt;strong&gt;构建器模式&lt;/strong&gt;来创建对象。构建器模式是一种创建对象的设计模式，它可以通过链式调用方法的方式来设置对象的构造参数，并最终返回一个构造完整的对象。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

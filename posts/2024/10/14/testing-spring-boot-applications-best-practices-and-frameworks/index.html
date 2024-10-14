@@ -1,0 +1,976 @@
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>[译]测试 Spring Boot 应用程序：最佳实践和框架 | ChenSoul</title>
+<meta name=keywords content="spring-boot"><meta name=description content="测试是软件开发不可或缺的一部分。它可确保您的 Spring Boot 应用程序按预期运行，并在不断发展的过程中继续保持这种状态。在本文中，我们将探讨如何使用最佳实践和工具测试 Spring Boot 应用程序。
+为什么测试很重要
+测试至关重要，原因如下：
+
+可靠性：它确保您的应用程序正确、可靠地运行。
+错误检测：它有助于在开发早期识别和修复问题。
+重构：它允许自信地重构代码，因此现有功能不会中断。
+文档：编写良好的测试可以作为代码的活文档。
+
+测试类型
+Spring Boot 应用程序可以在各个级别进行测试，包括："><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/posts/2024/10/14/testing-spring-boot-applications-best-practices-and-frameworks/><meta name=google-site-verification content="nBXwg45SBRjTX78SA-mH0asrAbsdu9c1nk0ObSry7aQ"><link crossorigin=anonymous href=/assets/css/stylesheet.899d9a536396b9b03c9eae0c99cc6ec954a90da94036f5390d131eb8071bb417.css integrity="sha256-iZ2aU2OWubA8nq4MmcxuyVSpDalANvU5DRMeuAcbtBc=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://blog.chensoul.cc/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://blog.chensoul.cc/favicon-32x32.png><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=mask-icon href=https://blog.chensoul.cc/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://blog.chensoul.cc/posts/2024/10/14/testing-spring-boot-applications-best-practices-and-frameworks/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><meta property="og:title" content="[译]测试 Spring Boot 应用程序：最佳实践和框架"><meta property="og:description" content="测试是软件开发不可或缺的一部分。它可确保您的 Spring Boot 应用程序按预期运行，并在不断发展的过程中继续保持这种状态。在本文中，我们将探讨如何使用最佳实践和工具测试 Spring Boot 应用程序。
+为什么测试很重要
+测试至关重要，原因如下：
+
+可靠性：它确保您的应用程序正确、可靠地运行。
+错误检测：它有助于在开发早期识别和修复问题。
+重构：它允许自信地重构代码，因此现有功能不会中断。
+文档：编写良好的测试可以作为代码的活文档。
+
+测试类型
+Spring Boot 应用程序可以在各个级别进行测试，包括："><meta property="og:type" content="article"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/10/14/testing-spring-boot-applications-best-practices-and-frameworks/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-10-14T00:00:00+08:00"><meta property="article:modified_time" content="2024-10-14T00:00:00+08:00"><meta property="og:site_name" content="ChenSoul"><meta name=twitter:card content="summary"><meta name=twitter:title content="[译]测试 Spring Boot 应用程序：最佳实践和框架"><meta name=twitter:description content="测试是软件开发不可或缺的一部分。它可确保您的 Spring Boot 应用程序按预期运行，并在不断发展的过程中继续保持这种状态。在本文中，我们将探讨如何使用最佳实践和工具测试 Spring Boot 应用程序。
+为什么测试很重要
+测试至关重要，原因如下：
+
+可靠性：它确保您的应用程序正确、可靠地运行。
+错误检测：它有助于在开发早期识别和修复问题。
+重构：它允许自信地重构代码，因此现有功能不会中断。
+文档：编写良好的测试可以作为代码的活文档。
+
+测试类型
+Spring Boot 应用程序可以在各个级别进行测试，包括："><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://blog.chensoul.cc/posts/"},{"@type":"ListItem","position":2,"name":"[译]测试 Spring Boot 应用程序：最佳实践和框架","item":"https://blog.chensoul.cc/posts/2024/10/14/testing-spring-boot-applications-best-practices-and-frameworks/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"[译]测试 Spring Boot 应用程序：最佳实践和框架","name":"[译]测试 Spring Boot 应用程序：最佳实践和框架","description":"测试是软件开发不可或缺的一部分。它可确保您的 Spring Boot 应用程序按预期运行，并在不断发展的过程中继续保持这种状态。在本文中，我们将探讨如何使用最佳实践和工具测试 Spring Boot 应用程序。\n为什么测试很重要 测试至关重要，原因如下：\n可靠性：它确保您的应用程序正确、可靠地运行。 错误检测：它有助于在开发早期识别和修复问题。 重构：它允许自信地重构代码，因此现有功能不会中断。 文档：编写良好的测试可以作为代码的活文档。 测试类型 Spring Boot 应用程序可以在各个级别进行测试，包括：\n","keywords":["spring-boot"],"articleBody":"测试是软件开发不可或缺的一部分。它可确保您的 Spring Boot 应用程序按预期运行，并在不断发展的过程中继续保持这种状态。在本文中，我们将探讨如何使用最佳实践和工具测试 Spring Boot 应用程序。\n为什么测试很重要 测试至关重要，原因如下：\n可靠性：它确保您的应用程序正确、可靠地运行。 错误检测：它有助于在开发早期识别和修复问题。 重构：它允许自信地重构代码，因此现有功能不会中断。 文档：编写良好的测试可以作为代码的活文档。 测试类型 Spring Boot 应用程序可以在各个级别进行测试，包括：\n单元测试：单独测试各个组件，例如类或方法。 集成测试：验证不同的组件或服务是否能正确地协同工作。 功能测试：从用户的角度测试应用程序的功能。 端到端测试：在类似生产的环境中测试整个应用程序，包括其外部依赖项。 测试 Spring Boot 应用程序的最佳实践 1.保持测试隔离 确保测试彼此独立。每个测试都应设置其所需的上下文、运行它并拆除它创建的任何资源。这可以防止一个测试影响另一个测试的结果。\n2.使用 Spring Boot 的测试注解 Spring Boot 提供了诸如@SpringBootTest、@DataJpaTest和@WebMvcTest之类的测试注释，可简化应用程序特定部分的测试。使用它们可以仅加载应用程序上下文的必要部分，从而提高测试效率。以下是一些示例。\na.使用 @SpringBootTest 加载整个Spring上下文。\n@SpringBootTest是用于为测试加载整个 Spring 上下文的注释。这在同时测试应用程序中的多个组件时非常有用。使用注释@Test来标记测试方法。\n下面是一个解释如何使用 Mockito 和 JUnit 的示例。\n1 2 3 4 5 6 7 8 9 10 11 12 13 org.junit.jupiter junit-jupiter-engine 5.9.2 test org.mockito mockito-core 5.3.1 test 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 import org.junit.jupiter.api.Test; import org.mockito.InjectMocks; import org.mockito.Mock; import org.mockito.Mockito; import org.mockito.junit.jupiter.MockitoExtension; import org.springframework.boot.test.context.SpringBootTest; import com.employee.service.EmployeeService; import com.employee.dao.EmployeeRepository; import com.employee.dto.Employee; import java.util.Optional; import static org.junit.Assert.assertEquals; import static org.junit.Assert.assertNotNull; @SpringBootTest @ExtendWith(MockitoExtension.class) public class EmployeeServiceTests { @InjectMocks private EmployeeService employeeService; @Mock private EmployeeRepository employeeRepository; @Test public void testGetEmployeeById() { // Arrange long employeeId = 1L; Employee mockEmployee = new Employee(employeeId, \"John Doe\", \"john.doe@example.com\"); // Mock the behavior of the repository to return the mock employee Mockito.when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(mockEmployee)); // Act Employee result = employeeService.getEmployeeById(employeeId); // Assert assertNotNull(result); assertEquals(employeeId, result.getId()); assertEquals(\"John Doe\", result.getName()); assertEquals(\"john.doe@example.com\", result.getEmail()); } } b. 使用 MockMvc 模拟 HTTP 请求并测试控制器的响应。使用 @AutoConfigureMockMvc 自动配置 MockMvc。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc; import org.springframework.boot.test.context.SpringBootTest; import org.springframework.test.web.servlet.MockMvc; import org.springframework.test.web.servlet.request.MockMvcRequestBuilders; import org.springframework.test.web.servlet.result.MockMvcResultMatchers; @SpringBootTest @AutoConfigureMockMvc public class GreetingControllerTest { @Autowired private MockMvc mockMvc; @Test public void testGreetEndpoint() throws Exception { mockMvc.perform(MockMvcRequestBuilders.get(\"/greet\")) .andExpect(MockMvcResultMatchers.status().isOk()); } } c. 使用 @MockBean 模拟实现来替换真实 bean。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest; import org.springframework.boot.test.mock.mockito.MockBean; import com.user.service.UserService; import com.user.dao.UserRepository; import com.user.dto.User; import static org.mockito.Mockito.when; import static org.assertj.core.api.Assertions.assertThat; @SpringBootTest public class UserServiceTest { @Autowired private UserService userService; @MockBean private UserRepository userRepository; @Test public void testFindUserByUsername() { // Define a sample user User sampleUser = new User(); sampleUser.setId(1L); sampleUser.setUsername(\"john_doe\"); sampleUser.setEmail(\"john@example.com\"); // Mock the repository behavior when(userRepository.findByUsername(\"john_doe\")).thenReturn(sampleUser); // Perform the test User foundUser = userService.findUserByUsername(\"john_doe\"); // Assertions assertThat(foundUser).isNotNull(); assertThat(foundUser.getUsername()).isEqualTo(\"john_doe\"); assertThat(foundUser.getEmail()).isEqualTo(\"john@example.com\"); } } @Mock用于在 Spring 上下文之外进行单元测试和模拟对象，而@MockBean用于 Spring Boot 集成测试，以在 Spring 应用程序上下文中用模拟或间谍版本替换真实 bean。\nd.使用 @DataJpaTest 测试具有嵌入式数据库的存储库。\n如果您在 Spring Boot 应用程序中使用 JPA，@DataJpaTest则仅加载与 JPA 测试相关的组件，例如实体类、存储库接口和必要的 Spring Data JPA 配置。\n默认情况下，Spring Boot在使用时会为每一个测试方法创建一个事务@DataJpaTest，并在每个测试方法结束时回滚事务。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest; import com.user.dao.UserRepository; import com.user.dto.User; import static org.junit.Assert.*; @DataJpaTest public class UserRepositoryTest { @Autowired private UserRepository userRepository; @Test public void testGetAllUsers() { User user = userRepository.updateUserById(1,\"Tom\"); assertNotNull(user); } } e.使用配置 @AutoConfigureTestDatabase 测试数据库。\n使用时@DataJpaTest，Spring Boot 将自动为您的测试配置内存中的 H2 数据库，让您无需单独的数据库实例即可轻松测试数据库查询。但是，如果您需要不同的数据库，则可以使用注释@AutoConfigureTestDatabase进行配置。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 import java.util.List; import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase; import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace; import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest; import com.user.dao.UserRepository; import com.user.dto.User; import static org.junit.Assert.*; @DataJpaTest @AutoConfigureTestDatabase(replace = Replace.NONE) public class UserRepositoryTest { @Autowired private UserRepository userRepository; @Test public void testGetUsersNotNull() { List\u003cUser\u003e userList = userRepository.getUsers(); assertNotNull(userList); } } @AutoConfigureTestDatabase(replace = Replace.NONE)配置测试数据库行为。在本例中，它不替换任何内容，而是使用 application.properties 或 application.yml 中指定的默认数据库配置。\nf.使用 @BeforeEach 和 @AfterEach 设置和拆除测试夹具。\n这些注释允许您定义在每个测试方法之前和之后运行的方法。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 import org.junit.jupiter.api.BeforeEach; import org.junit.jupiter.api.AfterEach; import org.junit.jupiter.api.Test; import org.springframework.boot.test.context.SpringBootTest; import com.employee.service.EmployeeService; import static org.junit.Assert.*; @SpringBootTest public class EmployeeServiceTest { private EmployeeService employeeService; @BeforeEach public void setUp() { // Initialize the EmployeeService or set up resources if needed employeeService = new EmployeeService(); } @AfterEach public void tearDown() { // Clean up resources or perform other cleanup tasks employeeService = null; } @Test public void testGenerateWelcomeMessage() { String name = \"John\"; String welcomeMessage = employeeService.generateWelcomeMessage(name); assertEquals(\"Welcome, John!\", welcomeMessage); } } 3. 测试配置 Spring Boot 允许您为不同的配置文件（例如application.properties，application-test.properties）配置不同的应用程序属性。它允许您创建自定义测试配置，而不会影响主应用程序上下文。\na. 使用 @TestConfiguration 提供额外的 bean 以供测试。\n@SpringBootTest将引导整个应用程序上下文，这意味着您可以将组件扫描拾取的任何 bean 自动装配到我们的测试中。您可能希望避免引导实际的应用程序上下文，而是使用特殊的测试配置。您可以使用@TestConfiguration注释来实现这一点。有两种使用注释的方法。\ni. 在我们想要自动装配 bean 的同一个测试类中创建一个静态内部类。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.context.SpringBootTest; import static org.junit.Assert.*; import com.employee.service.EmployeeService; @SpringBootTest public class EmployeeServiceTest { @TestConfiguration public static class TestEmployeeServiceConfig { @Bean public EmployeeService employeeService() { return new EmployeeService(); } } @Autowired private EmployeeService employeeService; @Test public void testWelcomeMessage() { String message = employeeService.getWelcomeMessage(); assertEquals(\"Welcome\", message); } } ii. 创建一个单独的测试配置类并使用@Import注释导入它。\n1 2 3 4 5 6 7 8 9 10 11 12 import org.springframework.boot.test.context.TestConfiguration; import org.springframework.context.annotation.Bean; import com.employee.service.EmployeeService; @TestConfiguration public class TestEmployeeServiceConfig { @Bean public EmployeeService employeeService() { return new EmployeeService(); } } 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.context.SpringBootTest; import org.springframework.context.annotation.Import; import com.employee.service.EmployeeService; import static org.junit.Assert.*; @SpringBootTest @Import(TestEmployeeServiceConfig.class) public class EmployeeServiceTest { @Autowired private EmployeeService employeeService; @Test public void testWelcomeMessage() { String message = employeeService.getWelcomeMessage(); assertEquals(\"Simform Welcomes You\", message); } } b.使用 @ConfigurationProperties 从配置文件注入属性。\n1 2 3 4 5 6 7 8 9 10 11 12 13 import org.springframework.boot.context.properties.ConfigurationProperties; import org.springframework.stereotype.Component; @ConfigurationProperties(prefix = \"app\") @ConfigurationPropertiesScan public class AppProperties { private String appName; private String appVersion; // Getters and setters } 1 2 3 #Add the configuration properties to your application's property file app.appName=Keka app.appVersion=5.0 Spring 将自动将我们属性文件中定义的任何属性与前缀app绑定，并与 AppProperties 类中的字段之一同名。然后，您可以通过自动装配AppPropertiesbean 在测试 bean 中使用这些属性。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.context.SpringBootTest; import com.app.service.ApplicationService; import com.app.properties.AppProperties; import com.app.dto.Application; import static org.junit.Assert.*; @SpringBootTest public class ApplicationServiceTest { @Autowired private AppProperties properties; @Autowired private ApplicationService applicationService; @Test public void testMyMethod() { Application app = applicationService.getDetailsbyName(properties.getAppName()); assertNotNull(app); } } c.@ActiveProfiles当您有多个配置文件时，使用激活特定配置文件进行测试。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.context.SpringBootTest; import org.springframework.test.context.ActiveProfiles; import com.employee.service.EmployeeService; import static org.junit.Assert.*; @SpringBootTest @ActiveProfiles({\"test\",\"dev\"}) public class EmployeeServiceTest { @Autowired private EmployeeService employeeService; @Test public void testGetEmployeeCount() { int empCount = employeeService.getEmployeeCount(); assertTrue(empCount\u003e0); } } d .使用@DynamicPropertySource设置测试的动态配置属性。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.context.SpringBootTest; import org.springframework.test.context.DynamicPropertyRegistry; import org.springframework.test.context.DynamicPropertySource; import com.user.service.UserService; import com.user.dto.User; import static org.junit.Assert.*; @SpringBootTest public class DynamicPropertyTest { @Autowired private UserService userService; @DynamicPropertySource static void properties(DynamicPropertyRegistry registry) { registry.add(\"custom.name\", () -\u003e \"Jack\"); } @Value(\"${custom.name}\") private String customName; @Test public void testGetUserByName() { User user = userService.getUserByName(customName); assertNotNull(user); } } e. 使用 @DirtiesContext 在测试后重置 Spring 上下文。\n如果您有修改 Spring 上下文的测试，例如添加或修改 Bean，则可能需要在每次测试之后重置上下文，以确保后续测试从干净的上下文开始。@DirtiesContext在需要确保每个测试方法都在全新且隔离的应用程序上下文中运行的场景中很有用。\n用法： 您可以使用 注释单个测试方法或整个测试类@DirtiesContext。 当应用于测试方法时，只有该特定的测试方法才会触发上下文重置。 当应用于测试类时，它会影响该类中的所有测试方法，导致每次测试方法之后重置上下文。 2.用例：\n@DirtiesContext通常在测试方法对 Spring 应用程序上下文有副作用并且无法通过常规事务或回滚机制撤消时使用。 例如，如果测试方法以影响后续测试的方式修改了单例 bean 的状态，则可以使用@DirtiesContext重置上下文。 3.影响：\n重置应用程序上下文在性能方面可能会相对昂贵，因此请谨慎使用。 它不应被用作所有测试的默认方法。相反，应考虑仅在必要时使用它来解决特定的测试挑战。 f.使用 RestTemplate 发出 HTTP 请求。\nRestTemplate用于发出 HTTP 请求以与 RESTful Web 服务或 API 进行交互。\n通常用于生产代码。 支持向外部服务发出实际的 HTTP 请求。 通常用于与正在运行的应用程序中的实际服务交互。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 import org.junit.jupiter.api.Test; import org.springframework.boot.test.context.SpringBootTest; import org.springframework.http.ResponseEntity; import org.springframework.web.client.RestTemplate; import org.springframework.http.HttpStatusCode; import static org.junit.Assert.*; @SpringBootTest public class ExternalServiceTest { @Test public void testExampleApi() { RestTemplate restTemplate = new RestTemplate(); String url = \"http://api.example.com/data\"; ResponseEntity response = restTemplate.getForEntity(url, String.class); assertFalse(response.getStatusCode() == HttpStatusCode.valueOf(404)) } } g. 使用@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)在随机端口上启动服务器。使用TestRestTemplate发出 HTTP 请求并断言响应。\n如果您需要测试应用程序与外部系统（例如数据库或其他微服务）的集成，则可能必须在随机端口上启动服务器。\nTestRestTemplate是 的一个子类RestTemplate，专门用于 Springboot 应用程序的集成测试。它允许您像外部客户端一样向应用程序的 RESTful 端点发出 HTTP 请求。\n通常用于集成测试。 允许您测试应用程序的端点，而无需发出实际的外部请求。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.context.SpringBootTest; import org.springframework.boot.web.server.LocalServerPort; import org.springframework.boot.test.web.client.TestRestTemplate; import org.springframework.boot.test.web.client.TestRestTemplate.HttpClientOption; import org.springframework.http.HttpStatus; import org.springframework.http.ResponseEntity; import static org.assertj.core.api.Assertions.assertThat; @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT) public class LocalEndpointTest { @LocalServerPort private int port; @Autowired private TestRestTemplate restTemplate; @Test public void testGetBusinesses(){ String url = \"http://localhost:\" + port + \"/getBusinesses\"; ResponseEntity\u003cString\u003e response = restTemplate.getForEntity(url, String.class); assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK); assertThat(response.getBody()).isEqualTo(\"Expected response body\"); } } h. 使用@Sql在测试之前和之后执行 SQL 脚本。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 import org.springframework.boot.test.context.SpringBootTest; import org.springframework.test.context.jdbc.Sql; import org.junit.jupiter.api.Test; @SpringBootTest public class IntegrationTest { @Test @Sql(scripts = { \"/init-database.sql\", \"/populate-data.sql\" }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD) public void testWithSqlScripts() { // Sql scripts get executed before the execution of this block } @Test @Sql(scripts = \"/cleanup.sql\", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD) public void testWithCleanupSql() { // Sql scripts get executed after the execution of this block } } i. 使用 @Disabled 暂时禁用测试。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 import org.junit.jupiter.api.Disabled; import org.junit.jupiter.api.Test; import org.springframework.boot.test.context.SpringBootTest; import com.employee.service.EmployeeService; import com.employee.dto.Employee; import static org.junit.Assert.*; @SpringBootTest public class EmployeeServiceTest { @Autowired private EmployeeService employeeService; @Disabled(\"Temporarily disabled until bug XYZ is fixed\") @Test public void testGetEmployees() { // Test will be skipped Employee employee = employeeService.getEmployeeByName(\"Harry\"); assertNotNull(employee); } @Test public void testGetEmployeeCount() { // Test will be executed int empCount = employeeService.getEmployeeCount(); assertTrue(empCount\u003e0); } } 整个类也可以注释为@Disabled。\nj. 使用@RepeatedTest重复测试指定的次数。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 import org.junit.jupiter.api.RepeatedTest; import org.junit.jupiter.api.RepetitionInfo; import org.springframework.boot.test.context.SpringBootTest; import org.springframework.http.ResponseEntity; import org.springframework.web.client.RestTemplate; import com.user.service.UserService; import static org.junit.Assert.*; @SpringBootTest public class UserServiceTest { @Autowired private UserService userService; @RepeatedTest(5) //This test will run 5 times public void testGetUserCount() { int count = userService.getUserCount(); assertTrue(count\u003e0); } @RepeatedTest(3) //This test will run 3 times public void testGetLoggedInUsers(RepetitionInfo repetitionInfo) { int currentRepetition = repetitionInfo.getCurrentRepetition(); int totalRepetitions = repetitionInfo.getTotalRepetitions(); // Test logic, using currentRepetition and totalRepetitions RestTemplate restTemplate = new RestTemplate(); String url = \"http://api.example.com/getLoggedInUsers\"; ResponseEntity\u003cString\u003e response = restTemplate.getForEntity(url, String.class); if(response.getBody() != null) { System.out.println(\"CurrentRepetition: \" + currentRepetition); } } } 4.测试覆盖率 使用 SonarQube 或 Jacoco 等代码覆盖率工具来测量测试的覆盖率。以高代码覆盖率为目标，确保大多数代码都经过测试。\n测试框架 Spring Boot 应用程序中常用有几种测试工具，包括：\nJUnit：一种广泛使用的 Java 测试框架。 Mockito：用于在测试中创建模拟对象的模拟框架。 Testcontainers：提供用于测试的轻量级、一次性的常用数据库或服务实例。 Spring Boot 测试：提供用于测试 Spring Boot 应用程序的注释和实用程序。 RestAssured：一种用于简化 REST 服务测试的 Java DSL。 Selenium：用于Web应用程序测试，尤其是端到端测试。 Jacoco：一种代码覆盖率分析工具，可帮助您识别代码库中需要更多测试的区域。 WireMock：一种模拟 HTTP 服务的工具，可用于测试外部服务交互。 结论 通过遵循最佳实践并利用正确的测试工具，您可以确保测试可靠、可维护且能够有效地发现应用程序中的错误。持续的测试将提高代码质量、减少错误并提高用户满意度。\n快乐学习！\n请继续关注Simform Engineering博客，了解有关最新工具和技术的更多更新。\n关注我们：Twitter | LinkedIn\n原文链接：https://medium.com/simform-engineering/testing-spring-boot-applications-best-practices-and-frameworks-6294e1068516\n","wordCount":"4499","inLanguage":"en","datePublished":"2024-10-14T00:00:00+08:00","dateModified":"2024-10-14T00:00:00+08:00","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/10/14/testing-spring-boot-applications-best-practices-and-frameworks/"},"publisher":{"@type":"Organization","name":"ChenSoul","logo":{"@type":"ImageObject","url":"https://blog.chensoul.cc/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories title=分类><span>分类</span></a></li><li><a href=https://blog.chensoul.cc/tags title=标签><span>标签</span></a></li><li><a href=https://blog.chensoul.cc/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://blog.chensoul.cc/index.xml title=订阅><span>订阅</span></a></li><li><a href=https://github.com/chensoul title=关于><span>关于</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">[译]测试 Spring Boot 应用程序：最佳实践和框架</h1><div class=post-meta><span title='2024-10-14 00:00:00 +0800 CST'>2024-10-14</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;4499 words&nbsp;·&nbsp;chensoul</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#%e4%b8%ba%e4%bb%80%e4%b9%88%e6%b5%8b%e8%af%95%e5%be%88%e9%87%8d%e8%a6%81 aria-label=为什么测试很重要>为什么测试很重要</a></li><li><a href=#%e6%b5%8b%e8%af%95%e7%b1%bb%e5%9e%8b aria-label=测试类型>测试类型</a></li><li><a href=#%e6%b5%8b%e8%af%95-spring-boot-%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e7%9a%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5 aria-label="测试 Spring Boot 应用程序的最佳实践">测试 Spring Boot 应用程序的最佳实践</a><ul><li><a href=#1%e4%bf%9d%e6%8c%81%e6%b5%8b%e8%af%95%e9%9a%94%e7%a6%bb aria-label=1.保持测试隔离>1.保持测试隔离</a></li><li><a href=#2%e4%bd%bf%e7%94%a8-spring-boot-%e7%9a%84%e6%b5%8b%e8%af%95%e6%b3%a8%e8%a7%a3 aria-label="2.使用 Spring Boot 的测试注解">2.使用 Spring Boot 的测试注解</a></li><li><a href=#3-%e6%b5%8b%e8%af%95%e9%85%8d%e7%bd%ae aria-label="3. 测试配置">3. 测试配置</a></li><li><a href=#4%e6%b5%8b%e8%af%95%e8%a6%86%e7%9b%96%e7%8e%87 aria-label=4.测试覆盖率>4.测试覆盖率</a></li></ul></li><li><a href=#%e6%b5%8b%e8%af%95%e6%a1%86%e6%9e%b6 aria-label=测试框架>测试框架</a></li><li><a href=#%e7%bb%93%e8%ae%ba aria-label=结论>结论</a></li></ul></div></details></div><div class=post-content><p>测试是软件开发不可或缺的一部分。它可确保您的 Spring Boot 应用程序按预期运行，并在不断发展的过程中继续保持这种状态。在本文中，我们将探讨如何使用最佳实践和工具测试 Spring Boot 应用程序。</p><h1 id=为什么测试很重要>为什么测试很重要<a hidden class=anchor aria-hidden=true href=#为什么测试很重要>#</a></h1><p>测试至关重要，原因如下：</p><ol><li>可靠性：它确保您的应用程序正确、可靠地运行。</li><li>错误检测：它有助于在开发早期识别和修复问题。</li><li>重构：它允许自信地重构代码，因此现有功能不会中断。</li><li>文档：编写良好的测试可以作为代码的活文档。</li></ol><h1 id=测试类型>测试类型<a hidden class=anchor aria-hidden=true href=#测试类型>#</a></h1><p>Spring Boot 应用程序可以在各个级别进行测试，包括：</p><ol><li>单元测试：单独测试各个组件，例如类或方法。</li><li>集成测试：验证不同的组件或服务是否能正确地协同工作。</li><li>功能测试：从用户的角度测试应用程序的功能。</li><li>端到端测试：在类似生产的环境中测试整个应用程序，包括其外部依赖项。</li></ol><h1 id=测试-spring-boot-应用程序的最佳实践>测试 Spring Boot 应用程序的最佳实践<a hidden class=anchor aria-hidden=true href=#测试-spring-boot-应用程序的最佳实践>#</a></h1><h2 id=1保持测试隔离>1.保持测试隔离<a hidden class=anchor aria-hidden=true href=#1保持测试隔离>#</a></h2><p>确保测试彼此独立。每个测试都应设置其所需的上下文、运行它并拆除它创建的任何资源。这可以防止一个测试影响另一个测试的结果。</p><h2 id=2使用-spring-boot-的测试注解>2.使用 Spring Boot 的测试注解<a hidden class=anchor aria-hidden=true href=#2使用-spring-boot-的测试注解>#</a></h2><p>Spring Boot 提供了诸如<code>@SpringBootTest</code>、<code>@DataJpaTest</code>和<code>@WebMvcTest</code>之类的测试注释，可简化应用程序特定部分的测试。使用它们可以仅加载应用程序上下文的必要部分，从而提高测试效率。以下是一些示例。</p><p><strong>a.使用 @SpringBootTest 加载整个Spring上下文。</strong></p><p><code>@SpringBootTest</code>是用于为测试加载整个 Spring 上下文的注释。这在同时测试应用程序中的多个组件时非常有用。使用注释<code>@Test</code>来标记测试方法。</p><p>下面是一个解释如何使用 Mockito 和 JUnit 的示例。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=c>&lt;!-- Adding JUnit 5(jupiter) and mockito dependencies to our pom.xml --&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;dependency&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;groupId&gt;</span>org.junit.jupiter<span class=nt>&lt;/groupId&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;artifactId&gt;</span>junit-jupiter-engine<span class=nt>&lt;/artifactId&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;version&gt;</span>5.9.2<span class=nt>&lt;/version&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;scope&gt;</span>test<span class=nt>&lt;/scope&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/dependency&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;dependency&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;groupId&gt;</span>org.mockito<span class=nt>&lt;/groupId&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;artifactId&gt;</span>mockito-core<span class=nt>&lt;/artifactId&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;version&gt;</span>5.3.1<span class=nt>&lt;/version&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;scope&gt;</span>test<span class=nt>&lt;/scope&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/dependency&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.mockito.InjectMocks</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.mockito.Mock</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.mockito.Mockito</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.mockito.junit.jupiter.MockitoExtension</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.employee.service.EmployeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.employee.dao.EmployeeRepository</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.employee.dto.Employee</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>java.util.Optional</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.assertEquals</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.assertNotNull</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@ExtendWith</span><span class=p>(</span><span class=n>MockitoExtension</span><span class=p>.</span><span class=na>class</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>EmployeeServiceTests</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=nd>@InjectMocks</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=kd>private</span><span class=w> </span><span class=n>EmployeeService</span><span class=w> </span><span class=n>employeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=nd>@Mock</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=kd>private</span><span class=w> </span><span class=n>EmployeeRepository</span><span class=w> </span><span class=n>employeeRepository</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGetEmployeeById</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c1>// Arrange</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kt>long</span><span class=w> </span><span class=n>employeeId</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>1L</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=n>Employee</span><span class=w> </span><span class=n>mockEmployee</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>Employee</span><span class=p>(</span><span class=n>employeeId</span><span class=p>,</span><span class=w> </span><span class=s>&#34;John Doe&#34;</span><span class=p>,</span><span class=w> </span><span class=s>&#34;john.doe@example.com&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c1>// Mock the behavior of the repository to return the mock employee</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=n>Mockito</span><span class=p>.</span><span class=na>when</span><span class=p>(</span><span class=n>employeeRepository</span><span class=p>.</span><span class=na>findById</span><span class=p>(</span><span class=n>employeeId</span><span class=p>)).</span><span class=na>thenReturn</span><span class=p>(</span><span class=n>Optional</span><span class=p>.</span><span class=na>of</span><span class=p>(</span><span class=n>mockEmployee</span><span class=p>));</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c1>// Act</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=n>Employee</span><span class=w> </span><span class=n>result</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>employeeService</span><span class=p>.</span><span class=na>getEmployeeById</span><span class=p>(</span><span class=n>employeeId</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c1>// Assert</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=n>assertNotNull</span><span class=p>(</span><span class=n>result</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=n>assertEquals</span><span class=p>(</span><span class=n>employeeId</span><span class=p>,</span><span class=w> </span><span class=n>result</span><span class=p>.</span><span class=na>getId</span><span class=p>());</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=n>assertEquals</span><span class=p>(</span><span class=s>&#34;John Doe&#34;</span><span class=p>,</span><span class=w> </span><span class=n>result</span><span class=p>.</span><span class=na>getName</span><span class=p>());</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=n>assertEquals</span><span class=p>(</span><span class=s>&#34;john.doe@example.com&#34;</span><span class=p>,</span><span class=w> </span><span class=n>result</span><span class=p>.</span><span class=na>getEmail</span><span class=p>());</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>b. 使用 MockMvc 模拟 HTTP 请求并测试控制器的响应。使用 @AutoConfigureMockMvc 自动配置 MockMvc。</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.beans.factory.annotation.Autowired</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.test.web.servlet.MockMvc</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.test.web.servlet.request.MockMvcRequestBuilders</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.test.web.servlet.result.MockMvcResultMatchers</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@AutoConfigureMockMvc</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>GreetingControllerTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>MockMvc</span><span class=w> </span><span class=n>mockMvc</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGreetEndpoint</span><span class=p>()</span><span class=w> </span><span class=kd>throws</span><span class=w> </span><span class=n>Exception</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>mockMvc</span><span class=p>.</span><span class=na>perform</span><span class=p>(</span><span class=n>MockMvcRequestBuilders</span><span class=p>.</span><span class=na>get</span><span class=p>(</span><span class=s>&#34;/greet&#34;</span><span class=p>))</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>       </span><span class=p>.</span><span class=na>andExpect</span><span class=p>(</span><span class=n>MockMvcResultMatchers</span><span class=p>.</span><span class=na>status</span><span class=p>().</span><span class=na>isOk</span><span class=p>());</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>c. 使用 @MockBean 模拟实现来替换真实 bean。</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.beans.factory.annotation.Autowired</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.mock.mockito.MockBean</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.user.service.UserService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.user.dao.UserRepository</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.user.dto.User</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.mockito.Mockito.when</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.assertj.core.api.Assertions.assertThat</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>UserServiceTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>UserService</span><span class=w> </span><span class=n>userService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@MockBean</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>UserRepository</span><span class=w> </span><span class=n>userRepository</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testFindUserByUsername</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=c1>// Define a sample user</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=n>User</span><span class=w> </span><span class=n>sampleUser</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>User</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=n>sampleUser</span><span class=p>.</span><span class=na>setId</span><span class=p>(</span><span class=n>1L</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=n>sampleUser</span><span class=p>.</span><span class=na>setUsername</span><span class=p>(</span><span class=s>&#34;john_doe&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=n>sampleUser</span><span class=p>.</span><span class=na>setEmail</span><span class=p>(</span><span class=s>&#34;john@example.com&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=c1>// Mock the repository behavior</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=n>when</span><span class=p>(</span><span class=n>userRepository</span><span class=p>.</span><span class=na>findByUsername</span><span class=p>(</span><span class=s>&#34;john_doe&#34;</span><span class=p>)).</span><span class=na>thenReturn</span><span class=p>(</span><span class=n>sampleUser</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=c1>// Perform the test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=n>User</span><span class=w> </span><span class=n>foundUser</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>userService</span><span class=p>.</span><span class=na>findUserByUsername</span><span class=p>(</span><span class=s>&#34;john_doe&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=c1>// Assertions</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=n>assertThat</span><span class=p>(</span><span class=n>foundUser</span><span class=p>).</span><span class=na>isNotNull</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=n>assertThat</span><span class=p>(</span><span class=n>foundUser</span><span class=p>.</span><span class=na>getUsername</span><span class=p>()).</span><span class=na>isEqualTo</span><span class=p>(</span><span class=s>&#34;john_doe&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>   </span><span class=n>assertThat</span><span class=p>(</span><span class=n>foundUser</span><span class=p>.</span><span class=na>getEmail</span><span class=p>()).</span><span class=na>isEqualTo</span><span class=p>(</span><span class=s>&#34;john@example.com&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><code>@Mock</code>用于在 Spring 上下文之外进行单元测试和模拟对象，而<code>@MockBean</code>用于 Spring Boot 集成测试，以在 Spring 应用程序上下文中用模拟或间谍版本替换真实 bean。</p><p><strong>d.使用 @DataJpaTest 测试具有嵌入式数据库的存储库。</strong></p><p>如果您在 Spring Boot 应用程序中使用 JPA，<code>@DataJpaTest</code>则仅加载与 JPA 测试相关的组件，例如实体类、存储库接口和必要的 Spring Data JPA 配置。</p><p>默认情况下，Spring Boot在使用时会为每一个测试方法创建一个事务<code>@DataJpaTest</code>，并在每个测试方法结束时回滚事务。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.beans.factory.annotation.Autowired</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.user.dao.UserRepository</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.user.dto.User</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.*</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@DataJpaTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>UserRepositoryTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>UserRepository</span><span class=w> </span><span class=n>userRepository</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGetAllUsers</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>User</span><span class=w> </span><span class=n>user</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>userRepository</span><span class=p>.</span><span class=na>updateUserById</span><span class=p>(</span><span class=n>1</span><span class=p>,</span><span class=s>&#34;Tom&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertNotNull</span><span class=p>(</span><span class=n>user</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>e.使用配置 @AutoConfigureTestDatabase 测试数据库。</strong></p><p>使用时<code>@DataJpaTest</code>，Spring Boot 将自动为您的测试配置内存中的 H2 数据库，让您无需单独的数据库实例即可轻松测试数据库查询。但是，如果您需要不同的数据库，则可以使用注释<code>@AutoConfigureTestDatabase</code>进行配置。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>java.util.List</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.beans.factory.annotation.Autowired</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.user.dao.UserRepository</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.user.dto.User</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.*</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@DataJpaTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@AutoConfigureTestDatabase</span><span class=p>(</span><span class=n>replace</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>Replace</span><span class=p>.</span><span class=na>NONE</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>UserRepositoryTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>UserRepository</span><span class=w> </span><span class=n>userRepository</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGetUsersNotNull</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>List</span><span class=o>&lt;</span><span class=n>User</span><span class=o>&gt;</span><span class=w> </span><span class=n>userList</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>userRepository</span><span class=p>.</span><span class=na>getUsers</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertNotNull</span><span class=p>(</span><span class=n>userList</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><code>@AutoConfigureTestDatabase(replace = Replace.NONE)</code>配置测试数据库行为。在本例中，它不替换任何内容，而是使用 application.properties 或 application.yml 中指定的默认数据库配置。</p><p><strong>f.使用 @BeforeEach 和 @AfterEach 设置和拆除测试夹具。</strong></p><p>这些注释允许您定义在每个测试方法之前和之后运行的方法。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.BeforeEach</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.AfterEach</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.employee.service.EmployeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.*</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>EmployeeServiceTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>EmployeeService</span><span class=w> </span><span class=n>employeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@BeforeEach</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>setUp</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// Initialize the EmployeeService or set up resources if needed</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>employeeService</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>EmployeeService</span><span class=p>();</span><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@AfterEach</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>tearDown</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// Clean up resources or perform other cleanup tasks</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>employeeService</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=kc>null</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGenerateWelcomeMessage</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>String</span><span class=w> </span><span class=n>name</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&#34;John&#34;</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>String</span><span class=w> </span><span class=n>welcomeMessage</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>employeeService</span><span class=p>.</span><span class=na>generateWelcomeMessage</span><span class=p>(</span><span class=n>name</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertEquals</span><span class=p>(</span><span class=s>&#34;Welcome, John!&#34;</span><span class=p>,</span><span class=w> </span><span class=n>welcomeMessage</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=3-测试配置>3. 测试配置<a hidden class=anchor aria-hidden=true href=#3-测试配置>#</a></h2><p>Spring Boot 允许您为不同的配置文件（例如<code>application.properties</code>，<code>application-test.properties</code>）配置不同的应用程序属性。它允许您创建自定义测试配置，而不会影响主应用程序上下文。</p><p><strong>a. 使用 @TestConfiguration 提供额外的 bean 以供测试。</strong></p><p><code>@SpringBootTest</code>将引导整个应用程序上下文，这意味着您可以将组件扫描拾取的任何 bean 自动装配到我们的测试中。您可能希望避免引导实际的应用程序上下文，而是使用特殊的测试配置。您可以使用<code>@TestConfiguration</code>注释来实现这一点。有两种使用注释的方法。</p><p><em>i. 在我们想要自动装配 bean 的同一个测试类中创建一个静态内部类。</em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.beans.factory.annotation.Autowired</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.*</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.employee.service.EmployeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>EmployeeServiceTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@TestConfiguration</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kd>static</span><span class=w> </span><span class=kd>class</span> <span class=nc>TestEmployeeServiceConfig</span><span class=w> </span><span class=p>{</span><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nd>@Bean</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=kd>public</span><span class=w> </span><span class=n>EmployeeService</span><span class=w> </span><span class=nf>employeeService</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>         </span><span class=k>return</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>EmployeeService</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>EmployeeService</span><span class=w> </span><span class=n>employeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testWelcomeMessage</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>String</span><span class=w> </span><span class=n>message</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>employeeService</span><span class=p>.</span><span class=na>getWelcomeMessage</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertEquals</span><span class=p>(</span><span class=s>&#34;Welcome&#34;</span><span class=p>,</span><span class=w> </span><span class=n>message</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><em>ii. 创建一个单独的测试配置类并使用</em><code>@Import</code><em>注释导入它。</em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.TestConfiguration</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.context.annotation.Bean</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.employee.service.EmployeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@TestConfiguration</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>TestEmployeeServiceConfig</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Bean</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=n>EmployeeService</span><span class=w> </span><span class=nf>employeeService</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>return</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>EmployeeService</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.beans.factory.annotation.Autowired</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.context.annotation.Import</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.employee.service.EmployeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.*</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@Import</span><span class=p>(</span><span class=n>TestEmployeeServiceConfig</span><span class=p>.</span><span class=na>class</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>EmployeeServiceTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>EmployeeService</span><span class=w> </span><span class=n>employeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testWelcomeMessage</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>String</span><span class=w> </span><span class=n>message</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>employeeService</span><span class=p>.</span><span class=na>getWelcomeMessage</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertEquals</span><span class=p>(</span><span class=s>&#34;Simform Welcomes You&#34;</span><span class=p>,</span><span class=w> </span><span class=n>message</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>b.使用 @ConfigurationProperties 从配置文件注入属性。</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>import org.springframework.boot.context.properties.ConfigurationProperties;
+</span></span><span class=line><span class=cl>import org.springframework.stereotype.Component;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>@ConfigurationProperties(prefix = &#34;app&#34;)
+</span></span><span class=line><span class=cl>@ConfigurationPropertiesScan
+</span></span><span class=line><span class=cl>public class AppProperties {
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>  private String appName;
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  private String appVersion;
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  // Getters and setters
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-properties data-lang=properties><span class=line><span class=cl><span class=c1>#Add the configuration properties to your application&#39;s property file</span>
+</span></span><span class=line><span class=cl><span class=na>app.appName</span><span class=o>=</span><span class=s>Keka</span>
+</span></span><span class=line><span class=cl><span class=na>app.appVersion</span><span class=o>=</span><span class=s>5.0</span>
+</span></span></code></pre></td></tr></table></div></div><p>Spring 将自动将我们属性文件中定义的任何属性与前缀<em>app</em>绑定，并与 AppProperties 类中的字段之一同名。然后，您可以通过自动装配<code>AppProperties</code>bean 在测试 bean 中使用这些属性。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.beans.factory.annotation.Autowired</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.app.service.ApplicationService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.app.properties.AppProperties</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.app.dto.Application</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.*</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>ApplicationServiceTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>AppProperties</span><span class=w> </span><span class=n>properties</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>ApplicationService</span><span class=w> </span><span class=n>applicationService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testMyMethod</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>Application</span><span class=w> </span><span class=n>app</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>applicationService</span><span class=p>.</span><span class=na>getDetailsbyName</span><span class=p>(</span><span class=n>properties</span><span class=p>.</span><span class=na>getAppName</span><span class=p>());</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertNotNull</span><span class=p>(</span><span class=n>app</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>c.@ActiveProfiles当您有多个配置文件时，使用激活特定配置文件进行测试。</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.beans.factory.annotation.Autowired</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.test.context.ActiveProfiles</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.employee.service.EmployeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.*</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@ActiveProfiles</span><span class=p>({</span><span class=s>&#34;test&#34;</span><span class=p>,</span><span class=s>&#34;dev&#34;</span><span class=p>})</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>EmployeeServiceTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>EmployeeService</span><span class=w> </span><span class=n>employeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGetEmployeeCount</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kt>int</span><span class=w> </span><span class=n>empCount</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>employeeService</span><span class=p>.</span><span class=na>getEmployeeCount</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertTrue</span><span class=p>(</span><span class=n>empCount</span><span class=o>&gt;</span><span class=n>0</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>d .使用@DynamicPropertySource设置测试的动态配置属性。</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.beans.factory.annotation.Autowired</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.test.context.DynamicPropertyRegistry</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.test.context.DynamicPropertySource</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.user.service.UserService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.user.dto.User</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.*</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>DynamicPropertyTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>UserService</span><span class=w> </span><span class=n>userService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@DynamicPropertySource</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>static</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>properties</span><span class=p>(</span><span class=n>DynamicPropertyRegistry</span><span class=w> </span><span class=n>registry</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>registry</span><span class=p>.</span><span class=na>add</span><span class=p>(</span><span class=s>&#34;custom.name&#34;</span><span class=p>,</span><span class=w> </span><span class=p>()</span><span class=w> </span><span class=o>-&gt;</span><span class=w> </span><span class=s>&#34;Jack&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Value</span><span class=p>(</span><span class=s>&#34;${custom.name}&#34;</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=n>customName</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGetUserByName</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>User</span><span class=w> </span><span class=n>user</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>userService</span><span class=p>.</span><span class=na>getUserByName</span><span class=p>(</span><span class=n>customName</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertNotNull</span><span class=p>(</span><span class=n>user</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>e. 使用 @DirtiesContext 在测试后重置 Spring 上下文。</strong></p><p>如果您有修改 Spring 上下文的测试，例如添加或修改 Bean，则可能需要在每次测试之后重置上下文，以确保后续测试从干净的上下文开始。<code>@DirtiesContext</code>在需要确保每个测试方法都在全新且隔离的应用程序上下文中运行的场景中很有用。</p><ol><li>用法：</li></ol><ul><li>您可以使用 注释单个测试方法或整个测试类<code>@DirtiesContext</code>。</li><li>当应用于测试方法时，只有该特定的测试方法才会触发上下文重置。</li><li>当应用于测试类时，它会影响该类中的所有测试方法，导致每次测试方法之后重置上下文。</li></ul><p>2.用例：</p><ul><li><code>@DirtiesContext</code>通常在测试方法对 Spring 应用程序上下文有副作用并且无法通过常规事务或回滚机制撤消时使用。</li><li>例如，如果测试方法以影响后续测试的方式修改了单例 bean 的状态，则可以使用<code>@DirtiesContext</code>重置上下文。</li></ul><p>3.影响：</p><ul><li>重置应用程序上下文在性能方面可能会相对昂贵，因此请谨慎使用。</li><li>它不应被用作所有测试的默认方法。相反，应考虑仅在必要时使用它来解决特定的测试挑战。</li></ul><p><strong>f.使用 RestTemplate 发出 HTTP 请求。</strong></p><p><code>RestTemplate</code>用于发出 HTTP 请求以与 RESTful Web 服务或 API 进行交互。</p><ul><li>通常用于生产代码。</li><li>支持向外部服务发出实际的 HTTP 请求。</li><li>通常用于与正在运行的应用程序中的实际服务交互。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>import org.junit.jupiter.api.Test;
+</span></span><span class=line><span class=cl>import org.springframework.boot.test.context.SpringBootTest;
+</span></span><span class=line><span class=cl>import org.springframework.http.ResponseEntity;
+</span></span><span class=line><span class=cl>import org.springframework.web.client.RestTemplate;
+</span></span><span class=line><span class=cl>import org.springframework.http.HttpStatusCode;
+</span></span><span class=line><span class=cl>import static org.junit.Assert.*;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>@SpringBootTest
+</span></span><span class=line><span class=cl>public class ExternalServiceTest {
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>  @Test
+</span></span><span class=line><span class=cl>  public void testExampleApi() {
+</span></span><span class=line><span class=cl>    RestTemplate restTemplate = new RestTemplate();
+</span></span><span class=line><span class=cl>    String url = &#34;http://api.example.com/data&#34;;
+</span></span><span class=line><span class=cl>    ResponseEntity&lt;String&gt; response = restTemplate.getForEntity(url, String.class);
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    assertFalse(response.getStatusCode() == HttpStatusCode.valueOf(404))
+</span></span><span class=line><span class=cl>  }
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p><strong>g. 使用@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)在随机端口上启动服务器。使用TestRestTemplate发出 HTTP 请求并断言响应。</strong></p><p>如果您需要测试应用程序与外部系统（例如数据库或其他微服务）的集成，则可能必须在随机端口上启动服务器。</p><p><code>TestRestTemplate</code>是 的一个子类<code>RestTemplate</code>，专门用于 Springboot 应用程序的集成测试。它允许您像外部客户端一样向应用程序的 RESTful 端点发出 HTTP 请求。</p><ul><li>通常用于集成测试。</li><li>允许您测试应用程序的端点，而无需发出实际的外部请求。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.beans.factory.annotation.Autowired</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.web.server.LocalServerPort</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.web.client.TestRestTemplate</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.web.client.TestRestTemplate.HttpClientOption</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.http.HttpStatus</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.http.ResponseEntity</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.assertj.core.api.Assertions.assertThat</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=p>(</span><span class=n>webEnvironment</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>WebEnvironment</span><span class=p>.</span><span class=na>RANDOM_PORT</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>LocalEndpointTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@LocalServerPort</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=kt>int</span><span class=w> </span><span class=n>port</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>TestRestTemplate</span><span class=w> </span><span class=n>restTemplate</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGetBusinesses</span><span class=p>(){</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>String</span><span class=w> </span><span class=n>url</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&#34;http://localhost:&#34;</span><span class=w> </span><span class=o>+</span><span class=w> </span><span class=n>port</span><span class=w> </span><span class=o>+</span><span class=w> </span><span class=s>&#34;/getBusinesses&#34;</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>ResponseEntity</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span><span class=w> </span><span class=n>response</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>restTemplate</span><span class=p>.</span><span class=na>getForEntity</span><span class=p>(</span><span class=n>url</span><span class=p>,</span><span class=w> </span><span class=n>String</span><span class=p>.</span><span class=na>class</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertThat</span><span class=p>(</span><span class=n>response</span><span class=p>.</span><span class=na>getStatusCode</span><span class=p>()).</span><span class=na>isEqualTo</span><span class=p>(</span><span class=n>HttpStatus</span><span class=p>.</span><span class=na>OK</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertThat</span><span class=p>(</span><span class=n>response</span><span class=p>.</span><span class=na>getBody</span><span class=p>()).</span><span class=na>isEqualTo</span><span class=p>(</span><span class=s>&#34;Expected response body&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>h. 使用@Sql在测试之前和之后执行 SQL 脚本。</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.test.context.jdbc.Sql</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>IntegrationTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Sql</span><span class=p>(</span><span class=n>scripts</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=s>&#34;/init-database.sql&#34;</span><span class=p>,</span><span class=w> </span><span class=s>&#34;/populate-data.sql&#34;</span><span class=w> </span><span class=p>},</span><span class=w> </span><span class=n>executionPhase</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>Sql</span><span class=p>.</span><span class=na>ExecutionPhase</span><span class=p>.</span><span class=na>BEFORE_TEST_METHOD</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testWithSqlScripts</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// Sql scripts get executed before the execution of this block</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Sql</span><span class=p>(</span><span class=n>scripts</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&#34;/cleanup.sql&#34;</span><span class=p>,</span><span class=w> </span><span class=n>executionPhase</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>Sql</span><span class=p>.</span><span class=na>ExecutionPhase</span><span class=p>.</span><span class=na>AFTER_TEST_METHOD</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testWithCleanupSql</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// Sql scripts get executed after the execution of this block</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>i. 使用 @Disabled 暂时禁用测试。</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Disabled</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.Test</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.employee.service.EmployeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.employee.dto.Employee</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.*</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>EmployeeServiceTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>EmployeeService</span><span class=w> </span><span class=n>employeeService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Disabled</span><span class=p>(</span><span class=s>&#34;Temporarily disabled until bug XYZ is fixed&#34;</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGetEmployees</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// Test will be skipped</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>Employee</span><span class=w> </span><span class=n>employee</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>employeeService</span><span class=p>.</span><span class=na>getEmployeeByName</span><span class=p>(</span><span class=s>&#34;Harry&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertNotNull</span><span class=p>(</span><span class=n>employee</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Test</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGetEmployeeCount</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// Test will be executed</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kt>int</span><span class=w> </span><span class=n>empCount</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>employeeService</span><span class=p>.</span><span class=na>getEmployeeCount</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertTrue</span><span class=p>(</span><span class=n>empCount</span><span class=o>&gt;</span><span class=n>0</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>整个类也可以注释为<code>@Disabled</code><em>。</em></p><p><strong>j. 使用@RepeatedTest重复测试指定的次数。</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.RepeatedTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.junit.jupiter.api.RepetitionInfo</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.boot.test.context.SpringBootTest</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.http.ResponseEntity</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>org.springframework.web.client.RestTemplate</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import</span><span class=w> </span><span class=nn>com.user.service.UserService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kn>import static</span><span class=w> </span><span class=nn>org.junit.Assert.*</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@SpringBootTest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>UserServiceTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>UserService</span><span class=w> </span><span class=n>userService</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@RepeatedTest</span><span class=p>(</span><span class=n>5</span><span class=p>)</span><span class=w> </span><span class=c1>//This test will run 5 times</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGetUserCount</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kt>int</span><span class=w> </span><span class=n>count</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>userService</span><span class=p>.</span><span class=na>getUserCount</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>assertTrue</span><span class=p>(</span><span class=n>count</span><span class=o>&gt;</span><span class=n>0</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@RepeatedTest</span><span class=p>(</span><span class=n>3</span><span class=p>)</span><span class=w> </span><span class=c1>//This test will run 3 times</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>testGetLoggedInUsers</span><span class=p>(</span><span class=n>RepetitionInfo</span><span class=w> </span><span class=n>repetitionInfo</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kt>int</span><span class=w> </span><span class=n>currentRepetition</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>repetitionInfo</span><span class=p>.</span><span class=na>getCurrentRepetition</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kt>int</span><span class=w> </span><span class=n>totalRepetitions</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>repetitionInfo</span><span class=p>.</span><span class=na>getTotalRepetitions</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// Test logic, using currentRepetition and totalRepetitions</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>RestTemplate</span><span class=w> </span><span class=n>restTemplate</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>RestTemplate</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>String</span><span class=w> </span><span class=n>url</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&#34;http://api.example.com/getLoggedInUsers&#34;</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>ResponseEntity</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span><span class=w> </span><span class=n>response</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>restTemplate</span><span class=p>.</span><span class=na>getForEntity</span><span class=p>(</span><span class=n>url</span><span class=p>,</span><span class=w> </span><span class=n>String</span><span class=p>.</span><span class=na>class</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>if</span><span class=p>(</span><span class=n>response</span><span class=p>.</span><span class=na>getBody</span><span class=p>()</span><span class=w> </span><span class=o>!=</span><span class=w> </span><span class=kc>null</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>   
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&#34;CurrentRepetition: &#34;</span><span class=w> </span><span class=o>+</span><span class=w> </span><span class=n>currentRepetition</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=4测试覆盖率>4.测试覆盖率<a hidden class=anchor aria-hidden=true href=#4测试覆盖率>#</a></h2><p>使用 SonarQube 或 Jacoco 等代码覆盖率工具来测量测试的覆盖率。以高代码覆盖率为目标，确保大多数代码都经过测试。</p><h1 id=测试框架>测试框架<a hidden class=anchor aria-hidden=true href=#测试框架>#</a></h1><p>Spring Boot 应用程序中常用有几种测试工具，包括：</p><ol><li>JUnit：一种广泛使用的 Java 测试框架。</li><li>Mockito：用于在测试中创建模拟对象的模拟框架。</li><li>Testcontainers：提供用于测试的轻量级、一次性的常用数据库或服务实例。</li><li>Spring Boot 测试：提供用于测试 Spring Boot 应用程序的注释和实用程序。</li><li>RestAssured：一种用于简化 REST 服务测试的 Java DSL。</li><li>Selenium：用于Web应用程序测试，尤其是端到端测试。</li><li>Jacoco：一种代码覆盖率分析工具，可帮助您识别代码库中需要更多测试的区域。</li><li>WireMock：一种模拟 HTTP 服务的工具，可用于测试外部服务交互。</li></ol><h1 id=结论>结论<a hidden class=anchor aria-hidden=true href=#结论>#</a></h1><p>通过遵循最佳实践并利用正确的测试工具，您可以确保测试可靠、可维护且能够有效地发现应用程序中的错误。持续的测试将提高代码质量、减少错误并提高用户满意度。</p><p><em>快乐学习！</em></p><blockquote><p><strong>请继续关注</strong><a href=https://medium.com/simform-engineering target=_blank><strong>Simform Engineering</strong></a><strong>博客，了解有关最新工具和技术的更多更新。</strong></p><p><strong>关注我们：</strong><a href=https://twitter.com/simform target=_blank><strong>Twitter</strong></a> <strong>|</strong> <a href=https://www.linkedin.com/company/simform/ target=_blank><strong>LinkedIn</strong></a></p></blockquote><p>原文链接：<a href=https://medium.com/simform-engineering/testing-spring-boot-applications-best-practices-and-frameworks-6294e1068516 target=_blank>https://medium.com/simform-engineering/testing-spring-boot-applications-best-practices-and-frameworks-6294e1068516</a></p></div><footer class=post-footer><ul class=post-tags><li><a href=https://blog.chensoul.cc/tags/spring-boot/>Spring-Boot</a></li></ul><nav class=paginav><a class=next href=https://blog.chensoul.cc/posts/2024/08/27/activemq-source-code-broker-service/><span class=title>Next »</span><br><span>ActiveMQ源码-BrokerService和PersistenceAdapter</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]测试 Spring Boot 应用程序：最佳实践和框架 on x" href="https://x.com/intent/tweet/?text=%5b%e8%af%91%5d%e6%b5%8b%e8%af%95%20Spring%20Boot%20%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%ef%bc%9a%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e5%92%8c%e6%a1%86%e6%9e%b6&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f10%2f14%2ftesting-spring-boot-applications-best-practices-and-frameworks%2f&amp;hashtags=spring-boot"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]测试 Spring Boot 应用程序：最佳实践和框架 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f10%2f14%2ftesting-spring-boot-applications-best-practices-and-frameworks%2f&amp;title=%5b%e8%af%91%5d%e6%b5%8b%e8%af%95%20Spring%20Boot%20%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%ef%bc%9a%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e5%92%8c%e6%a1%86%e6%9e%b6&amp;summary=%5b%e8%af%91%5d%e6%b5%8b%e8%af%95%20Spring%20Boot%20%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%ef%bc%9a%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e5%92%8c%e6%a1%86%e6%9e%b6&amp;source=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f10%2f14%2ftesting-spring-boot-applications-best-practices-and-frameworks%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]测试 Spring Boot 应用程序：最佳实践和框架 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f10%2f14%2ftesting-spring-boot-applications-best-practices-and-frameworks%2f&title=%5b%e8%af%91%5d%e6%b5%8b%e8%af%95%20Spring%20Boot%20%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%ef%bc%9a%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e5%92%8c%e6%a1%86%e6%9e%b6"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]测试 Spring Boot 应用程序：最佳实践和框架 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f10%2f14%2ftesting-spring-boot-applications-best-practices-and-frameworks%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]测试 Spring Boot 应用程序：最佳实践和框架 on whatsapp" href="https://api.whatsapp.com/send?text=%5b%e8%af%91%5d%e6%b5%8b%e8%af%95%20Spring%20Boot%20%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%ef%bc%9a%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e5%92%8c%e6%a1%86%e6%9e%b6%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f10%2f14%2ftesting-spring-boot-applications-best-practices-and-frameworks%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]测试 Spring Boot 应用程序：最佳实践和框架 on telegram" href="https://telegram.me/share/url?text=%5b%e8%af%91%5d%e6%b5%8b%e8%af%95%20Spring%20Boot%20%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%ef%bc%9a%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e5%92%8c%e6%a1%86%e6%9e%b6&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f10%2f14%2ftesting-spring-boot-applications-best-practices-and-frameworks%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]测试 Spring Boot 应用程序：最佳实践和框架 on ycombinator" href="https://news.ycombinator.com/submitlink?t=%5b%e8%af%91%5d%e6%b5%8b%e8%af%95%20Spring%20Boot%20%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%ef%bc%9a%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e5%92%8c%e6%a1%86%e6%9e%b6&u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f10%2f14%2ftesting-spring-boot-applications-best-practices-and-frameworks%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a><script async src=https://umami.chensoul.cc/random-string.js data-website-id=821c25f8-a31a-4607-92d7-91ee76843d00></script><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

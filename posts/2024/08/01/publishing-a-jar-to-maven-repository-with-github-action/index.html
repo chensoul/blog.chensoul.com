@@ -1,690 +1,358 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Github Action 发布 Jar 到 Maven 中央仓库 | ChenSoul</title>
-<meta name=keywords content="maven"><meta name=description content="作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。
-在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。"><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/><meta name=google-site-verification content="nBXwg45SBRjTX78SA-mH0asrAbsdu9c1nk0ObSry7aQ"><link crossorigin=anonymous href=/assets/css/stylesheet.899d9a536396b9b03c9eae0c99cc6ec954a90da94036f5390d131eb8071bb417.css integrity="sha256-iZ2aU2OWubA8nq4MmcxuyVSpDalANvU5DRMeuAcbtBc=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://blog.chensoul.cc/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://blog.chensoul.cc/favicon-32x32.png><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=mask-icon href=https://blog.chensoul.cc/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><meta property="og:title" content="Github Action 发布 Jar 到 Maven 中央仓库"><meta property="og:description" content="作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。
-在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-08-01T00:00:00+08:00"><meta property="article:modified_time" content="2024-08-01T00:00:00+08:00"><meta property="og:site_name" content="ChenSoul"><meta name=twitter:card content="summary"><meta name=twitter:title content="Github Action 发布 Jar 到 Maven 中央仓库"><meta name=twitter:description content="作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。
-在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://blog.chensoul.cc/posts/"},{"@type":"ListItem","position":2,"name":"Github Action 发布 Jar 到 Maven 中央仓库","item":"https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Github Action 发布 Jar 到 Maven 中央仓库","name":"Github Action 发布 Jar 到 Maven 中央仓库","description":"作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。\n在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。\n","keywords":["maven"],"articleBody":"作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。\n在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。\n下面我将以一个简单的 Maven 项目为例，介绍如何使用 Github Action 实现自动发布 Jar 到 Maven 中央仓库。\n前提条件 在 Github 创建一个 Maven 项目 安装 gpg 并创建 gpg 秘钥和公钥，参考 How to Publish Artifacts to Maven Central 创建 OSSRH 账号，参考 Generate a Token on OSSRH Sonatype Nexus Repository Manager servers 创建 Maven 项目 首先在Github上面创建项目：https://github.com/chensoul/maven-hello-world\n增加两个 Maven 插件：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 org.apache.maven.plugins maven-gpg-plugin 3.2.2 sign verify org.sonatype.plugins nexus-staging-maven-plugin 1.7.0 true ossrh https://s01.oss.sonatype.org/ true false 可以将上面的两个插件加入到 pom.xml 的 build 节点下面，也可以配置到 profile 节点下。https://github.com/chensoul/maven-hello-world 项目中使用的是第二种方式，具体见 https://github.com/chensoul/chensoul-parent 的 pom.xml 文件。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 release org.apache.maven.plugins maven-source-plugin org.apache.maven.plugins maven-javadoc-plugin org.apache.maven.plugins maven-enforcer-plugin pl.project13.maven git-commit-id-plugin org.apache.maven.plugins maven-release-plugin ${maven-release-plugin.version} [CI Skip] true false release deploy org.apache.maven.plugins maven-gpg-plugin ${maven-gpg-plugin.version} sign verify org.sonatype.plugins nexus-staging-maven-plugin ${nexus-staging-maven-plugin.version} true ossrh https://s01.oss.sonatype.org/ true false nexus-staging-maven-plugin 插件配置的 serverId 是 ossrh ，需要和 distributionManagement 中的配置一致：\n1 2 3 4 5 6 7 8 9 10 ossrh https://s01.oss.sonatype.org/content/repositories/snapshots ossrh https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ 您需要在 Sonatype JIRA 上注册一个帐户并为此创建一个Issure。\n将您的 Sonatype JIRA 凭证添加到您的~/.m2/settings.xml文件中，如下所示：\n1 2 3 4 5 ossrh LSJkOqOi 3oJOIO5+ah7LIcRSmDC2YDGjE9PRbgxoE2UbXjOrSzC1 安装 GPG 并创建公秘钥 macos 上安装 gpg：\n1 brew install gpg 参考 Generating a Key Pair 生成 GPG 密钥。\n1 2 3 4 5 6 7 8 9 10 11 12 13 $ gpg --gen-key gpg (GnuPG) 2.4.5; Copyright (C) 2024 g10 Code GmbH This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law. 注意：使用 “gpg --full-generate-key” 以获得一个全功能的密钥生成对话框。 GnuPG 需要构建用户标识以辨认您的密钥。 真实姓名： chensoul 电子邮件地址： ichensoul@gmail.com 您选定了此用户标识： “chensoul ” 按提示输入两次密码，这里我使用 chensoul 作为密码 。\n查看生成的 key：\n1 2 3 4 5 6 7 # gpg --list-secret-keys --keyid-format=long [keyboxd] --------- sec ed25519/93C5993B9F7B43EE 2024-05-08 [SC] [有效至：2027-05-08] C83119F1B90238633D766D4B93C5993B9F7B43EE uid [ 绝对 ] chensoul ssb cv25519/116B95FF0068A7E8 2024-05-08 [E] [有效至：2027-05-08] 上传公开的 key：\n1 2 3 4 # keyserver.ubuntu.com # keys.openpgp.org # pgp.mit.edu gpg --keyserver keys.openpgp.org --send-keys C83119F1B90238633D766D4B93C5993B9F7B43EE 修改 ~/.m2/settings.xml 文件，添加：\n1 2 3 4 gpg.passphrase 将 替换为创建 gpg key 时设置的密码。\n使用 Maven 发布 jar 使用下面命令发布 jar 到 sonatype 仓库：\n1 2 3 mvn -P release clean deploy mvn -P release clean deploy 如果当前项目的版本为快照版，则发布后的 jar 在 https://s01.oss.sonatype.org/content/repositories/snapshots/com/chensoul/maven-hello-world/\n如果当前项目的版本为正式版，稍等几分钟，可以在以下仓库查看发布的 jar:\nhttps://central.sonatype.com/artifact/com.chensoul/maven-hello-world https://s01.oss.sonatype.org/service/local/repositories/releases/content/com/chensoul/maven-hello-world https://repo.maven.apache.org/maven2/com/chensoul/maven-hello-world 配置Github Actions 使用 Github Actions 发布 jar 到 maven 仓库，目前发现有两个 action 可以实现该目的：\nactions/setup-java\nqcastel/github-actions-maven-release\naction-maven-publish\nactions/setup-java 使用 actions/setup-java ，参考使用文档，在项目的 .github/workflows 目录下创建 maven-release.yml文件：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 name: Maven Release on: push: branches: [ \"main\" ] tags: [ \"*\" ] release: types: [ created ] jobs: build: runs-on: ubuntu-latest if: \"!contains(github.event.head_commit.message, '[CI Skip]')\" steps: - name: Checkout uses: actions/checkout@v4 - name: Set up JDK 8 uses: actions/setup-java@v4 with: distribution: 'temurin' java-version: 8 cache: maven server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml server-username: MAVEN_USERNAME # 变量 server-password: MAVEN_TOKEN # 变量 gpg-passphrase: GPG_PASSPHRASE # 变量 gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} - name: Java Maven Release run: mvn -ntp -B -U clean deploy -P release -DskipTests env: MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }} MAVEN_TOKEN: ${{ secrets.OSSRH_TOKEN }} GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }} 根据上面的 yaml 文件，需要在当前项目的 Settings–\u003eSecrets–\u003eActions 创建以下 Secrets：\nOSSRH_TOKEN：您在 Sonatype 上的密码 OSSRH_USERNAME：您在 Sonatype 上的用户名 MAVEN_GPG_PRIVATE_KEY：用于签名 Jar 包的 GPG 密钥 MAVEN_GPG_PASSPHRASE：用于签名的 GPG 密钥密码 MAVEN_GPG_PRIVATE_KEY 通过如下命令获取：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 $ gpg --list-keys [keyboxd] --------- pub ed25519 2024-05-08 [SC] [有效至：2027-05-08] C83119F1B90238633D766D4B93C5993B9F7B43EE uid [ 绝对 ] chensoul sub cv25519 2024-05-08 [E] [有效至：2027-05-08] $ gpg --armor --export-secret-keys C83119F1B90238633D766D4B93C5993B9F7B43EE -----BEGIN PGP PRIVATE KEY BLOCK----- lIYEZjrnpBYJKwYBBAHaRw8BAQdAmMtUf7k2poUBYhlca7U7le2vGPEHgAtHZ1MH DGOSZR3+BwMCiYrT2G14W736nwBjZvOLsJKjxsSqVN9bRLATEg3veHW/59Jw4DaI QN5DX8ier7D2rXM9fkJfYyLg3wNVAcT7dmcQOVM5wkgL1B7EEz3/aLQeY2hlbnNv dWwgPGljaGVuc291bEBnbWFpbC5jb20+iJkEExYKAEEWIQTIMRnxuQI4Yz12bUuT xZk7n3tD7gUCZjrnpAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX gAAKCRCTxZk7n3tD7sgGAQCBRsbdVDn1NuVYXOPEAKAFUFWgowb0tkH7w5VzWWD2 hwD+IHR5JiegnI376upOLiUzQ5cZN8gJ3fn0oau5ELp1lQSciwRmOuekEgorBgEE AZdVAQUBAQdAnfkcIuOOyU+ihUX/Z8nU9634MbTG0OHfEZCbm9pgdH4DAQgH/gcD AqPKEqB6fGQq+u4+7gYGW2vgkeiTjWJCwVw8VJEwn53+gdQ0q7irfnOOqYNXJbye n2NM9IucSZpcVk8gKhJmc8hJR4uNifh0i820vEjyszeIfgQYFgoAJhYhBMgxGfG5 AjhjPXZtS5PFmTufe0PuBQJmOuekAhsMBQkFo5qAAAoJEJPFmTufe0PubSkA/R6I /7+oavy/FP9r6PfV1oI5yiAy7RMue1BuIcbRMoabAPkBBQq/ms9DZ5GA25ZpSuOH S3ee7QZPNjtkA2s/eQsPAQ== qcastel/github-actions-maven-release 使用 qcastel/github-actions-maven-release ，参考使用文档，在项目的 .github/workflows 目录下创建 maven-release.yml文件：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 name: Maven Release on: push: branches: [ \"main\" ] tags: [ \"*\" ] release: types: [ created ] jobs: build: runs-on: ubuntu-latest if: \"!contains(github.event.head_commit.message, '[CI Skip]')\" steps: - name: Checkout uses: actions/checkout@v4 - name: Java Maven Release uses: qcastel/github-actions-maven-release@master env: JAVA_HOME: /usr/lib/jvm/java-1.8-openjdk/ with: git-release-bot-name: \"release-bot\" git-release-bot-email: \"release-bot@chensoul.cc\" release-branch-name: \"main\" maven-args: \"-ntp -B -U -P release\" maven-servers: ${{ secrets.MVN_REPO_SERVERS }} ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} gpg-enabled: true gpg-key-id: ${{ secrets.MAVEN_GPG_ID }} gpg-key: ${{ secrets.MAVEN_GPG_KEY }} gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }} 根据上面的 yaml 文件，需要在当前项目的 Settings–\u003eSecrets–\u003eActions 创建以下 Secrets：\nMVN_REPO_SERVERS SSH_PRIVATE_KEY MAVEN_GPG_ID MAVEN_GPG_KEY MAVEN_GPG_PASSPHRASE MVN_REPO_SERVERS 如下：\n1 2 3 4 5 6 7 8 9 10 11 [ { \"id\": \"ossrh\", \"username\": \"LSJkOqOi\", \"password\": \"3oJOIO5+ah7LIcRSmDC2YDGjE9PRbgxoE2UbXjOrSzC1\" }, { \"id\": \"gpg.passphrase\", \"passphrase\": \"chensoul\" } ] SSH_PRIVATE_KEY 通过下面命令获取：\n1、在 docker 容器中生成\n1 docker run -it qcastel/maven-release:latest bash ssh 公钥和秘钥\n1 2 3 4 5 6 7 8 9 ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N \"\" echo -e \"Copy the following SSH private key and add it to your repo secrets under the name 'SSH_PRIVATE_KEY':\" base64 ~/.ssh/id_rsa echo -e \" \" echo -e \"Copy the encoded SSH public key and add it as one of your repo deploy keys with write access:\" cat ~/.ssh/id_rsa.pub 输出内容如下：\n1 2 3 4 5 Copy the following SSH private key and add it to your repo secrets under the name 'SSH_PRIVATE_KEY': LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFB QUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUJGd0FBQUFkemMyZ3RjbgpOaEFBQUFB d0VBQVFBQUFRRUExQUFBclFpZFNRS25pY3g5VmNaQVdtTlI1ZWY0Q2tSbEJCZTdVdk5QNGNMMlAv eDRReXJpCmdWcGV2Um8wVHE0eUptWFN2L3hnclByNk5CQmk0STlXRmp6Q2l0a3phcTg3OGwyNVdt UUt5cTUyang5TWJ0MmhCZzVrdUsKZ05pRGxvMWNaY1VpZHd4ak9sNzVlVHpWaHpoSGZ4ZnphZTZY N0QybE1jeFUrd2d3MFJHZlpITjUvRUZWQ3JHRUhKdHlGSQpReFd1VDY0c3RNMElrVjA3azBPRlQy SHhYNlB6OUpvRjhRRm9SZmVjU0RUM2tPRk5rTVVicDVTNkkxNWxtTjB0YnNHVGNsClYxWFpwWUkr NHRFWWphN1EwWnlWaVBCVUJnWnBuUlpQNFRmOEIwRzhsVDdqSlNPWDM0YkRFWkFoMVM4bnRCQzc3 aFUyMUIKWGJDZHV6ZlpXUUFBQThoN29jU3VlNkhFcmdBQUFBZHpjMmd0Y25OaEFBQUJBUURVQUFD dENKMUpBcWVKekgxVnhrQmFZMQpIbDUvZ0tSR1VFRjd0UzgwL2h3dlkvL0hoREt1S0JXbDY5R2pS T3JqSW1aZEsvL0dDcyt2bzBFR0xnajFZV1BNS0syVE5xCnJ6dnlYYmxhWkFyS3JuYVBIMHh1M2FF R0RtUzRxQTJJT1dqVnhseFNKM0RHTTZYdmw1UE5XSE9FZC9GL05wN3Bmc1BhVXgKekZUN0NERFJF WjlrYzNuOFFWVUtzWVFjbTNJVWhERmE1UHJpeTB6UWlSWFR1VFE0VlBZZkZmby9QMG1nWHhBV2hG OTV4SQpOUGVRNFUyUXhSdW5sTG9qWG1XWTNTMXV3Wk55VlhWZG1sZ2o3aTBSaU5ydERSbkpXSThG UUdCbW1kRmsvaE4vd0hRYnlWClB1TWxJNWZmaHNNUmtDSFZMeWUwRUx2dUZUYlVGZHNKMjdOOWxa QUFBQUF3RUFBUUFBQVFCSzBqMXExSEYraFJ0UVBRVzMKTWlNZ1E1RnlETzZ6NFBPdUFCb3k2b0Mw OHpRcDNSY3N6WVBubDFkOGNqVW4xNzhIWWtTQlViZGxGYWNjblBQb3dXM21wMApjWjdoS0JncHNy clB4djlJTUNpWlI2YXRkMUFXK0ZUYXNxcU5VdDBPVTVIYXNUcTZ2WHAvN1drcTZ0ZUp3OGtvQi9I MjN5CmhyVGs1eFJ1WnZPckxGcS9vdXBQeXhVS1M0SzRVOG5JYjBnZjVjT3RXeUlWZFdKQ05EdU9R ZW1sdDBRajN3RjZPWkNpcU8KRGxaMFd3MWwrRzJpUWZFLzM2ODR0UXpKemVKeFgybEJaN0tmQStP bEcyZENPeXZwY01Ic1J4TE5ITy85aWpqUmNXWUVtMgp4SDVYQmRkZldlKzBkYkxxZFhoWHJHTnpx QjlSbjBTWGZ1QVRnSzZENjBsSkFBQUFnUUN6VmhONUh1YXVvOExzVVR1dkNRCkNibVhnakhuS1hB NDBqV1pyVmlucEgvbmcxNkNudlE5UmJhb041am1JWURUZEJ3TVp4dXZSck9JUTloeUZnUDVCSHRL dTgKQlhvZ08ybERySDFVRzA4bzN6ZHNhUTJaaGp0aEE5TFlMcXpvYkVtSEpndkwxemJjRVBWMHJC cm1SMXArL0trN3Y5OHd0eQpPT2VnYXVqK0djUXdBQUFJRUE5ZklKc0t2SGdsQVp1eS9sMzJWS3Q4 cTN4UFl4SUlrMVJKczV4bDRJUGFTZ0xsR0pzVFgwCll2bll1THcrb2NCMlVaazRxUUlML3I5bTRt cVhEOTF6bXhxZTNUKzZqOHk0ODBvbS91UWRma3h6MWdNWkljdDlkR2Z3RE8KczRBckNPSkx0TVI4 WG53emxXM1VLZnJhTDFRUFZMVUs3OWpSM29kN2k2VmNWMlpnY0FBQUNCQU55cXRMZk85NUhkU3Mz RwpyMWYvOStVRUJjV0xMSnpHMEl2OEZtd3J6ci9ZbksrbXpmR2dMVHNPeUgwV1pMZkVnYlJkUGxC aVJmTjFXQk1oWHZKRWhaCkp4YTY1N0IxTUExano1eEE2OElCcEJxUlhvNWZ6QmdHNFg0UGVNZkQz dXR5M0NENVR4Y2sxL0c1L2krUXpXNFhlR2RLNkkKaml1OGg5TXo3YkUxZHUyZkFBQUFFWEp2YjNS QVlqa3dZelJtWWpKbE9HVmxBUT09Ci0tLS0tRU5EIE9QRU5TU0ggUFJJVkFURSBLRVktLS0tLQo= Copy the encoded SSH public key and add it as one of your repo deploy keys with write access: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUAACtCJ1JAqeJzH1VxkBaY1Hl5/gKRGUEF7tS80/hwvY//HhDKuKBWl69GjROrjImZdK//GCs+vo0EGLgj1YWPMKK2TNqrzvyXblaZArKrnaPH0xu3aEGDmS4qA2IOWjVxlxSJ3DGM6Xvl5PNWHOEd/F/Np7pfsPaUxzFT7CDDREZ9kc3n8QVUKsYQcm3IUhDFa5Priy0zQiRXTuTQ4VPYfFfo/P0mgXxAWhF95xINPeQ4U2QxRunlLojXmWY3S1uwZNyVXVdmlgj7i0RiNrtDRnJWI8FQGBmmdFk/hN/wHQbyVPuMlI5ffhsMRkCHVLye0ELvuFTbUFdsJ27N9lZ root@b90c4fb2e8ee 2、或者直接使用本地的 ssh\nmacos 系统上执行命令：\n1 2 3 4 5 6 7 echo -e \"Copy the following SSH private key and add it to your repo secrets under the name 'SSH_PRIVATE_KEY':\" base64 -i ~/.ssh/id_rsa echo -e \" \" echo -e \"Copy the encoded SSH public key and add it as one of your repo deploy keys with write access:\" cat ~/.ssh/id_rsa.pub 将私钥粘贴到 Secrets 中 SSH_PRIVATE_KEY 的值内，将公钥添加到你的 github 账号的 SSH keys 中。\n获取 MAVEN_GPG_ID：\n1 2 3 4 5 6 7 $ gpg --list-secret-keys --keyid-format LONG [keyboxd] --------- sec ed25519/93C5993B9F7B43EE 2024-05-08 [SC] [有效至：2027-05-08] C83119F1B90238633D766D4B93C5993B9F7B43EE uid [ 绝对 ] chensoul ssb cv25519/116B95FF0068A7E8 2024-05-08 [E] [有效至：2027-05-08] 这里 MAVEN_GPG_ID 对应 93C5993B9F7B43EE\n获取 MAVEN_GPG_KEY，运行下面命令，输入密码，即 MAVEN_GPG_PASSPHRASE 对应的内容\n1 2 3 4 5 echo 'Public key to add in your bot github account:' gpg --armor --export 93C5993B9F7B43EE echo 'Private key to add to the CI secrets under GITHUB_GPG_KEY:' gpg --export-secret-keys --armor 93C5993B9F7B43EE | base64 输出内容：\n公钥：\n1 2 3 4 5 6 7 8 9 10 11 12 13 -----BEGIN PGP PUBLIC KEY BLOCK----- mDMEZjrnpBYJKwYBBAHaRw8BAQdAmMtUf7k2poUBYhlca7U7le2vGPEHgAtHZ1MH DGOSZR20HmNoZW5zb3VsIDxpY2hlbnNvdWxAZ21haWwuY29tPoiZBBMWCgBBFiEE yDEZ8bkCOGM9dm1Lk8WZO597Q+4FAmY656QCGwMFCQWjmoAFCwkIBwICIgIGFQoJ CAsCBBYCAwECHgcCF4AACgkQk8WZO597Q+7IBgEAgUbG3VQ59TblWFzjxACgBVBV oKMG9LZB+8OVc1lg9ocA/iB0eSYnoJyN++rqTi4lM0OXGTfICd359KGruRC6dZUE uDgEZjrnpBIKKwYBBAGXVQEFAQEHQJ35HCLjjslPooVF/2fJ1Pet+DG0xtDh3xGQ m5vaYHR+AwEIB4h+BBgWCgAmFiEEyDEZ8bkCOGM9dm1Lk8WZO597Q+4FAmY656QC GwwFCQWjmoAACgkQk8WZO597Q+5tKQD9Hoj/v6hq/L8U/2vo99XWgjnKIDLtEy57 UG4hxtEyhpsA+QEFCr+az0NnkYDblmlK44dLd57tBk82O2QDaz95Cw8B =YFZg -----END PGP PUBLIC KEY BLOCK----- 私钥：\n1 LS0tLS1CRUdJTiBQR1AgUFJJVkFURSBLRVkgQkxPQ0stLS0tLQoKbElZRVpqcm5wQllKS3dZQkJBSGFSdzhCQVFkQW1NdFVmN2sycG9VQllobGNhN1U3bGUydkdQRUhnQXRIWjFNSApER09TWlIzK0J3TUNwOTJOaVVIQnU0VDZ3UHRFSWt1cGtTM2M0c21WOWZUUXRtRDM3bTJuOTlzbnRWNmllYU8vCi9TKzUvR2FyWDNMTUhoTmtkdnVpOHZSMk1hNDNhNFdzVmFpR1RiZWF6eHNHbVE1TGo4ZXUvTFFlWTJobGJuTnYKZFd3Z1BHbGphR1Z1YzI5MWJFQm5iV0ZwYkM1amIyMCtpSmtFRXhZS0FFRVdJUVRJTVJueHVRSTRZejEyYlV1VAp4Wms3bjN0RDdnVUNaanJucEFJYkF3VUpCYU9hZ0FVTENRZ0hBZ0lpQWdZVkNna0lDd0lFRmdJREFRSWVCd0lYCmdBQUtDUkNUeFprN24zdEQ3c2dHQVFDQlJzYmRWRG4xTnVWWVhPUEVBS0FGVUZXZ293YjB0a0g3dzVWeldXRDIKaHdEK0lIUjVKaWVnbkkzNzZ1cE9MaVV6UTVjWk44Z0ozZm4wb2F1NUVMcDFsUVNjaXdSbU91ZWtFZ29yQmdFRQpBWmRWQVFVQkFRZEFuZmtjSXVPT3lVK2loVVgvWjhuVTk2MzRNYlRHME9IZkVaQ2JtOXBnZEg0REFRZ0gvZ2NECkFtYllUMStNNjB6bStna1lyMk54Yys1U3hqYmd6bTA1ajFURW42TnUwVTUyUmRoMzJvTVRYU2ZIa2RlakdiVmkKMDNKemRkVnZ6Kzl6U2FzQVpMMVA1ZytBa0dGbTBHYVFLTldnOUVRQzVBK0lmZ1FZRmdvQUpoWWhCTWd4R2ZHNQpBamhqUFhadFM1UEZtVHVmZTBQdUJRSm1PdWVrQWhzTUJRa0ZvNXFBQUFvSkVKUEZtVHVmZTBQdWJTa0EvUjZJCi83K29hdnkvRlA5cjZQZl 将上面输出私钥的内容添加到 Secrets 中 MAVEN_GPG_KEY 的值里面，将公钥内容添加到你的 github 账号的 GPG keys 中。\n修改代码，提交到 github，会触发一个 github action ，查看日志，可以看到：\n1 2 Not using access token authentication, as no access token (via env GITREPO_ACCESS_TOKEN) defined or because an SSH key is defined and setup (via env SSH_PRIVATE_KEY) Do mvn release:prepare with options -DdevelopmentVersion=${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.nextIncrementalVersion}-SNAPSHOT and arguments -ntp -B -U -P release 从日志可以看到，qcastel/github-actions-maven-release 使用了 maven 的 maven-release-plugin 插件，会发布正式版的 jar 到 maven 中央仓库。为了 避免在开发阶段每次提交都发布一个正式版本到中央仓库，可以修改 release-branch-name 为 release 分支，即限定提交到指定分支时候，从触发 maven 发布。\n可以添加下面参数，跳过 release:perform ，即不会发布 jar 到 maven 中央仓库，但是 maven-release-plugin 插件还是会修改项目的版本，并创建 tag。\n1 2 with: skip-perform: true 创建的 tag 名称格式为：项目名称-版本。tag 名称格式可以在 maven-release-plugin 插件中配置：\n1 2 3 4 5 6 7 8 9 10 11 12 13 org.apache.maven.plugins maven-release-plugin ${maven-release-plugin.version} [CI Skip] true false release v@{version} deploy action-maven-publish 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 name: Release on: push: tags: - 'v*' jobs: release: runs-on: ubuntu-latest steps: - uses: actions/checkout@v3 - name: Set up JDK 8 uses: actions/setup-java@v4 with: java-version: '8' distribution: 'temurin' - name: Build with Maven run: mvn clean install - name: Publish to Maven Central uses: samuelmeuli/action-maven-publish@v1 with: gpg_private_key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} gpg_passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }} nexus_username: ${{ secrets.OSSRH_USERNAME }} nexus_password: ${{ secrets.OSSRH_TOKEN }} 总结 如果使用 qcastel/github-actions-maven-release ，maven-release-plugin 插件会修改版本，并且创建 tag ，但是并不会创建 github release。\n使用 https://github.com/release-drafter/release-drafter 这个 actions 可以更加 pull request 自动创建 github releae，基于此，更倾向于使用 actions/setup-java 来发布 jar 到 Maven 仓库。\n","wordCount":"2889","inLanguage":"en","datePublished":"2024-08-01T00:00:00+08:00","dateModified":"2024-08-01T00:00:00+08:00","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/"},"publisher":{"@type":"Organization","name":"ChenSoul","logo":{"@type":"ImageObject","url":"https://blog.chensoul.cc/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories title=分类><span>分类</span></a></li><li><a href=https://blog.chensoul.cc/tags title=标签><span>标签</span></a></li><li><a href=https://blog.chensoul.cc/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://blog.chensoul.cc/index.xml title=订阅><span>订阅</span></a></li><li><a href=https://github.com/chensoul title=关于><span>关于</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Github Action 发布 Jar 到 Maven 中央仓库</h1><div class=post-meta><span title='2024-08-01 00:00:00 +0800 CST'>2024-08-01</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;2889 words&nbsp;·&nbsp;chensoul</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#%e5%89%8d%e6%8f%90%e6%9d%a1%e4%bb%b6 aria-label=前提条件>前提条件</a></li><li><a href=#%e5%88%9b%e5%bb%ba-maven-%e9%a1%b9%e7%9b%ae aria-label="创建 Maven 项目">创建 Maven 项目</a></li><li><a href=#%e5%ae%89%e8%a3%85-gpg-%e5%b9%b6%e5%88%9b%e5%bb%ba%e5%85%ac%e7%a7%98%e9%92%a5 aria-label="安装 GPG 并创建公秘钥">安装 GPG 并创建公秘钥</a></li><li><a href=#%e4%bd%bf%e7%94%a8-maven-%e5%8f%91%e5%b8%83-jar aria-label="使用 Maven 发布 jar">使用 Maven 发布 jar</a></li><li><a href=#%e9%85%8d%e7%bd%aegithub-actions aria-label="配置Github Actions">配置Github Actions</a><ul><li><a href=#actionssetup-java aria-label=actions/setup-java>actions/setup-java</a></li><li><a href=#qcastelgithub-actions-maven-release aria-label=qcastel/github-actions-maven-release>qcastel/github-actions-maven-release</a></li><li><a href=#action-maven-publish aria-label=action-maven-publish>action-maven-publish</a></li></ul></li><li><a href=#%e6%80%bb%e7%bb%93 aria-label=总结>总结</a></li></ul></div></details></div><div class=post-content><p>作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。</p><p>在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。</p><p>下面我将以一个简单的 Maven 项目为例，介绍如何使用 Github Action 实现自动发布 Jar 到 Maven 中央仓库。</p><h2 id=前提条件>前提条件<a hidden class=anchor aria-hidden=true href=#前提条件>#</a></h2><ol><li>在 Github 创建一个 Maven 项目</li><li>安装 gpg 并创建 gpg 秘钥和公钥，参考 <a href=https://dzone.com/articles/how-to-publish-artifacts-to-maven-central target=_blank>How to Publish Artifacts to Maven Central</a></li><li>创建 OSSRH 账号，参考 <a href=https://central.sonatype.org/publish/generate-token/#generate-a-token-on-ossrh-sonatype-nexus-repository-manager-servers target=_blank>Generate a Token on OSSRH Sonatype Nexus Repository Manager servers</a></li></ol><h2 id=创建-maven-项目>创建 Maven 项目<a hidden class=anchor aria-hidden=true href=#创建-maven-项目>#</a></h2><p>首先在Github上面创建项目：<a href=https://github.com/chensoul/maven-hello-world target=_blank>https://github.com/chensoul/maven-hello-world</a></p><p>增加两个 Maven 插件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;groupId&gt;</span>org.apache.maven.plugins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;artifactId&gt;</span>maven-gpg-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;version&gt;</span>3.2.2<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;executions&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;execution&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;goals&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;goal&gt;</span>sign<span class=nt>&lt;/goal&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;/goals&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;phase&gt;</span>verify<span class=nt>&lt;/phase&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/execution&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/executions&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;groupId&gt;</span>org.sonatype.plugins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;artifactId&gt;</span>nexus-staging-maven-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;version&gt;</span>1.7.0<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;extensions&gt;</span>true<span class=nt>&lt;/extensions&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;serverId&gt;</span>ossrh<span class=nt>&lt;/serverId&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;nexusUrl&gt;</span>https://s01.oss.sonatype.org/<span class=nt>&lt;/nexusUrl&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;autoReleaseAfterClose&gt;</span>true<span class=nt>&lt;/autoReleaseAfterClose&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;keepStagingRepositoryOnCloseRuleFailure&gt;</span>false<span class=nt>&lt;/keepStagingRepositoryOnCloseRuleFailure&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/configuration&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/plugin&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>可以将上面的两个插件加入到 pom.xml 的 build 节点下面，也可以配置到 profile 节点下。<a href=https://github.com/chensoul/maven-hello-world target=_blank>https://github.com/chensoul/maven-hello-world</a> 项目中使用的是第二种方式，具体见 <a href=https://github.com/chensoul/chensoul-parent target=_blank>https://github.com/chensoul/chensoul-parent</a> 的 pom.xml 文件。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span><span class=lnt>45
-</span><span class=lnt>46
-</span><span class=lnt>47
-</span><span class=lnt>48
-</span><span class=lnt>49
-</span><span class=lnt>50
-</span><span class=lnt>51
-</span><span class=lnt>52
-</span><span class=lnt>53
-</span><span class=lnt>54
-</span><span class=lnt>55
-</span><span class=lnt>56
-</span><span class=lnt>57
-</span><span class=lnt>58
-</span><span class=lnt>59
-</span><span class=lnt>60
-</span><span class=lnt>61
-</span><span class=lnt>62
-</span><span class=lnt>63
-</span><span class=lnt>64
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;profiles&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;profile&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;id&gt;</span>release<span class=nt>&lt;/id&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;build&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;plugins&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;groupId&gt;</span>org.apache.maven.plugins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;artifactId&gt;</span>maven-source-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;groupId&gt;</span>org.apache.maven.plugins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;artifactId&gt;</span>maven-javadoc-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;groupId&gt;</span>org.apache.maven.plugins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;artifactId&gt;</span>maven-enforcer-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;groupId&gt;</span>pl.project13.maven<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;artifactId&gt;</span>git-commit-id-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;groupId&gt;</span>org.apache.maven.plugins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;artifactId&gt;</span>maven-release-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;version&gt;</span>${maven-release-plugin.version}<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>              <span class=nt>&lt;scmCommentPrefix&gt;</span>[CI Skip]<span class=nt>&lt;/scmCommentPrefix&gt;</span>
-</span></span><span class=line><span class=cl>              <span class=nt>&lt;autoVersionSubmodules&gt;</span>true<span class=nt>&lt;/autoVersionSubmodules&gt;</span>
-</span></span><span class=line><span class=cl>              <span class=nt>&lt;useReleaseProfile&gt;</span>false<span class=nt>&lt;/useReleaseProfile&gt;</span>
-</span></span><span class=line><span class=cl>              <span class=nt>&lt;releaseProfiles&gt;</span>release<span class=nt>&lt;/releaseProfiles&gt;</span>
-</span></span><span class=line><span class=cl>              <span class=nt>&lt;goals&gt;</span>deploy<span class=nt>&lt;/goals&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;/configuration&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=c>&lt;!-- https://blog.sonatype.com/2010/01/how-to-generate-pgp-signatures-with-maven/ --&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;groupId&gt;</span>org.apache.maven.plugins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;artifactId&gt;</span>maven-gpg-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;version&gt;</span>${maven-gpg-plugin.version}<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;executions&gt;</span>
-</span></span><span class=line><span class=cl>              <span class=nt>&lt;execution&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;goals&gt;</span>
-</span></span><span class=line><span class=cl>                  <span class=nt>&lt;goal&gt;</span>sign<span class=nt>&lt;/goal&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;/goals&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;phase&gt;</span>verify<span class=nt>&lt;/phase&gt;</span>
-</span></span><span class=line><span class=cl>              <span class=nt>&lt;/execution&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;/executions&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;groupId&gt;</span>org.sonatype.plugins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;artifactId&gt;</span>nexus-staging-maven-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;version&gt;</span>${nexus-staging-maven-plugin.version}<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;extensions&gt;</span>true<span class=nt>&lt;/extensions&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>              <span class=nt>&lt;serverId&gt;</span>ossrh<span class=nt>&lt;/serverId&gt;</span>
-</span></span><span class=line><span class=cl>              <span class=nt>&lt;nexusUrl&gt;</span>https://s01.oss.sonatype.org/<span class=nt>&lt;/nexusUrl&gt;</span>
-</span></span><span class=line><span class=cl>              <span class=nt>&lt;autoReleaseAfterClose&gt;</span>true<span class=nt>&lt;/autoReleaseAfterClose&gt;</span>
-</span></span><span class=line><span class=cl>              <span class=nt>&lt;keepStagingRepositoryOnCloseRuleFailure&gt;</span>false<span class=nt>&lt;/keepStagingRepositoryOnCloseRuleFailure&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;/configuration&gt;</span>
-</span></span><span class=line><span class=cl>          <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;/plugins&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;/build&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/profile&gt;</span>
-</span></span><span class=line><span class=cl>  
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/profiles&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>nexus-staging-maven-plugin 插件配置的 serverId 是 ossrh ，需要和 distributionManagement 中的配置一致：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;distributionManagement&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;snapshotRepository&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;id&gt;</span>ossrh<span class=nt>&lt;/id&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;url&gt;</span>https://s01.oss.sonatype.org/content/repositories/snapshots<span class=nt>&lt;/url&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/snapshotRepository&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;repository&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;id&gt;</span>ossrh<span class=nt>&lt;/id&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;url&gt;</span>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/<span class=nt>&lt;/url&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/repository&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/distributionManagement&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>您需要在 <a href=https://issues.sonatype.org/secure/Dashboard.jspa target=_blank>Sonatype JIRA</a> 上注册一个帐户并为此创建一个<a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134" target=_blank>Issure</a>。</p><p>将您的 Sonatype JIRA 凭证添加到您的<code>~/.m2/settings.xml</code>文件中，如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;server&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;id&gt;</span>ossrh<span class=nt>&lt;/id&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;username&gt;</span>LSJkOqOi<span class=nt>&lt;/username&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;password&gt;</span>3oJOIO5+ah7LIcRSmDC2YDGjE9PRbgxoE2UbXjOrSzC1<span class=nt>&lt;/password&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/server&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><h2 id=安装-gpg-并创建公秘钥>安装 GPG 并创建公秘钥<a hidden class=anchor aria-hidden=true href=#安装-gpg-并创建公秘钥>#</a></h2><p>macos 上安装 gpg：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install gpg
-</span></span></code></pre></td></tr></table></div></div><p>参考 <a href=https://central.sonatype.org/publish/requirements/gpg/#generating-a-key-pair target=_blank>Generating a Key Pair</a> 生成 GPG 密钥。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ gpg --gen-key
-</span></span><span class=line><span class=cl>gpg <span class=o>(</span>GnuPG<span class=o>)</span> 2.4.5<span class=p>;</span> Copyright <span class=o>(</span>C<span class=o>)</span> <span class=m>2024</span> g10 Code GmbH
-</span></span><span class=line><span class=cl>This is free software: you are free to change and redistribute it.
-</span></span><span class=line><span class=cl>There is NO WARRANTY, to the extent permitted by law.
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>注意：使用 “gpg --full-generate-key” 以获得一个全功能的密钥生成对话框。
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>GnuPG 需要构建用户标识以辨认您的密钥。
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>真实姓名： chensoul
-</span></span><span class=line><span class=cl>电子邮件地址： ichensoul@gmail.com
-</span></span><span class=line><span class=cl>您选定了此用户标识：
-</span></span><span class=line><span class=cl>    “chensoul &lt;ichensoul@gmail.com&gt;”
-</span></span></code></pre></td></tr></table></div></div><p>按提示输入两次密码，这里我使用 chensoul 作为密码 。</p><p>查看生成的 key：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># gpg --list-secret-keys --keyid-format=long</span>
-</span></span><span class=line><span class=cl><span class=o>[</span>keyboxd<span class=o>]</span>
-</span></span><span class=line><span class=cl>---------
-</span></span><span class=line><span class=cl>sec   ed25519/93C5993B9F7B43EE 2024-05-08 <span class=o>[</span>SC<span class=o>]</span> <span class=o>[</span>有效至：2027-05-08<span class=o>]</span>
-</span></span><span class=line><span class=cl>      C83119F1B90238633D766D4B93C5993B9F7B43EE
-</span></span><span class=line><span class=cl>uid                   <span class=o>[</span> 绝对 <span class=o>]</span> chensoul &lt;ichensoul@gmail.com&gt;
-</span></span><span class=line><span class=cl>ssb   cv25519/116B95FF0068A7E8 2024-05-08 <span class=o>[</span>E<span class=o>]</span> <span class=o>[</span>有效至：2027-05-08<span class=o>]</span>
-</span></span></code></pre></td></tr></table></div></div><p>上传公开的 key：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># keyserver.ubuntu.com</span>
-</span></span><span class=line><span class=cl><span class=c1># keys.openpgp.org</span>
-</span></span><span class=line><span class=cl><span class=c1># pgp.mit.edu</span>
-</span></span><span class=line><span class=cl>gpg --keyserver keys.openpgp.org --send-keys C83119F1B90238633D766D4B93C5993B9F7B43EE
-</span></span></code></pre></td></tr></table></div></div><p>修改 <code>~/.m2/settings.xml</code> 文件，添加：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;server&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;id&gt;</span>gpg.passphrase<span class=nt>&lt;/id&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;passphrase&gt;&lt;PASSPHRASE_GPG&gt;&lt;/passphrase&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/server&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>将 <code>&lt;PASSPHRASE_GPG></code> 替换为创建 gpg key 时设置的密码。</p><h2 id=使用-maven-发布-jar>使用 Maven 发布 jar<a hidden class=anchor aria-hidden=true href=#使用-maven-发布-jar>#</a></h2><p>使用下面命令发布 jar 到 sonatype 仓库：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mvn -P release clean deploy
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>mvn -P release clean deploy
-</span></span></code></pre></td></tr></table></div></div><p>如果当前项目的版本为快照版，则发布后的 jar 在 <a href=https://s01.oss.sonatype.org/content/repositories/snapshots/com/chensoul/maven-hello-world/ target=_blank>https://s01.oss.sonatype.org/content/repositories/snapshots/com/chensoul/maven-hello-world/</a></p><p>如果当前项目的版本为正式版，稍等几分钟，可以在以下仓库查看发布的 jar:</p><ul><li><a href=https://central.sonatype.com/artifact/com.chensoul/maven-hello-world target=_blank>https://central.sonatype.com/artifact/com.chensoul/maven-hello-world</a></li><li><a href=https://s01.oss.sonatype.org/service/local/repositories/releases/content/com/chensoul/maven-hello-world target=_blank>https://s01.oss.sonatype.org/service/local/repositories/releases/content/com/chensoul/maven-hello-world</a></li><li><a href=https://repo.maven.apache.org/maven2/com/chensoul/maven-hello-world target=_blank>https://repo.maven.apache.org/maven2/com/chensoul/maven-hello-world</a></li></ul><h2 id=配置github-actions>配置Github Actions<a hidden class=anchor aria-hidden=true href=#配置github-actions>#</a></h2><p>使用 Github Actions 发布 jar 到 maven 仓库，目前发现有两个 action 可以实现该目的：</p><ul><li><p><a href=https://github.com/actions/setup-java target=_blank>actions/setup-java</a></p></li><li><p><a href=https://github.com/qcastel/github-actions-maven-release target=_blank>qcastel/github-actions-maven-release</a></p></li><li><p><a href=https://github.com/marketplace/actions/action-maven-publish target=_blank>action-maven-publish</a></p></li></ul><h3 id=actionssetup-java>actions/setup-java<a hidden class=anchor aria-hidden=true href=#actionssetup-java>#</a></h3><p>使用 <a href=https://github.com/actions/setup-java target=_blank>actions/setup-java</a> ，参考使用文档，在项目的 .github/workflows 目录下创建 maven-release.yml文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Maven Release</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>on</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>push</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>branches</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=w> </span><span class=s2>&#34;main&#34;</span><span class=w> </span><span class=p>]</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tags</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=w> </span><span class=s2>&#34;*&#34;</span><span class=w> </span><span class=p>]</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>release</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>types</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=w> </span><span class=l>created ]</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>jobs</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>build</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>runs-on</span><span class=p>:</span><span class=w> </span><span class=l>ubuntu-latest</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>if</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;!contains(github.event.head_commit.message, &#39;[CI Skip]&#39;)&#34;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>steps</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Checkout</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>actions/checkout@v4</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Set up JDK 8</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>actions/setup-java@v4</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>distribution</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;temurin&#39;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>java-version</span><span class=p>:</span><span class=w> </span><span class=m>8</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>cache</span><span class=p>:</span><span class=w> </span><span class=l>maven</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>server-id</span><span class=p>:</span><span class=w> </span><span class=l>ossrh</span><span class=w> </span><span class=c># Value of the distributionManagement/repository/id field of the pom.xml</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>server-username</span><span class=p>:</span><span class=w> </span><span class=l>MAVEN_USERNAME</span><span class=w> </span><span class=c># 变量</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>server-password</span><span class=p>:</span><span class=w> </span><span class=l>MAVEN_TOKEN</span><span class=w> </span><span class=c># 变量</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>gpg-passphrase</span><span class=p>:</span><span class=w> </span><span class=l>GPG_PASSPHRASE</span><span class=w> </span><span class=c># 变量</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>gpg-private-key</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.MAVEN_GPG_PRIVATE_KEY }}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Java Maven Release</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>run</span><span class=p>:</span><span class=w> </span><span class=l>mvn -ntp -B -U clean deploy -P release -DskipTests</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>env</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>MAVEN_USERNAME</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.OSSRH_USERNAME }}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>MAVEN_TOKEN</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.OSSRH_TOKEN }}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>GPG_PASSPHRASE</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.MAVEN_GPG_PASSPHRASE }}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>根据上面的 yaml 文件，需要在当前项目的 Settings&ndash;>Secrets&ndash;>Actions 创建以下 Secrets：</p><ul><li><strong>OSSRH_TOKEN</strong>：您在 Sonatype 上的密码</li><li><strong>OSSRH_USERNAME</strong>：您在 Sonatype 上的用户名</li><li><strong>MAVEN_GPG_PRIVATE_KEY</strong>：用于签名 Jar 包的 GPG 密钥</li><li><strong>MAVEN_GPG_PASSPHRASE</strong>：用于签名的 GPG 密钥密码</li></ul><p><strong>MAVEN_GPG_PRIVATE_KEY</strong> 通过如下命令获取：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ gpg --list-keys
-</span></span><span class=line><span class=cl><span class=o>[</span>keyboxd<span class=o>]</span>
-</span></span><span class=line><span class=cl>---------
-</span></span><span class=line><span class=cl>pub   ed25519 2024-05-08 <span class=o>[</span>SC<span class=o>]</span> <span class=o>[</span>有效至：2027-05-08<span class=o>]</span>
-</span></span><span class=line><span class=cl>      C83119F1B90238633D766D4B93C5993B9F7B43EE
-</span></span><span class=line><span class=cl>uid             <span class=o>[</span> 绝对 <span class=o>]</span> chensoul &lt;ichensoul@gmail.com&gt;
-</span></span><span class=line><span class=cl>sub   cv25519 2024-05-08 <span class=o>[</span>E<span class=o>]</span> <span class=o>[</span>有效至：2027-05-08<span class=o>]</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>$ gpg --armor --export-secret-keys C83119F1B90238633D766D4B93C5993B9F7B43EE
-</span></span><span class=line><span class=cl>-----BEGIN PGP PRIVATE KEY BLOCK-----
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>lIYEZjrnpBYJKwYBBAHaRw8BAQdAmMtUf7k2poUBYhlca7U7le2vGPEHgAtHZ1MH
-</span></span><span class=line><span class=cl>DGOSZR3+BwMCiYrT2G14W736nwBjZvOLsJKjxsSqVN9bRLATEg3veHW/59Jw4DaI
-</span></span><span class=line><span class=cl>QN5DX8ier7D2rXM9fkJfYyLg3wNVAcT7dmcQOVM5wkgL1B7EEz3/aLQeY2hlbnNv
-</span></span><span class=line><span class=cl>dWwgPGljaGVuc291bEBnbWFpbC5jb20+iJkEExYKAEEWIQTIMRnxuQI4Yz12bUuT
-</span></span><span class=line><span class=cl>xZk7n3tD7gUCZjrnpAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
-</span></span><span class=line><span class=cl>gAAKCRCTxZk7n3tD7sgGAQCBRsbdVDn1NuVYXOPEAKAFUFWgowb0tkH7w5VzWWD2
-</span></span><span class=line><span class=cl>hwD+IHR5JiegnI376upOLiUzQ5cZN8gJ3fn0oau5ELp1lQSciwRmOuekEgorBgEE
-</span></span><span class=line><span class=cl>AZdVAQUBAQdAnfkcIuOOyU+ihUX/Z8nU9634MbTG0OHfEZCbm9pgdH4DAQgH/gcD
-</span></span><span class=line><span class=cl>AqPKEqB6fGQq+u4+7gYGW2vgkeiTjWJCwVw8VJEwn53+gdQ0q7irfnOOqYNXJbye
-</span></span><span class=line><span class=cl>n2NM9IucSZpcVk8gKhJmc8hJR4uNifh0i820vEjyszeIfgQYFgoAJhYhBMgxGfG5
-</span></span><span class=line><span class=cl>AjhjPXZtS5PFmTufe0PuBQJmOuekAhsMBQkFo5qAAAoJEJPFmTufe0PubSkA/R6I
-</span></span><span class=line><span class=cl>/7+oavy/FP9r6PfV1oI5yiAy7RMue1BuIcbRMoabAPkBBQq/ms9DZ5GA25ZpSuOH
-</span></span><span class=line><span class=cl>S3ee7QZPNjtkA2s/eQsPAQ<span class=o>==</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=qcastelgithub-actions-maven-release>qcastel/github-actions-maven-release<a hidden class=anchor aria-hidden=true href=#qcastelgithub-actions-maven-release>#</a></h3><p>使用 <a href=https://github.com/qcastel/github-actions-maven-release target=_blank>qcastel/github-actions-maven-release</a> ，参考使用文档，在项目的 .github/workflows 目录下创建 maven-release.yml文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Maven Release</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>on</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>push</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>branches</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=w> </span><span class=s2>&#34;main&#34;</span><span class=w> </span><span class=p>]</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tags</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=w> </span><span class=s2>&#34;*&#34;</span><span class=w> </span><span class=p>]</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>release</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>types</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=w> </span><span class=l>created ]</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>jobs</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>build</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>runs-on</span><span class=p>:</span><span class=w> </span><span class=l>ubuntu-latest</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>if</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;!contains(github.event.head_commit.message, &#39;[CI Skip]&#39;)&#34;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>steps</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Checkout</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>actions/checkout@v4</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Java Maven Release</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>qcastel/github-actions-maven-release@master</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>env</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>JAVA_HOME</span><span class=p>:</span><span class=w> </span><span class=l>/usr/lib/jvm/java-1.8-openjdk/</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>git-release-bot-name</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;release-bot&#34;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>git-release-bot-email</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;release-bot@chensoul.cc&#34;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>release-branch-name</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;main&#34;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>maven-args</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;-ntp -B -U -P release&#34;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>maven-servers</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.MVN_REPO_SERVERS }}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>ssh-private-key</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.SSH_PRIVATE_KEY }}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>gpg-enabled</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>gpg-key-id</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.MAVEN_GPG_ID }}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>gpg-key</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.MAVEN_GPG_KEY }}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>gpg-passphrase</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.MAVEN_GPG_PASSPHRASE }}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>根据上面的 yaml 文件，需要在当前项目的 Settings&ndash;>Secrets&ndash;>Actions 创建以下 Secrets：</p><ul><li><strong>MVN_REPO_SERVERS</strong></li><li><strong>SSH_PRIVATE_KEY</strong></li><li><strong>MAVEN_GPG_ID</strong></li><li><strong>MAVEN_GPG_KEY</strong></li><li><strong>MAVEN_GPG_PASSPHRASE</strong></li></ul><p><strong>MVN_REPO_SERVERS</strong> 如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>
-</span></span><span class=line><span class=cl>  <span class=o>{</span>
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;id&#34;</span>: <span class=s2>&#34;ossrh&#34;</span>,
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;username&#34;</span>: <span class=s2>&#34;LSJkOqOi&#34;</span>,
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;password&#34;</span>: <span class=s2>&#34;3oJOIO5+ah7LIcRSmDC2YDGjE9PRbgxoE2UbXjOrSzC1&#34;</span>
-</span></span><span class=line><span class=cl>  <span class=o>}</span>,
-</span></span><span class=line><span class=cl>  <span class=o>{</span>
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;id&#34;</span>: <span class=s2>&#34;gpg.passphrase&#34;</span>,
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;passphrase&#34;</span>: <span class=s2>&#34;chensoul&#34;</span>
-</span></span><span class=line><span class=cl>  <span class=o>}</span>
-</span></span><span class=line><span class=cl><span class=o>]</span>
-</span></span></code></pre></td></tr></table></div></div><p><strong>SSH_PRIVATE_KEY</strong> 通过下面命令获取：</p><p>1、在 docker 容器中生成</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>docker run -it qcastel/maven-release:latest  bash
-</span></span></code></pre></td></tr></table></div></div><p>ssh 公钥和秘钥</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh-keygen -b <span class=m>2048</span> -t rsa -f ~/.ssh/id_rsa -q -N <span class=s2>&#34;&#34;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=nb>echo</span> -e <span class=s2>&#34;Copy the following SSH private key and add it to your repo secrets under the name &#39;SSH_PRIVATE_KEY&#39;:&#34;</span>
-</span></span><span class=line><span class=cl>base64 ~/.ssh/id_rsa
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=nb>echo</span> -e <span class=s2>&#34; &#34;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=nb>echo</span> -e <span class=s2>&#34;Copy the encoded SSH public key and add it as one of your repo deploy keys with write access:&#34;</span>
-</span></span><span class=line><span class=cl>cat ~/.ssh/id_rsa.pub
-</span></span></code></pre></td></tr></table></div></div><p>输出内容如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>Copy the following SSH private key and add it to your repo secrets under the name <span class=s1>&#39;SSH_PRIVATE_KEY&#39;</span>:
-</span></span><span class=line><span class=cl>LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFB QUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUJGd0FBQUFkemMyZ3RjbgpOaEFBQUFB d0VBQVFBQUFRRUExQUFBclFpZFNRS25pY3g5VmNaQVdtTlI1ZWY0Q2tSbEJCZTdVdk5QNGNMMlAv eDRReXJpCmdWcGV2Um8wVHE0eUptWFN2L3hnclByNk5CQmk0STlXRmp6Q2l0a3phcTg3OGwyNVdt UUt5cTUyang5TWJ0MmhCZzVrdUsKZ05pRGxvMWNaY1VpZHd4ak9sNzVlVHpWaHpoSGZ4ZnphZTZY N0QybE1jeFUrd2d3MFJHZlpITjUvRUZWQ3JHRUhKdHlGSQpReFd1VDY0c3RNMElrVjA3azBPRlQy SHhYNlB6OUpvRjhRRm9SZmVjU0RUM2tPRk5rTVVicDVTNkkxNWxtTjB0YnNHVGNsClYxWFpwWUkr NHRFWWphN1EwWnlWaVBCVUJnWnBuUlpQNFRmOEIwRzhsVDdqSlNPWDM0YkRFWkFoMVM4bnRCQzc3 aFUyMUIKWGJDZHV6ZlpXUUFBQThoN29jU3VlNkhFcmdBQUFBZHpjMmd0Y25OaEFBQUJBUURVQUFD dENKMUpBcWVKekgxVnhrQmFZMQpIbDUvZ0tSR1VFRjd0UzgwL2h3dlkvL0hoREt1S0JXbDY5R2pS T3JqSW1aZEsvL0dDcyt2bzBFR0xnajFZV1BNS0syVE5xCnJ6dnlYYmxhWkFyS3JuYVBIMHh1M2FF R0RtUzRxQTJJT1dqVnhseFNKM0RHTTZYdmw1UE5XSE9FZC9GL05wN3Bmc1BhVXgKekZUN0NERFJF WjlrYzNuOFFWVUtzWVFjbTNJVWhERmE1UHJpeTB6UWlSWFR1VFE0VlBZZkZmby9QMG1nWHhBV2hG OTV4SQpOUGVRNFUyUXhSdW5sTG9qWG1XWTNTMXV3Wk55VlhWZG1sZ2o3aTBSaU5ydERSbkpXSThG UUdCbW1kRmsvaE4vd0hRYnlWClB1TWxJNWZmaHNNUmtDSFZMeWUwRUx2dUZUYlVGZHNKMjdOOWxa QUFBQUF3RUFBUUFBQVFCSzBqMXExSEYraFJ0UVBRVzMKTWlNZ1E1RnlETzZ6NFBPdUFCb3k2b0Mw OHpRcDNSY3N6WVBubDFkOGNqVW4xNzhIWWtTQlViZGxGYWNjblBQb3dXM21wMApjWjdoS0JncHNy clB4djlJTUNpWlI2YXRkMUFXK0ZUYXNxcU5VdDBPVTVIYXNUcTZ2WHAvN1drcTZ0ZUp3OGtvQi9I MjN5CmhyVGs1eFJ1WnZPckxGcS9vdXBQeXhVS1M0SzRVOG5JYjBnZjVjT3RXeUlWZFdKQ05EdU9R ZW1sdDBRajN3RjZPWkNpcU8KRGxaMFd3MWwrRzJpUWZFLzM2ODR0UXpKemVKeFgybEJaN0tmQStP bEcyZENPeXZwY01Ic1J4TE5ITy85aWpqUmNXWUVtMgp4SDVYQmRkZldlKzBkYkxxZFhoWHJHTnpx QjlSbjBTWGZ1QVRnSzZENjBsSkFBQUFnUUN6VmhONUh1YXVvOExzVVR1dkNRCkNibVhnakhuS1hB NDBqV1pyVmlucEgvbmcxNkNudlE5UmJhb041am1JWURUZEJ3TVp4dXZSck9JUTloeUZnUDVCSHRL dTgKQlhvZ08ybERySDFVRzA4bzN6ZHNhUTJaaGp0aEE5TFlMcXpvYkVtSEpndkwxemJjRVBWMHJC cm1SMXArL0trN3Y5OHd0eQpPT2VnYXVqK0djUXdBQUFJRUE5ZklKc0t2SGdsQVp1eS9sMzJWS3Q4 cTN4UFl4SUlrMVJKczV4bDRJUGFTZ0xsR0pzVFgwCll2bll1THcrb2NCMlVaazRxUUlML3I5bTRt cVhEOTF6bXhxZTNUKzZqOHk0ODBvbS91UWRma3h6MWdNWkljdDlkR2Z3RE8KczRBckNPSkx0TVI4 WG53emxXM1VLZnJhTDFRUFZMVUs3OWpSM29kN2k2VmNWMlpnY0FBQUNCQU55cXRMZk85NUhkU3Mz RwpyMWYvOStVRUJjV0xMSnpHMEl2OEZtd3J6ci9ZbksrbXpmR2dMVHNPeUgwV1pMZkVnYlJkUGxC aVJmTjFXQk1oWHZKRWhaCkp4YTY1N0IxTUExano1eEE2OElCcEJxUlhvNWZ6QmdHNFg0UGVNZkQz dXR5M0NENVR4Y2sxL0c1L2krUXpXNFhlR2RLNkkKaml1OGg5TXo3YkUxZHUyZkFBQUFFWEp2YjNS <span class=nv>QVlqa3dZelJtWWpKbE9HVmxBUT09Ci0tLS0tRU5EIE9QRU5TU0ggUFJJVkFURSBLRVktLS0tLQo</span><span class=o>=</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>Copy the encoded SSH public key and add it as one of your repo deploy keys with write access:
-</span></span><span class=line><span class=cl>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUAACtCJ1JAqeJzH1VxkBaY1Hl5/gKRGUEF7tS80/hwvY//HhDKuKBWl69GjROrjImZdK//GCs+vo0EGLgj1YWPMKK2TNqrzvyXblaZArKrnaPH0xu3aEGDmS4qA2IOWjVxlxSJ3DGM6Xvl5PNWHOEd/F/Np7pfsPaUxzFT7CDDREZ9kc3n8QVUKsYQcm3IUhDFa5Priy0zQiRXTuTQ4VPYfFfo/P0mgXxAWhF95xINPeQ4U2QxRunlLojXmWY3S1uwZNyVXVdmlgj7i0RiNrtDRnJWI8FQGBmmdFk/hN/wHQbyVPuMlI5ffhsMRkCHVLye0ELvuFTbUFdsJ27N9lZ root@b90c4fb2e8ee
-</span></span></code></pre></td></tr></table></div></div><p>2、或者直接使用本地的 ssh</p><p>macos 系统上执行命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> -e <span class=s2>&#34;Copy the following SSH private key and add it to your repo secrets under the name &#39;SSH_PRIVATE_KEY&#39;:&#34;</span>
-</span></span><span class=line><span class=cl>base64 -i ~/.ssh/id_rsa
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=nb>echo</span> -e <span class=s2>&#34; &#34;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=nb>echo</span> -e <span class=s2>&#34;Copy the encoded SSH public key and add it as one of your repo deploy keys with write access:&#34;</span>
-</span></span><span class=line><span class=cl>cat ~/.ssh/id_rsa.pub
-</span></span></code></pre></td></tr></table></div></div><p>将私钥粘贴到 Secrets 中 <strong>SSH_PRIVATE_KEY</strong> 的值内，将公钥添加到你的 github 账号的 <a href=https://github.com/settings/ssh/new target=_blank>SSH keys</a> 中。</p><p>获取 <strong>MAVEN_GPG_ID</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ gpg --list-secret-keys --keyid-format LONG
-</span></span><span class=line><span class=cl><span class=o>[</span>keyboxd<span class=o>]</span>
-</span></span><span class=line><span class=cl>---------
-</span></span><span class=line><span class=cl>sec   ed25519/93C5993B9F7B43EE 2024-05-08 <span class=o>[</span>SC<span class=o>]</span> <span class=o>[</span>有效至：2027-05-08<span class=o>]</span>
-</span></span><span class=line><span class=cl>      C83119F1B90238633D766D4B93C5993B9F7B43EE
-</span></span><span class=line><span class=cl>uid                   <span class=o>[</span> 绝对 <span class=o>]</span> chensoul &lt;ichensoul@gmail.com&gt;
-</span></span><span class=line><span class=cl>ssb   cv25519/116B95FF0068A7E8 2024-05-08 <span class=o>[</span>E<span class=o>]</span> <span class=o>[</span>有效至：2027-05-08<span class=o>]</span>
-</span></span></code></pre></td></tr></table></div></div><blockquote><p>这里 <strong>MAVEN_GPG_ID</strong> 对应 93C5993B9F7B43EE</p></blockquote><p>获取 <strong>MAVEN_GPG_KEY</strong>，运行下面命令，输入密码，即 <strong>MAVEN_GPG_PASSPHRASE</strong> 对应的内容</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s1>&#39;Public key to add in your bot github account:&#39;</span>
-</span></span><span class=line><span class=cl>gpg --armor --export 93C5993B9F7B43EE
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s1>&#39;Private key to add to the CI secrets under GITHUB_GPG_KEY:&#39;</span>
-</span></span><span class=line><span class=cl>gpg --export-secret-keys --armor 93C5993B9F7B43EE <span class=p>|</span> base64
-</span></span></code></pre></td></tr></table></div></div><p>输出内容：</p><p>公钥：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>-----BEGIN PGP PUBLIC KEY BLOCK-----
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>mDMEZjrnpBYJKwYBBAHaRw8BAQdAmMtUf7k2poUBYhlca7U7le2vGPEHgAtHZ1MH
-</span></span><span class=line><span class=cl>DGOSZR20HmNoZW5zb3VsIDxpY2hlbnNvdWxAZ21haWwuY29tPoiZBBMWCgBBFiEE
-</span></span><span class=line><span class=cl>yDEZ8bkCOGM9dm1Lk8WZO597Q+4FAmY656QCGwMFCQWjmoAFCwkIBwICIgIGFQoJ
-</span></span><span class=line><span class=cl>CAsCBBYCAwECHgcCF4AACgkQk8WZO597Q+7IBgEAgUbG3VQ59TblWFzjxACgBVBV
-</span></span><span class=line><span class=cl>oKMG9LZB+8OVc1lg9ocA/iB0eSYnoJyN++rqTi4lM0OXGTfICd359KGruRC6dZUE
-</span></span><span class=line><span class=cl>uDgEZjrnpBIKKwYBBAGXVQEFAQEHQJ35HCLjjslPooVF/2fJ1Pet+DG0xtDh3xGQ
-</span></span><span class=line><span class=cl>m5vaYHR+AwEIB4h+BBgWCgAmFiEEyDEZ8bkCOGM9dm1Lk8WZO597Q+4FAmY656QC
-</span></span><span class=line><span class=cl>GwwFCQWjmoAACgkQk8WZO597Q+5tKQD9Hoj/v6hq/L8U/2vo99XWgjnKIDLtEy57
-</span></span><span class=line><span class=cl>UG4hxtEyhpsA+QEFCr+az0NnkYDblmlK44dLd57tBk82O2QDaz95Cw8B
-</span></span><span class=line><span class=cl><span class=o>=</span>YFZg
-</span></span><span class=line><span class=cl>-----END PGP PUBLIC KEY BLOCK-----
-</span></span></code></pre></td></tr></table></div></div><p>私钥：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>LS0tLS1CRUdJTiBQR1AgUFJJVkFURSBLRVkgQkxPQ0stLS0tLQoKbElZRVpqcm5wQllKS3dZQkJBSGFSdzhCQVFkQW1NdFVmN2sycG9VQllobGNhN1U3bGUydkdQRUhnQXRIWjFNSApER09TWlIzK0J3TUNwOTJOaVVIQnU0VDZ3UHRFSWt1cGtTM2M0c21WOWZUUXRtRDM3bTJuOTlzbnRWNmllYU8vCi9TKzUvR2FyWDNMTUhoTmtkdnVpOHZSMk1hNDNhNFdzVmFpR1RiZWF6eHNHbVE1TGo4ZXUvTFFlWTJobGJuTnYKZFd3Z1BHbGphR1Z1YzI5MWJFQm5iV0ZwYkM1amIyMCtpSmtFRXhZS0FFRVdJUVRJTVJueHVRSTRZejEyYlV1VAp4Wms3bjN0RDdnVUNaanJucEFJYkF3VUpCYU9hZ0FVTENRZ0hBZ0lpQWdZVkNna0lDd0lFRmdJREFRSWVCd0lYCmdBQUtDUkNUeFprN24zdEQ3c2dHQVFDQlJzYmRWRG4xTnVWWVhPUEVBS0FGVUZXZ293YjB0a0g3dzVWeldXRDIKaHdEK0lIUjVKaWVnbkkzNzZ1cE9MaVV6UTVjWk44Z0ozZm4wb2F1NUVMcDFsUVNjaXdSbU91ZWtFZ29yQmdFRQpBWmRWQVFVQkFRZEFuZmtjSXVPT3lVK2loVVgvWjhuVTk2MzRNYlRHME9IZkVaQ2JtOXBnZEg0REFRZ0gvZ2NECkFtYllUMStNNjB6bStna1lyMk54Yys1U3hqYmd6bTA1ajFURW42TnUwVTUyUmRoMzJvTVRYU2ZIa2RlakdiVmkKMDNKemRkVnZ6Kzl6U2FzQVpMMVA1ZytBa0dGbTBHYVFLTldnOUVRQzVBK0lmZ1FZRmdvQUpoWWhCTWd4R2ZHNQpBamhqUFhadFM1UEZtVHVmZTBQdUJRSm1PdWVrQWhzTUJRa0ZvNXFBQUFvSkVKUEZtVHVmZTBQdWJTa0EvUjZJCi83K29hdnkvRlA5cjZQZl
-</span></span></code></pre></td></tr></table></div></div><p>将上面输出私钥的内容添加到 Secrets 中 <strong>MAVEN_GPG_KEY</strong> 的值里面，将公钥内容添加到你的 github 账号的 <a href=https://github.com/settings/gpg/new target=_blank>GPG keys</a> 中。</p><p>修改代码，提交到 github，会触发一个 github action ，查看日志，可以看到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>Not using access token authentication, as no access token <span class=o>(</span>via env GITREPO_ACCESS_TOKEN<span class=o>)</span> defined or because an SSH key is defined and setup <span class=o>(</span>via env SSH_PRIVATE_KEY<span class=o>)</span>
-</span></span><span class=line><span class=cl>Do mvn release:prepare with options  -DdevelopmentVersion<span class=o>=</span><span class=si>${</span><span class=nv>parsedVersion</span><span class=p>.majorVersion</span><span class=si>}</span>.<span class=si>${</span><span class=nv>parsedVersion</span><span class=p>.minorVersion</span><span class=si>}</span>.<span class=si>${</span><span class=nv>parsedVersion</span><span class=p>.nextIncrementalVersion</span><span class=si>}</span>-SNAPSHOT and arguments -ntp -B -U -P release
-</span></span></code></pre></td></tr></table></div></div><p>从日志可以看到，qcastel/github-actions-maven-release 使用了 maven 的 maven-release-plugin 插件，会发布正式版的 jar 到 maven 中央仓库。为了 避免在开发阶段每次提交都发布一个正式版本到中央仓库，可以修改 release-branch-name 为 release 分支，即限定提交到指定分支时候，从触发 maven 发布。</p><p>可以添加下面参数，跳过 release:perform ，即不会发布 jar 到 maven 中央仓库，<strong>但是 maven-release-plugin 插件还是会修改项目的版本，并创建 tag。</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>with:
-</span></span><span class=line><span class=cl>    skip-perform: <span class=nb>true</span>
-</span></span></code></pre></td></tr></table></div></div><p>创建的 tag 名称格式为：项目名称-版本。tag 名称格式可以在 maven-release-plugin 插件中配置：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;groupId&gt;</span>org.apache.maven.plugins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;artifactId&gt;</span>maven-release-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;version&gt;</span>${maven-release-plugin.version}<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;scmCommentPrefix&gt;</span>[CI Skip]<span class=nt>&lt;/scmCommentPrefix&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;autoVersionSubmodules&gt;</span>true<span class=nt>&lt;/autoVersionSubmodules&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;useReleaseProfile&gt;</span>false<span class=nt>&lt;/useReleaseProfile&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;releaseProfiles&gt;</span>release<span class=nt>&lt;/releaseProfiles&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;tagNameFormat&gt;</span>v@{version}<span class=nt>&lt;/tagNameFormat&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;goals&gt;</span>deploy<span class=nt>&lt;/goals&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/configuration&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/plugin&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=action-maven-publish>action-maven-publish<a hidden class=anchor aria-hidden=true href=#action-maven-publish>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Release</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>on</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>push</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tags</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=s1>&#39;v*&#39;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>jobs</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>release</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>runs-on</span><span class=p>:</span><span class=w> </span><span class=l>ubuntu-latest</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>steps</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>actions/checkout@v3</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    
-</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Set up JDK 8</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>actions/setup-java@v4</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>with</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>java-version</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;8&#39;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>distribution</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;temurin&#39;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        
-</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Build with Maven</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>run</span><span class=p>:</span><span class=w> </span><span class=l>mvn clean install</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        
-</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Publish to Maven Central</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>samuelmeuli/action-maven-publish@v1</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>with</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>gpg_private_key</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.MAVEN_GPG_PRIVATE_KEY }}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>gpg_passphrase</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.MAVEN_GPG_PASSPHRASE }}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>nexus_username</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.OSSRH_USERNAME }}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>nexus_password</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.OSSRH_TOKEN }}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><h2 id=总结>总结<a hidden class=anchor aria-hidden=true href=#总结>#</a></h2><p>如果使用 <a href=https://github.com/qcastel/github-actions-maven-release target=_blank>qcastel/github-actions-maven-release</a> ，maven-release-plugin 插件会修改版本，并且创建 tag ，但是并不会创建 github release。</p><p>使用 <a href=https://github.com/release-drafter/release-drafter target=_blank>https://github.com/release-drafter/release-drafter</a> 这个 actions 可以更加 pull request 自动创建 github releae，基于此，更倾向于使用 <a href=https://github.com/actions/setup-java target=_blank>actions/setup-java</a> 来发布 jar 到 Maven 仓库。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://blog.chensoul.cc/tags/maven/>Maven</a></li></ul><nav class=paginav><a class=prev href=https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-domain-driven-design/><span class=title>« Prev</span><br><span>[译]领域驱动设计速成课程</span>
-</a><a class=next href=https://blog.chensoul.cc/posts/2024/07/24/what-is-new-in-jms-2-0/><span class=title>Next »</span><br><span>[译]JMS 2.0 中的新增功能</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share Github Action 发布 Jar 到 Maven 中央仓库 on x" href="https://x.com/intent/tweet/?text=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f&amp;hashtags=maven"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Github Action 发布 Jar 到 Maven 中央仓库 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f&amp;title=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93&amp;summary=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93&amp;source=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Github Action 发布 Jar 到 Maven 中央仓库 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f&title=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Github Action 发布 Jar 到 Maven 中央仓库 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Github Action 发布 Jar 到 Maven 中央仓库 on whatsapp" href="https://api.whatsapp.com/send?text=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Github Action 发布 Jar 到 Maven 中央仓库 on telegram" href="https://telegram.me/share/url?text=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Github Action 发布 Jar 到 Maven 中央仓库 on ycombinator" href="https://news.ycombinator.com/submitlink?t=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93&u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
-</a><script async src=https://umami.chensoul.cc/random-string.js data-website-id=821c25f8-a31a-4607-92d7-91ee76843d00></script><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。"><title>Github Action 发布 Jar 到 Maven 中央仓库 | ChenSoul</title>
+<link rel=canonical href=https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/><link rel=preconnect href=https://fonts.font.im><link rel=preconnect href=https://fonts.loli.net crossorigin><link href="https://fonts.loli.net/css2?family=Roboto+Slab:wght@400;500;700&display=swap" rel=stylesheet><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta name=twitter:title content="Github Action 发布 Jar 到 Maven 中央仓库"><meta name=twitter:description content="作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。"><meta property="og:locale" content="en_US"><meta property="og:site_name" content="chensoul"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/"><meta property="og:site_name" content="ChenSoul"><meta property="og:title" content="Github Action 发布 Jar 到 Maven 中央仓库"><meta property="og:description" content="作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-08-01T00:00:00+00:00"><meta property="article:modified_time" content="2024-08-01T00:00:00+00:00"><meta property="article:tag" content="Maven"><meta property="og:image" content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=name content="Github Action 发布 Jar 到 Maven 中央仓库"><meta itemprop=description content="作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。"><meta itemprop=datePublished content="2024-08-01T00:00:00+00:00"><meta itemprop=dateModified content="2024-08-01T00:00:00+00:00"><meta itemprop=wordCount content="1140"><meta itemprop=image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=keywords content="Maven"><link rel=stylesheet href=https://cdnjs.loli.net/ajax/libs/font-awesome/6.4.0/css/all.min.css media=all><link rel=stylesheet href=/main.min.css type=text/css media=all><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Github Action 发布 Jar 到 Maven 中央仓库","headline":"Github Action 发布 Jar 到 Maven 中央仓库","inLanguage":"en-US","url":"https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/","description":"\u003cp\u003e作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。\u003c/p\u003e","wordCount":"1140","keywords":["maven"],"datePublished":"2024-08-01T00:00:00Z","dateModified":"2024-08-01T00:00:00Z","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/"},"publisher":{"@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/"}},{"@context":"https://schema.org","@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/","sameAs":["https://twitter.com/","https://github.com/chensoul","https://www.linkedin.com/in/"]}]}</script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title=ChenSoul rel=home>ChenSoul</a></h1><p class=site-description>Java, Spring Boot, Microservice, Cloud, Architecture and DevOps Tutorials</p></div><div class="header-widgets clearfix"><aside id=search-2 class="header-widget widget_search"><form role=search method=get class=search-form onsubmit="return searchSite(event)"><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=search-field placeholder="Enter search keyword" name=query id=query title="Enter search keyword">
+</label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
+<span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
+current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/ rel=bookmark title="Github Action 发布 Jar 到 Maven 中央仓库">Github Action 发布 Jar 到 Maven 中央仓库</a></h2><hr><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-08-01T00:00:00>2024-08-01
+</time></span><span class=meta-author><span class="author vcard">chensoul</span>
+</span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/maven/ title=maven>maven</a></span></div></header><div class=entry-content><p>作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。</p><p>在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。</p><p>下面我将以一个简单的 Maven 项目为例，介绍如何使用 Github Action 实现自动发布 Jar 到 Maven 中央仓库。</p><h2 id=前提条件>前提条件</h2><ol><li>在 Github 创建一个 Maven 项目</li><li>安装 gpg 并创建 gpg 秘钥和公钥，参考 <a href=https://dzone.com/articles/how-to-publish-artifacts-to-maven-central target=_blank>How to Publish Artifacts to Maven Central</a></li><li>创建 OSSRH 账号，参考 <a href=https://central.sonatype.org/publish/generate-token/#generate-a-token-on-ossrh-sonatype-nexus-repository-manager-servers target=_blank>Generate a Token on OSSRH Sonatype Nexus Repository Manager servers</a></li></ol><h2 id=创建-maven-项目>创建 Maven 项目</h2><p>首先在Github上面创建项目：<a href=https://github.com/chensoul/maven-hello-world target=_blank>https://github.com/chensoul/maven-hello-world</a></p><p>增加两个 Maven 插件：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;artifactId&gt;</span>maven-gpg-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;version&gt;</span>3.2.2<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;executions&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;execution&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;goals&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;goal&gt;</span>sign<span style=color:#f92672>&lt;/goal&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;/goals&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;phase&gt;</span>verify<span style=color:#f92672>&lt;/phase&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/execution&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/executions&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;groupId&gt;</span>org.sonatype.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;artifactId&gt;</span>nexus-staging-maven-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;version&gt;</span>1.7.0<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;extensions&gt;</span>true<span style=color:#f92672>&lt;/extensions&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;serverId&gt;</span>ossrh<span style=color:#f92672>&lt;/serverId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;nexusUrl&gt;</span>https://s01.oss.sonatype.org/<span style=color:#f92672>&lt;/nexusUrl&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;autoReleaseAfterClose&gt;</span>true<span style=color:#f92672>&lt;/autoReleaseAfterClose&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;keepStagingRepositoryOnCloseRuleFailure&gt;</span>false<span style=color:#f92672>&lt;/keepStagingRepositoryOnCloseRuleFailure&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>可以将上面的两个插件加入到 pom.xml 的 build 节点下面，也可以配置到 profile 节点下。<a href=https://github.com/chensoul/maven-hello-world target=_blank>https://github.com/chensoul/maven-hello-world</a> 项目中使用的是第二种方式，具体见 <a href=https://github.com/chensoul/chensoul-parent target=_blank>https://github.com/chensoul/chensoul-parent</a> 的 pom.xml 文件。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;profiles&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;profile&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;id&gt;</span>release<span style=color:#f92672>&lt;/id&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;build&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;plugins&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>maven-source-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>maven-javadoc-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>maven-enforcer-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>pl.project13.maven<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>git-commit-id-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>maven-release-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;version&gt;</span>${maven-release-plugin.version}<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&lt;scmCommentPrefix&gt;</span>[CI Skip]<span style=color:#f92672>&lt;/scmCommentPrefix&gt;</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&lt;autoVersionSubmodules&gt;</span>true<span style=color:#f92672>&lt;/autoVersionSubmodules&gt;</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&lt;useReleaseProfile&gt;</span>false<span style=color:#f92672>&lt;/useReleaseProfile&gt;</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&lt;releaseProfiles&gt;</span>release<span style=color:#f92672>&lt;/releaseProfiles&gt;</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&lt;goals&gt;</span>deploy<span style=color:#f92672>&lt;/goals&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#75715e>&lt;!-- https://blog.sonatype.com/2010/01/how-to-generate-pgp-signatures-with-maven/ --&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>maven-gpg-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;version&gt;</span>${maven-gpg-plugin.version}<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;executions&gt;</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&lt;execution&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;goals&gt;</span>
+</span></span><span style=display:flex><span>                  <span style=color:#f92672>&lt;goal&gt;</span>sign<span style=color:#f92672>&lt;/goal&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;/goals&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;phase&gt;</span>verify<span style=color:#f92672>&lt;/phase&gt;</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&lt;/execution&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/executions&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.sonatype.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>nexus-staging-maven-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;version&gt;</span>${nexus-staging-maven-plugin.version}<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;extensions&gt;</span>true<span style=color:#f92672>&lt;/extensions&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&lt;serverId&gt;</span>ossrh<span style=color:#f92672>&lt;/serverId&gt;</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&lt;nexusUrl&gt;</span>https://s01.oss.sonatype.org/<span style=color:#f92672>&lt;/nexusUrl&gt;</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&lt;autoReleaseAfterClose&gt;</span>true<span style=color:#f92672>&lt;/autoReleaseAfterClose&gt;</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&lt;keepStagingRepositoryOnCloseRuleFailure&gt;</span>false<span style=color:#f92672>&lt;/keepStagingRepositoryOnCloseRuleFailure&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/plugins&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;/build&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/profile&gt;</span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/profiles&gt;</span>
+</span></span></code></pre></div><p>nexus-staging-maven-plugin 插件配置的 serverId 是 ossrh ，需要和 distributionManagement 中的配置一致：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;distributionManagement&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;snapshotRepository&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;id&gt;</span>ossrh<span style=color:#f92672>&lt;/id&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;url&gt;</span>https://s01.oss.sonatype.org/content/repositories/snapshots<span style=color:#f92672>&lt;/url&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/snapshotRepository&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;repository&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;id&gt;</span>ossrh<span style=color:#f92672>&lt;/id&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;url&gt;</span>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/<span style=color:#f92672>&lt;/url&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/repository&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/distributionManagement&gt;</span>
+</span></span></code></pre></div><p>您需要在 <a href=https://issues.sonatype.org/secure/Dashboard.jspa target=_blank>Sonatype JIRA</a> 上注册一个帐户并为此创建一个<a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134" target=_blank>Issure</a>。</p><p>将您的 Sonatype JIRA 凭证添加到您的<code>~/.m2/settings.xml</code>文件中，如下所示：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;server&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;id&gt;</span>ossrh<span style=color:#f92672>&lt;/id&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;username&gt;</span>LSJkOqOi<span style=color:#f92672>&lt;/username&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;password&gt;</span>3oJOIO5+ah7LIcRSmDC2YDGjE9PRbgxoE2UbXjOrSzC1<span style=color:#f92672>&lt;/password&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/server&gt;</span>
+</span></span></code></pre></div><h2 id=安装-gpg-并创建公秘钥>安装 GPG 并创建公秘钥</h2><p>macos 上安装 gpg：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>brew install gpg
+</span></span></code></pre></div><p>参考 <a href=https://central.sonatype.org/publish/requirements/gpg/#generating-a-key-pair target=_blank>Generating a Key Pair</a> 生成 GPG 密钥。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ gpg --gen-key
+</span></span><span style=display:flex><span>gpg <span style=color:#f92672>(</span>GnuPG<span style=color:#f92672>)</span> 2.4.5; Copyright <span style=color:#f92672>(</span>C<span style=color:#f92672>)</span> <span style=color:#ae81ff>2024</span> g10 Code GmbH
+</span></span><span style=display:flex><span>This is free software: you are free to change and redistribute it.
+</span></span><span style=display:flex><span>There is NO WARRANTY, to the extent permitted by law.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>注意：使用 “gpg --full-generate-key” 以获得一个全功能的密钥生成对话框。
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>GnuPG 需要构建用户标识以辨认您的密钥。
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>真实姓名： chensoul
+</span></span><span style=display:flex><span>电子邮件地址： ichensoul@gmail.com
+</span></span><span style=display:flex><span>您选定了此用户标识：
+</span></span><span style=display:flex><span>    “chensoul &lt;ichensoul@gmail.com&gt;”
+</span></span></code></pre></div><p>按提示输入两次密码，这里我使用 chensoul 作为密码 。</p><p>查看生成的 key：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># gpg --list-secret-keys --keyid-format=long</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>keyboxd<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>---------
+</span></span><span style=display:flex><span>sec   ed25519/93C5993B9F7B43EE 2024-05-08 <span style=color:#f92672>[</span>SC<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>有效至：2027-05-08<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>      C83119F1B90238633D766D4B93C5993B9F7B43EE
+</span></span><span style=display:flex><span>uid                   <span style=color:#f92672>[</span> 绝对 <span style=color:#f92672>]</span> chensoul &lt;ichensoul@gmail.com&gt;
+</span></span><span style=display:flex><span>ssb   cv25519/116B95FF0068A7E8 2024-05-08 <span style=color:#f92672>[</span>E<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>有效至：2027-05-08<span style=color:#f92672>]</span>
+</span></span></code></pre></div><p>上传公开的 key：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># keyserver.ubuntu.com</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># keys.openpgp.org</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># pgp.mit.edu</span>
+</span></span><span style=display:flex><span>gpg --keyserver keys.openpgp.org --send-keys C83119F1B90238633D766D4B93C5993B9F7B43EE
+</span></span></code></pre></div><p>修改 <code>~/.m2/settings.xml</code> 文件，添加：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;server&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;id&gt;</span>gpg.passphrase<span style=color:#f92672>&lt;/id&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;passphrase&gt;&lt;PASSPHRASE_GPG&gt;&lt;/passphrase&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/server&gt;</span>
+</span></span></code></pre></div><p>将 <code>&lt;PASSPHRASE_GPG></code> 替换为创建 gpg key 时设置的密码。</p><h2 id=使用-maven-发布-jar>使用 Maven 发布 jar</h2><p>使用下面命令发布 jar 到 sonatype 仓库：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn -P release clean deploy
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>mvn -P release clean deploy
+</span></span></code></pre></div><p>如果当前项目的版本为快照版，则发布后的 jar 在 <a href=https://s01.oss.sonatype.org/content/repositories/snapshots/com/chensoul/maven-hello-world/ target=_blank>https://s01.oss.sonatype.org/content/repositories/snapshots/com/chensoul/maven-hello-world/</a></p><p>如果当前项目的版本为正式版，稍等几分钟，可以在以下仓库查看发布的 jar:</p><ul><li><a href=https://central.sonatype.com/artifact/com.chensoul/maven-hello-world target=_blank>https://central.sonatype.com/artifact/com.chensoul/maven-hello-world</a></li><li><a href=https://s01.oss.sonatype.org/service/local/repositories/releases/content/com/chensoul/maven-hello-world target=_blank>https://s01.oss.sonatype.org/service/local/repositories/releases/content/com/chensoul/maven-hello-world</a></li><li><a href=https://repo.maven.apache.org/maven2/com/chensoul/maven-hello-world target=_blank>https://repo.maven.apache.org/maven2/com/chensoul/maven-hello-world</a></li></ul><h2 id=配置github-actions>配置Github Actions</h2><p>使用 Github Actions 发布 jar 到 maven 仓库，目前发现有两个 action 可以实现该目的：</p><ul><li><p><a href=https://github.com/actions/setup-java target=_blank>actions/setup-java</a></p></li><li><p><a href=https://github.com/qcastel/github-actions-maven-release target=_blank>qcastel/github-actions-maven-release</a></p></li><li><p><a href=https://github.com/marketplace/actions/action-maven-publish target=_blank>action-maven-publish</a></p></li></ul><h3 id=actionssetup-java>actions/setup-java</h3><p>使用 <a href=https://github.com/actions/setup-java target=_blank>actions/setup-java</a> ，参考使用文档，在项目的 .github/workflows 目录下创建 maven-release.yml文件：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Maven Release</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>: [ <span style=color:#e6db74>&#34;main&#34;</span> ]
+</span></span><span style=display:flex><span>    <span style=color:#f92672>tags</span>: [ <span style=color:#e6db74>&#34;*&#34;</span> ]
+</span></span><span style=display:flex><span>  <span style=color:#f92672>release</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>types</span>: [ <span style=color:#ae81ff>created ]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>build</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>if</span>: <span style=color:#e6db74>&#34;!contains(github.event.head_commit.message, &#39;[CI Skip]&#39;)&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Checkout</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v4</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Set up JDK 8</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-java@v4</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>distribution</span>: <span style=color:#e6db74>&#39;temurin&#39;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>java-version</span>: <span style=color:#ae81ff>8</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>cache</span>: <span style=color:#ae81ff>maven</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>server-id</span>: <span style=color:#ae81ff>ossrh</span> <span style=color:#75715e># Value of the distributionManagement/repository/id field of the pom.xml</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>server-username</span>: <span style=color:#ae81ff>MAVEN_USERNAME</span> <span style=color:#75715e># 变量</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>server-password</span>: <span style=color:#ae81ff>MAVEN_TOKEN</span> <span style=color:#75715e># 变量</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>gpg-passphrase</span>: <span style=color:#ae81ff>GPG_PASSPHRASE</span> <span style=color:#75715e># 变量</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>gpg-private-key</span>: <span style=color:#ae81ff>${{ secrets.MAVEN_GPG_PRIVATE_KEY }}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Java Maven Release</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: <span style=color:#ae81ff>mvn -ntp -B -U clean deploy -P release -DskipTests</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>env</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>MAVEN_USERNAME</span>: <span style=color:#ae81ff>${{ secrets.OSSRH_USERNAME }}</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>MAVEN_TOKEN</span>: <span style=color:#ae81ff>${{ secrets.OSSRH_TOKEN }}</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>GPG_PASSPHRASE</span>: <span style=color:#ae81ff>${{ secrets.MAVEN_GPG_PASSPHRASE }}</span>
+</span></span></code></pre></div><p>根据上面的 yaml 文件，需要在当前项目的 Settings&ndash;>Secrets&ndash;>Actions 创建以下 Secrets：</p><ul><li><strong>OSSRH_TOKEN</strong>：您在 Sonatype 上的密码</li><li><strong>OSSRH_USERNAME</strong>：您在 Sonatype 上的用户名</li><li><strong>MAVEN_GPG_PRIVATE_KEY</strong>：用于签名 Jar 包的 GPG 密钥</li><li><strong>MAVEN_GPG_PASSPHRASE</strong>：用于签名的 GPG 密钥密码</li></ul><p><strong>MAVEN_GPG_PRIVATE_KEY</strong> 通过如下命令获取：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ gpg --list-keys
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>keyboxd<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>---------
+</span></span><span style=display:flex><span>pub   ed25519 2024-05-08 <span style=color:#f92672>[</span>SC<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>有效至：2027-05-08<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>      C83119F1B90238633D766D4B93C5993B9F7B43EE
+</span></span><span style=display:flex><span>uid             <span style=color:#f92672>[</span> 绝对 <span style=color:#f92672>]</span> chensoul &lt;ichensoul@gmail.com&gt;
+</span></span><span style=display:flex><span>sub   cv25519 2024-05-08 <span style=color:#f92672>[</span>E<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>有效至：2027-05-08<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ gpg --armor --export-secret-keys C83119F1B90238633D766D4B93C5993B9F7B43EE
+</span></span><span style=display:flex><span>-----BEGIN PGP PRIVATE KEY BLOCK-----
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>lIYEZjrnpBYJKwYBBAHaRw8BAQdAmMtUf7k2poUBYhlca7U7le2vGPEHgAtHZ1MH
+</span></span><span style=display:flex><span>DGOSZR3+BwMCiYrT2G14W736nwBjZvOLsJKjxsSqVN9bRLATEg3veHW/59Jw4DaI
+</span></span><span style=display:flex><span>QN5DX8ier7D2rXM9fkJfYyLg3wNVAcT7dmcQOVM5wkgL1B7EEz3/aLQeY2hlbnNv
+</span></span><span style=display:flex><span>dWwgPGljaGVuc291bEBnbWFpbC5jb20+iJkEExYKAEEWIQTIMRnxuQI4Yz12bUuT
+</span></span><span style=display:flex><span>xZk7n3tD7gUCZjrnpAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
+</span></span><span style=display:flex><span>gAAKCRCTxZk7n3tD7sgGAQCBRsbdVDn1NuVYXOPEAKAFUFWgowb0tkH7w5VzWWD2
+</span></span><span style=display:flex><span>hwD+IHR5JiegnI376upOLiUzQ5cZN8gJ3fn0oau5ELp1lQSciwRmOuekEgorBgEE
+</span></span><span style=display:flex><span>AZdVAQUBAQdAnfkcIuOOyU+ihUX/Z8nU9634MbTG0OHfEZCbm9pgdH4DAQgH/gcD
+</span></span><span style=display:flex><span>AqPKEqB6fGQq+u4+7gYGW2vgkeiTjWJCwVw8VJEwn53+gdQ0q7irfnOOqYNXJbye
+</span></span><span style=display:flex><span>n2NM9IucSZpcVk8gKhJmc8hJR4uNifh0i820vEjyszeIfgQYFgoAJhYhBMgxGfG5
+</span></span><span style=display:flex><span>AjhjPXZtS5PFmTufe0PuBQJmOuekAhsMBQkFo5qAAAoJEJPFmTufe0PubSkA/R6I
+</span></span><span style=display:flex><span>/7+oavy/FP9r6PfV1oI5yiAy7RMue1BuIcbRMoabAPkBBQq/ms9DZ5GA25ZpSuOH
+</span></span><span style=display:flex><span>S3ee7QZPNjtkA2s/eQsPAQ<span style=color:#f92672>==</span>
+</span></span></code></pre></div><h3 id=qcastelgithub-actions-maven-release>qcastel/github-actions-maven-release</h3><p>使用 <a href=https://github.com/qcastel/github-actions-maven-release target=_blank>qcastel/github-actions-maven-release</a> ，参考使用文档，在项目的 .github/workflows 目录下创建 maven-release.yml文件：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Maven Release</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>: [ <span style=color:#e6db74>&#34;main&#34;</span> ]
+</span></span><span style=display:flex><span>    <span style=color:#f92672>tags</span>: [ <span style=color:#e6db74>&#34;*&#34;</span> ]
+</span></span><span style=display:flex><span>  <span style=color:#f92672>release</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>types</span>: [ <span style=color:#ae81ff>created ]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>build</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>if</span>: <span style=color:#e6db74>&#34;!contains(github.event.head_commit.message, &#39;[CI Skip]&#39;)&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Checkout</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v4</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Java Maven Release</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>qcastel/github-actions-maven-release@master</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>env</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>JAVA_HOME</span>: <span style=color:#ae81ff>/usr/lib/jvm/java-1.8-openjdk/</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>git-release-bot-name</span>: <span style=color:#e6db74>&#34;release-bot&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>git-release-bot-email</span>: <span style=color:#e6db74>&#34;release-bot@chensoul.cc&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>release-branch-name</span>: <span style=color:#e6db74>&#34;main&#34;</span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>          <span style=color:#f92672>maven-args</span>: <span style=color:#e6db74>&#34;-ntp -B -U -P release&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>maven-servers</span>: <span style=color:#ae81ff>${{ secrets.MVN_REPO_SERVERS }}</span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>          <span style=color:#f92672>ssh-private-key</span>: <span style=color:#ae81ff>${{ secrets.SSH_PRIVATE_KEY }}</span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>          <span style=color:#f92672>gpg-enabled</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>gpg-key-id</span>: <span style=color:#ae81ff>${{ secrets.MAVEN_GPG_ID }}</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>gpg-key</span>: <span style=color:#ae81ff>${{ secrets.MAVEN_GPG_KEY }}</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>gpg-passphrase</span>: <span style=color:#ae81ff>${{ secrets.MAVEN_GPG_PASSPHRASE }}</span>
+</span></span></code></pre></div><p>根据上面的 yaml 文件，需要在当前项目的 Settings&ndash;>Secrets&ndash;>Actions 创建以下 Secrets：</p><ul><li><strong>MVN_REPO_SERVERS</strong></li><li><strong>SSH_PRIVATE_KEY</strong></li><li><strong>MAVEN_GPG_ID</strong></li><li><strong>MAVEN_GPG_KEY</strong></li><li><strong>MAVEN_GPG_PASSPHRASE</strong></li></ul><p><strong>MVN_REPO_SERVERS</strong> 如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>[</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;ossrh&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;username&#34;</span>: <span style=color:#e6db74>&#34;LSJkOqOi&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;password&#34;</span>: <span style=color:#e6db74>&#34;3oJOIO5+ah7LIcRSmDC2YDGjE9PRbgxoE2UbXjOrSzC1&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>}</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;gpg.passphrase&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;passphrase&#34;</span>: <span style=color:#e6db74>&#34;chensoul&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>]</span>
+</span></span></code></pre></div><p><strong>SSH_PRIVATE_KEY</strong> 通过下面命令获取：</p><p>1、在 docker 容器中生成</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker run -it qcastel/maven-release:latest  bash
+</span></span></code></pre></div><p>ssh 公钥和秘钥</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ssh-keygen -b <span style=color:#ae81ff>2048</span> -t rsa -f ~/.ssh/id_rsa -q -N <span style=color:#e6db74>&#34;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>echo -e <span style=color:#e6db74>&#34;Copy the following SSH private key and add it to your repo secrets under the name &#39;SSH_PRIVATE_KEY&#39;:&#34;</span>
+</span></span><span style=display:flex><span>base64 ~/.ssh/id_rsa
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>echo -e <span style=color:#e6db74>&#34; &#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>echo -e <span style=color:#e6db74>&#34;Copy the encoded SSH public key and add it as one of your repo deploy keys with write access:&#34;</span>
+</span></span><span style=display:flex><span>cat ~/.ssh/id_rsa.pub
+</span></span></code></pre></div><p>输出内容如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Copy the following SSH private key and add it to your repo secrets under the name <span style=color:#e6db74>&#39;SSH_PRIVATE_KEY&#39;</span>:
+</span></span><span style=display:flex><span>LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFB QUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUJGd0FBQUFkemMyZ3RjbgpOaEFBQUFB d0VBQVFBQUFRRUExQUFBclFpZFNRS25pY3g5VmNaQVdtTlI1ZWY0Q2tSbEJCZTdVdk5QNGNMMlAv eDRReXJpCmdWcGV2Um8wVHE0eUptWFN2L3hnclByNk5CQmk0STlXRmp6Q2l0a3phcTg3OGwyNVdt UUt5cTUyang5TWJ0MmhCZzVrdUsKZ05pRGxvMWNaY1VpZHd4ak9sNzVlVHpWaHpoSGZ4ZnphZTZY N0QybE1jeFUrd2d3MFJHZlpITjUvRUZWQ3JHRUhKdHlGSQpReFd1VDY0c3RNMElrVjA3azBPRlQy SHhYNlB6OUpvRjhRRm9SZmVjU0RUM2tPRk5rTVVicDVTNkkxNWxtTjB0YnNHVGNsClYxWFpwWUkr NHRFWWphN1EwWnlWaVBCVUJnWnBuUlpQNFRmOEIwRzhsVDdqSlNPWDM0YkRFWkFoMVM4bnRCQzc3 aFUyMUIKWGJDZHV6ZlpXUUFBQThoN29jU3VlNkhFcmdBQUFBZHpjMmd0Y25OaEFBQUJBUURVQUFD dENKMUpBcWVKekgxVnhrQmFZMQpIbDUvZ0tSR1VFRjd0UzgwL2h3dlkvL0hoREt1S0JXbDY5R2pS T3JqSW1aZEsvL0dDcyt2bzBFR0xnajFZV1BNS0syVE5xCnJ6dnlYYmxhWkFyS3JuYVBIMHh1M2FF R0RtUzRxQTJJT1dqVnhseFNKM0RHTTZYdmw1UE5XSE9FZC9GL05wN3Bmc1BhVXgKekZUN0NERFJF WjlrYzNuOFFWVUtzWVFjbTNJVWhERmE1UHJpeTB6UWlSWFR1VFE0VlBZZkZmby9QMG1nWHhBV2hG OTV4SQpOUGVRNFUyUXhSdW5sTG9qWG1XWTNTMXV3Wk55VlhWZG1sZ2o3aTBSaU5ydERSbkpXSThG UUdCbW1kRmsvaE4vd0hRYnlWClB1TWxJNWZmaHNNUmtDSFZMeWUwRUx2dUZUYlVGZHNKMjdOOWxa QUFBQUF3RUFBUUFBQVFCSzBqMXExSEYraFJ0UVBRVzMKTWlNZ1E1RnlETzZ6NFBPdUFCb3k2b0Mw OHpRcDNSY3N6WVBubDFkOGNqVW4xNzhIWWtTQlViZGxGYWNjblBQb3dXM21wMApjWjdoS0JncHNy clB4djlJTUNpWlI2YXRkMUFXK0ZUYXNxcU5VdDBPVTVIYXNUcTZ2WHAvN1drcTZ0ZUp3OGtvQi9I MjN5CmhyVGs1eFJ1WnZPckxGcS9vdXBQeXhVS1M0SzRVOG5JYjBnZjVjT3RXeUlWZFdKQ05EdU9R ZW1sdDBRajN3RjZPWkNpcU8KRGxaMFd3MWwrRzJpUWZFLzM2ODR0UXpKemVKeFgybEJaN0tmQStP bEcyZENPeXZwY01Ic1J4TE5ITy85aWpqUmNXWUVtMgp4SDVYQmRkZldlKzBkYkxxZFhoWHJHTnpx QjlSbjBTWGZ1QVRnSzZENjBsSkFBQUFnUUN6VmhONUh1YXVvOExzVVR1dkNRCkNibVhnakhuS1hB NDBqV1pyVmlucEgvbmcxNkNudlE5UmJhb041am1JWURUZEJ3TVp4dXZSck9JUTloeUZnUDVCSHRL dTgKQlhvZ08ybERySDFVRzA4bzN6ZHNhUTJaaGp0aEE5TFlMcXpvYkVtSEpndkwxemJjRVBWMHJC cm1SMXArL0trN3Y5OHd0eQpPT2VnYXVqK0djUXdBQUFJRUE5ZklKc0t2SGdsQVp1eS9sMzJWS3Q4 cTN4UFl4SUlrMVJKczV4bDRJUGFTZ0xsR0pzVFgwCll2bll1THcrb2NCMlVaazRxUUlML3I5bTRt cVhEOTF6bXhxZTNUKzZqOHk0ODBvbS91UWRma3h6MWdNWkljdDlkR2Z3RE8KczRBckNPSkx0TVI4 WG53emxXM1VLZnJhTDFRUFZMVUs3OWpSM29kN2k2VmNWMlpnY0FBQUNCQU55cXRMZk85NUhkU3Mz RwpyMWYvOStVRUJjV0xMSnpHMEl2OEZtd3J6ci9ZbksrbXpmR2dMVHNPeUgwV1pMZkVnYlJkUGxC aVJmTjFXQk1oWHZKRWhaCkp4YTY1N0IxTUExano1eEE2OElCcEJxUlhvNWZ6QmdHNFg0UGVNZkQz dXR5M0NENVR4Y2sxL0c1L2krUXpXNFhlR2RLNkkKaml1OGg5TXo3YkUxZHUyZkFBQUFFWEp2YjNS QVlqa3dZelJtWWpKbE9HVmxBUT09Ci0tLS0tRU5EIE9QRU5TU0ggUFJJVkFURSBLRVktLS0tLQo<span style=color:#f92672>=</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Copy the encoded SSH public key and add it as one of your repo deploy keys with write access:
+</span></span><span style=display:flex><span>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUAACtCJ1JAqeJzH1VxkBaY1Hl5/gKRGUEF7tS80/hwvY//HhDKuKBWl69GjROrjImZdK//GCs+vo0EGLgj1YWPMKK2TNqrzvyXblaZArKrnaPH0xu3aEGDmS4qA2IOWjVxlxSJ3DGM6Xvl5PNWHOEd/F/Np7pfsPaUxzFT7CDDREZ9kc3n8QVUKsYQcm3IUhDFa5Priy0zQiRXTuTQ4VPYfFfo/P0mgXxAWhF95xINPeQ4U2QxRunlLojXmWY3S1uwZNyVXVdmlgj7i0RiNrtDRnJWI8FQGBmmdFk/hN/wHQbyVPuMlI5ffhsMRkCHVLye0ELvuFTbUFdsJ27N9lZ root@b90c4fb2e8ee
+</span></span></code></pre></div><p>2、或者直接使用本地的 ssh</p><p>macos 系统上执行命令：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>echo -e <span style=color:#e6db74>&#34;Copy the following SSH private key and add it to your repo secrets under the name &#39;SSH_PRIVATE_KEY&#39;:&#34;</span>
+</span></span><span style=display:flex><span>base64 -i ~/.ssh/id_rsa
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>echo -e <span style=color:#e6db74>&#34; &#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>echo -e <span style=color:#e6db74>&#34;Copy the encoded SSH public key and add it as one of your repo deploy keys with write access:&#34;</span>
+</span></span><span style=display:flex><span>cat ~/.ssh/id_rsa.pub
+</span></span></code></pre></div><p>将私钥粘贴到 Secrets 中 <strong>SSH_PRIVATE_KEY</strong> 的值内，将公钥添加到你的 github 账号的 <a href=https://github.com/settings/ssh/new target=_blank>SSH keys</a> 中。</p><p>获取 <strong>MAVEN_GPG_ID</strong>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ gpg --list-secret-keys --keyid-format LONG
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>keyboxd<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>---------
+</span></span><span style=display:flex><span>sec   ed25519/93C5993B9F7B43EE 2024-05-08 <span style=color:#f92672>[</span>SC<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>有效至：2027-05-08<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>      C83119F1B90238633D766D4B93C5993B9F7B43EE
+</span></span><span style=display:flex><span>uid                   <span style=color:#f92672>[</span> 绝对 <span style=color:#f92672>]</span> chensoul &lt;ichensoul@gmail.com&gt;
+</span></span><span style=display:flex><span>ssb   cv25519/116B95FF0068A7E8 2024-05-08 <span style=color:#f92672>[</span>E<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>有效至：2027-05-08<span style=color:#f92672>]</span>
+</span></span></code></pre></div><blockquote><p>这里 <strong>MAVEN_GPG_ID</strong> 对应 93C5993B9F7B43EE</p></blockquote><p>获取 <strong>MAVEN_GPG_KEY</strong>，运行下面命令，输入密码，即 <strong>MAVEN_GPG_PASSPHRASE</strong> 对应的内容</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>echo <span style=color:#e6db74>&#39;Public key to add in your bot github account:&#39;</span>
+</span></span><span style=display:flex><span>gpg --armor --export 93C5993B9F7B43EE
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#39;Private key to add to the CI secrets under GITHUB_GPG_KEY:&#39;</span>
+</span></span><span style=display:flex><span>gpg --export-secret-keys --armor 93C5993B9F7B43EE | base64
+</span></span></code></pre></div><p>输出内容：</p><p>公钥：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>-----BEGIN PGP PUBLIC KEY BLOCK-----
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>mDMEZjrnpBYJKwYBBAHaRw8BAQdAmMtUf7k2poUBYhlca7U7le2vGPEHgAtHZ1MH
+</span></span><span style=display:flex><span>DGOSZR20HmNoZW5zb3VsIDxpY2hlbnNvdWxAZ21haWwuY29tPoiZBBMWCgBBFiEE
+</span></span><span style=display:flex><span>yDEZ8bkCOGM9dm1Lk8WZO597Q+4FAmY656QCGwMFCQWjmoAFCwkIBwICIgIGFQoJ
+</span></span><span style=display:flex><span>CAsCBBYCAwECHgcCF4AACgkQk8WZO597Q+7IBgEAgUbG3VQ59TblWFzjxACgBVBV
+</span></span><span style=display:flex><span>oKMG9LZB+8OVc1lg9ocA/iB0eSYnoJyN++rqTi4lM0OXGTfICd359KGruRC6dZUE
+</span></span><span style=display:flex><span>uDgEZjrnpBIKKwYBBAGXVQEFAQEHQJ35HCLjjslPooVF/2fJ1Pet+DG0xtDh3xGQ
+</span></span><span style=display:flex><span>m5vaYHR+AwEIB4h+BBgWCgAmFiEEyDEZ8bkCOGM9dm1Lk8WZO597Q+4FAmY656QC
+</span></span><span style=display:flex><span>GwwFCQWjmoAACgkQk8WZO597Q+5tKQD9Hoj/v6hq/L8U/2vo99XWgjnKIDLtEy57
+</span></span><span style=display:flex><span>UG4hxtEyhpsA+QEFCr+az0NnkYDblmlK44dLd57tBk82O2QDaz95Cw8B
+</span></span><span style=display:flex><span><span style=color:#f92672>=</span>YFZg
+</span></span><span style=display:flex><span>-----END PGP PUBLIC KEY BLOCK-----
+</span></span></code></pre></div><p>私钥：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>LS0tLS1CRUdJTiBQR1AgUFJJVkFURSBLRVkgQkxPQ0stLS0tLQoKbElZRVpqcm5wQllKS3dZQkJBSGFSdzhCQVFkQW1NdFVmN2sycG9VQllobGNhN1U3bGUydkdQRUhnQXRIWjFNSApER09TWlIzK0J3TUNwOTJOaVVIQnU0VDZ3UHRFSWt1cGtTM2M0c21WOWZUUXRtRDM3bTJuOTlzbnRWNmllYU8vCi9TKzUvR2FyWDNMTUhoTmtkdnVpOHZSMk1hNDNhNFdzVmFpR1RiZWF6eHNHbVE1TGo4ZXUvTFFlWTJobGJuTnYKZFd3Z1BHbGphR1Z1YzI5MWJFQm5iV0ZwYkM1amIyMCtpSmtFRXhZS0FFRVdJUVRJTVJueHVRSTRZejEyYlV1VAp4Wms3bjN0RDdnVUNaanJucEFJYkF3VUpCYU9hZ0FVTENRZ0hBZ0lpQWdZVkNna0lDd0lFRmdJREFRSWVCd0lYCmdBQUtDUkNUeFprN24zdEQ3c2dHQVFDQlJzYmRWRG4xTnVWWVhPUEVBS0FGVUZXZ293YjB0a0g3dzVWeldXRDIKaHdEK0lIUjVKaWVnbkkzNzZ1cE9MaVV6UTVjWk44Z0ozZm4wb2F1NUVMcDFsUVNjaXdSbU91ZWtFZ29yQmdFRQpBWmRWQVFVQkFRZEFuZmtjSXVPT3lVK2loVVgvWjhuVTk2MzRNYlRHME9IZkVaQ2JtOXBnZEg0REFRZ0gvZ2NECkFtYllUMStNNjB6bStna1lyMk54Yys1U3hqYmd6bTA1ajFURW42TnUwVTUyUmRoMzJvTVRYU2ZIa2RlakdiVmkKMDNKemRkVnZ6Kzl6U2FzQVpMMVA1ZytBa0dGbTBHYVFLTldnOUVRQzVBK0lmZ1FZRmdvQUpoWWhCTWd4R2ZHNQpBamhqUFhadFM1UEZtVHVmZTBQdUJRSm1PdWVrQWhzTUJRa0ZvNXFBQUFvSkVKUEZtVHVmZTBQdWJTa0EvUjZJCi83K29hdnkvRlA5cjZQZl
+</span></span></code></pre></div><p>将上面输出私钥的内容添加到 Secrets 中 <strong>MAVEN_GPG_KEY</strong> 的值里面，将公钥内容添加到你的 github 账号的 <a href=https://github.com/settings/gpg/new target=_blank>GPG keys</a> 中。</p><p>修改代码，提交到 github，会触发一个 github action ，查看日志，可以看到：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Not using access token authentication, as no access token <span style=color:#f92672>(</span>via env GITREPO_ACCESS_TOKEN<span style=color:#f92672>)</span> defined or because an SSH key is defined and setup <span style=color:#f92672>(</span>via env SSH_PRIVATE_KEY<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>Do mvn release:prepare with options  -DdevelopmentVersion<span style=color:#f92672>=</span><span style=color:#e6db74>${</span>parsedVersion.majorVersion<span style=color:#e6db74>}</span>.<span style=color:#e6db74>${</span>parsedVersion.minorVersion<span style=color:#e6db74>}</span>.<span style=color:#e6db74>${</span>parsedVersion.nextIncrementalVersion<span style=color:#e6db74>}</span>-SNAPSHOT and arguments -ntp -B -U -P release
+</span></span></code></pre></div><p>从日志可以看到，qcastel/github-actions-maven-release 使用了 maven 的 maven-release-plugin 插件，会发布正式版的 jar 到 maven 中央仓库。为了 避免在开发阶段每次提交都发布一个正式版本到中央仓库，可以修改 release-branch-name 为 release 分支，即限定提交到指定分支时候，从触发 maven 发布。</p><p>可以添加下面参数，跳过 release:perform ，即不会发布 jar 到 maven 中央仓库，<strong>但是 maven-release-plugin 插件还是会修改项目的版本，并创建 tag。</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>with:
+</span></span><span style=display:flex><span>    skip-perform: true
+</span></span></code></pre></div><p>创建的 tag 名称格式为：项目名称-版本。tag 名称格式可以在 maven-release-plugin 插件中配置：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;artifactId&gt;</span>maven-release-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;version&gt;</span>${maven-release-plugin.version}<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;scmCommentPrefix&gt;</span>[CI Skip]<span style=color:#f92672>&lt;/scmCommentPrefix&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;autoVersionSubmodules&gt;</span>true<span style=color:#f92672>&lt;/autoVersionSubmodules&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;useReleaseProfile&gt;</span>false<span style=color:#f92672>&lt;/useReleaseProfile&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;releaseProfiles&gt;</span>release<span style=color:#f92672>&lt;/releaseProfiles&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;tagNameFormat&gt;</span>v@{version}<span style=color:#f92672>&lt;/tagNameFormat&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;goals&gt;</span>deploy<span style=color:#f92672>&lt;/goals&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span></code></pre></div><h3 id=action-maven-publish>action-maven-publish</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Release</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>tags</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;v*&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>release</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v3</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Set up JDK 8</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-java@v4</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>java-version</span>: <span style=color:#e6db74>&#39;8&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>distribution</span>: <span style=color:#e6db74>&#39;temurin&#39;</span>
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build with Maven</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>mvn clean install</span>
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Publish to Maven Central</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>samuelmeuli/action-maven-publish@v1</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>gpg_private_key</span>: <span style=color:#ae81ff>${{ secrets.MAVEN_GPG_PRIVATE_KEY }}</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>gpg_passphrase</span>: <span style=color:#ae81ff>${{ secrets.MAVEN_GPG_PASSPHRASE }}</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>nexus_username</span>: <span style=color:#ae81ff>${{ secrets.OSSRH_USERNAME }}</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>nexus_password</span>: <span style=color:#ae81ff>${{ secrets.OSSRH_TOKEN }}</span>
+</span></span></code></pre></div><h2 id=总结>总结</h2><p>如果使用 <a href=https://github.com/qcastel/github-actions-maven-release target=_blank>qcastel/github-actions-maven-release</a> ，maven-release-plugin 插件会修改版本，并且创建 tag ，但是并不会创建 github release。</p><p>使用 <a href=https://github.com/release-drafter/release-drafter target=_blank>https://github.com/release-drafter/release-drafter</a> 这个 actions 可以更加 pull request 自动创建 github releae，基于此，更倾向于使用 <a href=https://github.com/actions/setup-java target=_blank>actions/setup-java</a> 来发布 jar 到 Maven 仓库。</p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93 https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+</a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f&title=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://telegram.me/share/url?text=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f&title=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f" target=_blank rel="noopener noreferrer" title="Click to share on facebook"><i class="fa-brands fa-facebook fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://api.whatsapp.com/send?text=Github%20Action%20%e5%8f%91%e5%b8%83%20Jar%20%e5%88%b0%20Maven%20%e4%b8%ad%e5%a4%ae%e4%bb%93%e5%ba%93%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f08%2f01%2fpublishing-a-jar-to-maven-repository-with-github-action%2f" target=_blank rel="noopener noreferrer" title="Click to share on whatsapp"><i class="fa-brands fa-whatsapp fa-2xl" style=color:#007bb5></i></a></div></div></article><nav class="navigation post-navigation" role=navigation><h2 class=screen-reader-text>Post navigation</h2><div class=nav-links><div class=nav-previous><a href=/posts/2024/08/05/a-crash-course-on-domain-driven-design/ rel=next><span class=post-title>[译]领域驱动设计速成课程</span></a></div><div class=nav-next><a href=/posts/2024/07/24/what-is-new-in-jms-2-0/ rel=prev><span class=post-title>[译]JMS 2.0 中的新增功能</span></a></div></div></nav><h2>Related content</h2><ul><li><a href=/tutorials/>Tutorials</a></li><li><a href=/posts/2024/08/27/activemq-source-code-broker-service/>ActiveMQ源码-BrokerService和PersistenceAdapter</a></li><li><a href=/posts/2024/08/27/thingsboard-code-source-compile/>ThingsBoard源码编译和Idea运行</a></li><li><a href=/posts/2024/08/09/debug-activemq-source-code/>ActiveMQ源码本地调试运行</a></li><li><a href=/posts/2024/07/24/what-is-new-in-jms-2-0/>[译]JMS 2.0 中的新增功能</a></li><li><a href=/posts/2024/07/24/jms20/>[译]JMS 2.0 中的新增功能（第一部分）- 易于使用</a></li><li><a href=/posts/2024/07/24/jms20/>[译]JMS 2.0 中的新增功能（第二部分）- 新的消息传送功能</a></li><li><a href=/posts/2024/07/24/jms20-means-less-code/>[译]JMS 2.0 的十个好处意味着可以减少代码编写量</a></li><li><a href=/posts/2024/07/23/jms-transactions-in-action/>[译]JMS 事务的实际应用</a></li><li><a href=/posts/2024/07/23/jms-pub-sub-messaging-model/>[译]JMS 发布-订阅消息模型</a></li></ul></main></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link><a href=/ target=_blank rel="noopener noreferrer">ChenSoul</a>
+Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer">Hugo</a>
+<a style=margin-left:20px href=/privacy_policy/ target=_blank rel="noopener noreferrer">Privacy Policy</a></span></div></footer></div></div><script type=text/javascript src=/main.min.js></script></body></html>

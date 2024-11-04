@@ -1,391 +1,211 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>[译]使用Spring Boot Actuator公开有用的信息端点 | ChenSoul</title>
-<meta name=keywords content="spring-boot"><meta name=description content="在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。
-Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。
-在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。"><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/><meta name=google-site-verification content="nBXwg45SBRjTX78SA-mH0asrAbsdu9c1nk0ObSry7aQ"><link crossorigin=anonymous href=/assets/css/stylesheet.899d9a536396b9b03c9eae0c99cc6ec954a90da94036f5390d131eb8071bb417.css integrity="sha256-iZ2aU2OWubA8nq4MmcxuyVSpDalANvU5DRMeuAcbtBc=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://blog.chensoul.cc/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://blog.chensoul.cc/favicon-32x32.png><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=mask-icon href=https://blog.chensoul.cc/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><meta property="og:title" content="[译]使用Spring Boot Actuator公开有用的信息端点"><meta property="og:description" content="在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。
-Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。
-在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-07-26T00:00:00+08:00"><meta property="article:modified_time" content="2023-07-26T00:00:00+08:00"><meta property="og:site_name" content="ChenSoul"><meta name=twitter:card content="summary"><meta name=twitter:title content="[译]使用Spring Boot Actuator公开有用的信息端点"><meta name=twitter:description content="在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。
-Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。
-在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://blog.chensoul.cc/posts/"},{"@type":"ListItem","position":2,"name":"[译]使用Spring Boot Actuator公开有用的信息端点","item":"https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"[译]使用Spring Boot Actuator公开有用的信息端点","name":"[译]使用Spring Boot Actuator公开有用的信息端点","description":"在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。\nSpring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。\n在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。\n","keywords":["spring-boot"],"articleBody":"在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。\nSpring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。\n在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。\n示例代码 本文附有 GitHub 上的工作代码示例。\n启用 Spring Boot 执行器 Spring Boot Actuator 是 Spring Boot 的一个子项目。在本节中，我们将快速了解如何引导示例项目并启用 /info 端点。如果您想了解更多有关 Spring Boot Actuator 的信息，已经有一个很棒的教程了。\n让我们使用 Spring Initializr 快速创建一个 Spring Boot 项目。我们将需要以下依赖项：\n依赖性 目的 Spring Boot Actuator 公开应用程序管理端点，例如 info 。 Spring Web 启用 Web 应用程序行为。 如果有帮助，这里是 Maven 和 Gradle 中预填充项目的链接。\n项目构建后，我们将通过 HTTP 公开内置的 /info 端点。默认情况下， /info Web 端点处于禁用状态。我们可以通过在 application.properties 配置中添加 management.endpoints.web.exposure.include 属性来简单地启用它：\n1 management.endpoints.web.exposure.include=health,info 让我们运行 Spring Boot 应用程序并在浏览器中打开 URL http://localhost:8080/actuator/info 。目前还看不到任何有用的东西，因为我们仍然需要进行一些配置更改。在下一节中，我们将了解如何在此响应中添加信息丰富的构建信息。\n保护端点 如果您公开公开端点，请确保适当保护它们。我们不应在不知情的情况下泄露任何敏感信息。\nSpring Boot 应用程序信息 Spring 从应用程序上下文中定义的各种 InfoContributor bean 收集有用的应用程序信息。下面是默认 InfoContributor beans 的摘要：\nID Bean Name 用法 build BuildInfoContributor 公开构建信息。 env EnvironmentInfoContributor 公开 Environment 中名称以 info. 开头的任何属性 git GitInfoContributor 公开 Git 相关信息。 java JavaInfoContributor 公开 Java 运行时信息。 默认情况下， env 和 java 贡献者被禁用。\n首先，我们将通过在 application.properties 中添加以下键值对来启用 java 贡献者：\n1 management.info.java.enabled=true 让我们重新运行该应用程序。如果我们在浏览器中再次打开执行器 /info 端点，我们会得到如下输出：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 { \"java\": { \"vendor\": \"Eclipse Adoptium\", \"version\": \"11.0.14\", \"runtime\": { \"name\": \"OpenJDK Runtime Environment\", \"version\": \"11.0.14+9\" }, \"jvm\": { \"name\": \"OpenJDK 64-Bit Server VM\", \"vendor\": \"Eclipse Adoptium\", \"version\": \"11.0.14+9\" } } } 根据安装的 Java 版本，您可能会看到不同的值。\n现在，是时候显示环境变量了。 Spring 会选取属性名称以 info 开头的任何环境变量。要查看实际效果，让我们在 application.properties 文件中添加以下属性：\n1 2 management.info.env.enabled=true info.app.website=reflectoring.io 重新启动应用程序后，我们将开始看到添加到执行器 info 端点的以下信息：\n1 2 3 4 5 { \"app\": { \"website\": \"reflectoring.io\" } } 请随意添加您想要的任意数量的信息变量:)\n在以下部分中，我们将了解如何添加 Git 和应用程序构建特定信息。\n添加构建信息 添加有用的构建信息有助于快速识别构建工件名称、版本、创建时间等。它可以方便地检查团队是否部署了应用程序的相关版本。 Spring Boot 允许使用 Maven 或 Gradle 构建插件轻松添加此内容。\n使用 Maven 插件 Spring Boot Maven 插件捆绑了许多有用的功能，例如创建可执行 jar 或 war 存档、运行应用程序等。它还提供了一种添加应用程序构建信息的方法。\n如果存在有效的 META-INF/build-info.properties 文件，Spring Boot Actuator 将显示构建详细信息。 Spring Boot Maven 插件的 build-info 目标是创建此文件。\n如果您使用 Spring Initializr 引导项目，则默认情况下该插件将出现在 pom.xml 中。我们只需添加 build-info 执行目标，如下所示：\n1 2 3 4 5 6 7 8 9 10 11 12 org.springframework.boot spring-boot-maven-plugin 2.6.4 build-info 如果我们现在运行命令 ./mvnw spring-boot:run （对于 Linux/macOS）或 mvnw.bat spring-boot:run （对于 Windows），所需的文件将在 target/classes/META-INF/build-info.properties 中创建。\n文件内容将与此类似：\n1 2 3 4 5 build.artifact=spring-boot-build-info build.group=io.reflectoring build.name=spring-boot-build-info build.time=2022-03-06T05\\:53\\:45.236Z build.version=0.0.1-SNAPSHOT 我们还可以使用 additionalProperties 属性将自定义属性添加到此列表：\n1 2 3 4 5 6 7 8 9 10 11 build-info value1 value2 如果我们现在运行应用程序并在浏览器中打开 http://localhost:8080/actuator/info 端点，我们将看到类似于以下内容的响应：\n1 2 3 4 5 6 7 8 9 10 11 12 13 { \"build\": { \"custom\": { \"key2\": \"value2\", \"key1\": \"value1\" }, \"version\": \"0.0.1-SNAPSHOT\", \"artifact\": \"spring-boot-build-info\", \"name\": \"spring-boot-build-info\", \"time\": \"2022-03-06T06:34:30.306Z\", \"group\": \"io.reflectoring\" } } 如果您想排除任何可以使用 excludeInfoProperties 配置的属性。让我们看看如何排除 artifact 属性：\n1 2 3 4 5 artifact 请参阅 Spring Boot 官方文档了解更多信息。\n现在，是时候看看我们如何使用 Spring Boot Gradle 插件实现相同的输出了。\n使用 Gradle 插件 添加构建信息的最简单方法是使用插件 DSL。在 build.gradle 文件中，我们需要添加以下块：\n1 2 3 springBoot { buildInfo() } 如果我们现在同步 Gradle 项目，我们可以看到一个新任务 bootBuildInfo 可供使用。运行该任务将生成带有构建信息的类似 build/resources/main/META-INF/build-info.properties 文件（源自项目）。使用 DSL，我们可以自定义现有值或添加新属性：\n1 2 3 4 5 6 7 8 9 10 springBoot { buildInfo { properties { name = 'Sample App' additional = [ 'customKey': 'customValue' ] } } } 是时候使用 ./gradlew bootRun （对于 macOS/Linux）或 gradlew.bat bootRun （对于 Windows）命令运行应用程序了。应用程序运行后，我们可以在浏览器中打开 http://localhost:8080/actuator/info 端点并找到响应：\n1 2 3 4 5 6 7 8 9 10 { \"build\": { \"customKey\": \"customValue\", \"version\": \"0.0.1-SNAPSHOT\", \"artifact\": \"spring-boot-build-info\", \"name\": \"Sample App\", \"time\": \"2022-03-06T09:11:53.380Z\", \"group\": \"io.reflectoring\" } } 我们可以通过将其值设置为 null 来从生成的构建信息中排除任何默认属性。例如：\n1 2 3 properties { group = null } 想了解更多关于该插件的信息，可以参考 Spring Boot 官方文档。\n添加 Git 信息 Git 信息可以方便地快速识别生产中是否存在相关代码或者分布式部署是否与预期同步。 Spring Boot 可以使用 Maven 和 Gradle 插件轻松地将 Git 属性包含在 Actuator 端点中。\n使用这个插件我们可以生成一个 git.properties 文件。此文件的存在将自动配置 GitProperties bean，供 GitInfoContributor bean 使用来整理相关信息。\n默认情况下，将公开以下信息：\ngit.branch git.commit.id git.commit.time 以下管理应用程序属性控制 Git 相关信息：\n应用属性 目的 management.info.git.enabled=false 完全从 info 端点禁用 Git 信息 management.info.git.mode=full 显示 git.properties 文件中的所有属性 使用 Maven 插件 Maven Git Commit ID 插件通过 spring-boot-starter-parent pom.xml 进行管理。要使用它，我们必须编辑 pom.xml 如下：\n1 2 3 4 pl.project13.maven git-commit-id-plugin 如果我们运行该项目并在浏览器中打开 /actuator/info 端点，它将返回 Git 相关信息：\n1 2 3 4 5 6 7 8 9 { \"git\": { \"branch\": \"main\", \"commit\": { \"id\": \"5404bdf\", \"time\": \"2022-03-06T10:34:16Z\" } } } 我们还可以检查 target/classes/git.properties 下生成的文件。这对我来说是这样的：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 #Generated by Git-Commit-Id-Plugin git.branch=main git.build.host=mylaptop git.build.time=2022-03-06T23\\:22\\:16+0530 git.build.user.email=user@email.com git.build.user.name=user git.build.version=0.0.1-SNAPSHOT git.closest.tag.commit.count= git.closest.tag.name= git.commit.author.time=2022-03-06T22\\:46\\:56+0530 git.commit.committer.time=2022-03-06T22\\:46\\:56+0530 git.commit.id=e9fa20d4914367c1632e3a0eb8ca4d2f32b31a89 git.commit.id.abbrev=e9fa20d git.commit.id.describe=e9fa20d-dirty git.commit.id.describe-short=e9fa20d-dirty git.commit.message.full=Update config git.commit.message.short=Update config git.commit.time=2022-03-06T22\\:46\\:56+0530 git.commit.user.email=saikat@email.com git.commit.user.name=Saikat git.dirty=true git.local.branch.ahead=NO_REMOTE git.local.branch.behind=NO_REMOTE git.remote.origin.url=Unknown git.tags= git.total.commit.count=2 这个插件带有很多配置选项。例如，要包含/排除特定属性，我们可以添加 configuration 部分，如下所示：\n1 2 3 4 5 6 7 8 time git.commit.id 它将生成如下输出：\n1 2 3 4 5 6 7 { \"git\": { \"commit\": { \"id\": \"5404bdf\" } } } 译者备注：\n使用 4.9.10 版本时，如果想指定输出内容，需要这样设置：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 pl.project13.maven git-commit-id-plugin 4.9.10 revision true yyyy-MM-dd HH:mm:ss GMT+8 git.branch,git.build.time,git.build.version,git.commit.id,git.commit.time,git.commit.message.full 现在让我们看看 Gradle 用户可以使用哪些选项。\n使用 Gradle 插件 在 build.gradle 中，我们将添加 gradle-git-properties 插件：\n1 2 3 plugins { id 'com.gorylenko.gradle-git-properties' version '2.4.0' } 现在让我们构建 Gradle 项目。我们可以看到 build/resources/main/git.properties 文件已创建。并且，执行器 info 端点将显示相同的数据：\n1 2 3 4 5 6 7 8 9 { \"git\": { \"branch\": \"main\", \"commit\": { \"id\": \"5404bdf\", \"time\": \"2022-03-06T10:34:16Z\" } } } 该插件也提供了多种使用属性 gitProperties 配置输出的方法。例如，我们通过添加以下内容来限制要出现的键：\n1 2 3 gitProperties { keys = ['git.commit.id'] } 重新运行应用程序现在将显示有限的 Git 信息：\n1 2 3 4 5 6 7 { \"git\": { \"commit\": { \"id\": \"5404bdf\" } } } 结论 在本文中，我们学习了如何使用 Spring Actuator 来公开有关我们应用程序的相关信息。我们了解了如何将有关构建、环境、Git 和 Java 环境的信息添加到 Actuator /info 端点。我们还研究了如何通过 Maven/Gradle 构建插件配置和控制所有这些信息。\n您可以使用 GitHub 上的代码来尝试一个完整的应用程序来说明这些想法。\n原文链接：https://reflectoring.io/spring-boot-info-endpoint/\n","wordCount":"2680","inLanguage":"en","datePublished":"2023-07-26T00:00:00+08:00","dateModified":"2023-07-26T00:00:00+08:00","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/"},"publisher":{"@type":"Organization","name":"ChenSoul","logo":{"@type":"ImageObject","url":"https://blog.chensoul.cc/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories title=分类><span>分类</span></a></li><li><a href=https://blog.chensoul.cc/tags title=标签><span>标签</span></a></li><li><a href=https://blog.chensoul.cc/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://blog.chensoul.cc/index.xml title=订阅><span>订阅</span></a></li><li><a href=https://github.com/chensoul title=关于><span>关于</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">[译]使用Spring Boot Actuator公开有用的信息端点</h1><div class=post-meta><span title='2023-07-26 00:00:00 +0800 CST'>2023-07-26</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;2680 words&nbsp;·&nbsp;chensoul</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#%e7%a4%ba%e4%be%8b%e4%bb%a3%e7%a0%81 aria-label=示例代码>示例代码</a></li><li><a href=#%e5%90%af%e7%94%a8-spring-boot-%e6%89%a7%e8%a1%8c%e5%99%a8 aria-label="启用 Spring Boot 执行器">启用 Spring Boot 执行器</a><ul><ul><li><a href=#%e4%bf%9d%e6%8a%a4%e7%ab%af%e7%82%b9 aria-label=保护端点>保护端点</a></li></ul></ul></li><li><a href=#spring-boot-%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e4%bf%a1%e6%81%af aria-label="Spring Boot 应用程序信息">Spring Boot 应用程序信息</a></li><li><a href=#%e6%b7%bb%e5%8a%a0%e6%9e%84%e5%bb%ba%e4%bf%a1%e6%81%af aria-label=添加构建信息>添加构建信息</a><ul><li><a href=#%e4%bd%bf%e7%94%a8-maven-%e6%8f%92%e4%bb%b6 aria-label="使用 Maven 插件">使用 Maven 插件</a></li><li><a href=#%e4%bd%bf%e7%94%a8-gradle-%e6%8f%92%e4%bb%b6 aria-label="使用 Gradle 插件">使用 Gradle 插件</a></li></ul></li><li><a href=#%e6%b7%bb%e5%8a%a0-git-%e4%bf%a1%e6%81%af aria-label="添加 Git 信息">添加 Git 信息</a><ul><li><a href=#%e4%bd%bf%e7%94%a8-maven-%e6%8f%92%e4%bb%b6-1 aria-label="使用 Maven 插件">使用 Maven 插件</a></li><li><a href=#%e4%bd%bf%e7%94%a8-gradle-%e6%8f%92%e4%bb%b6-1 aria-label="使用 Gradle 插件">使用 Gradle 插件</a></li></ul></li><li><a href=#%e7%bb%93%e8%ae%ba aria-label=结论>结论</a></li></ul></div></details></div><div class=post-content><p>在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。</p><p>Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。</p><p>在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。</p><h2 id=示例代码>示例代码<a hidden class=anchor aria-hidden=true href=#示例代码>#</a></h2><p>本文附有 GitHub 上的工作<a href=https://github.com/thombergs/code-examples/tree/master/spring-boot/spring-boot-app-info target=_blank>代码示例</a>。</p><h2 id=启用-spring-boot-执行器>启用 Spring Boot 执行器<a hidden class=anchor aria-hidden=true href=#启用-spring-boot-执行器>#</a></h2><p>Spring Boot Actuator 是 Spring Boot 的一个子项目。在本节中，我们将快速了解如何引导示例项目并启用 <code>/info</code> 端点。如果您想了解更多有关 Spring Boot Actuator 的信息，已经有一个很棒的<a href=https://reflectoring.io/exploring-a-spring-boot-app-with-actuator-and-jq/ target=_blank>教程</a>了。</p><p>让我们使用 <a href=https://start.spring.io/ target=_blank>Spring Initializr</a> 快速创建一个 Spring Boot 项目。我们将需要以下依赖项：</p><table><thead><tr><th>依赖性</th><th>目的</th></tr></thead><tbody><tr><td>Spring Boot Actuator</td><td>公开应用程序管理端点，例如 <code>info</code> 。</td></tr><tr><td>Spring Web</td><td>启用 Web 应用程序行为。</td></tr></tbody></table><p>如果有帮助，这里是 <a href="https://start.spring.io/#!type=maven-project&amp;language=java&amp;platformVersion=2.6.4&amp;packaging=jar&amp;jvmVersion=11&amp;groupId=io.reflectoring&amp;artifactId=demo&amp;name=Demo%20Application&amp;description=Demo%20project%20for%20Spring%20Boot%20Application%20Info&amp;packageName=io.reflectoring.demo&amp;dependencies=web,actuator" target=_blank>Maven</a> 和 <a href="https://start.spring.io/#!type=gradle-project&amp;language=java&amp;platformVersion=2.6.4&amp;packaging=jar&amp;jvmVersion=11&amp;groupId=io.reflectoring&amp;artifactId=demo&amp;name=Demo%20Application&amp;description=Demo%20project%20for%20Spring%20Boot%20Application%20Info&amp;packageName=io.reflectoring.demo&amp;dependencies=web,actuator" target=_blank>Gradle</a> 中预填充项目的链接。</p><p>项目构建后，我们将通过 HTTP 公开内置的 <code>/info</code> 端点。默认情况下， <code>/info</code> Web 端点处于禁用状态。我们可以通过在 <code>application.properties</code> 配置中添加 <code>management.endpoints.web.exposure.include</code> 属性来简单地启用它：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-properties data-lang=properties><span class=line><span class=cl><span class=na>management.endpoints.web.exposure.include</span><span class=o>=</span><span class=s>health,info</span>
-</span></span></code></pre></td></tr></table></div></div><p>让我们运行 Spring Boot 应用程序并在浏览器中打开 URL <code>http://localhost:8080/actuator/info</code> 。目前还看不到任何有用的东西，因为我们仍然需要进行一些配置更改。在下一节中，我们将了解如何在此响应中添加信息丰富的构建信息。</p><blockquote><h4 id=保护端点>保护端点<a hidden class=anchor aria-hidden=true href=#保护端点>#</a></h4><p>如果您公开公开端点，请确保适当<a href=https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.security target=_blank>保护</a>它们。我们不应在不知情的情况下泄露任何敏感信息。</p></blockquote><h2 id=spring-boot-应用程序信息>Spring Boot 应用程序信息<a hidden class=anchor aria-hidden=true href=#spring-boot-应用程序信息>#</a></h2><p>Spring 从应用程序上下文中定义的各种 <a href=https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/actuate/info/InfoContributor.html target=_blank>InfoContributor</a> bean 收集有用的应用程序信息。下面是默认 <code>InfoContributor</code> beans 的摘要：</p><table><thead><tr><th>ID</th><th>Bean Name</th><th>用法</th></tr></thead><tbody><tr><td><code>build</code></td><td><code>BuildInfoContributor</code></td><td>公开构建信息。</td></tr><tr><td><code>env</code></td><td><code>EnvironmentInfoContributor</code></td><td>公开 <code>Environment</code> 中名称以 <code>info.</code> 开头的任何属性</td></tr><tr><td><code>git</code></td><td><code>GitInfoContributor</code></td><td>公开 Git 相关信息。</td></tr><tr><td><code>java</code></td><td><code>JavaInfoContributor</code></td><td>公开 Java 运行时信息。</td></tr></tbody></table><p><strong>默认情况下， <code>env</code> 和 <code>java</code> 贡献者被禁用。</strong></p><p>首先，我们将通过在 <code>application.properties</code> 中添加以下键值对来启用 <code>java</code> 贡献者：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-properties data-lang=properties><span class=line><span class=cl><span class=na>management.info.java.enabled</span><span class=o>=</span><span class=s>true</span>
-</span></span></code></pre></td></tr></table></div></div><p>让我们重新运行该应用程序。如果我们在浏览器中再次打开执行器 <code>/info</code> 端点，我们会得到如下输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&#34;java&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;vendor&#34;</span><span class=p>:</span> <span class=s2>&#34;Eclipse Adoptium&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;version&#34;</span><span class=p>:</span> <span class=s2>&#34;11.0.14&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;runtime&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;OpenJDK Runtime Environment&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;version&#34;</span><span class=p>:</span> <span class=s2>&#34;11.0.14+9&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=p>},</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;jvm&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;OpenJDK 64-Bit Server VM&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;vendor&#34;</span><span class=p>:</span> <span class=s2>&#34;Eclipse Adoptium&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;version&#34;</span><span class=p>:</span> <span class=s2>&#34;11.0.14+9&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>根据安装的 Java 版本，您可能会看到不同的值。</p><p>现在，是时候显示环境变量了。 Spring 会选取属性名称以 <code>info</code> 开头的任何环境变量。要查看实际效果，让我们在 <code>application.properties</code> 文件中添加以下属性：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-properties data-lang=properties><span class=line><span class=cl><span class=na>management.info.env.enabled</span><span class=o>=</span><span class=s>true</span>
-</span></span><span class=line><span class=cl><span class=na>info.app.website</span><span class=o>=</span><span class=s>reflectoring.io</span>
-</span></span></code></pre></td></tr></table></div></div><p>重新启动应用程序后，我们将开始看到添加到执行器 <code>info</code> 端点的以下信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&#34;app&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;website&#34;</span><span class=p>:</span> <span class=s2>&#34;reflectoring.io&#34;</span>
-</span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>请随意添加您想要的任意数量的信息变量:)</p><p>在以下部分中，我们将了解如何添加 Git 和应用程序构建特定信息。</p><h2 id=添加构建信息>添加构建信息<a hidden class=anchor aria-hidden=true href=#添加构建信息>#</a></h2><p>添加有用的<a href=https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.build.generate-info target=_blank>构建信息</a>有助于快速识别构建工件名称、版本、创建时间等。它可以方便地检查团队是否部署了应用程序的相关版本。 Spring Boot 允许使用 Maven 或 Gradle 构建插件轻松添加此内容。</p><h3 id=使用-maven-插件>使用 Maven 插件<a hidden class=anchor aria-hidden=true href=#使用-maven-插件>#</a></h3><p>Spring Boot Maven 插件捆绑了许多有用的功能，例如创建可执行 jar 或 war 存档、运行应用程序等。它还提供了一种添加应用程序构建信息的方法。</p><p>如果存在有效的 <code>META-INF/build-info.properties</code> 文件，Spring Boot Actuator 将显示构建详细信息。 Spring Boot Maven 插件的 <code>build-info</code> 目标是创建此文件。</p><p>如果您使用 Spring Initializr 引导项目，则默认情况下该插件将出现在 <code>pom.xml</code> 中。我们只需添加 <code>build-info</code> 执行目标，如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;groupId&gt;</span>org.springframework.boot<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;version&gt;</span>2.6.4<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;executions&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;execution&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;goals&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;goal&gt;</span>build-info<span class=nt>&lt;/goal&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;/goals&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/execution&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/executions&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/plugin&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>如果我们现在运行命令 <code>./mvnw spring-boot:run</code> （对于 Linux/macOS）或 <code>mvnw.bat spring-boot:run</code> （对于 Windows），所需的文件将在 <code>target/classes/META-INF/build-info.properties</code> 中创建。</p><p><strong>文件内容将与此类似：</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-properties data-lang=properties><span class=line><span class=cl><span class=na>build.artifact</span><span class=o>=</span><span class=s>spring-boot-build-info</span>
-</span></span><span class=line><span class=cl><span class=na>build.group</span><span class=o>=</span><span class=s>io.reflectoring</span>
-</span></span><span class=line><span class=cl><span class=na>build.name</span><span class=o>=</span><span class=s>spring-boot-build-info</span>
-</span></span><span class=line><span class=cl><span class=na>build.time</span><span class=o>=</span><span class=s>2022-03-06T05\:53\:45.236Z</span>
-</span></span><span class=line><span class=cl><span class=na>build.version</span><span class=o>=</span><span class=s>0.0.1-SNAPSHOT</span>
-</span></span></code></pre></td></tr></table></div></div><p>我们还可以使用 <code>additionalProperties</code> 属性将自定义属性添加到此列表：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;execution&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;goals&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;goal&gt;</span>build-info<span class=nt>&lt;/goal&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/goals&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;additionalProperties&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;custom.key1&gt;</span>value1<span class=nt>&lt;/custom.key1&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;custom.key2&gt;</span>value2<span class=nt>&lt;/custom.key2&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/additionalProperties&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/configuration&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/execution&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>如果我们现在运行应用程序并在浏览器中打开 <code>http://localhost:8080/actuator/info</code> 端点，我们将看到类似于以下内容的响应：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&#34;build&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;custom&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;key2&#34;</span><span class=p>:</span> <span class=s2>&#34;value2&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;key1&#34;</span><span class=p>:</span> <span class=s2>&#34;value1&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=p>},</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;version&#34;</span><span class=p>:</span> <span class=s2>&#34;0.0.1-SNAPSHOT&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;artifact&#34;</span><span class=p>:</span> <span class=s2>&#34;spring-boot-build-info&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;spring-boot-build-info&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;time&#34;</span><span class=p>:</span> <span class=s2>&#34;2022-03-06T06:34:30.306Z&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;group&#34;</span><span class=p>:</span> <span class=s2>&#34;io.reflectoring&#34;</span>
-</span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>如果您想排除任何可以使用 <code>excludeInfoProperties</code> 配置的属性。让我们看看如何排除 <code>artifact</code> 属性：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;excludeInfoProperties&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;infoProperty&gt;</span>artifact<span class=nt>&lt;/infoProperty&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/excludeInfoProperties&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/configuration&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>请参阅 Spring Boot <a href=https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/#goals-build-info target=_blank>官方文档</a>了解更多信息。</p><p>现在，是时候看看我们如何使用 Spring Boot Gradle 插件实现相同的输出了。</p><h3 id=使用-gradle-插件>使用 Gradle 插件<a hidden class=anchor aria-hidden=true href=#使用-gradle-插件>#</a></h3><p>添加构建信息的最简单方法是使用插件 DSL。在 <code>build.gradle</code> 文件中，我们需要添加以下块：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gradle data-lang=gradle><span class=line><span class=cl><span class=n>springBoot</span> <span class=o>{</span>
-</span></span><span class=line><span class=cl>  <span class=n>buildInfo</span><span class=o>()</span>
-</span></span><span class=line><span class=cl><span class=o>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>如果我们现在同步 Gradle 项目，我们可以看到一个新任务 <code>bootBuildInfo</code> 可供使用。运行该任务将生成带有构建信息的类似 <code>build/resources/main/META-INF/build-info.properties</code> 文件（源自项目）。使用 DSL，我们可以自定义现有值或添加新属性：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gradle data-lang=gradle><span class=line><span class=cl><span class=n>springBoot</span> <span class=o>{</span>
-</span></span><span class=line><span class=cl>  <span class=n>buildInfo</span> <span class=o>{</span>
-</span></span><span class=line><span class=cl>    <span class=n>properties</span> <span class=o>{</span>
-</span></span><span class=line><span class=cl>      <span class=n>name</span> <span class=o>=</span> <span class=s1>&#39;Sample App&#39;</span>
-</span></span><span class=line><span class=cl>      <span class=n>additional</span> <span class=o>=</span> <span class=o>[</span>
-</span></span><span class=line><span class=cl>        <span class=s1>&#39;customKey&#39;</span><span class=o>:</span> <span class=s1>&#39;customValue&#39;</span>
-</span></span><span class=line><span class=cl>      <span class=o>]</span>
-</span></span><span class=line><span class=cl>    <span class=o>}</span>
-</span></span><span class=line><span class=cl>  <span class=o>}</span>
-</span></span><span class=line><span class=cl><span class=o>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>是时候使用 <code>./gradlew bootRun</code> （对于 macOS/Linux）或 <code>gradlew.bat bootRun</code> （对于 Windows）命令运行应用程序了。应用程序运行后，我们可以在浏览器中打开 <code>http://localhost:8080/actuator/info</code> 端点并找到响应：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&#34;build&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;customKey&#34;</span><span class=p>:</span> <span class=s2>&#34;customValue&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;version&#34;</span><span class=p>:</span> <span class=s2>&#34;0.0.1-SNAPSHOT&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;artifact&#34;</span><span class=p>:</span> <span class=s2>&#34;spring-boot-build-info&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;Sample App&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;time&#34;</span><span class=p>:</span> <span class=s2>&#34;2022-03-06T09:11:53.380Z&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;group&#34;</span><span class=p>:</span> <span class=s2>&#34;io.reflectoring&#34;</span>
-</span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>我们可以通过将其值设置为 <code>null</code> 来从生成的构建信息中排除任何默认属性。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gradle data-lang=gradle><span class=line><span class=cl><span class=n>properties</span> <span class=o>{</span>
-</span></span><span class=line><span class=cl>  <span class=n>group</span> <span class=o>=</span> <span class=kc>null</span>
-</span></span><span class=line><span class=cl><span class=o>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>想了解更多关于该插件的信息，可以参考 Spring Boot <a href=https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#integrating-with-actuator target=_blank>官方文档</a>。</p><h2 id=添加-git-信息>添加 Git 信息<a hidden class=anchor aria-hidden=true href=#添加-git-信息>#</a></h2><p><a href=https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.build.generate-git-info target=_blank>Git 信息</a>可以方便地快速识别生产中是否存在相关代码或者分布式部署是否与预期同步。 Spring Boot 可以使用 Maven 和 Gradle 插件轻松地将 Git 属性包含在 Actuator 端点中。</p><p>使用这个插件我们可以生成一个 <code>git.properties</code> 文件。此文件的存在将自动配置 <a href=https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/info/GitProperties.html target=_blank>GitProperties</a> bean，供 <a href=https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/actuate/info/GitInfoContributor.html target=_blank>GitInfoContributor</a> bean 使用来整理相关信息。</p><p><strong>默认情况下，将公开以下信息：</strong></p><ul><li><code>git.branch</code></li><li><code>git.commit.id</code></li><li><code>git.commit.time</code></li></ul><p>以下管理应用程序属性控制 Git 相关信息：</p><table><thead><tr><th>应用属性</th><th>目的</th></tr></thead><tbody><tr><td><code>management.info.git.enabled=false</code></td><td>完全从 <code>info</code> 端点禁用 Git 信息</td></tr><tr><td><code>management.info.git.mode=full</code></td><td>显示 <code>git.properties</code> 文件中的所有属性</td></tr></tbody></table><h3 id=使用-maven-插件-1>使用 Maven 插件<a hidden class=anchor aria-hidden=true href=#使用-maven-插件-1>#</a></h3><p><a href=https://github.com/git-commit-id/git-commit-id-maven-plugin target=_blank>Maven Git Commit ID 插件</a>通过 <code>spring-boot-starter-parent</code> pom.xml 进行管理。要使用它，我们必须编辑 <code>pom.xml</code> 如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;groupId&gt;</span>pl.project13.maven<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;artifactId&gt;</span>git-commit-id-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/plugin&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>如果我们运行该项目并在浏览器中打开 <code>/actuator/info</code> 端点，它将返回 Git 相关信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&#34;git&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;branch&#34;</span><span class=p>:</span> <span class=s2>&#34;main&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;commit&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;id&#34;</span><span class=p>:</span> <span class=s2>&#34;5404bdf&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;time&#34;</span><span class=p>:</span> <span class=s2>&#34;2022-03-06T10:34:16Z&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>我们还可以检查 <code>target/classes/git.properties</code> 下生成的文件。这对我来说是这样的：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>#Generated by Git-Commit-Id-Plugin
-</span></span><span class=line><span class=cl>git.branch=main
-</span></span><span class=line><span class=cl>git.build.host=mylaptop
-</span></span><span class=line><span class=cl>git.build.time=2022-03-06T23\:22\:16+0530
-</span></span><span class=line><span class=cl>git.build.user.email=user@email.com
-</span></span><span class=line><span class=cl>git.build.user.name=user
-</span></span><span class=line><span class=cl>git.build.version=0.0.1-SNAPSHOT
-</span></span><span class=line><span class=cl>git.closest.tag.commit.count=
-</span></span><span class=line><span class=cl>git.closest.tag.name=
-</span></span><span class=line><span class=cl>git.commit.author.time=2022-03-06T22\:46\:56+0530
-</span></span><span class=line><span class=cl>git.commit.committer.time=2022-03-06T22\:46\:56+0530
-</span></span><span class=line><span class=cl>git.commit.id=e9fa20d4914367c1632e3a0eb8ca4d2f32b31a89
-</span></span><span class=line><span class=cl>git.commit.id.abbrev=e9fa20d
-</span></span><span class=line><span class=cl>git.commit.id.describe=e9fa20d-dirty
-</span></span><span class=line><span class=cl>git.commit.id.describe-short=e9fa20d-dirty
-</span></span><span class=line><span class=cl>git.commit.message.full=Update config
-</span></span><span class=line><span class=cl>git.commit.message.short=Update config
-</span></span><span class=line><span class=cl>git.commit.time=2022-03-06T22\:46\:56+0530
-</span></span><span class=line><span class=cl>git.commit.user.email=saikat@email.com
-</span></span><span class=line><span class=cl>git.commit.user.name=Saikat
-</span></span><span class=line><span class=cl>git.dirty=true
-</span></span><span class=line><span class=cl>git.local.branch.ahead=NO_REMOTE
-</span></span><span class=line><span class=cl>git.local.branch.behind=NO_REMOTE
-</span></span><span class=line><span class=cl>git.remote.origin.url=Unknown
-</span></span><span class=line><span class=cl>git.tags=
-</span></span><span class=line><span class=cl>git.total.commit.count=2
-</span></span></code></pre></td></tr></table></div></div><p>这个插件带有很多<a href=https://github.com/git-commit-id/git-commit-id-maven-plugin/blob/master/docs/using-the-plugin.md target=_blank>配置</a>选项。例如，要包含/排除特定属性，我们可以添加 <code>configuration</code> 部分，如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;excludeProperties&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;excludeProperty&gt;</span>time<span class=nt>&lt;/excludeProperty&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/excludeProperties&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;includeOnlyProperties&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;property&gt;</span>git.commit.id<span class=nt>&lt;/property&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/includeOnlyProperties&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/configuration&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>它将生成如下输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&#34;git&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;commit&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;id&#34;</span><span class=p>:</span> <span class=s2>&#34;5404bdf&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><blockquote><p>译者备注：</p><p>使用 4.9.10 版本时，如果想指定输出内容，需要这样设置：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=nt>&lt;groupId&gt;</span>pl.project13.maven<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=nt>&lt;artifactId&gt;</span>git-commit-id-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=nt>&lt;version&gt;</span>4.9.10<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=nt>&lt;executions&gt;</span>
-</span></span><span class=line><span class=cl>       <span class=nt>&lt;execution&gt;</span>
-</span></span><span class=line><span class=cl>           <span class=nt>&lt;goals&gt;</span>
-</span></span><span class=line><span class=cl>               <span class=nt>&lt;goal&gt;</span>revision<span class=nt>&lt;/goal&gt;</span>
-</span></span><span class=line><span class=cl>           <span class=nt>&lt;/goals&gt;</span>
-</span></span><span class=line><span class=cl>       <span class=nt>&lt;/execution&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=nt>&lt;/executions&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>       <span class=nt>&lt;generateGitPropertiesFile&gt;</span>true<span class=nt>&lt;/generateGitPropertiesFile&gt;</span>
-</span></span><span class=line><span class=cl>       <span class=nt>&lt;dateFormat&gt;</span>yyyy-MM-dd HH:mm:ss<span class=nt>&lt;/dateFormat&gt;</span>
-</span></span><span class=line><span class=cl>       <span class=nt>&lt;dateFormatTimeZone&gt;</span>GMT+8<span class=nt>&lt;/dateFormatTimeZone&gt;</span>           <span class=nt>&lt;includeOnlyProperties&gt;</span>git.branch,git.build.time,git.build.version,git.commit.id,git.commit.time,git.commit.message.full<span class=nt>&lt;/includeOnlyProperties&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=nt>&lt;/configuration&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/plugin&gt;</span>
-</span></span></code></pre></td></tr></table></div></div></blockquote><p>现在让我们看看 Gradle 用户可以使用哪些选项。</p><h3 id=使用-gradle-插件-1>使用 Gradle 插件<a hidden class=anchor aria-hidden=true href=#使用-gradle-插件-1>#</a></h3><p>在 <code>build.gradle</code> 中，我们将添加 <code>gradle-git-properties</code> 插件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gradle data-lang=gradle><span class=line><span class=cl><span class=n>plugins</span> <span class=o>{</span>
-</span></span><span class=line><span class=cl>  <span class=n>id</span> <span class=s1>&#39;com.gorylenko.gradle-git-properties&#39;</span> <span class=n>version</span> <span class=s1>&#39;2.4.0&#39;</span>
-</span></span><span class=line><span class=cl><span class=o>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>现在让我们构建 Gradle 项目。我们可以看到 <code>build/resources/main/git.properties</code> 文件已创建。并且，执行器 <code>info</code> 端点将显示相同的数据：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&#34;git&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;branch&#34;</span><span class=p>:</span> <span class=s2>&#34;main&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;commit&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;id&#34;</span><span class=p>:</span> <span class=s2>&#34;5404bdf&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;time&#34;</span><span class=p>:</span> <span class=s2>&#34;2022-03-06T10:34:16Z&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>该插件也提供了多种使用属性 <code>gitProperties</code> 配置输出的方法。例如，我们通过添加以下内容来限制要出现的键：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gradle data-lang=gradle><span class=line><span class=cl><span class=n>gitProperties</span> <span class=o>{</span>
-</span></span><span class=line><span class=cl>  <span class=n>keys</span> <span class=o>=</span> <span class=o>[</span><span class=s1>&#39;git.commit.id&#39;</span><span class=o>]</span>
-</span></span><span class=line><span class=cl><span class=o>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>重新运行应用程序现在将显示有限的 Git 信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&#34;git&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;commit&#34;</span><span class=p>:</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&#34;id&#34;</span><span class=p>:</span> <span class=s2>&#34;5404bdf&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><h2 id=结论>结论<a hidden class=anchor aria-hidden=true href=#结论>#</a></h2><p>在本文中，我们学习了如何使用 Spring Actuator 来公开有关我们应用程序的相关信息。我们了解了如何将有关构建、环境、Git 和 Java 环境的信息添加到 Actuator <code>/info</code> 端点。我们还研究了如何通过 Maven/Gradle 构建插件配置和控制所有这些信息。</p><p>您可以使用 GitHub 上的<a href=https://github.com/thombergs/code-examples/tree/master/spring-boot/spring-boot-app-info target=_blank>代码</a>来尝试一个完整的应用程序来说明这些想法。</p><p>原文链接：<a href=https://reflectoring.io/spring-boot-info-endpoint/ target=_blank>https://reflectoring.io/spring-boot-info-endpoint/</a></p></div><footer class=post-footer><ul class=post-tags><li><a href=https://blog.chensoul.cc/tags/spring-boot/>Spring-Boot</a></li></ul><nav class=paginav><a class=prev href=https://blog.chensoul.cc/posts/2023/07/26/spring-boot-null-safety-annotations/><span class=title>« Prev</span><br><span>[译]使用 Spring 的 Null-Safety 注解保护您的代码免受 NullPointerExceptions 的影响</span>
-</a><a class=next href=https://blog.chensoul.cc/posts/2023/07/26/using-oauth2-in-spring-scopes/><span class=title>Next »</span><br><span>[译]在 Spring 中实现 OAuth2：使用范围（第 2 部分）</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]使用Spring Boot Actuator公开有用的信息端点 on x" href="https://x.com/intent/tweet/?text=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f&amp;hashtags=spring-boot"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]使用Spring Boot Actuator公开有用的信息端点 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f&amp;title=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9&amp;summary=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9&amp;source=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]使用Spring Boot Actuator公开有用的信息端点 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f&title=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]使用Spring Boot Actuator公开有用的信息端点 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]使用Spring Boot Actuator公开有用的信息端点 on whatsapp" href="https://api.whatsapp.com/send?text=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]使用Spring Boot Actuator公开有用的信息端点 on telegram" href="https://telegram.me/share/url?text=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share [译]使用Spring Boot Actuator公开有用的信息端点 on ycombinator" href="https://news.ycombinator.com/submitlink?t=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9&u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
-</a><script async src=https://umami.chensoul.cc/random-string.js data-website-id=821c25f8-a31a-4607-92d7-91ee76843d00></script><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。
+Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。"><title>[译]使用Spring Boot Actuator公开有用的信息端点 | ChenSoul</title>
+<link rel=canonical href=https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/><link rel=preconnect href=https://fonts.font.im><link rel=preconnect href=https://fonts.loli.net crossorigin><link href="https://fonts.loli.net/css2?family=Roboto+Slab:wght@400;500;700&display=swap" rel=stylesheet><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta name=twitter:title content="[译]使用Spring Boot Actuator公开有用的信息端点"><meta name=twitter:description content="在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。
+Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。"><meta property="og:locale" content="en_US"><meta property="og:site_name" content="chensoul"><meta property="og:url" content="https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/"><meta property="og:site_name" content="ChenSoul"><meta property="og:title" content="[译]使用Spring Boot Actuator公开有用的信息端点"><meta property="og:description" content="在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。
+Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-07-26T00:00:00+00:00"><meta property="article:modified_time" content="2023-07-26T00:00:00+00:00"><meta property="article:tag" content="Spring-Boot"><meta property="og:image" content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=name content="[译]使用Spring Boot Actuator公开有用的信息端点"><meta itemprop=description content="在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。
+Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。"><meta itemprop=datePublished content="2023-07-26T00:00:00+00:00"><meta itemprop=dateModified content="2023-07-26T00:00:00+00:00"><meta itemprop=wordCount content="631"><meta itemprop=image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=keywords content="Spring-Boot"><link rel=stylesheet href=https://cdnjs.loli.net/ajax/libs/font-awesome/6.4.0/css/all.min.css media=all><link rel=stylesheet href=/main.min.css type=text/css media=all><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"[译]使用Spring Boot Actuator公开有用的信息端点","headline":"[译]使用Spring Boot Actuator公开有用的信息端点","inLanguage":"en-US","url":"https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/","description":"\u003cp\u003e在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。\u003c/p\u003e\n\u003cp\u003eSpring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。\u003c/p\u003e","wordCount":"631","keywords":["spring-boot"],"datePublished":"2023-07-26T00:00:00Z","dateModified":"2023-07-26T00:00:00Z","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/"},"publisher":{"@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/"}},{"@context":"https://schema.org","@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/","sameAs":["https://twitter.com/","https://github.com/chensoul","https://www.linkedin.com/in/"]}]}</script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title=ChenSoul rel=home>ChenSoul</a></h1><p class=site-description>Java, Spring Boot, Microservice, Cloud, Architecture and DevOps Tutorials</p></div><div class="header-widgets clearfix"><aside id=search-2 class="header-widget widget_search"><form role=search method=get class=search-form onsubmit="return searchSite(event)"><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=search-field placeholder="Enter search keyword" name=query id=query title="Enter search keyword">
+</label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
+<span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
+current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2023/07/26/spring-boot-info-endpoint/ rel=bookmark title="[译]使用Spring Boot Actuator公开有用的信息端点">[译]使用Spring Boot Actuator公开有用的信息端点</a></h2><hr><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2023-07-26T00:00:00>2023-07-26
+</time></span><span class=meta-author><span class="author vcard">chensoul</span>
+</span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/spring-boot/ title=spring-boot>spring-boot</a></span></div></header><div class=entry-content><p>在分布式、快节奏的环境中，开发团队通常希望了解他们部署应用程序的时间、部署的应用程序版本、部署的 Git 提交等等。</p><p>Spring Boot Actuator 帮助我们监控和管理应用程序。它公开了提供应用程序运行状况、指标和其他相关信息的各种端点。</p><p>在本文中，我们将了解如何使用 Spring Boot Actuator 和 Maven/Gradle 构建插件将此类信息添加到我们的项目中。</p><h2 id=示例代码>示例代码</h2><p>本文附有 GitHub 上的工作<a href=https://github.com/thombergs/code-examples/tree/master/spring-boot/spring-boot-app-info target=_blank>代码示例</a>。</p><h2 id=启用-spring-boot-执行器>启用 Spring Boot 执行器</h2><p>Spring Boot Actuator 是 Spring Boot 的一个子项目。在本节中，我们将快速了解如何引导示例项目并启用 <code>/info</code> 端点。如果您想了解更多有关 Spring Boot Actuator 的信息，已经有一个很棒的<a href=https://reflectoring.io/exploring-a-spring-boot-app-with-actuator-and-jq/ target=_blank>教程</a>了。</p><p>让我们使用 <a href=https://start.spring.io/ target=_blank>Spring Initializr</a> 快速创建一个 Spring Boot 项目。我们将需要以下依赖项：</p><table><thead><tr><th>依赖性</th><th>目的</th></tr></thead><tbody><tr><td>Spring Boot Actuator</td><td>公开应用程序管理端点，例如 <code>info</code> 。</td></tr><tr><td>Spring Web</td><td>启用 Web 应用程序行为。</td></tr></tbody></table><p>如果有帮助，这里是 <a href="https://start.spring.io/#!type=maven-project&amp;language=java&amp;platformVersion=2.6.4&amp;packaging=jar&amp;jvmVersion=11&amp;groupId=io.reflectoring&amp;artifactId=demo&amp;name=Demo%20Application&amp;description=Demo%20project%20for%20Spring%20Boot%20Application%20Info&amp;packageName=io.reflectoring.demo&amp;dependencies=web,actuator" target=_blank>Maven</a> 和 <a href="https://start.spring.io/#!type=gradle-project&amp;language=java&amp;platformVersion=2.6.4&amp;packaging=jar&amp;jvmVersion=11&amp;groupId=io.reflectoring&amp;artifactId=demo&amp;name=Demo%20Application&amp;description=Demo%20project%20for%20Spring%20Boot%20Application%20Info&amp;packageName=io.reflectoring.demo&amp;dependencies=web,actuator" target=_blank>Gradle</a> 中预填充项目的链接。</p><p>项目构建后，我们将通过 HTTP 公开内置的 <code>/info</code> 端点。默认情况下， <code>/info</code> Web 端点处于禁用状态。我们可以通过在 <code>application.properties</code> 配置中添加 <code>management.endpoints.web.exposure.include</code> 属性来简单地启用它：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#a6e22e>management.endpoints.web.exposure.include</span><span style=color:#f92672>=</span><span style=color:#e6db74>health,info</span>
+</span></span></code></pre></div><p>让我们运行 Spring Boot 应用程序并在浏览器中打开 URL <code>http://localhost:8080/actuator/info</code> 。目前还看不到任何有用的东西，因为我们仍然需要进行一些配置更改。在下一节中，我们将了解如何在此响应中添加信息丰富的构建信息。</p><blockquote><h4 id=保护端点>保护端点</h4><p>如果您公开公开端点，请确保适当<a href=https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.security target=_blank>保护</a>它们。我们不应在不知情的情况下泄露任何敏感信息。</p></blockquote><h2 id=spring-boot-应用程序信息>Spring Boot 应用程序信息</h2><p>Spring 从应用程序上下文中定义的各种 <a href=https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/actuate/info/InfoContributor.html target=_blank>InfoContributor</a> bean 收集有用的应用程序信息。下面是默认 <code>InfoContributor</code> beans 的摘要：</p><table><thead><tr><th>ID</th><th>Bean Name</th><th>用法</th></tr></thead><tbody><tr><td><code>build</code></td><td><code>BuildInfoContributor</code></td><td>公开构建信息。</td></tr><tr><td><code>env</code></td><td><code>EnvironmentInfoContributor</code></td><td>公开 <code>Environment</code> 中名称以 <code>info.</code> 开头的任何属性</td></tr><tr><td><code>git</code></td><td><code>GitInfoContributor</code></td><td>公开 Git 相关信息。</td></tr><tr><td><code>java</code></td><td><code>JavaInfoContributor</code></td><td>公开 Java 运行时信息。</td></tr></tbody></table><p><strong>默认情况下， <code>env</code> 和 <code>java</code> 贡献者被禁用。</strong></p><p>首先，我们将通过在 <code>application.properties</code> 中添加以下键值对来启用 <code>java</code> 贡献者：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#a6e22e>management.info.java.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span></code></pre></div><p>让我们重新运行该应用程序。如果我们在浏览器中再次打开执行器 <code>/info</code> 端点，我们会得到如下输出：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;java&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;vendor&#34;</span>: <span style=color:#e6db74>&#34;Eclipse Adoptium&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;version&#34;</span>: <span style=color:#e6db74>&#34;11.0.14&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;runtime&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;OpenJDK Runtime Environment&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;version&#34;</span>: <span style=color:#e6db74>&#34;11.0.14+9&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;jvm&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;OpenJDK 64-Bit Server VM&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;vendor&#34;</span>: <span style=color:#e6db74>&#34;Eclipse Adoptium&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;version&#34;</span>: <span style=color:#e6db74>&#34;11.0.14+9&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>根据安装的 Java 版本，您可能会看到不同的值。</p><p>现在，是时候显示环境变量了。 Spring 会选取属性名称以 <code>info</code> 开头的任何环境变量。要查看实际效果，让我们在 <code>application.properties</code> 文件中添加以下属性：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#a6e22e>management.info.env.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>info.app.website</span><span style=color:#f92672>=</span><span style=color:#e6db74>reflectoring.io</span>
+</span></span></code></pre></div><p>重新启动应用程序后，我们将开始看到添加到执行器 <code>info</code> 端点的以下信息：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;app&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;website&#34;</span>: <span style=color:#e6db74>&#34;reflectoring.io&#34;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>请随意添加您想要的任意数量的信息变量:)</p><p>在以下部分中，我们将了解如何添加 Git 和应用程序构建特定信息。</p><h2 id=添加构建信息>添加构建信息</h2><p>添加有用的<a href=https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.build.generate-info target=_blank>构建信息</a>有助于快速识别构建工件名称、版本、创建时间等。它可以方便地检查团队是否部署了应用程序的相关版本。 Spring Boot 允许使用 Maven 或 Gradle 构建插件轻松添加此内容。</p><h3 id=使用-maven-插件>使用 Maven 插件</h3><p>Spring Boot Maven 插件捆绑了许多有用的功能，例如创建可执行 jar 或 war 存档、运行应用程序等。它还提供了一种添加应用程序构建信息的方法。</p><p>如果存在有效的 <code>META-INF/build-info.properties</code> 文件，Spring Boot Actuator 将显示构建详细信息。 Spring Boot Maven 插件的 <code>build-info</code> 目标是创建此文件。</p><p>如果您使用 Spring Initializr 引导项目，则默认情况下该插件将出现在 <code>pom.xml</code> 中。我们只需添加 <code>build-info</code> 执行目标，如下所示：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;artifactId&gt;</span>spring-boot-maven-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;version&gt;</span>2.6.4<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;executions&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;execution&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;goals&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;goal&gt;</span>build-info<span style=color:#f92672>&lt;/goal&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;/goals&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/execution&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/executions&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>如果我们现在运行命令 <code>./mvnw spring-boot:run</code> （对于 Linux/macOS）或 <code>mvnw.bat spring-boot:run</code> （对于 Windows），所需的文件将在 <code>target/classes/META-INF/build-info.properties</code> 中创建。</p><p><strong>文件内容将与此类似：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#a6e22e>build.artifact</span><span style=color:#f92672>=</span><span style=color:#e6db74>spring-boot-build-info</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>build.group</span><span style=color:#f92672>=</span><span style=color:#e6db74>io.reflectoring</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>build.name</span><span style=color:#f92672>=</span><span style=color:#e6db74>spring-boot-build-info</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>build.time</span><span style=color:#f92672>=</span><span style=color:#e6db74>2022-03-06T05\:53\:45.236Z</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>build.version</span><span style=color:#f92672>=</span><span style=color:#e6db74>0.0.1-SNAPSHOT</span>
+</span></span></code></pre></div><p>我们还可以使用 <code>additionalProperties</code> 属性将自定义属性添加到此列表：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;execution&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;goals&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;goal&gt;</span>build-info<span style=color:#f92672>&lt;/goal&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/goals&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;additionalProperties&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;custom.key1&gt;</span>value1<span style=color:#f92672>&lt;/custom.key1&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;custom.key2&gt;</span>value2<span style=color:#f92672>&lt;/custom.key2&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/additionalProperties&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/execution&gt;</span>
+</span></span></code></pre></div><p>如果我们现在运行应用程序并在浏览器中打开 <code>http://localhost:8080/actuator/info</code> 端点，我们将看到类似于以下内容的响应：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;build&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;custom&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;key2&#34;</span>: <span style=color:#e6db74>&#34;value2&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;key1&#34;</span>: <span style=color:#e6db74>&#34;value1&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;version&#34;</span>: <span style=color:#e6db74>&#34;0.0.1-SNAPSHOT&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;artifact&#34;</span>: <span style=color:#e6db74>&#34;spring-boot-build-info&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;spring-boot-build-info&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;time&#34;</span>: <span style=color:#e6db74>&#34;2022-03-06T06:34:30.306Z&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;group&#34;</span>: <span style=color:#e6db74>&#34;io.reflectoring&#34;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>如果您想排除任何可以使用 <code>excludeInfoProperties</code> 配置的属性。让我们看看如何排除 <code>artifact</code> 属性：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;excludeInfoProperties&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;infoProperty&gt;</span>artifact<span style=color:#f92672>&lt;/infoProperty&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/excludeInfoProperties&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span></code></pre></div><p>请参阅 Spring Boot <a href=https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/#goals-build-info target=_blank>官方文档</a>了解更多信息。</p><p>现在，是时候看看我们如何使用 Spring Boot Gradle 插件实现相同的输出了。</p><h3 id=使用-gradle-插件>使用 Gradle 插件</h3><p>添加构建信息的最简单方法是使用插件 DSL。在 <code>build.gradle</code> 文件中，我们需要添加以下块：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>springBoot <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  buildInfo<span style=color:#f92672>()</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>如果我们现在同步 Gradle 项目，我们可以看到一个新任务 <code>bootBuildInfo</code> 可供使用。运行该任务将生成带有构建信息的类似 <code>build/resources/main/META-INF/build-info.properties</code> 文件（源自项目）。使用 DSL，我们可以自定义现有值或添加新属性：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>springBoot <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  buildInfo <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    properties <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>      name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;Sample App&#39;</span>
+</span></span><span style=display:flex><span>      additional <span style=color:#f92672>=</span> <span style=color:#f92672>[</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;customKey&#39;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;customValue&#39;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>是时候使用 <code>./gradlew bootRun</code> （对于 macOS/Linux）或 <code>gradlew.bat bootRun</code> （对于 Windows）命令运行应用程序了。应用程序运行后，我们可以在浏览器中打开 <code>http://localhost:8080/actuator/info</code> 端点并找到响应：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;build&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;customKey&#34;</span>: <span style=color:#e6db74>&#34;customValue&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;version&#34;</span>: <span style=color:#e6db74>&#34;0.0.1-SNAPSHOT&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;artifact&#34;</span>: <span style=color:#e6db74>&#34;spring-boot-build-info&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;Sample App&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;time&#34;</span>: <span style=color:#e6db74>&#34;2022-03-06T09:11:53.380Z&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;group&#34;</span>: <span style=color:#e6db74>&#34;io.reflectoring&#34;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>我们可以通过将其值设置为 <code>null</code> 来从生成的构建信息中排除任何默认属性。例如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>properties <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  group <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>想了解更多关于该插件的信息，可以参考 Spring Boot <a href=https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#integrating-with-actuator target=_blank>官方文档</a>。</p><h2 id=添加-git-信息>添加 Git 信息</h2><p><a href=https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.build.generate-git-info target=_blank>Git 信息</a>可以方便地快速识别生产中是否存在相关代码或者分布式部署是否与预期同步。 Spring Boot 可以使用 Maven 和 Gradle 插件轻松地将 Git 属性包含在 Actuator 端点中。</p><p>使用这个插件我们可以生成一个 <code>git.properties</code> 文件。此文件的存在将自动配置 <a href=https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/info/GitProperties.html target=_blank>GitProperties</a> bean，供 <a href=https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/actuate/info/GitInfoContributor.html target=_blank>GitInfoContributor</a> bean 使用来整理相关信息。</p><p><strong>默认情况下，将公开以下信息：</strong></p><ul><li><code>git.branch</code></li><li><code>git.commit.id</code></li><li><code>git.commit.time</code></li></ul><p>以下管理应用程序属性控制 Git 相关信息：</p><table><thead><tr><th>应用属性</th><th>目的</th></tr></thead><tbody><tr><td><code>management.info.git.enabled=false</code></td><td>完全从 <code>info</code> 端点禁用 Git 信息</td></tr><tr><td><code>management.info.git.mode=full</code></td><td>显示 <code>git.properties</code> 文件中的所有属性</td></tr></tbody></table><h3 id=使用-maven-插件-1>使用 Maven 插件</h3><p><a href=https://github.com/git-commit-id/git-commit-id-maven-plugin target=_blank>Maven Git Commit ID 插件</a>通过 <code>spring-boot-starter-parent</code> pom.xml 进行管理。要使用它，我们必须编辑 <code>pom.xml</code> 如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;groupId&gt;</span>pl.project13.maven<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;artifactId&gt;</span>git-commit-id-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>如果我们运行该项目并在浏览器中打开 <code>/actuator/info</code> 端点，它将返回 Git 相关信息：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;git&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;branch&#34;</span>: <span style=color:#e6db74>&#34;main&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;commit&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;5404bdf&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;time&#34;</span>: <span style=color:#e6db74>&#34;2022-03-06T10:34:16Z&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>我们还可以检查 <code>target/classes/git.properties</code> 下生成的文件。这对我来说是这样的：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>#Generated by Git-Commit-Id-Plugin
+</span></span><span style=display:flex><span>git.branch=main
+</span></span><span style=display:flex><span>git.build.host=mylaptop
+</span></span><span style=display:flex><span>git.build.time=2022-03-06T23\:22\:16+0530
+</span></span><span style=display:flex><span>git.build.user.email=user@email.com
+</span></span><span style=display:flex><span>git.build.user.name=user
+</span></span><span style=display:flex><span>git.build.version=0.0.1-SNAPSHOT
+</span></span><span style=display:flex><span>git.closest.tag.commit.count=
+</span></span><span style=display:flex><span>git.closest.tag.name=
+</span></span><span style=display:flex><span>git.commit.author.time=2022-03-06T22\:46\:56+0530
+</span></span><span style=display:flex><span>git.commit.committer.time=2022-03-06T22\:46\:56+0530
+</span></span><span style=display:flex><span>git.commit.id=e9fa20d4914367c1632e3a0eb8ca4d2f32b31a89
+</span></span><span style=display:flex><span>git.commit.id.abbrev=e9fa20d
+</span></span><span style=display:flex><span>git.commit.id.describe=e9fa20d-dirty
+</span></span><span style=display:flex><span>git.commit.id.describe-short=e9fa20d-dirty
+</span></span><span style=display:flex><span>git.commit.message.full=Update config
+</span></span><span style=display:flex><span>git.commit.message.short=Update config
+</span></span><span style=display:flex><span>git.commit.time=2022-03-06T22\:46\:56+0530
+</span></span><span style=display:flex><span>git.commit.user.email=saikat@email.com
+</span></span><span style=display:flex><span>git.commit.user.name=Saikat
+</span></span><span style=display:flex><span>git.dirty=true
+</span></span><span style=display:flex><span>git.local.branch.ahead=NO_REMOTE
+</span></span><span style=display:flex><span>git.local.branch.behind=NO_REMOTE
+</span></span><span style=display:flex><span>git.remote.origin.url=Unknown
+</span></span><span style=display:flex><span>git.tags=
+</span></span><span style=display:flex><span>git.total.commit.count=2
+</span></span></code></pre></div><p>这个插件带有很多<a href=https://github.com/git-commit-id/git-commit-id-maven-plugin/blob/master/docs/using-the-plugin.md target=_blank>配置</a>选项。例如，要包含/排除特定属性，我们可以添加 <code>configuration</code> 部分，如下所示：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;excludeProperties&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;excludeProperty&gt;</span>time<span style=color:#f92672>&lt;/excludeProperty&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/excludeProperties&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;includeOnlyProperties&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;property&gt;</span>git.commit.id<span style=color:#f92672>&lt;/property&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/includeOnlyProperties&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span></code></pre></div><p>它将生成如下输出：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;git&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;commit&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;5404bdf&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><blockquote><p>译者备注：</p><p>使用 4.9.10 版本时，如果想指定输出内容，需要这样设置：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>&lt;groupId&gt;</span>pl.project13.maven<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>&lt;artifactId&gt;</span>git-commit-id-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>&lt;version&gt;</span>4.9.10<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>&lt;executions&gt;</span>
+</span></span><span style=display:flex><span>       <span style=color:#f92672>&lt;execution&gt;</span>
+</span></span><span style=display:flex><span>           <span style=color:#f92672>&lt;goals&gt;</span>
+</span></span><span style=display:flex><span>               <span style=color:#f92672>&lt;goal&gt;</span>revision<span style=color:#f92672>&lt;/goal&gt;</span>
+</span></span><span style=display:flex><span>           <span style=color:#f92672>&lt;/goals&gt;</span>
+</span></span><span style=display:flex><span>       <span style=color:#f92672>&lt;/execution&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>&lt;/executions&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>       <span style=color:#f92672>&lt;generateGitPropertiesFile&gt;</span>true<span style=color:#f92672>&lt;/generateGitPropertiesFile&gt;</span>
+</span></span><span style=display:flex><span>       <span style=color:#f92672>&lt;dateFormat&gt;</span>yyyy-MM-dd HH:mm:ss<span style=color:#f92672>&lt;/dateFormat&gt;</span>
+</span></span><span style=display:flex><span>       <span style=color:#f92672>&lt;dateFormatTimeZone&gt;</span>GMT+8<span style=color:#f92672>&lt;/dateFormatTimeZone&gt;</span>           <span style=color:#f92672>&lt;includeOnlyProperties&gt;</span>git.branch,git.build.time,git.build.version,git.commit.id,git.commit.time,git.commit.message.full<span style=color:#f92672>&lt;/includeOnlyProperties&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span></code></pre></div></blockquote><p>现在让我们看看 Gradle 用户可以使用哪些选项。</p><h3 id=使用-gradle-插件-1>使用 Gradle 插件</h3><p>在 <code>build.gradle</code> 中，我们将添加 <code>gradle-git-properties</code> 插件：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>plugins <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  id <span style=color:#e6db74>&#39;com.gorylenko.gradle-git-properties&#39;</span> version <span style=color:#e6db74>&#39;2.4.0&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>现在让我们构建 Gradle 项目。我们可以看到 <code>build/resources/main/git.properties</code> 文件已创建。并且，执行器 <code>info</code> 端点将显示相同的数据：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;git&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;branch&#34;</span>: <span style=color:#e6db74>&#34;main&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;commit&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;5404bdf&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;time&#34;</span>: <span style=color:#e6db74>&#34;2022-03-06T10:34:16Z&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>该插件也提供了多种使用属性 <code>gitProperties</code> 配置输出的方法。例如，我们通过添加以下内容来限制要出现的键：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>gitProperties <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  keys <span style=color:#f92672>=</span> <span style=color:#f92672>[</span><span style=color:#e6db74>&#39;git.commit.id&#39;</span><span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>重新运行应用程序现在将显示有限的 Git 信息：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;git&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;commit&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;5404bdf&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=结论>结论</h2><p>在本文中，我们学习了如何使用 Spring Actuator 来公开有关我们应用程序的相关信息。我们了解了如何将有关构建、环境、Git 和 Java 环境的信息添加到 Actuator <code>/info</code> 端点。我们还研究了如何通过 Maven/Gradle 构建插件配置和控制所有这些信息。</p><p>您可以使用 GitHub 上的<a href=https://github.com/thombergs/code-examples/tree/master/spring-boot/spring-boot-app-info target=_blank>代码</a>来尝试一个完整的应用程序来说明这些想法。</p><p>原文链接：<a href=https://reflectoring.io/spring-boot-info-endpoint/ target=_blank>https://reflectoring.io/spring-boot-info-endpoint/</a></p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9 https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+</a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f&title=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://telegram.me/share/url?text=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f&title=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f" target=_blank rel="noopener noreferrer" title="Click to share on facebook"><i class="fa-brands fa-facebook fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://api.whatsapp.com/send?text=%5b%e8%af%91%5d%e4%bd%bf%e7%94%a8Spring%20Boot%20Actuator%e5%85%ac%e5%bc%80%e6%9c%89%e7%94%a8%e7%9a%84%e4%bf%a1%e6%81%af%e7%ab%af%e7%82%b9%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f07%2f26%2fspring-boot-info-endpoint%2f" target=_blank rel="noopener noreferrer" title="Click to share on whatsapp"><i class="fa-brands fa-whatsapp fa-2xl" style=color:#007bb5></i></a></div></div></article><nav class="navigation post-navigation" role=navigation><h2 class=screen-reader-text>Post navigation</h2><div class=nav-links><div class=nav-previous><a href=/posts/2023/07/26/spring-boot-null-safety-annotations/ rel=next><span class=post-title>[译]使用 Spring 的 Null-Safety 注解保护您的代码免受 NullPointerExceptions 的影响</span></a></div><div class=nav-next><a href=/posts/2023/07/26/using-oauth2-in-spring-scopes/ rel=prev><span class=post-title>[译]在 Spring 中实现 OAuth2：使用范围（第 2 部分）</span></a></div></div></nav><h2>Related content</h2><ul><li><a href=/posts/2023/10/13/new-features-in-spring-boot-3-and-spring-6/>[译]Spring Boot3和Spring6中的新特性</a></li><li><a href=/posts/2023/10/12/spring-security-interview-questions/>[译]Spring Security 面试问题</a></li><li><a href=/posts/2023/09/19/spring-security-tutorial/>[译]Spring Security 与 JWT for REST API</a></li><li><a href=/posts/2023/09/19/spring-security-jwt/>[译]如何使用Spring Security和JWT保护您的REST API</a></li><li><a href=/posts/2023/08/25/global-error-handler-in-a-spring-rest-api/>[译]REST API 的自定义错误消息处理</a></li><li><a href=/posts/2023/08/25/spring-events/>[译]Spring Events</a></li><li><a href=/posts/2023/08/25/spring-security-async-principal-propagation/>[译]使用@Async进行Spring Security上下文传播</a></li><li><a href=/posts/2023/08/25/exception-handling-for-rest-with-spring/>[译]使用Spring进行REST的错误处理</a></li><li><a href=/posts/2023/08/25/spring-async/>[译]如何在Spring中执行@Async</a></li><li><a href=/posts/2023/08/18/how-to-implement-jwt-authentication-in-spring-boot-project/>[译]Spring Boot项目如何实现JWT认证？</a></li></ul></main></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link><a href=/ target=_blank rel="noopener noreferrer">ChenSoul</a>
+Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer">Hugo</a>
+<a style=margin-left:20px href=/privacy_policy/ target=_blank rel="noopener noreferrer">Privacy Policy</a></span></div></footer></div></div><script type=text/javascript src=/main.min.js></script></body></html>

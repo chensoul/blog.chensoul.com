@@ -1,515 +1,251 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>K8s安装Cert Manager | ChenSoul</title>
-<meta name=keywords content="k8s"><meta name=description content="cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。
-cert-manager 可以从各种证书颁发机构获取证书，包括： Let&rsquo;s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。
-使用 cert-manager 的证书资源，私钥和证书存储在 Kubernetes Secret 中，该 Secret 由应用程序 Pod 挂载或由 Ingress 控制器使用。使用csi-driver、csi-driver-spiffe或istio-csr，私钥是在应用程序启动之前按需生成的；私钥永远不会离开节点，并且不会存储在 Kubernetes Secret 中。
-安装
-参考官方文档：https://cert-manager.io/docs/installation/
-使用kubectl安装
-
-
-1
-
-
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
-
-
-查看："><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/><meta name=google-site-verification content="nBXwg45SBRjTX78SA-mH0asrAbsdu9c1nk0ObSry7aQ"><link crossorigin=anonymous href=/assets/css/stylesheet.899d9a536396b9b03c9eae0c99cc6ec954a90da94036f5390d131eb8071bb417.css integrity="sha256-iZ2aU2OWubA8nq4MmcxuyVSpDalANvU5DRMeuAcbtBc=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://blog.chensoul.cc/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://blog.chensoul.cc/favicon-32x32.png><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=mask-icon href=https://blog.chensoul.cc/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><meta property="og:title" content="K8s安装Cert Manager"><meta property="og:description" content="cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。
-cert-manager 可以从各种证书颁发机构获取证书，包括： Let&rsquo;s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。
-使用 cert-manager 的证书资源，私钥和证书存储在 Kubernetes Secret 中，该 Secret 由应用程序 Pod 挂载或由 Ingress 控制器使用。使用csi-driver、csi-driver-spiffe或istio-csr，私钥是在应用程序启动之前按需生成的；私钥永远不会离开节点，并且不会存储在 Kubernetes Secret 中。
-安装
-参考官方文档：https://cert-manager.io/docs/installation/
-使用kubectl安装
-
-
-1
-
-
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
-
-
-查看："><meta property="og:type" content="article"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-05-10T00:00:00+08:00"><meta property="article:modified_time" content="2024-05-10T00:00:00+08:00"><meta property="og:site_name" content="ChenSoul"><meta name=twitter:card content="summary"><meta name=twitter:title content="K8s安装Cert Manager"><meta name=twitter:description content="cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。
-cert-manager 可以从各种证书颁发机构获取证书，包括： Let&rsquo;s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。
-使用 cert-manager 的证书资源，私钥和证书存储在 Kubernetes Secret 中，该 Secret 由应用程序 Pod 挂载或由 Ingress 控制器使用。使用csi-driver、csi-driver-spiffe或istio-csr，私钥是在应用程序启动之前按需生成的；私钥永远不会离开节点，并且不会存储在 Kubernetes Secret 中。
-安装
-参考官方文档：https://cert-manager.io/docs/installation/
-使用kubectl安装
-
-
-1
-
-
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
-
-
-查看："><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://blog.chensoul.cc/posts/"},{"@type":"ListItem","position":2,"name":"K8s安装Cert Manager","item":"https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"K8s安装Cert Manager","name":"K8s安装Cert Manager","description":"cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。\ncert-manager 可以从各种证书颁发机构获取证书，包括： Let\u0026rsquo;s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。\n使用 cert-manager 的证书资源，私钥和证书存储在 Kubernetes Secret 中，该 Secret 由应用程序 Pod 挂载或由 Ingress 控制器使用。使用csi-driver、csi-driver-spiffe或istio-csr，私钥是在应用程序启动之前按需生成的；私钥永远不会离开节点，并且不会存储在 Kubernetes Secret 中。\n安装 参考官方文档：https://cert-manager.io/docs/installation/\n使用kubectl安装 1 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml 查看：\n","keywords":["k8s"],"articleBody":"cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。\ncert-manager 可以从各种证书颁发机构获取证书，包括： Let’s Encrypt、HashiCorp Vault、 Venafi和私有 PKI。\n使用 cert-manager 的证书资源，私钥和证书存储在 Kubernetes Secret 中，该 Secret 由应用程序 Pod 挂载或由 Ingress 控制器使用。使用csi-driver、csi-driver-spiffe或istio-csr，私钥是在应用程序启动之前按需生成的；私钥永远不会离开节点，并且不会存储在 Kubernetes Secret 中。\n安装 参考官方文档：https://cert-manager.io/docs/installation/\n使用kubectl安装 1 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml 查看：\n1 $ kubectl get pods --namespace cert-manager 使用helm安装 添加 repo：\n1 2 helm repo add jetstack https://charts.jetstack.io --force-update helm repo update 安装 cert-manager：\n1 2 3 4 5 helm install cert-manager jetstack/cert-manager \\ --namespace cert-manager \\ --create-namespace \\ --version v1.14.5 \\ --set installCRDs=true 更多配置参数，参考：https://artifacthub.io/packages/helm/cert-manager/cert-manager\n查看状态\n1 2 3 4 5 6 7 8 $ kubectl -n cert-manager rollout status deploy/cert-manager deployment \"cert-manager\" successfully rolled out $ kubectl get pods -n cert-manager NAME READY STATUS RESTARTS AGE pod/cert-manager-5c47f46f57-k78l6 1/1 Running 0 91s pod/cert-manager-cainjector-6659d6844d-tr8rf 1/1 Running 0 91s pod/cert-manager-webhook-547567b88f-8lthd 1/1 Running 0 91s 使用helm3查看：\n1 2 $ helm list -n cert-manager NAME NAMESPACE REVISION\tUPDATED STATUS CHART cert-manager\tcert-manager\t1 2024-05-09 17:35:59.976722226 +0800 CST\tdeployed\tcert-manager-v1.14.5\tv1.14.5 验证 创建自签名证书进行验证：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 $ cat \u003c test-resources.yaml apiVersion: v1 kind: Namespace metadata: name: cert-manager-test --- apiVersion: cert-manager.io/v1 kind: Issuer metadata: name: test-selfsigned namespace: cert-manager-test spec: selfSigned: {} --- apiVersion: cert-manager.io/v1 kind: Certificate metadata: name: selfsigned-cert namespace: cert-manager-test spec: dnsNames: - example.com secretName: selfsigned-cert-tls issuerRef: name: test-selfsigned EOF 创建 test-resources：\n1 $ kubectl apply -f test-resources.yaml 查看证书状态：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 $ kubectl describe certificate -n cert-manager-test Name: selfsigned-cert Namespace: cert-manager-test Labels: Annotations: API Version: cert-manager.io/v1 Kind: Certificate Metadata: Creation Timestamp: 2024-05-09T23:25:16Z Generation: 1 Resource Version: 302521 UID: 4a691ab3-4a7a-476d-9cd6-028285bca5ba Spec: Dns Names: example.com Issuer Ref: Name: test-selfsigned Secret Name: selfsigned-cert-tls Status: Conditions: Last Transition Time: 2024-05-09T23:25:17Z Message: Certificate is up to date and has not expired Observed Generation: 1 Reason: Ready Status: True Type: Ready Not After: 2024-08-07T23:25:17Z Not Before: 2024-05-09T23:25:17Z Renewal Time: 2024-07-08T23:25:17Z Revision: 1 Events: Type Reason Age From Message ---- ------ ---- ---- ------- Normal Issuing 8s cert-manager-certificates-trigger Issuing certificate as Secret does not exist Normal Generated 7s cert-manager-certificates-key-manager Stored new private key in temporary Secret resource \"selfsigned-cert-f66n5\" Normal Requested 7s cert-manager-certificates-request-manager Created new CertificateRequest resource \"selfsigned-cert-1\" Normal Issuing 7s cert-manager-certificates-issuing The certificate has been successfully issued 删除 test-resources：\n1 $ kubectl delete -f test-resources.yaml 卸载 1 2 3 4 5 6 #通过kubectl删除 kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.crds.yaml #通过helm3删除 helm --namespace cert-manager delete cert-manager kubectl delete namespace cert-manager 生成证书 概念介绍 Issuer 安装 cert-manager 后，您需要配置的第一件事是Issuer或ClusterIssuer。Issuers 和 ClusterIssuers 是 Kubernetes 资源，表示能够通过接受证书签名请求来生成签名证书的证书颁发机构 （CA）。所有 cert-manager 证书都需要一个处于就绪状态的引用颁发者来尝试接受请求。\n一个简单的 CA Issuer 如下：\n1 2 3 4 5 6 7 8 apiVersion: cert-manager.io/v1 kind: Issuer metadata: name: ca-issuer namespace: mesh-system spec: ca: secretName: ca-key-pair 这是一个基于私钥对证书进行签名的简单 Issuer 方法。然后，存储在密钥 ca-key-pair 中的证书可用于 Issuer 在公钥基础结构 （PKI） 系统中信任新签名的证书。\nIssuers 和 ClusterIssuer 区别：\nIssuers 是基于命名空间的 ClusterIssuer 是基于集群的 ACME Orders 和 Challenges cert-manager 支持使用ACME Issuer从 ACME 服务器请求证书，包括从Let’s Encrypt请求证书。这些证书通常在公共 Internet 上受到大多数计算机的信任。要成功请求证书，证书管理器必须解决已完成的 ACME 挑战，以证明客户端拥有所请求的 DNS 地址。\n为了完成这些挑战，cert-manager引入了两种 CustomResource类型；Orders和Challenges。\nACME 支持两种验证方式：\nDNS 验证：通过 DNS01 质询，您可以通过证明您控制域名的 DNS 记录来证明其所有权。这是通过创建具有特定内容的 TXT 记录来完成的，该记录证明您拥有对域 DNS 记录的控制权 HTTP 验证：通过 HTTP01 质询，您可以通过确保域中存在特定文件来证明域的所有权。 Let’s Encrypt 的 ACME 服务器分为两种：\n暂存环境：https://acme-staging-v02.api.letsencrypt.org/directory 生产环境：https://acme-v02.api.letsencrypt.org/directory 生产环境施加了更严格的速率限制，因此为了减少您达到这些限制的机会，建议测试过程中使用暂存环境。\nLet’s Encrypt 利用 ACME 协议来校验域名是否真的属于你，校验成功后就可以自动颁发免费证书，证书有效期只有 90 天，在到期前需要再校验一次来实现续期，幸运的是 cert-manager 可以自动续期，这样就可以使用永久免费的证书了。如何校验这个域名是否属于你呢？主流的两种校验方式是 HTTP-01 和 DNS-01，详细校验原理可参考 Let’s Encrypt 的运作方式，下面将简单描述下。\nLet’s Encrypt生成证书 ACME 颁发证书并使用 HTTP 验证 HTTP-01 的校验原理是给你域名指向的 HTTP 服务增加一个临时 location ，Let’s Encrypt 会发送 http 请求到 http:///.well-known/acme-challenge/，YOUR_DOMAIN 就是被校验的域名，TOKEN 是 ACME 协议的客户端负责放置的文件，在这里 ACME 客户端就是 cert-manager，它通过修改或创建 Ingress 规则来增加这个临时校验路径并指向提供 TOKEN 的服务。Let’s Encrypt 会对比 TOKEN 是否符合预期，校验成功后就会颁发证书。此方法仅适用于给使用 Ingress 暴露流量的服务颁发证书，并且不支持泛域名证书。\n先创建一个颁发者，因为测试，使用暂存环境的 ACME 服务器。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 cat \u003c letsencrypt-staging.yaml apiVersion: cert-manager.io/v1 kind: Issuer metadata: name: letsencrypt-staging spec: acme: # The ACME server URL server: https://acme-staging-v02.api.letsencrypt.org/directory # Email address used for ACME registration email: ichensoul@gmail.com # Name of a secret used to store the ACME account private key privateKeySecretRef: name: letsencrypt-staging # Enable the HTTP-01 challenge provider solvers: # An empty 'selector' means that this solver matches all domains - selector: {} http01: ingress: ingressClassName: nginx EOF 创建颁发者：\n1 $ kubectl apply -f letsencrypt-staging.yaml 创建证书：\n1 2 3 4 5 6 7 8 9 10 11 12 13 cat \u003c chensoul-cc-tls.yaml apiVersion: cert-manager.io/v1 kind: Certificate metadata: name: chensoul-cc-tls spec: secretName: chensoul-cc-tls issuerRef: name: letsencrypt-staging commonName: test.chensoul.cc dnsNames: - test.chensoul.cc EOF 创建证书：\n1 2 $ kubectl apply -f chensoul-cc-tls.yaml certificate.cert-manager.io/chensoul-cc-tls created 查看状态：\n1 2 3 4 5 6 7 8 9 kubectl get secret,certificate,Issuer,ClusterIssuer kubectl describe Issuer letsencrypt-staging kubectl describe Secret cloudflare-api-token-secret kubectl describe certificate chensoul-cc-tls kubectl describe CertificateRequest chensoul-cc-tls kubectl describe order chensoul-cc-tls kubectl describe Challenge chensoul-cc-tls 等待一段时间，直到证书状态变为True：\n1 2 3 4 5 6 7 8 9 10 11 $ kubectl get secret,certificate,Issuer,ClusterIssuer NAME TYPE DATA AGE secret/chensoul-cc-tls kubernetes.io/tls 2 47s secret/cloudflare-api-token-secret Opaque 1 2m39s secret/letsencrypt-staging Opaque 1 5m34s NAME READY SECRET AGE certificate.cert-manager.io/chensoul-cc-tls True chensoul-cc-tls 2m31s NAME READY AGE issuer.cert-manager.io/letsencrypt-staging True 2m39s 还可以查看证书的 TLS Base64 键值对：\n1 kubectl get secret chensoul-cc-tls -o yaml 删除相关资源：\n1 2 3 kubectl delete Secret cloudflare-api-token-secret letsencrypt-staging chensoul-cc-tls kubectl delete Issuers letsencrypt-staging kubectl delete certificate chensoul-cc-tls ACME 颁发证书并使用 DNS 验证 DNS-01 的校验原理是利用 DNS 提供商的 API Key 拿到你的 DNS 控制权限， 在 Let’s Encrypt 为 ACME 客户端提供令牌后，ACME 客户端 (cert-manager) 将创建从该令牌和您的帐户密钥派生的 TXT 记录，并将该记录放在 _acme-challenge.。 然后 Let’s Encrypt 将向 DNS 系统查询该记录，如果找到匹配项，就可以颁发证书。此方法不需要你的服务使用 Ingress，并且支持泛域名证书。\n参考：https://medium.com/@sms-astanley/custom-issuers-with-letsencrypt-and-rancher-ingress-2c89ab1b0a91\n先创建一个颁发者，然后根据域名解析选择 DNS01 提供商，支持的提供商参考：https://cert-manager.io/docs/configuration/acme/dns01/\n我的 DNS 提供商为 Cloudflare，参考 https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/ 在 Cloudflare 创建一个 API token 或者 API KEY。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 cat \u003c letsencrypt-staging.yaml apiVersion: v1 kind: Secret metadata: name: cloudflare-api-token-secret type: Opaque stringData: api-token: SSQ0XP71lyfFDjIMPuwtti7v-LhOQlpPe5ruK-9Z --- apiVersion: cert-manager.io/v1 kind: Issuer metadata: name: letsencrypt-staging spec: acme: email: ichensoul@gmail.com server: https://acme-staging-v02.api.letsencrypt.org/directory # Name of a secret used to store the ACME account private key privateKeySecretRef: name: letsencrypt-staging solvers: - dns01: cloudflare: email: ichensoul@gmail.com apiTokenSecretRef: name: cloudflare-api-token-secret key: api-token EOF 创建颁发者：\n1 2 3 $ kubectl apply -f letsencrypt-staging.yaml secret/cloudflare-api-token-secret created issuer.cert-manager.io/letsencrypt-staging created 如果想将这个 Issuer 设置为默认使用，可以用如下命令升级 cert-manager\n1 helm upgrade cert-manager jetstack/cert-manager --set 'extraArgs={--default-issuer-name=letsencrypt-prod,--default-issuer-kind=ClusterIssuer}' -n cert-manager 创建一个证书：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 cat \u003c chensoul-cc-tls.yaml apiVersion: cert-manager.io/v1 kind: Certificate metadata: name: chensoul-cc-tls spec: secretName: chensoul-cc-tls issuerRef: name: letsencrypt-staging kind: Issuer commonName: test.chensoul.cc dnsNames: - test.chensoul.cc EOF 创建证书：\n1 2 $ kubectl apply -f chensoul-cc-tls.yaml certificate.cert-manager.io/chensoul-cc-tls created 查看状态：\n1 2 3 4 5 6 7 8 9 kubectl get secret,certificate,Issuer,ClusterIssuer kubectl describe Issuer letsencrypt-staging kubectl describe Secret cloudflare-api-token-secret kubectl describe certificate chensoul-cc-tls kubectl describe CertificateRequest chensoul-cc-tls kubectl describe order chensoul-cc-tls kubectl describe Challenge chensoul-cc-tls 等待一段时间，直到证书状态变为True：\n1 2 3 4 5 6 7 8 9 10 11 $ kubectl get secret,certificate,Issuer,ClusterIssuer NAME TYPE DATA AGE secret/chensoul-cc-tls kubernetes.io/tls 2 47s secret/cloudflare-api-token-secret Opaque 1 2m39s secret/letsencrypt-staging Opaque 1 5m34s NAME READY SECRET AGE certificate.cert-manager.io/chensoul-cc-tls True chensoul-cc-tls 2m31s NAME READY AGE issuer.cert-manager.io/letsencrypt-staging True 2m39s 还可以查看证书的 TLS Base64 键值对：\n1 kubectl get secret chensoul-cc-tls -o yaml 删除相关资源：\n1 2 3 kubectl delete Secret cloudflare-api-token-secret letsencrypt-staging chensoul-cc-tls kubectl delete Issuers letsencrypt-staging kubectl delete certificate chensoul-cc-tls 校验方式对比 HTTP-01 的校验方式的优点是: 配置简单通用，不管使用哪个 DNS 提供商都可以使用相同的配置方法；缺点是：需要依赖 Ingress，如果你的服务不是用 Ingress 暴露流量的就不适用，而且不支持泛域名证书。\nDNS-01 的校验方式的优点是没有 HTTP-01 校验方式缺点，不依赖 Ingress，也支持泛域名；缺点就是不同 DNS 提供商的配置方式不一样，而且 DNS 提供商有很多，cert-manager 的 Issuer 不可能每个都去支持，不过有一些可以通过部署实现了 cert-manager 的 Webhook 的服务来扩展 Issuer 进行支持，比如 DNSPod 和 阿里 DNS，详细 Webhook 列表请参考: https://cert-manager.io/docs/configuration/acme/dns01/#webhook\n选择哪种方式呢？条件允许的话，建议是尽量用 DNS-01 的方式，限制更少，功能更全。\n参考文章 Make SSL certs easy with k3s https://www.thebookofjoel.com/k3s-cert-manager-letsencrypt 使用 LetsEncrypt配置kubernetes ingress-nginx免费HTTPS证书 cert-manager管理k8s集群证书 https://blog.csdn.net/xichenguan/article/details/100709830 https://medium.com/@sms-astanley/custom-issuers-with-letsencrypt-and-rancher-ingress-2c89ab1b0a91 ","wordCount":"3405","inLanguage":"en","datePublished":"2024-05-10T00:00:00+08:00","dateModified":"2024-05-10T00:00:00+08:00","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/"},"publisher":{"@type":"Organization","name":"ChenSoul","logo":{"@type":"ImageObject","url":"https://blog.chensoul.cc/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories title=分类><span>分类</span></a></li><li><a href=https://blog.chensoul.cc/tags title=标签><span>标签</span></a></li><li><a href=https://blog.chensoul.cc/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://blog.chensoul.cc/index.xml title=订阅><span>订阅</span></a></li><li><a href=https://github.com/chensoul title=关于><span>关于</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">K8s安装Cert Manager</h1><div class=post-meta><span title='2024-05-10 00:00:00 +0800 CST'>2024-05-10</span>&nbsp;·&nbsp;7 min&nbsp;·&nbsp;3405 words&nbsp;·&nbsp;chensoul</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#%e5%ae%89%e8%a3%85 aria-label=安装>安装</a><ul><li><a href=#%e4%bd%bf%e7%94%a8kubectl%e5%ae%89%e8%a3%85 aria-label=使用kubectl安装>使用kubectl安装</a></li><li><a href=#%e4%bd%bf%e7%94%a8helm%e5%ae%89%e8%a3%85 aria-label=使用helm安装>使用helm安装</a></li><li><a href=#%e9%aa%8c%e8%af%81 aria-label=验证>验证</a></li></ul></li><li><a href=#%e5%8d%b8%e8%bd%bd aria-label=卸载>卸载</a></li><li><a href=#%e7%94%9f%e6%88%90%e8%af%81%e4%b9%a6 aria-label=生成证书>生成证书</a><ul><li><a href=#%e6%a6%82%e5%bf%b5%e4%bb%8b%e7%bb%8d aria-label=概念介绍>概念介绍</a><ul><li><a href=#issuer aria-label=Issuer>Issuer</a></li><li><a href=#acme-orders-%e5%92%8c-challenges aria-label="ACME Orders 和 Challenges">ACME Orders 和 Challenges</a></li></ul></li><li><a href=#lets-encrypt%e7%94%9f%e6%88%90%e8%af%81%e4%b9%a6 aria-label="Let’s Encrypt生成证书">Let’s Encrypt生成证书</a><ul><li><a href=#acme-%e9%a2%81%e5%8f%91%e8%af%81%e4%b9%a6%e5%b9%b6%e4%bd%bf%e7%94%a8-http-%e9%aa%8c%e8%af%81 aria-label="ACME 颁发证书并使用 HTTP 验证">ACME 颁发证书并使用 HTTP 验证</a></li><li><a href=#acme-%e9%a2%81%e5%8f%91%e8%af%81%e4%b9%a6%e5%b9%b6%e4%bd%bf%e7%94%a8-dns-%e9%aa%8c%e8%af%81 aria-label="ACME 颁发证书并使用 DNS 验证">ACME 颁发证书并使用 DNS 验证</a></li><li><a href=#%e6%a0%a1%e9%aa%8c%e6%96%b9%e5%bc%8f%e5%af%b9%e6%af%94 aria-label=校验方式对比>校验方式对比</a></li></ul></li></ul></li><li><a href=#%e5%8f%82%e8%80%83%e6%96%87%e7%ab%a0 aria-label=参考文章>参考文章</a></li></ul></div></details></div><div class=post-content><p>cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。</p><p>cert-manager 可以从各种<a href=https://cert-manager.io/docs/configuration/issuers/ target=_blank>证书颁发机构</a>获取证书，包括： <a href=https://cert-manager.io/docs/configuration/acme/ target=_blank>Let&rsquo;s Encrypt</a>、<a href=https://cert-manager.io/docs/configuration/vault/ target=_blank>HashiCorp Vault</a>、 <a href=https://cert-manager.io/docs/configuration/venafi/ target=_blank>Venafi</a>和<a href=https://cert-manager.io/docs/configuration/ca/ target=_blank>私有 PKI</a>。</p><p>使用 cert-manager 的<a href=https://cert-manager.io/docs/usage/certificate/ target=_blank>证书资源</a>，私钥和证书存储在 Kubernetes Secret 中，该 Secret 由应用程序 Pod 挂载或由 Ingress 控制器使用。使用<a href=https://cert-manager.io/docs/usage/csi-driver/ target=_blank>csi-driver</a>、<a href=https://cert-manager.io/docs/usage/csi-driver-spiffe/ target=_blank>csi-driver-spiffe</a>或<a href=https://cert-manager.io/docs/usage/istio-csr/ target=_blank>istio-csr</a>，私钥是在应用程序启动之前按需生成的；私钥永远不会离开节点，并且不会存储在 Kubernetes Secret 中。</p><h2 id=安装>安装<a hidden class=anchor aria-hidden=true href=#安装>#</a></h2><p>参考官方文档：<a href=https://cert-manager.io/docs/installation/ target=_blank>https://cert-manager.io/docs/installation/</a></p><h3 id=使用kubectl安装>使用kubectl安装<a hidden class=anchor aria-hidden=true href=#使用kubectl安装>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
-</span></span></code></pre></td></tr></table></div></div><p>查看：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ kubectl get pods --namespace cert-manager
-</span></span></code></pre></td></tr></table></div></div><h3 id=使用helm安装>使用helm安装<a hidden class=anchor aria-hidden=true href=#使用helm安装>#</a></h3><p>添加 repo：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>helm repo add jetstack https://charts.jetstack.io --force-update
-</span></span><span class=line><span class=cl>helm repo update
-</span></span></code></pre></td></tr></table></div></div><p>安装 cert-manager：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>helm install cert-manager jetstack/cert-manager <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>	--namespace cert-manager   <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>	--create-namespace    <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>	--version v1.14.5    <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>	--set <span class=nv>installCRDs</span><span class=o>=</span><span class=nb>true</span>
-</span></span></code></pre></td></tr></table></div></div><p>更多配置参数，参考：<a href=https://artifacthub.io/packages/helm/cert-manager/cert-manager target=_blank>https://artifacthub.io/packages/helm/cert-manager/cert-manager</a></p><p>查看状态</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ kubectl -n cert-manager rollout status deploy/cert-manager
-</span></span><span class=line><span class=cl>deployment <span class=s2>&#34;cert-manager&#34;</span> successfully rolled out
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>$ kubectl get pods -n cert-manager
-</span></span><span class=line><span class=cl>NAME                                           READY   STATUS              RESTARTS   AGE
-</span></span><span class=line><span class=cl>pod/cert-manager-5c47f46f57-k78l6              1/1     Running             <span class=m>0</span>          91s
-</span></span><span class=line><span class=cl>pod/cert-manager-cainjector-6659d6844d-tr8rf   1/1     Running             <span class=m>0</span>          91s
-</span></span><span class=line><span class=cl>pod/cert-manager-webhook-547567b88f-8lthd      1/1     Running   					 <span class=m>0</span>          91s
-</span></span></code></pre></td></tr></table></div></div><p>使用helm3查看：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ helm list -n cert-manager
-</span></span><span class=line><span class=cl>NAME        	NAMESPACE   	REVISION	UPDATED                                	STATUS  	CHART               cert-manager	cert-manager	<span class=m>1</span>       	2024-05-09 17:35:59.976722226 +0800 CST	deployed	cert-manager-v1.14.5	v1.14.5
-</span></span></code></pre></td></tr></table></div></div><h3 id=验证>验证<a hidden class=anchor aria-hidden=true href=#验证>#</a></h3><p>创建自签名证书进行验证：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ cat <span class=s>&lt;&lt;EOF &gt; test-resources.yaml
-</span></span></span><span class=line><span class=cl><span class=s>apiVersion: v1
-</span></span></span><span class=line><span class=cl><span class=s>kind: Namespace
-</span></span></span><span class=line><span class=cl><span class=s>metadata:
-</span></span></span><span class=line><span class=cl><span class=s>  name: cert-manager-test
-</span></span></span><span class=line><span class=cl><span class=s>---
-</span></span></span><span class=line><span class=cl><span class=s>apiVersion: cert-manager.io/v1
-</span></span></span><span class=line><span class=cl><span class=s>kind: Issuer
-</span></span></span><span class=line><span class=cl><span class=s>metadata:
-</span></span></span><span class=line><span class=cl><span class=s>  name: test-selfsigned
-</span></span></span><span class=line><span class=cl><span class=s>  namespace: cert-manager-test
-</span></span></span><span class=line><span class=cl><span class=s>spec:
-</span></span></span><span class=line><span class=cl><span class=s>  selfSigned: {}
-</span></span></span><span class=line><span class=cl><span class=s>---
-</span></span></span><span class=line><span class=cl><span class=s>apiVersion: cert-manager.io/v1
-</span></span></span><span class=line><span class=cl><span class=s>kind: Certificate
-</span></span></span><span class=line><span class=cl><span class=s>metadata:
-</span></span></span><span class=line><span class=cl><span class=s>  name: selfsigned-cert
-</span></span></span><span class=line><span class=cl><span class=s>  namespace: cert-manager-test
-</span></span></span><span class=line><span class=cl><span class=s>spec:
-</span></span></span><span class=line><span class=cl><span class=s>  dnsNames:
-</span></span></span><span class=line><span class=cl><span class=s>    - example.com
-</span></span></span><span class=line><span class=cl><span class=s>  secretName: selfsigned-cert-tls
-</span></span></span><span class=line><span class=cl><span class=s>  issuerRef:
-</span></span></span><span class=line><span class=cl><span class=s>    name: test-selfsigned
-</span></span></span><span class=line><span class=cl><span class=s>EOF</span>
-</span></span></code></pre></td></tr></table></div></div><p>创建 test-resources：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ kubectl apply -f test-resources.yaml
-</span></span></code></pre></td></tr></table></div></div><p>查看证书状态：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ kubectl describe certificate -n cert-manager-test
-</span></span><span class=line><span class=cl>Name:         selfsigned-cert
-</span></span><span class=line><span class=cl>Namespace:    cert-manager-test
-</span></span><span class=line><span class=cl>Labels:       &lt;none&gt;
-</span></span><span class=line><span class=cl>Annotations:  &lt;none&gt;
-</span></span><span class=line><span class=cl>API Version:  cert-manager.io/v1
-</span></span><span class=line><span class=cl>Kind:         Certificate
-</span></span><span class=line><span class=cl>Metadata:
-</span></span><span class=line><span class=cl>  Creation Timestamp:  2024-05-09T23:25:16Z
-</span></span><span class=line><span class=cl>  Generation:          <span class=m>1</span>
-</span></span><span class=line><span class=cl>  Resource Version:    <span class=m>302521</span>
-</span></span><span class=line><span class=cl>  UID:                 4a691ab3-4a7a-476d-9cd6-028285bca5ba
-</span></span><span class=line><span class=cl>Spec:
-</span></span><span class=line><span class=cl>  Dns Names:
-</span></span><span class=line><span class=cl>    example.com
-</span></span><span class=line><span class=cl>  Issuer Ref:
-</span></span><span class=line><span class=cl>    Name:       test-selfsigned
-</span></span><span class=line><span class=cl>  Secret Name:  selfsigned-cert-tls
-</span></span><span class=line><span class=cl>Status:
-</span></span><span class=line><span class=cl>  Conditions:
-</span></span><span class=line><span class=cl>    Last Transition Time:  2024-05-09T23:25:17Z
-</span></span><span class=line><span class=cl>    Message:               Certificate is up to date and has not expired
-</span></span><span class=line><span class=cl>    Observed Generation:   <span class=m>1</span>
-</span></span><span class=line><span class=cl>    Reason:                Ready
-</span></span><span class=line><span class=cl>    Status:                True
-</span></span><span class=line><span class=cl>    Type:                  Ready
-</span></span><span class=line><span class=cl>  Not After:               2024-08-07T23:25:17Z
-</span></span><span class=line><span class=cl>  Not Before:              2024-05-09T23:25:17Z
-</span></span><span class=line><span class=cl>  Renewal Time:            2024-07-08T23:25:17Z
-</span></span><span class=line><span class=cl>  Revision:                <span class=m>1</span>
-</span></span><span class=line><span class=cl>Events:
-</span></span><span class=line><span class=cl>  Type    Reason     Age   From                                       Message
-</span></span><span class=line><span class=cl>  ----    ------     ----  ----                                       -------
-</span></span><span class=line><span class=cl>  Normal  Issuing    8s    cert-manager-certificates-trigger          Issuing certificate as Secret does not exist
-</span></span><span class=line><span class=cl>  Normal  Generated  7s    cert-manager-certificates-key-manager      Stored new private key in temporary Secret resource <span class=s2>&#34;selfsigned-cert-f66n5&#34;</span>
-</span></span><span class=line><span class=cl>  Normal  Requested  7s    cert-manager-certificates-request-manager  Created new CertificateRequest resource <span class=s2>&#34;selfsigned-cert-1&#34;</span>
-</span></span><span class=line><span class=cl>  Normal  Issuing    7s    cert-manager-certificates-issuing          The certificate has been successfully issued
-</span></span></code></pre></td></tr></table></div></div><p>删除 test-resources：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ kubectl delete -f test-resources.yaml
-</span></span></code></pre></td></tr></table></div></div><h2 id=卸载>卸载<a hidden class=anchor aria-hidden=true href=#卸载>#</a></h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>#通过kubectl删除</span>
-</span></span><span class=line><span class=cl>kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.crds.yaml
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>#通过helm3删除</span>
-</span></span><span class=line><span class=cl>helm --namespace cert-manager delete cert-manager
-</span></span><span class=line><span class=cl>kubectl delete namespace cert-manager
-</span></span></code></pre></td></tr></table></div></div><h2 id=生成证书>生成证书<a hidden class=anchor aria-hidden=true href=#生成证书>#</a></h2><h3 id=概念介绍>概念介绍<a hidden class=anchor aria-hidden=true href=#概念介绍>#</a></h3><h4 id=issuer>Issuer<a hidden class=anchor aria-hidden=true href=#issuer>#</a></h4><p>安装 cert-manager 后，您需要配置的第一件事是<code>Issuer</code>或<code>ClusterIssuer</code>。<code>Issuers</code> 和 <code>ClusterIssuers</code> 是 Kubernetes 资源，表示能够通过接受证书签名请求来生成签名证书的证书颁发机构 （CA）。所有 cert-manager 证书都需要一个处于就绪状态的引用颁发者来尝试接受请求。</p><p>一个简单的 <code>CA</code> <code>Issuer</code> 如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>cert-manager.io/v1</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Issuer</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>ca-issuer</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>mesh-system</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>ca</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>secretName</span><span class=p>:</span><span class=w> </span><span class=l>ca-key-pair</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>这是一个基于私钥对证书进行签名的简单 <code>Issuer</code> 方法。然后，存储在密钥 <code>ca-key-pair</code> 中的证书可用于 <code>Issuer</code> 在公钥基础结构 （PKI） 系统中信任新签名的证书。</p><p>Issuers 和 ClusterIssuer 区别：</p><ul><li>Issuers 是基于命名空间的</li><li>ClusterIssuer 是基于集群的</li></ul><h4 id=acme-orders-和-challenges>ACME Orders 和 Challenges<a hidden class=anchor aria-hidden=true href=#acme-orders-和-challenges>#</a></h4><p>cert-manager 支持使用<a href=https://cert-manager.io/docs/configuration/acme/ target=_blank>ACME Issuer从 ACME 服务器请求证书，包括从</a><a href=https://letsencrypt.org/ target=_blank>Let&rsquo;s Encrypt</a>请求证书。这些证书通常在公共 Internet 上受到大多数计算机的信任。要成功请求证书，证书管理器必须解决已完成的 ACME 挑战，以证明客户端拥有所请求的 DNS 地址。</p><p>为了完成这些挑战，cert-manager引入了两种 <code>CustomResource</code>类型；<code>Orders</code>和<code>Challenges</code>。</p><p>ACME 支持两种验证方式：</p><ul><li>DNS 验证：通过 DNS01 质询，您可以通过证明您控制域名的 DNS 记录来证明其所有权。这是通过创建具有特定内容的 TXT 记录来完成的，该记录证明您拥有对域 DNS 记录的控制权</li><li>HTTP 验证：通过 HTTP01 质询，您可以通过确保域中存在特定文件来证明域的所有权。</li></ul><p>Let&rsquo;s Encrypt 的 ACME 服务器分为两种：</p><ul><li>暂存环境：<code>https://acme-staging-v02.api.letsencrypt.org/directory</code></li><li>生产环境：<code>https://acme-v02.api.letsencrypt.org/directory</code></li></ul><p>生产环境施加了更严格的速率限制，因此为了减少您达到这些限制的机会，建议测试过程中使用暂存环境。</p><p>Let’s Encrypt 利用 ACME 协议来校验域名是否真的属于你，校验成功后就可以自动颁发免费证书，证书有效期只有 90 天，在到期前需要再校验一次来实现续期，幸运的是 cert-manager 可以自动续期，这样就可以使用永久免费的证书了。如何校验这个域名是否属于你呢？主流的两种校验方式是 HTTP-01 和 DNS-01，详细校验原理可参考 <a href=https://letsencrypt.org/zh-cn/how-it-works/ target=_blank>Let&rsquo;s Encrypt 的运作方式</a>，下面将简单描述下。</p><h3 id=lets-encrypt生成证书>Let’s Encrypt生成证书<a hidden class=anchor aria-hidden=true href=#lets-encrypt生成证书>#</a></h3><h4 id=acme-颁发证书并使用-http-验证>ACME 颁发证书并使用 HTTP 验证<a hidden class=anchor aria-hidden=true href=#acme-颁发证书并使用-http-验证>#</a></h4><p>HTTP-01 的校验原理是给你域名指向的 HTTP 服务增加一个临时 location ，Let’s Encrypt 会发送 http 请求到 <code>http:///.well-known/acme-challenge/</code>，<code>YOUR_DOMAIN</code> 就是被校验的域名，<code>TOKEN</code> 是 ACME 协议的客户端负责放置的文件，在这里 ACME 客户端就是 cert-manager，它通过修改或创建 Ingress 规则来增加这个临时校验路径并指向提供 <code>TOKEN</code> 的服务。Let’s Encrypt 会对比 <code>TOKEN</code> 是否符合预期，校验成功后就会颁发证书。此方法仅适用于给使用 Ingress 暴露流量的服务颁发证书，并且不支持泛域名证书。</p><p>先创建一个颁发者，因为测试，使用暂存环境的 ACME 服务器。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=l>cat &lt;&lt;EOF &gt; letsencrypt-staging.yaml</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>cert-manager.io/v1</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Issuer</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>letsencrypt-staging</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>acme</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># The ACME server URL</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>server</span><span class=p>:</span><span class=w> </span><span class=l>https://acme-staging-v02.api.letsencrypt.org/directory</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># Email address used for ACME registration</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>email</span><span class=p>:</span><span class=w> </span><span class=l>ichensoul@gmail.com</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># Name of a secret used to store the ACME account private key</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>privateKeySecretRef</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>letsencrypt-staging</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># Enable the HTTP-01 challenge provider</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>solvers</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># An empty &#39;selector&#39; means that this solver matches all domains</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=nt>selector</span><span class=p>:</span><span class=w> </span>{}<span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>http01</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>ingress</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>ingressClassName</span><span class=p>:</span><span class=w> </span><span class=l>nginx</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=l>EOF</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>创建颁发者：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ kubectl apply -f letsencrypt-staging.yaml
-</span></span></code></pre></td></tr></table></div></div><p>创建证书：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=l>cat &lt;&lt;EOF &gt; chensoul-cc-tls.yaml</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>cert-manager.io/v1</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Certificate</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>chensoul-cc-tls</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>secretName</span><span class=p>:</span><span class=w> </span><span class=l>chensoul-cc-tls</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>issuerRef</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>letsencrypt-staging</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>commonName</span><span class=p>:</span><span class=w> </span><span class=l>test.chensoul.cc</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>dnsNames</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=l>test.chensoul.cc</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=l>EOF</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>创建证书：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ kubectl apply -f chensoul-cc-tls.yaml
-</span></span><span class=line><span class=cl>certificate.cert-manager.io/chensoul-cc-tls created
-</span></span></code></pre></td></tr></table></div></div><p>查看状态：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>kubectl get secret,certificate,Issuer,ClusterIssuer
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>kubectl describe Issuer letsencrypt-staging
-</span></span><span class=line><span class=cl>kubectl describe Secret cloudflare-api-token-secret
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>kubectl describe certificate chensoul-cc-tls
-</span></span><span class=line><span class=cl>kubectl describe CertificateRequest chensoul-cc-tls
-</span></span><span class=line><span class=cl>kubectl describe order chensoul-cc-tls
-</span></span><span class=line><span class=cl>kubectl describe Challenge chensoul-cc-tls
-</span></span></code></pre></td></tr></table></div></div><p>等待一段时间，直到证书状态变为True：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ kubectl get secret,certificate,Issuer,ClusterIssuer
-</span></span><span class=line><span class=cl>NAME                                 TYPE                DATA   AGE
-</span></span><span class=line><span class=cl>secret/chensoul-cc-tls               kubernetes.io/tls   <span class=m>2</span>      47s
-</span></span><span class=line><span class=cl>secret/cloudflare-api-token-secret   Opaque              <span class=m>1</span>      2m39s
-</span></span><span class=line><span class=cl>secret/letsencrypt-staging           Opaque              <span class=m>1</span>      5m34s
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>NAME                                          READY   SECRET            AGE
-</span></span><span class=line><span class=cl>certificate.cert-manager.io/chensoul-cc-tls   True    chensoul-cc-tls   2m31s
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>NAME                                         READY   AGE
-</span></span><span class=line><span class=cl>issuer.cert-manager.io/letsencrypt-staging   True    2m39s
-</span></span></code></pre></td></tr></table></div></div><p>还可以查看证书的 TLS Base64 键值对：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>kubectl get secret chensoul-cc-tls -o yaml
-</span></span></code></pre></td></tr></table></div></div><p>删除相关资源：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>kubectl delete Secret cloudflare-api-token-secret letsencrypt-staging chensoul-cc-tls
-</span></span><span class=line><span class=cl>kubectl delete Issuers letsencrypt-staging
-</span></span><span class=line><span class=cl>kubectl delete certificate chensoul-cc-tls
-</span></span></code></pre></td></tr></table></div></div><h4 id=acme-颁发证书并使用-dns-验证>ACME 颁发证书并使用 DNS 验证<a hidden class=anchor aria-hidden=true href=#acme-颁发证书并使用-dns-验证>#</a></h4><p>DNS-01 的校验原理是利用 DNS 提供商的 API Key 拿到你的 DNS 控制权限， 在 Let’s Encrypt 为 ACME 客户端提供令牌后，ACME 客户端 (cert-manager) 将创建从该令牌和您的帐户密钥派生的 TXT 记录，并将该记录放在 <code>_acme-challenge.</code>。 然后 Let’s Encrypt 将向 DNS 系统查询该记录，如果找到匹配项，就可以颁发证书。此方法不需要你的服务使用 Ingress，并且支持泛域名证书。</p><p>参考：https://medium.com/@sms-astanley/custom-issuers-with-letsencrypt-and-rancher-ingress-2c89ab1b0a91</p><p>先创建一个颁发者，然后根据域名解析选择 DNS01 提供商，支持的提供商参考：https://cert-manager.io/docs/configuration/acme/dns01/</p><p>我的 DNS 提供商为 Cloudflare，参考 <a href=https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/ target=_blank>https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/</a> 在 <a href=https://dash.cloudflare.com/profile/api-tokens target=_blank>Cloudflare</a> 创建一个 API token 或者 API KEY。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=l>cat &lt;&lt;EOF &gt; letsencrypt-staging.yaml</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>v1</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Secret</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>cloudflare-api-token-secret</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>Opaque</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>stringData</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>api-token</span><span class=p>:</span><span class=w> </span><span class=l>SSQ0XP71lyfFDjIMPuwtti7v-LhOQlpPe5ruK-9Z</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nn>---</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>cert-manager.io/v1</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Issuer</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>letsencrypt-staging</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>acme</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>email</span><span class=p>:</span><span class=w> </span><span class=l>ichensoul@gmail.com</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>server</span><span class=p>:</span><span class=w> </span><span class=l>https://acme-staging-v02.api.letsencrypt.org/directory</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># Name of a secret used to store the ACME account private key</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>privateKeySecretRef</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>letsencrypt-staging</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>solvers</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>dns01</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>cloudflare</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>email</span><span class=p>:</span><span class=w> </span><span class=l>ichensoul@gmail.com</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>apiTokenSecretRef</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>              </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>cloudflare-api-token-secret</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>              </span><span class=nt>key</span><span class=p>:</span><span class=w> </span><span class=l>api-token</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=l>EOF</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>创建颁发者：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ kubectl apply -f letsencrypt-staging.yaml
-</span></span><span class=line><span class=cl>secret/cloudflare-api-token-secret created
-</span></span><span class=line><span class=cl>issuer.cert-manager.io/letsencrypt-staging created
-</span></span></code></pre></td></tr></table></div></div><blockquote><p>如果想将这个 Issuer 设置为默认使用，可以用如下命令升级 cert-manager</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>helm upgrade cert-manager jetstack/cert-manager --set &#39;extraArgs={--default-issuer-name=letsencrypt-prod,--default-issuer-kind=ClusterIssuer}&#39; -n cert-manager
-</span></span></code></pre></td></tr></table></div></div></blockquote><p>创建一个证书：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=l>cat &lt;&lt;EOF &gt; chensoul-cc-tls.yaml</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>cert-manager.io/v1</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Certificate</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>chensoul-cc-tls</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>secretName</span><span class=p>:</span><span class=w> </span><span class=l>chensoul-cc-tls</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>issuerRef</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>letsencrypt-staging</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Issuer</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>commonName</span><span class=p>:</span><span class=w> </span><span class=l>test.chensoul.cc</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>dnsNames</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=l>test.chensoul.cc</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=l>EOF</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>创建证书：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ kubectl apply -f chensoul-cc-tls.yaml
-</span></span><span class=line><span class=cl>certificate.cert-manager.io/chensoul-cc-tls created
-</span></span></code></pre></td></tr></table></div></div><p>查看状态：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>kubectl get secret,certificate,Issuer,ClusterIssuer
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>kubectl describe Issuer letsencrypt-staging
-</span></span><span class=line><span class=cl>kubectl describe Secret cloudflare-api-token-secret
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>kubectl describe certificate chensoul-cc-tls
-</span></span><span class=line><span class=cl>kubectl describe CertificateRequest chensoul-cc-tls
-</span></span><span class=line><span class=cl>kubectl describe order chensoul-cc-tls
-</span></span><span class=line><span class=cl>kubectl describe Challenge chensoul-cc-tls
-</span></span></code></pre></td></tr></table></div></div><p>等待一段时间，直到证书状态变为True：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ kubectl get secret,certificate,Issuer,ClusterIssuer
-</span></span><span class=line><span class=cl>NAME                                 TYPE                DATA   AGE
-</span></span><span class=line><span class=cl>secret/chensoul-cc-tls               kubernetes.io/tls   <span class=m>2</span>      47s
-</span></span><span class=line><span class=cl>secret/cloudflare-api-token-secret   Opaque              <span class=m>1</span>      2m39s
-</span></span><span class=line><span class=cl>secret/letsencrypt-staging           Opaque              <span class=m>1</span>      5m34s
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>NAME                                          READY   SECRET            AGE
-</span></span><span class=line><span class=cl>certificate.cert-manager.io/chensoul-cc-tls   True    chensoul-cc-tls   2m31s
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>NAME                                         READY   AGE
-</span></span><span class=line><span class=cl>issuer.cert-manager.io/letsencrypt-staging   True    2m39s
-</span></span></code></pre></td></tr></table></div></div><p>还可以查看证书的 TLS Base64 键值对：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>kubectl get secret chensoul-cc-tls -o yaml
-</span></span></code></pre></td></tr></table></div></div><p>删除相关资源：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>kubectl delete Secret cloudflare-api-token-secret letsencrypt-staging chensoul-cc-tls
-</span></span><span class=line><span class=cl>kubectl delete Issuers letsencrypt-staging
-</span></span><span class=line><span class=cl>kubectl delete certificate chensoul-cc-tls
-</span></span></code></pre></td></tr></table></div></div><h4 id=校验方式对比>校验方式对比<a hidden class=anchor aria-hidden=true href=#校验方式对比>#</a></h4><p>HTTP-01 的校验方式的优点是: 配置简单通用，不管使用哪个 DNS 提供商都可以使用相同的配置方法；缺点是：需要依赖 Ingress，如果你的服务不是用 Ingress 暴露流量的就不适用，而且不支持泛域名证书。</p><p>DNS-01 的校验方式的优点是没有 HTTP-01 校验方式缺点，不依赖 Ingress，也支持泛域名；缺点就是不同 DNS 提供商的配置方式不一样，而且 DNS 提供商有很多，cert-manager 的 Issuer 不可能每个都去支持，不过有一些可以通过部署实现了 cert-manager 的 <a href=https://cert-manager.io/docs/concepts/webhook/ target=_blank>Webhook</a> 的服务来扩展 Issuer 进行支持，比如 DNSPod 和 阿里 DNS，详细 Webhook 列表请参考: <a href=https://cert-manager.io/docs/configuration/acme/dns01/#webhook target=_blank>https://cert-manager.io/docs/configuration/acme/dns01/#webhook</a></p><p>选择哪种方式呢？条件允许的话，建议是尽量用 <code>DNS-01</code> 的方式，限制更少，功能更全。</p><h2 id=参考文章>参考文章<a hidden class=anchor aria-hidden=true href=#参考文章>#</a></h2><ul><li><a href=https://opensource.com/article/20/3/ssl-letsencrypt-k3s target=_blank>Make SSL certs easy with k3s</a></li><li><a href=https://www.thebookofjoel.com/k3s-cert-manager-letsencrypt target=_blank>https://www.thebookofjoel.com/k3s-cert-manager-letsencrypt</a></li><li><a href>使用 LetsEncrypt配置kubernetes ingress-nginx免费HTTPS证书</a></li><li><a href>cert-manager管理k8s集群证书</a></li><li><a href=https://blog.csdn.net/xichenguan/article/details/100709830 target=_blank>https://blog.csdn.net/xichenguan/article/details/100709830</a></li><li><a href=https://medium.com/@sms-astanley/custom-issuers-with-letsencrypt-and-rancher-ingress-2c89ab1b0a91 target=_blank>https://medium.com/@sms-astanley/custom-issuers-with-letsencrypt-and-rancher-ingress-2c89ab1b0a91</a></li></ul></div><footer class=post-footer><ul class=post-tags><li><a href=https://blog.chensoul.cc/tags/k8s/>K8s</a></li></ul><nav class=paginav><a class=prev href=https://blog.chensoul.cc/posts/2024/05/10/all-things-about-websocket/><span class=title>« Prev</span><br><span>All things about WebSocket</span>
-</a><a class=next href=https://blog.chensoul.cc/posts/2024/05/10/install-rancher/><span class=title>Next »</span><br><span>Rancher安装和部署-使用K8s</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share K8s安装Cert Manager on x" href="https://x.com/intent/tweet/?text=K8s%e5%ae%89%e8%a3%85Cert%20Manager&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f&amp;hashtags=k8s"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share K8s安装Cert Manager on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f&amp;title=K8s%e5%ae%89%e8%a3%85Cert%20Manager&amp;summary=K8s%e5%ae%89%e8%a3%85Cert%20Manager&amp;source=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share K8s安装Cert Manager on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f&title=K8s%e5%ae%89%e8%a3%85Cert%20Manager"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share K8s安装Cert Manager on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share K8s安装Cert Manager on whatsapp" href="https://api.whatsapp.com/send?text=K8s%e5%ae%89%e8%a3%85Cert%20Manager%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share K8s安装Cert Manager on telegram" href="https://telegram.me/share/url?text=K8s%e5%ae%89%e8%a3%85Cert%20Manager&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share K8s安装Cert Manager on ycombinator" href="https://news.ycombinator.com/submitlink?t=K8s%e5%ae%89%e8%a3%85Cert%20Manager&u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
-</a><script async src=https://umami.chensoul.cc/random-string.js data-website-id=821c25f8-a31a-4607-92d7-91ee76843d00></script><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。"><title>K8s安装Cert Manager | ChenSoul</title>
+<link rel=canonical href=https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/><link rel=preconnect href=https://fonts.font.im><link rel=preconnect href=https://fonts.loli.net crossorigin><link href="https://fonts.loli.net/css2?family=Roboto+Slab:wght@400;500;700&display=swap" rel=stylesheet><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta name=twitter:title content="K8s安装Cert Manager"><meta name=twitter:description content="cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。"><meta property="og:locale" content="en_US"><meta property="og:site_name" content="chensoul"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/"><meta property="og:site_name" content="ChenSoul"><meta property="og:title" content="K8s安装Cert Manager"><meta property="og:description" content="cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-05-10T00:00:00+00:00"><meta property="article:modified_time" content="2024-05-10T00:00:00+00:00"><meta property="article:tag" content="K8s"><meta property="og:image" content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=name content="K8s安装Cert Manager"><meta itemprop=description content="cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。"><meta itemprop=datePublished content="2024-05-10T00:00:00+00:00"><meta itemprop=dateModified content="2024-05-10T00:00:00+00:00"><meta itemprop=wordCount content="985"><meta itemprop=image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=keywords content="K8s"><link rel=stylesheet href=https://cdnjs.loli.net/ajax/libs/font-awesome/6.4.0/css/all.min.css media=all><link rel=stylesheet href=/main.min.css type=text/css media=all><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"K8s安装Cert Manager","headline":"K8s安装Cert Manager","inLanguage":"en-US","url":"https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/","description":"\u003cp\u003ecert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。\u003c/p\u003e","wordCount":"985","keywords":["k8s"],"datePublished":"2024-05-10T00:00:00Z","dateModified":"2024-05-10T00:00:00Z","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/"},"publisher":{"@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/"}},{"@context":"https://schema.org","@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/","sameAs":["https://twitter.com/","https://github.com/chensoul","https://www.linkedin.com/in/"]}]}</script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title=ChenSoul rel=home>ChenSoul</a></h1><p class=site-description>Java, Spring Boot, Microservice, Cloud, Architecture and DevOps Tutorials</p></div><div class="header-widgets clearfix"><aside id=search-2 class="header-widget widget_search"><form role=search method=get class=search-form onsubmit="return searchSite(event)"><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=search-field placeholder="Enter search keyword" name=query id=query title="Enter search keyword">
+</label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
+<span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
+current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/05/10/install-cert-manager/ rel=bookmark title="K8s安装Cert Manager">K8s安装Cert Manager</a></h2><hr><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-05-10T00:00:00>2024-05-10
+</time></span><span class=meta-author><span class="author vcard">chensoul</span>
+</span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/k8s/ title=k8s>k8s</a></span></div></header><div class=entry-content><p>cert-manager 为 Kubernetes 或 OpenShift 集群中的工作负载创建 TLS 证书，并在证书过期之前续订证书。</p><p>cert-manager 可以从各种<a href=https://cert-manager.io/docs/configuration/issuers/ target=_blank>证书颁发机构</a>获取证书，包括： <a href=https://cert-manager.io/docs/configuration/acme/ target=_blank>Let&rsquo;s Encrypt</a>、<a href=https://cert-manager.io/docs/configuration/vault/ target=_blank>HashiCorp Vault</a>、 <a href=https://cert-manager.io/docs/configuration/venafi/ target=_blank>Venafi</a>和<a href=https://cert-manager.io/docs/configuration/ca/ target=_blank>私有 PKI</a>。</p><p>使用 cert-manager 的<a href=https://cert-manager.io/docs/usage/certificate/ target=_blank>证书资源</a>，私钥和证书存储在 Kubernetes Secret 中，该 Secret 由应用程序 Pod 挂载或由 Ingress 控制器使用。使用<a href=https://cert-manager.io/docs/usage/csi-driver/ target=_blank>csi-driver</a>、<a href=https://cert-manager.io/docs/usage/csi-driver-spiffe/ target=_blank>csi-driver-spiffe</a>或<a href=https://cert-manager.io/docs/usage/istio-csr/ target=_blank>istio-csr</a>，私钥是在应用程序启动之前按需生成的；私钥永远不会离开节点，并且不会存储在 Kubernetes Secret 中。</p><h2 id=安装>安装</h2><p>参考官方文档：<a href=https://cert-manager.io/docs/installation/ target=_blank>https://cert-manager.io/docs/installation/</a></p><h3 id=使用kubectl安装>使用kubectl安装</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
+</span></span></code></pre></div><p>查看：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl get pods --namespace cert-manager
+</span></span></code></pre></div><h3 id=使用helm安装>使用helm安装</h3><p>添加 repo：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm repo add jetstack https://charts.jetstack.io --force-update
+</span></span><span style=display:flex><span>helm repo update
+</span></span></code></pre></div><p>安装 cert-manager：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm install cert-manager jetstack/cert-manager <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>	--namespace cert-manager   <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>	--create-namespace    <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>	--version v1.14.5    <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>	--set installCRDs<span style=color:#f92672>=</span>true
+</span></span></code></pre></div><p>更多配置参数，参考：<a href=https://artifacthub.io/packages/helm/cert-manager/cert-manager target=_blank>https://artifacthub.io/packages/helm/cert-manager/cert-manager</a></p><p>查看状态</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl -n cert-manager rollout status deploy/cert-manager
+</span></span><span style=display:flex><span>deployment <span style=color:#e6db74>&#34;cert-manager&#34;</span> successfully rolled out
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ kubectl get pods -n cert-manager
+</span></span><span style=display:flex><span>NAME                                           READY   STATUS              RESTARTS   AGE
+</span></span><span style=display:flex><span>pod/cert-manager-5c47f46f57-k78l6              1/1     Running             <span style=color:#ae81ff>0</span>          91s
+</span></span><span style=display:flex><span>pod/cert-manager-cainjector-6659d6844d-tr8rf   1/1     Running             <span style=color:#ae81ff>0</span>          91s
+</span></span><span style=display:flex><span>pod/cert-manager-webhook-547567b88f-8lthd      1/1     Running   					 <span style=color:#ae81ff>0</span>          91s
+</span></span></code></pre></div><p>使用helm3查看：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ helm list -n cert-manager
+</span></span><span style=display:flex><span>NAME        	NAMESPACE   	REVISION	UPDATED                                	STATUS  	CHART               cert-manager	cert-manager	<span style=color:#ae81ff>1</span>       	2024-05-09 17:35:59.976722226 +0800 CST	deployed	cert-manager-v1.14.5	v1.14.5
+</span></span></code></pre></div><h3 id=验证>验证</h3><p>创建自签名证书进行验证：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ cat <span style=color:#e6db74>&lt;&lt;EOF &gt; test-resources.yaml
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>apiVersion: v1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>kind: Namespace
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>metadata:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  name: cert-manager-test
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>---
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>apiVersion: cert-manager.io/v1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>kind: Issuer
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>metadata:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  name: test-selfsigned
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  namespace: cert-manager-test
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>spec:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  selfSigned: {}
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>---
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>apiVersion: cert-manager.io/v1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>kind: Certificate
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>metadata:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  name: selfsigned-cert
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  namespace: cert-manager-test
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>spec:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  dnsNames:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    - example.com
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  secretName: selfsigned-cert-tls
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  issuerRef:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    name: test-selfsigned
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span></code></pre></div><p>创建 test-resources：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl apply -f test-resources.yaml
+</span></span></code></pre></div><p>查看证书状态：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl describe certificate -n cert-manager-test
+</span></span><span style=display:flex><span>Name:         selfsigned-cert
+</span></span><span style=display:flex><span>Namespace:    cert-manager-test
+</span></span><span style=display:flex><span>Labels:       &lt;none&gt;
+</span></span><span style=display:flex><span>Annotations:  &lt;none&gt;
+</span></span><span style=display:flex><span>API Version:  cert-manager.io/v1
+</span></span><span style=display:flex><span>Kind:         Certificate
+</span></span><span style=display:flex><span>Metadata:
+</span></span><span style=display:flex><span>  Creation Timestamp:  2024-05-09T23:25:16Z
+</span></span><span style=display:flex><span>  Generation:          <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>  Resource Version:    <span style=color:#ae81ff>302521</span>
+</span></span><span style=display:flex><span>  UID:                 4a691ab3-4a7a-476d-9cd6-028285bca5ba
+</span></span><span style=display:flex><span>Spec:
+</span></span><span style=display:flex><span>  Dns Names:
+</span></span><span style=display:flex><span>    example.com
+</span></span><span style=display:flex><span>  Issuer Ref:
+</span></span><span style=display:flex><span>    Name:       test-selfsigned
+</span></span><span style=display:flex><span>  Secret Name:  selfsigned-cert-tls
+</span></span><span style=display:flex><span>Status:
+</span></span><span style=display:flex><span>  Conditions:
+</span></span><span style=display:flex><span>    Last Transition Time:  2024-05-09T23:25:17Z
+</span></span><span style=display:flex><span>    Message:               Certificate is up to date and has not expired
+</span></span><span style=display:flex><span>    Observed Generation:   <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>    Reason:                Ready
+</span></span><span style=display:flex><span>    Status:                True
+</span></span><span style=display:flex><span>    Type:                  Ready
+</span></span><span style=display:flex><span>  Not After:               2024-08-07T23:25:17Z
+</span></span><span style=display:flex><span>  Not Before:              2024-05-09T23:25:17Z
+</span></span><span style=display:flex><span>  Renewal Time:            2024-07-08T23:25:17Z
+</span></span><span style=display:flex><span>  Revision:                <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>Events:
+</span></span><span style=display:flex><span>  Type    Reason     Age   From                                       Message
+</span></span><span style=display:flex><span>  ----    ------     ----  ----                                       -------
+</span></span><span style=display:flex><span>  Normal  Issuing    8s    cert-manager-certificates-trigger          Issuing certificate as Secret does not exist
+</span></span><span style=display:flex><span>  Normal  Generated  7s    cert-manager-certificates-key-manager      Stored new private key in temporary Secret resource <span style=color:#e6db74>&#34;selfsigned-cert-f66n5&#34;</span>
+</span></span><span style=display:flex><span>  Normal  Requested  7s    cert-manager-certificates-request-manager  Created new CertificateRequest resource <span style=color:#e6db74>&#34;selfsigned-cert-1&#34;</span>
+</span></span><span style=display:flex><span>  Normal  Issuing    7s    cert-manager-certificates-issuing          The certificate has been successfully issued
+</span></span></code></pre></div><p>删除 test-resources：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl delete -f test-resources.yaml
+</span></span></code></pre></div><h2 id=卸载>卸载</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#通过kubectl删除</span>
+</span></span><span style=display:flex><span>kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.crds.yaml
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#通过helm3删除</span>
+</span></span><span style=display:flex><span>helm --namespace cert-manager delete cert-manager
+</span></span><span style=display:flex><span>kubectl delete namespace cert-manager
+</span></span></code></pre></div><h2 id=生成证书>生成证书</h2><h3 id=概念介绍>概念介绍</h3><h4 id=issuer>Issuer</h4><p>安装 cert-manager 后，您需要配置的第一件事是<code>Issuer</code>或<code>ClusterIssuer</code>。<code>Issuers</code> 和 <code>ClusterIssuers</code> 是 Kubernetes 资源，表示能够通过接受证书签名请求来生成签名证书的证书颁发机构 （CA）。所有 cert-manager 证书都需要一个处于就绪状态的引用颁发者来尝试接受请求。</p><p>一个简单的 <code>CA</code> <code>Issuer</code> 如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>cert-manager.io/v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Issuer</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>ca-issuer</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>mesh-system</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>ca</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>secretName</span>: <span style=color:#ae81ff>ca-key-pair</span>
+</span></span></code></pre></div><p>这是一个基于私钥对证书进行签名的简单 <code>Issuer</code> 方法。然后，存储在密钥 <code>ca-key-pair</code> 中的证书可用于 <code>Issuer</code> 在公钥基础结构 （PKI） 系统中信任新签名的证书。</p><p>Issuers 和 ClusterIssuer 区别：</p><ul><li>Issuers 是基于命名空间的</li><li>ClusterIssuer 是基于集群的</li></ul><h4 id=acme-orders-和-challenges>ACME Orders 和 Challenges</h4><p>cert-manager 支持使用<a href=https://cert-manager.io/docs/configuration/acme/ target=_blank>ACME Issuer从 ACME 服务器请求证书，包括从</a><a href=https://letsencrypt.org/ target=_blank>Let&rsquo;s Encrypt</a>请求证书。这些证书通常在公共 Internet 上受到大多数计算机的信任。要成功请求证书，证书管理器必须解决已完成的 ACME 挑战，以证明客户端拥有所请求的 DNS 地址。</p><p>为了完成这些挑战，cert-manager引入了两种 <code>CustomResource</code>类型；<code>Orders</code>和<code>Challenges</code>。</p><p>ACME 支持两种验证方式：</p><ul><li>DNS 验证：通过 DNS01 质询，您可以通过证明您控制域名的 DNS 记录来证明其所有权。这是通过创建具有特定内容的 TXT 记录来完成的，该记录证明您拥有对域 DNS 记录的控制权</li><li>HTTP 验证：通过 HTTP01 质询，您可以通过确保域中存在特定文件来证明域的所有权。</li></ul><p>Let&rsquo;s Encrypt 的 ACME 服务器分为两种：</p><ul><li>暂存环境：<code>https://acme-staging-v02.api.letsencrypt.org/directory</code></li><li>生产环境：<code>https://acme-v02.api.letsencrypt.org/directory</code></li></ul><p>生产环境施加了更严格的速率限制，因此为了减少您达到这些限制的机会，建议测试过程中使用暂存环境。</p><p>Let’s Encrypt 利用 ACME 协议来校验域名是否真的属于你，校验成功后就可以自动颁发免费证书，证书有效期只有 90 天，在到期前需要再校验一次来实现续期，幸运的是 cert-manager 可以自动续期，这样就可以使用永久免费的证书了。如何校验这个域名是否属于你呢？主流的两种校验方式是 HTTP-01 和 DNS-01，详细校验原理可参考 <a href=https://letsencrypt.org/zh-cn/how-it-works/ target=_blank>Let&rsquo;s Encrypt 的运作方式</a>，下面将简单描述下。</p><h3 id=lets-encrypt生成证书>Let’s Encrypt生成证书</h3><h4 id=acme-颁发证书并使用-http-验证>ACME 颁发证书并使用 HTTP 验证</h4><p>HTTP-01 的校验原理是给你域名指向的 HTTP 服务增加一个临时 location ，Let’s Encrypt 会发送 http 请求到 <code>http:///.well-known/acme-challenge/</code>，<code>YOUR_DOMAIN</code> 就是被校验的域名，<code>TOKEN</code> 是 ACME 协议的客户端负责放置的文件，在这里 ACME 客户端就是 cert-manager，它通过修改或创建 Ingress 规则来增加这个临时校验路径并指向提供 <code>TOKEN</code> 的服务。Let’s Encrypt 会对比 <code>TOKEN</code> 是否符合预期，校验成功后就会颁发证书。此方法仅适用于给使用 Ingress 暴露流量的服务颁发证书，并且不支持泛域名证书。</p><p>先创建一个颁发者，因为测试，使用暂存环境的 ACME 服务器。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#ae81ff>cat &lt;&lt;EOF &gt; letsencrypt-staging.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>cert-manager.io/v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Issuer</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>letsencrypt-staging</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>acme</span>:
+</span></span><span style=display:flex><span>    <span style=color:#75715e># The ACME server URL</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>server</span>: <span style=color:#ae81ff>https://acme-staging-v02.api.letsencrypt.org/directory</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Email address used for ACME registration</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>email</span>: <span style=color:#ae81ff>ichensoul@gmail.com</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Name of a secret used to store the ACME account private key</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>privateKeySecretRef</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>letsencrypt-staging</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Enable the HTTP-01 challenge provider</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>solvers</span>:
+</span></span><span style=display:flex><span>    <span style=color:#75715e># An empty &#39;selector&#39; means that this solver matches all domains</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>selector</span>: {}
+</span></span><span style=display:flex><span>      <span style=color:#f92672>http01</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>ingress</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>ingressClassName</span>: <span style=color:#ae81ff>nginx</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>EOF</span>
+</span></span></code></pre></div><p>创建颁发者：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl apply -f letsencrypt-staging.yaml
+</span></span></code></pre></div><p>创建证书：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#ae81ff>cat &lt;&lt;EOF &gt; chensoul-cc-tls.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>cert-manager.io/v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Certificate</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>chensoul-cc-tls</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>secretName</span>: <span style=color:#ae81ff>chensoul-cc-tls</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>issuerRef</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>letsencrypt-staging</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>commonName</span>: <span style=color:#ae81ff>test.chensoul.cc</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>dnsNames</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#ae81ff>test.chensoul.cc</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>EOF</span>
+</span></span></code></pre></div><p>创建证书：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl apply -f chensoul-cc-tls.yaml
+</span></span><span style=display:flex><span>certificate.cert-manager.io/chensoul-cc-tls created
+</span></span></code></pre></div><p>查看状态：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get secret,certificate,Issuer,ClusterIssuer
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>kubectl describe Issuer letsencrypt-staging
+</span></span><span style=display:flex><span>kubectl describe Secret cloudflare-api-token-secret
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>kubectl describe certificate chensoul-cc-tls
+</span></span><span style=display:flex><span>kubectl describe CertificateRequest chensoul-cc-tls
+</span></span><span style=display:flex><span>kubectl describe order chensoul-cc-tls
+</span></span><span style=display:flex><span>kubectl describe Challenge chensoul-cc-tls
+</span></span></code></pre></div><p>等待一段时间，直到证书状态变为True：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl get secret,certificate,Issuer,ClusterIssuer
+</span></span><span style=display:flex><span>NAME                                 TYPE                DATA   AGE
+</span></span><span style=display:flex><span>secret/chensoul-cc-tls               kubernetes.io/tls   <span style=color:#ae81ff>2</span>      47s
+</span></span><span style=display:flex><span>secret/cloudflare-api-token-secret   Opaque              <span style=color:#ae81ff>1</span>      2m39s
+</span></span><span style=display:flex><span>secret/letsencrypt-staging           Opaque              <span style=color:#ae81ff>1</span>      5m34s
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>NAME                                          READY   SECRET            AGE
+</span></span><span style=display:flex><span>certificate.cert-manager.io/chensoul-cc-tls   True    chensoul-cc-tls   2m31s
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>NAME                                         READY   AGE
+</span></span><span style=display:flex><span>issuer.cert-manager.io/letsencrypt-staging   True    2m39s
+</span></span></code></pre></div><p>还可以查看证书的 TLS Base64 键值对：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get secret chensoul-cc-tls -o yaml
+</span></span></code></pre></div><p>删除相关资源：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl delete Secret cloudflare-api-token-secret letsencrypt-staging chensoul-cc-tls
+</span></span><span style=display:flex><span>kubectl delete Issuers letsencrypt-staging
+</span></span><span style=display:flex><span>kubectl delete certificate chensoul-cc-tls
+</span></span></code></pre></div><h4 id=acme-颁发证书并使用-dns-验证>ACME 颁发证书并使用 DNS 验证</h4><p>DNS-01 的校验原理是利用 DNS 提供商的 API Key 拿到你的 DNS 控制权限， 在 Let’s Encrypt 为 ACME 客户端提供令牌后，ACME 客户端 (cert-manager) 将创建从该令牌和您的帐户密钥派生的 TXT 记录，并将该记录放在 <code>_acme-challenge.</code>。 然后 Let’s Encrypt 将向 DNS 系统查询该记录，如果找到匹配项，就可以颁发证书。此方法不需要你的服务使用 Ingress，并且支持泛域名证书。</p><p>参考：https://medium.com/@sms-astanley/custom-issuers-with-letsencrypt-and-rancher-ingress-2c89ab1b0a91</p><p>先创建一个颁发者，然后根据域名解析选择 DNS01 提供商，支持的提供商参考：https://cert-manager.io/docs/configuration/acme/dns01/</p><p>我的 DNS 提供商为 Cloudflare，参考 <a href=https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/ target=_blank>https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/</a> 在 <a href=https://dash.cloudflare.com/profile/api-tokens target=_blank>Cloudflare</a> 创建一个 API token 或者 API KEY。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#ae81ff>cat &lt;&lt;EOF &gt; letsencrypt-staging.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Secret</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>cloudflare-api-token-secret</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>type</span>: <span style=color:#ae81ff>Opaque</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>stringData</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>api-token</span>: <span style=color:#ae81ff>SSQ0XP71lyfFDjIMPuwtti7v-LhOQlpPe5ruK-9Z</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>---
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>cert-manager.io/v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Issuer</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>letsencrypt-staging</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>acme</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>email</span>: <span style=color:#ae81ff>ichensoul@gmail.com</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>server</span>: <span style=color:#ae81ff>https://acme-staging-v02.api.letsencrypt.org/directory</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Name of a secret used to store the ACME account private key</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>privateKeySecretRef</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>letsencrypt-staging</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>solvers</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>dns01</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>cloudflare</span>:
+</span></span><span style=display:flex><span>            <span style=color:#f92672>email</span>: <span style=color:#ae81ff>ichensoul@gmail.com</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>apiTokenSecretRef</span>:
+</span></span><span style=display:flex><span>              <span style=color:#f92672>name</span>: <span style=color:#ae81ff>cloudflare-api-token-secret</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>key</span>: <span style=color:#ae81ff>api-token</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>EOF</span>
+</span></span></code></pre></div><p>创建颁发者：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl apply -f letsencrypt-staging.yaml
+</span></span><span style=display:flex><span>secret/cloudflare-api-token-secret created
+</span></span><span style=display:flex><span>issuer.cert-manager.io/letsencrypt-staging created
+</span></span></code></pre></div><blockquote><p>如果想将这个 Issuer 设置为默认使用，可以用如下命令升级 cert-manager</p><pre tabindex=0><code>helm upgrade cert-manager jetstack/cert-manager --set &#39;extraArgs={--default-issuer-name=letsencrypt-prod,--default-issuer-kind=ClusterIssuer}&#39; -n cert-manager
+</code></pre></blockquote><p>创建一个证书：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#ae81ff>cat &lt;&lt;EOF &gt; chensoul-cc-tls.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>cert-manager.io/v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Certificate</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>chensoul-cc-tls</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>secretName</span>: <span style=color:#ae81ff>chensoul-cc-tls</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>issuerRef</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>letsencrypt-staging</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Issuer</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>commonName</span>: <span style=color:#ae81ff>test.chensoul.cc</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>dnsNames</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#ae81ff>test.chensoul.cc</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>EOF</span>
+</span></span></code></pre></div><p>创建证书：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl apply -f chensoul-cc-tls.yaml
+</span></span><span style=display:flex><span>certificate.cert-manager.io/chensoul-cc-tls created
+</span></span></code></pre></div><p>查看状态：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get secret,certificate,Issuer,ClusterIssuer
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>kubectl describe Issuer letsencrypt-staging
+</span></span><span style=display:flex><span>kubectl describe Secret cloudflare-api-token-secret
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>kubectl describe certificate chensoul-cc-tls
+</span></span><span style=display:flex><span>kubectl describe CertificateRequest chensoul-cc-tls
+</span></span><span style=display:flex><span>kubectl describe order chensoul-cc-tls
+</span></span><span style=display:flex><span>kubectl describe Challenge chensoul-cc-tls
+</span></span></code></pre></div><p>等待一段时间，直到证书状态变为True：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl get secret,certificate,Issuer,ClusterIssuer
+</span></span><span style=display:flex><span>NAME                                 TYPE                DATA   AGE
+</span></span><span style=display:flex><span>secret/chensoul-cc-tls               kubernetes.io/tls   <span style=color:#ae81ff>2</span>      47s
+</span></span><span style=display:flex><span>secret/cloudflare-api-token-secret   Opaque              <span style=color:#ae81ff>1</span>      2m39s
+</span></span><span style=display:flex><span>secret/letsencrypt-staging           Opaque              <span style=color:#ae81ff>1</span>      5m34s
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>NAME                                          READY   SECRET            AGE
+</span></span><span style=display:flex><span>certificate.cert-manager.io/chensoul-cc-tls   True    chensoul-cc-tls   2m31s
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>NAME                                         READY   AGE
+</span></span><span style=display:flex><span>issuer.cert-manager.io/letsencrypt-staging   True    2m39s
+</span></span></code></pre></div><p>还可以查看证书的 TLS Base64 键值对：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get secret chensoul-cc-tls -o yaml
+</span></span></code></pre></div><p>删除相关资源：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl delete Secret cloudflare-api-token-secret letsencrypt-staging chensoul-cc-tls
+</span></span><span style=display:flex><span>kubectl delete Issuers letsencrypt-staging
+</span></span><span style=display:flex><span>kubectl delete certificate chensoul-cc-tls
+</span></span></code></pre></div><h4 id=校验方式对比>校验方式对比</h4><p>HTTP-01 的校验方式的优点是: 配置简单通用，不管使用哪个 DNS 提供商都可以使用相同的配置方法；缺点是：需要依赖 Ingress，如果你的服务不是用 Ingress 暴露流量的就不适用，而且不支持泛域名证书。</p><p>DNS-01 的校验方式的优点是没有 HTTP-01 校验方式缺点，不依赖 Ingress，也支持泛域名；缺点就是不同 DNS 提供商的配置方式不一样，而且 DNS 提供商有很多，cert-manager 的 Issuer 不可能每个都去支持，不过有一些可以通过部署实现了 cert-manager 的 <a href=https://cert-manager.io/docs/concepts/webhook/ target=_blank>Webhook</a> 的服务来扩展 Issuer 进行支持，比如 DNSPod 和 阿里 DNS，详细 Webhook 列表请参考: <a href=https://cert-manager.io/docs/configuration/acme/dns01/#webhook target=_blank>https://cert-manager.io/docs/configuration/acme/dns01/#webhook</a></p><p>选择哪种方式呢？条件允许的话，建议是尽量用 <code>DNS-01</code> 的方式，限制更少，功能更全。</p><h2 id=参考文章>参考文章</h2><ul><li><a href=https://opensource.com/article/20/3/ssl-letsencrypt-k3s target=_blank>Make SSL certs easy with k3s</a></li><li><a href=https://www.thebookofjoel.com/k3s-cert-manager-letsencrypt target=_blank>https://www.thebookofjoel.com/k3s-cert-manager-letsencrypt</a></li><li><a href>使用 LetsEncrypt配置kubernetes ingress-nginx免费HTTPS证书</a></li><li><a href>cert-manager管理k8s集群证书</a></li><li><a href=https://blog.csdn.net/xichenguan/article/details/100709830 target=_blank>https://blog.csdn.net/xichenguan/article/details/100709830</a></li><li><a href=https://medium.com/@sms-astanley/custom-issuers-with-letsencrypt-and-rancher-ingress-2c89ab1b0a91 target=_blank>https://medium.com/@sms-astanley/custom-issuers-with-letsencrypt-and-rancher-ingress-2c89ab1b0a91</a></li></ul></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=K8s%e5%ae%89%e8%a3%85Cert%20Manager https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+</a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f&title=K8s%e5%ae%89%e8%a3%85Cert%20Manager" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://telegram.me/share/url?text=K8s%e5%ae%89%e8%a3%85Cert%20Manager&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f&title=K8s%e5%ae%89%e8%a3%85Cert%20Manager" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f" target=_blank rel="noopener noreferrer" title="Click to share on facebook"><i class="fa-brands fa-facebook fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://api.whatsapp.com/send?text=K8s%e5%ae%89%e8%a3%85Cert%20Manager%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f10%2finstall-cert-manager%2f" target=_blank rel="noopener noreferrer" title="Click to share on whatsapp"><i class="fa-brands fa-whatsapp fa-2xl" style=color:#007bb5></i></a></div></div></article><nav class="navigation post-navigation" role=navigation><h2 class=screen-reader-text>Post navigation</h2><div class=nav-links><div class=nav-previous><a href=/posts/2024/05/10/all-things-about-websocket/ rel=next><span class=post-title>All things about WebSocket</span></a></div><div class=nav-next><a href=/posts/2024/05/10/install-rancher/ rel=prev><span class=post-title>Rancher安装和部署-使用K8s</span></a></div></div></nav><h2>Related content</h2><ul><li><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li><li><a href=/posts/2024/07/10/minikube-quick-start/>Minikube快速入门</a></li><li><a href=/posts/2024/07/08/minions-in-minikube-a-kubernetes-intro-for-java-de/>[译]Minikube 中的 Minions - 面向 Java 开发人员的 Kubernetes 简介</a></li><li><a href=/posts/2024/07/08/kubernetes-for-java-developers/>[译]面向 Java 开发人员的 Kubernetes</a></li><li><a href=/posts/2024/05/11/argocd/>Argo CD安装和部署</a></li><li><a href=/posts/2024/05/10/install-rancher/>Rancher安装和部署-使用K8s</a></li><li><a href=/posts/2024/05/09/install-k3s/>安装k3s</a></li><li><a href=/posts/2024/05/09/install-k3s-using-k3d/>通过k3d安装k3s</a></li><li><a href=/posts/2024/05/09/install-k3s-using-k3sup/>通过k3sup安装k3s</a></li><li><a href=/tutorials/spring-boot-tutorials/>Spring Boot Tutorials</a></li></ul></main></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link><a href=/ target=_blank rel="noopener noreferrer">ChenSoul</a>
+Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer">Hugo</a>
+<a style=margin-left:20px href=/privacy_policy/ target=_blank rel="noopener noreferrer">Privacy Policy</a></span></div></footer></div></div><script type=text/javascript src=/main.min.js></script></body></html>

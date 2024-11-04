@@ -1,214 +1,48 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Maven on ChenSoul</title>
-    <link>https://blog.chensoul.cc/tags/maven/</link>
-    <description>Recent content in Maven on ChenSoul</description>
-    <generator>Hugo -- 0.136.5</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Thu, 01 Aug 2024 00:00:00 +0800</lastBuildDate>
-    <atom:link href="https://blog.chensoul.cc/tags/maven/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Github Action 发布 Jar 到 Maven 中央仓库</title>
-      <link>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</link>
-      <pubDate>Thu, 01 Aug 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</guid>
-      <description>&lt;p&gt;作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。&lt;/p&gt;
-&lt;p&gt;在过去,发布 Jar 到 Maven 中央仓库通常需要手动完成一系列繁琐的步骤，比如：申请 JIRA 账号、创建 Sonatype JIRA Issure、上传 Jar 包、签名 Jar 包等。但是随着 Github Action 的出现，这个过程变得更加自动化和简单。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>将 Maven 站点发布到 GitHub Pages</title>
-      <link>https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/</link>
-      <pubDate>Thu, 18 Jul 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/</guid>
-      <description>&lt;p&gt;本文源代码：&lt;a href=&#34;https://github.com/chensoul/maven-site-github-example/&#34; target=&#34;_blank&#34;&gt;https://github.com/chensoul/maven-site-github-example/&lt;/a&gt; 。&lt;/p&gt;
-&lt;h2 id=&#34;创建-java-maven-项目&#34;&gt;创建 Java Maven 项目&lt;/h2&gt;
-&lt;p&gt;让我们使用 Maven 创建一个简单的 Java 项目&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mvn archetype:generate &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DgroupId&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;com.mycompany.app &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DartifactId&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;maven-site-github-example &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DarchetypeArtifactId&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;maven-archetype-quickstart &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DarchetypeVersion&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;1.4 &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -DinteractiveMode&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;false&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这将创建包含 Maven 项目的&lt;em&gt;my-app&lt;/em&gt;文件夹。让我们进入该文件夹并确保它编译正常：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; maven-site-github-example
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mvn clean verify
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;我们还可以生成该项目的站点：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>搭建本地 Maven 仓库 Artifactory 开源版</title>
-      <link>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</link>
-      <pubDate>Tue, 25 Jun 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</guid>
-      <description>&lt;h2 id=&#34;安装-artifactory&#34;&gt;安装 Artifactory&lt;/h2&gt;
-&lt;p&gt;官方下载安装地址：&lt;a href=&#34;https://jfrog.com/community/download-artifactory-oss/&#34; target=&#34;_blank&#34;&gt;https://jfrog.com/community/download-artifactory-oss/&lt;/a&gt; ，支持三种安装方式：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Windows Installer&lt;/li&gt;
-&lt;li&gt;Linux Installers
-&lt;ul&gt;
-&lt;li&gt;tar.gz&lt;/li&gt;
-&lt;li&gt;RPM&lt;/li&gt;
-&lt;li&gt;Debian&lt;/li&gt;
-&lt;li&gt;Docker Compose&lt;/li&gt;
-&lt;li&gt;Docker&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Helm&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;手动下载并安装&#34;&gt;手动下载并安装&lt;/h3&gt;
-&lt;p&gt;安装包文件地址在 &lt;a href=&#34;https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/&#34; target=&#34;_blank&#34;&gt;https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/&lt;/a&gt; 。以当前最新版本 7.84.15 为例，在 linux 服务器上下载：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wget https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/7.84.15/jfrog-artifactory-oss-7.84.15-linux.tar.gz
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; tar -zxvf jfrog-artifactory-oss-7.84.15-linux.tar.gz
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; &lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; jfrog-artifactory-oss-7.84.15/app/bin
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; nohup ./artifactory.sh 
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;通过-docker-安装&#34;&gt;通过 docker 安装&lt;/h3&gt;
-&lt;p&gt;设置 JFROG_HOME 并创建目录：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;JFROG_HOME&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;~/.jfrog
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir -p &lt;span class=&#34;nv&#34;&gt;$JFROG_HOME&lt;/span&gt;/artifactory/var/etc/
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo chown -R 1030:1030 &lt;span class=&#34;nv&#34;&gt;$JFROG_HOME&lt;/span&gt;/artifactory/var
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo chmod -R &lt;span class=&#34;m&#34;&gt;777&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$JFROG_HOME&lt;/span&gt;/artifactory/var
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;touch &lt;span class=&#34;nv&#34;&gt;$JFROG_HOME&lt;/span&gt;/artifactory/var/etc/system.yaml
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;配置数据库。参考 &lt;a href=&#34;https://jfrog.com/help/r/jfrog-installation-setup-documentation/database-configuration&#34; target=&#34;_blank&#34;&gt;JFrog Recommends Using PostgreSQL&lt;/a&gt; ，Artifactory 7.84.7 之后，默认使用 postgresql 数据库。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>搭建本地Maven仓库Nexus</title>
-      <link>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</link>
-      <pubDate>Tue, 25 Jun 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</guid>
-      <description>&lt;h2 id=&#34;使用-docker-安装&#34;&gt;使用 Docker 安装&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ docker volume create --name nexus_data
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ docker run -d -p 8081:8081--name nexus -v nexus_data:/nexus-data sonatype/nexus3
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;8081 是 Nexus UI 端口&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;使用-docker-compose-安装&#34;&gt;使用 Docker Compose 安装&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;services&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;nexus&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;sonatype/nexus3&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;platform&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;linux/amd64&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;ports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;- &lt;span class=&#34;s2&#34;&gt;&amp;#34;8081:8081&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;nexus_data:/nexus-data&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;/etc/localtime:/etc/localtime:ro&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;nexus_data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;访问并配置-nexus&#34;&gt;访问并配置 Nexus&lt;/h2&gt;
-&lt;p&gt;访问 http://127.0.0.1:8081/  或者是 &lt;code&gt;http://&amp;lt;your IP&amp;gt;:8081&lt;/code&gt;，用户名为 admin ，初始密码在容器里的 /nexus-data/admin.password 文件&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>2024-01-04｜GitHub Actions</title>
-      <link>https://blog.chensoul.cc/posts/2024/01/04/til/</link>
-      <pubDate>Thu, 04 Jan 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/01/04/til/</guid>
-      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;修改个人联系方式&lt;/li&gt;
-&lt;li&gt;注销亚马逊账号&lt;/li&gt;
-&lt;li&gt;利用GitHub Actions自动优雅地为项目构建Releases&lt;/li&gt;
-&lt;li&gt;利用GitHub Actions自动构建项目的docker镜像并发布到DockerHub&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;修改个人联系方式&#34;&gt;修改个人联系方式&lt;/h2&gt;
-&lt;p&gt;使用 ichensoul 注册了新的 Gmail、163 邮箱，并将各种网站绑定的邮箱修改到新的 gmail 邮箱。自此，gmail、github、推特、微信、163 的账号都保持为一致，都是 ichensoul。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>2023-12-20｜Maven配置继承和生命周期、源码运行Nacos 2.3.0控制台</title>
-      <link>https://blog.chensoul.cc/posts/2023/12/20/til/</link>
-      <pubDate>Wed, 20 Dec 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/12/20/til/</guid>
-      <description>&lt;p&gt;Today I Learned. 今天分享内容：Maven配置继承和生命周期、源码运行Nacos 2.3.0控制台&lt;/p&gt;
-&lt;h2 id=&#34;maven-相关&#34;&gt;Maven 相关&lt;/h2&gt;
-&lt;h3 id=&#34;maven配置继承&#34;&gt;Maven配置继承&lt;/h3&gt;
-&lt;p&gt;以下是一些常见的POM节点，在子项目中可以继承或覆盖父项目的配置：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;groupId（项目组ID）：如果在子项目中未定义groupId，则将继承父项目的groupId。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>2023-12-13｜发布到Maven中央仓库的第一个项目</title>
-      <link>https://blog.chensoul.cc/posts/2023/12/13/til/</link>
-      <pubDate>Wed, 13 Dec 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/12/13/til/</guid>
-      <description>&lt;p&gt;Today I Learned. 今天分享内容：发布到 Maven 中央仓库的第一个项目。&lt;/p&gt;
-&lt;p&gt;最近在 Github 上创建了一个 Pom 类型的 Maven 项目 &lt;a href=&#34;https://github.com/chensoul/chensoul-parent/&#34; target=&#34;_blank&#34;&gt;chensoul-parent&lt;/a&gt;，该项目主页 &lt;a href=&#34;https://chensoul.github.io/chensoul-parent/&#34; target=&#34;_blank&#34;&gt;https://chensoul.github.io/chensoul-parent/&lt;/a&gt; ，这是我的第一个发布对 Maven 中央仓库的项目。&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;daily-review-20231213-00&#34; loading=&#34;lazy&#34; src=&#34;https://chensoul.oss-cn-hangzhou.aliyuncs.com/images/daily-review-20231213-00.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;其主要用途是管理常用的 Maven Plugin 插件。在编写该项目的过程中，参考了一些开源项目，他们分别是：&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Maven on ChenSoul</title><link>https://blog.chensoul.cc/tags/maven/</link><description>Recent content in Maven on ChenSoul</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 01 Aug 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/maven/index.xml" rel="self" type="application/rss+xml"/><item><title>Github Action 发布 Jar 到 Maven 中央仓库</title><link>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</link><pubDate>Thu, 01 Aug 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/</guid><description>&lt;p>作为一名 Java 开发者,将自己的项目发布到 Maven 中央仓库是一个非常重要的步骤。这不仅可以让更多的开发者发现和使用您的项目,也可以提高项目的知名度和影响力。&lt;/p></description></item><item><title>将 Maven 站点发布到 GitHub Pages</title><link>https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/</link><pubDate>Thu, 18 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/</guid><description>&lt;p>本文源代码：&lt;a href="https://github.com/chensoul/maven-site-github-example/" target="_blank">https://github.com/chensoul/maven-site-github-example/&lt;/a> 。&lt;/p>
+&lt;h2 id="创建-java-maven-项目">创建 Java Maven 项目&lt;/h2>
+&lt;p>让我们使用 Maven 创建一个简单的 Java 项目&lt;/p></description></item><item><title>搭建本地 Maven 仓库 Artifactory 开源版</title><link>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</link><pubDate>Tue, 25 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/06/25/install-artifactory-oss/</guid><description>&lt;h2 id="安装-artifactory">安装 Artifactory&lt;/h2>
+&lt;p>官方下载安装地址：&lt;a href="https://jfrog.com/community/download-artifactory-oss/" target="_blank">https://jfrog.com/community/download-artifactory-oss/&lt;/a> ，支持三种安装方式：&lt;/p>
+&lt;ul>
+&lt;li>Windows Installer&lt;/li>
+&lt;li>Linux Installers
+&lt;ul>
+&lt;li>tar.gz&lt;/li>
+&lt;li>RPM&lt;/li>
+&lt;li>Debian&lt;/li>
+&lt;li>Docker Compose&lt;/li>
+&lt;li>Docker&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Helm&lt;/li>
+&lt;/ul>
+&lt;h3 id="手动下载并安装">手动下载并安装&lt;/h3>
+&lt;p>安装包文件地址在 &lt;a href="https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/" target="_blank">https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/&lt;/a> 。以当前最新版本 7.84.15 为例，在 linux 服务器上下载：&lt;/p></description></item><item><title>搭建本地Maven仓库Nexus</title><link>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</link><pubDate>Tue, 25 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/06/25/install-nexus/</guid><description>&lt;h2 id="使用-docker-安装">使用 Docker 安装&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ docker volume create --name nexus_data
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker run -d -p 8081:8081--name nexus -v nexus_data:/nexus-data sonatype/nexus3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>8081 是 Nexus UI 端口&lt;/li>
+&lt;/ul>
+&lt;h2 id="使用-docker-compose-安装">使用 Docker Compose 安装&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">nexus&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">sonatype/nexus3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">platform&lt;/span>: &lt;span style="color:#ae81ff">linux/amd64&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;8081:8081&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">nexus_data:/nexus-data&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">/etc/localtime:/etc/localtime:ro&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">nexus_data&lt;/span>:
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="访问并配置-nexus">访问并配置 Nexus&lt;/h2>
+&lt;p>访问 http://127.0.0.1:8081/ 或者是 &lt;code>http://&amp;lt;your IP&amp;gt;:8081&lt;/code>，用户名为 admin ，初始密码在容器里的 /nexus-data/admin.password 文件&lt;/p></description></item><item><title>2024-01-04｜GitHub Actions</title><link>https://blog.chensoul.cc/posts/2024/01/04/til/</link><pubDate>Thu, 04 Jan 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/01/04/til/</guid><description>&lt;p>今天做了什么：&lt;/p>
+&lt;ul>
+&lt;li>修改个人联系方式&lt;/li>
+&lt;li>注销亚马逊账号&lt;/li>
+&lt;li>利用GitHub Actions自动优雅地为项目构建Releases&lt;/li>
+&lt;li>利用GitHub Actions自动构建项目的docker镜像并发布到DockerHub&lt;/li>
+&lt;/ul>
+&lt;h2 id="修改个人联系方式">修改个人联系方式&lt;/h2>
+&lt;p>使用 ichensoul 注册了新的 Gmail、163 邮箱，并将各种网站绑定的邮箱修改到新的 gmail 邮箱。自此，gmail、github、推特、微信、163 的账号都保持为一致，都是 ichensoul。&lt;/p></description></item><item><title>2023-12-20｜Maven配置继承和生命周期、源码运行Nacos 2.3.0控制台</title><link>https://blog.chensoul.cc/posts/2023/12/20/til/</link><pubDate>Wed, 20 Dec 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/12/20/til/</guid><description>&lt;p>Today I Learned. 今天分享内容：Maven配置继承和生命周期、源码运行Nacos 2.3.0控制台&lt;/p></description></item><item><title>2023-12-13｜发布到Maven中央仓库的第一个项目</title><link>https://blog.chensoul.cc/posts/2023/12/13/til/</link><pubDate>Wed, 13 Dec 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/12/13/til/</guid><description>&lt;p>Today I Learned. 今天分享内容：发布到 Maven 中央仓库的第一个项目。&lt;/p></description></item></channel></rss>

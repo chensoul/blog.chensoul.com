@@ -1,653 +1,298 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>将 Maven 站点发布到 GitHub Pages | ChenSoul</title>
-<meta name=keywords content="maven"><meta name=description content="本文源代码：https://github.com/chensoul/maven-site-github-example/ 。
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="本文源代码：https://github.com/chensoul/maven-site-github-example/ 。
 创建 Java Maven 项目
-让我们使用 Maven 创建一个简单的 Java 项目
-
-
-1
-2
-3
-4
-5
-6
-
-
-mvn archetype:generate \
-    -DgroupId=com.mycompany.app \
-    -DartifactId=maven-site-github-example \
-    -DarchetypeArtifactId=maven-archetype-quickstart \
-    -DarchetypeVersion=1.4 \
-    -DinteractiveMode=false
-
-
-这将创建包含 Maven 项目的my-app文件夹。让我们进入该文件夹并确保它编译正常：
-
-
-1
-2
-
-
-cd maven-site-github-example
-mvn clean verify
-
-
-我们还可以生成该项目的站点："><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/><meta name=google-site-verification content="nBXwg45SBRjTX78SA-mH0asrAbsdu9c1nk0ObSry7aQ"><link crossorigin=anonymous href=/assets/css/stylesheet.899d9a536396b9b03c9eae0c99cc6ec954a90da94036f5390d131eb8071bb417.css integrity="sha256-iZ2aU2OWubA8nq4MmcxuyVSpDalANvU5DRMeuAcbtBc=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://blog.chensoul.cc/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://blog.chensoul.cc/favicon-32x32.png><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=mask-icon href=https://blog.chensoul.cc/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><meta property="og:title" content="将 Maven 站点发布到 GitHub Pages"><meta property="og:description" content="本文源代码：https://github.com/chensoul/maven-site-github-example/ 。
-创建 Java Maven 项目
-让我们使用 Maven 创建一个简单的 Java 项目
-
-
-1
-2
-3
-4
-5
-6
-
-
-mvn archetype:generate \
-    -DgroupId=com.mycompany.app \
-    -DartifactId=maven-site-github-example \
-    -DarchetypeArtifactId=maven-archetype-quickstart \
-    -DarchetypeVersion=1.4 \
-    -DinteractiveMode=false
-
-
-这将创建包含 Maven 项目的my-app文件夹。让我们进入该文件夹并确保它编译正常：
-
-
-1
-2
-
-
-cd maven-site-github-example
-mvn clean verify
-
-
-我们还可以生成该项目的站点："><meta property="og:type" content="article"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-07-18T00:00:00+08:00"><meta property="article:modified_time" content="2024-07-18T00:00:00+08:00"><meta property="og:site_name" content="ChenSoul"><meta name=twitter:card content="summary"><meta name=twitter:title content="将 Maven 站点发布到 GitHub Pages"><meta name=twitter:description content="本文源代码：https://github.com/chensoul/maven-site-github-example/ 。
-创建 Java Maven 项目
-让我们使用 Maven 创建一个简单的 Java 项目
-
-
-1
-2
-3
-4
-5
-6
-
-
-mvn archetype:generate \
-    -DgroupId=com.mycompany.app \
-    -DartifactId=maven-site-github-example \
-    -DarchetypeArtifactId=maven-archetype-quickstart \
-    -DarchetypeVersion=1.4 \
-    -DinteractiveMode=false
-
-
-这将创建包含 Maven 项目的my-app文件夹。让我们进入该文件夹并确保它编译正常：
-
-
-1
-2
-
-
-cd maven-site-github-example
-mvn clean verify
-
-
-我们还可以生成该项目的站点："><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://blog.chensoul.cc/posts/"},{"@type":"ListItem","position":2,"name":"将 Maven 站点发布到 GitHub Pages","item":"https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"将 Maven 站点发布到 GitHub Pages","name":"将 Maven 站点发布到 GitHub Pages","description":"本文源代码：https://github.com/chensoul/maven-site-github-example/ 。\n创建 Java Maven 项目 让我们使用 Maven 创建一个简单的 Java 项目\n1 2 3 4 5 6 mvn archetype:generate \\ -DgroupId=com.mycompany.app \\ -DartifactId=maven-site-github-example \\ -DarchetypeArtifactId=maven-archetype-quickstart \\ -DarchetypeVersion=1.4 \\ -DinteractiveMode=false 这将创建包含 Maven 项目的my-app文件夹。让我们进入该文件夹并确保它编译正常：\n1 2 cd maven-site-github-example mvn clean verify 我们还可以生成该项目的站点：\n","keywords":["maven"],"articleBody":"本文源代码：https://github.com/chensoul/maven-site-github-example/ 。\n创建 Java Maven 项目 让我们使用 Maven 创建一个简单的 Java 项目\n1 2 3 4 5 6 mvn archetype:generate \\ -DgroupId=com.mycompany.app \\ -DartifactId=maven-site-github-example \\ -DarchetypeArtifactId=maven-archetype-quickstart \\ -DarchetypeVersion=1.4 \\ -DinteractiveMode=false 这将创建包含 Maven 项目的my-app文件夹。让我们进入该文件夹并确保它编译正常：\n1 2 cd maven-site-github-example mvn clean verify 我们还可以生成该项目的站点：\n1 mvn clean site 该站点将在target/site文件夹中生成，可以使用浏览器打开；例如，让我们打开它的 index.html：\n1 chrome target/site/index.html 创建 github 项目 在你的 github 上创建一个项目 maven-site-github-example，然后在本地的 maven-site-github-example 目录提交代码：\n1 2 3 4 5 6 7 echo \"# maven-site-github-example\" \u003e\u003e README.md git init git add . git commit -m \"first commit\" git branch -M main git remote add origin git@github.com:chensoul/maven-site-github-example.git git push -u origin main GitHub Page 设置 现在我们必须在 Git 存储库上创建 gh-pages分支。\n1 2 3 4 git checkout --orphan gh-pages rm .git/index ; git clean -fdx echo \"It works\" \u003e index.html git add . \u0026\u0026 git commit -m \"initial site content\" \u0026\u0026 git push origin gh-pages 相应的网站将发布在你的 GitHub 项目的相应 URL 中；访问地址：https://chensoul.github.io/maven-site-github-example：\n现在我们可以回到 主分支：\n1 git checkout main Maven POM 配置 让我们看看如何配置我们的 POM 以自动将 Maven 站点发布到 GitHub 页面。\n在 pluginManagement 部分中添加 maven-scm-publish-plugin：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 org.apache.maven.plugins maven-scm-publish-plugin 3.0.0 gh-pages true maven-scm-publish-plugin 插件需要以下参数，参考 https://maven.apache.org/plugins/maven-scm-publish-plugin/publish-scm-mojo.html：\ntryUpdate： 参数用于指定是否尝试更新源代码管理（SCM）提供商中的项目文件。 当你运行 mvn scm-publish:publish-scm 命令来发布 Maven 项目时，插件会检查 SCM 提供商中的项目文件是否与本地生成的网站内容一致。如果存在差异，插件默认情况下会拒绝发布，并显示错误消息。\n通过将 tryUpdate 参数设置为 true，你可以告诉插件尝试更新 SCM 提供商中的项目文件，以使其与本地生成的网站内容保持一致。如果更新成功，插件将继续发布网站。否则，插件将显示错误消息。\n以下是使用 tryUpdate 参数的示例命令：\n1 mvn scm-publish:publish-scm -Dscmpublish.tryUpdate=true 请注意，使用 tryUpdate 参数时，插件将直接修改 SCM 提供商中的项目文件。因此，在使用此参数之前，请确保你对 SCM 提供商中的项目文件进行了适当的备份，并且了解潜在的风险。\npubScmUrl：必须，用于指定发布到源代码管理（SCM）提供商的网站的URL。\n格式：scm: 默认值：${project.distributionManagement.site.url}，可以通过 scmpublish.pubScmUrl 属性设置。 scmBranch：非必须，scm分支用于指定源代码管理（SCM）分支的名称。例如：对应 github，应该是 gh-pages\n没有默认值，可以通过 scmpublish.scm.branch 设置 serverId：非必须，是 Maven 中用于标识服务器配置的标识符\n默认值：${project.distributionManagement.site.id}，可以通过 scmpublish.serverId 属性设置。 下面是一个示例的服务器配置段落：\n1 2 3 4 5 6 7 8 9 10 11 my-server my-username my-password 在上述示例中，my-server 是 serverId，用于标识服务器配置。你可以根据需要添加多个服务器配置，每个配置都应该有唯一的 serverId。\n当你在 Maven 项目中引用这些服务器配置时，可以使用相应的 serverId 来指定要应用的服务器配置。\n例如，当你需要在 Maven 项目中使用某个服务器配置时，可以在项目的 pom.xml 文件中配置如下：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ... ... my-server 在上述示例中，my-server 指定了要应用的服务器配置。这样，Maven 在构建过程中将使用相应的服务器配置。\n请注意，serverId 的值必须与 settings.xml 文件中配置的服务器配置的 id 保持一致。\nusername：非必须，SCM 用户名\n默认从 serverId 指定的 settings.xml 中的 username 读取，可以通过 username 设置 password：非必须，SCM 密码\n默认从 serverId 指定的 settings.xml 中的 password 读取，可以通过 password 设置 从上面的参数说明，可以看出：\nmaven-scm-publish-plugin 插件优先读取 project.distributionManagement.site 节点，所以可以在 pom.xml 中配置一个 site 节点，比如：\n1 2 3 4 5 6 github scm:git:git@github.com:chensoul/maven-site-github-example.git 其次，读取 scmpublish.serverId 属性，然后去 settings.xml 中获取 username 和密码，这时候需要配置 settings.xml：\n1 2 3 4 5 6 7 github chensoul ghp_XXXXXXXXXXXXXXXXXX 发布网站 在配置了 project.distributionManagement.site 之后，将 Maven 站点发布到 GitHub 页面只需运行以下命令：\n1 mvn clean site scm-publish:publish-scm clean：删除 target 目录\nsite：命令用于生成 Maven 项目的网站\nscm-publish:publish-scm：用于将 Maven 项目发布到源代码管理（SCM）提供商\n要使用 mvn scm-publish:publish-scm 命令发布 Maven 项目，请按照以下步骤进行操作：\n确保你的 Maven 项目已经配置了适当的 SCM 插件，以便与你使用的源代码管理系统进行集成。在项目的 pom.xml 文件中，你需要添加 SCM 配置，包括 SCM URL、连接信息和凭据等。例如，对于 Git，你可以添加以下配置： 1 2 3 4 5 scm:git:git@github.com:/.git scm:git:git@github.com:/.git https://github.com// 请将 替换为你的 GitHub 用户名， 替换为你的仓库名称。\n打开终端或命令提示符。\n使用 cd 命令导航到 Maven 项目的根目录。\n运行以下命令：\n1 mvn scm-publish:publish-scm Maven 将执行 SCM Publish 插件，将项目发布到指定的 SCM 提供商。\n从日志可以看出 git 推送提交的命令：'git' 'push' 'git@github.com:chensoul/maven-site-github-example.git' 'refs/heads/gh-pages:refs/heads/gh-pages'\n1 2 3 4 5 6 7 8 9 [INFO] Executing: /bin/sh -c cd '/Users/chensoul/Codes/github/maven-site-github-example/target/scmpublish-checkout' \u0026\u0026 'git' 'push' 'git@github.com:chensoul/maven-site-github-example.git' 'refs/heads/gh-pages:refs/heads/gh-pages' [INFO] Working directory: /Users/chensoul/Codes/github/maven-site-github-example/target/scmpublish-checkout [INFO] Checked in 24 file(s) to revision null in 0 h 0 m 4 s [INFO] ------------------------------------------------------------------------ [INFO] BUILD SUCCESS [INFO] ------------------------------------------------------------------------ [INFO] Total time: 21.115 s [INFO] Finished at: 2024-07-18T10:25:58+08:00 [INFO] ------------------------------------------------------------------------ 这里使用的是通过 ssh 协议提交，能够提交成功，是因为我已将本地的 ssh 公钥配置到 github。\n现在该网站位于 GitHub Pages 上：\n如果不配置 project.distributionManagement.site ，注释 distributionManagement 节点，这需要配置 scmpublish.pubScmUrl，可以在 pom.xml 中设置：\n1 2 3 4 5 6 7 8 9 10 11 12 ${project.reporting.outputDirectory} scm:git:git@github.com:chensoul/maven-site-github-example.git gh-pages 再次运行：\n1 mvn clean site scm-publish:publish-scm 美化网站 使用 maven-archetype-site 美化网站：\n1 2 3 4 5 6 7 mvn archetype:generate \\ -DgroupId=com.mycompany.app \\ -DartifactId=maven-site-github-example \\ -DarchetypeGroupId=org.apache.maven.archetypes \\ -DarchetypeArtifactId=maven-archetype-site \\ -DarchetypeVersion=1.4 \\ -DinteractiveMode=false 执行成功之后，src 目录下新增了一个 site 目录，并且POM中添加了 maven-project-info-reports-plugin 和 i18n 本地化的一些配置。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 org.apache.maven.plugins maven-scm-publish-plugin 3.0.0 gh-pages maven-site-plugin en,fr maven-project-info-reports-plugin 此外，最终网站将使用新皮肤 maven-fluido-skin。src/site/site.xml 内容如下：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 \u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e ","wordCount":"3865","inLanguage":"en","datePublished":"2024-07-18T00:00:00+08:00","dateModified":"2024-07-18T00:00:00+08:00","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/"},"publisher":{"@type":"Organization","name":"ChenSoul","logo":{"@type":"ImageObject","url":"https://blog.chensoul.cc/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories title=分类><span>分类</span></a></li><li><a href=https://blog.chensoul.cc/tags title=标签><span>标签</span></a></li><li><a href=https://blog.chensoul.cc/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://blog.chensoul.cc/index.xml title=订阅><span>订阅</span></a></li><li><a href=https://github.com/chensoul title=关于><span>关于</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">将 Maven 站点发布到 GitHub Pages</h1><div class=post-meta><span title='2024-07-18 00:00:00 +0800 CST'>2024-07-18</span>&nbsp;·&nbsp;8 min&nbsp;·&nbsp;3865 words&nbsp;·&nbsp;chensoul</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#%e5%88%9b%e5%bb%ba-java-maven-%e9%a1%b9%e7%9b%ae aria-label="创建 Java Maven 项目">创建 Java Maven 项目</a></li><li><a href=#%e5%88%9b%e5%bb%ba-github-%e9%a1%b9%e7%9b%ae aria-label="创建 github 项目">创建 github 项目</a></li><li><a href=#github-page-%e8%ae%be%e7%bd%ae aria-label="GitHub Page 设置">GitHub Page 设置</a></li><li><a href=#maven-pom-%e9%85%8d%e7%bd%ae aria-label="Maven POM 配置">Maven POM 配置</a></li><li><a href=#%e5%8f%91%e5%b8%83%e7%bd%91%e7%ab%99 aria-label=发布网站>发布网站</a></li><li><a href=#%e7%be%8e%e5%8c%96%e7%bd%91%e7%ab%99 aria-label=美化网站>美化网站</a></li><li><a href=#github-action%e9%85%8d%e7%bd%ae aria-label="Github Action配置">Github Action配置</a></li></ul></div></details></div><div class=post-content><p>本文源代码：<a href=https://github.com/chensoul/maven-site-github-example/ target=_blank>https://github.com/chensoul/maven-site-github-example/</a> 。</p><h2 id=创建-java-maven-项目>创建 Java Maven 项目<a hidden class=anchor aria-hidden=true href=#创建-java-maven-项目>#</a></h2><p>让我们使用 Maven 创建一个简单的 Java 项目</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mvn archetype:generate <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -DgroupId<span class=o>=</span>com.mycompany.app <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -DartifactId<span class=o>=</span>maven-site-github-example <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -DarchetypeArtifactId<span class=o>=</span>maven-archetype-quickstart <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -DarchetypeVersion<span class=o>=</span>1.4 <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -DinteractiveMode<span class=o>=</span><span class=nb>false</span>
-</span></span></code></pre></td></tr></table></div></div><p>这将创建包含 Maven 项目的<em>my-app</em>文件夹。让我们进入该文件夹并确保它编译正常：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>cd</span> maven-site-github-example
-</span></span><span class=line><span class=cl>mvn clean verify
-</span></span></code></pre></td></tr></table></div></div><p>我们还可以生成该项目的站点：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mvn clean site
-</span></span></code></pre></td></tr></table></div></div><p><em>该站点将在target/site</em>文件夹中生成，可以使用浏览器打开；例如，让我们打开它的 <em>index.html</em>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>chrome target/site/index.html
-</span></span></code></pre></td></tr></table></div></div><p><img alt=maven-my-app-index loading=lazy src=http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/maven-my-app-index.png></p><h2 id=创建-github-项目>创建 github 项目<a hidden class=anchor aria-hidden=true href=#创建-github-项目>#</a></h2><p>在你的 github 上创建一个项目 maven-site-github-example，然后在本地的 maven-site-github-example 目录提交代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;# maven-site-github-example&#34;</span> &gt;&gt; README.md
-</span></span><span class=line><span class=cl>git init
-</span></span><span class=line><span class=cl>git add .
-</span></span><span class=line><span class=cl>git commit -m <span class=s2>&#34;first commit&#34;</span>
-</span></span><span class=line><span class=cl>git branch -M main
-</span></span><span class=line><span class=cl>git remote add origin git@github.com:chensoul/maven-site-github-example.git
-</span></span><span class=line><span class=cl>git push -u origin main
-</span></span></code></pre></td></tr></table></div></div><h2 id=github-page-设置>GitHub Page 设置<a hidden class=anchor aria-hidden=true href=#github-page-设置>#</a></h2><p>现在我们必须在 Git 存储库上创建 <strong>gh-pages</strong>分支。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git checkout --orphan gh-pages 
-</span></span><span class=line><span class=cl>rm .git/index <span class=p>;</span> git clean -fdx 
-</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;It works&#34;</span> &gt; index.html 
-</span></span><span class=line><span class=cl>git add . <span class=o>&amp;&amp;</span> git commit -m <span class=s2>&#34;initial site content&#34;</span> <span class=o>&amp;&amp;</span> git push origin gh-pages 
-</span></span></code></pre></td></tr></table></div></div><p>相应的网站将发布在你的 GitHub 项目的相应 URL 中；访问地址：https://chensoul.github.io/maven-site-github-example：</p><p><img alt=maven-my-app-github-page-index loading=lazy src=http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/maven-my-app-github-page-index.png></p><p>现在我们可以回到 <strong>主</strong>分支：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git checkout main
-</span></span></code></pre></td></tr></table></div></div><h2 id=maven-pom-配置>Maven POM 配置<a hidden class=anchor aria-hidden=true href=#maven-pom-配置>#</a></h2><p>让我们看看如何配置我们的 POM 以自动将 Maven 站点发布到 GitHub 页面。</p><p>在 pluginManagement 部分中添加 maven-scm-publish-plugin：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;build&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;pluginManagement&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;plugins&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;groupId&gt;</span>org.apache.maven.plugins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;artifactId&gt;</span>maven-scm-publish-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;version&gt;</span>3.0.0<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>                    <span class=nt>&lt;scmBranch&gt;</span>gh-pages<span class=nt>&lt;/scmBranch&gt;</span>
-</span></span><span class=line><span class=cl>                  	<span class=nt>&lt;tryUpdate&gt;</span>true<span class=nt>&lt;/tryUpdate&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;/configuration&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;/plugins&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/pluginManagement&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/build&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>maven-scm-publish-plugin 插件需要以下参数，参考 <a href=https://maven.apache.org/plugins/maven-scm-publish-plugin/publish-scm-mojo.html target=_blank>https://maven.apache.org/plugins/maven-scm-publish-plugin/publish-scm-mojo.html</a>：</p><ul><li><strong>tryUpdate</strong>： 参数用于指定是否尝试更新源代码管理（SCM）提供商中的项目文件。</li></ul><blockquote><p>当你运行 <code>mvn scm-publish:publish-scm</code> 命令来发布 Maven 项目时，插件会检查 SCM 提供商中的项目文件是否与本地生成的网站内容一致。如果存在差异，插件默认情况下会拒绝发布，并显示错误消息。</p><p>通过将 <code>tryUpdate</code> 参数设置为 <code>true</code>，你可以告诉插件尝试更新 SCM 提供商中的项目文件，以使其与本地生成的网站内容保持一致。如果更新成功，插件将继续发布网站。否则，插件将显示错误消息。</p><p>以下是使用 <code>tryUpdate</code> 参数的示例命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mvn scm-publish:publish-scm -Dscmpublish.tryUpdate<span class=o>=</span><span class=nb>true</span>
-</span></span></code></pre></td></tr></table></div></div><p>请注意，使用 <code>tryUpdate</code> 参数时，插件将直接修改 SCM 提供商中的项目文件。因此，在使用此参数之前，请确保你对 SCM 提供商中的项目文件进行了适当的备份，并且了解潜在的风险。</p></blockquote><ul><li><p><strong>pubScmUrl</strong>：必须，用于指定发布到源代码管理（SCM）提供商的网站的URL。</p><ul><li>格式：<code>scm:&lt;scm_provider>&lt;delimiter>&lt;provider_specific_part></code></li><li>默认值：<code>${project.distributionManagement.site.url}</code>，可以通过 <code>scmpublish.pubScmUrl</code> 属性设置。</li></ul></li><li><p><strong>scmBranch</strong>：非必须，scm分支用于指定源代码管理（SCM）分支的名称。例如：对应 github，应该是 gh-pages</p><ul><li>没有默认值，可以通过 <code>scmpublish.scm.branch</code> 设置</li></ul></li><li><p><strong>serverId</strong>：非必须，是 Maven 中用于标识服务器配置的标识符</p><ul><li>默认值：<code>${project.distributionManagement.site.id}</code>，可以通过 <code>scmpublish.serverId</code> 属性设置。</li></ul><blockquote><p>下面是一个示例的服务器配置段落：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;settings&gt;</span>
-</span></span><span class=line><span class=cl> <span class=nt>&lt;servers&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=nt>&lt;server&gt;</span>
-</span></span><span class=line><span class=cl>     <span class=nt>&lt;id&gt;</span>my-server<span class=nt>&lt;/id&gt;</span>
-</span></span><span class=line><span class=cl>     <span class=nt>&lt;username&gt;</span>my-username<span class=nt>&lt;/username&gt;</span>
-</span></span><span class=line><span class=cl>     <span class=nt>&lt;password&gt;</span>my-password<span class=nt>&lt;/password&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=nt>&lt;/server&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=c>&lt;!-- Additional server configurations --&gt;</span>
-</span></span><span class=line><span class=cl> <span class=nt>&lt;/servers&gt;</span>
-</span></span><span class=line><span class=cl> <span class=c>&lt;!-- Other Maven settings --&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/settings&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>在上述示例中，<code>my-server</code> 是 <code>serverId</code>，用于标识服务器配置。你可以根据需要添加多个服务器配置，每个配置都应该有唯一的 <code>serverId</code>。</p><p>当你在 Maven 项目中引用这些服务器配置时，可以使用相应的 <code>serverId</code> 来指定要应用的服务器配置。</p><p>例如，当你需要在 Maven 项目中使用某个服务器配置时，可以在项目的 <code>pom.xml</code> 文件中配置如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;project&gt;</span>
-</span></span><span class=line><span class=cl> <span class=c>&lt;!-- Other project configurations --&gt;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl> <span class=nt>&lt;build&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=nt>&lt;plugins&gt;</span>
-</span></span><span class=line><span class=cl>     <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>       <span class=nt>&lt;groupId&gt;</span>...<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>       <span class=nt>&lt;artifactId&gt;</span>...<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>       <span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>         <span class=nt>&lt;serverId&gt;</span>my-server<span class=nt>&lt;/serverId&gt;</span>
-</span></span><span class=line><span class=cl>         <span class=c>&lt;!-- Other plugin configurations --&gt;</span>
-</span></span><span class=line><span class=cl>       <span class=nt>&lt;/configuration&gt;</span>
-</span></span><span class=line><span class=cl>     <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>   <span class=nt>&lt;/plugins&gt;</span>
-</span></span><span class=line><span class=cl> <span class=nt>&lt;/build&gt;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl> <span class=c>&lt;!-- Other project configurations --&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/project&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>在上述示例中，<code>&lt;serverId>my-server&lt;/serverId></code> 指定了要应用的服务器配置。这样，Maven 在构建过程中将使用相应的服务器配置。</p><p>请注意，<code>serverId</code> 的值必须与 <code>settings.xml</code> 文件中配置的服务器配置的 <code>id</code> 保持一致。</p></blockquote></li><li><p><strong>username</strong>：非必须，SCM 用户名</p><ul><li>默认从 serverId 指定的 settings.xml 中的 username 读取，可以通过 <code>username</code> 设置</li></ul></li><li><p><strong>password</strong>：非必须，SCM 密码</p><ul><li>默认从 serverId 指定的 settings.xml 中的 password 读取，可以通过 <code>password</code> 设置</li></ul></li></ul><p>从上面的参数说明，可以看出：</p><ul><li><p>maven-scm-publish-plugin 插件优先读取 <code>project.distributionManagement.site</code> 节点，所以可以在 pom.xml 中配置一个 site 节点，比如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;distributionManagement&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;site&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;id&gt;</span>github<span class=nt>&lt;/id&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;url&gt;</span>scm:git:git@github.com:chensoul/maven-site-github-example.git<span class=nt>&lt;/url&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/site&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/distributionManagement&gt;</span>
-</span></span></code></pre></td></tr></table></div></div></li><li><p>其次，读取 <code>scmpublish.serverId</code> 属性，然后去 settings.xml 中获取 username 和密码，这时候需要配置 settings.xml：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;servers&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;server&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;id&gt;</span>github<span class=nt>&lt;/id&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;username&gt;</span>chensoul<span class=nt>&lt;/username&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;password&gt;</span>ghp_XXXXXXXXXXXXXXXXXX<span class=nt>&lt;/password&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/server&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/servers&gt;</span>
-</span></span></code></pre></td></tr></table></div></div></li></ul><h2 id=发布网站>发布网站<a hidden class=anchor aria-hidden=true href=#发布网站>#</a></h2><p>在配置了 <code>project.distributionManagement.site</code> 之后，将 Maven 站点发布到 GitHub 页面只需运行以下命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mvn clean site scm-publish:publish-scm
-</span></span></code></pre></td></tr></table></div></div><ul><li><p><code>clean</code>：删除 target 目录</p></li><li><p><code>site</code>：命令用于生成 Maven 项目的网站</p></li><li><p><code>scm-publish:publish-scm</code>：用于将 Maven 项目发布到源代码管理（SCM）提供商</p><blockquote><p>要使用 <code>mvn scm-publish:publish-scm</code> 命令发布 Maven 项目，请按照以下步骤进行操作：</p><ol><li>确保你的 Maven 项目已经配置了适当的 SCM 插件，以便与你使用的源代码管理系统进行集成。在项目的 <code>pom.xml</code> 文件中，你需要添加 SCM 配置，包括 SCM URL、连接信息和凭据等。例如，对于 Git，你可以添加以下配置：</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;scm&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;connection&gt;</span>scm:git:git@github.com:<span class=nt>&lt;username&gt;</span>/<span class=nt>&lt;repository&gt;</span>.git<span class=nt>&lt;/connection&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;developerConnection&gt;</span>scm:git:git@github.com:<span class=nt>&lt;username&gt;</span>/<span class=nt>&lt;repository&gt;</span>.git<span class=nt>&lt;/developerConnection&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;url&gt;</span>https://github.com/<span class=nt>&lt;username&gt;</span>/<span class=nt>&lt;repository&gt;&lt;/url&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/scm&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>请将 <code>&lt;username></code> 替换为你的 GitHub 用户名，<code>&lt;repository></code> 替换为你的仓库名称。</p><ol start=2><li><p>打开终端或命令提示符。</p></li><li><p>使用 <code>cd</code> 命令导航到 Maven 项目的根目录。</p></li><li><p>运行以下命令：</p></li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mvn scm-publish:publish-scm
-</span></span></code></pre></td></tr></table></div></div><p>Maven 将执行 SCM Publish 插件，将项目发布到指定的 SCM 提供商。</p></blockquote></li></ul><p>从日志可以看出 git 推送提交的命令：<code>'git' 'push' 'git@github.com:chensoul/maven-site-github-example.git' 'refs/heads/gh-pages:refs/heads/gh-pages'</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> Executing: /bin/sh -c <span class=nb>cd</span> <span class=s1>&#39;/Users/chensoul/Codes/github/maven-site-github-example/target/scmpublish-checkout&#39;</span> <span class=o>&amp;&amp;</span> <span class=s1>&#39;git&#39;</span> <span class=s1>&#39;push&#39;</span> <span class=s1>&#39;git@github.com:chensoul/maven-site-github-example.git&#39;</span> <span class=s1>&#39;refs/heads/gh-pages:refs/heads/gh-pages&#39;</span>
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> Working directory: /Users/chensoul/Codes/github/maven-site-github-example/target/scmpublish-checkout
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> Checked in <span class=m>24</span> file<span class=o>(</span>s<span class=o>)</span> to revision null in <span class=m>0</span> h <span class=m>0</span> m <span class=m>4</span> s
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> ------------------------------------------------------------------------
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> BUILD SUCCESS
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> ------------------------------------------------------------------------
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> Total time:  21.115 s
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> Finished at: 2024-07-18T10:25:58+08:00
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> ------------------------------------------------------------------------
-</span></span></code></pre></td></tr></table></div></div><p>这里使用的是通过 ssh 协议提交，能够提交成功，是因为我已将本地的 ssh 公钥配置到 <a href=https://github.com/settings/keys target=_blank>github</a>。</p><p>现在该网站位于 GitHub Pages 上：</p><p><img alt=maven-my-app-github-index loading=lazy src=http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/maven-my-app-github-index.png></p><p>如果不配置 <code>project.distributionManagement.site</code> ，注释 distributionManagement 节点，这需要配置 scmpublish.pubScmUrl，可以在 pom.xml 中设置：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;properties&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;scmpublish.content&gt;</span>${project.reporting.outputDirectory}<span class=nt>&lt;/scmpublish.content&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;scmpublish.pubScmUrl&gt;</span>scm:git:git@github.com:chensoul/maven-site-github-example.git<span class=nt>&lt;/scmpublish.pubScmUrl&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;scmpublish.scm.branch&gt;</span>gh-pages<span class=nt>&lt;/scmpublish.scm.branch&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/properties&gt;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c>&lt;!--    &lt;distributionManagement&gt;--&gt;</span>
-</span></span><span class=line><span class=cl><span class=c>&lt;!--        &lt;site&gt;--&gt;</span>
-</span></span><span class=line><span class=cl><span class=c>&lt;!--            &lt;id&gt;github&lt;/id&gt;--&gt;</span>
-</span></span><span class=line><span class=cl><span class=c>&lt;!--            &lt;url&gt;scm:git:git@github.com:chensoul/maven-site-github-example.git&lt;/url&gt;--&gt;</span>
-</span></span><span class=line><span class=cl><span class=c>&lt;!--        &lt;/site&gt;--&gt;</span>
-</span></span><span class=line><span class=cl><span class=c>&lt;!--    &lt;/distributionManagement&gt;--&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>再次运行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mvn clean site scm-publish:publish-scm
-</span></span></code></pre></td></tr></table></div></div><h2 id=美化网站>美化网站<a hidden class=anchor aria-hidden=true href=#美化网站>#</a></h2><p>使用 <a href=https://maven.apache.org/archetypes/maven-archetype-site/ target=_blank>maven-archetype-site</a> 美化网站：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mvn archetype:generate <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -DgroupId<span class=o>=</span>com.mycompany.app <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -DartifactId<span class=o>=</span>maven-site-github-example <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -DarchetypeGroupId<span class=o>=</span>org.apache.maven.archetypes <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -DarchetypeArtifactId<span class=o>=</span>maven-archetype-site <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -DarchetypeVersion<span class=o>=</span>1.4 <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -DinteractiveMode<span class=o>=</span><span class=nb>false</span>
-</span></span></code></pre></td></tr></table></div></div><p>执行成功之后，src 目录下新增了一个 site 目录，并且POM中添加了 maven-project-info-reports-plugin 和 i18n 本地化的一些配置。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;build&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;pluginManagement&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;plugins&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;groupId&gt;</span>org.apache.maven.plugins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;artifactId&gt;</span>maven-scm-publish-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;version&gt;</span>3.0.0<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>                    <span class=nt>&lt;scmBranch&gt;</span>gh-pages<span class=nt>&lt;/scmBranch&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;/configuration&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;/plugins&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/pluginManagement&gt;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;plugins&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;artifactId&gt;</span>maven-site-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>                <span class=nt>&lt;locales&gt;</span>en,fr<span class=nt>&lt;/locales&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;/configuration&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/plugins&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/build&gt;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=nt>&lt;reporting&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;plugins&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>            <span class=nt>&lt;artifactId&gt;</span>maven-project-info-reports-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;/plugin&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/plugins&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/reporting&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>此外，最终网站将使用新皮肤 maven-fluido-skin。src/site/site.xml 内容如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=cp>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=nt>&lt;project</span> <span class=na>name=</span><span class=s>&#34;${artifactId}&#34;</span>
-</span></span><span class=line><span class=cl>  <span class=na>xmlns=</span><span class=s>&#34;http://maven.apache.org/DECORATION/1.8.0&#34;</span> <span class=na>xmlns:xsi=</span><span class=s>&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
-</span></span><span class=line><span class=cl>  <span class=na>xsi:schemaLocation=</span><span class=s>&#34;http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd&#34;</span><span class=nt>&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;bannerLeft&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;name&gt;</span>${artifactId}<span class=nt>&lt;/name&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;src&gt;</span>https://maven.apache.org/images/apache-maven-project.png<span class=nt>&lt;/src&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;href&gt;</span>https://www.apache.org/<span class=nt>&lt;/href&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/bannerLeft&gt;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;bannerRight&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;src&gt;</span>https://maven.apache.org/images/maven-logo-black-on-white.png<span class=nt>&lt;/src&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;href&gt;</span>https://maven.apache.org/<span class=nt>&lt;/href&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/bannerRight&gt;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;skin&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;groupId&gt;</span>org.apache.maven.skins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;artifactId&gt;</span>maven-fluido-skin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;version&gt;</span>1.7<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/skin&gt;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;body&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;links&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;item</span> <span class=na>name=</span><span class=s>&#34;Apache&#34;</span> <span class=na>href=</span><span class=s>&#34;http://www.apache.org/&#34;</span> <span class=nt>/&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;item</span> <span class=na>name=</span><span class=s>&#34;Maven&#34;</span> <span class=na>href=</span><span class=s>&#34;https://maven.apache.org/&#34;</span><span class=nt>/&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/links&gt;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;menu</span> <span class=na>name=</span><span class=s>&#34;Examples&#34;</span><span class=nt>&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;item</span> <span class=na>name=</span><span class=s>&#34;APT Format&#34;</span> <span class=na>href=</span><span class=s>&#34;format.html&#34;</span><span class=nt>/&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;item</span> <span class=na>name=</span><span class=s>&#34;FAQ&#34;</span> <span class=na>href=</span><span class=s>&#34;faq.html&#34;</span><span class=nt>/&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;item</span> <span class=na>name=</span><span class=s>&#34;Markdown Example&#34;</span> <span class=na>href=</span><span class=s>&#34;markdown.html&#34;</span><span class=nt>/&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;item</span> <span class=na>name=</span><span class=s>&#34;Markdown with Velocity Example&#34;</span> <span class=na>href=</span><span class=s>&#34;markdown-velocity.html&#34;</span><span class=nt>/&gt;</span>
-</span></span><span class=line><span class=cl>      <span class=nt>&lt;item</span> <span class=na>name=</span><span class=s>&#34;Xdoc Example&#34;</span> <span class=na>href=</span><span class=s>&#34;xdoc.html&#34;</span><span class=nt>/&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/menu&gt;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;menu</span> <span class=na>ref=</span><span class=s>&#34;reports&#34;</span> <span class=nt>/&gt;</span>
-</span></span><span class=line><span class=cl>  <span class=nt>&lt;/body&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/project&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>让我们再次运行以下命令来发布新网站：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mvn clean site scm-publish:publish-scm
-</span></span></code></pre></td></tr></table></div></div><p>稍等片刻，等待 github page 部署成功之后，可以看到网站：</p><p><img alt=maven-my-app-github-skin-index loading=lazy src=http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/maven-my-app-github-skin-index.png></p><p>可以在 <a href=https://github.com/chensoul/maven-site-github-example/actions target=_blank>https://github.com/chensoul/maven-site-github-example/actions</a> 查看网站的部署：</p><p><img alt=maven-my-app-github-page-deploy loading=lazy src=http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/maven-my-app-github-page-deploy.png></p><p>现在，可以通过添加/更改/删除目录 src/site 的内容，然后通过 Maven 再次发布该网站。</p><p>例如，删除 src/site/apt/index.apt，添加 src/site/apt/index.md.vm ，引入项目中 README.md 内容作为网站首页内容：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-markdown data-lang=markdown><span class=line><span class=cl><span class=gh>#include(&#34;../../../README.md&#34;)
-</span></span></span></code></pre></td></tr></table></div></div><h2 id=github-action配置>Github Action配置<a hidden class=anchor aria-hidden=true href=#github-action配置>#</a></h2><p>修改 Aciton 的 Workflow 权限，选中 <code>Read and write permissions</code>。</p><p>创建 .github/workflows 目录，并在该目录创建 site.yml：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>name: Publish Site with Maven
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>on:
-</span></span><span class=line><span class=cl>  push:
-</span></span><span class=line><span class=cl>    branches: <span class=o>[</span> <span class=s2>&#34;main&#34;</span> <span class=o>]</span>
-</span></span><span class=line><span class=cl>  pull_request:
-</span></span><span class=line><span class=cl>    branches: <span class=o>[</span> <span class=s2>&#34;main&#34;</span> <span class=o>]</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>jobs:
-</span></span><span class=line><span class=cl>  build:
-</span></span><span class=line><span class=cl>    runs-on: ubuntu-latest
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    strategy:
-</span></span><span class=line><span class=cl>      matrix:
-</span></span><span class=line><span class=cl>        java: <span class=o>[</span> <span class=s1>&#39;8&#39;</span> <span class=o>]</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    steps:
-</span></span><span class=line><span class=cl>      - name: Checkout
-</span></span><span class=line><span class=cl>        uses: actions/checkout@v4
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>      - name: Java <span class=si>${</span><span class=p>{ matrix.Java </span><span class=si>}</span><span class=o>}</span>
-</span></span><span class=line><span class=cl>        uses: actions/setup-java@v4
-</span></span><span class=line><span class=cl>        with:
-</span></span><span class=line><span class=cl>          distribution: <span class=s1>&#39;temurin&#39;</span>
-</span></span><span class=line><span class=cl>          java-version: <span class=si>${</span><span class=p>{ matrix.java </span><span class=si>}</span><span class=o>}</span>
-</span></span><span class=line><span class=cl>          cache: maven
-</span></span><span class=line><span class=cl>          server-id: github
-</span></span><span class=line><span class=cl>          server-username: GITHUB_ACTOR
-</span></span><span class=line><span class=cl>          server-password: GITHUB_TOKEN
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>      - name: Publish site to github pages
-</span></span><span class=line><span class=cl>        run: <span class=p>|</span>
-</span></span><span class=line><span class=cl>          git config --global user.email <span class=s2>&#34;github-actions[bot]@users.noreply.github.com&#34;</span>
-</span></span><span class=line><span class=cl>          git config --global user.name <span class=s2>&#34;github-actions[bot]&#34;</span>
-</span></span><span class=line><span class=cl>          mvn -ntp -B -U clean site scm-publish:publish-scm -Dscmpublish.serverId<span class=o>=</span>github
-</span></span><span class=line><span class=cl>        env:
-</span></span><span class=line><span class=cl>          GITHUB_ACTOR: <span class=si>${</span><span class=p>{ secrets.GITHUB_ACTOR </span><span class=si>}</span><span class=o>}</span>
-</span></span><span class=line><span class=cl>          GITHUB_TOKEN: <span class=si>${</span><span class=p>{ secrets.GITHUB_TOKEN </span><span class=si>}</span><span class=o>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>在 github action 中，需要设置 github 的 username 和 password 用于提交代码带 gh-pages 分支，所以需要设置 scmpublish.serverId 并且删除 distributionManagement 下的 site 配置：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mvn --ntp --batch-mode --update-snapshots clean site scm-publish:publish-scm -Dscmpublish.serverId<span class=o>=</span>github
-</span></span></code></pre></td></tr></table></div></div><p>server-id 相关信息可以在 actions/setup-java@v4 中设置，参考 <a href="https://github.com/actions/setup-java?tab=readme-ov-file#maven-options" target=_blank>actions/setup-java</a> 的文档：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>      - name: Java <span class=si>${</span><span class=p>{ matrix.Java </span><span class=si>}</span><span class=o>}</span>
-</span></span><span class=line><span class=cl>        uses: actions/setup-java@v4
-</span></span><span class=line><span class=cl>        with:
-</span></span><span class=line><span class=cl>          distribution: <span class=s1>&#39;temurin&#39;</span>
-</span></span><span class=line><span class=cl>          java-version: <span class=si>${</span><span class=p>{ matrix.java </span><span class=si>}</span><span class=o>}</span>
-</span></span><span class=line><span class=cl>          cache: maven
-</span></span><span class=line><span class=cl>          server-id: github
-</span></span><span class=line><span class=cl>          server-username: GITHUB_ACTOR
-</span></span><span class=line><span class=cl>          server-password: GITHUB_TOKEN
-</span></span></code></pre></td></tr></table></div></div><ul><li>server-username：从环境变量 GITHUB_ACTOR 中读取值，故 在 Publish site to github pages 步骤里面需要设置 env 环境变量：<code>GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}</code></li><li>server-password：从环境变量 GITHUB_TOKEN 中读取值，故 在 Publish site to github pages 步骤里面需要设置 env 环境变量：<code>GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}</code></li></ul><p>另外，git 提交代码时，需要设置用户名和邮箱：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git config --global user.email <span class=s2>&#34;github-actions[bot]@users.noreply.github.com&#34;</span>
-</span></span><span class=line><span class=cl>git config --global user.name <span class=s2>&#34;github-actions[bot]&#34;</span>
-</span></span></code></pre></td></tr></table></div></div><p>提交代码之后，Github Action 可以看到一个部署，稍等片刻，部署失败：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> --- maven-clean-plugin:2.5:clean <span class=o>(</span>default-clean<span class=o>)</span> @ maven-site-github-example ---
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> 
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> --- maven-site-plugin:3.3:site <span class=o>(</span>default-site<span class=o>)</span> @ maven-site-github-example ---
-</span></span><span class=line><span class=cl>Warning:  Report plugin org.apache.maven.plugins:maven-project-info-reports-plugin has an empty version.
-</span></span><span class=line><span class=cl>Warning:  
-</span></span><span class=line><span class=cl>Warning:  It is highly recommended to fix these problems because they threaten the stability of your build.
-</span></span><span class=line><span class=cl>Warning:  
-</span></span><span class=line><span class=cl>Warning:  For this reason, future Maven versions might no longer support building such malformed projects.
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> configuring report plugin org.apache.maven.plugins:maven-project-info-reports-plugin:3.6.2
-</span></span><span class=line><span class=cl>Warning:  Error injecting: org.apache.maven.report.projectinfo.CiManagementReport
-</span></span><span class=line><span class=cl>java.lang.NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent
-</span></span></code></pre></td></tr></table></div></div><p>从日志可以看到 maven-clean-plugin 版本是 2.5，maven-site-plugin 版本是 3.3 ，maven-project-info-reports-plugin 版本是 3.6.2</p><p>修改 pom.xml ，给 maven-site-plugin 设置版本为 4.0.0-M15：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;plugin&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;artifactId&gt;</span>maven-site-plugin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;version&gt;</span>4.0.0-M15<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;configuration&gt;</span>
-</span></span><span class=line><span class=cl>        <span class=nt>&lt;locales&gt;</span>default,en,fr<span class=nt>&lt;/locales&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;/configuration&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/plugin&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>再次提交代码，发现 Github action 还是运行失败，异常日志：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> Executing: /bin/sh -c <span class=nb>cd</span> <span class=s1>&#39;/home/runner/work/maven-site-github-example/maven-site-github-example/target&#39;</span> <span class=o>&amp;&amp;</span> <span class=s1>&#39;git&#39;</span> <span class=s1>&#39;clone&#39;</span> <span class=s1>&#39;--branch&#39;</span> <span class=s1>&#39;gh-pages&#39;</span> <span class=s1>&#39;git@github.com:chensoul/maven-site-github-example.git&#39;</span> <span class=s1>&#39;/home/runner/work/maven-site-github-example/maven-site-github-example/target/scmpublish-checkout&#39;</span>
-</span></span><span class=line><span class=cl><span class=o>[</span>INFO<span class=o>]</span> Working directory: /home/runner/work/maven-site-github-example/maven-site-github-example/target
-</span></span><span class=line><span class=cl>Error:  Failed to check out from SCM: The git-clone <span class=nb>command</span> failed. Cloning into <span class=s1>&#39;/home/runner/work/maven-site-github-example/maven-site-github-example/target/scmpublish-checkout&#39;</span>...
-</span></span><span class=line><span class=cl>git@github.com: Permission denied <span class=o>(</span>publickey<span class=o>)</span>.
-</span></span><span class=line><span class=cl>fatal: Could not <span class=nb>read</span> from remote repository.
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>Please make sure you have the correct access rights
-</span></span><span class=line><span class=cl>and the repository exists.
-</span></span></code></pre></td></tr></table></div></div><p>从日志可以看到 git 从 <code>git@github.com:chensoul/maven-site-github-example.git </code>下载代码，没有权限，原因是没有配置 ssh。故需要修改 scmpublish.pubScmUrl 为 https 协议，将 <code>&lt;scmpublish.pubScmUrl>scm:git:git@github.com:chensoul/maven-site-github-example.git&lt;/scmpublish.pubScmUrl></code>改为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;scmpublish.pubScmUrl&gt;</span>scm:git:https://github.com/chensoul/maven-site-github-example.git<span class=nt>&lt;/scmpublish.pubScmUrl&gt;</span>
-</span></span></code></pre></td></tr></table></div></div><p>再次提交代码，action 运行成功。</p><p>再次打开网站，发现存在 I18N 没有替换成功的问题。</p><p><img alt=maven-my-app-github-i18n-index loading=lazy src=http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/maven-my-app-github-i18n-index.png></p><p>解决办法：</p><ul><li><p>修改 src/site/site.xml 和 src/site/site_fr.xml 文件中 maven-fluido-skin 的版本为当前最新版本：2.0.0-M9</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;skin&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;groupId&gt;</span>org.apache.maven.skins<span class=nt>&lt;/groupId&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;artifactId&gt;</span>maven-fluido-skin<span class=nt>&lt;/artifactId&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;version&gt;</span>2.0.0-M9<span class=nt>&lt;/version&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/skin&gt;</span>
-</span></span></code></pre></td></tr></table></div></div></li><li><p>修改 src/site/site.xml 和 src/site/site_fr.xml 文件中 <code>${artifactId}</code> 为 <code>${this.artifactId}</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;bannerLeft&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;name&gt;</span>${this.artifactId}<span class=nt>&lt;/name&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;src&gt;</span>https://maven.apache.org/images/apache-maven-project.png<span class=nt>&lt;/src&gt;</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&lt;href&gt;</span>https://www.apache.org/<span class=nt>&lt;/href&gt;</span>
-</span></span><span class=line><span class=cl><span class=nt>&lt;/bannerLeft&gt;</span>
-</span></span></code></pre></td></tr></table></div></div></li></ul><p>再次发布并打开网站，则正常显示：</p><p><img alt=maven-my-app-github-i18n-index-ok loading=lazy src=http://chensoul.oss-cn-hangzhou.aliyuncs.com/images/maven-my-app-github-i18n-index-ok.png></p></div><footer class=post-footer><ul class=post-tags><li><a href=https://blog.chensoul.cc/tags/maven/>Maven</a></li></ul><nav class=paginav><a class=prev href=https://blog.chensoul.cc/posts/2024/07/19/gitlab-runner-install/><span class=title>« Prev</span><br><span>GitLab Runner安装和部署</span>
-</a><a class=next href=https://blog.chensoul.cc/posts/2024/07/15/install-gitlab-using-yum/><span class=title>Next »</span><br><span>Gitlab安装和部署-使用yum源</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 将 Maven 站点发布到 GitHub Pages on x" href="https://x.com/intent/tweet/?text=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f&amp;hashtags=maven"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 将 Maven 站点发布到 GitHub Pages on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f&amp;title=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages&amp;summary=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages&amp;source=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 将 Maven 站点发布到 GitHub Pages on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f&title=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 将 Maven 站点发布到 GitHub Pages on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 将 Maven 站点发布到 GitHub Pages on whatsapp" href="https://api.whatsapp.com/send?text=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 将 Maven 站点发布到 GitHub Pages on telegram" href="https://telegram.me/share/url?text=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 将 Maven 站点发布到 GitHub Pages on ycombinator" href="https://news.ycombinator.com/submitlink?t=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages&u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
-</a><script async src=https://umami.chensoul.cc/random-string.js data-website-id=821c25f8-a31a-4607-92d7-91ee76843d00></script><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+让我们使用 Maven 创建一个简单的 Java 项目"><title>将 Maven 站点发布到 GitHub Pages | ChenSoul</title>
+<link rel=canonical href=https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/><link rel=preconnect href=https://fonts.font.im><link rel=preconnect href=https://fonts.loli.net crossorigin><link href="https://fonts.loli.net/css2?family=Roboto+Slab:wght@400;500;700&display=swap" rel=stylesheet><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta name=twitter:title content="将 Maven 站点发布到 GitHub Pages"><meta name=twitter:description content="本文源代码：https://github.com/chensoul/maven-site-github-example/ 。
+创建 Java Maven 项目 让我们使用 Maven 创建一个简单的 Java 项目"><meta property="og:locale" content="en_US"><meta property="og:site_name" content="chensoul"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/"><meta property="og:site_name" content="ChenSoul"><meta property="og:title" content="将 Maven 站点发布到 GitHub Pages"><meta property="og:description" content="本文源代码：https://github.com/chensoul/maven-site-github-example/ 。
+创建 Java Maven 项目 让我们使用 Maven 创建一个简单的 Java 项目"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-07-18T00:00:00+00:00"><meta property="article:modified_time" content="2024-07-18T00:00:00+00:00"><meta property="article:tag" content="Maven"><meta property="og:image" content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=name content="将 Maven 站点发布到 GitHub Pages"><meta itemprop=description content="本文源代码：https://github.com/chensoul/maven-site-github-example/ 。
+创建 Java Maven 项目 让我们使用 Maven 创建一个简单的 Java 项目"><meta itemprop=datePublished content="2024-07-18T00:00:00+00:00"><meta itemprop=dateModified content="2024-07-18T00:00:00+00:00"><meta itemprop=wordCount content="1028"><meta itemprop=image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=keywords content="Maven"><link rel=stylesheet href=https://cdnjs.loli.net/ajax/libs/font-awesome/6.4.0/css/all.min.css media=all><link rel=stylesheet href=/main.min.css type=text/css media=all><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"将 Maven 站点发布到 GitHub Pages","headline":"将 Maven 站点发布到 GitHub Pages","inLanguage":"en-US","url":"https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/","description":"\u003cp\u003e本文源代码：\u003ca href=\"https://github.com/chensoul/maven-site-github-example/\" target=\"_blank\"\u003ehttps://github.com/chensoul/maven-site-github-example/\u003c/a\u003e 。\u003c/p\u003e\n\u003ch2 id=\"创建-java-maven-项目\"\u003e创建 Java Maven 项目\u003c/h2\u003e\n\u003cp\u003e让我们使用 Maven 创建一个简单的 Java 项目\u003c/p\u003e","wordCount":"1028","keywords":["maven"],"datePublished":"2024-07-18T00:00:00Z","dateModified":"2024-07-18T00:00:00Z","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/"},"publisher":{"@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/"}},{"@context":"https://schema.org","@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/","sameAs":["https://twitter.com/","https://github.com/chensoul","https://www.linkedin.com/in/"]}]}</script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title=ChenSoul rel=home>ChenSoul</a></h1><p class=site-description>Java, Spring Boot, Microservice, Cloud, Architecture and DevOps Tutorials</p></div><div class="header-widgets clearfix"><aside id=search-2 class="header-widget widget_search"><form role=search method=get class=search-form onsubmit="return searchSite(event)"><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=search-field placeholder="Enter search keyword" name=query id=query title="Enter search keyword">
+</label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
+<span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
+current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/07/18/publishing-a-maven-site-to-github-pages/ rel=bookmark title="将 Maven 站点发布到 GitHub Pages">将 Maven 站点发布到 GitHub Pages</a></h2><hr><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-07-18T00:00:00>2024-07-18
+</time></span><span class=meta-author><span class="author vcard">chensoul</span>
+</span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/maven/ title=maven>maven</a></span></div></header><div class=entry-content><p>本文源代码：<a href=https://github.com/chensoul/maven-site-github-example/ target=_blank>https://github.com/chensoul/maven-site-github-example/</a> 。</p><h2 id=创建-java-maven-项目>创建 Java Maven 项目</h2><p>让我们使用 Maven 创建一个简单的 Java 项目</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn archetype:generate <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -DgroupId<span style=color:#f92672>=</span>com.mycompany.app <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -DartifactId<span style=color:#f92672>=</span>maven-site-github-example <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -DarchetypeArtifactId<span style=color:#f92672>=</span>maven-archetype-quickstart <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -DarchetypeVersion<span style=color:#f92672>=</span>1.4 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -DinteractiveMode<span style=color:#f92672>=</span>false
+</span></span></code></pre></div><p>这将创建包含 Maven 项目的<em>my-app</em>文件夹。让我们进入该文件夹并确保它编译正常：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>cd maven-site-github-example
+</span></span><span style=display:flex><span>mvn clean verify
+</span></span></code></pre></div><p>我们还可以生成该项目的站点：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn clean site
+</span></span></code></pre></div><p><em>该站点将在target/site</em>文件夹中生成，可以使用浏览器打开；例如，让我们打开它的 <em>index.html</em>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>chrome target/site/index.html
+</span></span></code></pre></div><p><img src=/images/maven-my-app-index.webp alt=maven-my-app-index></p><h2 id=创建-github-项目>创建 github 项目</h2><p>在你的 github 上创建一个项目 maven-site-github-example，然后在本地的 maven-site-github-example 目录提交代码：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>echo <span style=color:#e6db74>&#34;# maven-site-github-example&#34;</span> &gt;&gt; README.md
+</span></span><span style=display:flex><span>git init
+</span></span><span style=display:flex><span>git add .
+</span></span><span style=display:flex><span>git commit -m <span style=color:#e6db74>&#34;first commit&#34;</span>
+</span></span><span style=display:flex><span>git branch -M main
+</span></span><span style=display:flex><span>git remote add origin git@github.com:chensoul/maven-site-github-example.git
+</span></span><span style=display:flex><span>git push -u origin main
+</span></span></code></pre></div><h2 id=github-page-设置>GitHub Page 设置</h2><p>现在我们必须在 Git 存储库上创建 <strong>gh-pages</strong>分支。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git checkout --orphan gh-pages 
+</span></span><span style=display:flex><span>rm .git/index ; git clean -fdx 
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;It works&#34;</span> &gt; index.html 
+</span></span><span style=display:flex><span>git add . <span style=color:#f92672>&amp;&amp;</span> git commit -m <span style=color:#e6db74>&#34;initial site content&#34;</span> <span style=color:#f92672>&amp;&amp;</span> git push origin gh-pages 
+</span></span></code></pre></div><p>相应的网站将发布在你的 GitHub 项目的相应 URL 中；访问地址：https://chensoul.github.io/maven-site-github-example：</p><p><img src=/images/maven-my-app-github-page-index.webp alt=maven-my-app-github-page-index></p><p>现在我们可以回到 <strong>主</strong>分支：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git checkout main
+</span></span></code></pre></div><h2 id=maven-pom-配置>Maven POM 配置</h2><p>让我们看看如何配置我们的 POM 以自动将 Maven 站点发布到 GitHub 页面。</p><p>在 pluginManagement 部分中添加 maven-scm-publish-plugin：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;build&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;pluginManagement&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;plugins&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;artifactId&gt;</span>maven-scm-publish-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;version&gt;</span>3.0.0<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>                    <span style=color:#f92672>&lt;scmBranch&gt;</span>gh-pages<span style=color:#f92672>&lt;/scmBranch&gt;</span>
+</span></span><span style=display:flex><span>                  	<span style=color:#f92672>&lt;tryUpdate&gt;</span>true<span style=color:#f92672>&lt;/tryUpdate&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/plugins&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/pluginManagement&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/build&gt;</span>
+</span></span></code></pre></div><p>maven-scm-publish-plugin 插件需要以下参数，参考 <a href=https://maven.apache.org/plugins/maven-scm-publish-plugin/publish-scm-mojo.html target=_blank>https://maven.apache.org/plugins/maven-scm-publish-plugin/publish-scm-mojo.html</a>：</p><ul><li><strong>tryUpdate</strong>： 参数用于指定是否尝试更新源代码管理（SCM）提供商中的项目文件。</li></ul><blockquote><p>当你运行 <code>mvn scm-publish:publish-scm</code> 命令来发布 Maven 项目时，插件会检查 SCM 提供商中的项目文件是否与本地生成的网站内容一致。如果存在差异，插件默认情况下会拒绝发布，并显示错误消息。</p><p>通过将 <code>tryUpdate</code> 参数设置为 <code>true</code>，你可以告诉插件尝试更新 SCM 提供商中的项目文件，以使其与本地生成的网站内容保持一致。如果更新成功，插件将继续发布网站。否则，插件将显示错误消息。</p><p>以下是使用 <code>tryUpdate</code> 参数的示例命令：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn scm-publish:publish-scm -Dscmpublish.tryUpdate<span style=color:#f92672>=</span>true
+</span></span></code></pre></div><p>请注意，使用 <code>tryUpdate</code> 参数时，插件将直接修改 SCM 提供商中的项目文件。因此，在使用此参数之前，请确保你对 SCM 提供商中的项目文件进行了适当的备份，并且了解潜在的风险。</p></blockquote><ul><li><p><strong>pubScmUrl</strong>：必须，用于指定发布到源代码管理（SCM）提供商的网站的URL。</p><ul><li>格式：<code>scm:&lt;scm_provider>&lt;delimiter>&lt;provider_specific_part></code></li><li>默认值：<code>${project.distributionManagement.site.url}</code>，可以通过 <code>scmpublish.pubScmUrl</code> 属性设置。</li></ul></li><li><p><strong>scmBranch</strong>：非必须，scm分支用于指定源代码管理（SCM）分支的名称。例如：对应 github，应该是 gh-pages</p><ul><li>没有默认值，可以通过 <code>scmpublish.scm.branch</code> 设置</li></ul></li><li><p><strong>serverId</strong>：非必须，是 Maven 中用于标识服务器配置的标识符</p><ul><li>默认值：<code>${project.distributionManagement.site.id}</code>，可以通过 <code>scmpublish.serverId</code> 属性设置。</li></ul><blockquote><p>下面是一个示例的服务器配置段落：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;settings&gt;</span>
+</span></span><span style=display:flex><span> <span style=color:#f92672>&lt;servers&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>&lt;server&gt;</span>
+</span></span><span style=display:flex><span>     <span style=color:#f92672>&lt;id&gt;</span>my-server<span style=color:#f92672>&lt;/id&gt;</span>
+</span></span><span style=display:flex><span>     <span style=color:#f92672>&lt;username&gt;</span>my-username<span style=color:#f92672>&lt;/username&gt;</span>
+</span></span><span style=display:flex><span>     <span style=color:#f92672>&lt;password&gt;</span>my-password<span style=color:#f92672>&lt;/password&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>&lt;/server&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#75715e>&lt;!-- Additional server configurations --&gt;</span>
+</span></span><span style=display:flex><span> <span style=color:#f92672>&lt;/servers&gt;</span>
+</span></span><span style=display:flex><span> <span style=color:#75715e>&lt;!-- Other Maven settings --&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/settings&gt;</span>
+</span></span></code></pre></div><p>在上述示例中，<code>my-server</code> 是 <code>serverId</code>，用于标识服务器配置。你可以根据需要添加多个服务器配置，每个配置都应该有唯一的 <code>serverId</code>。</p><p>当你在 Maven 项目中引用这些服务器配置时，可以使用相应的 <code>serverId</code> 来指定要应用的服务器配置。</p><p>例如，当你需要在 Maven 项目中使用某个服务器配置时，可以在项目的 <code>pom.xml</code> 文件中配置如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;project&gt;</span>
+</span></span><span style=display:flex><span> <span style=color:#75715e>&lt;!-- Other project configurations --&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span> <span style=color:#f92672>&lt;build&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>&lt;plugins&gt;</span>
+</span></span><span style=display:flex><span>     <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>       <span style=color:#f92672>&lt;groupId&gt;</span>...<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>       <span style=color:#f92672>&lt;artifactId&gt;</span>...<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>       <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>         <span style=color:#f92672>&lt;serverId&gt;</span>my-server<span style=color:#f92672>&lt;/serverId&gt;</span>
+</span></span><span style=display:flex><span>         <span style=color:#75715e>&lt;!-- Other plugin configurations --&gt;</span>
+</span></span><span style=display:flex><span>       <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span>     <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>&lt;/plugins&gt;</span>
+</span></span><span style=display:flex><span> <span style=color:#f92672>&lt;/build&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span> <span style=color:#75715e>&lt;!-- Other project configurations --&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/project&gt;</span>
+</span></span></code></pre></div><p>在上述示例中，<code>&lt;serverId>my-server&lt;/serverId></code> 指定了要应用的服务器配置。这样，Maven 在构建过程中将使用相应的服务器配置。</p><p>请注意，<code>serverId</code> 的值必须与 <code>settings.xml</code> 文件中配置的服务器配置的 <code>id</code> 保持一致。</p></blockquote></li><li><p><strong>username</strong>：非必须，SCM 用户名</p><ul><li>默认从 serverId 指定的 settings.xml 中的 username 读取，可以通过 <code>username</code> 设置</li></ul></li><li><p><strong>password</strong>：非必须，SCM 密码</p><ul><li>默认从 serverId 指定的 settings.xml 中的 password 读取，可以通过 <code>password</code> 设置</li></ul></li></ul><p>从上面的参数说明，可以看出：</p><ul><li><p>maven-scm-publish-plugin 插件优先读取 <code>project.distributionManagement.site</code> 节点，所以可以在 pom.xml 中配置一个 site 节点，比如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;distributionManagement&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;site&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;id&gt;</span>github<span style=color:#f92672>&lt;/id&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;url&gt;</span>scm:git:git@github.com:chensoul/maven-site-github-example.git<span style=color:#f92672>&lt;/url&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/site&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/distributionManagement&gt;</span>
+</span></span></code></pre></div></li><li><p>其次，读取 <code>scmpublish.serverId</code> 属性，然后去 settings.xml 中获取 username 和密码，这时候需要配置 settings.xml：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;servers&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;server&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;id&gt;</span>github<span style=color:#f92672>&lt;/id&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;username&gt;</span>chensoul<span style=color:#f92672>&lt;/username&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;password&gt;</span>ghp_XXXXXXXXXXXXXXXXXX<span style=color:#f92672>&lt;/password&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/server&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/servers&gt;</span>
+</span></span></code></pre></div></li></ul><h2 id=发布网站>发布网站</h2><p>在配置了 <code>project.distributionManagement.site</code> 之后，将 Maven 站点发布到 GitHub 页面只需运行以下命令：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn clean site scm-publish:publish-scm
+</span></span></code></pre></div><ul><li><p><code>clean</code>：删除 target 目录</p></li><li><p><code>site</code>：命令用于生成 Maven 项目的网站</p></li><li><p><code>scm-publish:publish-scm</code>：用于将 Maven 项目发布到源代码管理（SCM）提供商</p><blockquote><p>要使用 <code>mvn scm-publish:publish-scm</code> 命令发布 Maven 项目，请按照以下步骤进行操作：</p><ol><li>确保你的 Maven 项目已经配置了适当的 SCM 插件，以便与你使用的源代码管理系统进行集成。在项目的 <code>pom.xml</code> 文件中，你需要添加 SCM 配置，包括 SCM URL、连接信息和凭据等。例如，对于 Git，你可以添加以下配置：</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;scm&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;connection&gt;</span>scm:git:git@github.com:<span style=color:#f92672>&lt;username&gt;</span>/<span style=color:#f92672>&lt;repository&gt;</span>.git<span style=color:#f92672>&lt;/connection&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;developerConnection&gt;</span>scm:git:git@github.com:<span style=color:#f92672>&lt;username&gt;</span>/<span style=color:#f92672>&lt;repository&gt;</span>.git<span style=color:#f92672>&lt;/developerConnection&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;url&gt;</span>https://github.com/<span style=color:#f92672>&lt;username&gt;</span>/<span style=color:#f92672>&lt;repository&gt;&lt;/url&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/scm&gt;</span>
+</span></span></code></pre></div><p>请将 <code>&lt;username></code> 替换为你的 GitHub 用户名，<code>&lt;repository></code> 替换为你的仓库名称。</p><ol start=2><li><p>打开终端或命令提示符。</p></li><li><p>使用 <code>cd</code> 命令导航到 Maven 项目的根目录。</p></li><li><p>运行以下命令：</p></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn scm-publish:publish-scm
+</span></span></code></pre></div><p>Maven 将执行 SCM Publish 插件，将项目发布到指定的 SCM 提供商。</p></blockquote></li></ul><p>从日志可以看出 git 推送提交的命令：<code>'git' 'push' 'git@github.com:chensoul/maven-site-github-example.git' 'refs/heads/gh-pages:refs/heads/gh-pages'</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> Executing: /bin/sh -c cd <span style=color:#e6db74>&#39;/Users/chensoul/Codes/github/maven-site-github-example/target/scmpublish-checkout&#39;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#39;git&#39;</span> <span style=color:#e6db74>&#39;push&#39;</span> <span style=color:#e6db74>&#39;git@github.com:chensoul/maven-site-github-example.git&#39;</span> <span style=color:#e6db74>&#39;refs/heads/gh-pages:refs/heads/gh-pages&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> Working directory: /Users/chensoul/Codes/github/maven-site-github-example/target/scmpublish-checkout
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> Checked in <span style=color:#ae81ff>24</span> file<span style=color:#f92672>(</span>s<span style=color:#f92672>)</span> to revision null in <span style=color:#ae81ff>0</span> h <span style=color:#ae81ff>0</span> m <span style=color:#ae81ff>4</span> s
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> ------------------------------------------------------------------------
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> BUILD SUCCESS
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> ------------------------------------------------------------------------
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> Total time:  21.115 s
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> Finished at: 2024-07-18T10:25:58+08:00
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> ------------------------------------------------------------------------
+</span></span></code></pre></div><p>这里使用的是通过 ssh 协议提交，能够提交成功，是因为我已将本地的 ssh 公钥配置到 <a href=https://github.com/settings/keys target=_blank>github</a>。</p><p>现在该网站位于 GitHub Pages 上：</p><p><img src=/images/maven-my-app-github-index.webp alt=maven-my-app-github-index></p><p>如果不配置 <code>project.distributionManagement.site</code> ，注释 distributionManagement 节点，这需要配置 scmpublish.pubScmUrl，可以在 pom.xml 中设置：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;properties&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;scmpublish.content&gt;</span>${project.reporting.outputDirectory}<span style=color:#f92672>&lt;/scmpublish.content&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;scmpublish.pubScmUrl&gt;</span>scm:git:git@github.com:chensoul/maven-site-github-example.git<span style=color:#f92672>&lt;/scmpublish.pubScmUrl&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;scmpublish.scm.branch&gt;</span>gh-pages<span style=color:#f92672>&lt;/scmpublish.scm.branch&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/properties&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!--    &lt;distributionManagement&gt;--&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!--        &lt;site&gt;--&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!--            &lt;id&gt;github&lt;/id&gt;--&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!--            &lt;url&gt;scm:git:git@github.com:chensoul/maven-site-github-example.git&lt;/url&gt;--&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!--        &lt;/site&gt;--&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!--    &lt;/distributionManagement&gt;--&gt;</span>
+</span></span></code></pre></div><p>再次运行：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn clean site scm-publish:publish-scm
+</span></span></code></pre></div><h2 id=美化网站>美化网站</h2><p>使用 <a href=https://maven.apache.org/archetypes/maven-archetype-site/ target=_blank>maven-archetype-site</a> 美化网站：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn archetype:generate <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -DgroupId<span style=color:#f92672>=</span>com.mycompany.app <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -DartifactId<span style=color:#f92672>=</span>maven-site-github-example <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -DarchetypeGroupId<span style=color:#f92672>=</span>org.apache.maven.archetypes <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -DarchetypeArtifactId<span style=color:#f92672>=</span>maven-archetype-site <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -DarchetypeVersion<span style=color:#f92672>=</span>1.4 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -DinteractiveMode<span style=color:#f92672>=</span>false
+</span></span></code></pre></div><p>执行成功之后，src 目录下新增了一个 site 目录，并且POM中添加了 maven-project-info-reports-plugin 和 i18n 本地化的一些配置。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;build&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;pluginManagement&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;plugins&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;artifactId&gt;</span>maven-scm-publish-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;version&gt;</span>3.0.0<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>                    <span style=color:#f92672>&lt;scmBranch&gt;</span>gh-pages<span style=color:#f92672>&lt;/scmBranch&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/plugins&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/pluginManagement&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;plugins&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>maven-site-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;locales&gt;</span>en,fr<span style=color:#f92672>&lt;/locales&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/plugins&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/build&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;reporting&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;plugins&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>maven-project-info-reports-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/plugins&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/reporting&gt;</span>
+</span></span></code></pre></div><p>此外，最终网站将使用新皮肤 maven-fluido-skin。src/site/site.xml 内容如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#75715e>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;project</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;${artifactId}&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>xmlns=</span><span style=color:#e6db74>&#34;http://maven.apache.org/DECORATION/1.8.0&#34;</span> <span style=color:#a6e22e>xmlns:xsi=</span><span style=color:#e6db74>&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>xsi:schemaLocation=</span><span style=color:#e6db74>&#34;http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd&#34;</span><span style=color:#f92672>&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;bannerLeft&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;name&gt;</span>${artifactId}<span style=color:#f92672>&lt;/name&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;src&gt;</span>https://maven.apache.org/images/apache-maven-project.png<span style=color:#f92672>&lt;/src&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;href&gt;</span>https://www.apache.org/<span style=color:#f92672>&lt;/href&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/bannerLeft&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;bannerRight&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;src&gt;</span>https://maven.apache.org/images/maven-logo-black-on-white.png<span style=color:#f92672>&lt;/src&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;href&gt;</span>https://maven.apache.org/<span style=color:#f92672>&lt;/href&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/bannerRight&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;skin&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.skins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>maven-fluido-skin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>1.7<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/skin&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;body&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;links&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;item</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;Apache&#34;</span> <span style=color:#a6e22e>href=</span><span style=color:#e6db74>&#34;http://www.apache.org/&#34;</span> <span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;item</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;Maven&#34;</span> <span style=color:#a6e22e>href=</span><span style=color:#e6db74>&#34;https://maven.apache.org/&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/links&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;menu</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;Examples&#34;</span><span style=color:#f92672>&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;item</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;APT Format&#34;</span> <span style=color:#a6e22e>href=</span><span style=color:#e6db74>&#34;format.html&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;item</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;FAQ&#34;</span> <span style=color:#a6e22e>href=</span><span style=color:#e6db74>&#34;faq.html&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;item</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;Markdown Example&#34;</span> <span style=color:#a6e22e>href=</span><span style=color:#e6db74>&#34;markdown.html&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;item</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;Markdown with Velocity Example&#34;</span> <span style=color:#a6e22e>href=</span><span style=color:#e6db74>&#34;markdown-velocity.html&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&lt;item</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;Xdoc Example&#34;</span> <span style=color:#a6e22e>href=</span><span style=color:#e6db74>&#34;xdoc.html&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/menu&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;menu</span> <span style=color:#a6e22e>ref=</span><span style=color:#e6db74>&#34;reports&#34;</span> <span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&lt;/body&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/project&gt;</span>
+</span></span></code></pre></div><p>让我们再次运行以下命令来发布新网站：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn clean site scm-publish:publish-scm
+</span></span></code></pre></div><p>稍等片刻，等待 github page 部署成功之后，可以看到网站：</p><p><img src=/images/maven-my-app-github-skin-index.webp alt=maven-my-app-github-skin-index></p><p>可以在 <a href=https://github.com/chensoul/maven-site-github-example/actions target=_blank>https://github.com/chensoul/maven-site-github-example/actions</a> 查看网站的部署：</p><p><img src=/images/maven-my-app-github-page-deploy.webp alt=maven-my-app-github-page-deploy></p><p>现在，可以通过添加/更改/删除目录 src/site 的内容，然后通过 Maven 再次发布该网站。</p><p>例如，删除 src/site/apt/index.apt，添加 src/site/apt/index.md.vm ，引入项目中 README.md 内容作为网站首页内容：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown><span style=display:flex><span>#include(&#34;../../../README.md&#34;)
+</span></span></code></pre></div><h2 id=github-action配置>Github Action配置</h2><p>修改 Aciton 的 Workflow 权限，选中 <code>Read and write permissions</code>。</p><p>创建 .github/workflows 目录，并在该目录创建 site.yml：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>name: Publish Site with Maven
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>on:
+</span></span><span style=display:flex><span>  push:
+</span></span><span style=display:flex><span>    branches: <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;main&#34;</span> <span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>  pull_request:
+</span></span><span style=display:flex><span>    branches: <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;main&#34;</span> <span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>jobs:
+</span></span><span style=display:flex><span>  build:
+</span></span><span style=display:flex><span>    runs-on: ubuntu-latest
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    strategy:
+</span></span><span style=display:flex><span>      matrix:
+</span></span><span style=display:flex><span>        java: <span style=color:#f92672>[</span> <span style=color:#e6db74>&#39;8&#39;</span> <span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    steps:
+</span></span><span style=display:flex><span>      - name: Checkout
+</span></span><span style=display:flex><span>        uses: actions/checkout@v4
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      - name: Java <span style=color:#e6db74>${</span>{ matrix.Java <span style=color:#e6db74>}</span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>        uses: actions/setup-java@v4
+</span></span><span style=display:flex><span>        with:
+</span></span><span style=display:flex><span>          distribution: <span style=color:#e6db74>&#39;temurin&#39;</span>
+</span></span><span style=display:flex><span>          java-version: <span style=color:#e6db74>${</span>{ matrix.java <span style=color:#e6db74>}</span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>          cache: maven
+</span></span><span style=display:flex><span>          server-id: github
+</span></span><span style=display:flex><span>          server-username: GITHUB_ACTOR
+</span></span><span style=display:flex><span>          server-password: GITHUB_TOKEN
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      - name: Publish site to github pages
+</span></span><span style=display:flex><span>        run: |
+</span></span><span style=display:flex><span>          git config --global user.email <span style=color:#e6db74>&#34;github-actions[bot]@users.noreply.github.com&#34;</span>
+</span></span><span style=display:flex><span>          git config --global user.name <span style=color:#e6db74>&#34;github-actions[bot]&#34;</span>
+</span></span><span style=display:flex><span>          mvn -ntp -B -U clean site scm-publish:publish-scm -Dscmpublish.serverId<span style=color:#f92672>=</span>github
+</span></span><span style=display:flex><span>        env:
+</span></span><span style=display:flex><span>          GITHUB_ACTOR: <span style=color:#e6db74>${</span>{ secrets.GITHUB_ACTOR <span style=color:#e6db74>}</span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>          GITHUB_TOKEN: <span style=color:#e6db74>${</span>{ secrets.GITHUB_TOKEN <span style=color:#e6db74>}</span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>在 github action 中，需要设置 github 的 username 和 password 用于提交代码带 gh-pages 分支，所以需要设置 scmpublish.serverId 并且删除 distributionManagement 下的 site 配置：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn --ntp --batch-mode --update-snapshots clean site scm-publish:publish-scm -Dscmpublish.serverId<span style=color:#f92672>=</span>github
+</span></span></code></pre></div><p>server-id 相关信息可以在 actions/setup-java@v4 中设置，参考 <a href="https://github.com/actions/setup-java?tab=readme-ov-file#maven-options" target=_blank>actions/setup-java</a> 的文档：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>      - name: Java <span style=color:#e6db74>${</span>{ matrix.Java <span style=color:#e6db74>}</span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>        uses: actions/setup-java@v4
+</span></span><span style=display:flex><span>        with:
+</span></span><span style=display:flex><span>          distribution: <span style=color:#e6db74>&#39;temurin&#39;</span>
+</span></span><span style=display:flex><span>          java-version: <span style=color:#e6db74>${</span>{ matrix.java <span style=color:#e6db74>}</span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>          cache: maven
+</span></span><span style=display:flex><span>          server-id: github
+</span></span><span style=display:flex><span>          server-username: GITHUB_ACTOR
+</span></span><span style=display:flex><span>          server-password: GITHUB_TOKEN
+</span></span></code></pre></div><ul><li>server-username：从环境变量 GITHUB_ACTOR 中读取值，故 在 Publish site to github pages 步骤里面需要设置 env 环境变量：<code>GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}</code></li><li>server-password：从环境变量 GITHUB_TOKEN 中读取值，故 在 Publish site to github pages 步骤里面需要设置 env 环境变量：<code>GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}</code></li></ul><p>另外，git 提交代码时，需要设置用户名和邮箱：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git config --global user.email <span style=color:#e6db74>&#34;github-actions[bot]@users.noreply.github.com&#34;</span>
+</span></span><span style=display:flex><span>git config --global user.name <span style=color:#e6db74>&#34;github-actions[bot]&#34;</span>
+</span></span></code></pre></div><p>提交代码之后，Github Action 可以看到一个部署，稍等片刻，部署失败：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> --- maven-clean-plugin:2.5:clean <span style=color:#f92672>(</span>default-clean<span style=color:#f92672>)</span> @ maven-site-github-example ---
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> 
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> --- maven-site-plugin:3.3:site <span style=color:#f92672>(</span>default-site<span style=color:#f92672>)</span> @ maven-site-github-example ---
+</span></span><span style=display:flex><span>Warning:  Report plugin org.apache.maven.plugins:maven-project-info-reports-plugin has an empty version.
+</span></span><span style=display:flex><span>Warning:  
+</span></span><span style=display:flex><span>Warning:  It is highly recommended to fix these problems because they threaten the stability of your build.
+</span></span><span style=display:flex><span>Warning:  
+</span></span><span style=display:flex><span>Warning:  For this reason, future Maven versions might no longer support building such malformed projects.
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> configuring report plugin org.apache.maven.plugins:maven-project-info-reports-plugin:3.6.2
+</span></span><span style=display:flex><span>Warning:  Error injecting: org.apache.maven.report.projectinfo.CiManagementReport
+</span></span><span style=display:flex><span>java.lang.NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent
+</span></span></code></pre></div><p>从日志可以看到 maven-clean-plugin 版本是 2.5，maven-site-plugin 版本是 3.3 ，maven-project-info-reports-plugin 版本是 3.6.2</p><p>修改 pom.xml ，给 maven-site-plugin 设置版本为 4.0.0-M15：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>maven-site-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>4.0.0-M15<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;locales&gt;</span>default,en,fr<span style=color:#f92672>&lt;/locales&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>再次提交代码，发现 Github action 还是运行失败，异常日志：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> Executing: /bin/sh -c cd <span style=color:#e6db74>&#39;/home/runner/work/maven-site-github-example/maven-site-github-example/target&#39;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#39;git&#39;</span> <span style=color:#e6db74>&#39;clone&#39;</span> <span style=color:#e6db74>&#39;--branch&#39;</span> <span style=color:#e6db74>&#39;gh-pages&#39;</span> <span style=color:#e6db74>&#39;git@github.com:chensoul/maven-site-github-example.git&#39;</span> <span style=color:#e6db74>&#39;/home/runner/work/maven-site-github-example/maven-site-github-example/target/scmpublish-checkout&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> Working directory: /home/runner/work/maven-site-github-example/maven-site-github-example/target
+</span></span><span style=display:flex><span>Error:  Failed to check out from SCM: The git-clone command failed. Cloning into <span style=color:#e6db74>&#39;/home/runner/work/maven-site-github-example/maven-site-github-example/target/scmpublish-checkout&#39;</span>...
+</span></span><span style=display:flex><span>git@github.com: Permission denied <span style=color:#f92672>(</span>publickey<span style=color:#f92672>)</span>.
+</span></span><span style=display:flex><span>fatal: Could not read from remote repository.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Please make sure you have the correct access rights
+</span></span><span style=display:flex><span>and the repository exists.
+</span></span></code></pre></div><p>从日志可以看到 git 从 <code>git@github.com:chensoul/maven-site-github-example.git </code>下载代码，没有权限，原因是没有配置 ssh。故需要修改 scmpublish.pubScmUrl 为 https 协议，将 <code>&lt;scmpublish.pubScmUrl>scm:git:git@github.com:chensoul/maven-site-github-example.git&lt;/scmpublish.pubScmUrl></code>改为：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;scmpublish.pubScmUrl&gt;</span>scm:git:https://github.com/chensoul/maven-site-github-example.git<span style=color:#f92672>&lt;/scmpublish.pubScmUrl&gt;</span>
+</span></span></code></pre></div><p>再次提交代码，action 运行成功。</p><p>再次打开网站，发现存在 I18N 没有替换成功的问题。</p><p><img src=/images/maven-my-app-github-i18n-index.webp alt=maven-my-app-github-i18n-index></p><p>解决办法：</p><ul><li><p>修改 src/site/site.xml 和 src/site/site_fr.xml 文件中 maven-fluido-skin 的版本为当前最新版本：2.0.0-M9</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;skin&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.skins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>maven-fluido-skin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>2.0.0-M9<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/skin&gt;</span>
+</span></span></code></pre></div></li><li><p>修改 src/site/site.xml 和 src/site/site_fr.xml 文件中 <code>${artifactId}</code> 为 <code>${this.artifactId}</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;bannerLeft&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;name&gt;</span>${this.artifactId}<span style=color:#f92672>&lt;/name&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;src&gt;</span>https://maven.apache.org/images/apache-maven-project.png<span style=color:#f92672>&lt;/src&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;href&gt;</span>https://www.apache.org/<span style=color:#f92672>&lt;/href&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/bannerLeft&gt;</span>
+</span></span></code></pre></div></li></ul><p>再次发布并打开网站，则正常显示：</p><p><img src=/images/maven-my-app-github-i18n-index-ok.webp alt=maven-my-app-github-i18n-index-ok></p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+</a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f&title=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://telegram.me/share/url?text=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f&title=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f" target=_blank rel="noopener noreferrer" title="Click to share on facebook"><i class="fa-brands fa-facebook fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://api.whatsapp.com/send?text=%e5%b0%86%20Maven%20%e7%ab%99%e7%82%b9%e5%8f%91%e5%b8%83%e5%88%b0%20GitHub%20Pages%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f18%2fpublishing-a-maven-site-to-github-pages%2f" target=_blank rel="noopener noreferrer" title="Click to share on whatsapp"><i class="fa-brands fa-whatsapp fa-2xl" style=color:#007bb5></i></a></div></div></article><nav class="navigation post-navigation" role=navigation><h2 class=screen-reader-text>Post navigation</h2><div class=nav-links><div class=nav-previous><a href=/posts/2024/07/19/gitlab-runner-install/ rel=next><span class=post-title>GitLab Runner安装和部署</span></a></div><div class=nav-next><a href=/posts/2024/07/15/install-gitlab-using-yum/ rel=prev><span class=post-title>Gitlab安装和部署-使用yum源</span></a></div></div></nav><h2>Related content</h2><ul><li><a href=/tutorials/>Tutorials</a></li><li><a href=/posts/2024/08/27/activemq-source-code-broker-service/>ActiveMQ源码-BrokerService和PersistenceAdapter</a></li><li><a href=/posts/2024/08/27/thingsboard-code-source-compile/>ThingsBoard源码编译和Idea运行</a></li><li><a href=/posts/2024/08/09/debug-activemq-source-code/>ActiveMQ源码本地调试运行</a></li><li><a href=/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/>Github Action 发布 Jar 到 Maven 中央仓库</a></li><li><a href=/posts/2024/07/24/what-is-new-in-jms-2-0/>[译]JMS 2.0 中的新增功能</a></li><li><a href=/posts/2024/07/24/jms20/>[译]JMS 2.0 中的新增功能（第一部分）- 易于使用</a></li><li><a href=/posts/2024/07/24/jms20/>[译]JMS 2.0 中的新增功能（第二部分）- 新的消息传送功能</a></li><li><a href=/posts/2024/07/24/jms20-means-less-code/>[译]JMS 2.0 的十个好处意味着可以减少代码编写量</a></li><li><a href=/posts/2024/07/23/jms-transactions-in-action/>[译]JMS 事务的实际应用</a></li></ul></main></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link><a href=/ target=_blank rel="noopener noreferrer">ChenSoul</a>
+Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer">Hugo</a>
+<a style=margin-left:20px href=/privacy_policy/ target=_blank rel="noopener noreferrer">Privacy Policy</a></span></div></footer></div></div><script type=text/javascript src=/main.min.js></script></body></html>

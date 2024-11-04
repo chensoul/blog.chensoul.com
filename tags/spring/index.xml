@@ -1,96 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Spring on ChenSoul</title>
-    <link>https://blog.chensoul.cc/tags/spring/</link>
-    <description>Recent content in Spring on ChenSoul</description>
-    <generator>Hugo -- 0.136.5</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Thu, 09 May 2024 00:00:00 +0800</lastBuildDate>
-    <atom:link href="https://blog.chensoul.cc/tags/spring/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>All things about Spring Modulith</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-spring-modulith/</link>
-      <pubDate>Thu, 09 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-spring-modulith/</guid>
-      <description>&lt;p&gt;VMware 推出了一个实验性的项目&lt;a href=&#34;https://spring.io/projects/spring-modulith&#34; target=&#34;_blank&#34;&gt;Spring Modulith&lt;/a&gt;，以便于通过模块和事件更好地组织 Spring Boot 3 应用。该项目引入了新的类和注解，但并不会生成代码。它的模块没有使用 Java Platform Module System（JPMS），而是映射到了普通的 Java 包。模块有 API，但是 Spring Modulith 鼓励使用 Spring 应用事件作为“主要的交互方式”。这些事件可以自动持久化到事件日志中。Spring Modulith 还简化了模块和事件的测试。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>2024-02-01｜使用 Spring Initializr 创建项目</title>
-      <link>https://blog.chensoul.cc/posts/2024/02/01/til/</link>
-      <pubDate>Thu, 01 Feb 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/02/01/til/</guid>
-      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt; 项目，部署到 docker 容器&lt;/li&gt;
-&lt;li&gt;使用 Spring Initializr 创建项目&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;使用-spring-initializr-创建项目&#34;&gt;使用 Spring Initializr 创建项目&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;安装  spring cli&lt;/p&gt;
-&lt;p&gt;使用 brew 安装的 spring cli 版本是 3.x 版本&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;brew tap pivotal/tap
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;brew install springboot
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;使用 sdkman 安装：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sdk install springboot 3.2.2
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;查看版本：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ spring version
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Spring CLI v3.2.2
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;查看 spring cli 支持的命令&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;spring &lt;span class=&#34;nb&#34;&gt;help&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;查看 init 命令说明：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]Spring Events</title>
-      <link>https://blog.chensoul.cc/posts/2023/08/25/spring-events/</link>
-      <pubDate>Fri, 25 Aug 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/08/25/spring-events/</guid>
-      <description>&lt;h2 id=&#34;1-概述&#34;&gt;1. 概述&lt;/h2&gt;
-&lt;p&gt;在本教程中，我们将讨论如何在 Spring 中使用事件。&lt;/p&gt;
-&lt;p&gt;事件是框架中最容易被忽视的功能之一，但也是最有用的功能之一。与 Spring 中的许多其他功能一样，事件发布是 &lt;code&gt;ApplicationContext&lt;/code&gt; 提供的功能之一。&lt;/p&gt;
-&lt;p&gt;有一些简单的准则需要遵循：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;如果我们使用 Spring Framework 4.2 之前的版本，事件类应该扩展 &lt;code&gt;ApplicationEvent&lt;/code&gt;。从 4.2 版本开始，事件类不再需要扩展 ApplicationEvent 类。&lt;/li&gt;
-&lt;li&gt;发布者应该注入一个 &lt;code&gt;ApplicationEventPublisher&lt;/code&gt; 对象。&lt;/li&gt;
-&lt;li&gt;监听器应该实现 &lt;code&gt;ApplicationListener&lt;/code&gt; 接口。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;2-自定义事件&#34;&gt;2. 自定义事件&lt;/h2&gt;
-&lt;p&gt;Spring 允许我们创建和发布默认情况下同步的自定义事件。这有一些优点，例如侦听器能够参与发布者的事务上下文。&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Spring on ChenSoul</title><link>https://blog.chensoul.cc/tags/spring/</link><description>Recent content in Spring on ChenSoul</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 09 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/spring/index.xml" rel="self" type="application/rss+xml"/><item><title>All things about Spring Modulith</title><link>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-spring-modulith/</link><pubDate>Thu, 09 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/09/all-things-about-spring-modulith/</guid><description>&lt;p>VMware 推出了一个实验性的项目&lt;a href="https://spring.io/projects/spring-modulith" target="_blank">Spring Modulith&lt;/a>，以便于通过模块和事件更好地组织 Spring Boot 3 应用。该项目引入了新的类和注解，但并不会生成代码。它的模块没有使用 Java Platform Module System（JPMS），而是映射到了普通的 Java 包。模块有 API，但是 Spring Modulith 鼓励使用 Spring 应用事件作为“主要的交互方式”。这些事件可以自动持久化到事件日志中。Spring Modulith 还简化了模块和事件的测试。&lt;/p></description></item><item><title>2024-02-01｜使用 Spring Initializr 创建项目</title><link>https://blog.chensoul.cc/posts/2024/02/01/til/</link><pubDate>Thu, 01 Feb 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/02/01/til/</guid><description>&lt;p>今天做了什么：&lt;/p>
+&lt;ol>
+&lt;li>重构 &lt;a href="https://github.com/chensoul/foodie-cloud" target="_blank">foodie-cloud&lt;/a> 项目，部署到 docker 容器&lt;/li>
+&lt;li>使用 Spring Initializr 创建项目&lt;/li>
+&lt;/ol>
+&lt;h2 id="使用-spring-initializr-创建项目">使用 Spring Initializr 创建项目&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>安装 spring cli&lt;/p></description></item><item><title>[译]Spring Events</title><link>https://blog.chensoul.cc/posts/2023/08/25/spring-events/</link><pubDate>Fri, 25 Aug 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/08/25/spring-events/</guid><description>&lt;h2 id="1-概述">1. 概述&lt;/h2>
+&lt;p>在本教程中，我们将讨论如何在 Spring 中使用事件。&lt;/p></description></item></channel></rss>

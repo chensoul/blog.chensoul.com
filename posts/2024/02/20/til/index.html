@@ -1,563 +1,89 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构 | ChenSoul</title>
-<meta name=keywords content="spring-cloud"><meta name=description content='今天做了什么：
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="今天做了什么：
 
 
-ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能
-
-
- 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-
-
-@Aspect
-@Component
-public class RateLimitAspect {
-  private final RedisTemplate<String, Object> redisTemplate;
-  private final Logger logger = LoggerFactory.getLogger(RateLimitAspect.class);
-
-  private final int maxRequests; // Maximum number of requests
-  private final int timeWindow; // Time window in seconds
-
-  @Autowired
-  public RateLimitAspect(RedisTemplate<String, Object> redisTemplate) {
-      this.redisTemplate = redisTemplate;
-      this.maxRequests = 100; // Default maximum number of requests is 100
-      this.timeWindow = 60; // Default time window is 60 seconds
-  }
-
-  @Before("@annotation(getMapping)")
-  public void applyRateLimit(JoinPoint joinPoint, GetMapping getMapping) {
-      HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-         .getRequestAttributes()).getRequest();
-      if (request != null && HttpMethod.GET.matches(request.getMethod())) {
-          String username = request.getUserPrincipal().getName(); // Get the username
-          if (username != null && !username.isEmpty()) {
-              String rateLimitKey = "rate_limit:" + username;
-              incrementAndCheckRateLimit(rateLimitKey, request);
-          }
-      }
-  }
-
-  private void incrementAndCheckRateLimit(String rateLimitKey, HttpServletRequest request) {
-      Long currentRequests = redisTemplate.execute((RedisCallback<Long>) connection -> {
-          Object nativeConnection = connection.getNativeConnection();
-          String script = "local current = redis.call(&#39;INCR&#39;, KEYS[1])\n"
-                  + "if tonumber(current) == 1 then\n"
-                  + "    redis.call(&#39;EXPIRE&#39;, KEYS[1], ARGV[1])\n"
-                  + "end\n"
-                  + "return current";
-          return (Long) ((RedisOperations<?, ?>) nativeConnection).execute(
-                  (RedisCallback<Object>) connection1 -> connection1.eval(
-                          script.getBytes(),
-                          redisTemplate.getKeySerializer(), // Use custom Key serializer
-                          redisTemplate.getValueSerializer(), // Use custom Value serializer
-                          Collections.singletonList(rateLimitKey.getBytes()),
-                          Collections.singletonList(String.valueOf(timeWindow).getBytes())
-                  )
-          );
-      });
-
-      if (currentRequests > maxRequests) {
-          String urlWithParams = getRequestUrlWithParams(request);
-          logger.warn("Rate limit exceeded for key: {}. Request URL with Params: {}", 
-             rateLimitKey, urlWithParams);
-          throw new RateLimitException();
-      }
-  }
-
-  private String getRequestUrlWithParams(HttpServletRequest request) {
-      String url = request.getRequestURL().toString();
-      String queryString = request.getQueryString();
-      if (queryString != null && !queryString.isEmpty()) {
-          url += "?" + queryString;
-      }
-      return url;
-  }
-}
-
-
-
-
-调整 spring-cloud-examples 目录，通过源码分析 SpringBoot 2.7.18 启动过程'><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/posts/2024/02/20/til/><meta name=google-site-verification content="nBXwg45SBRjTX78SA-mH0asrAbsdu9c1nk0ObSry7aQ"><link crossorigin=anonymous href=/assets/css/stylesheet.899d9a536396b9b03c9eae0c99cc6ec954a90da94036f5390d131eb8071bb417.css integrity="sha256-iZ2aU2OWubA8nq4MmcxuyVSpDalANvU5DRMeuAcbtBc=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://blog.chensoul.cc/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://blog.chensoul.cc/favicon-32x32.png><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=mask-icon href=https://blog.chensoul.cc/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://blog.chensoul.cc/posts/2024/02/20/til/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><meta property="og:title" content="2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构"><meta property="og:description" content='今天做了什么：
-
-
-ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能
-
-
- 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-
-
-@Aspect
-@Component
-public class RateLimitAspect {
-  private final RedisTemplate<String, Object> redisTemplate;
-  private final Logger logger = LoggerFactory.getLogger(RateLimitAspect.class);
-
-  private final int maxRequests; // Maximum number of requests
-  private final int timeWindow; // Time window in seconds
-
-  @Autowired
-  public RateLimitAspect(RedisTemplate<String, Object> redisTemplate) {
-      this.redisTemplate = redisTemplate;
-      this.maxRequests = 100; // Default maximum number of requests is 100
-      this.timeWindow = 60; // Default time window is 60 seconds
-  }
-
-  @Before("@annotation(getMapping)")
-  public void applyRateLimit(JoinPoint joinPoint, GetMapping getMapping) {
-      HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-         .getRequestAttributes()).getRequest();
-      if (request != null && HttpMethod.GET.matches(request.getMethod())) {
-          String username = request.getUserPrincipal().getName(); // Get the username
-          if (username != null && !username.isEmpty()) {
-              String rateLimitKey = "rate_limit:" + username;
-              incrementAndCheckRateLimit(rateLimitKey, request);
-          }
-      }
-  }
-
-  private void incrementAndCheckRateLimit(String rateLimitKey, HttpServletRequest request) {
-      Long currentRequests = redisTemplate.execute((RedisCallback<Long>) connection -> {
-          Object nativeConnection = connection.getNativeConnection();
-          String script = "local current = redis.call(&#39;INCR&#39;, KEYS[1])\n"
-                  + "if tonumber(current) == 1 then\n"
-                  + "    redis.call(&#39;EXPIRE&#39;, KEYS[1], ARGV[1])\n"
-                  + "end\n"
-                  + "return current";
-          return (Long) ((RedisOperations<?, ?>) nativeConnection).execute(
-                  (RedisCallback<Object>) connection1 -> connection1.eval(
-                          script.getBytes(),
-                          redisTemplate.getKeySerializer(), // Use custom Key serializer
-                          redisTemplate.getValueSerializer(), // Use custom Value serializer
-                          Collections.singletonList(rateLimitKey.getBytes()),
-                          Collections.singletonList(String.valueOf(timeWindow).getBytes())
-                  )
-          );
-      });
-
-      if (currentRequests > maxRequests) {
-          String urlWithParams = getRequestUrlWithParams(request);
-          logger.warn("Rate limit exceeded for key: {}. Request URL with Params: {}", 
-             rateLimitKey, urlWithParams);
-          throw new RateLimitException();
-      }
-  }
-
-  private String getRequestUrlWithParams(HttpServletRequest request) {
-      String url = request.getRequestURL().toString();
-      String queryString = request.getQueryString();
-      if (queryString != null && !queryString.isEmpty()) {
-          url += "?" + queryString;
-      }
-      return url;
-  }
-}
-
-
-
-
-调整 spring-cloud-examples 目录，通过源码分析 SpringBoot 2.7.18 启动过程'><meta property="og:type" content="article"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/02/20/til/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-02-20T00:00:00+08:00"><meta property="article:modified_time" content="2024-02-20T00:00:00+08:00"><meta property="og:site_name" content="ChenSoul"><meta name=twitter:card content="summary"><meta name=twitter:title content="2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构"><meta name=twitter:description content='今天做了什么：
-
-
-ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能
-
-
- 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-
-
-@Aspect
-@Component
-public class RateLimitAspect {
-  private final RedisTemplate<String, Object> redisTemplate;
-  private final Logger logger = LoggerFactory.getLogger(RateLimitAspect.class);
-
-  private final int maxRequests; // Maximum number of requests
-  private final int timeWindow; // Time window in seconds
-
-  @Autowired
-  public RateLimitAspect(RedisTemplate<String, Object> redisTemplate) {
-      this.redisTemplate = redisTemplate;
-      this.maxRequests = 100; // Default maximum number of requests is 100
-      this.timeWindow = 60; // Default time window is 60 seconds
-  }
-
-  @Before("@annotation(getMapping)")
-  public void applyRateLimit(JoinPoint joinPoint, GetMapping getMapping) {
-      HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-         .getRequestAttributes()).getRequest();
-      if (request != null && HttpMethod.GET.matches(request.getMethod())) {
-          String username = request.getUserPrincipal().getName(); // Get the username
-          if (username != null && !username.isEmpty()) {
-              String rateLimitKey = "rate_limit:" + username;
-              incrementAndCheckRateLimit(rateLimitKey, request);
-          }
-      }
-  }
-
-  private void incrementAndCheckRateLimit(String rateLimitKey, HttpServletRequest request) {
-      Long currentRequests = redisTemplate.execute((RedisCallback<Long>) connection -> {
-          Object nativeConnection = connection.getNativeConnection();
-          String script = "local current = redis.call(&#39;INCR&#39;, KEYS[1])\n"
-                  + "if tonumber(current) == 1 then\n"
-                  + "    redis.call(&#39;EXPIRE&#39;, KEYS[1], ARGV[1])\n"
-                  + "end\n"
-                  + "return current";
-          return (Long) ((RedisOperations<?, ?>) nativeConnection).execute(
-                  (RedisCallback<Object>) connection1 -> connection1.eval(
-                          script.getBytes(),
-                          redisTemplate.getKeySerializer(), // Use custom Key serializer
-                          redisTemplate.getValueSerializer(), // Use custom Value serializer
-                          Collections.singletonList(rateLimitKey.getBytes()),
-                          Collections.singletonList(String.valueOf(timeWindow).getBytes())
-                  )
-          );
-      });
-
-      if (currentRequests > maxRequests) {
-          String urlWithParams = getRequestUrlWithParams(request);
-          logger.warn("Rate limit exceeded for key: {}. Request URL with Params: {}", 
-             rateLimitKey, urlWithParams);
-          throw new RateLimitException();
-      }
-  }
-
-  private String getRequestUrlWithParams(HttpServletRequest request) {
-      String url = request.getRequestURL().toString();
-      String queryString = request.getQueryString();
-      if (queryString != null && !queryString.isEmpty()) {
-          url += "?" + queryString;
-      }
-      return url;
-  }
-}
-
-
-
-
-调整 spring-cloud-examples 目录，通过源码分析 SpringBoot 2.7.18 启动过程'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://blog.chensoul.cc/posts/"},{"@type":"ListItem","position":2,"name":"2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构","item":"https://blog.chensoul.cc/posts/2024/02/20/til/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构","name":"2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构","description":"今天做了什么：\nChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 @Aspect @Component public class RateLimitAspect { private final RedisTemplate\u0026lt;String, Object\u0026gt; redisTemplate; private final Logger logger = LoggerFactory.getLogger(RateLimitAspect.class); private final int maxRequests; // Maximum number of requests private final int timeWindow; // Time window in seconds @Autowired public RateLimitAspect(RedisTemplate\u0026lt;String, Object\u0026gt; redisTemplate) { this.redisTemplate = redisTemplate; this.maxRequests = 100; // Default maximum number of requests is 100 this.timeWindow = 60; // Default time window is 60 seconds } @Before(\u0026#34;@annotation(getMapping)\u0026#34;) public void applyRateLimit(JoinPoint joinPoint, GetMapping getMapping) { HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder .getRequestAttributes()).getRequest(); if (request != null \u0026amp;\u0026amp; HttpMethod.GET.matches(request.getMethod())) { String username = request.getUserPrincipal().getName(); // Get the username if (username != null \u0026amp;\u0026amp; !username.isEmpty()) { String rateLimitKey = \u0026#34;rate_limit:\u0026#34; + username; incrementAndCheckRateLimit(rateLimitKey, request); } } } private void incrementAndCheckRateLimit(String rateLimitKey, HttpServletRequest request) { Long currentRequests = redisTemplate.execute((RedisCallback\u0026lt;Long\u0026gt;) connection -\u0026gt; { Object nativeConnection = connection.getNativeConnection(); String script = \u0026#34;local current = redis.call(\u0026#39;INCR\u0026#39;, KEYS[1])\\n\u0026#34; + \u0026#34;if tonumber(current) == 1 then\\n\u0026#34; + \u0026#34; redis.call(\u0026#39;EXPIRE\u0026#39;, KEYS[1], ARGV[1])\\n\u0026#34; + \u0026#34;end\\n\u0026#34; + \u0026#34;return current\u0026#34;; return (Long) ((RedisOperations\u0026lt;?, ?\u0026gt;) nativeConnection).execute( (RedisCallback\u0026lt;Object\u0026gt;) connection1 -\u0026gt; connection1.eval( script.getBytes(), redisTemplate.getKeySerializer(), // Use custom Key serializer redisTemplate.getValueSerializer(), // Use custom Value serializer Collections.singletonList(rateLimitKey.getBytes()), Collections.singletonList(String.valueOf(timeWindow).getBytes()) ) ); }); if (currentRequests \u0026gt; maxRequests) { String urlWithParams = getRequestUrlWithParams(request); logger.warn(\u0026#34;Rate limit exceeded for key: {}. Request URL with Params: {}\u0026#34;, rateLimitKey, urlWithParams); throw new RateLimitException(); } } private String getRequestUrlWithParams(HttpServletRequest request) { String url = request.getRequestURL().toString(); String queryString = request.getQueryString(); if (queryString != null \u0026amp;\u0026amp; !queryString.isEmpty()) { url += \u0026#34;?\u0026#34; + queryString; } return url; } } 调整 spring-cloud-examples 目录，通过源码分析 SpringBoot 2.7.18 启动过程\n","keywords":["spring-cloud"],"articleBody":"今天做了什么：\nChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 @Aspect @Component public class RateLimitAspect { private final RedisTemplate\u003cString, Object\u003e redisTemplate; private final Logger logger = LoggerFactory.getLogger(RateLimitAspect.class); private final int maxRequests; // Maximum number of requests private final int timeWindow; // Time window in seconds @Autowired public RateLimitAspect(RedisTemplate\u003cString, Object\u003e redisTemplate) { this.redisTemplate = redisTemplate; this.maxRequests = 100; // Default maximum number of requests is 100 this.timeWindow = 60; // Default time window is 60 seconds } @Before(\"@annotation(getMapping)\") public void applyRateLimit(JoinPoint joinPoint, GetMapping getMapping) { HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder .getRequestAttributes()).getRequest(); if (request != null \u0026\u0026 HttpMethod.GET.matches(request.getMethod())) { String username = request.getUserPrincipal().getName(); // Get the username if (username != null \u0026\u0026 !username.isEmpty()) { String rateLimitKey = \"rate_limit:\" + username; incrementAndCheckRateLimit(rateLimitKey, request); } } } private void incrementAndCheckRateLimit(String rateLimitKey, HttpServletRequest request) { Long currentRequests = redisTemplate.execute((RedisCallback\u003cLong\u003e) connection -\u003e { Object nativeConnection = connection.getNativeConnection(); String script = \"local current = redis.call('INCR', KEYS[1])\\n\" + \"if tonumber(current) == 1 then\\n\" + \" redis.call('EXPIRE', KEYS[1], ARGV[1])\\n\" + \"end\\n\" + \"return current\"; return (Long) ((RedisOperations\u003c?, ?\u003e) nativeConnection).execute( (RedisCallback\u003cObject\u003e) connection1 -\u003e connection1.eval( script.getBytes(), redisTemplate.getKeySerializer(), // Use custom Key serializer redisTemplate.getValueSerializer(), // Use custom Value serializer Collections.singletonList(rateLimitKey.getBytes()), Collections.singletonList(String.valueOf(timeWindow).getBytes()) ) ); }); if (currentRequests \u003e maxRequests) { String urlWithParams = getRequestUrlWithParams(request); logger.warn(\"Rate limit exceeded for key: {}. Request URL with Params: {}\", rateLimitKey, urlWithParams); throw new RateLimitException(); } } private String getRequestUrlWithParams(HttpServletRequest request) { String url = request.getRequestURL().toString(); String queryString = request.getQueryString(); if (queryString != null \u0026\u0026 !queryString.isEmpty()) { url += \"?\" + queryString; } return url; } } 调整 spring-cloud-examples 目录，通过源码分析 SpringBoot 2.7.18 启动过程\n","wordCount":"354","inLanguage":"en","datePublished":"2024-02-20T00:00:00+08:00","dateModified":"2024-02-20T00:00:00+08:00","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/02/20/til/"},"publisher":{"@type":"Organization","name":"ChenSoul","logo":{"@type":"ImageObject","url":"https://blog.chensoul.cc/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories title=分类><span>分类</span></a></li><li><a href=https://blog.chensoul.cc/tags title=标签><span>标签</span></a></li><li><a href=https://blog.chensoul.cc/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://blog.chensoul.cc/index.xml title=订阅><span>订阅</span></a></li><li><a href=https://github.com/chensoul title=关于><span>关于</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构</h1><div class=post-meta><span title='2024-02-20 00:00:00 +0800 CST'>2024-02-20</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;354 words&nbsp;·&nbsp;chensoul</div></header><div class=post-content><p>今天做了什么：</p><ol><li><p>ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span><span class=lnt>45
-</span><span class=lnt>46
-</span><span class=lnt>47
-</span><span class=lnt>48
-</span><span class=lnt>49
-</span><span class=lnt>50
-</span><span class=lnt>51
-</span><span class=lnt>52
-</span><span class=lnt>53
-</span><span class=lnt>54
-</span><span class=lnt>55
-</span><span class=lnt>56
-</span><span class=lnt>57
-</span><span class=lnt>58
-</span><span class=lnt>59
-</span><span class=lnt>60
-</span><span class=lnt>61
-</span><span class=lnt>62
-</span><span class=lnt>63
-</span><span class=lnt>64
-</span><span class=lnt>65
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=nd>@Aspect</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nd>@Component</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>RateLimitAspect</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=kd>final</span><span class=w> </span><span class=n>RedisTemplate</span><span class=o>&lt;</span><span class=n>String</span><span class=p>,</span><span class=w> </span><span class=n>Object</span><span class=o>&gt;</span><span class=w> </span><span class=n>redisTemplate</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=kd>final</span><span class=w> </span><span class=n>Logger</span><span class=w> </span><span class=n>logger</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>LoggerFactory</span><span class=p>.</span><span class=na>getLogger</span><span class=p>(</span><span class=n>RateLimitAspect</span><span class=p>.</span><span class=na>class</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=kd>final</span><span class=w> </span><span class=kt>int</span><span class=w> </span><span class=n>maxRequests</span><span class=p>;</span><span class=w> </span><span class=c1>// Maximum number of requests</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=kd>final</span><span class=w> </span><span class=kt>int</span><span class=w> </span><span class=n>timeWindow</span><span class=p>;</span><span class=w> </span><span class=c1>// Time window in seconds</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Autowired</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=nf>RateLimitAspect</span><span class=p>(</span><span class=n>RedisTemplate</span><span class=o>&lt;</span><span class=n>String</span><span class=p>,</span><span class=w> </span><span class=n>Object</span><span class=o>&gt;</span><span class=w> </span><span class=n>redisTemplate</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>this</span><span class=p>.</span><span class=na>redisTemplate</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>redisTemplate</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>this</span><span class=p>.</span><span class=na>maxRequests</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>100</span><span class=p>;</span><span class=w> </span><span class=c1>// Default maximum number of requests is 100</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>this</span><span class=p>.</span><span class=na>timeWindow</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>60</span><span class=p>;</span><span class=w> </span><span class=c1>// Default time window is 60 seconds</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Before</span><span class=p>(</span><span class=s>&#34;@annotation(getMapping)&#34;</span><span class=p>)</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>applyRateLimit</span><span class=p>(</span><span class=n>JoinPoint</span><span class=w> </span><span class=n>joinPoint</span><span class=p>,</span><span class=w> </span><span class=n>GetMapping</span><span class=w> </span><span class=n>getMapping</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=n>HttpServletRequest</span><span class=w> </span><span class=n>request</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>((</span><span class=n>ServletRequestAttributes</span><span class=p>)</span><span class=w> </span><span class=n>RequestContextHolder</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>         </span><span class=p>.</span><span class=na>getRequestAttributes</span><span class=p>()).</span><span class=na>getRequest</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>if</span><span class=w> </span><span class=p>(</span><span class=n>request</span><span class=w> </span><span class=o>!=</span><span class=w> </span><span class=kc>null</span><span class=w> </span><span class=o>&amp;&amp;</span><span class=w> </span><span class=n>HttpMethod</span><span class=p>.</span><span class=na>GET</span><span class=p>.</span><span class=na>matches</span><span class=p>(</span><span class=n>request</span><span class=p>.</span><span class=na>getMethod</span><span class=p>()))</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=n>String</span><span class=w> </span><span class=n>username</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>request</span><span class=p>.</span><span class=na>getUserPrincipal</span><span class=p>().</span><span class=na>getName</span><span class=p>();</span><span class=w> </span><span class=c1>// Get the username</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=k>if</span><span class=w> </span><span class=p>(</span><span class=n>username</span><span class=w> </span><span class=o>!=</span><span class=w> </span><span class=kc>null</span><span class=w> </span><span class=o>&amp;&amp;</span><span class=w> </span><span class=o>!</span><span class=n>username</span><span class=p>.</span><span class=na>isEmpty</span><span class=p>())</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>              </span><span class=n>String</span><span class=w> </span><span class=n>rateLimitKey</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&#34;rate_limit:&#34;</span><span class=w> </span><span class=o>+</span><span class=w> </span><span class=n>username</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>              </span><span class=n>incrementAndCheckRateLimit</span><span class=p>(</span><span class=n>rateLimitKey</span><span class=p>,</span><span class=w> </span><span class=n>request</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>incrementAndCheckRateLimit</span><span class=p>(</span><span class=n>String</span><span class=w> </span><span class=n>rateLimitKey</span><span class=p>,</span><span class=w> </span><span class=n>HttpServletRequest</span><span class=w> </span><span class=n>request</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=n>Long</span><span class=w> </span><span class=n>currentRequests</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>redisTemplate</span><span class=p>.</span><span class=na>execute</span><span class=p>((</span><span class=n>RedisCallback</span><span class=o>&lt;</span><span class=n>Long</span><span class=o>&gt;</span><span class=p>)</span><span class=w> </span><span class=n>connection</span><span class=w> </span><span class=o>-&gt;</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=n>Object</span><span class=w> </span><span class=n>nativeConnection</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>connection</span><span class=p>.</span><span class=na>getNativeConnection</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=n>String</span><span class=w> </span><span class=n>script</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&#34;local current = redis.call(&#39;INCR&#39;, KEYS[1])\n&#34;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                  </span><span class=o>+</span><span class=w> </span><span class=s>&#34;if tonumber(current) == 1 then\n&#34;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                  </span><span class=o>+</span><span class=w> </span><span class=s>&#34;    redis.call(&#39;EXPIRE&#39;, KEYS[1], ARGV[1])\n&#34;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                  </span><span class=o>+</span><span class=w> </span><span class=s>&#34;end\n&#34;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                  </span><span class=o>+</span><span class=w> </span><span class=s>&#34;return current&#34;</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=k>return</span><span class=w> </span><span class=p>(</span><span class=n>Long</span><span class=p>)</span><span class=w> </span><span class=p>((</span><span class=n>RedisOperations</span><span class=o>&lt;?</span><span class=p>,</span><span class=w> </span><span class=o>?&gt;</span><span class=p>)</span><span class=w> </span><span class=n>nativeConnection</span><span class=p>).</span><span class=na>execute</span><span class=p>(</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                  </span><span class=p>(</span><span class=n>RedisCallback</span><span class=o>&lt;</span><span class=n>Object</span><span class=o>&gt;</span><span class=p>)</span><span class=w> </span><span class=n>connection1</span><span class=w> </span><span class=o>-&gt;</span><span class=w> </span><span class=n>connection1</span><span class=p>.</span><span class=na>eval</span><span class=p>(</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                          </span><span class=n>script</span><span class=p>.</span><span class=na>getBytes</span><span class=p>(),</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                          </span><span class=n>redisTemplate</span><span class=p>.</span><span class=na>getKeySerializer</span><span class=p>(),</span><span class=w> </span><span class=c1>// Use custom Key serializer</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                          </span><span class=n>redisTemplate</span><span class=p>.</span><span class=na>getValueSerializer</span><span class=p>(),</span><span class=w> </span><span class=c1>// Use custom Value serializer</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                          </span><span class=n>Collections</span><span class=p>.</span><span class=na>singletonList</span><span class=p>(</span><span class=n>rateLimitKey</span><span class=p>.</span><span class=na>getBytes</span><span class=p>()),</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                          </span><span class=n>Collections</span><span class=p>.</span><span class=na>singletonList</span><span class=p>(</span><span class=n>String</span><span class=p>.</span><span class=na>valueOf</span><span class=p>(</span><span class=n>timeWindow</span><span class=p>).</span><span class=na>getBytes</span><span class=p>())</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                  </span><span class=p>)</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=p>});</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>if</span><span class=w> </span><span class=p>(</span><span class=n>currentRequests</span><span class=w> </span><span class=o>&gt;</span><span class=w> </span><span class=n>maxRequests</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=n>String</span><span class=w> </span><span class=n>urlWithParams</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>getRequestUrlWithParams</span><span class=p>(</span><span class=n>request</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=n>logger</span><span class=p>.</span><span class=na>warn</span><span class=p>(</span><span class=s>&#34;Rate limit exceeded for key: {}. Request URL with Params: {}&#34;</span><span class=p>,</span><span class=w> 
-</span></span></span><span class=line><span class=cl><span class=w>             </span><span class=n>rateLimitKey</span><span class=p>,</span><span class=w> </span><span class=n>urlWithParams</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=k>throw</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>RateLimitException</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=nf>getRequestUrlWithParams</span><span class=p>(</span><span class=n>HttpServletRequest</span><span class=w> </span><span class=n>request</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=n>String</span><span class=w> </span><span class=n>url</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>request</span><span class=p>.</span><span class=na>getRequestURL</span><span class=p>().</span><span class=na>toString</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=n>String</span><span class=w> </span><span class=n>queryString</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>request</span><span class=p>.</span><span class=na>getQueryString</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>if</span><span class=w> </span><span class=p>(</span><span class=n>queryString</span><span class=w> </span><span class=o>!=</span><span class=w> </span><span class=kc>null</span><span class=w> </span><span class=o>&amp;&amp;</span><span class=w> </span><span class=o>!</span><span class=n>queryString</span><span class=p>.</span><span class=na>isEmpty</span><span class=p>())</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=n>url</span><span class=w> </span><span class=o>+=</span><span class=w> </span><span class=s>&#34;?&#34;</span><span class=w> </span><span class=o>+</span><span class=w> </span><span class=n>queryString</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>return</span><span class=w> </span><span class=n>url</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div></li><li><p>调整 <a href=https://github.com/chensoul/spring-cloud-examples target=_blank>spring-cloud-examples</a> 目录，通过源码分析 <a href=https://github.com/chensoul/spring-cloud-examples/blob/main/lesson-01-bootstrap/SpringBoot%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B.md target=_blank>SpringBoot 2.7.18 启动过程</a></p></li></ol></div><footer class=post-footer><ul class=post-tags><li><a href=https://blog.chensoul.cc/tags/spring-cloud/>Spring-Cloud</a></li></ul><nav class=paginav><a class=prev href=https://blog.chensoul.cc/posts/2024/04/17/thingsboard-tbmq-local-docker-run/><span class=title>« Prev</span><br><span>ThingsBoard TBMQ本地和通过Docker运行</span>
-</a><a class=next href=https://blog.chensoul.cc/posts/2024/02/19/til/><span class=title>Next »</span><br><span>2024-02-19｜foodie-cloud集成Sharding Sphere实现读写分离</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构 on x" href="https://x.com/intent/tweet/?text=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f&amp;hashtags=spring-cloud"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f&amp;title=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84&amp;summary=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84&amp;source=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f&title=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构 on whatsapp" href="https://api.whatsapp.com/send?text=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构 on telegram" href="https://telegram.me/share/url?text=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构 on ycombinator" href="https://news.ycombinator.com/submitlink?t=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84&u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
-</a><script async src=https://umami.chensoul.cc/random-string.js data-website-id=821c25f8-a31a-4607-92d7-91ee76843d00></script><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能"><title>2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构 | ChenSoul</title>
+<link rel=canonical href=https://blog.chensoul.cc/posts/2024/02/20/til/><link rel=preconnect href=https://fonts.font.im><link rel=preconnect href=https://fonts.loli.net crossorigin><link href="https://fonts.loli.net/css2?family=Roboto+Slab:wght@400;500;700&display=swap" rel=stylesheet><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta name=twitter:title content="2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构"><meta name=twitter:description content="今天做了什么：
+ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能"><meta property="og:locale" content="en_US"><meta property="og:site_name" content="chensoul"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/02/20/til/"><meta property="og:site_name" content="ChenSoul"><meta property="og:title" content="2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构"><meta property="og:description" content="今天做了什么：
+ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-02-20T00:00:00+00:00"><meta property="article:modified_time" content="2024-02-20T00:00:00+00:00"><meta property="article:tag" content="Spring-Cloud"><meta property="og:image" content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=name content="2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构"><meta itemprop=description content="今天做了什么：
+ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能"><meta itemprop=datePublished content="2024-02-20T00:00:00+00:00"><meta itemprop=dateModified content="2024-02-20T00:00:00+00:00"><meta itemprop=wordCount content="252"><meta itemprop=image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=keywords content="Spring-Cloud"><link rel=stylesheet href=https://cdnjs.loli.net/ajax/libs/font-awesome/6.4.0/css/all.min.css media=all><link rel=stylesheet href=/main.min.css type=text/css media=all><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构","headline":"2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构","inLanguage":"en-US","url":"https://blog.chensoul.cc/posts/2024/02/20/til/","description":"\u003cp\u003e今天做了什么：\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e\n\u003cp\u003eChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能\u003c/p\u003e","wordCount":"252","keywords":["spring-cloud"],"datePublished":"2024-02-20T00:00:00Z","dateModified":"2024-02-20T00:00:00Z","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/02/20/til/"},"publisher":{"@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/posts/2024/02/20/til/"}},{"@context":"https://schema.org","@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/","sameAs":["https://twitter.com/","https://github.com/chensoul","https://www.linkedin.com/in/"]}]}</script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title=ChenSoul rel=home>ChenSoul</a></h1><p class=site-description>Java, Spring Boot, Microservice, Cloud, Architecture and DevOps Tutorials</p></div><div class="header-widgets clearfix"><aside id=search-2 class="header-widget widget_search"><form role=search method=get class=search-form onsubmit="return searchSite(event)"><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=search-field placeholder="Enter search keyword" name=query id=query title="Enter search keyword">
+</label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
+<span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
+current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/02/20/til/ rel=bookmark title=2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构>2024-02-20｜RateLimitAspect请求限流、调整spring-cloud-examples项目结构</a></h2><hr><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-02-20T00:00:00>2024-02-20
+</time></span><span class=meta-author><span class="author vcard">chensoul</span>
+</span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/spring-cloud/ title=spring-cloud>spring-cloud</a></span></div></header><div class=entry-content><p>今天做了什么：</p><ol><li><p>ChatGPT 编写一个 RateLimitAspect 类，实现基于用户的 get 查询请求的限流功能</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Aspect</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Component</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>RateLimitAspect</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> RedisTemplate<span style=color:#f92672>&lt;</span>String, Object<span style=color:#f92672>&gt;</span> redisTemplate;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> Logger logger <span style=color:#f92672>=</span> LoggerFactory.<span style=color:#a6e22e>getLogger</span>(RateLimitAspect.<span style=color:#a6e22e>class</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>int</span> maxRequests; <span style=color:#75715e>// Maximum number of requests</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>int</span> timeWindow; <span style=color:#75715e>// Time window in seconds</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Autowired</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>RateLimitAspect</span>(RedisTemplate<span style=color:#f92672>&lt;</span>String, Object<span style=color:#f92672>&gt;</span> redisTemplate) {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>redisTemplate</span> <span style=color:#f92672>=</span> redisTemplate;
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>maxRequests</span> <span style=color:#f92672>=</span> 100; <span style=color:#75715e>// Default maximum number of requests is 100</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>timeWindow</span> <span style=color:#f92672>=</span> 60; <span style=color:#75715e>// Default time window is 60 seconds</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Before</span>(<span style=color:#e6db74>&#34;@annotation(getMapping)&#34;</span>)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>applyRateLimit</span>(JoinPoint joinPoint, GetMapping getMapping) {
+</span></span><span style=display:flex><span>      HttpServletRequest request <span style=color:#f92672>=</span> ((ServletRequestAttributes) RequestContextHolder
+</span></span><span style=display:flex><span>         .<span style=color:#a6e22e>getRequestAttributes</span>()).<span style=color:#a6e22e>getRequest</span>();
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> (request <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>&amp;&amp;</span> HttpMethod.<span style=color:#a6e22e>GET</span>.<span style=color:#a6e22e>matches</span>(request.<span style=color:#a6e22e>getMethod</span>())) {
+</span></span><span style=display:flex><span>          String username <span style=color:#f92672>=</span> request.<span style=color:#a6e22e>getUserPrincipal</span>().<span style=color:#a6e22e>getName</span>(); <span style=color:#75715e>// Get the username</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>if</span> (username <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#f92672>!</span>username.<span style=color:#a6e22e>isEmpty</span>()) {
+</span></span><span style=display:flex><span>              String rateLimitKey <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;rate_limit:&#34;</span> <span style=color:#f92672>+</span> username;
+</span></span><span style=display:flex><span>              incrementAndCheckRateLimit(rateLimitKey, request);
+</span></span><span style=display:flex><span>          }
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>incrementAndCheckRateLimit</span>(String rateLimitKey, HttpServletRequest request) {
+</span></span><span style=display:flex><span>      Long currentRequests <span style=color:#f92672>=</span> redisTemplate.<span style=color:#a6e22e>execute</span>((RedisCallback<span style=color:#f92672>&lt;</span>Long<span style=color:#f92672>&gt;</span>) connection <span style=color:#f92672>-&gt;</span> {
+</span></span><span style=display:flex><span>          Object nativeConnection <span style=color:#f92672>=</span> connection.<span style=color:#a6e22e>getNativeConnection</span>();
+</span></span><span style=display:flex><span>          String script <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;local current = redis.call(&#39;INCR&#39;, KEYS[1])\n&#34;</span>
+</span></span><span style=display:flex><span>                  <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;if tonumber(current) == 1 then\n&#34;</span>
+</span></span><span style=display:flex><span>                  <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;    redis.call(&#39;EXPIRE&#39;, KEYS[1], ARGV[1])\n&#34;</span>
+</span></span><span style=display:flex><span>                  <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;end\n&#34;</span>
+</span></span><span style=display:flex><span>                  <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;return current&#34;</span>;
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>return</span> (Long) ((RedisOperations<span style=color:#f92672>&lt;?</span>, <span style=color:#f92672>?&gt;</span>) nativeConnection).<span style=color:#a6e22e>execute</span>(
+</span></span><span style=display:flex><span>                  (RedisCallback<span style=color:#f92672>&lt;</span>Object<span style=color:#f92672>&gt;</span>) connection1 <span style=color:#f92672>-&gt;</span> connection1.<span style=color:#a6e22e>eval</span>(
+</span></span><span style=display:flex><span>                          script.<span style=color:#a6e22e>getBytes</span>(),
+</span></span><span style=display:flex><span>                          redisTemplate.<span style=color:#a6e22e>getKeySerializer</span>(), <span style=color:#75715e>// Use custom Key serializer</span>
+</span></span><span style=display:flex><span>                          redisTemplate.<span style=color:#a6e22e>getValueSerializer</span>(), <span style=color:#75715e>// Use custom Value serializer</span>
+</span></span><span style=display:flex><span>                          Collections.<span style=color:#a6e22e>singletonList</span>(rateLimitKey.<span style=color:#a6e22e>getBytes</span>()),
+</span></span><span style=display:flex><span>                          Collections.<span style=color:#a6e22e>singletonList</span>(String.<span style=color:#a6e22e>valueOf</span>(timeWindow).<span style=color:#a6e22e>getBytes</span>())
+</span></span><span style=display:flex><span>                  )
+</span></span><span style=display:flex><span>          );
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> (currentRequests <span style=color:#f92672>&gt;</span> maxRequests) {
+</span></span><span style=display:flex><span>          String urlWithParams <span style=color:#f92672>=</span> getRequestUrlWithParams(request);
+</span></span><span style=display:flex><span>          logger.<span style=color:#a6e22e>warn</span>(<span style=color:#e6db74>&#34;Rate limit exceeded for key: {}. Request URL with Params: {}&#34;</span>, 
+</span></span><span style=display:flex><span>             rateLimitKey, urlWithParams);
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RateLimitException();
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> String <span style=color:#a6e22e>getRequestUrlWithParams</span>(HttpServletRequest request) {
+</span></span><span style=display:flex><span>      String url <span style=color:#f92672>=</span> request.<span style=color:#a6e22e>getRequestURL</span>().<span style=color:#a6e22e>toString</span>();
+</span></span><span style=display:flex><span>      String queryString <span style=color:#f92672>=</span> request.<span style=color:#a6e22e>getQueryString</span>();
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> (queryString <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#f92672>!</span>queryString.<span style=color:#a6e22e>isEmpty</span>()) {
+</span></span><span style=display:flex><span>          url <span style=color:#f92672>+=</span> <span style=color:#e6db74>&#34;?&#34;</span> <span style=color:#f92672>+</span> queryString;
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>return</span> url;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></li><li><p>调整 <a href=https://github.com/chensoul/spring-cloud-examples target=_blank>spring-cloud-examples</a> 目录，通过源码分析 <a href=https://github.com/chensoul/spring-cloud-examples/blob/main/lesson-01-bootstrap/SpringBoot%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B.md target=_blank>SpringBoot 2.7.18 启动过程</a></p></li></ol></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84 https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+</a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f&title=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://telegram.me/share/url?text=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f&title=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f" target=_blank rel="noopener noreferrer" title="Click to share on facebook"><i class="fa-brands fa-facebook fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://api.whatsapp.com/send?text=2024-02-20%ef%bd%9cRateLimitAspect%e8%af%b7%e6%b1%82%e9%99%90%e6%b5%81%e3%80%81%e8%b0%83%e6%95%b4spring-cloud-examples%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f02%2f20%2ftil%2f" target=_blank rel="noopener noreferrer" title="Click to share on whatsapp"><i class="fa-brands fa-whatsapp fa-2xl" style=color:#007bb5></i></a></div></div></article><nav class="navigation post-navigation" role=navigation><h2 class=screen-reader-text>Post navigation</h2><div class=nav-links><div class=nav-previous><a href=/posts/2024/04/17/thingsboard-tbmq-local-docker-run/ rel=next><span class=post-title>ThingsBoard TBMQ本地和通过Docker运行</span></a></div><div class=nav-next><a href=/posts/2024/02/19/til/ rel=prev><span class=post-title>2024-02-19｜foodie-cloud集成Sharding Sphere实现读写分离</span></a></div></div></nav><h2>Related content</h2><ul><li><a href=/posts/2024/11/04/sivalabs-blog-posts/>2024-11-04｜SivaLabs博客文章</a></li><li><a href=/posts/2024/02/19/til/>2024-02-19｜foodie-cloud集成Sharding Sphere实现读写分离</a></li><li><a href=/posts/2024/02/18/til/>2024-02-18｜NewRelice应用性能监控、6个Diagrams工具、foodie-food测试</a></li><li><a href=/posts/2024/02/05/til/>2024-02-05｜Spring Cloud Config快速入门</a></li><li><a href=/posts/2024/02/04/til/>2024-02-04｜foodie-cloud集成Resilience4j</a></li><li><a href=/posts/2024/02/02/til/>2024-02-02｜foodie-cloud集成Spring Cloud Config和SpringDoc</a></li><li><a href=/posts/2024/02/01/til/>2024-02-01｜使用 Spring Initializr 创建项目</a></li><li><a href=/posts/2024/01/31/til/>2024-01-31｜Redis事务</a></li><li><a href=/posts/2024/01/30/til/>2024-01-30｜Mybatis plus和Jackson配置</a></li><li><a href=/posts/2024/01/29/til/>2024-01-29｜C4架构模型</a></li></ul></main></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link><a href=/ target=_blank rel="noopener noreferrer">ChenSoul</a>
+Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer">Hugo</a>
+<a style=margin-left:20px href=/privacy_policy/ target=_blank rel="noopener noreferrer">Privacy Policy</a></span></div></footer></div></div><script type=text/javascript src=/main.min.js></script></body></html>

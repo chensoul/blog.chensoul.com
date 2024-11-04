@@ -1,121 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Vps on ChenSoul</title>
-    <link>https://blog.chensoul.cc/tags/vps/</link>
-    <description>Recent content in Vps on ChenSoul</description>
-    <generator>Hugo -- 0.136.5</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Mon, 08 Jan 2024 00:00:00 +0800</lastBuildDate>
-    <atom:link href="https://blog.chensoul.cc/tags/vps/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>2024-01-08｜VPS 迁移</title>
-      <link>https://blog.chensoul.cc/posts/2024/01/08/til/</link>
-      <pubDate>Mon, 08 Jan 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/01/08/til/</guid>
-      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;VPS 迁移&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;继续重构 &lt;a href=&#34;https://github.com/chensoul/foodie-cloud&#34; target=&#34;_blank&#34;&gt;foodie-cloud&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;参考 &lt;a href=&#34;https://github.com/mybatis/parent/&#34; target=&#34;_blank&#34;&gt;https://github.com/mybatis/parent/  &lt;/a&gt; 重构 &lt;a href=&#34;https://github.com/chensoul/chensoul-parent&#34; target=&#34;_blank&#34;&gt;chensoul-parent&lt;/a&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;修改了 maven 插件&lt;/li&gt;
-&lt;li&gt;添加了 Github Actions&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;vps-迁移&#34;&gt;VPS 迁移&lt;/h2&gt;
-&lt;p&gt;迁移步骤：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;旧的 VPS 上备份数据库、nginx 配置文件、docker-compose 文件&lt;/li&gt;
-&lt;li&gt;新的 VPS 上安装 docker、docker-compose、nginx&lt;/li&gt;
-&lt;li&gt;新的 VPS 上恢复数据库，配置 nginx&lt;/li&gt;
-&lt;li&gt;修改 DNS 解析&lt;/li&gt;
-&lt;/ul&gt;</description>
-    </item>
-    <item>
-      <title>2024-01-04｜GitHub Actions</title>
-      <link>https://blog.chensoul.cc/posts/2024/01/04/til/</link>
-      <pubDate>Thu, 04 Jan 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/01/04/til/</guid>
-      <description>&lt;p&gt;今天做了什么：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;修改个人联系方式&lt;/li&gt;
-&lt;li&gt;注销亚马逊账号&lt;/li&gt;
-&lt;li&gt;利用GitHub Actions自动优雅地为项目构建Releases&lt;/li&gt;
-&lt;li&gt;利用GitHub Actions自动构建项目的docker镜像并发布到DockerHub&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;修改个人联系方式&#34;&gt;修改个人联系方式&lt;/h2&gt;
-&lt;p&gt;使用 ichensoul 注册了新的 Gmail、163 邮箱，并将各种网站绑定的邮箱修改到新的 gmail 邮箱。自此，gmail、github、推特、微信、163 的账号都保持为一致，都是 ichensoul。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>2023-12-14｜购买新的VPS服务器、最近在做什么</title>
-      <link>https://blog.chensoul.cc/posts/2023/12/14/til/</link>
-      <pubDate>Thu, 14 Dec 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/12/14/til/</guid>
-      <description>&lt;p&gt;Today I Learned. 今天分享内容：购买新的 VPS 服务器、最近在做什么。&lt;/p&gt;
-&lt;h2 id=&#34;购买新的-vps-服务器&#34;&gt;购买新的 VPS 服务器&lt;/h2&gt;
-&lt;p&gt;今天看到搬瓦工上的 VPS 还有一个月到期，该 VPS 配置是 40 GB SSD、2 GB RAM、2 TB Bandwidth、3x Intel Xeon CPU、1 Gigabit Network，一年费用是 99 美元。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>我的VPS服务部署记录</title>
-      <link>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</link>
-      <pubDate>Wed, 25 Jan 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid>
-      <description>&lt;p&gt;我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。&lt;/p&gt;
-&lt;h2 id=&#34;服务器设置&#34;&gt;服务器设置&lt;/h2&gt;
-&lt;p&gt;更新 yum 源：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;yum update
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;安装常用软件：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;yum install wget curl git vim -y
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;设置时区为&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;[可选] 设置系统 Swap 交换分区&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;因为 vps 服务器的运行内存很小，所以这里先设置下 Swap&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 1GB RAM with 2GB Swap&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo fallocate -l 2G /swapfile &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo dd &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/zero &lt;span class=&#34;nv&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/swapfile &lt;span class=&#34;nv&#34;&gt;bs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1024&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;count&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2097152&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo chmod &lt;span class=&#34;m&#34;&gt;600&lt;/span&gt; /swapfile &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo mkswap /swapfile &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo swapon /swapfile &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;/swapfile swap swap defaults 0 0&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sudo tee -a /etc/fstab &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo swapon --show &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;sudo free -h
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;安装-nginx&#34;&gt;安装 Nginx&lt;/h2&gt;
-&lt;p&gt;参考 &lt;a href=&#34;https://qizhanming.com/blog/2018/08/06/how-to-install-nginx-on-centos-7&#34; target=&#34;_blank&#34;&gt;CentOS 7 下 yum 安装和配置 Nginx&lt;/a&gt; ，使用 yum 安装：&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vps on ChenSoul</title><link>https://blog.chensoul.cc/tags/vps/</link><description>Recent content in Vps on ChenSoul</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 08 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/vps/index.xml" rel="self" type="application/rss+xml"/><item><title>2024-01-08｜VPS 迁移</title><link>https://blog.chensoul.cc/posts/2024/01/08/til/</link><pubDate>Mon, 08 Jan 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/01/08/til/</guid><description>&lt;p>今天做了什么：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>VPS 迁移&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>继续重构 &lt;a href="https://github.com/chensoul/foodie-cloud" target="_blank">foodie-cloud&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>参考 &lt;a href="https://github.com/mybatis/parent/" target="_blank">https://github.com/mybatis/parent/ &lt;/a> 重构 &lt;a href="https://github.com/chensoul/chensoul-parent" target="_blank">chensoul-parent&lt;/a>&lt;/p></description></item><item><title>2024-01-04｜GitHub Actions</title><link>https://blog.chensoul.cc/posts/2024/01/04/til/</link><pubDate>Thu, 04 Jan 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/01/04/til/</guid><description>&lt;p>今天做了什么：&lt;/p>
+&lt;ul>
+&lt;li>修改个人联系方式&lt;/li>
+&lt;li>注销亚马逊账号&lt;/li>
+&lt;li>利用GitHub Actions自动优雅地为项目构建Releases&lt;/li>
+&lt;li>利用GitHub Actions自动构建项目的docker镜像并发布到DockerHub&lt;/li>
+&lt;/ul>
+&lt;h2 id="修改个人联系方式">修改个人联系方式&lt;/h2>
+&lt;p>使用 ichensoul 注册了新的 Gmail、163 邮箱，并将各种网站绑定的邮箱修改到新的 gmail 邮箱。自此，gmail、github、推特、微信、163 的账号都保持为一致，都是 ichensoul。&lt;/p></description></item><item><title>2023-12-14｜购买新的VPS服务器、最近在做什么</title><link>https://blog.chensoul.cc/posts/2023/12/14/til/</link><pubDate>Thu, 14 Dec 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/12/14/til/</guid><description>&lt;p>Today I Learned. 今天分享内容：购买新的 VPS 服务器、最近在做什么。&lt;/p></description></item><item><title>我的VPS服务部署记录</title><link>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</link><pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid><description>&lt;p>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。&lt;/p></description></item></channel></rss>

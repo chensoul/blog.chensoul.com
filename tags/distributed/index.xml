@@ -1,110 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Distributed on ChenSoul</title>
-    <link>https://blog.chensoul.cc/tags/distributed/</link>
-    <description>Recent content in Distributed on ChenSoul</description>
-    <generator>Hugo -- 0.136.5</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Mon, 05 Aug 2024 00:00:00 +0800</lastBuildDate>
-    <atom:link href="https://blog.chensoul.cc/tags/distributed/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>[译]分布式系统速成课程</title>
-      <link>https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-distributed-systems/</link>
-      <pubDate>Mon, 05 Aug 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-distributed-systems/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://blog.bytebytego.com/p/a-crash-course-on-distributed-systems&#34; target=&#34;_blank&#34;&gt;https://blog.bytebytego.com/p/a-crash-course-on-distributed-systems&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;分布式系统是多台计算机（也称为节点）的集合，它们协作执行特定任务或提供服务。&lt;/p&gt;
-&lt;p&gt;这些节点在物理上是分开的，并通过网络传递消息相互通信。分布式系统可以跨越地理边界，使其能够利用来自不同位置的资源。&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;img&#34; loading=&#34;lazy&#34; src=&#34;https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb145d610-0804-4a50-b74b-bf13cac6fb8f_1600x1005.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;分布式系统有几个区别于传统集中式系统的特点：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>如何设计一个分布式ID生成器保证ID按时间有序？</title>
-      <link>https://blog.chensoul.cc/posts/2023/12/05/distributed-id-generator/</link>
-      <pubDate>Tue, 05 Dec 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/12/05/distributed-id-generator/</guid>
-      <description>&lt;p&gt;很多业务有生成唯一 ID 并作为数据库主键的需求。数据库会在这个字段上建立聚集索引（参考 MySQL InnoDB），即该字段会影响各条数据再物理存储上的顺序。&lt;/p&gt;
-&lt;p&gt;ID还要尽可能&lt;strong&gt;短&lt;/strong&gt;，节省内存，让数据库索引效率更高。基本上64位整数能够满足绝大多数的场景，但是如果能做到比64位更短那就更好了。需要根据具体业务进行分析，预估出ID的最大值，这个最大值通常比64位整数的上限小很多，于是我们可以用更少的bit表示这个ID。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>分布式基础知识</title>
-      <link>https://blog.chensoul.cc/posts/2023/11/14/distributed-system-basic/</link>
-      <pubDate>Tue, 14 Nov 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/11/14/distributed-system-basic/</guid>
-      <description>&lt;h2 id=&#34;什么是分布式系统&#34;&gt;什么是分布式系统？&lt;/h2&gt;
-&lt;p&gt;分布式系统是指由多个独立的计算机节点（或服务器）通过网络相互连接和协作，共同完成某个任务或提供某个服务的系统。在分布式系统中，各个节点可以同时进行计算、存储和通信，并通过消息传递等方式进行协调和同步。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]《分布式系统：为了乐趣和利益》1.高层分布式系统</title>
-      <link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-01/</link>
-      <pubDate>Fri, 10 Nov 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-01/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者 Mikito Takada 撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p&gt;
-&lt;p&gt;这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]《分布式系统：为了乐趣和利益》2.抽象层次的上下</title>
-      <link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-02/</link>
-      <pubDate>Fri, 10 Nov 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-02/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者 Mikito Takada 撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p&gt;
-&lt;p&gt;这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]《分布式系统：为了乐趣和利益》3.时间及顺序</title>
-      <link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-03/</link>
-      <pubDate>Fri, 10 Nov 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-03/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者 Mikito Takada 撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p&gt;
-&lt;p&gt;这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]《分布式系统：为了乐趣和利益》4.复制</title>
-      <link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-04/</link>
-      <pubDate>Fri, 10 Nov 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-04/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者 Mikito Takada 撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p&gt;
-&lt;p&gt;这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]《分布式系统：为了乐趣和利益》5.复制：弱一致性模型协议</title>
-      <link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-05/</link>
-      <pubDate>Fri, 10 Nov 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-05/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者 Mikito Takada 撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p&gt;
-&lt;p&gt;这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]《分布式系统：为了乐趣和利益》6.进一步阅读和附录</title>
-      <link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-06/</link>
-      <pubDate>Fri, 10 Nov 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-06/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者Mikito Takada撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p&gt;
-&lt;p&gt;这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]给年轻的工程师们的关于分布式系统的一些笔记</title>
-      <link>https://blog.chensoul.cc/posts/2023/11/10/notes-on-distributed-systems-for-young-bloods/</link>
-      <pubDate>Fri, 10 Nov 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/11/10/notes-on-distributed-systems-for-young-bloods/</guid>
-      <description>&lt;p&gt;我一直在思考分布式系统工程师在工作中学到的教训。我们大部分的教导都来自于在生产环境中犯过的错误留下的伤痕。这些伤痕固然是有用的提醒，但让更多的工程师能够完整地保留手指会更好。&lt;/p&gt;
-&lt;p&gt;新的系统工程师在自我学习中会遇到分布式计算的谬论和CAP定理。但这些都是抽象的概念，缺乏针对经验不足的工程师直接可行的建议。让人惊讶的是，新工程师在开始工作时所了解到的背景信息是如此之少。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]《分布式系统：为了乐趣和利益》介绍</title>
-      <link>https://blog.chensoul.cc/posts/2023/11/09/distributed-systems-intro/</link>
-      <pubDate>Thu, 09 Nov 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/11/09/distributed-systems-intro/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者Mikito Takada撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p&gt;
-&lt;p&gt;这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Distributed on ChenSoul</title><link>https://blog.chensoul.cc/tags/distributed/</link><description>Recent content in Distributed on ChenSoul</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 05 Aug 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/distributed/index.xml" rel="self" type="application/rss+xml"/><item><title>[译]分布式系统速成课程</title><link>https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-distributed-systems/</link><pubDate>Mon, 05 Aug 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/08/05/a-crash-course-on-distributed-systems/</guid><description>&lt;p>原文链接：&lt;a href="https://blog.bytebytego.com/p/a-crash-course-on-distributed-systems" target="_blank">https://blog.bytebytego.com/p/a-crash-course-on-distributed-systems&lt;/a>&lt;/p>
+&lt;p>分布式系统是多台计算机（也称为节点）的集合，它们协作执行特定任务或提供服务。&lt;/p>
+&lt;p>这些节点在物理上是分开的，并通过网络传递消息相互通信。分布式系统可以跨越地理边界，使其能够利用来自不同位置的资源。&lt;/p>
+&lt;p>&lt;img src="https://blog.chensoul.cc/images/a-crash-course-on-distributed-systems-01.webp" alt="img">&lt;/p>
+&lt;p>分布式系统有几个区别于传统集中式系统的特点：&lt;/p></description></item><item><title>如何设计一个分布式ID生成器保证ID按时间有序？</title><link>https://blog.chensoul.cc/posts/2023/12/05/distributed-id-generator/</link><pubDate>Tue, 05 Dec 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/12/05/distributed-id-generator/</guid><description>&lt;p>很多业务有生成唯一 ID 并作为数据库主键的需求。数据库会在这个字段上建立聚集索引（参考 MySQL InnoDB），即该字段会影响各条数据再物理存储上的顺序。&lt;/p></description></item><item><title>分布式基础知识</title><link>https://blog.chensoul.cc/posts/2023/11/14/distributed-system-basic/</link><pubDate>Tue, 14 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/14/distributed-system-basic/</guid><description>&lt;h2 id="什么是分布式系统">什么是分布式系统？&lt;/h2>
+&lt;p>分布式系统是指由多个独立的计算机节点（或服务器）通过网络相互连接和协作，共同完成某个任务或提供某个服务的系统。在分布式系统中，各个节点可以同时进行计算、存储和通信，并通过消息传递等方式进行协调和同步。&lt;/p>
+&lt;p>&lt;strong>分布式系统的设计目标是提高系统的性能、可靠性和可扩展性，同时减少单点故障和提高系统的容错性&lt;/strong>。通过将任务和数据分布到多个节点上，分布式系统可以实现更高的并行性和处理能力。此外，分布式系统还可以提供更好的负载均衡，以应对不断增长的工作负载。&lt;/p>
+&lt;h2 id="分布式系统的主要特征">分布式系统的主要特征&lt;/h2>
+&lt;p>分布式系统具有以下主要特征：&lt;/p></description></item><item><title>[译]《分布式系统：为了乐趣和利益》1.高层分布式系统</title><link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-01/</link><pubDate>Fri, 10 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-01/</guid><description>&lt;blockquote>
+&lt;p>《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者 Mikito Takada 撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p>
+&lt;p>这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p></description></item><item><title>[译]《分布式系统：为了乐趣和利益》2.抽象层次的上下</title><link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-02/</link><pubDate>Fri, 10 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-02/</guid><description>&lt;blockquote>
+&lt;p>《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者 Mikito Takada 撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p>
+&lt;p>这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p></description></item><item><title>[译]《分布式系统：为了乐趣和利益》3.时间及顺序</title><link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-03/</link><pubDate>Fri, 10 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-03/</guid><description>&lt;blockquote>
+&lt;p>《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者 Mikito Takada 撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p>
+&lt;p>这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p></description></item><item><title>[译]《分布式系统：为了乐趣和利益》4.复制</title><link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-04/</link><pubDate>Fri, 10 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-04/</guid><description>&lt;blockquote>
+&lt;p>《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者 Mikito Takada 撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p>
+&lt;p>这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p></description></item><item><title>[译]《分布式系统：为了乐趣和利益》5.复制：弱一致性模型协议</title><link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-05/</link><pubDate>Fri, 10 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-05/</guid><description>&lt;blockquote>
+&lt;p>《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者 Mikito Takada 撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p>
+&lt;p>这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p></description></item><item><title>[译]《分布式系统：为了乐趣和利益》6.进一步阅读和附录</title><link>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-06/</link><pubDate>Fri, 10 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/10/distributed-systems-06/</guid><description>&lt;blockquote>
+&lt;p>《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者Mikito Takada撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p>
+&lt;p>这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p>
+&lt;p>在整本书中，作者提供了各种实际案例和案例研究，以说明分布式系统的实际应用和实践方面。它还强调了构建分布式系统涉及的权衡和设计考虑，帮助读者全面理解这个主题。&lt;/p>
+&lt;p>《分布式系统：为了乐趣和利益》作为开源资源，可以免费在线获取，非常适合任何对学习分布式系统感兴趣的人。&lt;/p></description></item><item><title>[译]给年轻的工程师们的关于分布式系统的一些笔记</title><link>https://blog.chensoul.cc/posts/2023/11/10/notes-on-distributed-systems-for-young-bloods/</link><pubDate>Fri, 10 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/10/notes-on-distributed-systems-for-young-bloods/</guid><description>&lt;p>我一直在思考分布式系统工程师在工作中学到的教训。我们大部分的教导都来自于在生产环境中犯过的错误留下的伤痕。这些伤痕固然是有用的提醒，但让更多的工程师能够完整地保留手指会更好。&lt;/p>
+&lt;p>新的系统工程师在自我学习中会遇到分布式计算的谬论和CAP定理。但这些都是抽象的概念，缺乏针对经验不足的工程师直接可行的建议。让人惊讶的是，新工程师在开始工作时所了解到的背景信息是如此之少。&lt;/p>
+&lt;p>下面是我作为一名分布式系统工程师学到的一些经验教训，值得告诉新工程师。其中一些经验是微妙的，一些是令人惊讶的，但没有一条是有争议的。这个列表是为了引导新的分布式系统工程师思考他们所从事领域的问题，虽然不是全面的，但是是一个很好的开始。&lt;/p>
+&lt;p>这个列表最糟糕的特点是它主要关注技术问题，很少讨论工程师可能遇到的社交问题。由于分布式系统需要更多的机器和资本，它们的工程师往往需要与更多的团队和更大的组织合作。社交问题通常是任何软件开发者工作中最困难的部分，也许对于分布式系统的开发来说尤其如此。&lt;/p>
+&lt;p>我们的背景、教育和经验使我们倾向于采用技术解决方案，即使社交解决方案可能更高效、更令人满意。让我们试着纠正这一点。与计算机相比，人们并不那么挑剔，即使他们的接口没有那么标准化。&lt;/p></description></item><item><title>[译]《分布式系统：为了乐趣和利益》介绍</title><link>https://blog.chensoul.cc/posts/2023/11/09/distributed-systems-intro/</link><pubDate>Thu, 09 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/09/distributed-systems-intro/</guid><description>&lt;blockquote>
+&lt;p>《分布式系统：为了乐趣和利益》是一本广受欢迎的资源，用于理解和学习分布式系统。该书由作者Mikito Takada撰写，介绍了构建分布式系统的基本概念、原则和挑战。&lt;/p>
+&lt;p>这本书涵盖了与分布式系统相关的广泛主题，包括网络、容错性、一致性模型、分布式算法、可扩展性等等。它旨在以清晰易懂的方式解释复杂的概念，适合初学者和有经验的分布式系统从业者阅读。&lt;/p>
+&lt;p>在整本书中，作者提供了各种实际案例和案例研究，以说明分布式系统的实际应用和实践方面。它还强调了构建分布式系统涉及的权衡和设计考虑，帮助读者全面理解这个主题。&lt;/p>
+&lt;p>《分布式系统：为了乐趣和利益》作为开源资源，可以免费在线获取，非常适合任何对学习分布式系统感兴趣的人。&lt;/p></description></item></channel></rss>

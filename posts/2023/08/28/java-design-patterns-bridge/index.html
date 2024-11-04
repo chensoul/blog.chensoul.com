@@ -1,589 +1,306 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Java设计模式：Bridge | ChenSoul</title>
-<meta name=keywords content="java"><meta name=description content="本文主要介绍 Bridge 桥接模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。
-介绍
-桥接模式（Bridge Pattern）是一种结构型设计模式，用于将抽象与其实现分离，使它们可以独立地变化。桥接模式通过创建两个独立的层次结构，一个是抽象部分，一个是实现部分，来实现这种分离。"><meta name=author content="chensoul"><link rel=canonical href=https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/><meta name=google-site-verification content="nBXwg45SBRjTX78SA-mH0asrAbsdu9c1nk0ObSry7aQ"><link crossorigin=anonymous href=/assets/css/stylesheet.899d9a536396b9b03c9eae0c99cc6ec954a90da94036f5390d131eb8071bb417.css integrity="sha256-iZ2aU2OWubA8nq4MmcxuyVSpDalANvU5DRMeuAcbtBc=" rel="preload stylesheet" as=style><link rel=icon href=https://blog.chensoul.cc/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://blog.chensoul.cc/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://blog.chensoul.cc/favicon-32x32.png><link rel=apple-touch-icon href=https://blog.chensoul.cc/apple-touch-icon.png><link rel=mask-icon href=https://blog.chensoul.cc/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta name=baidu-site-verification content="codeva-FYpQY8JdLU"><meta property="og:title" content="Java设计模式：Bridge"><meta property="og:description" content="本文主要介绍 Bridge 桥接模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。
-介绍
-桥接模式（Bridge Pattern）是一种结构型设计模式，用于将抽象与其实现分离，使它们可以独立地变化。桥接模式通过创建两个独立的层次结构，一个是抽象部分，一个是实现部分，来实现这种分离。"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-08-28T00:00:00+08:00"><meta property="article:modified_time" content="2023-08-28T00:00:00+08:00"><meta property="og:site_name" content="ChenSoul"><meta name=twitter:card content="summary"><meta name=twitter:title content="Java设计模式：Bridge"><meta name=twitter:description content="本文主要介绍 Bridge 桥接模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。
-介绍
-桥接模式（Bridge Pattern）是一种结构型设计模式，用于将抽象与其实现分离，使它们可以独立地变化。桥接模式通过创建两个独立的层次结构，一个是抽象部分，一个是实现部分，来实现这种分离。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://blog.chensoul.cc/posts/"},{"@type":"ListItem","position":2,"name":"Java设计模式：Bridge","item":"https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Java设计模式：Bridge","name":"Java设计模式：Bridge","description":"本文主要介绍 Bridge 桥接模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。\n介绍 桥接模式（Bridge Pattern）是一种结构型设计模式，用于将抽象与其实现分离，使它们可以独立地变化。桥接模式通过创建两个独立的层次结构，一个是抽象部分，一个是实现部分，来实现这种分离。\n","keywords":["java"],"articleBody":"本文主要介绍 Bridge 桥接模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。\n介绍 桥接模式（Bridge Pattern）是一种结构型设计模式，用于将抽象与其实现分离，使它们可以独立地变化。桥接模式通过创建两个独立的层次结构，一个是抽象部分，一个是实现部分，来实现这种分离。\n在桥接模式中，抽象部分包含抽象类或接口，定义了高层逻辑和功能。实现部分包含具体实现类，负责实现抽象部分定义的接口或方法。通过桥接模式，可以在两个层次结构中独立地扩展和变化类，而不会相互影响。同时，抽象部分和实现部分之间的耦合度降低，使系统更加灵活和可维护。\n举例 考虑一下你拥有一种具有不同附魔的武器，并且应该允许将具有不同附魔的不同武器混合使用。 你会怎么做？ 为每个附魔创建每种武器的多个副本，还是只是创建单独的附魔并根据需要为武器设置它？ 桥接模式使您可以进行第二次操作。\n翻译一下上面的武器示例。下面我们有武器的类层级：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 public interface Weapon { void wield(); void swing(); void unwield(); Enchantment getEnchantment(); } public class Sword implements Weapon { private final Enchantment enchantment; public Sword(Enchantment enchantment) { this.enchantment = enchantment; } @Override public void wield() { LOGGER.info(\"The sword is wielded.\"); enchantment.onActivate(); } @Override public void swing() { LOGGER.info(\"The sword is swinged.\"); enchantment.apply(); } @Override public void unwield() { LOGGER.info(\"The sword is unwielded.\"); enchantment.onDeactivate(); } @Override public Enchantment getEnchantment() { return enchantment; } } public class Hammer implements Weapon { private final Enchantment enchantment; public Hammer(Enchantment enchantment) { this.enchantment = enchantment; } @Override public void wield() { LOGGER.info(\"The hammer is wielded.\"); enchantment.onActivate(); } @Override public void swing() { LOGGER.info(\"The hammer is swinged.\"); enchantment.apply(); } @Override public void unwield() { LOGGER.info(\"The hammer is unwielded.\"); enchantment.onDeactivate(); } @Override public Enchantment getEnchantment() { return enchantment; } } 这里是单独的附魔类结构：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 public interface Enchantment { void onActivate(); void apply(); void onDeactivate(); } public class FlyingEnchantment implements Enchantment { @Override public void onActivate() { LOGGER.info(\"The item begins to glow faintly.\"); } @Override public void apply() { LOGGER.info(\"The item flies and strikes the enemies finally returning to owner's hand.\"); } @Override public void onDeactivate() { LOGGER.info(\"The item's glow fades.\"); } } public class SoulEatingEnchantment implements Enchantment { @Override public void onActivate() { LOGGER.info(\"The item spreads bloodlust.\"); } @Override public void apply() { LOGGER.info(\"The item eats the soul of enemies.\"); } @Override public void onDeactivate() { LOGGER.info(\"Bloodlust slowly disappears.\"); } } 这里是两种层次结构的实践：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 var enchantedSword = new Sword(new SoulEatingEnchantment()); enchantedSword.wield(); enchantedSword.swing(); enchantedSword.unwield(); // The sword is wielded. // The item spreads bloodlust. // The sword is swinged. // The item eats the soul of enemies. // The sword is unwielded. // Bloodlust slowly disappears. var hammer = new Hammer(new FlyingEnchantment()); hammer.wield(); hammer.swing(); hammer.unwield(); // The hammer is wielded. // The item begins to glow faintly. // The hammer is swinged. // The item flies and strikes the enemies finally returning to owner's hand. // The hammer is unwielded. // The item's glow fades. 类图 适用场景 桥接模式适用于以下情况：\n当你希望在抽象部分和实现部分之间存在独立的扩展和变化时，可以使用桥接模式。这样可以避免在两个层次结构之间的紧耦合关系，使它们可以相互独立地进行修改和扩展。 当你想要避免在编译时将抽象部分与实现部分绑定在一起时，桥接模式是一个很好的选择。通过桥接模式，可以在运行时动态地将抽象部分和实现部分进行组合，而不需要修改客户端的代码。 当你有多个独立变化的维度时，可以使用桥接模式。例如，在给定的示例中，武器和附魔是两个独立变化的维度，通过桥接模式可以灵活地组合它们，而不需要为每种武器和每种附魔创建大量的子类。 总的来说，桥接模式适用于需要在抽象与实现之间存在独立变化和组合的情况，以及需要动态地进行选择和共享实现的情况。它能够提高系统的灵活性、可扩展性和可维护性。\n举例 以下是一个实际的例子，以帮助说明桥接模式的应用。\n假设你正在开发一个绘图应用程序，其中包含不同类型的形状（如圆形、矩形）和不同的颜色（如红色、蓝色）。你希望能够在任意形状上应用不同的颜色，而不是为每种形状和颜色的组合创建大量的子类。\n在这种情况下，可以使用桥接模式来实现形状和颜色之间的组合。首先，定义一个抽象的形状类 Shape，其中包含一个颜色对象的引用。然后，定义一个抽象的颜色类 Color，其中包含一个绘制方法。通过桥接模式，将形状和颜色进行分离，使它们可以独立地进行扩展和变化。\n下面是示例代码：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 // 形状抽象类 abstract class Shape { protected Color color; public Shape(Color color) { this.color = color; } public abstract void draw(); } // 颜色抽象类 interface Color { void applyColor(); } // 具体形状类：圆形 class Circle extends Shape { public Circle(Color color) { super(color); } @Override public void draw() { System.out.print(\"绘制圆形，\"); color.applyColor(); } } // 具体形状类：矩形 class Rectangle extends Shape { public Rectangle(Color color) { super(color); } @Override public void draw() { System.out.print(\"绘制矩形，\"); color.applyColor(); } } // 具体颜色类：红色 class RedColor implements Color { @Override public void applyColor() { System.out.println(\"使用红色\"); } } // 具体颜色类：蓝色 class BlueColor implements Color { @Override public void applyColor() { System.out.println(\"使用蓝色\"); } } 现在，你可以创建不同的形状对象，并将不同的颜色对象与之组合，而无需创建大量的子类。例如：\n1 2 3 4 5 Shape redCircle = new Circle(new RedColor()); Shape blueRectangle = new Rectangle(new BlueColor()); redCircle.draw(); // 输出：绘制圆形，使用红色 blueRectangle.draw(); // 输出：绘制矩形，使用蓝色 通过桥接模式，你可以轻松地扩展形状和颜色的种类，而不需要修改现有的代码。你可以添加新的形状或颜色类，并将它们组合在一起，以满足不同的需求，同时保持了形状和颜色之间的独立性。\n开源框架中的应用 在开源框架中，有一些使用桥接模式的例子。以下是其中一些常见的开源框架和其使用桥接模式的示例：\nJDBC（Java 数据库连接）框架：JDBC 框架是 Java 中用于与数据库进行交互的标准 API。在 JDBC 中，使用了桥接模式来连接不同的数据库驱动程序和应用程序。桥接模式将 JDBC API 与特定的数据库驱动程序实现分离，使得应用程序可以独立于不同的数据库实现进行开发。 AWT（Abstract Window Toolkit）：AWT 是 Java 中用于创建图形用户界面（GUI）的原始工具包。在 AWT 中，使用了桥接模式来分离抽象的 GUI 组件（例如按钮、文本框）和具体的平台实现。这样可以使得 AWT 可以在不同的操作系统上运行，并且可以根据不同的平台提供不同的外观和行为。 Spring 框架：Spring 是一个开源的 Java 企业应用程序开发框架。在 Spring 中，使用了桥接模式来实现不同层之间的解耦。例如，Spring 的数据访问模块（Spring Data）使用了桥接模式来连接不同的数据访问技术，如 JPA、Hibernate、MyBatis 等。这样，开发人员可以选择适合其需求的数据访问技术，而不需要修改其他部分的代码。 Apache Log4j：Log4j 框架使用了桥接模式将日志记录器（Logger）与具体的日志输出（Appender）分离。通过Logger接口和Appender接口的组合使用，可以在运行时动态地将日志记录器与不同的日志输出实现进行桥接。例如，可以将Logger桥接到FileAppender、ConsoleAppender或DatabaseAppender等不同的具体实现上。 Apache Commons IO：Commons IO 是 Apache Commons 项目的一部分，提供了一组用于处理 I/O 操作的实用工具。在 Commons IO 中，使用了桥接模式来分离抽象的 I/O 操作（如文件读写、流处理）和具体的实现。这使得开发人员可以在不同的环境中使用相同的 API 进行 I/O 操作。 Hibernate ORM：Hibernate 使用了桥接模式将不同数据库厂商的驱动程序与核心功能分离。它通过DriverManager接口和具体的数据库驱动程序实现的桥接，能够在运行时动态地选择和切换数据库驱动程序。这样，开发人员可以使用相同的 Hibernate API 与不同的数据库进行交互，而不需要修改核心代码。 Retrofit：Retrofit 库使用了桥接模式来将网络请求的抽象表示与具体的 HTTP 客户端实现分离。它通过Call接口和HttpClient接口的组合使用，可以将不同的 HTTP 客户端库（如 OkHttp、Apache HttpClient）桥接到统一的网络请求抽象上。这使得开发人员可以根据需要选择不同的 HTTP 客户端实现，而不需要修改使用 Retrofit 的代码。 Apache HttpClient：HttpClient 是 Apache 软件基金会提供的一个用于发送 HTTP 请求的 Java 库。它使用了桥接模式来将抽象的 HTTP 请求和具体的 HTTP 协议实现（如 HTTP/1.1 或 HTTP/2）分离。这使得开发人员可以根据需要选择不同的 HTTP 协议版本，而不需要修改代码。 Apache Commons Logging：Commons Logging 是 Apache Commons 项目中的一个通用日志记录接口。它使用了桥接模式来将应用程序代码与底层的具体日志实现（如 Log4j、java.util.logging 等）分离。这使得开发人员可以在不同的环境中切换和配置不同的日志实现。 以下是一个简单的示例代码，演示了桥接模式在 JDBC 框架中的应用：\n首先，定义桥接接口 DatabaseDriver，它包含了数据库操作的方法声明：\n1 2 3 4 5 public interface DatabaseDriver { void connect(String url, String username, String password); void executeQuery(String query); void disconnect(); } 然后，实现具体的数据库驱动程序，例如 MySQLDriver 和 OracleDriver，它们实现了 DatabaseDriver 接口：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 public class MySQLDriver implements DatabaseDriver { // MySQL数据库特定的实现代码 @Override public void connect(String url, String username, String password) { // 连接MySQL数据库的代码 } @Override public void executeQuery(String query) { // 执行MySQL查询的代码 } @Override public void disconnect() { // 断开MySQL数据库连接的代码 } } public class OracleDriver implements DatabaseDriver { // Oracle数据库特定的实现代码 @Override public void connect(String url, String username, String password) { // 连接Oracle数据库的代码 } @Override public void executeQuery(String query) { // 执行Oracle查询的代码 } @Override public void disconnect() { // 断开Oracle数据库连接的代码 } } 接下来，定义使用桥接模式的应用程序代码，其中包含了一个 Database 类作为抽象化角色，它使用桥接接口 DatabaseDriver 进行数据库操作：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 public class Database { private DatabaseDriver driver; public Database(DatabaseDriver driver) { this.driver = driver; } public void connectToDatabase(String url, String username, String password) { driver.connect(url, username, password); } public void executeQuery(String query) { driver.executeQuery(query); } public void disconnectFromDatabase() { driver.disconnect(); } } 最后，可以在应用程序中使用这些类进行数据库操作：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 public class Main { public static void main(String[] args) { // 创建MySQLDriver实例 DatabaseDriver mysqlDriver = new MySQLDriver(); // 创建Database实例，并使用MySQLDriver进行操作 Database mysqlDatabase = new Database(mysqlDriver); // 连接到MySQL数据库 mysqlDatabase.connectToDatabase(\"jdbc:mysql://localhost:3306/mydb\", \"username\", \"password\"); // 执行MySQL查询 mysqlDatabase.executeQuery(\"SELECT * FROM mytable\"); // 断开MySQL数据库连接 mysqlDatabase.disconnectFromDatabase(); // 创建OracleDriver实例 DatabaseDriver oracleDriver = new OracleDriver(); // 创建Database实例，并使用OracleDriver进行操作 Database oracleDatabase = new Database(oracleDriver); // 连接到Oracle数据库 oracleDatabase.connectToDatabase(\"jdbc:oracle:thin:@localhost:1521:xe\", \"username\", \"password\"); // 执行Oracle查询 oracleDatabase.executeQuery(\"SELECT * FROM mytable\"); // 断开Oracle数据库连接 oracleDatabase.disconnectFromDatabase(); } } 这个例子展示了如何使用桥接模式将 JDBC API 与特定的数据库驱动程序实现分离。通过创建不同的数据库驱动程序实例，并将其传递给 Database 类，应用程序可以独立于不同的数据库实现进行开发和操作。\n参考文章 https://www.digitalocean.com/community/tutorials/bridge-design-pattern-java ","wordCount":"4127","inLanguage":"en","datePublished":"2023-08-28T00:00:00+08:00","dateModified":"2023-08-28T00:00:00+08:00","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/"},"publisher":{"@type":"Organization","name":"ChenSoul","logo":{"@type":"ImageObject","url":"https://blog.chensoul.cc/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://blog.chensoul.cc/ accesskey=h title="ChenSoul (Alt + H)">ChenSoul</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://blog.chensoul.cc/categories title=分类><span>分类</span></a></li><li><a href=https://blog.chensoul.cc/tags title=标签><span>标签</span></a></li><li><a href=https://blog.chensoul.cc/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://blog.chensoul.cc/index.xml title=订阅><span>订阅</span></a></li><li><a href=https://github.com/chensoul title=关于><span>关于</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Java设计模式：Bridge</h1><div class=post-meta><span title='2023-08-28 00:00:00 +0800 CST'>2023-08-28</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;4127 words&nbsp;·&nbsp;chensoul</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#%e4%bb%8b%e7%bb%8d aria-label=介绍>介绍</a></li><li><a href=#%e4%b8%be%e4%be%8b aria-label=举例>举例</a></li><li><a href=#%e7%b1%bb%e5%9b%be aria-label=类图>类图</a></li><li><a href=#%e9%80%82%e7%94%a8%e5%9c%ba%e6%99%af aria-label=适用场景>适用场景</a><ul><li><a href=#%e4%b8%be%e4%be%8b-1 aria-label=举例>举例</a></li><li><a href=#%e5%bc%80%e6%ba%90%e6%a1%86%e6%9e%b6%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8 aria-label=开源框架中的应用>开源框架中的应用</a></li></ul></li><li><a href=#%e5%8f%82%e8%80%83%e6%96%87%e7%ab%a0 aria-label=参考文章>参考文章</a></li></ul></div></details></div><div class=post-content><p>本文主要介绍 <a href=https://java-design-patterns.com/zh/patterns/bridge/ target=_blank>Bridge</a> 桥接模式，在 <a href=https://java-design-patterns.com/ target=_blank>Java Design Patterns</a> 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p><h2 id=介绍>介绍<a hidden class=anchor aria-hidden=true href=#介绍>#</a></h2><p>桥接模式（Bridge Pattern）是一种结构型设计模式，用于将抽象与其实现分离，使它们可以独立地变化。桥接模式通过创建两个独立的层次结构，一个是抽象部分，一个是实现部分，来实现这种分离。</p><p>在桥接模式中，抽象部分包含抽象类或接口，定义了高层逻辑和功能。实现部分包含具体实现类，负责实现抽象部分定义的接口或方法。通过桥接模式，可以在两个层次结构中独立地扩展和变化类，而不会相互影响。同时，抽象部分和实现部分之间的耦合度降低，使系统更加灵活和可维护。</p><h2 id=举例>举例<a hidden class=anchor aria-hidden=true href=#举例>#</a></h2><p>考虑一下你拥有一种具有不同附魔的武器，并且应该允许将具有不同附魔的不同武器混合使用。 你会怎么做？ 为每个附魔创建每种武器的多个副本，还是只是创建单独的附魔并根据需要为武器设置它？ 桥接模式使您可以进行第二次操作。</p><p>翻译一下上面的武器示例。下面我们有武器的类层级：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span><span class=lnt>45
-</span><span class=lnt>46
-</span><span class=lnt>47
-</span><span class=lnt>48
-</span><span class=lnt>49
-</span><span class=lnt>50
-</span><span class=lnt>51
-</span><span class=lnt>52
-</span><span class=lnt>53
-</span><span class=lnt>54
-</span><span class=lnt>55
-</span><span class=lnt>56
-</span><span class=lnt>57
-</span><span class=lnt>58
-</span><span class=lnt>59
-</span><span class=lnt>60
-</span><span class=lnt>61
-</span><span class=lnt>62
-</span><span class=lnt>63
-</span><span class=lnt>64
-</span><span class=lnt>65
-</span><span class=lnt>66
-</span><span class=lnt>67
-</span><span class=lnt>68
-</span><span class=lnt>69
-</span><span class=lnt>70
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kd>public</span><span class=w> </span><span class=kd>interface</span> <span class=nc>Weapon</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kt>void</span><span class=w> </span><span class=nf>wield</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kt>void</span><span class=w> </span><span class=nf>swing</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kt>void</span><span class=w> </span><span class=nf>unwield</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=n>Enchantment</span><span class=w> </span><span class=nf>getEnchantment</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>Sword</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>Weapon</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=kd>final</span><span class=w> </span><span class=n>Enchantment</span><span class=w> </span><span class=n>enchantment</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=nf>Sword</span><span class=p>(</span><span class=n>Enchantment</span><span class=w> </span><span class=n>enchantment</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>this</span><span class=p>.</span><span class=na>enchantment</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>enchantment</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>wield</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;The sword is wielded.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>enchantment</span><span class=p>.</span><span class=na>onActivate</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>swing</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;The sword is swinged.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>enchantment</span><span class=p>.</span><span class=na>apply</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>unwield</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;The sword is unwielded.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>enchantment</span><span class=p>.</span><span class=na>onDeactivate</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=n>Enchantment</span><span class=w> </span><span class=nf>getEnchantment</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>return</span><span class=w> </span><span class=n>enchantment</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>Hammer</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>Weapon</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>private</span><span class=w> </span><span class=kd>final</span><span class=w> </span><span class=n>Enchantment</span><span class=w> </span><span class=n>enchantment</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=nf>Hammer</span><span class=p>(</span><span class=n>Enchantment</span><span class=w> </span><span class=n>enchantment</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>this</span><span class=p>.</span><span class=na>enchantment</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>enchantment</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>wield</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;The hammer is wielded.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>enchantment</span><span class=p>.</span><span class=na>onActivate</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>swing</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;The hammer is swinged.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>enchantment</span><span class=p>.</span><span class=na>apply</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>unwield</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;The hammer is unwielded.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>enchantment</span><span class=p>.</span><span class=na>onDeactivate</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=n>Enchantment</span><span class=w> </span><span class=nf>getEnchantment</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>return</span><span class=w> </span><span class=n>enchantment</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>这里是单独的附魔类结构：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kd>public</span><span class=w> </span><span class=kd>interface</span> <span class=nc>Enchantment</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kt>void</span><span class=w> </span><span class=nf>onActivate</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kt>void</span><span class=w> </span><span class=nf>apply</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kt>void</span><span class=w> </span><span class=nf>onDeactivate</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>FlyingEnchantment</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>Enchantment</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>onActivate</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;The item begins to glow faintly.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>apply</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;The item flies and strikes the enemies finally returning to owner&#39;s hand.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>onDeactivate</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;The item&#39;s glow fades.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>SoulEatingEnchantment</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>Enchantment</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>onActivate</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;The item spreads bloodlust.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>apply</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;The item eats the soul of enemies.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>onDeactivate</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>LOGGER</span><span class=p>.</span><span class=na>info</span><span class=p>(</span><span class=s>&#34;Bloodlust slowly disappears.&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>这里是两种层次结构的实践：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kd>var</span><span class=w> </span><span class=n>enchantedSword</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>Sword</span><span class=p>(</span><span class=k>new</span><span class=w> </span><span class=n>SoulEatingEnchantment</span><span class=p>());</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>enchantedSword</span><span class=p>.</span><span class=na>wield</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>enchantedSword</span><span class=p>.</span><span class=na>swing</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>enchantedSword</span><span class=p>.</span><span class=na>unwield</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// The sword is wielded.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// The item spreads bloodlust.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// The sword is swinged.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// The item eats the soul of enemies.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// The sword is unwielded.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// Bloodlust slowly disappears.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>var</span><span class=w> </span><span class=n>hammer</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>Hammer</span><span class=p>(</span><span class=k>new</span><span class=w> </span><span class=n>FlyingEnchantment</span><span class=p>());</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>hammer</span><span class=p>.</span><span class=na>wield</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>hammer</span><span class=p>.</span><span class=na>swing</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>hammer</span><span class=p>.</span><span class=na>unwield</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// The hammer is wielded.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// The item begins to glow faintly.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// The hammer is swinged.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// The item flies and strikes the enemies finally returning to owner&#39;s hand.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// The hammer is unwielded.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// The item&#39;s glow fades.</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><h2 id=类图>类图<a hidden class=anchor aria-hidden=true href=#类图>#</a></h2><p><img alt="alt text" loading=lazy src=https://java-design-patterns.com/assets/bridge.urm-1e709c16.png></p><h2 id=适用场景>适用场景<a hidden class=anchor aria-hidden=true href=#适用场景>#</a></h2><p>桥接模式适用于以下情况：</p><ol><li>当你希望在<strong>抽象部分</strong>和<strong>实现部分</strong>之间存在独立的扩展和变化时，可以使用桥接模式。这样可以避免在两个层次结构之间的紧耦合关系，使它们可以相互独立地进行修改和扩展。</li><li>当你想要避免在编译时将抽象部分与实现部分绑定在一起时，桥接模式是一个很好的选择。通过桥接模式，可以在<strong>运行时动态地将抽象部分和实现部分进行组合</strong>，而不需要修改客户端的代码。</li><li>当你有<strong>多个独立变化的维度</strong>时，可以使用桥接模式。例如，在给定的示例中，武器和附魔是两个独立变化的维度，通过桥接模式可以灵活地组合它们，而不需要为每种武器和每种附魔创建大量的子类。</li></ol><p>总的来说，桥接模式适用于需要在抽象与实现之间存在独立变化和组合的情况，以及需要动态地进行选择和共享实现的情况。它能够提高系统的灵活性、可扩展性和可维护性。</p><h3 id=举例-1>举例<a hidden class=anchor aria-hidden=true href=#举例-1>#</a></h3><p>以下是一个实际的例子，以帮助说明桥接模式的应用。</p><p>假设你正在开发一个绘图应用程序，其中包含不同类型的形状（如圆形、矩形）和不同的颜色（如红色、蓝色）。你希望能够在任意形状上应用不同的颜色，而不是为每种形状和颜色的组合创建大量的子类。</p><p>在这种情况下，可以使用桥接模式来实现形状和颜色之间的组合。首先，定义一个抽象的形状类 <code>Shape</code>，其中包含一个颜色对象的引用。然后，定义一个抽象的颜色类 <code>Color</code>，其中包含一个绘制方法。通过桥接模式，将形状和颜色进行分离，使它们可以独立地进行扩展和变化。</p><p>下面是示例代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span><span class=lnt>45
-</span><span class=lnt>46
-</span><span class=lnt>47
-</span><span class=lnt>48
-</span><span class=lnt>49
-</span><span class=lnt>50
-</span><span class=lnt>51
-</span><span class=lnt>52
-</span><span class=lnt>53
-</span><span class=lnt>54
-</span><span class=lnt>55
-</span><span class=lnt>56
-</span><span class=lnt>57
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 形状抽象类</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>abstract</span><span class=w> </span><span class=kd>class</span> <span class=nc>Shape</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>protected</span><span class=w> </span><span class=n>Color</span><span class=w> </span><span class=n>color</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=nf>Shape</span><span class=p>(</span><span class=n>Color</span><span class=w> </span><span class=n>color</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>this</span><span class=p>.</span><span class=na>color</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>color</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kd>abstract</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>draw</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// 颜色抽象类</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>interface</span> <span class=nc>Color</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kt>void</span><span class=w> </span><span class=nf>applyColor</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// 具体形状类：圆形</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>class</span> <span class=nc>Circle</span><span class=w> </span><span class=kd>extends</span><span class=w> </span><span class=n>Shape</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=nf>Circle</span><span class=p>(</span><span class=n>Color</span><span class=w> </span><span class=n>color</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>super</span><span class=p>(</span><span class=n>color</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>draw</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>print</span><span class=p>(</span><span class=s>&#34;绘制圆形，&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>color</span><span class=p>.</span><span class=na>applyColor</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// 具体形状类：矩形</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>class</span> <span class=nc>Rectangle</span><span class=w> </span><span class=kd>extends</span><span class=w> </span><span class=n>Shape</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=nf>Rectangle</span><span class=p>(</span><span class=n>Color</span><span class=w> </span><span class=n>color</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>super</span><span class=p>(</span><span class=n>color</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>draw</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>print</span><span class=p>(</span><span class=s>&#34;绘制矩形，&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>color</span><span class=p>.</span><span class=na>applyColor</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// 具体颜色类：红色</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>class</span> <span class=nc>RedColor</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>Color</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>applyColor</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&#34;使用红色&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// 具体颜色类：蓝色</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>class</span> <span class=nc>BlueColor</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>Color</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>applyColor</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&#34;使用蓝色&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>现在，你可以创建不同的形状对象，并将不同的颜色对象与之组合，而无需创建大量的子类。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>Shape</span><span class=w> </span><span class=n>redCircle</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>Circle</span><span class=p>(</span><span class=k>new</span><span class=w> </span><span class=n>RedColor</span><span class=p>());</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>Shape</span><span class=w> </span><span class=n>blueRectangle</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>Rectangle</span><span class=p>(</span><span class=k>new</span><span class=w> </span><span class=n>BlueColor</span><span class=p>());</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>redCircle</span><span class=p>.</span><span class=na>draw</span><span class=p>();</span><span class=w> </span><span class=c1>// 输出：绘制圆形，使用红色</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>blueRectangle</span><span class=p>.</span><span class=na>draw</span><span class=p>();</span><span class=w> </span><span class=c1>// 输出：绘制矩形，使用蓝色</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>通过桥接模式，你可以轻松地扩展形状和颜色的种类，而不需要修改现有的代码。你可以添加新的形状或颜色类，并将它们组合在一起，以满足不同的需求，同时保持了形状和颜色之间的独立性。</p><h3 id=开源框架中的应用>开源框架中的应用<a hidden class=anchor aria-hidden=true href=#开源框架中的应用>#</a></h3><p>在开源框架中，有一些使用桥接模式的例子。以下是其中一些常见的开源框架和其使用桥接模式的示例：</p><ol><li>JDBC（Java 数据库连接）框架：JDBC 框架是 Java 中用于与数据库进行交互的标准 API。在 JDBC 中，使用了桥接模式来连接不同的数据库驱动程序和应用程序。桥接模式将 JDBC API 与特定的数据库驱动程序实现分离，使得应用程序可以独立于不同的数据库实现进行开发。</li><li>AWT（Abstract Window Toolkit）：AWT 是 Java 中用于创建图形用户界面（GUI）的原始工具包。在 AWT 中，使用了桥接模式来分离抽象的 GUI 组件（例如按钮、文本框）和具体的平台实现。这样可以使得 AWT 可以在不同的操作系统上运行，并且可以根据不同的平台提供不同的外观和行为。</li><li>Spring 框架：Spring 是一个开源的 Java 企业应用程序开发框架。在 Spring 中，使用了桥接模式来实现不同层之间的解耦。例如，Spring 的数据访问模块（Spring Data）使用了桥接模式来连接不同的数据访问技术，如 JPA、Hibernate、MyBatis 等。这样，开发人员可以选择适合其需求的数据访问技术，而不需要修改其他部分的代码。</li><li>Apache Log4j：Log4j 框架使用了桥接模式将日志记录器（Logger）与具体的日志输出（Appender）分离。通过<code>Logger</code>接口和<code>Appender</code>接口的组合使用，可以在运行时动态地将日志记录器与不同的日志输出实现进行桥接。例如，可以将<code>Logger</code>桥接到<code>FileAppender</code>、<code>ConsoleAppender</code>或<code>DatabaseAppender</code>等不同的具体实现上。</li><li>Apache Commons IO：Commons IO 是 Apache Commons 项目的一部分，提供了一组用于处理 I/O 操作的实用工具。在 Commons IO 中，使用了桥接模式来分离抽象的 I/O 操作（如文件读写、流处理）和具体的实现。这使得开发人员可以在不同的环境中使用相同的 API 进行 I/O 操作。</li><li>Hibernate ORM：Hibernate 使用了桥接模式将不同数据库厂商的驱动程序与核心功能分离。它通过<code>DriverManager</code>接口和具体的数据库驱动程序实现的桥接，能够在运行时动态地选择和切换数据库驱动程序。这样，开发人员可以使用相同的 Hibernate API 与不同的数据库进行交互，而不需要修改核心代码。</li><li>Retrofit：Retrofit 库使用了桥接模式来将网络请求的抽象表示与具体的 HTTP 客户端实现分离。它通过<code>Call</code>接口和<code>HttpClient</code>接口的组合使用，可以将不同的 HTTP 客户端库（如 OkHttp、Apache HttpClient）桥接到统一的网络请求抽象上。这使得开发人员可以根据需要选择不同的 HTTP 客户端实现，而不需要修改使用 Retrofit 的代码。</li><li>Apache HttpClient：HttpClient 是 Apache 软件基金会提供的一个用于发送 HTTP 请求的 Java 库。它使用了桥接模式来将抽象的 HTTP 请求和具体的 HTTP 协议实现（如 HTTP/1.1 或 HTTP/2）分离。这使得开发人员可以根据需要选择不同的 HTTP 协议版本，而不需要修改代码。</li><li>Apache Commons Logging：Commons Logging 是 Apache Commons 项目中的一个通用日志记录接口。它使用了桥接模式来将应用程序代码与底层的具体日志实现（如 Log4j、java.util.logging 等）分离。这使得开发人员可以在不同的环境中切换和配置不同的日志实现。</li></ol><p>以下是一个简单的示例代码，演示了桥接模式在 JDBC 框架中的应用：</p><p>首先，定义桥接接口 <code>DatabaseDriver</code>，它包含了数据库操作的方法声明：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kd>public</span><span class=w> </span><span class=kd>interface</span> <span class=nc>DatabaseDriver</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kt>void</span><span class=w> </span><span class=nf>connect</span><span class=p>(</span><span class=n>String</span><span class=w> </span><span class=n>url</span><span class=p>,</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=n>username</span><span class=p>,</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=n>password</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kt>void</span><span class=w> </span><span class=nf>executeQuery</span><span class=p>(</span><span class=n>String</span><span class=w> </span><span class=n>query</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kt>void</span><span class=w> </span><span class=nf>disconnect</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>然后，实现具体的数据库驱动程序，例如 <code>MySQLDriver</code> 和 <code>OracleDriver</code>，它们实现了 <code>DatabaseDriver</code> 接口：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>MySQLDriver</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>DatabaseDriver</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// MySQL数据库特定的实现代码</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>connect</span><span class=p>(</span><span class=n>String</span><span class=w> </span><span class=n>url</span><span class=p>,</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=n>username</span><span class=p>,</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=n>password</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 连接MySQL数据库的代码</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>executeQuery</span><span class=p>(</span><span class=n>String</span><span class=w> </span><span class=n>query</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 执行MySQL查询的代码</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>disconnect</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 断开MySQL数据库连接的代码</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>OracleDriver</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>DatabaseDriver</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// Oracle数据库特定的实现代码</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>connect</span><span class=p>(</span><span class=n>String</span><span class=w> </span><span class=n>url</span><span class=p>,</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=n>username</span><span class=p>,</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=n>password</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 连接Oracle数据库的代码</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>executeQuery</span><span class=p>(</span><span class=n>String</span><span class=w> </span><span class=n>query</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 执行Oracle查询的代码</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>disconnect</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 断开Oracle数据库连接的代码</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>接下来，定义使用桥接模式的应用程序代码，其中包含了一个 <code>Database</code> 类作为抽象化角色，它使用桥接接口 <code>DatabaseDriver</code> 进行数据库操作：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>Database</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>private</span><span class=w> </span><span class=n>DatabaseDriver</span><span class=w> </span><span class=n>driver</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=nf>Database</span><span class=p>(</span><span class=n>DatabaseDriver</span><span class=w> </span><span class=n>driver</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>this</span><span class=p>.</span><span class=na>driver</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>driver</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>connectToDatabase</span><span class=p>(</span><span class=n>String</span><span class=w> </span><span class=n>url</span><span class=p>,</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=n>username</span><span class=p>,</span><span class=w> </span><span class=n>String</span><span class=w> </span><span class=n>password</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>driver</span><span class=p>.</span><span class=na>connect</span><span class=p>(</span><span class=n>url</span><span class=p>,</span><span class=w> </span><span class=n>username</span><span class=p>,</span><span class=w> </span><span class=n>password</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>executeQuery</span><span class=p>(</span><span class=n>String</span><span class=w> </span><span class=n>query</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>driver</span><span class=p>.</span><span class=na>executeQuery</span><span class=p>(</span><span class=n>query</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>disconnectFromDatabase</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>driver</span><span class=p>.</span><span class=na>disconnect</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>最后，可以在应用程序中使用这些类进行数据库操作：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>Main</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kd>static</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span><span class=w> </span><span class=n>args</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 创建MySQLDriver实例</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>DatabaseDriver</span><span class=w> </span><span class=n>mysqlDriver</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>MySQLDriver</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 创建Database实例，并使用MySQLDriver进行操作</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>Database</span><span class=w> </span><span class=n>mysqlDatabase</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>Database</span><span class=p>(</span><span class=n>mysqlDriver</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 连接到MySQL数据库</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>mysqlDatabase</span><span class=p>.</span><span class=na>connectToDatabase</span><span class=p>(</span><span class=s>&#34;jdbc:mysql://localhost:3306/mydb&#34;</span><span class=p>,</span><span class=w> </span><span class=s>&#34;username&#34;</span><span class=p>,</span><span class=w> </span><span class=s>&#34;password&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 执行MySQL查询</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>mysqlDatabase</span><span class=p>.</span><span class=na>executeQuery</span><span class=p>(</span><span class=s>&#34;SELECT * FROM mytable&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 断开MySQL数据库连接</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>mysqlDatabase</span><span class=p>.</span><span class=na>disconnectFromDatabase</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 创建OracleDriver实例</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>DatabaseDriver</span><span class=w> </span><span class=n>oracleDriver</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>OracleDriver</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 创建Database实例，并使用OracleDriver进行操作</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>Database</span><span class=w> </span><span class=n>oracleDatabase</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>Database</span><span class=p>(</span><span class=n>oracleDriver</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 连接到Oracle数据库</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>oracleDatabase</span><span class=p>.</span><span class=na>connectToDatabase</span><span class=p>(</span><span class=s>&#34;jdbc:oracle:thin:@localhost:1521:xe&#34;</span><span class=p>,</span><span class=w> </span><span class=s>&#34;username&#34;</span><span class=p>,</span><span class=w> </span><span class=s>&#34;password&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 执行Oracle查询</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>oracleDatabase</span><span class=p>.</span><span class=na>executeQuery</span><span class=p>(</span><span class=s>&#34;SELECT * FROM mytable&#34;</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c1>// 断开Oracle数据库连接</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>oracleDatabase</span><span class=p>.</span><span class=na>disconnectFromDatabase</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>这个例子展示了如何使用桥接模式将 JDBC API 与特定的数据库驱动程序实现分离。通过创建不同的数据库驱动程序实例，并将其传递给 <code>Database</code> 类，应用程序可以独立于不同的数据库实现进行开发和操作。</p><h2 id=参考文章>参考文章<a hidden class=anchor aria-hidden=true href=#参考文章>#</a></h2><ul><li><a href=https://www.digitalocean.com/community/tutorials/bridge-design-pattern-java target=_blank>https://www.digitalocean.com/community/tutorials/bridge-design-pattern-java</a></li></ul></div><footer class=post-footer><ul class=post-tags><li><a href=https://blog.chensoul.cc/tags/java/>Java</a></li></ul><nav class=paginav><a class=prev href=https://blog.chensoul.cc/posts/2023/09/05/java-design-patterns-business-delegate/><span class=title>« Prev</span><br><span>Java设计模式：Business Delegate</span>
-</a><a class=next href=https://blog.chensoul.cc/posts/2023/08/25/global-error-handler-in-a-spring-rest-api/><span class=title>Next »</span><br><span>[译]REST API 的自定义错误消息处理</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share Java设计模式：Bridge on x" href="https://x.com/intent/tweet/?text=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f&amp;hashtags=java"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Java设计模式：Bridge on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f&amp;title=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge&amp;summary=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge&amp;source=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Java设计模式：Bridge on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f&title=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Java设计模式：Bridge on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Java设计模式：Bridge on whatsapp" href="https://api.whatsapp.com/send?text=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Java设计模式：Bridge on telegram" href="https://telegram.me/share/url?text=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Java设计模式：Bridge on ycombinator" href="https://news.ycombinator.com/submitlink?t=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge&u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=https://blog.chensoul.cc/>ChenSoul</a></span> ·
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
-</a><script async src=https://umami.chensoul.cc/random-string.js data-website-id=821c25f8-a31a-4607-92d7-91ee76843d00></script><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="本文主要介绍 Bridge 桥接模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。"><title>Java设计模式：Bridge | ChenSoul</title>
+<link rel=canonical href=https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/><link rel=preconnect href=https://fonts.font.im><link rel=preconnect href=https://fonts.loli.net crossorigin><link href="https://fonts.loli.net/css2?family=Roboto+Slab:wght@400;500;700&display=swap" rel=stylesheet><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta name=twitter:title content="Java设计模式：Bridge"><meta name=twitter:description content="本文主要介绍 Bridge 桥接模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。"><meta property="og:locale" content="en_US"><meta property="og:site_name" content="chensoul"><meta property="og:url" content="https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/"><meta property="og:site_name" content="ChenSoul"><meta property="og:title" content="Java设计模式：Bridge"><meta property="og:description" content="本文主要介绍 Bridge 桥接模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-08-28T00:00:00+00:00"><meta property="article:modified_time" content="2023-08-28T00:00:00+00:00"><meta property="article:tag" content="Java"><meta property="og:image" content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=name content="Java设计模式：Bridge"><meta itemprop=description content="本文主要介绍 Bridge 桥接模式，在 Java Design Patterns 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。"><meta itemprop=datePublished content="2023-08-28T00:00:00+00:00"><meta itemprop=dateModified content="2023-08-28T00:00:00+00:00"><meta itemprop=wordCount content="811"><meta itemprop=image content="https://blog.chensoul.cc/raw-images/favicon.jpg"><meta itemprop=keywords content="Java"><link rel=stylesheet href=https://cdnjs.loli.net/ajax/libs/font-awesome/6.4.0/css/all.min.css media=all><link rel=stylesheet href=/main.min.css type=text/css media=all><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Java设计模式：Bridge","headline":"Java设计模式：Bridge","inLanguage":"en-US","url":"https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/","description":"\u003cp\u003e本文主要介绍 \u003ca href=\"https://java-design-patterns.com/zh/patterns/bridge/\" target=\"_blank\"\u003eBridge\u003c/a\u003e 桥接模式，在 \u003ca href=\"https://java-design-patterns.com/\" target=\"_blank\"\u003eJava Design Patterns\u003c/a\u003e 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。\u003c/p\u003e","wordCount":"811","keywords":["java"],"datePublished":"2023-08-28T00:00:00Z","dateModified":"2023-08-28T00:00:00Z","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/"},"publisher":{"@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/"}},{"@context":"https://schema.org","@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/","sameAs":["https://twitter.com/","https://github.com/chensoul","https://www.linkedin.com/in/"]}]}</script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title=ChenSoul rel=home>ChenSoul</a></h1><p class=site-description>Java, Spring Boot, Microservice, Cloud, Architecture and DevOps Tutorials</p></div><div class="header-widgets clearfix"><aside id=search-2 class="header-widget widget_search"><form role=search method=get class=search-form onsubmit="return searchSite(event)"><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=search-field placeholder="Enter search keyword" name=query id=query title="Enter search keyword">
+</label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
+<span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
+current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2023/08/28/java-design-patterns-bridge/ rel=bookmark title=Java设计模式：Bridge>Java设计模式：Bridge</a></h2><hr><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2023-08-28T00:00:00>2023-08-28
+</time></span><span class=meta-author><span class="author vcard">chensoul</span>
+</span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/java/ title=java>java</a></span></div></header><div class=entry-content><p>本文主要介绍 <a href=https://java-design-patterns.com/zh/patterns/bridge/ target=_blank>Bridge</a> 桥接模式，在 <a href=https://java-design-patterns.com/ target=_blank>Java Design Patterns</a> 网站上有对该模式进行介绍。这里主要是做个笔记，并添加一些扩展，以加深对该设计模式的理解。</p><h2 id=介绍>介绍</h2><p>桥接模式（Bridge Pattern）是一种结构型设计模式，用于将抽象与其实现分离，使它们可以独立地变化。桥接模式通过创建两个独立的层次结构，一个是抽象部分，一个是实现部分，来实现这种分离。</p><p>在桥接模式中，抽象部分包含抽象类或接口，定义了高层逻辑和功能。实现部分包含具体实现类，负责实现抽象部分定义的接口或方法。通过桥接模式，可以在两个层次结构中独立地扩展和变化类，而不会相互影响。同时，抽象部分和实现部分之间的耦合度降低，使系统更加灵活和可维护。</p><h2 id=举例>举例</h2><p>考虑一下你拥有一种具有不同附魔的武器，并且应该允许将具有不同附魔的不同武器混合使用。 你会怎么做？ 为每个附魔创建每种武器的多个副本，还是只是创建单独的附魔并根据需要为武器设置它？ 桥接模式使您可以进行第二次操作。</p><p>翻译一下上面的武器示例。下面我们有武器的类层级：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>Weapon</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>wield</span>();
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>swing</span>();
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>unwield</span>();
+</span></span><span style=display:flex><span>  Enchantment <span style=color:#a6e22e>getEnchantment</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Sword</span> <span style=color:#66d9ef>implements</span> Weapon {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> Enchantment enchantment;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Sword</span>(Enchantment enchantment) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>enchantment</span> <span style=color:#f92672>=</span> enchantment;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>wield</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;The sword is wielded.&#34;</span>);
+</span></span><span style=display:flex><span>    enchantment.<span style=color:#a6e22e>onActivate</span>();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>swing</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;The sword is swinged.&#34;</span>);
+</span></span><span style=display:flex><span>    enchantment.<span style=color:#a6e22e>apply</span>();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>unwield</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;The sword is unwielded.&#34;</span>);
+</span></span><span style=display:flex><span>    enchantment.<span style=color:#a6e22e>onDeactivate</span>();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> Enchantment <span style=color:#a6e22e>getEnchantment</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> enchantment;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Hammer</span> <span style=color:#66d9ef>implements</span> Weapon {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> Enchantment enchantment;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Hammer</span>(Enchantment enchantment) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>enchantment</span> <span style=color:#f92672>=</span> enchantment;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>wield</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;The hammer is wielded.&#34;</span>);
+</span></span><span style=display:flex><span>    enchantment.<span style=color:#a6e22e>onActivate</span>();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>swing</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;The hammer is swinged.&#34;</span>);
+</span></span><span style=display:flex><span>    enchantment.<span style=color:#a6e22e>apply</span>();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>unwield</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;The hammer is unwielded.&#34;</span>);
+</span></span><span style=display:flex><span>    enchantment.<span style=color:#a6e22e>onDeactivate</span>();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> Enchantment <span style=color:#a6e22e>getEnchantment</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> enchantment;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>这里是单独的附魔类结构：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>Enchantment</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onActivate</span>();
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>apply</span>();
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onDeactivate</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>FlyingEnchantment</span> <span style=color:#66d9ef>implements</span> Enchantment {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onActivate</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;The item begins to glow faintly.&#34;</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>apply</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;The item flies and strikes the enemies finally returning to owner&#39;s hand.&#34;</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onDeactivate</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;The item&#39;s glow fades.&#34;</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>SoulEatingEnchantment</span> <span style=color:#66d9ef>implements</span> Enchantment {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onActivate</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;The item spreads bloodlust.&#34;</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>apply</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;The item eats the soul of enemies.&#34;</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onDeactivate</span>() {
+</span></span><span style=display:flex><span>    LOGGER.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;Bloodlust slowly disappears.&#34;</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>这里是两种层次结构的实践：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>var</span> enchantedSword <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Sword(<span style=color:#66d9ef>new</span> SoulEatingEnchantment());
+</span></span><span style=display:flex><span>enchantedSword.<span style=color:#a6e22e>wield</span>();
+</span></span><span style=display:flex><span>enchantedSword.<span style=color:#a6e22e>swing</span>();
+</span></span><span style=display:flex><span>enchantedSword.<span style=color:#a6e22e>unwield</span>();
+</span></span><span style=display:flex><span><span style=color:#75715e>// The sword is wielded.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// The item spreads bloodlust.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// The sword is swinged.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// The item eats the soul of enemies.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// The sword is unwielded.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// Bloodlust slowly disappears.</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>var</span> hammer <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Hammer(<span style=color:#66d9ef>new</span> FlyingEnchantment());
+</span></span><span style=display:flex><span>hammer.<span style=color:#a6e22e>wield</span>();
+</span></span><span style=display:flex><span>hammer.<span style=color:#a6e22e>swing</span>();
+</span></span><span style=display:flex><span>hammer.<span style=color:#a6e22e>unwield</span>();
+</span></span><span style=display:flex><span><span style=color:#75715e>// The hammer is wielded.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// The item begins to glow faintly.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// The hammer is swinged.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// The item flies and strikes the enemies finally returning to owner&#39;s hand.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// The hammer is unwielded.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// The item&#39;s glow fades.</span>
+</span></span></code></pre></div><h2 id=类图>类图</h2><p><img src=https://java-design-patterns.com/assets/bridge.urm-1e709c16.png alt="alt text"></p><h2 id=适用场景>适用场景</h2><p>桥接模式适用于以下情况：</p><ol><li>当你希望在<strong>抽象部分</strong>和<strong>实现部分</strong>之间存在独立的扩展和变化时，可以使用桥接模式。这样可以避免在两个层次结构之间的紧耦合关系，使它们可以相互独立地进行修改和扩展。</li><li>当你想要避免在编译时将抽象部分与实现部分绑定在一起时，桥接模式是一个很好的选择。通过桥接模式，可以在<strong>运行时动态地将抽象部分和实现部分进行组合</strong>，而不需要修改客户端的代码。</li><li>当你有<strong>多个独立变化的维度</strong>时，可以使用桥接模式。例如，在给定的示例中，武器和附魔是两个独立变化的维度，通过桥接模式可以灵活地组合它们，而不需要为每种武器和每种附魔创建大量的子类。</li></ol><p>总的来说，桥接模式适用于需要在抽象与实现之间存在独立变化和组合的情况，以及需要动态地进行选择和共享实现的情况。它能够提高系统的灵活性、可扩展性和可维护性。</p><h3 id=举例-1>举例</h3><p>以下是一个实际的例子，以帮助说明桥接模式的应用。</p><p>假设你正在开发一个绘图应用程序，其中包含不同类型的形状（如圆形、矩形）和不同的颜色（如红色、蓝色）。你希望能够在任意形状上应用不同的颜色，而不是为每种形状和颜色的组合创建大量的子类。</p><p>在这种情况下，可以使用桥接模式来实现形状和颜色之间的组合。首先，定义一个抽象的形状类 <code>Shape</code>，其中包含一个颜色对象的引用。然后，定义一个抽象的颜色类 <code>Color</code>，其中包含一个绘制方法。通过桥接模式，将形状和颜色进行分离，使它们可以独立地进行扩展和变化。</p><p>下面是示例代码：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#75715e>// 形状抽象类</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Shape</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>protected</span> Color color;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Shape</span>(Color color) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>color</span> <span style=color:#f92672>=</span> color;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>draw</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 颜色抽象类</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>Color</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>applyColor</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 具体形状类：圆形</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Circle</span> <span style=color:#66d9ef>extends</span> Shape {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Circle</span>(Color color) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>super</span>(color);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>        System.<span style=color:#a6e22e>out</span>.<span style=color:#a6e22e>print</span>(<span style=color:#e6db74>&#34;绘制圆形，&#34;</span>);
+</span></span><span style=display:flex><span>        color.<span style=color:#a6e22e>applyColor</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 具体形状类：矩形</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Rectangle</span> <span style=color:#66d9ef>extends</span> Shape {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Rectangle</span>(Color color) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>super</span>(color);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>        System.<span style=color:#a6e22e>out</span>.<span style=color:#a6e22e>print</span>(<span style=color:#e6db74>&#34;绘制矩形，&#34;</span>);
+</span></span><span style=display:flex><span>        color.<span style=color:#a6e22e>applyColor</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 具体颜色类：红色</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>RedColor</span> <span style=color:#66d9ef>implements</span> Color {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>applyColor</span>() {
+</span></span><span style=display:flex><span>        System.<span style=color:#a6e22e>out</span>.<span style=color:#a6e22e>println</span>(<span style=color:#e6db74>&#34;使用红色&#34;</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 具体颜色类：蓝色</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>BlueColor</span> <span style=color:#66d9ef>implements</span> Color {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>applyColor</span>() {
+</span></span><span style=display:flex><span>        System.<span style=color:#a6e22e>out</span>.<span style=color:#a6e22e>println</span>(<span style=color:#e6db74>&#34;使用蓝色&#34;</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>现在，你可以创建不同的形状对象，并将不同的颜色对象与之组合，而无需创建大量的子类。例如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>Shape redCircle <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Circle(<span style=color:#66d9ef>new</span> RedColor());
+</span></span><span style=display:flex><span>Shape blueRectangle <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Rectangle(<span style=color:#66d9ef>new</span> BlueColor());
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>redCircle.<span style=color:#a6e22e>draw</span>(); <span style=color:#75715e>// 输出：绘制圆形，使用红色</span>
+</span></span><span style=display:flex><span>blueRectangle.<span style=color:#a6e22e>draw</span>(); <span style=color:#75715e>// 输出：绘制矩形，使用蓝色</span>
+</span></span></code></pre></div><p>通过桥接模式，你可以轻松地扩展形状和颜色的种类，而不需要修改现有的代码。你可以添加新的形状或颜色类，并将它们组合在一起，以满足不同的需求，同时保持了形状和颜色之间的独立性。</p><h3 id=开源框架中的应用>开源框架中的应用</h3><p>在开源框架中，有一些使用桥接模式的例子。以下是其中一些常见的开源框架和其使用桥接模式的示例：</p><ol><li>JDBC（Java 数据库连接）框架：JDBC 框架是 Java 中用于与数据库进行交互的标准 API。在 JDBC 中，使用了桥接模式来连接不同的数据库驱动程序和应用程序。桥接模式将 JDBC API 与特定的数据库驱动程序实现分离，使得应用程序可以独立于不同的数据库实现进行开发。</li><li>AWT（Abstract Window Toolkit）：AWT 是 Java 中用于创建图形用户界面（GUI）的原始工具包。在 AWT 中，使用了桥接模式来分离抽象的 GUI 组件（例如按钮、文本框）和具体的平台实现。这样可以使得 AWT 可以在不同的操作系统上运行，并且可以根据不同的平台提供不同的外观和行为。</li><li>Spring 框架：Spring 是一个开源的 Java 企业应用程序开发框架。在 Spring 中，使用了桥接模式来实现不同层之间的解耦。例如，Spring 的数据访问模块（Spring Data）使用了桥接模式来连接不同的数据访问技术，如 JPA、Hibernate、MyBatis 等。这样，开发人员可以选择适合其需求的数据访问技术，而不需要修改其他部分的代码。</li><li>Apache Log4j：Log4j 框架使用了桥接模式将日志记录器（Logger）与具体的日志输出（Appender）分离。通过<code>Logger</code>接口和<code>Appender</code>接口的组合使用，可以在运行时动态地将日志记录器与不同的日志输出实现进行桥接。例如，可以将<code>Logger</code>桥接到<code>FileAppender</code>、<code>ConsoleAppender</code>或<code>DatabaseAppender</code>等不同的具体实现上。</li><li>Apache Commons IO：Commons IO 是 Apache Commons 项目的一部分，提供了一组用于处理 I/O 操作的实用工具。在 Commons IO 中，使用了桥接模式来分离抽象的 I/O 操作（如文件读写、流处理）和具体的实现。这使得开发人员可以在不同的环境中使用相同的 API 进行 I/O 操作。</li><li>Hibernate ORM：Hibernate 使用了桥接模式将不同数据库厂商的驱动程序与核心功能分离。它通过<code>DriverManager</code>接口和具体的数据库驱动程序实现的桥接，能够在运行时动态地选择和切换数据库驱动程序。这样，开发人员可以使用相同的 Hibernate API 与不同的数据库进行交互，而不需要修改核心代码。</li><li>Retrofit：Retrofit 库使用了桥接模式来将网络请求的抽象表示与具体的 HTTP 客户端实现分离。它通过<code>Call</code>接口和<code>HttpClient</code>接口的组合使用，可以将不同的 HTTP 客户端库（如 OkHttp、Apache HttpClient）桥接到统一的网络请求抽象上。这使得开发人员可以根据需要选择不同的 HTTP 客户端实现，而不需要修改使用 Retrofit 的代码。</li><li>Apache HttpClient：HttpClient 是 Apache 软件基金会提供的一个用于发送 HTTP 请求的 Java 库。它使用了桥接模式来将抽象的 HTTP 请求和具体的 HTTP 协议实现（如 HTTP/1.1 或 HTTP/2）分离。这使得开发人员可以根据需要选择不同的 HTTP 协议版本，而不需要修改代码。</li><li>Apache Commons Logging：Commons Logging 是 Apache Commons 项目中的一个通用日志记录接口。它使用了桥接模式来将应用程序代码与底层的具体日志实现（如 Log4j、java.util.logging 等）分离。这使得开发人员可以在不同的环境中切换和配置不同的日志实现。</li></ol><p>以下是一个简单的示例代码，演示了桥接模式在 JDBC 框架中的应用：</p><p>首先，定义桥接接口 <code>DatabaseDriver</code>，它包含了数据库操作的方法声明：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>DatabaseDriver</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>connect</span>(String url, String username, String password);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>executeQuery</span>(String query);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>disconnect</span>();
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>然后，实现具体的数据库驱动程序，例如 <code>MySQLDriver</code> 和 <code>OracleDriver</code>，它们实现了 <code>DatabaseDriver</code> 接口：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MySQLDriver</span> <span style=color:#66d9ef>implements</span> DatabaseDriver {
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// MySQL数据库特定的实现代码</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>connect</span>(String url, String username, String password) {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 连接MySQL数据库的代码</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>executeQuery</span>(String query) {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 执行MySQL查询的代码</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>disconnect</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 断开MySQL数据库连接的代码</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>OracleDriver</span> <span style=color:#66d9ef>implements</span> DatabaseDriver {
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Oracle数据库特定的实现代码</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>connect</span>(String url, String username, String password) {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 连接Oracle数据库的代码</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>executeQuery</span>(String query) {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 执行Oracle查询的代码</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>disconnect</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 断开Oracle数据库连接的代码</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>接下来，定义使用桥接模式的应用程序代码，其中包含了一个 <code>Database</code> 类作为抽象化角色，它使用桥接接口 <code>DatabaseDriver</code> 进行数据库操作：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Database</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> DatabaseDriver driver;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Database</span>(DatabaseDriver driver) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>driver</span> <span style=color:#f92672>=</span> driver;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>connectToDatabase</span>(String url, String username, String password) {
+</span></span><span style=display:flex><span>        driver.<span style=color:#a6e22e>connect</span>(url, username, password);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>executeQuery</span>(String query) {
+</span></span><span style=display:flex><span>        driver.<span style=color:#a6e22e>executeQuery</span>(query);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>disconnectFromDatabase</span>() {
+</span></span><span style=display:flex><span>        driver.<span style=color:#a6e22e>disconnect</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>最后，可以在应用程序中使用这些类进行数据库操作：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Main</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span>(String<span style=color:#f92672>[]</span> args) {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 创建MySQLDriver实例</span>
+</span></span><span style=display:flex><span>        DatabaseDriver mysqlDriver <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> MySQLDriver();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 创建Database实例，并使用MySQLDriver进行操作</span>
+</span></span><span style=display:flex><span>        Database mysqlDatabase <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Database(mysqlDriver);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 连接到MySQL数据库</span>
+</span></span><span style=display:flex><span>        mysqlDatabase.<span style=color:#a6e22e>connectToDatabase</span>(<span style=color:#e6db74>&#34;jdbc:mysql://localhost:3306/mydb&#34;</span>, <span style=color:#e6db74>&#34;username&#34;</span>, <span style=color:#e6db74>&#34;password&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 执行MySQL查询</span>
+</span></span><span style=display:flex><span>        mysqlDatabase.<span style=color:#a6e22e>executeQuery</span>(<span style=color:#e6db74>&#34;SELECT * FROM mytable&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 断开MySQL数据库连接</span>
+</span></span><span style=display:flex><span>        mysqlDatabase.<span style=color:#a6e22e>disconnectFromDatabase</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 创建OracleDriver实例</span>
+</span></span><span style=display:flex><span>        DatabaseDriver oracleDriver <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> OracleDriver();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 创建Database实例，并使用OracleDriver进行操作</span>
+</span></span><span style=display:flex><span>        Database oracleDatabase <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Database(oracleDriver);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 连接到Oracle数据库</span>
+</span></span><span style=display:flex><span>        oracleDatabase.<span style=color:#a6e22e>connectToDatabase</span>(<span style=color:#e6db74>&#34;jdbc:oracle:thin:@localhost:1521:xe&#34;</span>, <span style=color:#e6db74>&#34;username&#34;</span>, <span style=color:#e6db74>&#34;password&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 执行Oracle查询</span>
+</span></span><span style=display:flex><span>        oracleDatabase.<span style=color:#a6e22e>executeQuery</span>(<span style=color:#e6db74>&#34;SELECT * FROM mytable&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 断开Oracle数据库连接</span>
+</span></span><span style=display:flex><span>        oracleDatabase.<span style=color:#a6e22e>disconnectFromDatabase</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>这个例子展示了如何使用桥接模式将 JDBC API 与特定的数据库驱动程序实现分离。通过创建不同的数据库驱动程序实例，并将其传递给 <code>Database</code> 类，应用程序可以独立于不同的数据库实现进行开发和操作。</p><h2 id=参考文章>参考文章</h2><ul><li><a href=https://www.digitalocean.com/community/tutorials/bridge-design-pattern-java target=_blank>https://www.digitalocean.com/community/tutorials/bridge-design-pattern-java</a></li></ul></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+</a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f&title=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://telegram.me/share/url?text=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f&title=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f" target=_blank rel="noopener noreferrer" title="Click to share on facebook"><i class="fa-brands fa-facebook fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://api.whatsapp.com/send?text=Java%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%ef%bc%9aBridge%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2023%2f08%2f28%2fjava-design-patterns-bridge%2f" target=_blank rel="noopener noreferrer" title="Click to share on whatsapp"><i class="fa-brands fa-whatsapp fa-2xl" style=color:#007bb5></i></a></div></div></article><nav class="navigation post-navigation" role=navigation><h2 class=screen-reader-text>Post navigation</h2><div class=nav-links><div class=nav-previous><a href=/posts/2023/09/05/java-design-patterns-business-delegate/ rel=next><span class=post-title>Java设计模式：Business Delegate</span></a></div><div class=nav-next><a href=/posts/2023/08/25/global-error-handler-in-a-spring-rest-api/ rel=prev><span class=post-title>[译]REST API 的自定义错误消息处理</span></a></div></div></nav><h2>Related content</h2><ul><li><a href=/posts/2023/12/14/all-things-about-microprofile/>All things about MicroProfile</a></li><li><a href=/posts/2023/11/02/jhipster-intro/>JHipster安装和介绍</a></li><li><a href=/posts/2023/10/26/java-design-patterns-circuit-breaker/>Java设计模式：Circuit Breaker</a></li><li><a href=/posts/2023/10/16/java-design-patterns-chain/>Java设计模式：Chain</a></li><li><a href=/posts/2023/10/13/java-design-patterns-callback/>Java设计模式：Callback</a></li><li><a href=/posts/2023/09/25/java-design-patterns-cahcing/>Java设计模式：Caching</a></li><li><a href=/posts/2023/09/22/java-design-patterns-bytecode/>Java设计模式：Bytecode</a></li><li><a href=/posts/2023/09/05/java-design-patterns-builder/>Java设计模式：Builder</a></li><li><a href=/posts/2023/09/05/java-design-patterns-business-delegate/>Java设计模式：Business Delegate</a></li><li><a href=/posts/2023/08/25/java-design-patterns-balking/>Java设计模式：Balking</a></li></ul></main></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link><a href=/ target=_blank rel="noopener noreferrer">ChenSoul</a>
+Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer">Hugo</a>
+<a style=margin-left:20px href=/privacy_policy/ target=_blank rel="noopener noreferrer">Privacy Policy</a></span></div></footer></div></div><script type=text/javascript src=/main.min.js></script></body></html>

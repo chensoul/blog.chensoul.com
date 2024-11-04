@@ -1,99 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Http on ChenSoul</title>
-    <link>https://blog.chensoul.cc/tags/http/</link>
-    <description>Recent content in Http on ChenSoul</description>
-    <generator>Hugo -- 0.136.5</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Wed, 08 May 2024 00:00:00 +0800</lastBuildDate>
-    <atom:link href="https://blog.chensoul.cc/tags/http/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>[译]探索 http2（第 1 部分）：概述</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-1-overview/</link>
-      <pubDate>Wed, 08 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-1-overview/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://noobj.medium.com/exploring-http2-part-1-overview-dc3e9b53968f&#34; target=&#34;_blank&#34;&gt;https://noobj.medium.com/exploring-http2-part-1-overview-dc3e9b53968f&lt;/a&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;em&gt;让我们来谈谈&lt;/em&gt; &lt;strong&gt;http2 的内容、原因、时间和方式&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;完整的代码可以在&lt;a href=&#34;https://github.com/noobg1/http1_vs_http2&#34; target=&#34;_blank&#34;&gt;github&lt;/a&gt;上找到。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;第 1 部分：概述&lt;/strong&gt;
-第 2 部分：&lt;a href=&#34;https://medium.com/@noobj/exploring-http2-part-2-with-node-http2-core-and-hapijs-74e3df14249&#34; target=&#34;_blank&#34;&gt;使用 node-http2 核心和 hapijs 进行探索&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;什么是http2&#34;&gt;什么是http2？&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;**&lt;em&gt;http2*&lt;strong&gt;是自 1999 年以来使用的&lt;/strong&gt;&lt;/em&gt;http1.1***之后的最新更新&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]探索 http2（第 2 部分）：使用 node-http2 核心和 hapijs</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-2-overview/</link>
-      <pubDate>Wed, 08 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-2-overview/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://noobj.medium.com/exploring-http2-part-2-with-node-http2-core-and-hapijs-74e3df14249&#34; target=&#34;_blank&#34;&gt;https://noobj.medium.com/exploring-http2-part-2-with-node-http2-core-and-hapijs-74e3df14249&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;img&#34; loading=&#34;lazy&#34; src=&#34;https://miro.medium.com/v2/resize:fit:1400/1*AI-qItSMJDSBxEhk8XMyIw.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;来源：&lt;a href=&#34;https://www.thewebmaster.com/hosting/2015/dec/14/what-is-http2-and-how-does-it-compare-to-http1-1/&#34; target=&#34;_blank&#34;&gt;https://www.thewebmaster.com/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;先决条件&lt;/strong&gt;：了解 javascript、客户端-服务器架构。&lt;/p&gt;
-&lt;p&gt;完整的代码可以在&lt;a href=&#34;https://github.com/noobg1/http1_vs_http2&#34; target=&#34;_blank&#34;&gt;github&lt;/a&gt;上找到。&lt;/p&gt;
-&lt;p&gt;第 1 部分：&lt;a href=&#34;https://medium.com/@noobj/exploring-http2-part-1-overview-dc3e9b53968f&#34; target=&#34;_blank&#34;&gt;概述（&lt;em&gt;http2 的原因、内容、时间、方式&lt;/em&gt;）&lt;/a&gt;&lt;strong&gt;第 2 部分：使用 node-http2 核心和 hapijs 进行探索&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;免责&lt;strong&gt;声明&lt;/strong&gt;：本文将使用&lt;strong&gt;node@v9+&lt;strong&gt;附带的&lt;/strong&gt;http2模块。&lt;/strong&gt;&lt;a href=&#34;https://github.com/http2/http2-spec/wiki/Implementations&#34; target=&#34;_blank&#34;&gt;这里&lt;/a&gt;列出了其他几个 http2 客户端-服务器库实现。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]HTTP 的演变 – HTTP2 深入探讨</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/http2/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/http2/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://ably.com/topic/http2&#34; target=&#34;_blank&#34;&gt;https://ably.com/topic/http2&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;可以毫不夸张地说，超文本传输协议 (HTTP) 造就了我们所熟知的互联网。 HTTP 最初是由万维网的发明者蒂姆·伯纳斯·李 (Tim Berners-Lee) 于 1989 年提出的应用程序协议。第一个记录版本 HTTP/0.9 被称为单行协议。鉴于它催生了万维网，它现在可以被描述为有史以来最伟大的俏皮话。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]什么是 HTTP？</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/http/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/http/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.pubnub.com/guides/http/&#34; target=&#34;_blank&#34;&gt;https://www.pubnub.com/guides/http/&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;http-概述&#34;&gt;HTTP 概述&lt;/h2&gt;
-&lt;p&gt;HTTP，即超文本传输协议，是互联网通信的基础。它在客户端-服务器模型上运行，其中前端客户端（例如网络浏览器）通过向服务器发送HTTP请求消息来发起请求，例如请求网页（例如搜索引擎）。然后，服务器使用包含所请求资源的 HTTP 响应消息进行响应，如果资源不可用，则使用错误消息进行响应。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]什么是HTTP/3？</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/http3/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/http3/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.pubnub.com/guides/http-3/&#34; target=&#34;_blank&#34;&gt;https://www.pubnub.com/guides/http-3/&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;什么是-http3&#34;&gt;什么是 HTTP/3？&lt;/h2&gt;
-&lt;p&gt;HTTP/3（或 HTTP-over-QUIC）是超文本传输协议 ( &lt;a href=&#34;https://www.pubnub.com/guides/http/&#34; target=&#34;_blank&#34;&gt;HTTP&lt;/a&gt; ) 的第三个主要版本。它是用于 Web 浏览器和服务器之间通信的应用层协议。 HTTP/3 旨在提高 Web 通信的性能和安全性。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/HTTP/3&#34; target=&#34;_blank&#34;&gt;HTTP/3&lt;/a&gt;的主要功能之一是它构建在&lt;a href=&#34;https://www.pubnub.com/guides/udp/&#34; target=&#34;_blank&#34;&gt;用户数据报协议 (UDP)&lt;/a&gt;之上，而不是建立在 HTTP 早期版本中使用的&lt;a href=&#34;https://www.pubnub.com/guides/tcp-ip/&#34; target=&#34;_blank&#34;&gt;传输控制协议&lt;/a&gt;(TCP) 之上。 UDP 是一种无连接协议，可为实时应用程序提供更低的延迟和更好的性能。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]什么是HTTP流式传输？</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/http-streaming/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/http-streaming/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.pubnub.com/guides/http-streaming/&#34; target=&#34;_blank&#34;&gt;https://www.pubnub.com/guides/http-streaming/&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;什么是-http-流式传输&#34;&gt;什么是 HTTP 流式传输？&lt;/h2&gt;
-&lt;p&gt;HTTP 流，也称为基于 HTTP 的流或 HTTP 实时流，是一种用于通过 Internet 传送实时多媒体内容（例如音频或视频）的技术。该协议允许从服务器到客户端设备的连续数据传输，使用户能够消费媒体内容而无需完整的文件下载。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]什么是长轮询？</title>
-      <link>https://blog.chensoul.cc/posts/2024/05/07/long-polling/</link>
-      <pubDate>Tue, 07 May 2024 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2024/05/07/long-polling/</guid>
-      <description>&lt;p&gt;原文链接：&lt;a href=&#34;https://www.pubnub.com/guides/long-polling/&#34; target=&#34;_blank&#34;&gt;https://www.pubnub.com/guides/long-polling/&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;什么是长轮询&#34;&gt;什么是长轮询？&lt;/h2&gt;
-&lt;p&gt;长轮询用于实时 Web 应用程序，以实现客户端和 Web 服务器之间近乎即时的通信。它在实时更新至关重要的聊天和消息应用程序中特别有用。&lt;/p&gt;
-&lt;p&gt;在传统的&lt;a href=&#34;https://www.pubnub.com/guides/http/&#34; target=&#34;_blank&#34;&gt;HTTP&lt;/a&gt;通信中，客户端向服务器发送新请求并等待响应。这称为短轮询。然而，在实时场景中，短轮询可能效率不高，因为它需要频繁向服务器请求，导致不必要的网络开销和增加延迟。&lt;/p&gt;
-&lt;p&gt;另一方面，长轮询通过在新数据可用之前保持请求长时间打开来提高效率。服务器保持请求打开并等待，直到有新信息发送回客户端。一旦服务器有新数据，它就会响应客户端，然后客户端可以处理数据并发起新的长轮询请求。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>[译]关于 HTTP 您需要了解的一切</title>
-      <link>https://blog.chensoul.cc/posts/2023/10/12/http-in-depth/</link>
-      <pubDate>Thu, 12 Oct 2023 00:00:00 +0800</pubDate>
-      <guid>https://blog.chensoul.cc/posts/2023/10/12/http-in-depth/</guid>
-      <description>&lt;p&gt;HTTP 是每个 Web 开发人员都应该了解的协议，因为它为整个 Web 提供动力。了解 HTTP 当然可以帮助您开发更好的应用程序。&lt;/p&gt;
-&lt;p&gt;在本文中，我将讨论 HTTP 是什么、它是如何产生的、它今天的状况以及我们是如何走到这一步的&lt;/p&gt;
-&lt;h2 id=&#34;什么是-http&#34;&gt;什么是 HTTP？&lt;/h2&gt;
-&lt;p&gt;首先，什么是 HTTP？ HTTP 是基于 TCP/IP 的应用层通信协议，它标准化了客户端和服务器之间的通信方式。它定义了如何通过互联网请求和传输内容。通过应用层协议，我的意思是它只是一个标准化主机（客户端和服务器）通信方式的抽象层。 HTTP 本身依赖于 TCP/IP 来获取客户端和服务器之间的请求和响应。&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Http on ChenSoul</title><link>https://blog.chensoul.cc/tags/http/</link><description>Recent content in Http on ChenSoul</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 08 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/http/index.xml" rel="self" type="application/rss+xml"/><item><title>[译]探索 http2（第 1 部分）：概述</title><link>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-1-overview/</link><pubDate>Wed, 08 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-1-overview/</guid><description>&lt;p>原文链接：&lt;a href="https://noobj.medium.com/exploring-http2-part-1-overview-dc3e9b53968f" target="_blank">https://noobj.medium.com/exploring-http2-part-1-overview-dc3e9b53968f&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;em>让我们来谈谈&lt;/em> &lt;strong>http2 的内容、原因、时间和方式&lt;/strong>&lt;/p>
+&lt;/blockquote>
+&lt;p>完整的代码可以在&lt;a href="https://github.com/noobg1/http1_vs_http2" target="_blank">github&lt;/a>上找到。&lt;/p></description></item><item><title>[译]探索 http2（第 2 部分）：使用 node-http2 核心和 hapijs</title><link>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-2-overview/</link><pubDate>Wed, 08 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/08/exploring-http2-part-2-overview/</guid><description>&lt;p>原文链接：&lt;a href="https://noobj.medium.com/exploring-http2-part-2-with-node-http2-core-and-hapijs-74e3df14249" target="_blank">https://noobj.medium.com/exploring-http2-part-2-with-node-http2-core-and-hapijs-74e3df14249&lt;/a>&lt;/p>
+&lt;p>&lt;img src="https://miro.medium.com/v2/resize:fit:1400/1*AI-qItSMJDSBxEhk8XMyIw.png" alt="img">&lt;/p>
+&lt;p>来源：&lt;a href="https://www.thewebmaster.com/hosting/2015/dec/14/what-is-http2-and-how-does-it-compare-to-http1-1/" target="_blank">https://www.thewebmaster.com/&lt;/a>&lt;/p>
+&lt;p>&lt;strong>先决条件&lt;/strong>：了解 javascript、客户端-服务器架构。&lt;/p></description></item><item><title>[译]HTTP 的演变 – HTTP2 深入探讨</title><link>https://blog.chensoul.cc/posts/2024/05/07/http2/</link><pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/07/http2/</guid><description>&lt;p>原文链接：&lt;a href="https://ably.com/topic/http2" target="_blank">https://ably.com/topic/http2&lt;/a>&lt;/p>
+&lt;p>可以毫不夸张地说，超文本传输协议 (HTTP) 造就了我们所熟知的互联网。 HTTP 最初是由万维网的发明者蒂姆·伯纳斯·李 (Tim Berners-Lee) 于 1989 年提出的应用程序协议。第一个记录版本 HTTP/0.9 被称为单行协议。鉴于它催生了万维网，它现在可以被描述为有史以来最伟大的俏皮话。&lt;/p></description></item><item><title>[译]什么是 HTTP？</title><link>https://blog.chensoul.cc/posts/2024/05/07/http/</link><pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/07/http/</guid><description>&lt;p>原文链接：&lt;a href="https://www.pubnub.com/guides/http/" target="_blank">https://www.pubnub.com/guides/http/&lt;/a>&lt;/p>
+&lt;h2 id="http-概述">HTTP 概述&lt;/h2>
+&lt;p>HTTP，即超文本传输协议，是互联网通信的基础。它在客户端-服务器模型上运行，其中前端客户端（例如网络浏览器）通过向服务器发送HTTP请求消息来发起请求，例如请求网页（例如搜索引擎）。然后，服务器使用包含所请求资源的 HTTP 响应消息进行响应，如果资源不可用，则使用错误消息进行响应。&lt;/p></description></item><item><title>[译]什么是HTTP/3？</title><link>https://blog.chensoul.cc/posts/2024/05/07/http3/</link><pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/07/http3/</guid><description>&lt;p>原文链接：&lt;a href="https://www.pubnub.com/guides/http-3/" target="_blank">https://www.pubnub.com/guides/http-3/&lt;/a>&lt;/p>
+&lt;h2 id="什么是-http3">什么是 HTTP/3？&lt;/h2>
+&lt;p>HTTP/3（或 HTTP-over-QUIC）是超文本传输协议 ( &lt;a href="https://www.pubnub.com/guides/http/" target="_blank">HTTP&lt;/a> ) 的第三个主要版本。它是用于 Web 浏览器和服务器之间通信的应用层协议。 HTTP/3 旨在提高 Web 通信的性能和安全性。&lt;/p></description></item><item><title>[译]什么是HTTP流式传输？</title><link>https://blog.chensoul.cc/posts/2024/05/07/http-streaming/</link><pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/07/http-streaming/</guid><description>&lt;p>原文链接：&lt;a href="https://www.pubnub.com/guides/http-streaming/" target="_blank">https://www.pubnub.com/guides/http-streaming/&lt;/a>&lt;/p>
+&lt;h2 id="什么是-http-流式传输">什么是 HTTP 流式传输？&lt;/h2>
+&lt;p>HTTP 流，也称为基于 HTTP 的流或 HTTP 实时流，是一种用于通过 Internet 传送实时多媒体内容（例如音频或视频）的技术。该协议允许从服务器到客户端设备的连续数据传输，使用户能够消费媒体内容而无需完整的文件下载。&lt;/p></description></item><item><title>[译]什么是长轮询？</title><link>https://blog.chensoul.cc/posts/2024/05/07/long-polling/</link><pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/07/long-polling/</guid><description>&lt;p>原文链接：&lt;a href="https://www.pubnub.com/guides/long-polling/" target="_blank">https://www.pubnub.com/guides/long-polling/&lt;/a>&lt;/p>
+&lt;h2 id="什么是长轮询">什么是长轮询？&lt;/h2>
+&lt;p>长轮询用于实时 Web 应用程序，以实现客户端和 Web 服务器之间近乎即时的通信。它在实时更新至关重要的聊天和消息应用程序中特别有用。&lt;/p></description></item><item><title>[译]关于 HTTP 您需要了解的一切</title><link>https://blog.chensoul.cc/posts/2023/10/12/http-in-depth/</link><pubDate>Thu, 12 Oct 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/10/12/http-in-depth/</guid><description>&lt;p>HTTP 是每个 Web 开发人员都应该了解的协议，因为它为整个 Web 提供动力。了解 HTTP 当然可以帮助您开发更好的应用程序。&lt;/p></description></item></channel></rss>

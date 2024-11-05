@@ -9,57 +9,57 @@
 </label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
 <span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
 current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
-menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/05/30/how-to-structure-our-code/ rel=bookmark title=[译]如何组织代码>[译]如何组织代码</a></h2><hr><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-05-30T00:00:00>2024-05-30
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/05/30/how-to-structure-our-code/ rel=bookmark title=[译]如何组织代码>[译]如何组织代码</a></h2><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-05-30T00:00:00>2024-05-30
 </time></span><span class=meta-author><span class="author vcard">chensoul</span>
 </span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
-<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/ddd/ title=ddd>ddd</a></span></div></header><div style=background-color:#f1f3f5;margin-top:20px><aside style=margin:5px><span style=font-size:20px;font-weight:700>Table of Contents</span><div style=padding-left:30px><nav id=TableOfContents><ul><li><a href=#六边形架构>六边形架构</a></li></ul></nav></div></aside></div><div class=entry-content><p>原文链接：<a href=https://medium.com/@minadev/how-to-structure-our-code-b5e7b1c32c21 target=_blank>How to Structure Code</a></p><p><em>软件设计最佳实践，逐层发现包、按功能发现包以及六角形架构/端口和适配器。</em></p><p>在这篇博文中，我将探讨如何构建我们的代码并讨论最佳实践，涵盖三种不同的方法：按层打包、按功能打包以及六边形架构/端口和适配器及其优缺点。</p><p>在探索构建代码的不同方法之前，我们需要了解基本的软件设计原则：</p><ul><li><strong>内聚力</strong>：指模块内各类之间的相互关联程度。</li><li><strong>耦合度</strong>：指不同模块之间的依赖程度。</li></ul><p><img src=/images/how-to-structure-our-code-01-0766764.webp alt=img></p><ul><li><strong>模块化</strong>：指软件系统被划分为独立模块的程度。每个模块都封装了一组特定的功能，并设计为独立工作，同时通过明确定义的接口相互交互。</li><li><strong>抽象</strong>：隐藏实现细节并仅通过接口公开必要的功能。</li><li><strong>关注点分离</strong>：设有不同的部分，每个部分解决一个特定的关注点。</li><li><strong>封装</strong>：将数据和方法捆绑到单个模块或类中以隐藏内部细节。</li></ul><p><strong>让我们仔细看看内聚力和耦合力？</strong></p><p>内聚力描述了<strong>软件的</strong>集中程度。它与单一责任原则密切相关。</p><ul><li><strong>高内聚力</strong>意味着模块内的类紧密相关并具有共同的、明确定义的目的。</li><li><strong>低内聚力</strong>意味着模块内的类之间关系松散，缺乏明确的目的且职责不相关。</li></ul><p>要遵循的最佳实践是实现模块之间的<strong>高内聚和松散耦合</strong>。</p><p><img src=/images/how-to-structure-our-code-02-0766764.webp alt=img></p><p>松耦合被认为是结构良好和设计良好的计算机系统的标志，与高内聚力相结合，可带来较高的可读性和可维护性。</p><p><img src=/images/how-to-structure-our-code-03-0766764.webp alt=img></p><p>现在，让我们探索构建代码的不同方式。首先，我将逐层介绍包，然后逐功能介绍包，并比较两者。之后，我们将探索端口和适配器模式。</p><p><img src=/images/how-to-structure-our-code-04-0766764.webp alt=img></p><h1 id=层封装>层封装</h1><p>它代表一个项目结构，其中类被组织成多个层，每个层负责一组特定的功能。</p><pre tabindex=0><code>src
-├── main
-│   ├── java
-│   │   └── com
-│   │       └── app
-│   │           ├── service 
-│   │           │   └── UserService.java
-│   │           │   └── OrderService.java
-│   │           │   └── ProductService.java
-│   │           ├── domain   
-│   │           │   └── User.java
-│   │           │   └── Order.java
-│   │           │   └── Product.java 
-│   │           ├── repository   
-│   │           │   └── UserRepository.java
-│   │           │   └── OrderRepository.java
-│   │           │   └── ProductRepository.java
-│   │           ├── controller     
-│   │           │   └── UserController.java
-│   │           │   └── OrderController.java
-│   │           │   └── ProductController.java
-</code></pre><p>典型的层次包括：</p><ol><li>表示层：此层负责处理用户交互并向用户呈现信息。它通常包括与用户界面、控制器和视图相关的组件。</li><li>服务层：该层包含业务逻辑并提供表示层所需的数据。</li><li>领域包：此包包含领域实体。</li><li>数据访问层：此层负责处理数据库的数据持久化和检索。</li><li>基础设施包：此包提供支持应用程序运行的服务。它可能包括日志记录、配置、安全和其他跨切关注点的组件。</li></ol><p>以下是使用逐层打包的一些缺点：</p><ul><li>低内聚力：不相关的类被分组到同一个包中。</li><li>高耦合</li><li>封装性差：大多数类都是公共的，因此我们不能将类作为包私有的，因为其他层需要它们。</li><li>模块化程度低：由于每个包都包含与特定层相关的类，因此以后很难将代码分解为微服务。</li><li>可维护性差：由于类分散在各个包中，因此很难找到所需的类。</li><li>它提倡数据库驱动设计而不是领域驱动设计。</li></ul><h1 id=按功能打包>按功能打包</h1><p>它代表一种基于特性或功能而非层来组织代码的结构。在这种方法中，每个包代表一个独特且独立的特性。</p><p>目标是将与特定功能相关的所有组件（例如控制器，服务，存储库和域类）组合到一个包中。</p><pre tabindex=0><code>src
-├── main
-│   ├── java
-│   │   └── com
-│   │       └── app
-│   │           ├── user
-│   │           │   ├── UserController.java
-│   │           │   ├── UserService.java
-│   │           │   └── UserRepository.java
-│   │           ├── order
-│   │           │   ├── OrderController.java
-│   │           │   ├── OrderService.java
-│   │           │   └── OrderRepository.java
-│   │           ├── product
-│   │           │   ├── ProductController.java
-│   │           │   ├── ProductService.java
-│   │           │   └── ProductRepository.java
-</code></pre><p>使用这种结构的一些好处：</p><ul><li>高内聚力</li><li>低耦合</li><li>强封装：允许某些类将其访问修饰符设置为包私有（package-private）而不是公共（public）。</li><li>高模块化：由于每个包都包含与特定功能相关的类，因此以后很容易将代码分解为微服务。</li><li>可维护性：由于功能所需的所有类都在同一个包中，因此减少了在包之间导航的需要。</li><li>促进领域驱动设计</li></ul><h1 id=端口和适配器模式六边形架构>端口和适配器模式（六边形架构）</h1><p>六边形架构，也称为端口和适配器，是 Alistair Cockburn 博士在 2005 年撰写的一篇文章中引入的一种软件架构模式。</p><h2 id=六边形架构>六边形架构</h2><p>创建无需 UI 或数据库即可运行的应用程序，以便您可以针对&mldr;运行自动回归测试。</p><p>阿利斯泰尔·科克伯恩</p><p>该模式通过保持核心业务逻辑独立于外部细节并且不与数据库、用户界面或外部服务等外部依赖项紧密耦合来促进关注点的隔离/分离。</p><p>这使得测试、维护和发展系统变得更加容易。</p><p><img src=/images/how-to-structure-our-code-05.webp alt=img></p><p>在此模式下：</p><ol><li>域/核心：表示应用程序的业务逻辑或域（应用程序的核心）。</li><li>端口：端口是核心定义的允许与外部组件交互的接口。这些接口可以包括服务、存储库或任何外部依赖项的接口。</li><li>适配器：适配器是端口的实现。它们将核心应用程序连接到外部组件，例如数据库、用户界面和外部服务。适配器可以特定于不同的技术或协议。</li><li>主要参与者：系统用户，例如 webhook、UI 请求或测试脚本。</li><li>次要参与者：由应用程序使用，这些服务要么是<em>存储库</em>（例如数据库），要么是<em>接收者</em>（例如消息队列）。</li></ol><p><img src=/images/how-to-structure-our-code-06.gif alt=img></p><p><strong>六边形：</strong> 六边形象征着核心应用程序位于中心，周围环绕着适配器。此形状表示核心与其外部依赖项之间的明确分离。</p><p>顶层包结构应如下所示：</p><pre tabindex=0><code>src/main/
-  java
-    mina
-      dev
-        &lt;servicename&gt;
-          adapters
-          config
-          core
-          &lt;ServiceApplication&gt;.java
-</code></pre><p>根包应该只包含以下包：</p><ul><li><code>core</code>包含服务的所有领域逻辑。它可能包含子包。</li><li>端口应该位于核心包中：端口只是核心声明的、供适配器调用或实现的接口。</li><li><code>adapters</code>软件包包含所有适配器实现代码。它可能包含子软件包，用于按单个适配器或按技术组织适配器代码。</li><li><code>config</code>包包含用于将不同组件连接在一起的配置类。</li></ul><p><strong>包依赖规则：</strong></p><ul><li>根包可能依赖于所有其他包。</li><li>软件包<code>config</code>可能依赖于<code>core</code>和<code>adapters</code>。</li><li>可能<code>adapters</code>取决于<code>core</code>但不取决于<code>config</code>。</li><li><code>Core </code>可能不依赖于任何其他包。</li></ul><p>您可以在我的 github 存储库中找到更多详细信息和示例：<a href=https://github.com/minarashidi/transfer-service-hexagonal-architecture/tree/main/src/main/java/com/rashidi/transferservice target=_blank>https：//github.com/minarashidi/transfer-service-hexagonal-architecture/tree/main/src/main/java/com/rashidi/transferservice</a></p><p>我希望这篇文章能帮助您更好地理解不同的代码结构。</p><p>我非常希望听到您的想法和评论。欢迎分享您的见解或提出任何问题。感谢您的阅读！</p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=%5b%e8%af%91%5d%e5%a6%82%e4%bd%95%e7%bb%84%e7%bb%87%e4%bb%a3%e7%a0%81 https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f30%2fhow-to-structure-our-code%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/ddd/ title=ddd>ddd</a></span></div></header><div style=background-color:#f1f3f5;margin-top:20px><aside style=margin:5px><span style=font-size:20px;font-weight:700>Table of Contents</span><div style=padding-left:30px><nav id=TableOfContents><ul><li><a href=#六边形架构>六边形架构</a></li></ul></nav></div></aside></div><div class=entry-content><p>原文链接：<a href=https://medium.com/@minadev/how-to-structure-our-code-b5e7b1c32c21 target=_blank>How to Structure Code</a></p><p><em>软件设计最佳实践，逐层发现包、按功能发现包以及六角形架构/端口和适配器。</em></p><p>在这篇博文中，我将探讨如何构建我们的代码并讨论最佳实践，涵盖三种不同的方法：按层打包、按功能打包以及六边形架构/端口和适配器及其优缺点。</p><p>在探索构建代码的不同方法之前，我们需要了解基本的软件设计原则：</p><ul><li><strong>内聚力</strong>：指模块内各类之间的相互关联程度。</li><li><strong>耦合度</strong>：指不同模块之间的依赖程度。</li></ul><p><img src=/images/how-to-structure-our-code-01-0766764.webp alt=img></p><ul><li><strong>模块化</strong>：指软件系统被划分为独立模块的程度。每个模块都封装了一组特定的功能，并设计为独立工作，同时通过明确定义的接口相互交互。</li><li><strong>抽象</strong>：隐藏实现细节并仅通过接口公开必要的功能。</li><li><strong>关注点分离</strong>：设有不同的部分，每个部分解决一个特定的关注点。</li><li><strong>封装</strong>：将数据和方法捆绑到单个模块或类中以隐藏内部细节。</li></ul><p><strong>让我们仔细看看内聚力和耦合力？</strong></p><p>内聚力描述了<strong>软件的</strong>集中程度。它与单一责任原则密切相关。</p><ul><li><strong>高内聚力</strong>意味着模块内的类紧密相关并具有共同的、明确定义的目的。</li><li><strong>低内聚力</strong>意味着模块内的类之间关系松散，缺乏明确的目的且职责不相关。</li></ul><p>要遵循的最佳实践是实现模块之间的<strong>高内聚和松散耦合</strong>。</p><p><img src=/images/how-to-structure-our-code-02-0766764.webp alt=img></p><p>松耦合被认为是结构良好和设计良好的计算机系统的标志，与高内聚力相结合，可带来较高的可读性和可维护性。</p><p><img src=/images/how-to-structure-our-code-03-0766764.webp alt=img></p><p>现在，让我们探索构建代码的不同方式。首先，我将逐层介绍包，然后逐功能介绍包，并比较两者。之后，我们将探索端口和适配器模式。</p><p><img src=/images/how-to-structure-our-code-04-0766764.webp alt=img></p><h1 id=层封装>层封装</h1><p>它代表一个项目结构，其中类被组织成多个层，每个层负责一组特定的功能。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>src
+</span></span><span style=display:flex><span>├── main
+</span></span><span style=display:flex><span>│   ├── java
+</span></span><span style=display:flex><span>│   │   └── com
+</span></span><span style=display:flex><span>│   │       └── app
+</span></span><span style=display:flex><span>│   │           ├── service 
+</span></span><span style=display:flex><span>│   │           │   └── UserService.java
+</span></span><span style=display:flex><span>│   │           │   └── OrderService.java
+</span></span><span style=display:flex><span>│   │           │   └── ProductService.java
+</span></span><span style=display:flex><span>│   │           ├── domain   
+</span></span><span style=display:flex><span>│   │           │   └── User.java
+</span></span><span style=display:flex><span>│   │           │   └── Order.java
+</span></span><span style=display:flex><span>│   │           │   └── Product.java 
+</span></span><span style=display:flex><span>│   │           ├── repository   
+</span></span><span style=display:flex><span>│   │           │   └── UserRepository.java
+</span></span><span style=display:flex><span>│   │           │   └── OrderRepository.java
+</span></span><span style=display:flex><span>│   │           │   └── ProductRepository.java
+</span></span><span style=display:flex><span>│   │           ├── controller     
+</span></span><span style=display:flex><span>│   │           │   └── UserController.java
+</span></span><span style=display:flex><span>│   │           │   └── OrderController.java
+</span></span><span style=display:flex><span>│   │           │   └── ProductController.java
+</span></span></code></pre></div><p>典型的层次包括：</p><ol><li>表示层：此层负责处理用户交互并向用户呈现信息。它通常包括与用户界面、控制器和视图相关的组件。</li><li>服务层：该层包含业务逻辑并提供表示层所需的数据。</li><li>领域包：此包包含领域实体。</li><li>数据访问层：此层负责处理数据库的数据持久化和检索。</li><li>基础设施包：此包提供支持应用程序运行的服务。它可能包括日志记录、配置、安全和其他跨切关注点的组件。</li></ol><p>以下是使用逐层打包的一些缺点：</p><ul><li>低内聚力：不相关的类被分组到同一个包中。</li><li>高耦合</li><li>封装性差：大多数类都是公共的，因此我们不能将类作为包私有的，因为其他层需要它们。</li><li>模块化程度低：由于每个包都包含与特定层相关的类，因此以后很难将代码分解为微服务。</li><li>可维护性差：由于类分散在各个包中，因此很难找到所需的类。</li><li>它提倡数据库驱动设计而不是领域驱动设计。</li></ul><h1 id=按功能打包>按功能打包</h1><p>它代表一种基于特性或功能而非层来组织代码的结构。在这种方法中，每个包代表一个独特且独立的特性。</p><p>目标是将与特定功能相关的所有组件（例如控制器，服务，存储库和域类）组合到一个包中。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>src
+</span></span><span style=display:flex><span>├── main
+</span></span><span style=display:flex><span>│   ├── java
+</span></span><span style=display:flex><span>│   │   └── com
+</span></span><span style=display:flex><span>│   │       └── app
+</span></span><span style=display:flex><span>│   │           ├── user
+</span></span><span style=display:flex><span>│   │           │   ├── UserController.java
+</span></span><span style=display:flex><span>│   │           │   ├── UserService.java
+</span></span><span style=display:flex><span>│   │           │   └── UserRepository.java
+</span></span><span style=display:flex><span>│   │           ├── order
+</span></span><span style=display:flex><span>│   │           │   ├── OrderController.java
+</span></span><span style=display:flex><span>│   │           │   ├── OrderService.java
+</span></span><span style=display:flex><span>│   │           │   └── OrderRepository.java
+</span></span><span style=display:flex><span>│   │           ├── product
+</span></span><span style=display:flex><span>│   │           │   ├── ProductController.java
+</span></span><span style=display:flex><span>│   │           │   ├── ProductService.java
+</span></span><span style=display:flex><span>│   │           │   └── ProductRepository.java
+</span></span></code></pre></div><p>使用这种结构的一些好处：</p><ul><li>高内聚力</li><li>低耦合</li><li>强封装：允许某些类将其访问修饰符设置为包私有（package-private）而不是公共（public）。</li><li>高模块化：由于每个包都包含与特定功能相关的类，因此以后很容易将代码分解为微服务。</li><li>可维护性：由于功能所需的所有类都在同一个包中，因此减少了在包之间导航的需要。</li><li>促进领域驱动设计</li></ul><h1 id=端口和适配器模式六边形架构>端口和适配器模式（六边形架构）</h1><p>六边形架构，也称为端口和适配器，是 Alistair Cockburn 博士在 2005 年撰写的一篇文章中引入的一种软件架构模式。</p><h2 id=六边形架构>六边形架构</h2><p>创建无需 UI 或数据库即可运行的应用程序，以便您可以针对&mldr;运行自动回归测试。</p><p>阿利斯泰尔·科克伯恩</p><p>该模式通过保持核心业务逻辑独立于外部细节并且不与数据库、用户界面或外部服务等外部依赖项紧密耦合来促进关注点的隔离/分离。</p><p>这使得测试、维护和发展系统变得更加容易。</p><p><img src=/images/how-to-structure-our-code-05.webp alt=img></p><p>在此模式下：</p><ol><li>域/核心：表示应用程序的业务逻辑或域（应用程序的核心）。</li><li>端口：端口是核心定义的允许与外部组件交互的接口。这些接口可以包括服务、存储库或任何外部依赖项的接口。</li><li>适配器：适配器是端口的实现。它们将核心应用程序连接到外部组件，例如数据库、用户界面和外部服务。适配器可以特定于不同的技术或协议。</li><li>主要参与者：系统用户，例如 webhook、UI 请求或测试脚本。</li><li>次要参与者：由应用程序使用，这些服务要么是<em>存储库</em>（例如数据库），要么是<em>接收者</em>（例如消息队列）。</li></ol><p><img src=/images/how-to-structure-our-code-06.gif alt=img></p><p><strong>六边形：</strong> 六边形象征着核心应用程序位于中心，周围环绕着适配器。此形状表示核心与其外部依赖项之间的明确分离。</p><p>顶层包结构应如下所示：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>src/main/
+</span></span><span style=display:flex><span>  java
+</span></span><span style=display:flex><span>    mina
+</span></span><span style=display:flex><span>      dev
+</span></span><span style=display:flex><span>        &lt;servicename&gt;
+</span></span><span style=display:flex><span>          adapters
+</span></span><span style=display:flex><span>          config
+</span></span><span style=display:flex><span>          core
+</span></span><span style=display:flex><span>          &lt;ServiceApplication&gt;.java
+</span></span></code></pre></div><p>根包应该只包含以下包：</p><ul><li><code>core</code>包含服务的所有领域逻辑。它可能包含子包。</li><li>端口应该位于核心包中：端口只是核心声明的、供适配器调用或实现的接口。</li><li><code>adapters</code>软件包包含所有适配器实现代码。它可能包含子软件包，用于按单个适配器或按技术组织适配器代码。</li><li><code>config</code>包包含用于将不同组件连接在一起的配置类。</li></ul><p><strong>包依赖规则：</strong></p><ul><li>根包可能依赖于所有其他包。</li><li>软件包<code>config</code>可能依赖于<code>core</code>和<code>adapters</code>。</li><li>可能<code>adapters</code>取决于<code>core</code>但不取决于<code>config</code>。</li><li><code>Core </code>可能不依赖于任何其他包。</li></ul><p>您可以在我的 github 存储库中找到更多详细信息和示例：<a href=https://github.com/minarashidi/transfer-service-hexagonal-architecture/tree/main/src/main/java/com/rashidi/transferservice target=_blank>https：//github.com/minarashidi/transfer-service-hexagonal-architecture/tree/main/src/main/java/com/rashidi/transferservice</a></p><p>我希望这篇文章能帮助您更好地理解不同的代码结构。</p><p>我非常希望听到您的想法和评论。欢迎分享您的见解或提出任何问题。感谢您的阅读！</p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=%5b%e8%af%91%5d%e5%a6%82%e4%bd%95%e7%bb%84%e7%bb%87%e4%bb%a3%e7%a0%81 https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f30%2fhow-to-structure-our-code%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
 </a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f30%2fhow-to-structure-our-code%2f&title=%5b%e8%af%91%5d%e5%a6%82%e4%bd%95%e7%bb%84%e7%bb%87%e4%bb%a3%e7%a0%81" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
 </a><a class=social-link-item href="https://telegram.me/share/url?text=%5b%e8%af%91%5d%e5%a6%82%e4%bd%95%e7%bb%84%e7%bb%87%e4%bb%a3%e7%a0%81&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f30%2fhow-to-structure-our-code%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
 </a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f30%2fhow-to-structure-our-code%2f&title=%5b%e8%af%91%5d%e5%a6%82%e4%bd%95%e7%bb%84%e7%bb%87%e4%bb%a3%e7%a0%81" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>

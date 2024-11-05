@@ -22,7 +22,7 @@
 </label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
 <span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
 current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
-menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/ rel=bookmark title=ThingsBoard的领域模型>ThingsBoard的领域模型</a></h2><hr><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-05-07T00:00:00>2024-05-07
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/ rel=bookmark title=ThingsBoard的领域模型>ThingsBoard的领域模型</a></h2><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-05-07T00:00:00>2024-05-07
 </time></span><span class=meta-author><span class="author vcard">chensoul</span>
 </span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
 <a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/thingsboard/ title=thingsboard>thingsboard</a></span></div></header><div style=background-color:#f1f3f5;margin-top:20px><aside style=margin:5px><span style=font-size:20px;font-weight:700>Table of Contents</span><div style=padding-left:30px><nav id=TableOfContents><ul><li><a href=#领域模型>领域模型</a></li><li><a href=#流程>流程</a><ul><li><a href=#上报遥测数据>上报遥测数据</a></li></ul></li></ul></nav></div></aside></div><div class=entry-content><p>ThingsBoard是一个开源的物联网平台，用于管理和监控物联网设备和数据。它提供了一个可扩展的架构，可以连接各种设备，并实时收集、处理和分析设备生成的数据。</p><h2 id=领域模型>领域模型</h2><p>在ThingsBoard中，领域模型是一个关键概念，用于描述物联网系统中的物理实体、属性和行为。以下是ThingsBoard中的主要领域模型组件：</p><ol><li><p>租户（Tenant）：租户是ThingsBoard中的顶级组织单位。它代表了一个独立的实体，可以是一个用户、组织或公司。租户拥有和管理自己的设备、客户、规则和仪表板等资源。租户之间的数据和配置是相互隔离的，每个租户都有自己的独立环境。租户由系统管理员创建和管理。</p></li><li><p>租户配置（TenantProfile）：用于定义租户级别的配置和属性。</p></li><li><p>客户（Customer）：客户是租户下的子级实体，代表了物联网系统中的用户或组织。一个租户可以包含多个客户，每个客户都有自己的访问权限和角色。客户可以访问和监控租户下的设备和数据。客户可以有自己的设备、规则和仪表板等资源，但这些资源受到租户级别的限制。客户由租户管理员创建和管理。</p></li><li><p>用户（User）：保存用户的基本信息</p><ol><li>用户的角色（Authority）：SYS_ADMIN、TENANT_ADMIN、CUSTOMER_USER、REFRESH_TOKEN、PRE_VERIFICATION_TOKEN</li><li>用户凭证（UserCredentials）：保存用户的密码、激活用户 Token、重置密码 Token、密码使用历史</li><li>用户认证设置（UserAuthSettings）：保存用户 2FA 认证设置</li><li>用户设置（UserSettings）：保存用户的设置，包括：通用设置、通知、访问过的仪表盘等等</li></ol></li><li><p>系统设置（AdminSettings）：是用于配置和管理整个系统的全局设置和参数，包括：通用设置、邮件、JWT、连接设置等等。</p></li><li><p>审计日志（AuditLog）</p></li><li><p>资产（Asset）：指在系统中表示和管理的物理或虚拟实体。资产可以是设备、传感器、设施、车辆、建筑物、人员或其他实体，其状态、属性和行为可以被监测、控制和管理。</p></li><li><p>资产配置（AssetProfile）：配置资产使用的默认规则链、队列、移动端仪表盘</p></li><li><p>设备（Device）：</p><ol><li>遥测数据（TsKV）：</li><li>最新遥测数据：</li><li>属性（AttributeKvEntry）：属性类型分为客户端、服务端、共享</li><li>远程调用（Rpc）</li><li>设备凭证（DeviceCredentials）：</li><li>OTA：</li></ol></li><li><p>设备配置（DeviceProfile）：配置设备使用的默认规则链、队列、移动端仪表盘、边缘网关默认规则链、分配的固件、分配的软件、传输方式、告警规则、设置预配置</p></li><li><p>告警（Alarm）：包括字段：租户、客户、类型、明细、发起者、告警级别（严重、重要、次要、警告、不确定）、是否应答、是否清除、受理人、开始时间、结束时间、应答时间、清除时间、受理时间、是否传播、是否传播给所有者、是否传播给租户</p></li><li><p>告警评论（AlarmComment）：</p></li><li><p>实体告警（EntityAlarm）：</p></li><li><p>事件（Event）：分为异常事件、组件生命周期事件、规则链调试事件、规则节点事件、统计事件</p></li><li><p>通知（Notification）:</p><ol><li>通知请求（NotificationRequest）</li><li>通知模版（NotificationTemplate）：</li><li>通知规则（NotificationRule）</li><li>通知对象（NotificationTarget）</li></ol></li></ol><h2 id=流程>流程</h2><h3 id=上报遥测数据>上报遥测数据</h3><ol><li><p>设备配置启用告警规则。温度大于 20 时，产生告警。温度小于 20 时，清除告警。</p></li><li><p>创建一个设备，设备凭证使用 AccessToken</p></li><li><p>使用 http api 发送遥测数据</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -v -X POST http://localhost:8080/api/v1/gs76dj5m47yd3lm1wurd/telemetry --header Content-Type:application/json --data <span style=color:#e6db74>&#34;{temperature:25}&#34;</span>
@@ -39,30 +39,30 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>GET /api/v1/<span style=color:#f92672>{</span>deviceToken<span style=color:#f92672>}</span>/software
 </span></span><span style=display:flex><span>POST /api/v1/<span style=color:#f92672>{</span>deviceToken<span style=color:#f92672>}</span>/software
 </span></span><span style=display:flex><span>POST /api/v1/provision
-</span></span></code></pre></div><p>POST /api/v1/{deviceToken}/telemetry 处理逻辑：</p><pre tabindex=0><code>HttpTransportContext
-TransportService
- DefaultTransportService
-   TbQueueProducer&lt;TbProtoQueueMsg&lt;ToRuleEngineMsg&gt;&gt; ruleEngineMsgProducer
-
-   TbRuleEngineQueueConsumerManager
-    TbRuleEngineConsumerContext
-     ActorSystemContext
-      TbActorRef
-       TbActorMailbox
-        AppActor
-         TenantActor
-          RuleChainActor	
-           RuleChainActorMessageProcessor
-            RuleNodeActor
-             RuleNodeActorMessageProcessor
-              TbDeviceProfileNode
-               DeviceState
-                AlarmState
-                 DefaultTbContext
-                  DefaultTbClusterService
-                   TbRuleEngineProducerProvider
-                    TbQueueProducer&lt;TbProtoQueueMsg&lt;ToRuleEngineMsg&gt;&gt; toRuleEngine
-</code></pre></li></ol><p>这里面用到了 Transport 、Queue、Actor ，调用链非常长。</p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=ThingsBoard%e7%9a%84%e9%a2%86%e5%9f%9f%e6%a8%a1%e5%9e%8b https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f07%2fthingsboard-domain%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+</span></span></code></pre></div><p>POST /api/v1/{deviceToken}/telemetry 处理逻辑：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>HttpTransportContext
+</span></span><span style=display:flex><span>TransportService
+</span></span><span style=display:flex><span> DefaultTransportService
+</span></span><span style=display:flex><span>   TbQueueProducer&lt;TbProtoQueueMsg&lt;ToRuleEngineMsg&gt;&gt; ruleEngineMsgProducer
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   TbRuleEngineQueueConsumerManager
+</span></span><span style=display:flex><span>    TbRuleEngineConsumerContext
+</span></span><span style=display:flex><span>     ActorSystemContext
+</span></span><span style=display:flex><span>      TbActorRef
+</span></span><span style=display:flex><span>       TbActorMailbox
+</span></span><span style=display:flex><span>        AppActor
+</span></span><span style=display:flex><span>         TenantActor
+</span></span><span style=display:flex><span>          RuleChainActor	
+</span></span><span style=display:flex><span>           RuleChainActorMessageProcessor
+</span></span><span style=display:flex><span>            RuleNodeActor
+</span></span><span style=display:flex><span>             RuleNodeActorMessageProcessor
+</span></span><span style=display:flex><span>              TbDeviceProfileNode
+</span></span><span style=display:flex><span>               DeviceState
+</span></span><span style=display:flex><span>                AlarmState
+</span></span><span style=display:flex><span>                 DefaultTbContext
+</span></span><span style=display:flex><span>                  DefaultTbClusterService
+</span></span><span style=display:flex><span>                   TbRuleEngineProducerProvider
+</span></span><span style=display:flex><span>                    TbQueueProducer&lt;TbProtoQueueMsg&lt;ToRuleEngineMsg&gt;&gt; toRuleEngine
+</span></span></code></pre></div></li></ol><p>这里面用到了 Transport 、Queue、Actor ，调用链非常长。</p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=ThingsBoard%e7%9a%84%e9%a2%86%e5%9f%9f%e6%a8%a1%e5%9e%8b https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f07%2fthingsboard-domain%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
 </a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f07%2fthingsboard-domain%2f&title=ThingsBoard%e7%9a%84%e9%a2%86%e5%9f%9f%e6%a8%a1%e5%9e%8b" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
 </a><a class=social-link-item href="https://telegram.me/share/url?text=ThingsBoard%e7%9a%84%e9%a2%86%e5%9f%9f%e6%a8%a1%e5%9e%8b&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f07%2fthingsboard-domain%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
 </a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f05%2f07%2fthingsboard-domain%2f&title=ThingsBoard%e7%9a%84%e9%a2%86%e5%9f%9f%e6%a8%a1%e5%9e%8b" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>

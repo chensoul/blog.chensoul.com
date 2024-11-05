@@ -5,7 +5,7 @@
 </label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
 <span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
 current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
-menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/07/23/jms-message-model/ rel=bookmark title="[译]JMS 消息模型">[译]JMS 消息模型</a></h2><hr><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-07-23T00:00:00>2024-07-23
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/07/23/jms-message-model/ rel=bookmark title="[译]JMS 消息模型">[译]JMS 消息模型</a></h2><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-07-23T00:00:00>2024-07-23
 </time></span><span class=meta-author><span class="author vcard">chensoul</span>
 </span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
 <a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/jms/ title=jms>jms</a></span></div></header><div style=background-color:#f1f3f5;margin-top:20px><aside style=margin:5px><span style=font-size:20px;font-weight:700>Table of Contents</span><div style=padding-left:30px><nav id=TableOfContents><ul><li><a href=#1-消息头字段>1. 消息头字段</a><ul><li><a href=#11-jms-目标><strong>1.1. JMS 目标</strong></a></li><li><a href=#12-jms交付模式><strong>1.2. JMS交付模式</strong></a></li><li><a href=#13-jms消息id><strong>1.3. JMS消息ID</strong></a></li><li><a href=#14-jms时间戳><strong>1.4. JMS时间戳</strong></a></li><li><a href=#15-jms重新交付><strong>1.5. JMS重新交付</strong></a></li><li><a href=#16-jmsexpiration--设置消息生存时间><strong>1.6. JMSExpiration</strong> – 设置消息生存时间</a></li><li><a href=#17-jmspriority-标头><strong>1.7. JMSPriority 标头</strong></a></li><li><a href=#18-jmsdeliverytime--消息传递延迟><strong>1.8. JMSDeliveryTime</strong> – 消息传递延迟</a></li><li><a href=#19-jms关联id><strong>1.9. JMS关联ID</strong></a></li><li><a href=#110-jms类型><strong>1.10. JMS类型</strong></a></li><li><a href=#111-jmsreplyto><strong>1.11. JMSReplyTo</strong></a></li></ul></li><li><a href=#2-消息属性>2. 消息属性</a><ul><li><a href=#21-自定义属性>2.1. 自定义属性</a></li><li><a href=#22-jms-定义的属性>2.2. JMS 定义的属性</a></li><li><a href=#23-jms-提供程序特定属性>2.3. JMS 提供程序特定属性</a></li></ul></li><li><a href=#3-jms-消息体--jms-中的-5-种消息类型>3. JMS 消息体 – JMS 中的 5 种消息类型</a><ul><li><a href=#1-streammessage><strong>1. StreamMessage</strong></a></li><li><a href=#2-mapmessage><strong>2. MapMessage</strong></a></li><li><a href=#3-textmessage>**3. **TextMessage</a></li><li><a href=#4-objectmessage><strong>4. ObjectMessage</strong></a></li><li><a href=#5-bytesmessage><strong>5. BytesMessage</strong></a></li></ul></li></ul></nav></div></aside></div><div class=entry-content><p>消息是 JMS 的核心，无论是事件还是业务数据。消息由标头、自定义属性和正文组成。这是您将在 JMS 消息模型（JMS 消息剖析）中学习的内容。</p><p><img src=/images/JMS-message-model-min-1024x536.webp alt="JMS 消息模型"></p><p>JMS 消息由 Header、Properties 和 Body（Payload）组成。我们将在下面详细讨论它们。</p><ul><li><p><strong>消息头</strong>是有关消息的元数据。消息头有两种类型：开发人员设置的头和 JMS 提供商设置的头。</p></li><li><p>消息属性是用于向消息添加可选标头字段的附加标头字段。属性字段基本上有 3 种类型。</p><ul><li>应用程序特定属性 - 允许设置应用程序特定的自定义标题。</li><li>标准属性 – JMS 定义的标准属性。</li><li>JMS-Provider 特定属性。</li></ul></li><li><p><strong>消息主体</strong>是发送到目的地的有效负载。JMS 支持多种类型（格式）的有效负载。</p></li></ul><h2 id=1-消息头字段>1. 消息头字段</h2><p>一些消息头由程序员设置，一些由 JMS 提供商内部设置。消息头是 JMS 消息模型中首先要探讨的内容。</p><h3 id=11-jms-目标><strong>1.1. JMS 目标</strong></h3><p>此标头包含消息发送的目的地。收到消息时，目的地必须与分配的值相等。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>javax.<span style=color:#a6e22e>jms</span>.<span style=color:#a6e22e>Message</span><span style=color:#960050;background-color:#1e0010>#</span>setJMSDestination(Destination)
@@ -46,8 +46,8 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p><strong>输出</strong></p><pre tabindex=0><code>Exception in thread &#34;main&#34; java.lang.NullPointerException
-</code></pre><h3 id=17-jmspriority-标头><strong>1.7. JMSPriority 标头</strong></h3><p>JMS 定义了 10 个优先级别，从 0（最低）到 9（最高）。应用程序客户端应将 0 到 4 视为<em>普通</em>优先级消息，将 5 到 9 视为<em>加急</em>消息。加急消息优先于普通优先级消息传送。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>jmsProducer.<span style=color:#a6e22e>setPriority</span>(<span style=color:#66d9ef>int</span> priority);
+</span></span></code></pre></div><p><strong>输出</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>Exception in thread &#34;main&#34; java.lang.NullPointerException
+</span></span></code></pre></div><h3 id=17-jmspriority-标头><strong>1.7. JMSPriority 标头</strong></h3><p>JMS 定义了 10 个优先级别，从 0（最低）到 9（最高）。应用程序客户端应将 0 到 4 视为<em>普通</em>优先级消息，将 5 到 9 视为<em>加急</em>消息。加急消息优先于普通优先级消息传送。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>jmsProducer.<span style=color:#a6e22e>setPriority</span>(<span style=color:#66d9ef>int</span> priority);
 </span></span></code></pre></div><p>更多讨论请参阅**<a href=https://jstobigdata.com/jms/jms-prioritize-messages/ target=_blank>优先考虑 JMS 消息教程</a>**。</p><h3 id=18-jmsdeliverytime--消息传递延迟><strong>1.8. JMSDeliveryTime</strong> – 消息传递延迟</h3><p>表示投递时间。这意味着消息将在此标头所表示的时间或之后投递。通过将投递时间与指定的投递延迟相加来计算。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>jmsProducer.<span style=color:#a6e22e>setDeliveryDelay</span>(<span style=color:#66d9ef>long</span> deliveryDelay);
 </span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Java data-lang=Java><span style=display:flex><span><span style=color:#f92672>package</span> lab01.message.model;
 </span></span><span style=display:flex><span>
@@ -112,13 +112,13 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p><strong>输出</strong></p><pre tabindex=0><code>JMSXDeliveryCount
-priorityUser
-authToken
-priorityUser: true
-authToken: 010a908f-a3a6-4a2b-8d9f-5e177f1c223b
-Received message: Message with a custom property
-</code></pre><p>您可以迭代各种消息属性，如上例所示（第 28-31 行）。</p><h3 id=22-jms-定义的属性>2.2. JMS 定义的属性</h3><p>所有 JMS 定义的属性都有<code>JMSX</code>属性名前缀。下面是属性列表、属性类型、JMS 必须实现的可选或强制属性及其用途。</p><p><strong>1. JMSXUserID</strong> — 字符串 — 可选 — 由提供商在发送时设置，
+</span></span></code></pre></div><p><strong>输出</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>JMSXDeliveryCount
+</span></span><span style=display:flex><span>priorityUser
+</span></span><span style=display:flex><span>authToken
+</span></span><span style=display:flex><span>priorityUser: true
+</span></span><span style=display:flex><span>authToken: 010a908f-a3a6-4a2b-8d9f-5e177f1c223b
+</span></span><span style=display:flex><span>Received message: Message with a custom property
+</span></span></code></pre></div><p>您可以迭代各种消息属性，如上例所示（第 28-31 行）。</p><h3 id=22-jms-定义的属性>2.2. JMS 定义的属性</h3><p>所有 JMS 定义的属性都有<code>JMSX</code>属性名前缀。下面是属性列表、属性类型、JMS 必须实现的可选或强制属性及其用途。</p><p><strong>1. JMSXUserID</strong> — 字符串 — 可选 — 由提供商在发送时设置，
 用于识别发送消息的用户。</p><p><strong>2. JMSXAppID</strong> — 字符串 — 可选 — 由提供商在发送时设置
 这是发送消息的应用程序的身份。</p><p><strong>3. JMSXDeliveryCount</strong> – int – 强制 – 由提供商在接收时设置
 消息传递尝试的次数。</p><p><strong>4. JMSXGroupID</strong> – 字符串 – 可选 – 由客户端设置
@@ -268,24 +268,24 @@ JMS 将消息传递给消费者的时间。</p><p><strong>9. JMSXState</strong> 
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p><strong>输出</strong></p><p>您的输出可能会略有不同，但结果应该相似。</p><pre tabindex=0><code>===== StreamMessage =====
-String Content
-Another string
-101
-
-===== ObjectMessage Demo =====
-UserCommand[id=&#39;e5e80542-7201-4418-bced-064d49bb5b8f&#39;, name=&#39;John&#39;, email=&#39;john@gmail.com&#39;]
-
-Received message: Test TextMessage Type
-
-===== MapMessage Demo =====
-sampleValue
-
-==== ByteMessage Demo ====
-नमस्ते
-true
-12345
-</code></pre><p>在本教程中，我通过示例简要讨论了 JMS 消息模型。请在下面的评论中告诉我您的反馈或问题。我将在单独的文章中讨论**<a href=https://jstobigdata.com/jms/jms-prioritize-messages/ target=_blank>消息优先级</a><strong>和</strong>消息** <strong>请求-响应</strong>。</p><p>原文链接：<a href=https://jstobigdata.com/jms/jms-message-model/ target=_blank>JMS Message Model</a></p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=%5b%e8%af%91%5dJMS%20%e6%b6%88%e6%81%af%e6%a8%a1%e5%9e%8b https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f23%2fjms-message-model%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+</span></span></code></pre></div><p><strong>输出</strong></p><p>您的输出可能会略有不同，但结果应该相似。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>===== StreamMessage =====
+</span></span><span style=display:flex><span>String Content
+</span></span><span style=display:flex><span>Another string
+</span></span><span style=display:flex><span>101
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>===== ObjectMessage Demo =====
+</span></span><span style=display:flex><span>UserCommand[id=&#39;e5e80542-7201-4418-bced-064d49bb5b8f&#39;, name=&#39;John&#39;, email=&#39;john@gmail.com&#39;]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Received message: Test TextMessage Type
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>===== MapMessage Demo =====
+</span></span><span style=display:flex><span>sampleValue
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>==== ByteMessage Demo ====
+</span></span><span style=display:flex><span>नमस्ते
+</span></span><span style=display:flex><span>true
+</span></span><span style=display:flex><span>12345
+</span></span></code></pre></div><p>在本教程中，我通过示例简要讨论了 JMS 消息模型。请在下面的评论中告诉我您的反馈或问题。我将在单独的文章中讨论**<a href=https://jstobigdata.com/jms/jms-prioritize-messages/ target=_blank>消息优先级</a><strong>和</strong>消息** <strong>请求-响应</strong>。</p><p>原文链接：<a href=https://jstobigdata.com/jms/jms-message-model/ target=_blank>JMS Message Model</a></p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=%5b%e8%af%91%5dJMS%20%e6%b6%88%e6%81%af%e6%a8%a1%e5%9e%8b https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f23%2fjms-message-model%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
 </a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f23%2fjms-message-model%2f&title=%5b%e8%af%91%5dJMS%20%e6%b6%88%e6%81%af%e6%a8%a1%e5%9e%8b" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
 </a><a class=social-link-item href="https://telegram.me/share/url?text=%5b%e8%af%91%5dJMS%20%e6%b6%88%e6%81%af%e6%a8%a1%e5%9e%8b&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f23%2fjms-message-model%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
 </a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f23%2fjms-message-model%2f&title=%5b%e8%af%91%5dJMS%20%e6%b6%88%e6%81%af%e6%a8%a1%e5%9e%8b" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>

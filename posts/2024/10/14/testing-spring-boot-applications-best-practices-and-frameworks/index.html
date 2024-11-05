@@ -5,7 +5,7 @@
 </label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
 <span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
 current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
-menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/10/14/testing-spring-boot-applications-best-practices-and-frameworks/ rel=bookmark title="[译]测试 Spring Boot 应用程序：最佳实践和框架">[译]测试 Spring Boot 应用程序：最佳实践和框架</a></h2><hr><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-10-14T00:00:00>2024-10-14
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/10/14/testing-spring-boot-applications-best-practices-and-frameworks/ rel=bookmark title="[译]测试 Spring Boot 应用程序：最佳实践和框架">[译]测试 Spring Boot 应用程序：最佳实践和框架</a></h2><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-10-14T00:00:00>2024-10-14
 </time></span><span class=meta-author><span class="author vcard">chensoul</span>
 </span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
 <a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/spring-boot/ title=spring-boot>spring-boot</a></span></div></header><div style=background-color:#f1f3f5;margin-top:20px><aside style=margin:5px><span style=font-size:20px;font-weight:700>Table of Contents</span><div style=padding-left:30px><nav id=TableOfContents><ul><li><a href=#1保持测试隔离>1.保持测试隔离</a></li><li><a href=#2使用-spring-boot-的测试注解>2.使用 Spring Boot 的测试注解</a></li><li><a href=#3-测试配置>3. 测试配置</a></li><li><a href=#4测试覆盖率>4.测试覆盖率</a></li></ul></nav></div></aside></div><div class=entry-content><p>测试是软件开发不可或缺的一部分。它可确保您的 Spring Boot 应用程序按预期运行，并在不断发展的过程中继续保持这种状态。在本文中，我们将探讨如何使用最佳实践和工具测试 Spring Boot 应用程序。</p><h1 id=为什么测试很重要>为什么测试很重要</h1><p>测试至关重要，原因如下：</p><ol><li>可靠性：它确保您的应用程序正确、可靠地运行。</li><li>错误检测：它有助于在开发早期识别和修复问题。</li><li>重构：它允许自信地重构代码，因此现有功能不会中断。</li><li>文档：编写良好的测试可以作为代码的活文档。</li></ol><h1 id=测试类型>测试类型</h1><p>Spring Boot 应用程序可以在各个级别进行测试，包括：</p><ol><li>单元测试：单独测试各个组件，例如类或方法。</li><li>集成测试：验证不同的组件或服务是否能正确地协同工作。</li><li>功能测试：从用户的角度测试应用程序的功能。</li><li>端到端测试：在类似生产的环境中测试整个应用程序，包括其外部依赖项。</li></ol><h1 id=测试-spring-boot-应用程序的最佳实践>测试 Spring Boot 应用程序的最佳实践</h1><h2 id=1保持测试隔离>1.保持测试隔离</h2><p>确保测试彼此独立。每个测试都应设置其所需的上下文、运行它并拆除它创建的任何资源。这可以防止一个测试影响另一个测试的结果。</p><h2 id=2使用-spring-boot-的测试注解>2.使用 Spring Boot 的测试注解</h2><p>Spring Boot 提供了诸如<code>@SpringBootTest</code>、<code>@DataJpaTest</code>和<code>@WebMvcTest</code>之类的测试注释，可简化应用程序特定部分的测试。使用它们可以仅加载应用程序上下文的必要部分，从而提高测试效率。以下是一些示例。</p><p><strong>a.使用 @SpringBootTest 加载整个Spring上下文。</strong></p><p><code>@SpringBootTest</code>是用于为测试加载整个 Spring 上下文的注释。这在同时测试应用程序中的多个组件时非常有用。使用注释<code>@Test</code>来标记测试方法。</p><p>下面是一个解释如何使用 Mockito 和 JUnit 的示例。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#75715e>&lt;!-- Adding JUnit 5(jupiter) and mockito dependencies to our pom.xml --&gt;</span>
@@ -258,20 +258,20 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>    assertEquals(<span style=color:#e6db74>&#34;Simform Welcomes You&#34;</span>, message);
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p><strong>b.使用 @ConfigurationProperties 从配置文件注入属性。</strong></p><pre tabindex=0><code>import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
-@ConfigurationProperties(prefix = &#34;app&#34;)
-@ConfigurationPropertiesScan
-public class AppProperties {
-    
-  private String appName;
-  
-  private String appVersion;
-  
-  // Getters and setters
-}
-</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#75715e>#Add the configuration properties to your application&#39;s property file</span>
+</span></span></code></pre></div><p><strong>b.使用 @ConfigurationProperties 从配置文件注入属性。</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.boot.context.properties.ConfigurationProperties;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.stereotype.Component;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;app&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@ConfigurationPropertiesScan</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>AppProperties</span> {
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> String appName;
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> String appVersion;
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Getters and setters</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#75715e>#Add the configuration properties to your application&#39;s property file</span>
 </span></span><span style=display:flex><span><span style=color:#a6e22e>app.appName</span><span style=color:#f92672>=</span><span style=color:#e6db74>Keka</span>
 </span></span><span style=display:flex><span><span style=color:#a6e22e>app.appVersion</span><span style=color:#f92672>=</span><span style=color:#e6db74>5.0</span>
 </span></span></code></pre></div><p>Spring 将自动将我们属性文件中定义的任何属性与前缀<em>app</em>绑定，并与 AppProperties 类中的字段之一同名。然后，您可以通过自动装配<code>AppProperties</code>bean 在测试 bean 中使用这些属性。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>import</span> org.junit.jupiter.api.Test;
@@ -350,26 +350,26 @@ public class AppProperties {
 </span></span><span style=display:flex><span>    assertNotNull(user);
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p><strong>e. 使用 @DirtiesContext 在测试后重置 Spring 上下文。</strong></p><p>如果您有修改 Spring 上下文的测试，例如添加或修改 Bean，则可能需要在每次测试之后重置上下文，以确保后续测试从干净的上下文开始。<code>@DirtiesContext</code>在需要确保每个测试方法都在全新且隔离的应用程序上下文中运行的场景中很有用。</p><ol><li>用法：</li></ol><ul><li>您可以使用 注释单个测试方法或整个测试类<code>@DirtiesContext</code>。</li><li>当应用于测试方法时，只有该特定的测试方法才会触发上下文重置。</li><li>当应用于测试类时，它会影响该类中的所有测试方法，导致每次测试方法之后重置上下文。</li></ul><p>2.用例：</p><ul><li><code>@DirtiesContext</code>通常在测试方法对 Spring 应用程序上下文有副作用并且无法通过常规事务或回滚机制撤消时使用。</li><li>例如，如果测试方法以影响后续测试的方式修改了单例 bean 的状态，则可以使用<code>@DirtiesContext</code>重置上下文。</li></ul><p>3.影响：</p><ul><li>重置应用程序上下文在性能方面可能会相对昂贵，因此请谨慎使用。</li><li>它不应被用作所有测试的默认方法。相反，应考虑仅在必要时使用它来解决特定的测试挑战。</li></ul><p><strong>f.使用 RestTemplate 发出 HTTP 请求。</strong></p><p><code>RestTemplate</code>用于发出 HTTP 请求以与 RESTful Web 服务或 API 进行交互。</p><ul><li>通常用于生产代码。</li><li>支持向外部服务发出实际的 HTTP 请求。</li><li>通常用于与正在运行的应用程序中的实际服务交互。</li></ul><pre tabindex=0><code>import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.http.HttpStatusCode;
-import static org.junit.Assert.*;
-
-@SpringBootTest
-public class ExternalServiceTest {
-    
-  @Test
-  public void testExampleApi() {
-    RestTemplate restTemplate = new RestTemplate();
-    String url = &#34;http://api.example.com/data&#34;;
-    ResponseEntity&lt;String&gt; response = restTemplate.getForEntity(url, String.class);
-    
-    assertFalse(response.getStatusCode() == HttpStatusCode.valueOf(404))
-  }
-}
-</code></pre><p><strong>g. 使用@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)在随机端口上启动服务器。使用TestRestTemplate发出 HTTP 请求并断言响应。</strong></p><p>如果您需要测试应用程序与外部系统（例如数据库或其他微服务）的集成，则可能必须在随机端口上启动服务器。</p><p><code>TestRestTemplate</code>是 的一个子类<code>RestTemplate</code>，专门用于 Springboot 应用程序的集成测试。它允许您像外部客户端一样向应用程序的 RESTful 端点发出 HTTP 请求。</p><ul><li>通常用于集成测试。</li><li>允许您测试应用程序的端点，而无需发出实际的外部请求。</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>import</span> org.junit.jupiter.api.Test;
+</span></span></code></pre></div><p><strong>e. 使用 @DirtiesContext 在测试后重置 Spring 上下文。</strong></p><p>如果您有修改 Spring 上下文的测试，例如添加或修改 Bean，则可能需要在每次测试之后重置上下文，以确保后续测试从干净的上下文开始。<code>@DirtiesContext</code>在需要确保每个测试方法都在全新且隔离的应用程序上下文中运行的场景中很有用。</p><ol><li>用法：</li></ol><ul><li>您可以使用 注释单个测试方法或整个测试类<code>@DirtiesContext</code>。</li><li>当应用于测试方法时，只有该特定的测试方法才会触发上下文重置。</li><li>当应用于测试类时，它会影响该类中的所有测试方法，导致每次测试方法之后重置上下文。</li></ul><p>2.用例：</p><ul><li><code>@DirtiesContext</code>通常在测试方法对 Spring 应用程序上下文有副作用并且无法通过常规事务或回滚机制撤消时使用。</li><li>例如，如果测试方法以影响后续测试的方式修改了单例 bean 的状态，则可以使用<code>@DirtiesContext</code>重置上下文。</li></ul><p>3.影响：</p><ul><li>重置应用程序上下文在性能方面可能会相对昂贵，因此请谨慎使用。</li><li>它不应被用作所有测试的默认方法。相反，应考虑仅在必要时使用它来解决特定的测试挑战。</li></ul><p><strong>f.使用 RestTemplate 发出 HTTP 请求。</strong></p><p><code>RestTemplate</code>用于发出 HTTP 请求以与 RESTful Web 服务或 API 进行交互。</p><ul><li>通常用于生产代码。</li><li>支持向外部服务发出实际的 HTTP 请求。</li><li>通常用于与正在运行的应用程序中的实际服务交互。</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>import</span> org.junit.jupiter.api.Test;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.boot.test.context.SpringBootTest;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.http.ResponseEntity;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.web.client.RestTemplate;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.http.HttpStatusCode;
+</span></span><span style=display:flex><span><span style=color:#f92672>import static</span> org.junit.Assert.*;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@SpringBootTest</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ExternalServiceTest</span> {
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>testExampleApi</span>() {
+</span></span><span style=display:flex><span>    RestTemplate restTemplate <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> RestTemplate();
+</span></span><span style=display:flex><span>    String url <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;http://api.example.com/data&#34;</span>;
+</span></span><span style=display:flex><span>    ResponseEntity<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>&gt;</span> response <span style=color:#f92672>=</span> restTemplate.<span style=color:#a6e22e>getForEntity</span>(url, String.<span style=color:#a6e22e>class</span>);
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    assertFalse(response.<span style=color:#a6e22e>getStatusCode</span>() <span style=color:#f92672>==</span> HttpStatusCode.<span style=color:#a6e22e>valueOf</span>(404))
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><strong>g. 使用@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)在随机端口上启动服务器。使用TestRestTemplate发出 HTTP 请求并断言响应。</strong></p><p>如果您需要测试应用程序与外部系统（例如数据库或其他微服务）的集成，则可能必须在随机端口上启动服务器。</p><p><code>TestRestTemplate</code>是 的一个子类<code>RestTemplate</code>，专门用于 Springboot 应用程序的集成测试。它允许您像外部客户端一样向应用程序的 RESTful 端点发出 HTTP 请求。</p><ul><li>通常用于集成测试。</li><li>允许您测试应用程序的端点，而无需发出实际的外部请求。</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>import</span> org.junit.jupiter.api.Test;
 </span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.beans.factory.annotation.Autowired;
 </span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.boot.test.context.SpringBootTest;
 </span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.boot.web.server.LocalServerPort;

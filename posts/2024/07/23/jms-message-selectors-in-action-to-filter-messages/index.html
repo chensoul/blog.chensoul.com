@@ -5,7 +5,7 @@
 </label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
 <span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
 current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
-menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/07/23/jms-message-selectors-in-action-to-filter-messages/ rel=bookmark title="[译]JMS 消息选择器在过滤消息中的应用">[译]JMS 消息选择器在过滤消息中的应用</a></h2><hr><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-07-23T00:00:00>2024-07-23
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/07/23/jms-message-selectors-in-action-to-filter-messages/ rel=bookmark title="[译]JMS 消息选择器在过滤消息中的应用">[译]JMS 消息选择器在过滤消息中的应用</a></h2><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-07-23T00:00:00>2024-07-23
 </time></span><span class=meta-author><span class="author vcard">chensoul</span>
 </span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
 <a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/jms/ title=jms>jms</a></span></div></header><div style=background-color:#f1f3f5;margin-top:20px><aside style=margin:5px><span style=font-size:20px;font-weight:700>Table of Contents</span><div style=padding-left:30px><nav id=TableOfContents><ul><li><a href=#为什么要使用消息选择器>为什么要使用消息选择器？</a></li><li><a href=#1-按属性过滤消息>1. 按属性过滤消息</a></li><li><a href=#2-按标题过滤邮件>2. 按标题过滤邮件</a></li><li><a href=#选择器规则>选择器规则</a><ul><li><a href=#1-文字规则>1. 文字规则</a></li><li><a href=#2-标识符规则>2. 标识符规则</a></li><li><a href=#3-运营商规则>3. 运营商规则</a></li></ul></li></ul></nav></div></aside></div><div class=entry-content><p>发送给接收方的消息通常需要根据某些标准进行过滤。JMS 提供消息选择器，允许 JMS 消费者根据消息头指定其感兴趣的消息。在本文中，您将学习使用 JMS 消息选择器来过滤消息。</p><p>这是一篇高级教程，在继续阅读本文之前，请确保您对 JMS 有基本的了解。如果您是 JMS 新手，请查看<a href=https://jstobigdata.com/jms/jms-point-to-point-messaging-in-action/ target=_blank>JMS 点对点消息传递模型文章。</a></p><h2 id=为什么要使用消息选择器>为什么要使用消息选择器？</h2><p>当一条消息被广播给许多接收者时，将标准放入订阅中以注册特定的兴趣是很有用的。这样只有感兴趣的消息才会被传递给订阅者。</p><ul><li>消息选择器是一种<code>String</code>基于<strong>SQL92</strong>条件表达式的语法。</li><li>仅传递标题和属性与选择器匹配的消息。</li><li>消息选择器不能引用消息正文值。</li><li>消息选择器从左到右进行评估。</li><li>选择器文字和运算符通常以大写字母书写，但它们不区分大小写。</li></ul><h2 id=1-按属性过滤消息>1. 按属性过滤消息</h2><p>就像我之前提到的，你只能根据属性或标头过滤消息，而不能根据实际消息内容过滤消息。下面的示例显示，只有级别日志被传递给消费者。链接至<a href=https://github.com/jstobigdata/jms-parent-app/tree/master/jms-glassfish5/src/main/java/lab04/message/filtering target=_blank><strong>GitHub 代码库</strong></a>。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Java data-lang=Java><span style=display:flex><span><span style=color:#f92672>package</span> lab04.message.filtering;
@@ -139,22 +139,22 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>enum</span> LogLevel {
 </span></span><span style=display:flex><span>  TRACE, DEBUG, INFO, WARN, ERROR
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p><strong>输出</strong></p><pre tabindex=0><code>Class:			com.sun.messaging.jmq.jmsclient.ObjectMessageImpl
-getJMSMessageID():	ID:13-192.168.0.197(98:ca:f3:fc:e3:8f)-51690-1577423107544
-getJMSTimestamp():	1577423107544
-getJMSCorrelationID():	null
-JMSReplyTo:		null
-JMSDestination:		PTPQueue
-getJMSDeliveryMode():	PERSISTENT
-getJMSRedelivered():	false
-getJMSType():		null
-getJMSExpiration():	0
-getJMSDeliveryTime():	0
-getJMSPriority():	4
-Properties:		{JMSXDeliveryCount=1, logLevel=DEBUG}
-LogEvent[id=2019-12-27T13:05:07.512, body=&#39;Sample DEBUG Log&#39;,
-machineId=&#39;08b7c29b-0934-4f3d-8ddf-c406ea795dee&#39;, logLevel=DEBUG]
-</code></pre><h2 id=2-按标题过滤邮件>2. 按标题过滤邮件</h2><p>您已经了解了基于 JMS 属性的消息过滤。现在，请看下面的示例以了解基于 Header 的消息过滤。<code>ERROR</code>级别日志或优先级在 5 到 9 之间的消息将传递给消费者。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> lab04.message.filtering;
+</span></span></code></pre></div><p><strong>输出</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>Class:			com.sun.messaging.jmq.jmsclient.ObjectMessageImpl
+</span></span><span style=display:flex><span>getJMSMessageID():	ID:13-192.168.0.197(98:ca:f3:fc:e3:8f)-51690-1577423107544
+</span></span><span style=display:flex><span>getJMSTimestamp():	1577423107544
+</span></span><span style=display:flex><span>getJMSCorrelationID():	null
+</span></span><span style=display:flex><span>JMSReplyTo:		null
+</span></span><span style=display:flex><span>JMSDestination:		PTPQueue
+</span></span><span style=display:flex><span>getJMSDeliveryMode():	PERSISTENT
+</span></span><span style=display:flex><span>getJMSRedelivered():	false
+</span></span><span style=display:flex><span>getJMSType():		null
+</span></span><span style=display:flex><span>getJMSExpiration():	0
+</span></span><span style=display:flex><span>getJMSDeliveryTime():	0
+</span></span><span style=display:flex><span>getJMSPriority():	4
+</span></span><span style=display:flex><span>Properties:		{JMSXDeliveryCount=1, logLevel=DEBUG}
+</span></span><span style=display:flex><span>LogEvent[id=2019-12-27T13:05:07.512, body=&#39;Sample DEBUG Log&#39;,
+</span></span><span style=display:flex><span>machineId=&#39;08b7c29b-0934-4f3d-8ddf-c406ea795dee&#39;, logLevel=DEBUG]
+</span></span></code></pre></div><h2 id=2-按标题过滤邮件>2. 按标题过滤邮件</h2><p>您已经了解了基于 JMS 属性的消息过滤。现在，请看下面的示例以了解基于 Header 的消息过滤。<code>ERROR</code>级别日志或优先级在 5 到 9 之间的消息将传递给消费者。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> lab04.message.filtering;
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>import</span> labxx.common.settings.CommonSettings;
 </span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.junit.jupiter.api.Test;
@@ -222,38 +222,38 @@ machineId=&#39;08b7c29b-0934-4f3d-8ddf-c406ea795dee&#39;, logLevel=DEBUG]
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p><strong>输出</strong></p><pre tabindex=0><code>Class:			com.sun.messaging.jmq.jmsclient.ObjectMessageImpl
-getJMSMessageID():	ID:12-192.168.0.197(b8:3d:5e:24:df:26)-53719-1577428536655
-getJMSTimestamp():	1577428536655
-getJMSCorrelationID():	null
-JMSReplyTo:		null
-JMSDestination:		PTPQueue
-getJMSDeliveryMode():	PERSISTENT
-getJMSRedelivered():	false
-getJMSType():		null
-getJMSExpiration():	0
-getJMSDeliveryTime():	0
-getJMSPriority():	4
-Properties:		{JMSXDeliveryCount=1, logLevel=ERROR}
-LogEvent[id=2019-12-27T14:35:36.623, body=&#39;Sample ERROR Log&#39;, 
-machineId=&#39;7d743936-aae8-44a2-a527-cd88236b6ea6&#39;, logLevel=ERROR]
-
-Class:			com.sun.messaging.jmq.jmsclient.ObjectMessageImpl
-getJMSMessageID():	ID:14-192.168.0.197(b8:3d:5e:24:df:26)-53719-1577428536661
-getJMSTimestamp():	1577428536661
-getJMSCorrelationID():	null
-JMSReplyTo:		null
-JMSDestination:		PTPQueue
-getJMSDeliveryMode():	PERSISTENT
-getJMSRedelivered():	false
-getJMSType():		null
-getJMSExpiration():	0
-getJMSDeliveryTime():	0
-getJMSPriority():	5
-Properties:		{JMSXDeliveryCount=1, logLevel=INFO}
-LogEvent[id=2019-12-27T14:35:36.623, body=&#39;Sample INFO Log&#39;, 
-machineId=&#39;01ce3812-1869-4d23-96d8-cfc2ea6267c2&#39;, logLevel=INFO]
-</code></pre><h2 id=选择器规则>选择器规则</h2><p>与任何查询语言一样，选择器由文字、标识符、表达式和运算符组成。我将在下面讨论每个规则以供参考。</p><h3 id=1-文字规则>1. 文字规则</h3><ul><li>文字<code>String</code>用单引号引起来，单引号用两个单引号表示。例如，<code>logLevel = 'ERROR'</code>，<code>name='Ram''s'</code>。</li><li>数值按原样显示，带有可选的<code>+</code>或<code>-</code>符号。例如，<code>range BETWEEN -200 AND +30</code>。您也可以直接提及 ，<code>30</code>而不是<code>+30 </code>。</li><li>数字也可以用科学计数法表示，例如等<code>-7E3</code>。<code>6.2</code></li><li>Java<code>Long</code>和<code>Double</code>也受支持。</li><li>布尔值可以表示为<code>TRUE</code>和<code>FALSE</code>。</li></ul><h3 id=2-标识符规则>2. 标识符规则</h3><ul><li>适用于 Java 标识符的规则也适用于 JMS 选择器标识符。这意味着<code>_</code>和<code>$</code>可用于标识符。</li><li>标识符不能包含 Java 关键字。</li><li>标识符不能具有诸如<code>NULL</code>, <code>TRUE</code>, <code>FALSE</code>, <code>NOT</code>, <code>AND</code>, <code>OR</code>, <code>BETWEEN</code>, <code>LIKE</code>, <code>IN</code>, <code>IS</code>, 或者 <code>ESCAPE</code></li><li>标识符区分大小写。</li><li>任何以 开头的名称<code>JMSX</code>都是 JMS 定义的属性。</li><li>任何以 开头的名称<code>JMS_</code>都是提供商特定的属性。</li><li>任何不包含 的名称（标识符）<code>JMS</code>都是应用程序定义的属性。</li></ul><h3 id=3-运营商规则>3. 运营商规则</h3><ul><li><code>()</code>此处适用包围的标准规则。</li><li>逻辑运算符的优先顺序为：<code>NOT</code>，<code>AND</code>，<code>OR</code>。</li><li>按优先顺序排列的比较运算符：<code>=</code>， <code>></code>， <code>>=</code>， <code>&lt;</code>， <code>&lt;=</code>，<code>&lt;></code>（不等于运算符）。</li><li>算术运算符的优先顺序如下：<ul><li>一元运算符 – <code>+</code>, <code>-</code>。</li><li>乘法和除法 – <code>*</code>，<code>/</code>。</li><li>加减 - <code>+</code>，<code>-</code></li></ul></li></ul><p>您了解了 JMS 消息选择器及其用于过滤传递给客户端的消息的方式。它在实际应用中非常有用，特别是从性能角度来看。您的应用程序可以将大量处理负载委托给 JMS 提供程序，并确保只向其传递必要的消息。</p><p>原文链接： <a href=https://jstobigdata.com/jms/jms-message-selectors-in-action-to-filter-messages/ target=_blank>JMS Message Selectors in Action to Filter Messages</a></p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=%5b%e8%af%91%5dJMS%20%e6%b6%88%e6%81%af%e9%80%89%e6%8b%a9%e5%99%a8%e5%9c%a8%e8%bf%87%e6%bb%a4%e6%b6%88%e6%81%af%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8 https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f23%2fjms-message-selectors-in-action-to-filter-messages%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+</span></span></code></pre></div><p><strong>输出</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>Class:			com.sun.messaging.jmq.jmsclient.ObjectMessageImpl
+</span></span><span style=display:flex><span>getJMSMessageID():	ID:12-192.168.0.197(b8:3d:5e:24:df:26)-53719-1577428536655
+</span></span><span style=display:flex><span>getJMSTimestamp():	1577428536655
+</span></span><span style=display:flex><span>getJMSCorrelationID():	null
+</span></span><span style=display:flex><span>JMSReplyTo:		null
+</span></span><span style=display:flex><span>JMSDestination:		PTPQueue
+</span></span><span style=display:flex><span>getJMSDeliveryMode():	PERSISTENT
+</span></span><span style=display:flex><span>getJMSRedelivered():	false
+</span></span><span style=display:flex><span>getJMSType():		null
+</span></span><span style=display:flex><span>getJMSExpiration():	0
+</span></span><span style=display:flex><span>getJMSDeliveryTime():	0
+</span></span><span style=display:flex><span>getJMSPriority():	4
+</span></span><span style=display:flex><span>Properties:		{JMSXDeliveryCount=1, logLevel=ERROR}
+</span></span><span style=display:flex><span>LogEvent[id=2019-12-27T14:35:36.623, body=&#39;Sample ERROR Log&#39;, 
+</span></span><span style=display:flex><span>machineId=&#39;7d743936-aae8-44a2-a527-cd88236b6ea6&#39;, logLevel=ERROR]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Class:			com.sun.messaging.jmq.jmsclient.ObjectMessageImpl
+</span></span><span style=display:flex><span>getJMSMessageID():	ID:14-192.168.0.197(b8:3d:5e:24:df:26)-53719-1577428536661
+</span></span><span style=display:flex><span>getJMSTimestamp():	1577428536661
+</span></span><span style=display:flex><span>getJMSCorrelationID():	null
+</span></span><span style=display:flex><span>JMSReplyTo:		null
+</span></span><span style=display:flex><span>JMSDestination:		PTPQueue
+</span></span><span style=display:flex><span>getJMSDeliveryMode():	PERSISTENT
+</span></span><span style=display:flex><span>getJMSRedelivered():	false
+</span></span><span style=display:flex><span>getJMSType():		null
+</span></span><span style=display:flex><span>getJMSExpiration():	0
+</span></span><span style=display:flex><span>getJMSDeliveryTime():	0
+</span></span><span style=display:flex><span>getJMSPriority():	5
+</span></span><span style=display:flex><span>Properties:		{JMSXDeliveryCount=1, logLevel=INFO}
+</span></span><span style=display:flex><span>LogEvent[id=2019-12-27T14:35:36.623, body=&#39;Sample INFO Log&#39;, 
+</span></span><span style=display:flex><span>machineId=&#39;01ce3812-1869-4d23-96d8-cfc2ea6267c2&#39;, logLevel=INFO]
+</span></span></code></pre></div><h2 id=选择器规则>选择器规则</h2><p>与任何查询语言一样，选择器由文字、标识符、表达式和运算符组成。我将在下面讨论每个规则以供参考。</p><h3 id=1-文字规则>1. 文字规则</h3><ul><li>文字<code>String</code>用单引号引起来，单引号用两个单引号表示。例如，<code>logLevel = 'ERROR'</code>，<code>name='Ram''s'</code>。</li><li>数值按原样显示，带有可选的<code>+</code>或<code>-</code>符号。例如，<code>range BETWEEN -200 AND +30</code>。您也可以直接提及 ，<code>30</code>而不是<code>+30 </code>。</li><li>数字也可以用科学计数法表示，例如等<code>-7E3</code>。<code>6.2</code></li><li>Java<code>Long</code>和<code>Double</code>也受支持。</li><li>布尔值可以表示为<code>TRUE</code>和<code>FALSE</code>。</li></ul><h3 id=2-标识符规则>2. 标识符规则</h3><ul><li>适用于 Java 标识符的规则也适用于 JMS 选择器标识符。这意味着<code>_</code>和<code>$</code>可用于标识符。</li><li>标识符不能包含 Java 关键字。</li><li>标识符不能具有诸如<code>NULL</code>, <code>TRUE</code>, <code>FALSE</code>, <code>NOT</code>, <code>AND</code>, <code>OR</code>, <code>BETWEEN</code>, <code>LIKE</code>, <code>IN</code>, <code>IS</code>, 或者 <code>ESCAPE</code></li><li>标识符区分大小写。</li><li>任何以 开头的名称<code>JMSX</code>都是 JMS 定义的属性。</li><li>任何以 开头的名称<code>JMS_</code>都是提供商特定的属性。</li><li>任何不包含 的名称（标识符）<code>JMS</code>都是应用程序定义的属性。</li></ul><h3 id=3-运营商规则>3. 运营商规则</h3><ul><li><code>()</code>此处适用包围的标准规则。</li><li>逻辑运算符的优先顺序为：<code>NOT</code>，<code>AND</code>，<code>OR</code>。</li><li>按优先顺序排列的比较运算符：<code>=</code>， <code>></code>， <code>>=</code>， <code>&lt;</code>， <code>&lt;=</code>，<code>&lt;></code>（不等于运算符）。</li><li>算术运算符的优先顺序如下：<ul><li>一元运算符 – <code>+</code>, <code>-</code>。</li><li>乘法和除法 – <code>*</code>，<code>/</code>。</li><li>加减 - <code>+</code>，<code>-</code></li></ul></li></ul><p>您了解了 JMS 消息选择器及其用于过滤传递给客户端的消息的方式。它在实际应用中非常有用，特别是从性能角度来看。您的应用程序可以将大量处理负载委托给 JMS 提供程序，并确保只向其传递必要的消息。</p><p>原文链接： <a href=https://jstobigdata.com/jms/jms-message-selectors-in-action-to-filter-messages/ target=_blank>JMS Message Selectors in Action to Filter Messages</a></p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=%5b%e8%af%91%5dJMS%20%e6%b6%88%e6%81%af%e9%80%89%e6%8b%a9%e5%99%a8%e5%9c%a8%e8%bf%87%e6%bb%a4%e6%b6%88%e6%81%af%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8 https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f23%2fjms-message-selectors-in-action-to-filter-messages%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
 </a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f23%2fjms-message-selectors-in-action-to-filter-messages%2f&title=%5b%e8%af%91%5dJMS%20%e6%b6%88%e6%81%af%e9%80%89%e6%8b%a9%e5%99%a8%e5%9c%a8%e8%bf%87%e6%bb%a4%e6%b6%88%e6%81%af%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
 </a><a class=social-link-item href="https://telegram.me/share/url?text=%5b%e8%af%91%5dJMS%20%e6%b6%88%e6%81%af%e9%80%89%e6%8b%a9%e5%99%a8%e5%9c%a8%e8%bf%87%e6%bb%a4%e6%b6%88%e6%81%af%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f23%2fjms-message-selectors-in-action-to-filter-messages%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
 </a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f07%2f23%2fjms-message-selectors-in-action-to-filter-messages%2f&title=%5b%e8%af%91%5dJMS%20%e6%b6%88%e6%81%af%e9%80%89%e6%8b%a9%e5%99%a8%e5%9c%a8%e8%bf%87%e6%bb%a4%e6%b6%88%e6%81%af%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>

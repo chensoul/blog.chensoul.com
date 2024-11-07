@@ -1,0 +1,404 @@
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="在本文中，我们将了解从 JUnit 4 迁移到 JUnit 5 所需的步骤。我们将了解如何运行新版本的现有测试，以及迁移代码需要进行哪些更改。"><title>[译]从JUnit4迁移到JUnit5：权威指南 | ChenSoul</title>
+<link rel=canonical href=https://blog.chensoul.cc/posts/2024/11/07/junit-5-migration/><link rel=preconnect href=https://fonts.font.im><link rel=preconnect href=https://fonts.loli.net crossorigin><link href="https://fonts.loli.net/css2?family=Roboto+Slab:wght@400;500;700&display=swap" rel=stylesheet><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.chensoul.cc/images/favicon.webp"><meta name=twitter:title content="[译]从JUnit4迁移到JUnit5：权威指南"><meta name=twitter:description content="在本文中，我们将了解从 JUnit 4 迁移到 JUnit 5 所需的步骤。我们将了解如何运行新版本的现有测试，以及迁移代码需要进行哪些更改。"><meta name=twitter:creator content="@ichensoul"><meta property="og:locale" content="en_US"><meta property="og:site_name" content="chensoul"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/11/07/junit-5-migration/"><meta property="og:site_name" content="ChenSoul"><meta property="og:title" content="[译]从JUnit4迁移到JUnit5：权威指南"><meta property="og:description" content="在本文中，我们将了解从 JUnit 4 迁移到 JUnit 5 所需的步骤。我们将了解如何运行新版本的现有测试，以及迁移代码需要进行哪些更改。"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-11-07T00:00:00+00:00"><meta property="article:modified_time" content="2024-11-07T00:00:00+00:00"><meta property="article:tag" content="Junit5"><meta property="og:image" content="https://blog.chensoul.cc/images/favicon.webp"><meta itemprop=name content="[译]从JUnit4迁移到JUnit5：权威指南"><meta itemprop=description content="在本文中，我们将了解从 JUnit 4 迁移到 JUnit 5 所需的步骤。我们将了解如何运行新版本的现有测试，以及迁移代码需要进行哪些更改。"><meta itemprop=datePublished content="2024-11-07T00:00:00+00:00"><meta itemprop=dateModified content="2024-11-07T00:00:00+00:00"><meta itemprop=wordCount content="1263"><meta itemprop=image content="https://blog.chensoul.cc/images/favicon.webp"><meta itemprop=keywords content="Junit5"><link rel=stylesheet href=https://cdnjs.loli.net/ajax/libs/font-awesome/6.4.0/css/all.min.css media=all><link rel=stylesheet href=/main.min.css type=text/css media=all><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"[译]从JUnit4迁移到JUnit5：权威指南","headline":"[译]从JUnit4迁移到JUnit5：权威指南","inLanguage":"en-US","url":"https://blog.chensoul.cc/posts/2024/11/07/junit-5-migration/","description":"\u003cp\u003e在本文中，我们将了解从 JUnit 4 迁移到 JUnit 5 所需的步骤。我们将了解如何运行新版本的现有测试，以及迁移代码需要进行哪些更改。\u003c/p\u003e","wordCount":"1263","keywords":["junit5"],"datePublished":"2024-11-07T00:00:00Z","dateModified":"2024-11-07T00:00:00Z","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/11/07/junit-5-migration/"},"publisher":{"@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/posts/2024/11/07/junit-5-migration/"}},{"@context":"https://schema.org","@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/","sameAs":["https://x.com/ichensoul","https://github.com/chensoul","https://www.linkedin.com/in/","https://www.youtube.com/@chensoul","https://t.me/chensouls"]}]}</script><script defer src=https://umami.chensoul.cc/random-string.js data-website-id=821c25f8-a31a-4607-92d7-91ee76843d00></script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title=ChenSoul rel=home>ChenSoul</a></h1><p class=site-description>Java, Spring Boot, Microservice, Cloud, Architecture and DevOps Tutorials</p></div><div class="header-widgets clearfix"><aside id=search-2 class="header-widget widget_search"><form role=search method=get class=search-form onsubmit="return searchSite(event)"><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=search-field placeholder="Enter search keyword" name=query id=query title="Enter search keyword">
+</label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
+<span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
+current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/11/07/junit-5-migration/ rel=bookmark title=[译]从JUnit4迁移到JUnit5：权威指南>[译]从JUnit4迁移到JUnit5：权威指南</a></h2><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-11-07T00:00:00>2024-11-07
+</time></span><span class=meta-author><span class="author vcard">chensoul</span>
+</span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/junit5/ title=junit5>junit5</a></span></div></header><div class=entry-content><p>在本文中，我们将了解从 JUnit 4 迁移到 JUnit 5 所需的步骤。我们将了解如何运行新版本的现有测试，以及迁移代码需要进行哪些更改。</p><h2 id=概述>概述</h2><p>JUnit 5 与之前的版本不同，采用模块化设计。新架构的关键点在于将编写测试、扩展和工具之间的关注点分开。</p><p>JUnit 被分成三个不同的子项目：</p><ul><li>基础部分，<strong>JUnit Platform</strong> 提供了构建插件，以及用于编写测试引擎的 API</li><li><strong>JUnit Jupiter</strong> 是 JUnit 5 中用于编写测试和扩展的新 API</li><li>最后，<strong>JUnit Vintage</strong> 允许我们使用 JUnit 5 运行 JUnit 4 测试</li></ul><p>以下是 JUnit 5 相对于 JUnit 4 的一些优势：</p><p>JUnit 4 最大的缺陷之一是它不支持多个运行器（因此您不能同时使用，例如 <code>SpringJUnit4ClassRunner</code> 和 <code>Parameterized</code>）。在 JUnit 5 中，这终于可以通过注册多个扩展来实现。</p><p>此外，JUnit 5 利用 Java 8 的特性，例如 lambda 表达式进行惰性求值。JUnit 4 从未超越 Java 7，缺少 Java 8 的特性。</p><p>此外，JUnit 4 在参数化测试方面存在缺陷，并且缺少嵌套测试。这启发了第三方开发人员针对这些情况创建专门的运行器。</p><p>JUnit 5 增加了对参数化测试的更好支持和对嵌套测试的本机支持以及一些其他新功能。</p><h2 id=关键迁移步骤>关键迁移步骤</h2><p>JUnit 在 JUnit Vintage 测试引擎的帮助下提供了一条逐步迁移的路径。我们可以使用 JUnit Vintage 测试引擎将 JUnit 4 测试与 JUnit 5 一起运行。</p><p>所有特定于 JUnit 4 的类都位于<code>org.junit</code>包中。所有特定于 JUnit 5 的类都位于<code>org.junit.jupiter</code>包中。如果 JUnit 4 和 JUnit 5 都在类路径中，则不会发生冲突。</p><p>因此，我们可以将之前实施的 JUnit 4 测试与 JUnit 5 测试一起保留，直到完成迁移。因此，我们可以逐步规划迁移。</p><p>下表总结了从 JUnit 4 迁移到 JUnit 5 的关键迁移步骤。</p><table><thead><tr><th>步骤</th><th>解释</th></tr></thead><tbody><tr><td>替换依赖项</td><td>JUnit 4 使用单一依赖项。JUnit 5 具有用于迁移支持和 JUnit Vintage 引擎的附加依赖项。</td></tr><tr><td>替换注解</td><td>JUnit 5 的一些注解与 JUnit 4 相同，但有一些新的注解取代了旧的注解，并且功能略有不同。</td></tr><tr><td>替换测试类和方法</td><td>断言和假设已移至新类。在某些情况下，方法参数顺序会有所不同。</td></tr><tr><td>用扩展程序替换运行器和规则</td><td>JUnit 5 只有一个扩展模型，没有运行器和规则。此步骤可能比其他步骤花费更多时间。</td></tr></tbody></table><p>接下来我们将深入研究每个步骤。</p><h2 id=依赖>依赖</h2><p>让我们看看在新平台上运行现有测试需要做什么。为了运行 JUnit 4 和 JUnit 5 测试，我们需要：</p><ul><li>JUnit Jupiter 用于编写和运行 JUnit 5 测试</li><li>用于运行 JUnit 4 测试的老式测试引擎</li></ul><p>除此之外，要使用 Maven 运行测试，我们还需要 Surefire 插件。我们必须将所有依赖项添加到<code>pom.xml</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>maven-surefire-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>2.22.2<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;dependencies&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;groupId&gt;</span>org.junit.jupiter<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;artifactId&gt;</span>junit-jupiter<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;version&gt;</span>5.8.0<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;scope&gt;</span>test<span style=color:#f92672>&lt;/scope&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;groupId&gt;</span>org.junit.vintage<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;artifactId&gt;</span>junit-vintage-engine<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;version&gt;</span>5.8.0<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;scope&gt;</span>test<span style=color:#f92672>&lt;/scope&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/dependencies&gt;</span>
+</span></span></code></pre></div><p>同样，要使用 Gradle 运行测试，我们还需要在测试中启用 JUnit Platform。同样，我们必须将所有依赖项添加到<code>build.gradle</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>test <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    useJUnitPlatform<span style=color:#f92672>()</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    testImplementation<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;org.junit.jupiter:junit-jupiter:5.8.0&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    testRuntime<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;org.junit.vintage:junit-vintage-engine:5.8.0&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><h2 id=注解>注解</h2><p>注解位于<code>org.junit.jupiter.api</code>包中，而不是<code>org.junit</code>包中。</p><p>大多数注解名称也不同：</p><table><thead><tr><th>JUnit 4</th><th>JUnit 5</th></tr></thead><tbody><tr><td><code>@Test</code></td><td><code>@Test</code></td></tr><tr><td><code>@Before</code></td><td><code>@BeforeEach</code></td></tr><tr><td><code>@After</code></td><td><code>@AfterEach</code></td></tr><tr><td><code>@BeforeClass</code></td><td><code>@BeforeAll</code></td></tr><tr><td><code>@AfterClass</code></td><td><code>@AfterAll</code></td></tr><tr><td><code>@Ignore</code></td><td><code>@Disable</code></td></tr><tr><td><code>@Category</code></td><td><code>@Tag</code></td></tr></tbody></table><p>大多数情况下，我们只需查找并替换包名和类名即可。</p><p>但是，该<code>@Test</code>注解不再具有<code>expected</code>或<code>timeout</code>属性。</p><h3 id=异常>异常</h3><p>我们不能再将<code>expected</code>属性与<code>@Test</code>注解一起使用。</p><p>JUnit 4中的属性<code>expected</code>可以用JUnit 5中的方法替换<code>assertThrows()</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4ExceptionTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>(expected <span style=color:#f92672>=</span> IllegalArgumentException.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldThrowAnException</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalArgumentException();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5ExceptionTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldThrowAnException</span>() {
+</span></span><span style=display:flex><span>        Assertions.<span style=color:#a6e22e>assertThrows</span>(IllegalArgumentException.<span style=color:#a6e22e>class</span>, () <span style=color:#f92672>-&gt;</span> {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalArgumentException();
+</span></span><span style=display:flex><span>        });
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=超时>超时</h3><p>我们不能再将<code>timeout</code>属性与<code>@Test</code>注解一起使用。</p><p>JUnit 中的属性<code>timeout</code>可以用 JUnit 5 中的方法替换<code>assertTimeout()</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4TimeoutTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>(timeout <span style=color:#f92672>=</span> 1)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldTimeout</span>() <span style=color:#66d9ef>throws</span> InterruptedException {
+</span></span><span style=display:flex><span>        Thread.<span style=color:#a6e22e>sleep</span>(5);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5TimeoutTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldTimeout</span>() {
+</span></span><span style=display:flex><span>        Assertions.<span style=color:#a6e22e>assertTimeout</span>(Duration.<span style=color:#a6e22e>ofMillis</span>(1), () <span style=color:#f92672>-&gt;</span> Thread.<span style=color:#a6e22e>sleep</span>(5));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=测试类和方法>测试类和方法</h2><p>如前所述，断言和假设已移至新类。此外，在某些情况下，方法参数顺序也不同。</p><p>下表总结了 JUnit 4 和 JUnit 5 测试类和方法之间的主要区别。</p><table><thead><tr><th></th><th>JUnit 4</th><th>JUnit 5</th></tr></thead><tbody><tr><td><strong>测试类包</strong></td><td><code>org.junit</code></td><td><code>org.junit.jupiter.api</code></td></tr><tr><td><strong>断言类</strong></td><td><code>Assert</code></td><td><code>Assertions</code></td></tr><tr><td></td><td><code>assertThat()</code></td><td><code>MatcherAssert.assertThat()</code></td></tr><tr><td><strong>可选断言消息</strong></td><td>第一个方法参数</td><td>最后一个方法参数</td></tr><tr><td><strong>假设类</strong></td><td><code>Assume</code></td><td><code>Assumptions</code></td></tr><tr><td></td><td><code>assumeNotNull()</code></td><td>已移除</td></tr><tr><td></td><td><code>assumeNoException()</code></td><td>已移除</td></tr></tbody></table><p>还有值得注意的是，在 JUnit 4 中我们自己编写的测试类和方法必须是<code>public</code>。</p><p>JUnit 5 删除了这个限制，测试类和方法可以是<em>package-private</em>。我们可以在所有提供的示例中看到这种差异。</p><p>接下来，让我们仔细看看测试类和方法的变化。</p><h3 id=断言>断言</h3><p>断言的方法驻留在<code>org.junit.jupiter.api.Assertions</code>类中，而不是<code>org.junit.Assert</code>类中。</p><p>大多数情况下，我们只需查找并替换包名称即可。</p><p>但是，如果我们为断言提供了自定义消息，我们将收到编译器错误。可选的断言消息现在是最后一个参数。这种参数顺序感觉更自然：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4AssertionTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldFailWithMessage</span>() {
+</span></span><span style=display:flex><span>        Assert.<span style=color:#a6e22e>assertEquals</span>(<span style=color:#e6db74>&#34;numbers &#34;</span> <span style=color:#f92672>+</span> 1 <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; and &#34;</span> <span style=color:#f92672>+</span> 2 <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; are not equal&#34;</span>, 1, 2);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5AssertionTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldFailWithMessage</span>() {
+</span></span><span style=display:flex><span>        Assertions.<span style=color:#a6e22e>assertEquals</span>(1, 2, () <span style=color:#f92672>-&gt;</span> <span style=color:#e6db74>&#34;numbers &#34;</span> <span style=color:#f92672>+</span> 1 <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; and &#34;</span> <span style=color:#f92672>+</span> 2 <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; are not equal&#34;</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>也可以像示例中一样延迟评估断言消息。这样可以避免不必要地构建复杂消息。</p><p>当使用自定义断言消息断言<code>String</code>对象时，我们不会收到编译器错误，因为所有参数都是<code>String</code>类型。</p><p>然而，我们很容易发现这些情况，因为测试在运行它们时会失败。</p><p>此外，我们可能还会有使用通过 JUnit 4<code>Assert.assertThat()</code>方法提供的 Hamcrest 断言的旧测试。JUnit 5<code>Assertions.assertThat()</code>不像 JUnit 4 那样提供方法。相反，我们必须从 Hamcrest 导入方法<code>MatcherAssert</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4HamcrestTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>numbersNotEqual</span>() {
+</span></span><span style=display:flex><span>        Assert.<span style=color:#a6e22e>assertThat</span>(<span style=color:#e6db74>&#34;numbers 1 and 2 are not equal&#34;</span>, 1, is(not(equalTo(2))));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5HamcrestTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>numbersNotEqual</span>() {
+</span></span><span style=display:flex><span>        MatcherAssert.<span style=color:#a6e22e>assertThat</span>(<span style=color:#e6db74>&#34;numbers 1 and 2 are not equal&#34;</span>, 1, is(not(equalTo(2))));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=假设>假设</h3><p>假设方法存在于<code>org.junit.jupiter.Assumptions</code>类中，而不是<code>org.junit.Assume</code>类中。</p><p>这些方法与断言有类似的变化。假设消息现在是最后一个参数：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4AssumptionTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldOnlyRunInDevelopmentEnvironment</span>() {
+</span></span><span style=display:flex><span>        Assume.<span style=color:#a6e22e>assumeTrue</span>(<span style=color:#e6db74>&#34;Aborting: not on developer workstation&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;DEV&#34;</span>.<span style=color:#a6e22e>equals</span>(System.<span style=color:#a6e22e>getenv</span>(<span style=color:#e6db74>&#34;ENV&#34;</span>)));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5AssumptionTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldOnlyRunInDevelopmentEnvironment</span>() {
+</span></span><span style=display:flex><span>        Assumptions.<span style=color:#a6e22e>assumeTrue</span>(<span style=color:#e6db74>&#34;DEV&#34;</span>.<span style=color:#a6e22e>equals</span>(System.<span style=color:#a6e22e>getenv</span>(<span style=color:#e6db74>&#34;ENV&#34;</span>)),
+</span></span><span style=display:flex><span>                () <span style=color:#f92672>-&gt;</span> <span style=color:#e6db74>&#34;Aborting: not on developer workstation&#34;</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>还值得注意的是，不再有<code>Assume.assumeNotNUll()</code>nor<code>Assume.assumeNoException()</code>了。</p><h2 id=类别>类别</h2><p>JUnit 4 中的注解<code>@Category</code>已被 JUnit 5 中的 <code>@Tag</code> 注解取代。此外，我们不再使用标记接口，而是向注解传递字符串参数。</p><p>在 JUnit 4 中，我们使用带有标记接口的类别：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>IntegrationTest</span> {}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Category</span>(IntegrationTest.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4CategoryTest</span> {}
+</span></span></code></pre></div><p>然后我们可以在 Maven 中按标签配置测试过滤<code>pom.xml</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>maven-surefire-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>2.22.2<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;groups&gt;</span>com.example.AcceptanceTest<span style=color:#f92672>&lt;/groups&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;excludedGroups&gt;</span>com.example.IntegrationTest<span style=color:#f92672>&lt;/excludedGroups&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>或者，如果使用 Gradle，请在以下位置配置类别<code>build.gradle</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>test <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    useJUnit <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        includeCategories <span style=color:#e6db74>&#39;com.example.AcceptanceTest&#39;</span>
+</span></span><span style=display:flex><span>        excludeCategories <span style=color:#e6db74>&#39;com.example.IntegrationTest&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>然而，在 JUnit 5 中，我们改用标签：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Tag</span>(<span style=color:#e6db74>&#34;integration&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5TagTest</span> {}
+</span></span></code></pre></div><p>Maven 中的配置<code>pom.xml</code>稍微简单一些：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>maven-surefire-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>2.22.2<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;groups&gt;</span>acceptance<span style=color:#f92672>&lt;/groups&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;excludedGroups&gt;</span>integration<span style=color:#f92672>&lt;/excludedGroups&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>相应地，配置<code>build.gradle</code>变得更容易一些：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>test <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    useJUnitPlatform <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        includeTags <span style=color:#e6db74>&#39;acceptance&#39;</span>
+</span></span><span style=display:flex><span>        excludeTags <span style=color:#e6db74>&#39;integration&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><h2 id=runners>Runners</h2><p>JUnit 4 中的注解 <code>@RunWith</code> 在 JUnit 5 中不存在。我们可以通过使用<code>org.junit.jupiter.api.extension</code>包和<code>@ExtendWith</code>注解中的新扩展模型来实现相同的功能。</p><h3 id=spring-runner>Spring Runner</h3><p>与 JUnit 4 一起使用的流行运行器之一是 Spring 测试运行器。使用 JUnit 5 时，我们必须用 Spring 扩展替换该运行器。</p><p>如果我们使用 Spring 5，则扩展与 Spring Test 捆绑在一起：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@RunWith</span>(SpringJUnit4ClassRunner.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@ContextConfiguration</span>(classes <span style=color:#f92672>=</span> SpringTestConfiguration.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4SpringTest</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@ExtendWith</span>(SpringExtension.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@ContextConfiguration</span>(classes <span style=color:#f92672>=</span> SpringTestConfiguration.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5SpringTest</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>但是，如果我们使用的是 Spring 4，它不会与<code>SpringExtension</code>捆绑在一起。我们仍然可以使用它，但它需要来自 JitPack 存储库的额外依赖项。</p><p>要与 Spring 4 一起使用<code>SpringExtension</code>，我们必须在 Maven 中添加依赖项<code>pom.xml</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;repositories&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;repository&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;id&gt;</span>jitpack.io<span style=color:#f92672>&lt;/id&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;url&gt;</span>https://jitpack.io<span style=color:#f92672>&lt;/url&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/repository&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/repositories&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;dependencies&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;groupId&gt;</span>com.github.sbrannen<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;artifactId&gt;</span>spring-test-junit5<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;version&gt;</span>1.5.0<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;scope&gt;</span>test<span style=color:#f92672>&lt;/scope&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/dependencies&gt;</span>
+</span></span></code></pre></div><p><code>build.gradle</code>同样的方法，我们在使用Gradle时也要添加依赖：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>repositories <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    mavenCentral<span style=color:#f92672>()</span>
+</span></span><span style=display:flex><span>    maven <span style=color:#f92672>{</span> url <span style=color:#e6db74>&#39;https://jitpack.io&#39;</span> <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    testImplementation<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;com.github.sbrannen:spring-test-junit5:1.5.0&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><h3 id=mockito-runner>Mockito Runner</h3><p>JUnit 4 中使用的另一个流行运行器是 Mockito 运行器。使用 JUnit 5 时，我们需要用 Mockito JUnit 5 扩展替换此运行器。</p><p>为了使用 Mockito 扩展 <code>mockito-junit-jupiter</code>，我们必须在 Maven 中添加依赖项<code>pom.xml</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;groupId&gt;</span>org.mockito<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>mockito-junit-jupiter<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>3.6.28<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;scope&gt;</span>test<span style=color:#f92672>&lt;/scope&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>分别地，当使用 Gradle 时我们必须添加依赖项<code>build.gradle</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    testImplementation<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;org.mockito:mockito-junit-jupiter:3.12.4&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>现在我们可以简单地用<code>MockitoJUnitRunner</code>替换<code>MockitoExtension</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@RunWith</span>(MockitoJUnitRunner.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4MockitoTest</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@InjectMocks</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Example example;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Mock</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Dependency dependency;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldInjectMocks</span>() {
+</span></span><span style=display:flex><span>        example.<span style=color:#a6e22e>doSomething</span>();
+</span></span><span style=display:flex><span>        verify(dependency).<span style=color:#a6e22e>doSomethingElse</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@ExtendWith</span>(MockitoExtension.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5MockitoTest</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@InjectMocks</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Example example;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Mock</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Dependency dependency;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldInjectMocks</span>() {
+</span></span><span style=display:flex><span>        example.<span style=color:#a6e22e>doSomething</span>();
+</span></span><span style=display:flex><span>        verify(dependency).<span style=color:#a6e22e>doSomethingElse</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=规则>规则</h2><p><code>@Rule</code>JUnit 4 中的和注解<code>@ClassRule</code>在 JUnit 5 中不存在。我们可以通过使用包中的新扩展模型<code>org.junit.jupiter.api.extension</code>和<code>@ExtendWith</code>注解来实现相同的功能。</p><p>但是，为了提供逐步的迁移路径，模块中支持 JUnit 4 规则子集及其子类<code>junit-jupiter-migrationsupport</code>：</p><ul><li><code>ExternalResource</code>（包括<code>TemporaryFolder</code>）</li><li><code>Verifier</code>（包括<code>ErrorCollector</code>）</li><li><code>ExpectedException</code></li></ul><p><code>@EnableRuleMigrationSupport</code>通过使用<code>org.junit.jupiter.migrationsupport.rules</code>包中的类级别注解，使用这些规则的现有代码可以保持不变。</p><p>为了在 Maven 中启用支持，我们必须添加依赖项<code>pom.xml</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;dependencies&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;groupId&gt;</span>org.junit.jupiter<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;artifactId&gt;</span>junit-jupiter-migrationsupport<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;version&gt;</span>5.8.0<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/dependencies&gt;</span>
+</span></span></code></pre></div><p>为了在 Gradle 中启用支持，我们必须添加依赖项<code>build.gradle</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    testImplementation<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;org.junit.jupiter:junit-jupiter-migrationsupport:5.8.0&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><h3 id=预期异常>预期异常</h3><p>在 JUnit 4 中，使用<code>@Test(expected = SomeException.class)</code>不允许我们检查异常的详细信息。例如，要检查异常的消息，我们必须使用规则<code>ExpectedException</code>。</p><p>JUnit 5 迁移支持允许我们通过将<code>@EnableRuleMigrationSupport</code>注解应用于我们的测试来仍然使用该规则：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@EnableRuleMigrationSupport</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5ExpectedExceptionTest</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Rule</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> ExpectedException thrown <span style=color:#f92672>=</span> ExpectedException.<span style=color:#a6e22e>none</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>catchThrownExceptionAndMessage</span>() {
+</span></span><span style=display:flex><span>        thrown.<span style=color:#a6e22e>expect</span>(IllegalArgumentException.<span style=color:#a6e22e>class</span>);
+</span></span><span style=display:flex><span>        thrown.<span style=color:#a6e22e>expectMessage</span>(<span style=color:#e6db74>&#34;Wrong argument&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalArgumentException(<span style=color:#e6db74>&#34;Wrong argument!&#34;</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>如果我们有大量依赖规则的测试，则启用规则迁移支持可能是一个有效的渐进步骤。</p><p>但是，完全迁移到 JUnit 5 需要我们摆脱该规则，并用<code>assertThrows()</code>方法替换它：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5ExpectedExceptionTest</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>catchThrownExceptionAndMessage</span>() {
+</span></span><span style=display:flex><span>        Throwable thrown <span style=color:#f92672>=</span> assertThrows(IllegalArgumentException.<span style=color:#a6e22e>class</span>, () <span style=color:#f92672>-&gt;</span> {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalArgumentException(<span style=color:#e6db74>&#34;Wrong argument!&#34;</span>);
+</span></span><span style=display:flex><span>        });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        assertEquals(<span style=color:#e6db74>&#34;Wrong argument!&#34;</span>, thrown.<span style=color:#a6e22e>getMessage</span>());
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>由于我们将所有内容都放在一个地方，因此结果更具可读性。</p><h3 id=临时文件夹>临时文件夹</h3><p>在 JUnit 4 中，我们可以使用该<code>TemporaryFolder</code>规则来创建和清理临时文件夹。同样，JUnit 5 迁移支持允许我们仅添加<code>@EnableRuleMigrationSupport</code>注解：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@EnableRuleMigrationSupport</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5TemporaryFolderTest</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Rule</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> TemporaryFolder temporaryFolder <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> TemporaryFolder();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldCreateNewFile</span>() <span style=color:#66d9ef>throws</span> IOException {
+</span></span><span style=display:flex><span>        File textFile <span style=color:#f92672>=</span> temporaryFolder.<span style=color:#a6e22e>newFile</span>(<span style=color:#e6db74>&#34;test.txt&#34;</span>);
+</span></span><span style=display:flex><span>        Assertions.<span style=color:#a6e22e>assertNotNull</span>(textFile);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>为了彻底摆脱 JUnit 5 中的规则，我们必须用<code>TempDirectory</code>扩展来替换它。我们可以通过使用带有 <code>@TempDir</code> 注解的<code>Path </code>或 <code>File</code>字段来使用扩展：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5TemporaryFolderTest</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@TempDir</span>
+</span></span><span style=display:flex><span>    Path temporaryDirectory;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldCreateNewFile</span>() {
+</span></span><span style=display:flex><span>        Path textFile <span style=color:#f92672>=</span> temporaryDirectory.<span style=color:#a6e22e>resolve</span>(<span style=color:#e6db74>&#34;test.txt&#34;</span>);
+</span></span><span style=display:flex><span>        Assertions.<span style=color:#a6e22e>assertNotNull</span>(textFile);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>该扩展与上一个规则非常相似。 一个区别是，我们也可以将注解添加到方法参数中：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shouldCreateNewFile</span>(<span style=color:#a6e22e>@TempDir</span> Path anotherDirectory) {
+</span></span><span style=display:flex><span>        Path textFile <span style=color:#f92672>=</span> anotherDirectory.<span style=color:#a6e22e>resolve</span>(<span style=color:#e6db74>&#34;test.txt&#34;</span>);
+</span></span><span style=display:flex><span>        Assertions.<span style=color:#a6e22e>assertNotNull</span>(textFile);
+</span></span><span style=display:flex><span>    }
+</span></span></code></pre></div><h3 id=自定义规则>自定义规则</h3><p>迁移自定义 JUnit 4 规则需要将代码重写为 JUnit 5 扩展。</p><p><code>@Rule</code>可以通过实现<code>BeforeEachCallback</code>和 <code>AfterEachCallback</code> 接口来重现作为应用的规则逻辑。</p><p>例如，如果我们有一条执行性能日志记录的 JUnit 4 规则：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4PerformanceLoggerTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Rule</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> PerformanceLoggerRule logger <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> PerformanceLoggerRule();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>PerformanceLoggerRule</span> <span style=color:#66d9ef>implements</span> TestRule {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> Statement <span style=color:#a6e22e>apply</span>(Statement base, Description description) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Statement() {
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>evaluate</span>() <span style=color:#66d9ef>throws</span> Throwable {
+</span></span><span style=display:flex><span>                <span style=color:#75715e>// Store launch time</span>
+</span></span><span style=display:flex><span>                base.<span style=color:#a6e22e>evaluate</span>();
+</span></span><span style=display:flex><span>                <span style=color:#75715e>// Store elapsed time</span>
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        };
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>反过来，我们可以编写与 JUnit 5 扩展相同的规则：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@ExtendWith</span>(PerformanceLoggerExtension.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5PerformanceLoggerTest</span> {
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>PerformanceLoggerExtension</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>implements</span> BeforeEachCallback, AfterEachCallback {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>beforeEach</span>(ExtensionContext context) <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// Store launch time</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>afterEach</span>(ExtensionContext context) <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// Store elapsed time</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=自定义类规则>自定义类规则</h3><p>分别地，我们可以通过<code>@ClassRule</code>实现<code>BeforeAllCallback</code>和<code>AfterAllCallback</code>接口来重现应用的规则逻辑。</p><p>在某些情况下，我们可能在 JUnit 4 中将类规则编写为内部匿名类。在以下示例中，我们有一个服务器资源，希望能够轻松设置以用于不同的测试：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4ServerBaseTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>static</span> Server server <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Server(9000);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@ClassRule</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> ExternalResource resource <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ExternalResource() {
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>protected</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>before</span>() <span style=color:#66d9ef>throws</span> Throwable {
+</span></span><span style=display:flex><span>            server.<span style=color:#a6e22e>start</span>();
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>protected</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>after</span>() {
+</span></span><span style=display:flex><span>            server.<span style=color:#a6e22e>stop</span>();
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4ServerInheritedTest</span> <span style=color:#66d9ef>extends</span> JUnit4ServerBaseTest {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>serverIsRunning</span>() {
+</span></span><span style=display:flex><span>        Assert.<span style=color:#a6e22e>assertTrue</span>(server.<span style=color:#a6e22e>isRunning</span>());
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>我们可以将规则编写为 JUnit 5 扩展。不幸的是，如果我们将扩展与<code>@ExtendWith</code>注解一起使用，我们将无法访问扩展提供的资源。但是，我们可以改用<code>@RegisterExtension</code>注解：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ServerExtension</span> <span style=color:#66d9ef>implements</span> BeforeAllCallback, AfterAllCallback {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Server server <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Server(9000);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> Server <span style=color:#a6e22e>getServer</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> server;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>beforeAll</span>(ExtensionContext context) <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>        server.<span style=color:#a6e22e>start</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>afterAll</span>(ExtensionContext context) <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>        server.<span style=color:#a6e22e>stop</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5ServerTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@RegisterExtension</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>static</span> ServerExtension extension <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ServerExtension();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>serverIsRunning</span>() {
+</span></span><span style=display:flex><span>        Assertions.<span style=color:#a6e22e>assertTrue</span>(extension.<span style=color:#a6e22e>getServer</span>().<span style=color:#a6e22e>isRunning</span>());
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=参数化测试>参数化测试</h2><p>在 JUnit 4 中，编写参数化测试需要使用<code>Parameterized</code>运行器。此外，我们还需要通过带有注解的方法来提供参数化数据<code>@Parameterized.Parameters</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@RunWith</span>(Parameterized.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit4ParameterizedTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Parameterized.Parameters</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> Collection<span style=color:#f92672>&lt;</span>Object<span style=color:#f92672>[]&gt;</span> <span style=color:#a6e22e>data</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> Arrays.<span style=color:#a6e22e>asList</span>(<span style=color:#66d9ef>new</span> Object<span style=color:#f92672>[][]</span> {
+</span></span><span style=display:flex><span>                { 1, 1 }, { 2, 1 }, { 3, 2 }, { 4, 3 }, { 5, 5 }, { 6, 8 }
+</span></span><span style=display:flex><span>        });
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>int</span> input;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>int</span> expected;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>JUnit4ParameterizedTest</span>(<span style=color:#66d9ef>int</span> input, <span style=color:#66d9ef>int</span> expected) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>input</span> <span style=color:#f92672>=</span> input;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>expected</span> <span style=color:#f92672>=</span> expected;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>fibonacciSequence</span>() {
+</span></span><span style=display:flex><span>        assertEquals(expected, Fibonacci.<span style=color:#a6e22e>compute</span>(input));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>编写 JUnit 4 参数化测试有很多缺点，并且有像<a href=https://github.com/Pragmatists/JUnitParams target=_blank>JUnitParams</a>这样的社区运行者将自己描述为<em>不错的参数化测试</em>。</p><p>不幸的是，JUnit 4 参数化运行器没有直接的替代品。相反，在 JUnit 5 中有一个<code>@ParameterizedTest</code>注解。可以使用各种数据源注解来提供数据。其中最接近 JUnit 4 的是<code>@MethodSource</code>注解：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>JUnit5ParameterizedTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> Stream<span style=color:#f92672>&lt;</span>Arguments<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>data</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> Stream.<span style=color:#a6e22e>of</span>(
+</span></span><span style=display:flex><span>                Arguments.<span style=color:#a6e22e>of</span>(1, 1),
+</span></span><span style=display:flex><span>                Arguments.<span style=color:#a6e22e>of</span>(2, 1),
+</span></span><span style=display:flex><span>                Arguments.<span style=color:#a6e22e>of</span>(3, 2),
+</span></span><span style=display:flex><span>                Arguments.<span style=color:#a6e22e>of</span>(4, 3),
+</span></span><span style=display:flex><span>                Arguments.<span style=color:#a6e22e>of</span>(5, 5),
+</span></span><span style=display:flex><span>                Arguments.<span style=color:#a6e22e>of</span>(6, 8)
+</span></span><span style=display:flex><span>        );
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@ParameterizedTest</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@MethodSource</span>(<span style=color:#e6db74>&#34;data&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>fibonacciSequence</span>(<span style=color:#66d9ef>int</span> input, <span style=color:#66d9ef>int</span> expected) {
+</span></span><span style=display:flex><span>        assertEquals(expected, Fibonacci.<span style=color:#a6e22e>compute</span>(input));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>在 JUnit 5 中，最接近 JUnit 4 参数化测试的是使用数据<code>@ParameterizedTest</code>源<code>@MethodSource</code>。</p><p>但是，JUnit 5 中的参数化测试有一些改进。您可以在我的<a href=https://www.arhohuttunen.com/junit-5-parameterized-tests target=_blank>JUnit 5 参数化测试</a>教程中阅读有关改进的更多信息。</p><h2 id=概括>概括</h2><p>从 JUnit 4 迁移到 JUnit 5 需要做一些工作，具体取决于现有测试的编写方式。</p><ul><li>我们可以运行 JUnit 4 测试和 JUnit 5 测试，以实现逐步迁移。</li><li>在很多情况下，我们只需要查找和替换包名和类名。</li><li>我们可能必须将自定义运行器和规则转换为扩展。</li><li>为了转换参数化测试，我们可能需要做一些返工。</li></ul><p>本指南的示例代码可以在<a href=https://github.com/arhohuttunen/junit5-examples/tree/main/junit5-migration target=_blank>GitHub</a>上找到。</p><p>原文链接：<a href=https://www.arhohuttunen.com/junit-5-migration/ target=_blank>https://www.arhohuttunen.com/junit-5-migration/</a></p></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=%5b%e8%af%91%5d%e4%bb%8eJUnit4%e8%bf%81%e7%a7%bb%e5%88%b0JUnit5%ef%bc%9a%e6%9d%83%e5%a8%81%e6%8c%87%e5%8d%97 https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f11%2f07%2fjunit-5-migration%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+</a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f11%2f07%2fjunit-5-migration%2f&title=%5b%e8%af%91%5d%e4%bb%8eJUnit4%e8%bf%81%e7%a7%bb%e5%88%b0JUnit5%ef%bc%9a%e6%9d%83%e5%a8%81%e6%8c%87%e5%8d%97" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://telegram.me/share/url?text=%5b%e8%af%91%5d%e4%bb%8eJUnit4%e8%bf%81%e7%a7%bb%e5%88%b0JUnit5%ef%bc%9a%e6%9d%83%e5%a8%81%e6%8c%87%e5%8d%97&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f11%2f07%2fjunit-5-migration%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f11%2f07%2fjunit-5-migration%2f&title=%5b%e8%af%91%5d%e4%bb%8eJUnit4%e8%bf%81%e7%a7%bb%e5%88%b0JUnit5%ef%bc%9a%e6%9d%83%e5%a8%81%e6%8c%87%e5%8d%97" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f11%2f07%2fjunit-5-migration%2f" target=_blank rel="noopener noreferrer" title="Click to share on facebook"><i class="fa-brands fa-facebook fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://api.whatsapp.com/send?text=%5b%e8%af%91%5d%e4%bb%8eJUnit4%e8%bf%81%e7%a7%bb%e5%88%b0JUnit5%ef%bc%9a%e6%9d%83%e5%a8%81%e6%8c%87%e5%8d%97%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f11%2f07%2fjunit-5-migration%2f" target=_blank rel="noopener noreferrer" title="Click to share on whatsapp"><i class="fa-brands fa-whatsapp fa-2xl" style=color:#007bb5></i></a></div></div></article><nav class="navigation post-navigation" role=navigation><h2 class=screen-reader-text>Post navigation</h2><div class=nav-links><div class=nav-next><a href=/posts/2024/11/06/til/ rel=prev><span class=post-title>2024-11-06｜今天我做了什么</span></a></div></div></nav><h2>Related content</h2><ul><li><a href=/tutorials/>Tutorials</a></li><li><a href=/posts/2024/08/27/activemq-source-code-broker-service/>ActiveMQ源码-BrokerService和PersistenceAdapter</a></li><li><a href=/posts/2024/08/27/thingsboard-code-source-compile/>ThingsBoard源码编译和Idea运行</a></li><li><a href=/posts/2024/08/09/debug-activemq-source-code/>ActiveMQ源码本地调试运行</a></li><li><a href=/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/>Github Action 发布 Jar 到 Maven 中央仓库</a></li><li><a href=/posts/2024/07/24/what-is-new-in-jms-2-0/>[译]JMS 2.0 中的新增功能</a></li><li><a href=/posts/2024/07/24/jms20/>[译]JMS 2.0 中的新增功能（第一部分）- 易于使用</a></li><li><a href=/posts/2024/07/24/jms20/>[译]JMS 2.0 中的新增功能（第二部分）- 新的消息传送功能</a></li><li><a href=/posts/2024/07/24/jms20-means-less-code/>[译]JMS 2.0 的十个好处意味着可以减少代码编写量</a></li><li><a href=/posts/2024/07/23/jms-transactions-in-action/>[译]JMS 事务的实际应用</a></li></ul></main></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link><a href=/ target=_blank rel="noopener noreferrer">ChenSoul</a>
+Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer">Hugo</a>
+<a style=margin-left:20px href=/privacy_policy/ target=_blank rel="noopener noreferrer">Privacy Policy</a></span></div></footer></div></div><script type=text/javascript src=/main.min.js></script></body></html>

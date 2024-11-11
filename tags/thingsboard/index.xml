@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Thingsboard on ChenSoul</title><link>https://blog.chensoul.cc/tags/thingsboard/</link><description>Recent content in Thingsboard on ChenSoul</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 27 Aug 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/thingsboard/index.xml" rel="self" type="application/rss+xml"/><item><title>ThingsBoard源码编译和Idea运行</title><link>https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/</link><pubDate>Tue, 27 Aug 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/</guid><description>&lt;p>ThingsBoard 源码地址：&lt;a href="https://github.com/thingsboard/thingsboard" target="_blank">https://github.com/thingsboard/thingsboard&lt;/a>，从 &lt;a href="https://github.com/thingsboard/thingsboard/releases/tag/v3.7" target="_blank">3.7&lt;/a> 版本之后，要求 JDK17。官方提供了源码编译的文档：&lt;a href="https://thingsboard.io/docs/user-guide/install/building-from-source/" target="_blank">Building from sources&lt;/a>&lt;/p></description></item><item><title>[译]WebSocket与HTTP：2024年为您的项目选择哪一个</title><link>https://blog.chensoul.cc/posts/2024/05/07/websockets-vs-http/</link><pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/07/websockets-vs-http/</guid><description>&lt;p>原文链接：&lt;a href="https://ably.com/topic/websockets-vs-http" target="_blank">https://ably.com/topic/websockets-vs-http&lt;/a>&lt;/p>
-&lt;p>当谈到 WebSocket 与 HTTP 时，决定使用哪一种并不总是那么明确。哪一个更好？您的应用程序应该使用哪一款？&lt;/p></description></item><item><title>ThingsBoard的领域模型</title><link>https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/</link><pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/</guid><description>&lt;p>ThingsBoard是一个开源的物联网平台，用于管理和监控物联网设备和数据。它提供了一个可扩展的架构，可以连接各种设备，并实时收集、处理和分析设备生成的数据。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Thingsboard on ChenSoul</title><link>https://blog.chensoul.cc/tags/thingsboard/</link><description>Recent content in Thingsboard on ChenSoul</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 27 Aug 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/thingsboard/index.xml" rel="self" type="application/rss+xml"/><item><title>ThingsBoard源码编译和Idea运行</title><link>https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/</link><pubDate>Tue, 27 Aug 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/08/27/thingsboard-code-source-compile/</guid><description>&lt;p>ThingsBoard 源码地址：&lt;a href="https://github.com/thingsboard/thingsboard" target="_blank">https://github.com/thingsboard/thingsboard&lt;/a>，从 &lt;a href="https://github.com/thingsboard/thingsboard/releases/tag/v3.7" target="_blank">3.7&lt;/a> 版本之后，要求 JDK17。官方提供了源码编译的文档：&lt;a href="https://thingsboard.io/docs/user-guide/install/building-from-source/" target="_blank">Building from sources&lt;/a>&lt;/p>
+&lt;h2 id="源码编译">源码编译&lt;/h2>
+&lt;p>下载代码：&lt;/p></description></item><item><title>[译]WebSocket与HTTP：2024年为您的项目选择哪一个</title><link>https://blog.chensoul.cc/posts/2024/05/07/websockets-vs-http/</link><pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/07/websockets-vs-http/</guid><description>&lt;p>原文链接：&lt;a href="https://ably.com/topic/websockets-vs-http" target="_blank">https://ably.com/topic/websockets-vs-http&lt;/a>&lt;/p>
+&lt;p>当谈到 WebSocket 与 HTTP 时，决定使用哪一种并不总是那么明确。哪一个更好？您的应用程序应该使用哪一款？&lt;/p>
+&lt;p>但问题的答案不一定是其中之一 - 开发人员经常根据场景在同一个应用程序中同时使用 WebSocket 和 HTTP。更重要的问题是 - 我如何确定 WebSockets 还是 HTTP 是特定类型通信的正确通信协议？&lt;/p></description></item><item><title>ThingsBoard的领域模型</title><link>https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/</link><pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/05/07/thingsboard-domain/</guid><description>&lt;p>ThingsBoard是一个开源的物联网平台，用于管理和监控物联网设备和数据。它提供了一个可扩展的架构，可以连接各种设备，并实时收集、处理和分析设备生成的数据。&lt;/p>
 &lt;h2 id="领域模型">领域模型&lt;/h2>
 &lt;p>在ThingsBoard中，领域模型是一个关键概念，用于描述物联网系统中的物理实体、属性和行为。以下是ThingsBoard中的主要领域模型组件：&lt;/p>
 &lt;ol>
@@ -7,11 +10,32 @@
 &lt;p>租户（Tenant）：租户是ThingsBoard中的顶级组织单位。它代表了一个独立的实体，可以是一个用户、组织或公司。租户拥有和管理自己的设备、客户、规则和仪表板等资源。租户之间的数据和配置是相互隔离的，每个租户都有自己的独立环境。租户由系统管理员创建和管理。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>租户配置（TenantProfile）：用于定义租户级别的配置和属性。&lt;/p></description></item><item><title>All things about ThingsBoard</title><link>https://blog.chensoul.cc/posts/2024/04/29/all-things-about-thingsboard/</link><pubDate>Mon, 29 Apr 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/04/29/all-things-about-thingsboard/</guid><description>&lt;p>thingsboard 是一款乌克兰团队基于java语言研发的开源物联网框架，开源的是ce版，企业版需要购买授权且无源码。&lt;/p>
+&lt;p>租户配置（TenantProfile）：用于定义租户级别的配置和属性。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>客户（Customer）：客户是租户下的子级实体，代表了物联网系统中的用户或组织。一个租户可以包含多个客户，每个客户都有自己的访问权限和角色。客户可以访问和监控租户下的设备和数据。客户可以有自己的设备、规则和仪表板等资源，但这些资源受到租户级别的限制。客户由租户管理员创建和管理。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用户（User）：保存用户的基本信息&lt;/p>
+&lt;ol>
+&lt;li>用户的角色（Authority）：SYS_ADMIN、TENANT_ADMIN、CUSTOMER_USER、REFRESH_TOKEN、PRE_VERIFICATION_TOKEN&lt;/li>
+&lt;li>用户凭证（UserCredentials）：保存用户的密码、激活用户 Token、重置密码 Token、密码使用历史&lt;/li>
+&lt;li>用户认证设置（UserAuthSettings）：保存用户 2FA 认证设置&lt;/li>
+&lt;li>用户设置（UserSettings）：保存用户的设置，包括：通用设置、通知、访问过的仪表盘等等&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>系统设置（AdminSettings）：是用于配置和管理整个系统的全局设置和参数，包括：通用设置、邮件、JWT、连接设置等等。&lt;/p></description></item><item><title>All things about ThingsBoard</title><link>https://blog.chensoul.cc/posts/2024/04/29/all-things-about-thingsboard/</link><pubDate>Mon, 29 Apr 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/04/29/all-things-about-thingsboard/</guid><description>&lt;p>thingsboard 是一款乌克兰团队基于java语言研发的开源物联网框架，开源的是ce版，企业版需要购买授权且无源码。&lt;/p>
 &lt;p>官方网站：&lt;/p>
 &lt;ul>
 &lt;li>
-&lt;p>Thingsboard 官网：&lt;a href="https://thingsboard.io/" target="_blank">https://thingsboard.io/&lt;/a>&lt;/p></description></item><item><title>TBMQ测试和源码分析</title><link>https://blog.chensoul.cc/posts/2024/04/28/thingsboard-tbmq-test/</link><pubDate>Sun, 28 Apr 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/04/28/thingsboard-tbmq-test/</guid><description>&lt;ol>
+&lt;p>Thingsboard 官网：&lt;a href="https://thingsboard.io/" target="_blank">https://thingsboard.io/&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Thingsboard社区免费版本：&lt;a href="https://demo.thingsboard.io/" target="_blank">https://demo.thingsboard.io/&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Thingsboard 企业付费版本：&lt;a href="https://thingsboard.cloud/" target="_blank">https://thingsboard.cloud/&lt;/a>&lt;/p></description></item><item><title>TBMQ测试和源码分析</title><link>https://blog.chensoul.cc/posts/2024/04/28/thingsboard-tbmq-test/</link><pubDate>Sun, 28 Apr 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/04/28/thingsboard-tbmq-test/</guid><description>&lt;ol>
 &lt;li>
 &lt;p>启动 TBMQ 程序，浏览器访问 http://localhost:8083，创建一个 Application，Credentials Type 为 BASIC，客户端 ID、用户名和密码均设置为 tbmq_app&lt;/p></description></item><item><title>ThingsBoard TBMQ本地和通过Docker运行</title><link>https://blog.chensoul.cc/posts/2024/04/17/thingsboard-tbmq-local-docker-run/</link><pubDate>Wed, 17 Apr 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/04/17/thingsboard-tbmq-local-docker-run/</guid><description>&lt;h2 id="docker-compose-运行">docker-compose 运行&lt;/h2>
 &lt;p>参考：&lt;a href="https://thingsboard.io/docs/mqtt-broker/install/cluster/docker-compose-setup/" target="_blank">https://thingsboard.io/docs/mqtt-broker/install/cluster/docker-compose-setup/&lt;/a>&lt;/p>

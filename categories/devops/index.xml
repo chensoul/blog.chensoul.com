@@ -8,7 +8,13 @@
 &lt;p>Kafka 主要有两大应用场景：&lt;/p></description></item><item><title>GitLab Runner安装和部署</title><link>https://blog.chensoul.cc/posts/2024/07/19/gitlab-runner-install/</link><pubDate>Fri, 19 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/19/gitlab-runner-install/</guid><description>&lt;h2 id="介绍">介绍&lt;/h2>
 &lt;p>GitLab Runner 是一个用于在 GitLab CI/CD（持续集成/持续交付）流水线中运行作业（Jobs）的开源工具。它充当了 GitLab CI/CD 系统中的代理，负责接收作业请求、执行作业脚本并报告结果。&lt;/p></description></item><item><title>Gitlab安装和部署-使用yum源</title><link>https://blog.chensoul.cc/posts/2024/07/15/install-gitlab-using-yum/</link><pubDate>Mon, 15 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/15/install-gitlab-using-yum/</guid><description>&lt;h2 id="gitlab-server-部署">Gitlab Server 部署&lt;/h2>
 &lt;h3 id="1环境配置">1、环境配置&lt;/h3>
-&lt;p>关闭防火墙、SELinux&lt;/p></description></item><item><title>Git介绍</title><link>https://blog.chensoul.cc/posts/2024/07/15/git/</link><pubDate>Mon, 15 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/15/git/</guid><description>&lt;h2 id="gitgithubgitlab-的区别">Git、Github、Gitlab 的区别&lt;/h2>
+&lt;p>关闭防火墙、SELinux&lt;/p>
+&lt;p>开启邮件服务&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>$ systemctl start postfix
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ systemctl enable postfix
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="2手动安装">2、手动安装&lt;/h3>
+&lt;h4 id="1安装-gitlab-依赖包">1、安装 gitlab 依赖包&lt;/h4>
+&lt;p>centos7:&lt;/p></description></item><item><title>Git介绍</title><link>https://blog.chensoul.cc/posts/2024/07/15/git/</link><pubDate>Mon, 15 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/15/git/</guid><description>&lt;h2 id="gitgithubgitlab-的区别">Git、Github、Gitlab 的区别&lt;/h2>
 &lt;p>Git是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。&lt;/p>
 &lt;p>是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。&lt;/p></description></item><item><title>Git使用</title><link>https://blog.chensoul.cc/posts/2024/07/15/git/</link><pubDate>Mon, 15 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/15/git/</guid><description>&lt;h2 id="部署git-服务">部署Git 服务&lt;/h2>
 &lt;p>&lt;strong>创建git仓库&lt;/strong>&lt;/p>
@@ -63,8 +69,12 @@ git init 和 git init &amp;ndash;bare 的区别:&lt;/p></description></item><ite
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">## docker daemon&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ps aux |grep docker
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装 Compose plugin：&lt;/p></description></item><item><title>使用 Docker 容器化并运行 Spring Boot 应用程序</title><link>https://blog.chensoul.cc/posts/2024/07/09/docker-for-spring-boot/</link><pubDate>Tue, 09 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/09/docker-for-spring-boot/</guid><description>&lt;blockquote>
-&lt;p>本文翻译自 Docker 官方网站的《&lt;a href="https://docs.docker.com/language/java/" target="_blank">Java language-specific guide&lt;/a>》文章，并做了一些改动。&lt;/p></description></item><item><title>ActiveMQ安装和使用</title><link>https://blog.chensoul.cc/posts/2024/07/05/install-activemq/</link><pubDate>Fri, 05 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/05/install-activemq/</guid><description>&lt;p>ActiveMQ 是一个实现了 JMS 协议的开源消息中间件，目前它有两种版本：ActiveMQ &amp;ldquo;Classic&amp;rdquo; 和 ActiveMQ Artemis。&lt;/p></description></item><item><title>Gitlab安装和部署-使用Docker</title><link>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</link><pubDate>Wed, 26 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</guid><description>&lt;h2 id="安装-gitlab">安装 Gitlab&lt;/h2>
-&lt;p>安装 gitlab-ce 版本，当前最新版本为 17.2.0&lt;/p></description></item><item><title>Jenkins安装和部署-使用Docker</title><link>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</link><pubDate>Wed, 26 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</guid><description>&lt;h2 id="使用-docker-安装">使用 Docker 安装&lt;/h2>
+&lt;p>本文翻译自 Docker 官方网站的《&lt;a href="https://docs.docker.com/language/java/" target="_blank">Java language-specific guide&lt;/a>》文章，并做了一些改动。&lt;/p>
+&lt;/blockquote>
+&lt;p>Java 入门指南教您如何使用 Docker 创建容器化的 Spring Boot 应用程序。在本模块中，您将学习如何：&lt;/p></description></item><item><title>ActiveMQ安装和使用</title><link>https://blog.chensoul.cc/posts/2024/07/05/install-activemq/</link><pubDate>Fri, 05 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/05/install-activemq/</guid><description>&lt;p>ActiveMQ 是一个实现了 JMS 协议的开源消息中间件，目前它有两种版本：ActiveMQ &amp;ldquo;Classic&amp;rdquo; 和 ActiveMQ Artemis。&lt;/p></description></item><item><title>Gitlab安装和部署-使用Docker</title><link>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</link><pubDate>Wed, 26 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</guid><description>&lt;h2 id="安装-gitlab">安装 Gitlab&lt;/h2>
+&lt;p>安装 gitlab-ce 版本，当前最新版本为 17.2.0&lt;/p>
+&lt;h3 id="配置-external_url">配置 external_url&lt;/h3>
+&lt;p>参考 &lt;a href="https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose" target="_blank">https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose&lt;/a>&lt;/p></description></item><item><title>Jenkins安装和部署-使用Docker</title><link>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</link><pubDate>Wed, 26 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/06/26/install-jenkins/</guid><description>&lt;h2 id="使用-docker-安装">使用 Docker 安装&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ docker volume create --name jenkins_data
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker run -p 8080:8080 -p 50000:50000 -v jenkins_data:/var/jenkins_home jenkins/jenkins:jdk21
@@ -126,8 +136,37 @@ git init 和 git init &amp;ndash;bare 的区别:&lt;/p></description></item><ite
 &lt;li>&lt;a href="https://sealyun.com/post/ci-cd/" target="_blank">基于drone构建CI/CD系统,对接k8s&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>使用Drone构建静态博客&lt;/p></description></item><item><title>[译]DevOps 和测试人员的 Git 面试问题</title><link>https://blog.chensoul.cc/posts/2023/10/12/git-interview-questions/</link><pubDate>Thu, 12 Oct 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/10/12/git-interview-questions/</guid><description>&lt;p>欢迎来到 Git 面试准备指南，我们将在这里向初学者和经验丰富的专业人士讨论最常见的 Git 面试问题。无论您是准备参加 DevOps 或测试面试，还是希望提高 Git 技能，此资源都可以通过深入研究一些与 Git 基本概念和实践相关的最常见面试问题来帮助您。&lt;/p></description></item><item><title>[译]关于 HTTP 您需要了解的一切</title><link>https://blog.chensoul.cc/posts/2023/10/12/http-in-depth/</link><pubDate>Thu, 12 Oct 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/10/12/http-in-depth/</guid><description>&lt;p>HTTP 是每个 Web 开发人员都应该了解的协议，因为它为整个 Web 提供动力。了解 HTTP 当然可以帮助您开发更好的应用程序。&lt;/p></description></item><item><title>Git Flow分支模型和使用</title><link>https://blog.chensoul.cc/posts/2023/05/11/git-flow-model-and-usage/</link><pubDate>Thu, 11 May 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/05/11/git-flow-model-and-usage/</guid><description>&lt;h2 id="介绍">介绍&lt;/h2>
-&lt;p>&lt;a href="https://nvie.com/posts/a-successful-git-branching-model/" target="_blank">Git Flow&lt;/a> 是由 Vincent Driessen 在 2010 年提出的一种 Git 工作流。在这之前，Git 没有一个明确的标准工作流，导致团队在使用 Git 时往往会遇到一些问题，如分支管理、版本控制等。为了解决这些问题，Vincent Driessen 提出了 Git Flow 分支模型，成为了 Git 在实际应用中的一种标准工作流。&lt;/p></description></item><item><title>我的VPS服务部署记录</title><link>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</link><pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid><description>&lt;p>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。&lt;/p></description></item><item><title>博客中如何使用图床服务</title><link>https://blog.chensoul.cc/posts/2022/08/19/using-images-in-blog/</link><pubDate>Fri, 19 Aug 2022 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2022/08/19/using-images-in-blog/</guid><description>&lt;p>最近编写文档或者写博客，喜欢用 Typora 编辑器通过 Markdown 语法完成编写所有内容。为此，还付费购买了许可证。&lt;/p></description></item><item><title>Mac开发环境配置</title><link>https://blog.chensoul.cc/posts/2021/09/09/mac-development-environment-setup/</link><pubDate>Thu, 09 Sep 2021 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2021/09/09/mac-development-environment-setup/</guid><description>&lt;p>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是 Mac 开发环境，所以，这篇文章主要是基于 Mac 操作系统，记录开发环境搭建过程。&lt;/p></description></item><item><title>从零开始搭建个人博客</title><link>https://blog.chensoul.cc/posts/2021/09/09/build-personal-blog-from-zero/</link><pubDate>Thu, 09 Sep 2021 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2021/09/09/build-personal-blog-from-zero/</guid><description>&lt;p>从零开始搭建博客，包括注册域名、购买服务器、部署程序及网站配置和优化。&lt;/p>
+&lt;p>&lt;a href="https://nvie.com/posts/a-successful-git-branching-model/" target="_blank">Git Flow&lt;/a> 是由 Vincent Driessen 在 2010 年提出的一种 Git 工作流。在这之前，Git 没有一个明确的标准工作流，导致团队在使用 Git 时往往会遇到一些问题，如分支管理、版本控制等。为了解决这些问题，Vincent Driessen 提出了 Git Flow 分支模型，成为了 Git 在实际应用中的一种标准工作流。&lt;/p></description></item><item><title>我的VPS服务部署记录</title><link>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</link><pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid><description>&lt;p>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。&lt;/p>
+&lt;h2 id="服务器设置">服务器设置&lt;/h2>
+&lt;p>更新 yum 源：&lt;/p></description></item><item><title>博客中如何使用图床服务</title><link>https://blog.chensoul.cc/posts/2022/08/19/using-images-in-blog/</link><pubDate>Fri, 19 Aug 2022 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2022/08/19/using-images-in-blog/</guid><description>&lt;p>最近编写文档或者写博客，喜欢用 Typora 编辑器通过 Markdown 语法完成编写所有内容。为此，还付费购买了许可证。&lt;/p>
+&lt;p>&lt;img src="https://blog.chensoul.cc/images/using-images-in-blog-01.webp" alt="my-typora-license">&lt;/p>
+&lt;p>喜欢 Typora 的理由：&lt;/p></description></item><item><title>Mac开发环境配置</title><link>https://blog.chensoul.cc/posts/2021/09/09/mac-development-environment-setup/</link><pubDate>Thu, 09 Sep 2021 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2021/09/09/mac-development-environment-setup/</guid><description>&lt;p>这是我的第一篇文章，作为程序员，首先要做得第一件事情，就是配置好开发环境，因为我使用的是 Mac 开发环境，所以，这篇文章主要是基于 Mac 操作系统，记录开发环境搭建过程。&lt;/p>
+&lt;h2 id="重装系统后设置">重装系统后设置&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ git clone https://github.com/chensoul/dotfiles.git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ cd dotfiles
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ ./install.sh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="安装插件">安装插件&lt;/h2>
+&lt;h3 id="idea-插件">Idea 插件&lt;/h3>
+&lt;ul>
+&lt;li>.ignore&lt;/li>
+&lt;li>Atom Material Icons&lt;/li>
+&lt;li>InlineProblems&lt;/li>
+&lt;li>Laconic POM for Maven&lt;/li>
+&lt;li>plantar-java-format&lt;/li>
+&lt;li>Maven Helper&lt;/li>
+&lt;li>Rainbow Brackets&lt;/li>
+&lt;/ul>
+&lt;h3 id="chrome-插件">Chrome 插件&lt;/h3>
+&lt;ul>
+&lt;li>JsonVue&lt;/li>
+&lt;li>1Password&lt;/li>
+&lt;li>Inoreader&lt;/li>
+&lt;/ul>
+&lt;h2 id="安装其他软件">安装其他软件&lt;/h2>
+&lt;h3 id="安装-mysql">安装 MySQL&lt;/h3>
+&lt;p>安装 MySQL：&lt;/p></description></item><item><title>从零开始搭建个人博客</title><link>https://blog.chensoul.cc/posts/2021/09/09/build-personal-blog-from-zero/</link><pubDate>Thu, 09 Sep 2021 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2021/09/09/build-personal-blog-from-zero/</guid><description>&lt;p>从零开始搭建博客，包括注册域名、购买服务器、部署程序及网站配置和优化。&lt;/p>
 &lt;h2 id="域名">域名&lt;/h2>
 &lt;p>搭建一个博客或者网站，需要有一个域名。那什么是域名呢？看看百度百科上的解释：&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>域名&lt;/strong>（英语：&lt;strong>Domain Name&lt;/strong>），又称&lt;strong>网域&lt;/strong>，是由一串用点分隔的名字组成的&lt;a href="https://baike.baidu.com/item/Internet" target="_blank">Internet&lt;/a>上某一台&lt;a href="https://baike.baidu.com/item/%e8%ae%a1%e7%ae%97%e6%9c%ba/140338" target="_blank">计算机&lt;/a>或计算机组的名称，用于在数据传输时对计算机的定位标识（有时也指地理位置）。&lt;/p></description></item></channel></rss>
+&lt;p>&lt;strong>域名&lt;/strong>（英语：&lt;strong>Domain Name&lt;/strong>），又称&lt;strong>网域&lt;/strong>，是由一串用点分隔的名字组成的&lt;a href="https://baike.baidu.com/item/Internet" target="_blank">Internet&lt;/a>上某一台&lt;a href="https://baike.baidu.com/item/%e8%ae%a1%e7%ae%97%e6%9c%ba/140338" target="_blank">计算机&lt;/a>或计算机组的名称，用于在数据传输时对计算机的定位标识（有时也指地理位置）。&lt;/p>
+&lt;p>由于&lt;a href="https://baike.baidu.com/item/IP%e5%9c%b0%e5%9d%80/150859" target="_blank">IP 地址&lt;/a>具有不方便记忆并且不能显示地址组织的名称和性质等缺点，人们设计出了域名，并通过网域名称系统（&lt;a href="https://baike.baidu.com/item/DNS" target="_blank">DNS&lt;/a>，Domain Name System）来将域名和&lt;a href="https://baike.baidu.com/item/IP%e5%9c%b0%e5%9d%80" target="_blank">IP 地址&lt;/a>相互&lt;a href="https://baike.baidu.com/item/%e6%98%a0%e5%b0%84/20402621" target="_blank">映射&lt;/a>，使人更方便地访问&lt;a href="https://baike.baidu.com/item/%e4%ba%92%e8%81%94%e7%bd%91/199186" target="_blank">互联网&lt;/a>，而不用去记住能够被机器直接读取的&lt;a href="https://baike.baidu.com/item/IP%e5%9c%b0%e5%9d%80" target="_blank">IP 地址&lt;/a>数串。&lt;/p></description></item></channel></rss>

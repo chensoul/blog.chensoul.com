@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Architecture on ChenSoul</title><link>https://blog.chensoul.cc/tags/architecture/</link><description>Recent content in Architecture on ChenSoul</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 14 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/architecture/index.xml" rel="self" type="application/rss+xml"/><item><title>[译]《Grokking the System Design Interview》设计Twitter</title><link>https://blog.chensoul.cc/posts/2023/12/14/designing-twitter/</link><pubDate>Thu, 14 Dec 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/12/14/designing-twitter/</guid><description>&lt;p>这是一篇双语翻译的文章，原文出自 &lt;a href="https://github.com/sharanyaa/grok_sdi_educative/blob/master/grok_system_design_interview.pdf" target="_blank">grok_system_design_interview.pdf&lt;/a> 的一篇文章《Designing Twitter》设计 Twitter。&lt;/p>
 &lt;hr>
-&lt;p>Let’s design a Twitter-like social networking service. Users of the service will be able to post tweets, follow other people, and favorite tweets. Difficulty Level: Medium&lt;/p></description></item><item><title>如何设计一个分布式ID生成器保证ID按时间有序？</title><link>https://blog.chensoul.cc/posts/2023/12/05/distributed-id-generator/</link><pubDate>Tue, 05 Dec 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/12/05/distributed-id-generator/</guid><description>&lt;p>很多业务有生成唯一 ID 并作为数据库主键的需求。数据库会在这个字段上建立聚集索引（参考 MySQL InnoDB），即该字段会影响各条数据再物理存储上的顺序。&lt;/p></description></item><item><title>[译]《Grokking the System Design Interview》设计Dropbox</title><link>https://blog.chensoul.cc/posts/2023/11/24/designing-dropbox/</link><pubDate>Fri, 24 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/24/designing-dropbox/</guid><description>&lt;p>这是一篇双语翻译的文章，原文出自 &lt;a href="https://github.com/sharanyaa/grok_sdi_educative/blob/master/grok_system_design_interview.pdf" target="_blank">grok_system_design_interview.pdf&lt;/a> 的一篇文章《Designing Dropbox》设计 Dropbox。&lt;/p>
+&lt;p>Let’s design a Twitter-like social networking service. Users of the service will be able to post tweets, follow other people, and favorite tweets. Difficulty Level: Medium&lt;/p></description></item><item><title>如何设计一个分布式ID生成器保证ID按时间有序？</title><link>https://blog.chensoul.cc/posts/2023/12/05/distributed-id-generator/</link><pubDate>Tue, 05 Dec 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/12/05/distributed-id-generator/</guid><description>&lt;p>很多业务有生成唯一 ID 并作为数据库主键的需求。数据库会在这个字段上建立聚集索引（参考 MySQL InnoDB），即该字段会影响各条数据再物理存储上的顺序。&lt;/p>
+&lt;p>ID还要尽可能&lt;strong>短&lt;/strong>，节省内存，让数据库索引效率更高。基本上64位整数能够满足绝大多数的场景，但是如果能做到比64位更短那就更好了。需要根据具体业务进行分析，预估出ID的最大值，这个最大值通常比64位整数的上限小很多，于是我们可以用更少的bit表示这个ID。&lt;/p>
+&lt;p>查询的时候，往往有分页或者&lt;strong>排序&lt;/strong>的需求，所以需要给每条数据添加一个时间字段，并在其上建立普通索引(Secondary Index)。但是普通索引的访问效率比聚集索引慢，如果能够让ID&lt;strong>按照时间粗略有序&lt;/strong>，则可以省去这个时间字段。为什么不是按照时间精确有序呢？因为按照时间精确有序是做不到的，除非用一个单机算法，在分布式场景下做到精确有序性能一般很差。&lt;/p></description></item><item><title>[译]《Grokking the System Design Interview》设计Dropbox</title><link>https://blog.chensoul.cc/posts/2023/11/24/designing-dropbox/</link><pubDate>Fri, 24 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/24/designing-dropbox/</guid><description>&lt;p>这是一篇双语翻译的文章，原文出自 &lt;a href="https://github.com/sharanyaa/grok_sdi_educative/blob/master/grok_system_design_interview.pdf" target="_blank">grok_system_design_interview.pdf&lt;/a> 的一篇文章《Designing Dropbox》设计 Dropbox。&lt;/p>
 &lt;hr>
-&lt;p>Let’s design a file hosting service like Dropbox or Google Drive. Cloud file storage enables users to store their data on remote servers. Usually, these servers are maintained by cloud storage providers and made available to users over a network (typically through the Internet). Users pay for their cloud data storage on a monthly basis. Similar Services: OneDrive, Google Drive Difficulty Level: Medium&lt;/p></description></item><item><title>[译]《Grokking the System Design Interview》设计Facebook Messenger</title><link>https://blog.chensoul.cc/posts/2023/11/24/designing-facebook-messenger/</link><pubDate>Fri, 24 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/24/designing-facebook-messenger/</guid><description>&lt;p>这是一篇双语翻译的文章，原文出自 &lt;a href="https://github.com/sharanyaa/grok_sdi_educative/blob/master/grok_system_design_interview.pdf" target="_blank">grok_system_design_interview.pdf&lt;/a> 的一篇文章《Designing Facebook Messenger》设计 Facebook Messenger。&lt;/p></description></item><item><title>[译]《Grokking the System Design Interview》设计Instagram</title><link>https://blog.chensoul.cc/posts/2023/11/24/designing-instagram/</link><pubDate>Fri, 24 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/24/designing-instagram/</guid><description>&lt;p>这是一篇双语翻译的文章，原文出自 &lt;a href="https://github.com/sharanyaa/grok_sdi_educative/blob/master/grok_system_design_interview.pdf" target="_blank">grok_system_design_interview.pdf&lt;/a> 的一篇文章《Designing Instagram》设计 Instagram。&lt;/p>
+&lt;p>Let’s design a file hosting service like Dropbox or Google Drive. Cloud file storage enables users to store their data on remote servers. Usually, these servers are maintained by cloud storage providers and made available to users over a network (typically through the Internet). Users pay for their cloud data storage on a monthly basis. Similar Services: OneDrive, Google Drive Difficulty Level: Medium&lt;/p></description></item><item><title>[译]《Grokking the System Design Interview》设计Facebook Messenger</title><link>https://blog.chensoul.cc/posts/2023/11/24/designing-facebook-messenger/</link><pubDate>Fri, 24 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/24/designing-facebook-messenger/</guid><description>&lt;p>这是一篇双语翻译的文章，原文出自 &lt;a href="https://github.com/sharanyaa/grok_sdi_educative/blob/master/grok_system_design_interview.pdf" target="_blank">grok_system_design_interview.pdf&lt;/a> 的一篇文章《Designing Facebook Messenger》设计 Facebook Messenger。&lt;/p>
+&lt;hr>
+&lt;p>Let’s design an instant messaging service like Facebook Messenger where users can send text messages to each other through web and mobile interfaces.
+让我们设计一个像 Facebook Messenger 这样的即时消息服务，用户可以通过网络和移动界面互相发送短信。&lt;/p></description></item><item><title>[译]《Grokking the System Design Interview》设计Instagram</title><link>https://blog.chensoul.cc/posts/2023/11/24/designing-instagram/</link><pubDate>Fri, 24 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/24/designing-instagram/</guid><description>&lt;p>这是一篇双语翻译的文章，原文出自 &lt;a href="https://github.com/sharanyaa/grok_sdi_educative/blob/master/grok_system_design_interview.pdf" target="_blank">grok_system_design_interview.pdf&lt;/a> 的一篇文章《Designing Instagram》设计 Instagram。&lt;/p>
 &lt;hr>
 &lt;p>Let’s design a photo-sharing service like Instagram, where users can upload photos to share them with other users. Similar Services: Flickr, Picasa Difficulty Level: Medium&lt;/p></description></item><item><title>[译]《Grokking the System Design Interview》设计Pastebin</title><link>https://blog.chensoul.cc/posts/2023/11/24/designing-pastebin/</link><pubDate>Fri, 24 Nov 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/11/24/designing-pastebin/</guid><description>&lt;p>这是一篇双语翻译的文章，原文出自 &lt;a href="https://github.com/sharanyaa/grok_sdi_educative/blob/master/grok_system_design_interview.pdf" target="_blank">grok_system_design_interview.pdf&lt;/a> 的一篇文章《Designing Pastebin》设计 Pastebin。&lt;/p>
 &lt;hr>
@@ -16,11 +21,36 @@
 &lt;p>实践项目开发：通过参与实际的软件开发项目，积累项目管理和开发经验。亲身经历软件开发的各个阶段，从需求分析到设计、开发、测试和部署，深入了解软件开发的流程和挑战。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>学习系统设计和架构：深入学习系统设计和架构的相关知识，包括架构模式、设计原则。阅读相关的书籍、文章和技术博客，参与架构设计讨论和社区活动。&lt;/p></description></item><item><title>软件开发流程和常用开发方法</title><link>https://blog.chensoul.cc/posts/2023/08/21/the-software-development-process/</link><pubDate>Mon, 21 Aug 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/08/21/the-software-development-process/</guid><description>&lt;p>软件开发流程和常用开发方法，如敏捷开发和 DevOps，对于架构师来说非常重要。下面我将简要介绍这些概念：&lt;/p>
+&lt;p>学习系统设计和架构：深入学习系统设计和架构的相关知识，包括架构模式、设计原则。阅读相关的书籍、文章和技术博客，参与架构设计讨论和社区活动。&lt;/p>
+&lt;p>以下是关于架构模式、设计原则和一些常见架构的简要介绍：&lt;/p>
+&lt;ol>
+&lt;li>架构模式：
+&lt;ul>
+&lt;li>分层架构（Layered Architecture）：将系统划分为多个层次，每个层次有不同的职责和功能，实现松耦合和可维护性。&lt;/li>
+&lt;li>客户端-服务器模式（Client-Server）：将系统分为客户端和服务器，客户端发送请求并接收响应，服务器处理请求并提供服务。&lt;/li>
+&lt;li>发布-订阅模式（Publish-Subscribe）：基于事件的模式，发布者发布事件，订阅者订阅感兴趣的事件，实现解耦和扩展性。&lt;/li>
+&lt;li>微服务架构（Microservices Architecture）：将系统拆分为一组小型、自治的服务，每个服务专注于一个特定的业务功能，通过轻量通信协议进行交互。&lt;/li>
+&lt;li>事件驱动架构（Event-Driven Architecture）：系统的组成部分通过事件进行通信和协调，事件的发生触发相应的处理和反应。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>设计原则：
+&lt;ul>
+&lt;li>单一职责原则（Single Responsibility Principle）：一个模块或类应该有且只有一个单一的责任。&lt;/li>
+&lt;li>开闭原则（Open-Closed Principle）：软件实体应该对扩展开放，对修改封闭。&lt;/li>
+&lt;li>里氏替换原则（Liskov Substitution Principle）：子类应该能够替换掉父类，并且不会破坏程序的正确性。&lt;/li>
+&lt;li>接口隔离原则（Interface Segregation Principle）：不应该强迫客户端依赖于它们不需要的接口。&lt;/li>
+&lt;li>依赖倒置原则（Dependency Inversion Principle）：应该依赖于抽象而不是具体实现。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>实践架构设计：在实际项目中担任架构师的角色，负责系统的整体设计和架构决策。通过实践中的挑战和经验，不断提升自己的架构设计能力。&lt;/p></description></item><item><title>软件开发流程和常用开发方法</title><link>https://blog.chensoul.cc/posts/2023/08/21/the-software-development-process/</link><pubDate>Mon, 21 Aug 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/08/21/the-software-development-process/</guid><description>&lt;p>软件开发流程和常用开发方法，如敏捷开发和 DevOps，对于架构师来说非常重要。下面我将简要介绍这些概念：&lt;/p>
 &lt;ol>
 &lt;li>
 &lt;p>软件开发流程：&lt;/p>
 &lt;p>软件开发流程是指在开发软件时，按照一定的步骤和阶段进行工作的过程。常见的软件开发流程包括瀑布模型、迭代模型和增量模型等。这些流程以不同的方式组织和管理开发过程，包括需求分析、设计、编码、测试和部署等阶段。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>敏捷开发：&lt;/p></description></item></channel></rss>
+&lt;p>敏捷开发：&lt;/p>
+&lt;p>敏捷开发是一种迭代和增量的软件开发方法，强调团队协作、快速响应变化和持续交付。敏捷开发强调通过迭代周期（如 Scrum 中的 Sprint）来开发软件，每个迭代都会产生可部署的软件功能。常见的敏捷方法包括 Scrum、XP（极限编程）和 Kanban 等。&lt;/p></description></item></channel></rss>

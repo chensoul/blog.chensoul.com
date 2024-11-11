@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gitlab on ChenSoul</title><link>https://blog.chensoul.cc/tags/gitlab/</link><description>Recent content in Gitlab on ChenSoul</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 19 Jul 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/gitlab/index.xml" rel="self" type="application/rss+xml"/><item><title>GitLab Runner安装和部署</title><link>https://blog.chensoul.cc/posts/2024/07/19/gitlab-runner-install/</link><pubDate>Fri, 19 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/19/gitlab-runner-install/</guid><description>&lt;h2 id="介绍">介绍&lt;/h2>
 &lt;p>GitLab Runner 是一个用于在 GitLab CI/CD（持续集成/持续交付）流水线中运行作业（Jobs）的开源工具。它充当了 GitLab CI/CD 系统中的代理，负责接收作业请求、执行作业脚本并报告结果。&lt;/p></description></item><item><title>Gitlab安装和部署-使用yum源</title><link>https://blog.chensoul.cc/posts/2024/07/15/install-gitlab-using-yum/</link><pubDate>Mon, 15 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/15/install-gitlab-using-yum/</guid><description>&lt;h2 id="gitlab-server-部署">Gitlab Server 部署&lt;/h2>
 &lt;h3 id="1环境配置">1、环境配置&lt;/h3>
-&lt;p>关闭防火墙、SELinux&lt;/p></description></item><item><title>Gitlab安装和部署-使用Docker</title><link>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</link><pubDate>Wed, 26 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</guid><description>&lt;h2 id="安装-gitlab">安装 Gitlab&lt;/h2>
-&lt;p>安装 gitlab-ce 版本，当前最新版本为 17.2.0&lt;/p></description></item></channel></rss>
+&lt;p>关闭防火墙、SELinux&lt;/p>
+&lt;p>开启邮件服务&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>$ systemctl start postfix
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ systemctl enable postfix
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="2手动安装">2、手动安装&lt;/h3>
+&lt;h4 id="1安装-gitlab-依赖包">1、安装 gitlab 依赖包&lt;/h4>
+&lt;p>centos7:&lt;/p></description></item><item><title>Gitlab安装和部署-使用Docker</title><link>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</link><pubDate>Wed, 26 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/06/26/install-gitlab/</guid><description>&lt;h2 id="安装-gitlab">安装 Gitlab&lt;/h2>
+&lt;p>安装 gitlab-ce 版本，当前最新版本为 17.2.0&lt;/p>
+&lt;h3 id="配置-external_url">配置 external_url&lt;/h3>
+&lt;p>参考 &lt;a href="https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose" target="_blank">https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose&lt;/a>&lt;/p></description></item></channel></rss>

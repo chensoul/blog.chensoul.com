@@ -1,0 +1,226 @@
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="ThingsBoard 源码地址：https://github.com/thingsboard/thingsboard，其 .github/workflows 目录下面有两个文件：
+
+check-configuration-files.yml：使用 python 脚本校验 yaml 文件
+license-header-format.yml：是给文件添加 license 并提交代码到 git 仓库
+
+check-configuration-files.yml
+check-configuration-files.yml"><title>ThingsBoard源码中的Github Actions | ChenSoul</title>
+<link rel=canonical href=https://blog.chensoul.cc/posts/2024/12/03/github-actions-in-thingsboard/><link rel=preconnect href=https://fonts.font.im><link rel=preconnect href=https://fonts.loli.net crossorigin><link href="https://fonts.loli.net/css2?family=Roboto+Slab:wght@400;500;700&display=swap" rel=stylesheet><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.chensoul.cc/images/favicon.webp"><meta name=twitter:title content="ThingsBoard源码中的Github Actions"><meta name=twitter:description content="ThingsBoard 源码地址：https://github.com/thingsboard/thingsboard，其 .github/workflows 目录下面有两个文件：
+check-configuration-files.yml：使用 python 脚本校验 yaml 文件 license-header-format.yml：是给文件添加 license 并提交代码到 git 仓库 check-configuration-files.yml check-configuration-files.yml"><meta name=twitter:creator content="@ichensoul"><meta property="og:locale" content="en_US"><meta property="og:site_name" content="chensoul"><meta property="og:url" content="https://blog.chensoul.cc/posts/2024/12/03/github-actions-in-thingsboard/"><meta property="og:site_name" content="ChenSoul"><meta property="og:title" content="ThingsBoard源码中的Github Actions"><meta property="og:description" content="ThingsBoard 源码地址：https://github.com/thingsboard/thingsboard，其 .github/workflows 目录下面有两个文件：
+check-configuration-files.yml：使用 python 脚本校验 yaml 文件 license-header-format.yml：是给文件添加 license 并提交代码到 git 仓库 check-configuration-files.yml check-configuration-files.yml"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-12-03T00:00:00+00:00"><meta property="article:modified_time" content="2024-12-03T00:00:00+00:00"><meta property="article:tag" content="Thingsboard"><meta property="og:image" content="https://blog.chensoul.cc/images/favicon.webp"><meta itemprop=name content="ThingsBoard源码中的Github Actions"><meta itemprop=description content="ThingsBoard 源码地址：https://github.com/thingsboard/thingsboard，其 .github/workflows 目录下面有两个文件：
+check-configuration-files.yml：使用 python 脚本校验 yaml 文件 license-header-format.yml：是给文件添加 license 并提交代码到 git 仓库 check-configuration-files.yml check-configuration-files.yml"><meta itemprop=datePublished content="2024-12-03T00:00:00+00:00"><meta itemprop=dateModified content="2024-12-03T00:00:00+00:00"><meta itemprop=wordCount content="426"><meta itemprop=image content="https://blog.chensoul.cc/images/favicon.webp"><meta itemprop=keywords content="Thingsboard"><link rel=stylesheet href=https://cdnjs.loli.net/ajax/libs/font-awesome/6.4.0/css/all.min.css media=all><link rel=stylesheet href=/main.min.css type=text/css media=all><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"ThingsBoard源码中的Github Actions","headline":"ThingsBoard源码中的Github Actions","inLanguage":"en-US","url":"https://blog.chensoul.cc/posts/2024/12/03/github-actions-in-thingsboard/","description":"\u003cp\u003eThingsBoard 源码地址：https://github.com/thingsboard/thingsboard，其 .github/workflows 目录下面有两个文件：\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003echeck-configuration-files.yml：使用 python 脚本校验 yaml 文件\u003c/li\u003e\n\u003cli\u003elicense-header-format.yml：是给文件添加 license 并提交代码到 git 仓库\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch2 id=\"check-configuration-filesyml\"\u003echeck-configuration-files.yml\u003c/h2\u003e\n\u003cp\u003echeck-configuration-files.yml\u003c/p\u003e","wordCount":"426","keywords":["thingsboard"],"datePublished":"2024-12-03T00:00:00Z","dateModified":"2024-12-03T00:00:00Z","author":{"@type":"Person","name":"chensoul"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.chensoul.cc/posts/2024/12/03/github-actions-in-thingsboard/"},"publisher":{"@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/posts/2024/12/03/github-actions-in-thingsboard/"}},{"@context":"https://schema.org","@type":"Organization","name":"chensoul","url":"https://blog.chensoul.cc/","sameAs":["https://x.com/ichensoul","https://github.com/chensoul","https://www.linkedin.com/in/","https://www.youtube.com/@chensoul","https://t.me/chensouls"]}]}</script><script defer src=https://umami.chensoul.cc/random-string.js data-website-id=821c25f8-a31a-4607-92d7-91ee76843d00></script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title=ChenSoul rel=home>ChenSoul</a></h1><p class=site-description>Java, Spring Boot, Microservice, Cloud, Architecture and DevOps Tutorials</p></div><div class="header-widgets clearfix"><aside id=search-2 class="header-widget widget_search"><form role=search method=get class=search-form onsubmit="return searchSite(event)"><label><span class=screen-reader-text>Search for:</span>
+<input type=search class=search-field placeholder="Enter search keyword" name=query id=query title="Enter search keyword">
+</label><button type=submit class=search-submit title=Search> <span class=genericon-search></span>
+<span class=screen-reader-text>Search</span></button></form></aside></div></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom
+current-menu-item current_page_item menu-item-home"><a href=/>Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/spring-boot/>Spring Boot</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/architecture/>Architecture</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/microservice/>Microservice</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/categories/kubernetes/>Kubernetes</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category
+menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/spring-boot-tutorials/>Spring Boot Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/microservice-tutorials/>Microservice Tutorials</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href=/kubernetes-tutorials/>Kubernetes Tutorials</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page"><a href=https://github.com/chensoul target=_blank>About Me</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><header class=entry-header><h2 class=entry-title><a href=https://blog.chensoul.cc/posts/2024/12/03/github-actions-in-thingsboard/ rel=bookmark title="ThingsBoard源码中的Github Actions">ThingsBoard源码中的Github Actions</a></h2><div class=entry-meta><span class=meta-date><time class="entry-date published" datetime=2024-12-03T00:00:00>2024-12-03
+</time></span><span class=meta-author><span class="author vcard">chensoul</span>
+</span><span class="tagcloud post-tags"><i class="fa fa-tags"></i>&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/thingsboard/ title=thingsboard>thingsboard</a></span></div></header><div class=entry-content><p>ThingsBoard 源码地址：https://github.com/thingsboard/thingsboard，其 .github/workflows 目录下面有两个文件：</p><ul><li>check-configuration-files.yml：使用 python 脚本校验 yaml 文件</li><li>license-header-format.yml：是给文件添加 license 并提交代码到 git 仓库</li></ul><h2 id=check-configuration-filesyml>check-configuration-files.yml</h2><p>check-configuration-files.yml</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Check configuration files</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>master</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>pull_request</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>paths</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;application/src/main/resources/thingsboard.yml&#39;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;transport/http/src/main/resources/tb-http-transport.yml&#39;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;transport/http/src/main/resources/tb-mqtt-transport.yml&#39;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;transport/http/src/main/resources/tb-coap-transport.yml&#39;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;transport/http/src/main/resources/tb-lwm2m-transport.yml&#39;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;transport/http/src/main/resources/tb-snmp-transport.yml&#39;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;msa/vc-executor/src/main/resources/tb-vc-executor.yml&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>build</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Check thingsboard.yml file</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-20.04</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Checkout code</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Set up Python 3.10</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-python@v3</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>python-version</span>: <span style=color:#e6db74>&#34;3.10.2&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>architecture</span>: <span style=color:#e6db74>&#34;x64&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>env</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>AGENT_TOOLSDIRECTORY</span>: <span style=color:#ae81ff>/opt/hostedtoolcache</span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Run Verification Script</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: <span style=color:#ae81ff>python3 tools/src/main/python/check_yml_file.py</span>
+</span></span></code></pre></div><h2 id=license-header-formatyml>license-header-format.yml</h2><p>license-header-format.yml</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>License header format</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;master&#39;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;develop/3*&#39;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;hotfix/3*&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>license-format</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Checkout Repository</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v4</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Set up JDK</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-java@v4</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>distribution</span>: <span style=color:#e6db74>&#39;corretto&#39;</span> <span style=color:#75715e># https://github.com/actions/setup-java?tab=readme-ov-file#supported-distributions</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>java-version</span>: <span style=color:#e6db74>&#39;21&#39;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>cache</span>: <span style=color:#e6db74>&#39;maven&#39;</span> <span style=color:#75715e># https://github.com/actions/setup-java?tab=readme-ov-file#caching-sbt-dependencies</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>License header format</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: <span style=color:#ae81ff>mvn -T 1C license:format</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>License header format (msa/black-box-tests/)</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: <span style=color:#ae81ff>mvn -T 1C license:format -f msa/black-box-tests/</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Set Git user information</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          git config user.name &#34;ThingsBoard Bot&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          git config user.email &#34;noreply@thingsboard.io&#34;</span>          
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Check and push changes</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          git diff --exit-code || git commit -am &#34;License header format&#34; &amp;&amp; git push</span>          
+</span></span></code></pre></div><p>这里是用到了 license-maven-plugin 插件：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;groupId&gt;</span>com.mycila<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>license-maven-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>3.0<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;header&gt;</span>${main.dir}/license-header-template.txt<span style=color:#f92672>&lt;/header&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;properties&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;owner&gt;</span>The Thingsboard Authors<span style=color:#f92672>&lt;/owner&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/properties&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;excludes&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/.env<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/*.env<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/.eslintrc<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/.babelrc<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/.jshintrc<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/.gradle/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/nightwatch<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/README<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/LICENSE<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/banner.txt<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>node_modules/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/*.properties<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>src/test/resources/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>src/vendor/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>src/font/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>src/sh/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>packaging/*/scripts/control/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>packaging/*/scripts/windows/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>packaging/*/scripts/init/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/*.log<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/*.current<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>.instance_id<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>src/main/scripts/control/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>src/main/scripts/windows/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>src/main/resources/public/static/rulenode/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/*.proto.js<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>docker/haproxy/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>docker/tb-node/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>ui/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/.browserslistrc<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/yarn.lock<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/.yarnrc<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/.angular/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/*.raw<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/*.patch<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/apache/cassandra/io/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>.run/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/NetworkReceive.java<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>**/lwm2m-registry/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;exclude&gt;</span>src/main/data/resources/**<span style=color:#f92672>&lt;/exclude&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/excludes&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;mapping&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;proto&gt;</span>JAVADOC_STYLE<span style=color:#f92672>&lt;/proto&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;cql&gt;</span>DOUBLEDASHES_STYLE<span style=color:#f92672>&lt;/cql&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;scss&gt;</span>JAVADOC_STYLE<span style=color:#f92672>&lt;/scss&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;jsx&gt;</span>SLASHSTAR_STYLE<span style=color:#f92672>&lt;/jsx&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;tsx&gt;</span>SLASHSTAR_STYLE<span style=color:#f92672>&lt;/tsx&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;conf&gt;</span>SCRIPT_STYLE<span style=color:#f92672>&lt;/conf&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;gradle&gt;</span>JAVADOC_STYLE<span style=color:#f92672>&lt;/gradle&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/mapping&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;executions&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;execution&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;goals&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;goal&gt;</span>check<span style=color:#f92672>&lt;/goal&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/goals&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/execution&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/executions&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>license 文件内容由如下配置定义：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>&lt;header&gt;<span style=color:#e6db74>${</span>main.dir<span style=color:#e6db74>}</span>/license-header-template.txt&lt;/header&gt;
+</span></span></code></pre></div><p>main.dir 是定义在 properties 节点下面：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;main.dir&gt;</span>${basedir}<span style=color:#f92672>&lt;/main.dir&gt;</span>
+</span></span></code></pre></div><p>license-header-template.txt 文件在项目的根目录下面。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>Copyright © ${project.inceptionYear}-2024 ${owner}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
+</span></span><span style=display:flex><span>you may not use this file except in compliance with the License.
+</span></span><span style=display:flex><span>You may obtain a copy of the License at
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    http://www.apache.org/licenses/LICENSE-2.0
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Unless required by applicable law or agreed to in writing, software
+</span></span><span style=display:flex><span>distributed under the License is distributed on an &#34;AS IS&#34; BASIS,
+</span></span><span style=display:flex><span>WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+</span></span><span style=display:flex><span>See the License for the specific language governing permissions and
+</span></span><span style=display:flex><span>limitations under the License.
+</span></span></code></pre></div><ul><li><p>${project.inceptionYear} Maven 变量</p></li><li><p>${owner} 自定义变量，在 license-maven-plugin 插件中定义：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;properties&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;owner&gt;</span>The Thingsboard Authors<span style=color:#f92672>&lt;/owner&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/properties&gt;</span>
+</span></span></code></pre></div></li></ul><p>对于多模块的 maven 项目，子模块是无法通过 <code>${main.dir}/license-header-template.txt</code> 找到该文件的。</p><p>对于 maven 多模块的项目，可以在子模块里面覆盖该属性，例如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;main.dir&gt;</span>${basedir}/..<span style=color:#f92672>&lt;/main.dir&gt;</span>
+</span></span></code></pre></div><p>除了该办法之外，还可以使用 directory-maven-plugin 插件定义变量，比如，下面的插件配置了一个 project.rootdir 变量指向项目的根目录。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;groupId&gt;</span>org.commonjava.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>directory-maven-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>1.0<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;executions&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;execution&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;id&gt;</span>set-root-dir-for-common-lifecycle<span style=color:#f92672>&lt;/id&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;goals&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;goal&gt;</span>highest-basedir<span style=color:#f92672>&lt;/goal&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/goals&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;phase&gt;</span>initialize<span style=color:#f92672>&lt;/phase&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;property&gt;</span>project.rootdir<span style=color:#f92672>&lt;/property&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/execution&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;execution&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;id&gt;</span>set-root-dir-for-clean-lifecycle<span style=color:#f92672>&lt;/id&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;goals&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;goal&gt;</span>highest-basedir<span style=color:#f92672>&lt;/goal&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/goals&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;phase&gt;</span>pre-clean<span style=color:#f92672>&lt;/phase&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;property&gt;</span>project.rootdir<span style=color:#f92672>&lt;/property&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/execution&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/executions&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>然后，可以在 license-maven-plugin 插件中使用 <code>${project.rootdir}</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;groupId&gt;</span>com.mycila<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>license-maven-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>3.0<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;header&gt;</span>${project.rootdir}/license-header-template.txt<span style=color:#f92672>&lt;/header&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>&lt;!-- ... --&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;executions&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;execution&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;goals&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#f92672>&lt;goal&gt;</span>check<span style=color:#f92672>&lt;/goal&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;/goals&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/execution&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/executions&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/plugin&gt;</span>
+</span></span></code></pre></div></div><div><div style=font-weight:700>Share this post:</div><a class=social-link-item href="https://twitter.com/intent/tweet?text=ThingsBoard%e6%ba%90%e7%a0%81%e4%b8%ad%e7%9a%84Github%20Actions https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f12%2f03%2fgithub-actions-in-thingsboard%2f" target=_blank rel="noopener noreferrer" title="Click to share on Twitter"><i class="fa-brands fa-square-twitter fa-2xl" style=color:#55acee></i>
+</a><a class=social-link-item href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f12%2f03%2fgithub-actions-in-thingsboard%2f&title=ThingsBoard%e6%ba%90%e7%a0%81%e4%b8%ad%e7%9a%84Github%20Actions" target=_blank rel="noopener noreferrer" title="Click to share on LinkedIn"><i class="fa-brands fa-linkedin fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://telegram.me/share/url?text=ThingsBoard%e6%ba%90%e7%a0%81%e4%b8%ad%e7%9a%84Github%20Actions&amp;url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f12%2f03%2fgithub-actions-in-thingsboard%2f" target=_blank rel="noopener noreferrer" title="Click to share on telegram"><i class="fa-brands fa-telegram fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://reddit.com/submit?url=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f12%2f03%2fgithub-actions-in-thingsboard%2f&title=ThingsBoard%e6%ba%90%e7%a0%81%e4%b8%ad%e7%9a%84Github%20Actions" target=_blank rel="noopener noreferrer" title="Click to share on reddit"><i class="fa-brands fa-reddit fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f12%2f03%2fgithub-actions-in-thingsboard%2f" target=_blank rel="noopener noreferrer" title="Click to share on facebook"><i class="fa-brands fa-facebook fa-2xl" style=color:#007bb5></i>
+</a><a class=social-link-item href="https://api.whatsapp.com/send?text=ThingsBoard%e6%ba%90%e7%a0%81%e4%b8%ad%e7%9a%84Github%20Actions%20-%20https%3a%2f%2fblog.chensoul.cc%2fposts%2f2024%2f12%2f03%2fgithub-actions-in-thingsboard%2f" target=_blank rel="noopener noreferrer" title="Click to share on whatsapp"><i class="fa-brands fa-whatsapp fa-2xl" style=color:#007bb5></i></a></div></div></article><nav class="navigation post-navigation" role=navigation><h2 class=screen-reader-text>Post navigation</h2><div class=nav-links><div class=nav-next><a href=/posts/2024/12/03/security-in-thingsboard/ rel=prev><span class=post-title>ThingsBoard源码中的Github Actions</span></a></div></div></nav><h2>Related content</h2><ul><li><a href=/posts/2024/12/03/security-in-thingsboard/>ThingsBoard源码中的Github Actions</a></li><li><a href=/posts/2024/11/14/quarkus-quick-start/>2024-11-14-Quarkus 快速入门</a></li><li><a href=/posts/2024/11/07/junit-5-migration/>[译]从JUnit4迁移到JUnit5：权威指南</a></li><li><a href=/tutorials/>Tutorials</a></li><li><a href=/posts/2024/08/27/activemq-source-code-broker-service/>ActiveMQ源码-BrokerService和PersistenceAdapter</a></li><li><a href=/posts/2024/08/27/thingsboard-code-source-compile/>ThingsBoard源码编译和Idea运行</a></li><li><a href=/posts/2024/08/09/debug-activemq-source-code/>ActiveMQ源码本地调试运行</a></li><li><a href=/posts/2024/08/01/publishing-a-jar-to-maven-repository-with-github-action/>Github Action 发布 Jar 到 Maven 中央仓库</a></li><li><a href=/posts/2024/07/24/what-is-new-in-jms-2-0/>[译]JMS 2.0 中的新增功能</a></li><li><a href=/posts/2024/07/24/jms20/>[译]JMS 2.0 中的新增功能（第一部分）- 易于使用</a></li></ul></main></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link>Made with 🩷
+by <a href=/ target=_blank rel="noopener noreferrer">ChenSoul</a></span></div></footer></div></div><script type=text/javascript src=/main.min.js></script></body></html>

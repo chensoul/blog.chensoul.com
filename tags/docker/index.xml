@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on ChenSoul</title><link>https://blog.chensoul.cc/tags/docker/</link><description>Recent content in Docker on ChenSoul</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 09 Jul 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker安装和配置</title><link>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</link><pubDate>Tue, 09 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</guid><description>&lt;h1 id="centos7安装docker">Centos7安装Docker&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on ChenSoul</title><link>https://blog.chensoul.cc/tags/docker/</link><description>Recent content in Docker on ChenSoul</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 27 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.chensoul.cc/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>2024-12-27｜今天我做了什么</title><link>https://blog.chensoul.cc/posts/2024/12/27/til/</link><pubDate>Fri, 27 Dec 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/12/27/til/</guid><description>&lt;p>今天我做了什么？&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>更新文章 &lt;a href="https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/">我的VPS服务部署记录&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>使用 docker 部署 &lt;a href="https://github.com/Finb/Bark" target="_blank">Bark&lt;/a>、&lt;a href="https://github.com/plankanban/planka" target="_blank">Planka&lt;/a>、&lt;a href="https://github.com/hoarder-app/hoarder" target="_blank">Hoarder&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>将 memos 中的书签导入 hoarder，并将 memos 版本退回到 0.21.0 ，因为 0.21.0 之后的版本去掉了分享功能。同时需要修改 memos api，同步修改 &lt;a href="https://github.com/chensoul/chensoul/blob/main/fetch_memos.py" target="_blank">fetch_memos.py&lt;/a> 文件，将 &lt;a href="https://memos.chensoul.cc/api/v1/memos" target="_blank">https://memos.chensoul.cc/api/v1/memos&lt;/a> 改为 &lt;a href="https://memos.chensoul.cc/api/v2/memos" target="_blank">https://memos.chensoul.cc/api/v2/memos&lt;/a>&lt;/p></description></item><item><title>Docker安装和配置</title><link>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</link><pubDate>Tue, 09 Jul 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/07/09/install-docker/</guid><description>&lt;h1 id="centos7安装docker">Centos7安装Docker&lt;/h1>
 &lt;h2 id="配置宿主机网卡转发">配置宿主机网卡转发&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">## 配置网卡转发，看值是否为1&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sysctl -a |grep -w net.ipv4.ip_forward
@@ -47,7 +56,7 @@
 &lt;p>在您的 Spring Boot 项目根目录下创建一个名为 &lt;code>Dockerfile&lt;/code> 的文件，并添加以下内容:&lt;/p></description></item><item><title>2024-01-17｜MySQL 主从复制、ShardingJDBC实现读写分离、集成Springdoc+Javadoc</title><link>https://blog.chensoul.cc/posts/2024/01/17/til/</link><pubDate>Wed, 17 Jan 2024 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2024/01/17/til/</guid><description>&lt;p>今天做了什么：&lt;/p>
 &lt;ol>
 &lt;li>观看《2022年黑马程序员新版java课程》中 MySQL 主从复制和读写分离相关视频，使用 Docker 搭建 MySQL 主从复制环境。&lt;/li>
-&lt;li>&lt;a href="https://github.com/chensoul/foodie-cloud" target="_blank">foodie-cloud&lt;/a> 项目实现读写分离并集成 Springdoc&lt;/li>
+&lt;li>foodie-cloud 项目实现读写分离并集成 Springdoc&lt;/li>
 &lt;/ol>
 &lt;h2 id="docker-搭建-mysql-主从复制环境">Docker 搭建 MySQL 主从复制环境&lt;/h2>
 &lt;p>参考文章 ：&lt;a href="https://learnku.com/articles/30439" target="_blank">基于 Docker 的 MySQL 主从复制搭建及原理（真正弄懂）&lt;/a>&lt;/p></description></item><item><title>[译]为 Spring Boot 应用程序创建优化的 Docker 映像</title><link>https://blog.chensoul.cc/posts/2023/08/16/spring-boot-docker/</link><pubDate>Wed, 16 Aug 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/08/16/spring-boot-docker/</guid><description>&lt;p>容器已成为打包具有所有软件和操作系统依赖项的应用程序，然后将其传送到不同环境的首选方式。&lt;/p>
@@ -58,4 +67,6 @@
 &lt;li>通过使用分层工具将 JAR 的各个部分拆分为不同的层，在运行时优化映像。&lt;/li>
 &lt;/ul>
 &lt;h2 id="示例代码">示例代码&lt;/h2>
-&lt;p>本文附有 &lt;a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/spring-boot-docker" target="_blank">GitHub&lt;/a> 上的工作代码示例。&lt;/p></description></item><item><title>[译]Build Robust Continuous Integration With Docker and Friends</title><link>https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/</link><pubDate>Mon, 22 May 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/</guid><description>&lt;p>&lt;img src="https://blog.chensoul.cc/images/UPDATE-Docker-in-Action-Fitter-Happier-More-Productive_Watermarked-0765910.webp" alt="Build Robust Continuous Integration With Docker and Friends">&lt;/p></description></item></channel></rss>
+&lt;p>本文附有 &lt;a href="https://github.com/thombergs/code-examples/tree/master/spring-boot/spring-boot-docker" target="_blank">GitHub&lt;/a> 上的工作代码示例。&lt;/p></description></item><item><title>[译]Build Robust Continuous Integration With Docker and Friends</title><link>https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/</link><pubDate>Mon, 22 May 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/05/22/docker-continuous-integration/</guid><description>&lt;p>&lt;img src="https://blog.chensoul.cc/images/UPDATE-Docker-in-Action-Fitter-Happier-More-Productive_Watermarked-0765910.webp" alt="Build Robust Continuous Integration With Docker and Friends">&lt;/p></description></item><item><title>我的VPS服务部署记录</title><link>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</link><pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate><guid>https://blog.chensoul.cc/posts/2023/01/25/notes-about-deploy-services-in-vps/</guid><description>&lt;p>我的 VPS 使用的是 centos 服务器，所以以下操作都是基于 centos 系统。&lt;/p>
+&lt;h2 id="服务器设置">服务器设置&lt;/h2>
+&lt;p>设置 yum 源：&lt;/p></description></item></channel></rss>

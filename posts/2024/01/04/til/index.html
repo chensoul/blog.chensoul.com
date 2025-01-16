@@ -102,7 +102,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>  $CHANGES
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>  All contributors: $CONTRIBUTORS</span>  
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  All contributors: $CONTRIBUTORS</span>
 </span></span></code></pre></div><p>模板的含义是当提交的 PR 符合其中的 labels 时，对应提交的标题会作为当次提交的说明信息，生成在 release 的草稿中。</p><p>有了这些内容，在每次 push 或者 pr 的时候，Actions 都会自动将当次的内容写入到 release 的草稿中，下次再有 pr 则内容将会是追加，并不会覆盖一开始的草稿。</p><p>3、通常普通协作者在提交 pr 的时候，大概都很少会有主动给 pr 添加 labels 的，每次还需要项目负责人自己添加，会比较麻烦，而这个功能又是依赖 pr 的 labels 的，因此可以再加一个配置 <code>.github/PULL_REQUEST_TEMPLATE.md</code>，该文件配置可以仓库 <a href=https://axolo.co/blog/p/part-3-github-pull-request-template target=_blank>GitHub pull request template</a>。</p><p><a href=https://raw.githubusercontent.com/spring-projects/spring-boot/main/.github/PULL_REQUEST_TEMPLATE.md target=_blank>spring-boot</a> 项目中的 <code>.github/PULL_REQUEST_TEMPLATE.md</code> 内容如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown><span style=display:flex><span><span style=color:#75715e>&lt;!--
 </span></span></span><span style=display:flex><span><span style=color:#75715e>Thanks for contributing to Spring Boot. Please review the following notes before
 </span></span></span><span style=display:flex><span><span style=color:#75715e>submitting a pull request.
@@ -186,14 +186,14 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>        <span style=color:#f92672>with</span>:
 </span></span><span style=display:flex><span>          <span style=color:#75715e># list of Docker images to use as base name for tags</span>
 </span></span><span style=display:flex><span>          <span style=color:#f92672>images</span>: |<span style=color:#e6db74>
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>            ${{ secrets.DOCKER_USERNAME }}/${{ env.GITHUB_REPOSITORY_NAME_PART }}</span>            
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            ${{ secrets.DOCKER_USERNAME }}/${{ env.GITHUB_REPOSITORY_NAME_PART }}</span>
 </span></span><span style=display:flex><span>          <span style=color:#75715e># generate Docker tags based on the following events/attributes</span>
 </span></span><span style=display:flex><span>          <span style=color:#f92672>tags</span>: |<span style=color:#e6db74>
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>            type=ref,event=tag
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>            type=semver,pattern={{version}}
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>            type=semver,pattern={{major}}.{{minor}}
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>            type=semver,pattern={{major}}
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>            type=raw,latest</span>            
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            type=raw,latest</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Set up Docker Buildx</span>
 </span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>docker/setup-buildx-action@v3</span>

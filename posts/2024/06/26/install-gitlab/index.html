@@ -24,7 +24,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>    <span style=color:#f92672>hostname</span>: <span style=color:#e6db74>&#39;gitlab.example.com&#39;</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>environment</span>:
 </span></span><span style=display:flex><span>      <span style=color:#f92672>GITLAB_OMNIBUS_CONFIG</span>: |<span style=color:#e6db74>
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>        external_url &#39;https://gitlab.example.com&#39;</span>        
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        external_url &#39;https://gitlab.example.com&#39;</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>ports</span>:
 </span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;80:80&#39;</span>
 </span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;443:443&#39;</span>
@@ -49,7 +49,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>    <span style=color:#f92672>environment</span>:
 </span></span><span style=display:flex><span>      <span style=color:#f92672>GITLAB_OMNIBUS_CONFIG</span>: |<span style=color:#e6db74>
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>        external_url &#39;https://gitlab.example.com:3143&#39;
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>        gitlab_rails[&#39;gitlab_shell_ssh_port&#39;] = 3122</span>        
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        gitlab_rails[&#39;gitlab_shell_ssh_port&#39;] = 3122</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>ports</span>:
 </span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;3143:443&#39;</span>
 </span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;3122:22&#39;</span>
@@ -136,7 +136,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>        nginx[&#39;listen_port&#39;] = 443
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>        nginx[&#39;redirect_http_to_https&#39;] = true
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>        nginx[&#39;ssl_certificate&#39;] = &#34;/etc/ssl/certs/gitlab/server-cert.pem&#34;
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>        nginx[&#39;ssl_certificate_key&#39;] = &#34;/etc/ssl/certs/gitlab/server-key.pem&#34;</span>        
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        nginx[&#39;ssl_certificate_key&#39;] = &#34;/etc/ssl/certs/gitlab/server-key.pem&#34;</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>ports</span>:
 </span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;3143:443&#39;</span>
 </span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;3122:22&#39;</span>
@@ -256,7 +256,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>      <span style=color:#f92672>GITLAB_OMNIBUS_CONFIG</span>: |<span style=color:#e6db74>
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>        external_url &#39;https://gitlab.wesine.com.cn&#39;
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>        gitlab_rails[&#39;gitlab_shell_ssh_port&#39;] = 3122
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>        </span>        
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        </span>
 </span></span><span style=display:flex><span>				<span style=color:#75715e># 使用外部 Niginx</span>
 </span></span><span style=display:flex><span>        <span style=color:#ae81ff>gitlab_workhorse[&#39;listen_network&#39;] = &#34;tcp&#34;</span>
 </span></span><span style=display:flex><span>        <span style=color:#ae81ff>gitlab_workhorse[&#39;listen_addr&#39;] = &#34;0.0.0.0:8000&#34;</span>
@@ -376,7 +376,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>        unicorn[&#39;enable&#39;] = false
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>        registry_external_url &#39;https://gitlab.example.com:4567&#39;
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>        registry_nginx[&#39;enable&#39;] = false</span>        
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        registry_nginx[&#39;enable&#39;] = false</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>ports</span>:
 </span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;8000:8000&#39;</span>
 </span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;3122:22&#39;</span>

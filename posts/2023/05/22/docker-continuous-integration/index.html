@@ -1201,7 +1201,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>    <span style=color:#f92672>command</span>: &gt;<span style=color:#e6db74>
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>      sh -c &#39;python -m pytest test/e2e/ -vv
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>      --redis-url $$REDIS_URL
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>      --flask-url $$FLASK_URL&#39;</span>      
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      --flask-url $$FLASK_URL&#39;</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>networks</span>:
 </span></span><span style=display:flex><span>  <span style=color:#f92672>backend-network</span>:
@@ -1307,7 +1307,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: &gt;<span style=color:#e6db74>
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          docker compose --profile testing up
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          --build
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>          --exit-code-from test-service</span>          
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          --exit-code-from test-service</span>
 </span></span></code></pre></div><p>这两个步骤将始终运行以响应文件顶部列出的事件，即打开拉取请求或将功能分支合并到主线中。</p><p>此外，在成功将分支合并到主线后，当所有测试都通过时，您需要将新的 Docker 镜像推送到 Docker Hub。因此，只有当 <code>push</code> 事件触发您的工作流程时，您才会有条件地运行后续步骤。</p><p>但是，如何使用 GitHub Actions 安全访问 Docker Hub 而不会泄露您的秘密？你现在就会知道了。</p><h3 id=通过-github-actions-secrets-访问-docker-hub>通过 GitHub Actions Secrets 访问 Docker Hub</h3><p>早些时候，当您将其中一个 Docker 镜像从终端推送到 Docker Registry 时，您必须通过调用 <code>docker login</code> 并提供您的用户名和密码来登录 Docker Hub。此外，如果启用双因素身份验证，则必须生成具有足够权限的个人访问令牌并提供它而不是密码。</p><p>从自动化工作流程推送镜像的步骤相似，因此您必须先进行身份验证。您可以使用 shell 命令或预定义的 GitHub 操作来执行此操作，例如 <code>docker/login-action</code> ：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># .github/workflows/ci.yml</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Continuous Integration</span>
@@ -1331,7 +1331,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: &gt;<span style=color:#e6db74>
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          docker compose --profile testing up
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          --build
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>          --exit-code-from test-service</span>          
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          --exit-code-from test-service</span>
 </span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Login to Docker Hub</span>
 </span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>docker/login-action@v2</span>
 </span></span><span style=display:flex><span>        <span style=color:#f92672>if</span>: <span style=color:#ae81ff>${{ github.event_name == &#39;push&#39; }}</span>

@@ -52,7 +52,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          git config --global user.email &#34;github-actions[bot]@users.noreply.github.com&#34;
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          git config --global user.name &#34;github-actions[bot]&#34;
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>          echo &#34;sha_short=$(git rev-parse --short HEAD)&#34; &gt;&gt; $GITHUB_ENV</span>          
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          echo &#34;sha_short=$(git rev-parse --short HEAD)&#34; &gt;&gt; $GITHUB_ENV</span>
 </span></span><span style=display:flex><span>      
 </span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Verify Whether a Release is Ready</span>
 </span></span><span style=display:flex><span>        <span style=color:#f92672>shell</span>: <span style=color:#ae81ff>bash</span>
@@ -61,7 +61,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>            echo &#34;auto_release=true&#34; &gt;&gt; $GITHUB_ENV
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          else
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>            echo &#34;auto_release=false&#34; &gt;&gt; $GITHUB_ENV
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>          fi</span>          
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          fi</span>
 </span></span><span style=display:flex><span>      
 </span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Fetch Artifact Information</span>
 </span></span><span style=display:flex><span>        <span style=color:#f92672>shell</span>: <span style=color:#ae81ff>bash</span>
@@ -69,7 +69,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          # remove &#39;-SNAPSHOT&#39; from version
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          echo &#34;artifact_version=$(grep -m1 &#39;&lt;version&gt;&#39; pom.xml | sed &#39;s/.*&lt;version&gt;\([^&lt;]*\)&lt;\/version&gt;.*/\1/&#39; | sed &#39;s/-SNAPSHOT$//&#39;)&#34; &gt;&gt; &#34;$GITHUB_ENV&#34;
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>          echo &#34;artifact_name=$(grep -m1 &#39;&lt;artifactId&gt;&#39; pom.xml | sed &#39;s/.*&lt;artifactId&gt;\([^&lt;]*\)&lt;\/artifactId&gt;.*/\1/&#39;)&#34; &gt;&gt; &#34;$GITHUB_ENV&#34;
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>          echo &#34;artifact_packaging=$(grep -m1 &#39;&lt;packaging&gt;&#39; pom.xml | sed &#39;s/.*&lt;packaging&gt;\([^&lt;]*\)&lt;\/packaging&gt;.*/\1/&#39;)&#34; &gt;&gt; &#34;$GITHUB_ENV&#34;</span>          
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          echo &#34;artifact_packaging=$(grep -m1 &#39;&lt;packaging&gt;&#39; pom.xml | sed &#39;s/.*&lt;packaging&gt;\([^&lt;]*\)&lt;\/packaging&gt;.*/\1/&#39;)&#34; &gt;&gt; &#34;$GITHUB_ENV&#34;</span>
 </span></span><span style=display:flex><span>      
 </span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Release With Maven</span>
 </span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
@@ -82,7 +82,7 @@ menu-item-has-children"><a href=/tutorials/>Tutorials</a><ul class=sub-menu><li 
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>            deploy \
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>            -Prelease \
 </span></span></span><span style=display:flex><span><span style=color:#e6db74>            -Dgpg.passphrase=${{ secrets.MAVEN_GPG_PASSPHRASE }}
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>          ls -al ./target/</span>          
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          ls -al ./target/</span>
 </span></span><span style=display:flex><span>        <span style=color:#f92672>env</span>:
 </span></span><span style=display:flex><span>          <span style=color:#f92672>OSSRH_USERNAME</span>: <span style=color:#ae81ff>${{ secrets.OSSRH_USERNAME }}</span>
 </span></span><span style=display:flex><span>          <span style=color:#f92672>OSSRH_TOKEN</span>: <span style=color:#ae81ff>${{ secrets.OSSRH_TOKEN }}</span>
